@@ -7,7 +7,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
-    <Version>0.3.0</Version>
+    <Version>0.4.0</Version>
+    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
     <RhinoSystem Condition="'$(RhinoSystem)' == '' and $([MSBuild]::IsOSPlatform('OSX'))">/Applications/Rhino 8.app/Contents/Frameworks/RhCore.framework/Versions/A/Resources</RhinoSystem>
     <RhinoSystem Condition="'$(RhinoSystem)' == '' and $([MSBuild]::IsOSPlatform('Windows'))">C:\Program Files\Rhino 8\System</RhinoSystem>
     <GrasshopperSystem Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(RhinoSystem)/ManagedPlugIns/GrasshopperPlugin.rhp</GrasshopperSystem>

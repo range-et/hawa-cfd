@@ -2,79 +2,36 @@
 
 **GPU lattice Boltzmann simulation for Rhino 8 and Grasshopper.**
 
-Hawa runs the numerical engine in Rhino's Python runtime. Define the case in Grasshopper. View the velocity and pressure in Rhino.
+Hawa runs its Python 3.9 engine inside Rhino. Define geometry and physics in Grasshopper. Use MPS, CUDA or CPU through PyTorch. Inspect pressure, speed and flow paths in the viewport.
 
-[Project page](https://range-et.github.io/hawa-cfd/) · [Download v0.3.0](https://github.com/range-et/hawa-cfd/releases/download/v0.3.0/Hawa-0.3.0-rh8.zip) · [Installation guide](docs/plugin.md) · [Examples](examples/grasshopper)
+This branch contains the experimental **0.4** update. The published **0.3** package and videos remain available on the [project page](https://range-et.github.io/hawa-cfd/). Read the [0.4 checks and limits](docs/release-notes-v0.4.0.md) before using the new package.
 
-![The block definition after 300 MPS iterations](docs/captures/06-block-mps-completed.jpg)
+[Plugin guide](docs/plugin.md) · [Editable definitions](examples/grasshopper) · [License](LICENSE)
 
-## Scope
+## New workflows
 
-This release is an experimental prototype. It includes:
+- Responsive hull search with completed-candidate IDs, pause, cancel and best-result history.
+- 3D stream tubes, domain wireframes, field planes, contours, isosurfaces and offset surface sampling.
+- Shared blue-green, spectrum and diverging color maps with fixed ranges.
+- Timed field recording, playback and particle paths.
+- Local airfoil coordinates and polars, offline NACA four-digit generation, tapered wings and attached-flow lifting-line analysis.
+- Mesh checks, voxel inspection, experimental stationary curved-wall links and one fixed 2:1 refinement patch.
 
-- **17 Grasshopper components** for domains, geometry, physics, solving, results, and files.
-- **9 editable `.gh` definitions** with controls and instructions.
-- **Python 3.9 and PyTorch 2.8.0** inside Rhino.
-- **Device selection** through `auto`, `cpu`, `mps`, or `cuda:0`.
-- **Results** through field slices, point sampling, velocity vectors, snapshot streamlines, and local NPZ files.
-- **Lettuce source and tests**, plus Hawa compatibility checks and an unmodified upstream reference environment.
+The package has 38 Hawa components and 15 editable definitions. Example 09 is historical and excluded from the new package. Use example 10 for asynchronous optimization.
 
-Apple GPU acceleration uses PyTorch MPS. CPU and MPS checks passed on this Mac. NVIDIA hardware and Windows installation checks remain open.
+## Install and run
 
-## Install
+Build the current package with `scripts/build_plugin.py`, or use the provided development ZIP. Copy the complete Hawa folder to Grasshopper's Libraries directory. Quit Rhino normally, reopen it, and open `01-tgv3d-bgk.gh`.
 
-1. [Download the plugin ZIP](https://github.com/range-et/hawa-cfd/releases/download/v0.3.0/Hawa-0.3.0-rh8.zip).
-2. Copy the complete **Hawa** folder into Grasshopper's Libraries directory.
-3. Restart Rhino 8.
-4. Open `Hawa/examples/01-tgv3d-bgk.gh`.
-5. Allow Rhino to install the pinned dependencies. This first setup needs internet access.
-6. Select **auto** in Backend.
-7. Double-click **Run / Pause**.
-8. Keep Grasshopper open while you inspect the Rhino preview.
+Rhino installs the pinned dependencies on first use. This needs internet access. Select a backend and set Run true. The solver then runs inside Rhino. No separate Python or OpenFOAM installation is required.
 
-The package uses Rhino's Python runtime. The numerical solver runs in Rhino's process. If another script loaded an incompatible NumPy version, restart Rhino before you initialize Hawa.
-
-See [the plugin guide](docs/plugin.md) for units, controls, and troubleshooting.
+For new visualization tools, open example 11. Examples 12–16 cover local airfoils, recording, sphere pressure, refinement and cylinder flow. See the [plugin guide](docs/plugin.md) for controls and input limits.
 
 ## Videos
 
-The videos use captions and screenshots from the verified Rhino sessions. They have no audio. The edits use the Monad palette and Helvetica titles.
+The new local renders are `dist/videos-v04/hawa-flow-tools.mp4` and `dist/videos-v04/hawa-cylinder-wake.mp4`. They use actual recorded fields, native Rhino captures, Monad colors and captions. They have no audio. These videos have not been uploaded to YouTube.
 
-| Video | YouTube |
-| --- | --- |
-| Hawa overview | [Watch](https://youtu.be/Ji_9iOYXSXg) |
-| 3D block flow | [Watch](https://youtu.be/PVBanKHGhC4) |
-| Parametric hull and Galapagos | [Watch](https://youtu.be/0kVTmHttA78) |
-
-<!-- HAWA_VIDEO_LINKS -->
-
-[Video source and captions](docs/media/README.md) · [Original captures](docs/captures/README.md)
-
-## Examples
-
-The gallery contains five Taylor–Green cases, a driven cavity, a forced channel, and a physical block case, and a parametric hull search.
-
-Open `08-wind-around-block.gh` to follow the full workflow:
-
-```text
-Domain → Geometry + Physics + Boundaries → Case → Solve → Slice / Streamlines
-```
-
-The block definition contains its geometry. Its length units are meters. Its demonstration viscosity is `0.1 m²/s`. Atmospheric validation remains open.
-
-![The block, speed slice, and snapshot streamlines in Rhino](docs/captures/07-block-rhino-preview.jpg)
-
-Open [09-parametric-hull-galapagos.gh](examples/grasshopper/09-parametric-hull-galapagos.gh) for the constant-volume hull search. Three shape sliders form the Galapagos Genome. Hawa Evaluate completes each candidate before it emits fitness. See [the hull guide](docs/hull-optimization.md) for the objective, recorded results, and physical limits.
-
-### Controls
-
-- Set Run to false to pause.
-- Toggle Reset from false to true to clear the state.
-- Toggle Run from false to true to start or resume.
-- Set Target iterations to the required total count.
-- Set Slice index to `-1` to select the center.
-
-Pause the solver before you change its case or backend. Those changes create an idle session.
+Earlier published walkthroughs: [overview](https://youtu.be/Ji_9iOYXSXg), [block](https://youtu.be/PVBanKHGhC4), [historical Galapagos hull](https://youtu.be/0kVTmHttA78).
 
 ## Development
 
@@ -111,29 +68,17 @@ The video renderer needs macOS Helvetica Neue and Menlo, Pillow, ffmpeg, and ffp
 
 ## Verification
 
-| Check | Result |
-| --- | --- |
-| Hawa tests | 83 passed, 29 skipped |
-| Vendored upstream tests | 419 passed, 884 skipped |
-| Core CPU comparisons | FP32 and FP64 arrays matched the upstream oracle bitwise |
-| Core MPS comparisons | Arrays passed the declared tolerances |
-| Original executable examples | All 16 completed bounded CPU and MPS runs |
-| Native Grasshopper graphs | All 8 reopened and completed 25 MPS steps with valid slice meshes |
-| Visible Rhino runs | Vortex: 200 MPS iterations. Block: 300 MPS iterations |
+The current Hawa suite passes **112 tests**, with 29 skipped and four inherited warnings. The earlier vendored upstream run passed 419 tests with 884 skipped. The Lettuce compatibility engine remains unchanged by the new Hawa outlet and refinement modules.
 
-The clean Rhino session used CPython 3.9.10, PyTorch 2.8.0, and NumPy 2.0.2.
+The core CPU comparison matched the upstream oracle bitwise; MPS passed declared tolerances. All 16 upstream executable entrypoints completed bounded runs. These are separate from the Grasshopper gallery. PorousMedium retains a known pointwise CPU/MPS discrepancy.
 
-The default example harness limits runs to 50 steps. It permits 250 steps for the intentional failure example. Full-duration convergence checks remain open.
+Native MPS checks exercise saved definitions, valid field meshes, recording, a repeated hull search, and the fixed refinement patch. See the [release notes](docs/release-notes-v0.4.0.md) for exact evidence and limits.
 
-PorousMedium has a known pointwise CPU/MPS difference after the bounded FP32 KBC run. Its geometry masks match. The strict pointwise comparison remains open.
-
-The gallery contains nine `.gh` files. Wrappers for the remaining upstream examples remain open. Production CFD validation, NVIDIA checks, and Windows installation checks also remain open.
-
-See [the verification notes](docs/backport.md) for the check scope and upstream exclusions.
+CUDA hardware, Windows installation, full-duration upstream convergence and engineering-case validation remain open. Refinement is experimental. Aircraft analysis does not include XFOIL viscous calculations, VLM, stall or stability derivatives.
 
 ## Attribution
 
-- **Hawa:** MIT license. See [LICENSE](LICENSE).
+- **Hawa:** GNU GPL version 3 (`GPL-3.0-only`). Copyright (c) 2026 Hawa contributors. See [LICENSE](LICENSE).
 - **Lettuce:** MIT license. The vendored source retains its original copyright and author notices.
 - **Butterfly:** GPL-3.0+ workflow reference. Hawa contains no Butterfly code or assets.
 - **Monad System:** MIT license. The website and videos use its pinned colors and styles.

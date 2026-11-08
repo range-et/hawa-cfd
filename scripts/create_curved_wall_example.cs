@@ -1,0 +1,18 @@
+using System.Drawing;
+using Grasshopper.Kernel;
+using Grasshopper.Kernel.Special;
+using Grasshopper.Kernel.Parameters;
+using Rhino.Geometry;
+var root="/Users/r2d2/Desktop/hawa-cfd/examples/grasshopper";
+var io=new GH_DocumentIO();if(!io.Open(System.IO.Path.Combine(root,"11-block-3d-visualization.gh")))throw new Exception("Missing base example");var d=io.Document;
+var assembly=AppDomain.CurrentDomain.GetAssemblies().First(a=>a.GetName().Name=="Hawa.Grasshopper");
+GH_Component Add(string type,float x,float y){var c=(GH_Component)Activator.CreateInstance(assembly.GetType("Hawa.Grasshopper."+type+"Component"));c.CreateAttributes();c.Attributes.Pivot=new PointF(x,y);d.AddObject(c,false);return c;}
+var obstacle=d.Objects.OfType<Param_Mesh>().First();obstacle.PersistentData.Clear();obstacle.SetPersistentData(Mesh.CreateFromSphere(new Sphere(new Point3d(6,4,4),1.4),32,24));obstacle.NickName="Closed sphere / edit mesh";obstacle.Hidden=true;
+var geo=d.Objects.OfType<GH_Component>().First(x=>x.Name=="Hawa Geometry");((Param_Boolean)geo.Params.Input[2]).PersistentData.Clear();((Param_Boolean)geo.Params.Input[2]).SetPersistentData(true);
+var check=Add("GeometryCheck",950,750);check.Params.Input[0].AddSource(obstacle);((Param_Number)check.Params.Input[1]).PersistentData.Clear();((Param_Number)check.Params.Input[1]).SetPersistentData(.5);
+var grid=Add("GridPreview",1250,750);grid.Params.Input[0].AddSource(geo.Params.Output[0]);grid.Hidden=true;
+var frame=d.Objects.OfType<GH_Component>().First(x=>x.Name=="Hawa Field Snapshot");
+var colors=Add("ColorMap",2300,700);((Param_String)colors.Params.Input[0]).PersistentData.Clear();((Param_String)colors.Params.Input[0]).SetPersistentData("spectrum");((Param_Number)colors.Params.Input[1]).PersistentData.Clear();((Param_Number)colors.Params.Input[1]).SetPersistentData(0);((Param_Number)colors.Params.Input[2]).PersistentData.Clear();((Param_Number)colors.Params.Input[2]).SetPersistentData(4);((Param_String)colors.Params.Input[3]).PersistentData.Clear();((Param_String)colors.Params.Input[3]).SetPersistentData("Cp");
+var surface=Add("SurfaceField",2600,650);surface.Params.Input[0].AddSource(frame.Params.Output[0]);surface.Params.Input[1].AddSource(obstacle);((Param_String)surface.Params.Input[2]).PersistentData.Clear();((Param_String)surface.Params.Input[2]).SetPersistentData("cp");((Param_Number)surface.Params.Input[3]).PersistentData.Clear();((Param_Number)surface.Params.Input[3]).SetPersistentData(.6);surface.Params.Input[4].AddSource(colors.Params.Output[0]);
+var note=new GH_Panel();note.CreateAttributes();note.Attributes.Pivot=new PointF(2300,900);note.UserText="CURVED WALLS / EXPERIMENTAL\nStationary link interpolation on a uniform lattice.\nSurface colors sample Cp at a 0.6 m outward offset. They are approximate surface values.\nCompare more than one cell size before drawing physical conclusions.\nEnable Grid Preview to inspect the occupied lattice. No local refinement is active.";note.Attributes.Bounds=new RectangleF(2300,900,650,180);d.AddObject(note,false);
+d.FilePath=System.IO.Path.Combine(root,"14-curved-sphere-pressure.gh");new GH_DocumentIO{Document=d}.SaveQuiet(d.FilePath);Grasshopper.Instances.DocumentServer.AddDocument(d);Grasshopper.Instances.ActiveCanvas.Document=d;d.NewSolution(false);Console.WriteLine("Saved "+d.FilePath);

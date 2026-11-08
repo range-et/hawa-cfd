@@ -1,0 +1,144 @@
+{
+  "native-controls.json": {
+    "submit_ms": 46,
+    "state": "completed",
+    "pause_ms": 33,
+    "paused": true,
+    "resume_ms": 41,
+    "cancel_ms": 18,
+    "cancel_cleared": true,
+    "restart_ms": 73,
+    "history": [
+      "1: 3.90536331; genes 0.81, 0.8, 2; candidate 25937a0a-7a84-4f99-8214-da457dad99e2",
+      "2: 3.84699993; genes 0.855, 0.933, 1.729; candidate d8b54e6a-0d22-4f70-8075-ba6b3b1304c9",
+      "3: 3.86139928; genes 0.786, 0.770, 1.491; candidate 20b3b1e1-d860-4e35-b428-418ccfb752c7",
+      "4: 3.99705877; genes 0.894, 0.858, 1.996; candidate a6f0bddf-c058-4c68-ac78-a1a8c901058d",
+      "5: 3.91622746; genes 0.887, 0.848, 1.960; candidate 90179832-96bd-40cf-80d9-f76e1ff0826c"
+    ],
+    "input_change_completed": true,
+    "close_ms": 80,
+    "close_cleared_job": true
+  },
+  "native-cleanup.json": {
+    "jobs": 0,
+    "sessions": 0,
+    "workers": []
+  },
+  "refinement-benchmark.json": [
+    {
+      "n": 16,
+      "steps": 40,
+      "device": "cpu",
+      "refined_relative_l2": 0.0031417065765708685,
+      "coarse_relative_l2": 0.00784667581319809,
+      "relative_mass_drift": 1.3113035919332106e-06
+    },
+    {
+      "n": 24,
+      "steps": 40,
+      "device": "cpu",
+      "refined_relative_l2": 0.00118069548625499,
+      "coarse_relative_l2": 0.0031989538110792637,
+      "relative_mass_drift": 5.298192893299358e-07
+    },
+    {
+      "n": 32,
+      "steps": 40,
+      "device": "cpu",
+      "refined_relative_l2": 0.0005587671766988933,
+      "coarse_relative_l2": 0.0016896621091291308,
+      "relative_mass_drift": 3.576279112849079e-07
+    },
+    {
+      "n": 16,
+      "steps": 40,
+      "device": "mps",
+      "refined_relative_l2": 0.003141612047329545,
+      "coarse_relative_l2": 0.007846105843782425,
+      "relative_mass_drift": 1.3113035919332106e-06
+    }
+  ],
+  "python_tests": {
+    "passed": 112,
+    "skipped": 29,
+    "warnings": 4
+  },
+  "native_wake": {
+    "steps": 8000,
+    "record": "completed",
+    "playback": "completed",
+    "plane": "completed",
+    "flow": "completed"
+  },
+  "native_examples": {
+    "state": "completed",
+    "results": [
+      {
+        "file": "01-tgv3d-bgk.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "02-tgv2d-bgk.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "03-tgv2d-trt.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "04-tgv2d-smagorinsky.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "05-tgv3d-smagorinsky.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "06-cavity2d-bgk.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "07-poiseuille2d-guo.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "08-wind-around-block.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 476
+      },
+      {
+        "file": "11-block-3d-visualization.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 659
+      },
+      {
+        "file": "12-local-airfoil-rc-wing.gh",
+        "passed": true,
+        "wing_closed": true,
+        "local_polar": true
+      },
+      {
+        "file": "14-curved-sphere-pressure.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 725
+      }
+    ]
+  }
+}

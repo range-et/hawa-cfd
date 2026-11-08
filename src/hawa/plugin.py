@@ -101,6 +101,27 @@ class SlipBoundary(lt.Boundary):
         raise NotImplementedError("Use the portable tensor path")
 
 
+class ExtrapolationOutlet(lt.Boundary):
+    """Zero normal population gradient at X+. Requires an outgoing flow.
+
+    Copy all populations from the adjacent post-collision fluid plane before
+    streaming. This is an approximate outflow, not a nonreflecting boundary.
+    """
+    def __init__(self, flow):
+        self.mask=flow.context.zero_tensor(flow.resolution,dtype=torch.bool)
+        self.mask[-1]=True
+
+    def __call__(self, flow):
+        value=flow.f.clone()
+        value[:,-1]=flow.f[:,-2]
+        return value
+
+    def make_no_collision_mask(self, shape, context):return self.mask
+    def make_no_streaming_mask(self, shape, context):return None
+    def native_available(self):return False
+    def native_generator(self,index):raise NotImplementedError("Use the portable tensor path")
+
+
 class WindFlow(lt.Flow):
     def __init__(self, context, spec):
         self.spec = spec
@@ -143,7 +164,7 @@ class WindFlow(lt.Flow):
             if kind == "inlet":
                 result.append(lt.EquilibriumBoundaryPU(self.context, self, mask, [self.spec["speed"], 0, 0]))
             elif kind == "outlet":
-                result.append(lt.AntiBounceBackOutlet([1, 0, 0], self))
+                result.append(ExtrapolationOutlet(self))
             elif kind == "slip":
                 result.append(SlipBoundary(self, mask, axis))
             else:
@@ -163,6 +184,9 @@ def make_solver(spec, device):
         model = {"bgk": lt.BGKCollision, "trt": lt.TRTCollision,
                  "regularized": lt.RegularizedCollision, "smagorinsky": lt.SmagorinskyCollision}[spec.get("collision", "regularized")]
         solver = lt.Simulation(flow, model(flow.units.relaxation_parameter_lu), [])
+    if spec.get("wall_links"):
+        from .walls import install_interpolated_walls
+        install_interpolated_walls(solver, spec["wall_links"])
     return backend, flow, solver
 
 
@@ -172,12 +196,14 @@ class Session:
         self.backend, self.flow, self.solver = make_solver(spec, device)
         self.id = str(uuid.uuid4())
         self.lock = threading.RLock()
+        self.lifecycle = threading.RLock()
         self.stop = threading.Event()
         self.thread = None
         self.state = "ready"
         self.error = None
         self.target = 0
         self.initial_mass = float(self.flow.rho().sum().cpu())
+        self.relative_mass_change = 0.0
         self.initial_f = self.flow.f.clone()
         self.mean_u = None
         self.samples = 0
@@ -185,62 +211,83 @@ class Session:
 
     @torch.no_grad()
     def advance(self, steps):
+        if type(steps) is not int or steps < 0:
+            raise ValueError("Steps must be a nonnegative integer")
         with self.lock:
-            self.solver(steps)
-            self.backend.synchronize()
-            if not bool(torch.isfinite(self.flow.f).all().cpu()) or not bool((self.flow.rho() > 0).all().cpu()):
-                raise RuntimeError("Simulation became unstable; revise physics, grid or boundaries")
-            u = self.flow.u_pu.detach()
-            self.samples += 1
-            if self.mean_u is None:
-                self.mean_u = u.clone()
-            else:
-                self.mean_u.add_((u - self.mean_u) / self.samples)
-            self.updated = time.time()
+            remaining = steps
+            while remaining:
+                n = min(remaining, 5 - self.flow.i % 5)
+                self.solver(n)
+                remaining -= n
+                self.backend.synchronize()
+                if not bool(torch.isfinite(self.flow.f).all().cpu()) or not bool((self.flow.rho() > 0).all().cpu()):
+                    raise RuntimeError("Simulation became unstable; revise physics, grid or boundaries")
+                if self.flow.i % 5 == 0:
+                    self.samples += 1
+                    for name, value in (("mean_u", self.flow.u_pu), ("mean_p", self.flow.p_pu), ("mean_rho", self.flow.rho_pu)):
+                        old = getattr(self, name, None)
+                        if old is None:
+                            setattr(self, name, value.detach().clone())
+                        else:
+                            old.add_((value.detach() - old) / self.samples)
+                self.relative_mass_change = (float(self.flow.rho().sum().cpu()) - self.initial_mass) / self.initial_mass
+                self.updated = time.time()
 
     def start(self, target):
         if type(target) is not int or target < 0:
             raise ValueError("Target steps must be a nonnegative integer")
-        if self.thread is not None and self.thread.is_alive():
-            return
-        self.target = target
-        self.stop.clear()
-        self.error = None
-        self.state = "running"
+        with self.lifecycle:
+            if self.state == 'resetting':
+                raise ValueError('Wait for reset to finish before resuming')
+            self.target = target
+            self.stop.clear()
+            self.error = None
+            self.state = "running"
+            if self.thread is not None and self.thread.is_alive():
+                return
 
-        def work():
-            try:
-                while not self.stop.is_set() and self.flow.i < self.target:
-                    self.advance(min(5, self.target - self.flow.i))
-                self.state = "completed" if self.flow.i >= self.target else "paused"
-            except Exception as exc:
-                self.error = str(exc)
-                self.state = "failed"
-        self.thread = threading.Thread(target=work, name="Hawa " + self.id[:8], daemon=True)
-        self.thread.start()
+            def work():
+                try:
+                    while True:
+                        with self.lifecycle:
+                            if self.stop.is_set() or self.flow.i >= self.target:
+                                if self.state != "resetting":
+                                    self.state = "completed" if self.flow.i >= self.target else "paused"
+                                self.thread = None
+                                return
+                            count = min(5, self.target - self.flow.i)
+                        self.advance(count)
+                except Exception as exc:
+                    with self.lifecycle:
+                        self.error = str(exc)
+                        self.state = "failed"
+                        self.thread = None
+            self.thread = threading.Thread(target=work, name="Hawa " + self.id[:8], daemon=True)
+            self.thread.start()
 
     def pause(self):
         self.stop.set()
-        if self.thread is not None and self.thread.is_alive():
-            self.thread.join(timeout=30)
-            if self.thread.is_alive():
+        worker = self.thread
+        if worker is not None and worker.is_alive():
+            worker.join(timeout=30)
+            if worker.is_alive():
                 raise RuntimeError("Solver has not yet reached a cancellation boundary")
 
     def status(self):
-        with self.lock:
-            return {"session": self.id, "state": self.state, "steps": self.flow.i,
-                    "target": self.target, "error": self.error, "backend": self.backend.info(),
-                    "case_hash": case_key(self.spec), "resolution": self.flow.resolution,
-                    "physical_time": self.flow.units.convert_time_to_pu(self.flow.i),
-                    "relative_mass_change": (float(self.flow.rho().sum().cpu()) - self.initial_mass) / self.initial_mass,
-                    "averaging_samples": self.samples, "updated": self.updated}
+        # UI polling reads Python scalars. GPU reductions happen in the worker.
+        return {"session": self.id, "state": self.state, "steps": self.flow.i,
+                "target": self.target, "error": self.error, "backend": self.backend.info(),
+                "case_hash": case_key(self.spec), "resolution": self.flow.resolution,
+                "physical_time": self.flow.units.convert_time_to_pu(self.flow.i),
+                "relative_mass_change": self.relative_mass_change,
+                "averaging_samples": self.samples, "updated": self.updated}
 
     def fields(self, mean=False):
         with self.lock, torch.no_grad():
             u = self.mean_u if mean and self.mean_u is not None else self.flow.u_pu
             result = {"velocity": u.detach().cpu().numpy().copy(),
-                    "pressure": self.flow.p_pu[0].detach().cpu().numpy().copy(),
-                    "density": self.flow.rho_pu[0].detach().cpu().numpy().copy()}
+                    "pressure": (self.mean_p if mean and self.mean_u is not None else self.flow.p_pu)[0].detach().cpu().numpy().copy(),
+                    "density": (self.mean_rho if mean and self.mean_u is not None else self.flow.rho_pu)[0].detach().cpu().numpy().copy()}
             if hasattr(self.flow, "solid"):
                 result["solid"] = self.flow.solid.detach().cpu().numpy().copy()
             return result
@@ -266,12 +313,19 @@ def sample_arrays(fields, points):
             continue
         weight = point - lo
         v, p, rho = np.zeros(len(shape)), 0.0, 0.0
+        valid = True
         for corner in np.ndindex(*([2] * len(shape))):
             index = tuple(hi[a] if corner[a] else lo[a] for a in range(len(shape)))
             w = math.prod(weight[a] if corner[a] else 1 - weight[a] for a in range(len(shape)))
+            if w > 1e-12 and "solid" in fields and fields["solid"][index]:
+                valid = False
+                break
             v += w * fields["velocity"][(slice(None), *index)]
             p += w * float(fields["pressure"][index])
             rho += w * float(fields["density"][index])
+        if not valid:
+            results.append(None)
+            continue
         results.append({"velocity": list(v) + [0.0] * (3 - len(v)), "pressure": p, "density": rho,
                         "speed": float(np.linalg.norm(v))})
     return results
@@ -279,6 +333,22 @@ def sample_arrays(fields, points):
 
 def dispatch(request):
     op = request["op"]
+    if op == "recording":
+        from .recording import load_frame, pathlines
+        if request["action"] == "load":
+            return load_frame(request["manifest"], request["index"])
+        if request["action"] == "particles":
+            return pathlines(request["manifest"], request["seeds"], request.get("last"))
+        raise ValueError("Recording action must be load or particles")
+    if op == "field":
+        from .fields import dispatch_field
+        return dispatch_field(request, SESSIONS[request["session"]] if request.get("session") else None)
+    if op == "airfoil":
+        from .airfoils import dispatch_airfoil
+        return dispatch_airfoil(request)
+    if op.startswith("evaluate_"):
+        from .jobs import dispatch_job
+        return dispatch_job(request)
     if op == "info":
         import os, sys
         return {"python": sys.version, "numpy": np.__version__, "torch": torch.__version__,
@@ -301,6 +371,18 @@ def dispatch(request):
             SESSIONS[session.id] = session
         return session.status()
     session = SESSIONS[request["session"]]
+    if op in ("pause_async", "close_async", "reset_async"):
+        session.stop.set()
+        session.state = "resetting" if op == "reset_async" else ("pausing" if session.thread is not None and session.thread.is_alive() else "paused")
+        if op != "pause_async":
+            def finish():
+                try:
+                    dispatch({"op": "close" if op == "close_async" else "reset", "session": session.id})
+                except Exception as exc:
+                    session.error = str(exc)
+                    session.state = "failed"
+            threading.Thread(target=finish, name="Hawa control", daemon=True).start()
+        return session.status()
     if op == "start":
         session.start(request["steps"])
         return session.status()
@@ -317,7 +399,8 @@ def dispatch(request):
             session.flow.f.copy_(session.initial_f)
             session.flow.i = 0
             session.samples = 0
-            session.mean_u = None
+            session.relative_mass_change = 0.0
+            session.mean_u = session.mean_p = session.mean_rho = None
             session.state = "ready"
             session.error = None
         return session.status()
@@ -400,7 +483,7 @@ def dispatch(request):
             with session.lock:
                 session.flow.f.copy_(session.flow.context.convert_to_tensor(data["populations"]))
                 session.flow.i = int(data["iteration"])
-                session.mean_u = None
+                session.mean_u = session.mean_p = session.mean_rho = None
                 session.samples = 0
                 session.state = "paused"
         return session.status()

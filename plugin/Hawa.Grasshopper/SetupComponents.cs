@@ -41,46 +41,110 @@ public sealed class WindTunnelComponent : HawaComponent
 {
     public WindTunnelComponent() : base("Hawa Wind Tunnel", "Tunnel", "Create an oriented domain around closed geometry. Wind vector direction sets domain X; magnitude is m/s. Clearance is a geometry-relative setup aid.", "01 Domain") { }
     public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077115");
-    protected override void RegisterInputParams(GH_InputParamManager p) { p.AddMeshParameter("Geometry", "G", "Obstacle meshes", GH_ParamAccess.list); p.AddVectorParameter("Wind", "W", "Direction and physical speed in m/s", GH_ParamAccess.item, Vector3d.XAxis); p.AddNumberParameter("Cell size", "dx", "Model units", GH_ParamAccess.item, 1); p.AddNumberParameter("Clearance", "C", "Padding in obstacle heights; downstream gets twice this amount", GH_ParamAccess.item, 3); }
+    protected override void RegisterInputParams(GH_InputParamManager p) { p.AddMeshParameter("Geometry", "G", "Obstacle meshes", GH_ParamAccess.list); p.AddVectorParameter("Wind", "W", "Direction and physical speed in m/s", GH_ParamAccess.item, Vector3d.XAxis); p.AddNumberParameter("Cell size", "dx", "Model units", GH_ParamAccess.item, 1); p.AddNumberParameter("Clearance", "C", "Padding in obstacle heights; downstream gets twice this amount", GH_ParamAccess.item, 3); p.AddBooleanParameter("Ground mounted", "Gnd", "False adds clearance below the object", GH_ParamAccess.item, true); }
     protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddGenericParameter("Domain", "D", "Wind-oriented domain; connect to Geometry and Case", GH_ParamAccess.item); p.AddBoxParameter("Bounds", "B", "Suggested wind tunnel", GH_ParamAccess.item); p.AddNumberParameter("Speed", "U", "Connect to Hawa Physics", GH_ParamAccess.item); }
     protected override void SolveHawa(IGH_DataAccess da)
     {
         var meshes = new List<Mesh>(); Vector3d wind = Vector3d.XAxis; double dx = 1, clearance = 3;
-        da.GetDataList(0, meshes); da.GetData(1, ref wind); da.GetData(2, ref dx); da.GetData(3, ref clearance);
+        da.GetDataList(0, meshes); da.GetData(1, ref wind); da.GetData(2, ref dx); da.GetData(3, ref clearance); bool ground=true; da.GetData(4,ref ground);
         if (meshes.Count == 0 || !wind.IsValid || wind.Length < 1e-12 || !double.IsFinite(clearance) || clearance <= 0) throw new ArgumentException("Provide meshes, nonzero wind and positive clearance");
         var speed = wind.Length; var x = wind; x.Unitize();
         var up = Math.Abs(x.Z) > .99 ? Vector3d.YAxis : Vector3d.ZAxis;
         var y = Vector3d.CrossProduct(up, x); y.Unitize(); var frame = new Plane(Point3d.Origin, x, y);
         var local = meshes.SelectMany(m => m.Vertices.Select(v => new Point3d((Vector3d)(Point3d)v * frame.XAxis, (Vector3d)(Point3d)v * frame.YAxis, (Vector3d)(Point3d)v * frame.ZAxis))).ToArray();
         var b = new BoundingBox(local); var h = Math.Max(dx, b.Max.Z - b.Min.Z); var pad = clearance * h;
-        var box = new Box(frame, new Interval(b.Min.X - pad, b.Max.X + 2 * pad), new Interval(b.Min.Y - pad, b.Max.Y + pad), new Interval(b.Min.Z, b.Max.Z + pad));
-        da.SetData(0, new HawaGoo(DomainComponent.MakeDomain(box, dx))); da.SetData(1, box); da.SetData(2, speed);
+        var box = new Box(frame, new Interval(b.Min.X - pad, b.Max.X + 2 * pad), new Interval(b.Min.Y - pad, b.Max.Y + pad), new Interval(b.Min.Z-(ground?0:pad), b.Max.Z + pad));
+        var domain=DomainComponent.MakeDomain(box,dx);var n=domain["shape"]!.AsArray().Select(v=>v!.GetValue<int>()).ToArray();
+        da.SetData(0,new HawaGoo(domain));da.SetData(1,new Box(frame,new Interval(box.X.T0,box.X.T0+(n[0]-1)*dx),new Interval(box.Y.T0,box.Y.T0+(n[1]-1)*dx),new Interval(box.Z.T0,box.Z.T0+(n[2]-1)*dx)));da.SetData(2,speed);
     }
 }
 
 public sealed class GeometryComponent : HawaComponent
 {
-    public GeometryComponent() : base("Hawa Geometry", "Geometry", "Voxelize closed obstacle meshes into a domain. Recomputes only when inputs change.", "02 Geometry") { }
+    private Task<JsonObject>? task;
+    private CancellationTokenSource? cancellation;
+    private string? signature;
+    public GeometryComponent() : base("Hawa Geometry", "Geometry", "Cancellable background voxelization of closed meshes. Results are cached by geometry and domain.", "02 Geometry") { }
     public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077102");
-    protected override void RegisterInputParams(GH_InputParamManager p) { p.AddGenericParameter("Domain", "D", "Hawa Domain", GH_ParamAccess.item); p.AddMeshParameter("Obstacles", "M", "Closed solid meshes", GH_ParamAccess.list); p[1].Optional = true; }
-    protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddGenericParameter("Geometry", "G", "Voxelized obstacles", GH_ParamAccess.item); p.AddIntegerParameter("Solid cells", "N", "Number of occupied lattice sites", GH_ParamAccess.item); }
+    protected override void RegisterInputParams(GH_InputParamManager p) { p.AddGenericParameter("Domain", "D", "Hawa Domain", GH_ParamAccess.item); p.AddMeshParameter("Obstacles", "M", "Closed solid meshes", GH_ParamAccess.list); p[1].Optional = true; p.AddBooleanParameter("Curved walls","W","Compute link/surface intersections for interpolated bounce-back",GH_ParamAccess.item,false); }
+    protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddGenericParameter("Geometry", "G", "Voxelized obstacles", GH_ParamAccess.item); p.AddIntegerParameter("Solid cells", "N", "Occupied lattice sites", GH_ParamAccess.item); }
+    internal static bool Contains(Mesh mesh,BoundingBox bounds,Point3d point,double tolerance){
+        if(!bounds.Contains(point))return false;
+        var closest=mesh.ClosestMeshPoint(point,tolerance);
+        if(closest!=null&&closest.Point.DistanceTo(point)<=tolerance)return true;
+        // Axis-aligned parity rays can hit mesh seams. Use three oblique rays
+        // and merge duplicate triangle hits before taking the majority vote.
+        int votes=0;double reach=3*bounds.Diagonal.Length+tolerance;
+        foreach(var direction in new[]{new Vector3d(1,.371,.529),new Vector3d(.237,1,.617),new Vector3d(.419,.283,1)}){
+            var ray=direction;ray.Unitize();var hits=Rhino.Geometry.Intersect.Intersection.MeshLine(mesh,new Line(point,point+reach*ray));
+            var distances=(hits??Array.Empty<Point3d>()).Select(p=>p.DistanceTo(point)).OrderBy(x=>x).ToArray();
+            int unique=0;double previous=double.NegativeInfinity;
+            foreach(double distance in distances){if(distance-previous>tolerance){unique++;previous=distance;}}
+            if(unique%2==1)votes++;
+        }
+        return votes>=2;
+    }
+    internal static double LinkFraction(Mesh mesh,Point3d origin,Vector3d segment){
+        double nearest=double.PositiveInfinity;
+        foreach(var face in mesh.Faces){
+            Test((Point3d)mesh.Vertices[face.A],(Point3d)mesh.Vertices[face.B],(Point3d)mesh.Vertices[face.C]);
+            if(face.IsQuad)Test((Point3d)mesh.Vertices[face.A],(Point3d)mesh.Vertices[face.C],(Point3d)mesh.Vertices[face.D]);
+        }
+        return nearest;
+        void Test(Point3d a,Point3d b,Point3d c){
+            var e1=b-a;var e2=c-a;var h=Vector3d.CrossProduct(segment,e2);double det=e1*h;
+            if(Math.Abs(det)<=1e-12*e1.Length*e2.Length*segment.Length)return;
+            double inv=1/det;var s=origin-a;double u=inv*(s*h);
+            if(u < -1e-8||u>1+1e-8)return;
+            var q=Vector3d.CrossProduct(s,e1);double v=inv*(segment*q);
+            if(v < -1e-8||u+v>1+1e-8)return;
+            double t=inv*(e2*q);if(t>=-1e-8&&t<=1+1e-8)nearest=Math.Min(nearest,Math.Clamp(t,0,1));
+        }
+    }
     protected override void SolveHawa(IGH_DataAccess da)
     {
-        var domain = ReadObject(da, 0); var meshes = new List<Mesh>(); da.GetDataList(1, meshes);
-        if (meshes.Any(m => !m.IsValid || !m.IsClosed)) throw new ArgumentException("Obstacle meshes must be valid and closed");
-        var n = domain["shape"]!.AsArray().Select(v => v!.GetValue<int>()).ToArray();
-        var solution = new JsonObject { ["case"] = domain.DeepClone() };
-        var bounds = meshes.Select(m => m.GetBoundingBox(false)).ToArray();
-        var dx = domain["spacing"]!.GetValue<double>();
-        var solid = new JsonArray();
-        for (int x = 0; x < n[0]; x++) for (int y = 0; y < n[1]; y++) for (int z = 0; z < n[2]; z++)
-        {
-            var point = Coordinates.World(solution, new JsonArray((double)x, (double)y, (double)z));
-            if (meshes.Where((m, i) => bounds[i].Contains(point)).Any(m => m.IsPointInside(point, dx * 1e-5, false))) solid.Add((x * n[1] + y) * n[2] + z);
+        var domain=ReadObject(da,0);var meshes=new List<Mesh>();da.GetDataList(1,meshes);
+        if(meshes.Any(m=>!m.IsValid||!m.IsClosed))throw new ArgumentException("Obstacle meshes must be valid and closed");
+        bool curved=false;da.GetData(2,ref curved);
+        string key=curved+domain.ToJsonString()+string.Join(",",meshes.Select(m=>m.DataCRC(0)));
+        if(key!=signature || task==null){
+            cancellation?.Cancel();cancellation=new CancellationTokenSource();var token=cancellation.Token;
+            var copies=meshes.Select(m=>m.DuplicateMesh()).ToArray();signature=key;
+            task=Task.Run(()=>{
+                try {
+                    var n=domain["shape"]!.AsArray().Select(v=>v!.GetValue<int>()).ToArray();
+                    var solution=new JsonObject{["case"]=domain.DeepClone()};var bounds=copies.Select(m=>m.GetBoundingBox(false)).ToArray();double dx=domain["spacing"]!.GetValue<double>();
+                    var o=Coordinates.Origin(solution);var origin=new Point3d(o[0],o[1],o[2]);var ax=Coordinates.Axis(solution,0)*dx;var ay=Coordinates.Axis(solution,1)*dx;var az=Coordinates.Axis(solution,2)*dx;
+                    var solid=new JsonArray();
+                    for(int x=0;x<n[0];x++){token.ThrowIfCancellationRequested();for(int y=0;y<n[1];y++)for(int z=0;z<n[2];z++){
+                        var point=origin+x*ax+y*ay+z*az;
+                        for(int m=0;m<copies.Length;m++)if(Contains(copies[m],bounds[m],point,dx*1e-5)){solid.Add((x*n[1]+y)*n[2]+z);break;}
+                    }}
+                    var data=new JsonObject{["kind"]="Geometry",["label"]=$"Hawa geometry: {solid.Count} solid cells",["domain"]=domain.DeepClone(),["solid"]=solid};
+                    if(curved){
+                        // Direction order matches Lettuce D3Q19 exactly.
+                        int[][] directions={new[]{0,0,0},new[]{1,0,0},new[]{-1,0,0},new[]{0,1,0},new[]{0,-1,0},new[]{0,0,1},new[]{0,0,-1},new[]{0,1,1},new[]{0,-1,-1},new[]{0,1,-1},new[]{0,-1,1},new[]{1,0,1},new[]{-1,0,-1},new[]{1,0,-1},new[]{-1,0,1},new[]{1,1,0},new[]{-1,-1,0},new[]{1,-1,0},new[]{-1,1,0}};
+                        var occupied=solid.Select(v=>v!.GetValue<int>()).ToHashSet();var links=new JsonArray();
+                        foreach(int site in occupied){token.ThrowIfCancellationRequested();int[] c={site/(n[1]*n[2]),site/n[2]%n[1],site%n[2]};if(Enumerable.Range(0,3).Any(a=>c[a]<2||c[a]>=n[a]-2))throw new ArgumentException("Curved walls require two-cell domain clearance");for(int dir=1;dir<directions.Length;dir++){
+                            var e=directions[dir];var f=Enumerable.Range(0,3).Select(a=>c[a]-e[a]).ToArray();if(Enumerable.Range(0,3).Any(a=>f[a]<1||f[a]>=n[a]-1))continue;
+                            int index=(f[0]*n[1]+f[1])*n[2]+f[2];if(occupied.Contains(index))continue;
+                            var point=origin+f[0]*ax+f[1]*ay+f[2]*az;var segment=e[0]*ax+e[1]*ay+e[2]*az;double fraction=double.PositiveInfinity;
+                            foreach(var m in copies)fraction=Math.Min(fraction,LinkFraction(m,point,segment));
+                            if(!double.IsFinite(fraction))throw new ArgumentException("Cannot locate wall intersection. Check geometry and spacing.");
+                            links.Add(new JsonArray(dir,index,Math.Clamp(fraction,1e-6,1)));
+                        }}data["wall_links"]=links;
+                    }
+                    return data;
+                } finally {foreach(var m in copies)m.Dispose();}
+            });
         }
-        var data = new JsonObject { ["kind"] = "Geometry", ["label"] = $"Hawa geometry: {solid.Count} solid cells", ["domain"] = domain, ["solid"] = solid };
-        da.SetData(0, new HawaGoo(data)); da.SetData(1, solid.Count);
+        if(!task.IsCompleted){Message="voxelizing";string expected=signature!;OnPingDocument()?.ScheduleSolution(100,_=>{if(!Locked&&signature==expected)ExpireSolution(false);});return;}
+        if(task.IsCanceled){Message="cancelled";return;}
+        if(task.IsFaulted)throw task.Exception!.GetBaseException();
+        var data=task.Result;Message="ready";da.SetData(0,new HawaGoo(data));da.SetData(1,data["solid"]!.AsArray().Count);
     }
+    protected override void InputsMissing(){cancellation?.Cancel();task=null;signature=null;}
+    public override void RemovedFromDocument(GH_Document document){InputsMissing();base.RemovedFromDocument(document);}
 }
 
 public sealed class PhysicsComponent : HawaComponent
@@ -115,9 +179,10 @@ public sealed class CaseComponent : HawaComponent
     protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddGenericParameter("Case", "C", "Serializable Hawa case", GH_ParamAccess.item); }
     protected override void SolveHawa(IGH_DataAccess da)
     {
+        if(new[]{1,3}.Any(i=>Params.Input[i].Sources.Count>0 && !Params.Input[i].VolatileData.AllData(true).Any(v=>v!=null)))return;
         var domain = ReadObject(da, 0); var physics = ReadObject(da, 2); var result = domain.DeepClone().AsObject();
         foreach (var pair in physics.Where(p => p.Key != "kind" && p.Key != "label")) result[pair.Key] = pair.Value?.DeepClone();
-        if (Params.Input[1].VolatileDataCount > 0) { var geometry = ReadObject(da, 1); if (domain.ToJsonString() != geometry["domain"]!.ToJsonString()) throw new ArgumentException("Geometry was voxelized on a different domain"); result["solid"] = geometry["solid"]!.DeepClone(); }
+        if (Params.Input[1].VolatileDataCount > 0) { var geometry = ReadObject(da, 1); if (domain.ToJsonString() != geometry["domain"]!.ToJsonString()) throw new ArgumentException("Geometry was voxelized on a different domain"); result["solid"] = geometry["solid"]!.DeepClone(); if(geometry["wall_links"]!=null)result["wall_links"]=geometry["wall_links"]!.DeepClone(); }
         if (Params.Input[3].VolatileDataCount > 0) result["boundaries"] = ReadObject(da, 3)["boundaries"]!.DeepClone();
         result["kind"] = "Case"; result["label"] = "Hawa wind case";
         da.SetData(0, new HawaGoo(result));

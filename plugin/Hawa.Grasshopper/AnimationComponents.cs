@@ -1,0 +1,32 @@
+using System.Text.Json.Nodes;
+using Grasshopper.Kernel;
+using Rhino.Geometry;
+namespace Hawa.Grasshopper;
+
+public sealed class RecordComponent:HawaComponent {
+    private string? job,key;private bool first=true,requireOff;
+    public RecordComponent():base("Hawa Record","Record","Run a fresh simulation and write timed field frames to a new local directory. Cancellable.","11 Animation"){}
+    public override Guid ComponentGuid=>new("a7bb3b0a-ae4f-42ae-9301-a3c55f077131");
+    protected override void RegisterInputParams(GH_InputParamManager p){p.AddGenericParameter("Case","C","Case",GH_ParamAccess.item);p.AddTextParameter("Directory","D","New output directory",GH_ParamAccess.item);p.AddIntegerParameter("Steps","N","Total iterations",GH_ParamAccess.item,200);p.AddIntegerParameter("Interval","I","Iterations between recorded frames",GH_ParamAccess.item,10);p.AddTextParameter("Device","GPU","auto, mps, cpu, cuda:0",GH_ParamAccess.item,"auto");p.AddBooleanParameter("Run","R","False cancels; saved true opens idle",GH_ParamAccess.item,false);p.AddBooleanParameter("Pause","P","Pause recording",GH_ParamAccess.item,false);}
+    protected override void RegisterOutputParams(GH_OutputParamManager p){p.AddTextParameter("Manifest","M","Recording manifest path",GH_ParamAccess.item);p.AddTextParameter("State","S","Progress",GH_ParamAccess.item);p.AddGenericParameter("Solution","Sln","Completed simulation",GH_ParamAccess.item);}
+    protected override void SolveHawa(IGH_DataAccess da){bool run=false,pause=false;da.GetData(5,ref run);da.GetData(6,ref pause);if(first){first=false;requireOff=run;}if(!run){requireOff=false;InputsMissing();Message="stopped";return;}if(requireOff){Message="enable again";return;}var spec=ReadObject(da,0);string path="",device="auto";int steps=200,interval=10;da.GetData(1,ref path);da.GetData(2,ref steps);da.GetData(3,ref interval);da.GetData(4,ref device);if(!System.IO.Path.IsPathRooted(path))throw new ArgumentException("Choose an absolute path for a new recording directory");var req=new JsonObject{["op"]="evaluate_submit",["kind"]="record",["case"]=spec.DeepClone(),["directory"]=path,["device"]=device,["steps"]=steps,["interval"]=interval};string signature=req.ToJsonString();if(job==null||key!=signature){InputsMissing();job=EmbeddedRuntime.Call(req)["job"]!.GetValue<string>();key=signature;}EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_control",["job"]=job,["action"]=pause?"pause":"resume"});var status=EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_poll",["job"]=job});string state=status["state"]!.GetValue<string>();Message=state;da.SetData(1,$"{state}: {status["steps"]}/{status["target"]}");if(state=="failed")throw new Exception(status["error"]!.GetValue<string>());if(state=="completed"){var r=status["result"]!;da.SetData(0,r["manifest"]!.GetValue<string>());da.SetData(2,new HawaGoo(new JsonObject{["kind"]="Solution",["session"]=r["status"]!["session"]!.DeepClone(),["case"]=spec.DeepClone()}));}else{string expected=job;OnPingDocument()?.ScheduleSolution(100,_=>{if(!Locked&&job==expected)ExpireSolution(false);});}}
+    public override void DocumentContextChanged(GH_Document document, GH_DocumentContext context){if(context==GH_DocumentContext.Close||context==GH_DocumentContext.Unloaded||context==GH_DocumentContext.Lock)requireOff=true;base.DocumentContextChanged(document,context);}
+    protected override void InputsMissing(){if(job!=null){try{EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_control",["job"]=job,["action"]="close"});}catch{}}job=key=null;}
+    public override void RemovedFromDocument(GH_Document doc){InputsMissing();base.RemovedFromDocument(doc);}
+}
+
+public sealed class PlaybackComponent:HawaQueryComponent {
+    public PlaybackComponent():base("Hawa Playback","Playback","Load a timed field frame from a local recording. Animate the frame slider.","11 Animation"){}
+    public override Guid ComponentGuid=>new("a7bb3b0a-ae4f-42ae-9301-a3c55f077132");
+    protected override void RegisterInputParams(GH_InputParamManager p){p.AddTextParameter("Manifest","M","Local manifest.json",GH_ParamAccess.item);p.AddIntegerParameter("Index","I","Zero-based frame index",GH_ParamAccess.item,0);}
+    protected override void RegisterOutputParams(GH_OutputParamManager p){p.AddGenericParameter("Frame","F","Captured field",GH_ParamAccess.item);p.AddNumberParameter("Time","T","Simulation time",GH_ParamAccess.item);}
+    protected override void SolveHawa(IGH_DataAccess da){string manifest="";int index=0;da.GetData(0,ref manifest);da.GetData(1,ref index);var r=View(new JsonObject{["op"]="recording",["action"]="load",["manifest"]=LocalPath(manifest),["index"]=index});if(r==null)return;var f=r.DeepClone().AsObject();f["kind"]="Frame";da.SetData(0,new HawaGoo(f));da.SetData(1,f["time"]!.GetValue<double>());}
+}
+
+public sealed class ParticlesComponent:HawaQueryComponent {
+    public ParticlesComponent():base("Hawa Particles","Particles","Time-dependent pathlines through a recorded velocity field. Seeds are in model coordinates.","11 Animation"){}
+    public override Guid ComponentGuid=>new("a7bb3b0a-ae4f-42ae-9301-a3c55f077133");
+    protected override void RegisterInputParams(GH_InputParamManager p){p.AddTextParameter("Manifest","M","Recording manifest",GH_ParamAccess.item);p.AddGenericParameter("Frame","F","Any frame from this recording, for coordinates",GH_ParamAccess.item);p.AddPointParameter("Seeds","P","Initial particle positions",GH_ParamAccess.list);p.AddIntegerParameter("Last frame","I","Final frame index",GH_ParamAccess.item,1);}
+    protected override void RegisterOutputParams(GH_OutputParamManager p){p.AddCurveParameter("Trails","C","Particle paths",GH_ParamAccess.list);p.AddPointParameter("Particles","P","Final valid positions",GH_ParamAccess.list);}
+    protected override void SolveHawa(IGH_DataAccess da){string manifest="";int last=1;da.GetData(0,ref manifest);var frame=ReadObject(da,1);var seeds=new List<Point3d>();da.GetDataList(2,seeds);da.GetData(3,ref last);var world=FieldTools.World(frame);var r=View(new JsonObject{["op"]="recording",["action"]="particles",["manifest"]=LocalPath(manifest),["last"]=last,["seeds"]=new JsonArray(seeds.Select(p=>(JsonNode)Coordinates.Grid(world,p)).ToArray())});if(r==null)return;var paths=r["paths"]!.AsArray().Select(p=>p!.AsArray().Select(v=>Coordinates.World(world,v!)).ToArray()).ToArray();da.SetDataList(0,paths.Where(p=>p.Length>1).Select(p=>new PolylineCurve(p)));da.SetDataList(1,paths.Where(p=>p.Length>0).Select(p=>p[^1]));}
+}

@@ -15,7 +15,7 @@ internal static class Coordinates
     internal static Vector3d Velocity(JsonObject s, JsonNode v) => Axis(s, 0) * v[0]!.GetValue<double>() + Axis(s, 1) * v[1]!.GetValue<double>() + Axis(s, 2) * v[2]!.GetValue<double>();
 }
 
-public sealed class SliceComponent : HawaComponent
+public sealed class SliceComponent : HawaQueryComponent
 {
     public SliceComponent() : base("Hawa Slice", "Slice", "Colored field slice. Speed in m/s, pressure in Pa, density in kg/m³ for physical wind cases.", "07 Visualize") { }
     public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077111");
@@ -25,17 +25,17 @@ public sealed class SliceComponent : HawaComponent
     {
         var s = ReadObject(da, 0); int axis = 2, index = -1; string field = "speed"; bool mean = false; da.GetData(1, ref axis); da.GetData(2, ref index); da.GetData(3, ref field); da.GetData(4, ref mean);
         var req = Request("slice", s["session"]!.GetValue<string>()); req["axis"] = axis; if (index >= 0) req["index"] = index; req["field"] = field; req["mean"] = mean;
-        var data = EmbeddedRuntime.Call(req); var values = data["values"]!.AsArray().Select(v => v!.GetValue<double>()).ToArray();
+        req["revision"]=s["revision"]?.DeepClone();var data = View(req);if(data==null)return; var values = data["values"]!.AsArray().Select(v => v!.GetValue<double>()).ToArray();
         var valid = data["valid"]!.AsArray().Select(v => v!.GetValue<bool>()).ToArray();
         var shape = data["shape"]!.AsArray().Select(v => v!.GetValue<int>()).ToArray(); var mesh = new Mesh(); var fluid = values.Where((v, i) => valid[i]).ToArray(); var min = fluid.Length > 0 ? fluid.Min() : 0; var max = fluid.Length > 0 ? fluid.Max() : 0;
         var points = data["coordinates"]!.AsArray();
-        for (int i = 0; i < points.Count; i++) { mesh.Vertices.Add(Coordinates.World(s, points[i]!)); double t = Math.Clamp(max > min ? (values[i] - min) / (max - min) : .5, 0, 1); mesh.VertexColors.Add(Color.FromArgb((int)(255 * t), (int)(100 * (1 - Math.Abs(2 * t - 1))), (int)(255 * (1 - t)))); }
+        for (int i = 0; i < points.Count; i++) { mesh.Vertices.Add(Coordinates.World(s, points[i]!)); double t = Math.Clamp(max > min ? (values[i] - min) / (max - min) : .5, 0, 1); mesh.VertexColors.Add(FieldTools.ColorAt(t,"blue-green")); }
         for (int a = 0; a < shape[0] - 1; a++) for (int b = 0; b < shape[1] - 1; b++) { int i = a * shape[1] + b; if (valid[i] && valid[i + shape[1]] && valid[i + shape[1] + 1] && valid[i + 1]) mesh.Faces.AddFace(i, i + shape[1], i + shape[1] + 1, i + 1); }
         mesh.Normals.ComputeNormals(); da.SetData(0, mesh); da.SetDataList(1, values); da.SetDataList(2, new[] { min, max }); da.SetDataList(3, valid);
     }
 }
 
-public sealed class SampleComponent : HawaComponent
+public sealed class SampleComponent : HawaQueryComponent
 {
     public SampleComponent() : base("Hawa Sample", "Sample", "Trilinear interpolation at Rhino points. Out-of-domain points return a validity flag.", "06 Results") { }
     public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077112");
@@ -45,7 +45,7 @@ public sealed class SampleComponent : HawaComponent
     {
         var s = ReadObject(da, 0); var points = new List<Point3d>(); bool mean = false; da.GetDataList(1, points); da.GetData(2, ref mean);
         var r = Request("sample", s["session"]!.GetValue<string>()); r["points"] = new JsonArray(points.Select(p => (JsonNode)Coordinates.Grid(s, p)).ToArray()); r["mean"] = mean;
-        var values = EmbeddedRuntime.Call(r)["values"]!.AsArray(); var u = new List<Vector3d>(); var pressure = new List<double>(); var valid = new List<bool>();
+        r["revision"]=s["revision"]?.DeepClone();var data=View(r);if(data==null)return;var values = data["values"]!.AsArray(); var u = new List<Vector3d>(); var pressure = new List<double>(); var valid = new List<bool>();
         foreach (var value in values) { valid.Add(value != null); if (value == null) { u.Add(Vector3d.Unset); pressure.Add(double.NaN); } else { u.Add(Coordinates.Velocity(s, value["velocity"]!)); pressure.Add(value["pressure"]!.GetValue<double>()); } }
         da.SetDataList(0, u); da.SetDataList(1, pressure); da.SetDataList(2, valid);
     }
@@ -60,11 +60,11 @@ public sealed class VectorsComponent : HawaComponent
     protected override void SolveHawa(IGH_DataAccess da) { var points = new List<Point3d>(); var u = new List<Vector3d>(); double scale = 1; da.GetDataList(0, points); da.GetDataList(1, u); da.GetData(2, ref scale); if (points.Count != u.Count) throw new ArgumentException("Point and velocity counts differ"); da.SetDataList(0, points.Zip(u).Where(p => p.Second.IsValid).Select(p => new Line(p.First, p.First + p.Second * scale))); }
 }
 
-public sealed class StreamlinesComponent : HawaComponent
+public sealed class StreamlinesComponent : HawaQueryComponent
 {
     public StreamlinesComponent() : base("Hawa Streamlines", "Streamlines", "Instantaneous streamlines using midpoint integration on a field snapshot", "07 Visualize") { }
     public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077114");
     protected override void RegisterInputParams(GH_InputParamManager p) { p.AddGenericParameter("Solution", "S", "Hawa Solution", GH_ParamAccess.item); p.AddPointParameter("Seeds", "P", "Up to 200 seed points", GH_ParamAccess.list); p.AddIntegerParameter("Steps", "N", "Integration steps, at most 1000", GH_ParamAccess.item, 100); }
     protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddCurveParameter("Streamlines", "C", "Snapshot streamlines (not particle pathlines)", GH_ParamAccess.list); }
-    protected override void SolveHawa(IGH_DataAccess da) { var s = ReadObject(da, 0); var seeds = new List<Point3d>(); int steps = 100; da.GetDataList(1, seeds); da.GetData(2, ref steps); var r = Request("streamlines", s["session"]!.GetValue<string>()); r["seeds"] = new JsonArray(seeds.Select(p => (JsonNode)Coordinates.Grid(s, p)).ToArray()); r["steps"] = steps; var paths = EmbeddedRuntime.Call(r)["paths"]!.AsArray(); da.SetDataList(0, paths.Where(p => p!.AsArray().Count >= 2).Select(p => new PolylineCurve(p!.AsArray().Select(v => Coordinates.World(s, v!))))); }
+    protected override void SolveHawa(IGH_DataAccess da) { var s = ReadObject(da, 0); var seeds = new List<Point3d>(); int steps = 100; da.GetDataList(1, seeds); da.GetData(2, ref steps); var r = Request("streamlines", s["session"]!.GetValue<string>()); r["seeds"] = new JsonArray(seeds.Select(p => (JsonNode)Coordinates.Grid(s, p)).ToArray()); r["steps"] = steps; r["revision"]=s["revision"]?.DeepClone();var result=View(r);if(result==null)return;var paths=result["paths"]!.AsArray(); da.SetDataList(0, paths.Where(p => p!.AsArray().Count >= 2).Select(p => new PolylineCurve(p!.AsArray().Select(v => Coordinates.World(s, v!))))); }
 }

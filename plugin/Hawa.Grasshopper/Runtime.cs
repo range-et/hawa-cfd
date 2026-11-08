@@ -95,6 +95,32 @@ public abstract class HawaComponent : GH_Component
     protected HawaComponent(string name, string nick, string description, string group)
         : base(name, nick, description, "Hawa", group) { }
     protected override System.Drawing.Bitmap? Icon => HawaIcons.Get(Name);
+    public override bool Read(GH_IReader reader)
+    {
+        // Only these components gained trailing parameters. Read the original
+        // parameter count first so GH preserves the archived wire GUIDs.
+        var minimum=GetType().Name switch {
+            "GeometryComponent" => (2,2), "WindTunnelComponent" => (4,3),
+            "EvaluateComponent" => (6,4), "PolarComponent" => (4,6),
+            "WingAnalysisComponent" => (6,4), _ => (Params.Input.Count,Params.Output.Count)
+        };
+        int inputs=0,outputs=0;
+        while(reader.ChunkExists("param_input",inputs))inputs++;
+        while(reader.ChunkExists("param_output",outputs))outputs++;
+        if(inputs<minimum.Item1||outputs<minimum.Item2||inputs>Params.Input.Count||outputs>Params.Output.Count)
+            return base.Read(reader); // Preserve GH's diagnostics for unrelated corruption.
+        var appendedInputs=Params.Input.Skip(inputs).ToArray();
+        var appendedOutputs=Params.Output.Skip(outputs).ToArray();
+        foreach(var param in appendedInputs)Params.UnregisterInputParameter(param,true);
+        foreach(var param in appendedOutputs)Params.UnregisterOutputParameter(param,true);
+        try { return base.Read(reader); }
+        finally {
+            foreach(var param in appendedInputs)Params.RegisterInputParam(param);
+            foreach(var param in appendedOutputs)Params.RegisterOutputParam(param);
+            Params.OnParametersChanged();
+        }
+    }
+
     protected static JsonObject ReadObject(IGH_DataAccess da, int index)
     {
         IGH_Goo? goo = null;
@@ -107,11 +133,44 @@ public abstract class HawaComponent : GH_Component
     }
     protected override void SolveInstance(IGH_DataAccess da)
     {
-        if (Params.Input.Any(p => !p.Optional && !p.VolatileData.AllData(true).Any(v => v != null))) return;
-        try { SolveHawa(da); }
+        if (Params.Input.Any(p => !p.Optional && !p.VolatileData.AllData(true).Any(v => v != null))) { InputsMissing(); return; }
+        try {
+            if(this is HawaQueryComponent || this is SolveComponent || this is GeometryComponent || this is EvaluateComponent || this is RecordComponent || this is RefinedSolveComponent || this is SearchComponent){
+                if(Params.Input.Any(p=>p.Access==GH_ParamAccess.item&&p.VolatileData.AllData(true).Count(v=>v!=null)>1)){
+                    InputsMissing();throw new ArgumentException("Use one value per item input on a background component. Duplicate the component for separate cases.");
+                }
+            }
+            SolveHawa(da);
+        }
         catch (Exception ex) { AddRuntimeMessage(GH_RuntimeMessageLevel.Error, ex.GetBaseException().Message); }
     }
+    protected string LocalPath(string path) {
+        if(System.IO.Path.IsPathRooted(path))return System.IO.Path.GetFullPath(path);
+        var document=OnPingDocument()?.FilePath;
+        if(string.IsNullOrEmpty(document))throw new ArgumentException("Save the definition before using relative file paths");
+        return System.IO.Path.GetFullPath(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(document)!,path));
+    }
+    protected virtual void InputsMissing() { }
+    public override void DocumentContextChanged(GH_Document document, GH_DocumentContext context) { if(context==GH_DocumentContext.Close || context==GH_DocumentContext.Unloaded || context==GH_DocumentContext.Lock) InputsMissing(); if(context==GH_DocumentContext.Loaded || context==GH_DocumentContext.Unlock)ExpireSolution(false); base.DocumentContextChanged(document,context); }
     protected abstract void SolveHawa(IGH_DataAccess da);
     protected static JsonArray Numbers(IEnumerable<double> values) => new(values.Select(v => JsonValue.Create(v)).ToArray());
     protected static JsonObject Request(string op, string session) => new() { ["op"] = op, ["session"] = session };
+}
+
+public abstract class HawaQueryComponent : HawaComponent
+{
+    private string? job, signature;
+    private JsonObject? result;
+    protected HawaQueryComponent(string name,string nick,string description,string group):base(name,nick,description,group){}
+    protected JsonObject? View(JsonObject request){
+        string key=request.ToJsonString();
+        if(signature!=key||job==null){InputsMissing();signature=key;var submitted=EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_submit",["kind"]="query",["request"]=request.DeepClone()});job=submitted["job"]!.GetValue<string>();}
+        if(result!=null)return result;
+        var status=EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_poll",["job"]=job});string state=status["state"]!.GetValue<string>();Message=state;
+        if(state=="failed")throw new InvalidOperationException(status["error"]!.GetValue<string>());
+        if(state=="completed"){result=status["result"]!.AsObject();return result;}
+        string expected=job;OnPingDocument()?.ScheduleSolution(100,_=>{if(!Locked&&job==expected)ExpireSolution(false);});return null;
+    }
+    protected override void InputsMissing(){if(job!=null){try{EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_control",["job"]=job,["action"]="close"});}catch{}}job=signature=null;result=null;}
+    public override void RemovedFromDocument(GH_Document document){InputsMissing();base.RemovedFromDocument(document);}
 }

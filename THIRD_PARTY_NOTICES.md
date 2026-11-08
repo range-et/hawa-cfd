@@ -1,5 +1,9 @@
 # Third-party notices
 
+Hawa original code is licensed under GNU GPL version 3 (`GPL-3.0-only`).
+Copyright (c) 2026 Hawa contributors. See `LICENSE`. Third-party code and assets
+retain the licenses listed below. Earlier MIT releases retain their original terms.
+
 ## Lettuce — numerical engine (MIT)
 
 Hawa includes a modified Python 3.9 compatibility fork of Lettuce:
@@ -59,3 +63,11 @@ The website uses the generated Monad CSS. The website assets and video renderer 
 
 The full license is in `vendor/monad_system/LICENSE`. The static website also includes it at `assets/monad/LICENSE.txt`.
 The Hawa layouts and video renderer use the supplied tokens. The original Rhino screenshots retain their captured interface colors.
+
+## Additional design and numerical references
+
+Autodesk Flow Design documentation, the OpenFOAM Foundation development repository, and the linked XFLR5 repository inform the expanded visualization, geometry and aircraft-analysis scope. No code, icons or assets from those projects are included in this development change. Their availability does not imply an MIT license.
+
+The stationary wall-link method follows the linear interpolated bounce-back method of Bouzidi, Firdaouss and Lallemand (2001), Physical Review E 64, 046301. Hawa implements the formulas independently; validation limits are recorded in the 0.4 development notes.
+
+The fixed 2:1 refinement implementation uses cubic reconstruction and filtered nonequilibrium restriction described by Lagrava, Malaspinas, Latt and Chopard (2012), Journal of Computational Physics 231, DOI 10.1016/j.jcp.2012.03.015. The formulas are independently implemented. The method is experimental and does not provide exact finite-volume refluxing.
