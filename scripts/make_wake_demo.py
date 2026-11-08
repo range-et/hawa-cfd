@@ -8,7 +8,7 @@ from make_v04_demo import ROOT,OUT,CAP,BG,FG,SUB,CMAP,card,write_video
 SOURCE=ROOT/'results/v04/cylinder-recording-outflow'
 data=json.loads((SOURCE/'manifest.json').read_text())
 
-def picture(entry):
+def picture(entry,closing=False):
     with np.load(SOURCE/entry['file']) as a:
         u=a['velocity'][:,:,:,1];solid=a['solid'][:,:,1]
     speed=np.linalg.norm(u,axis=0);vort=np.gradient(u[1],.15,axis=0)-np.gradient(u[0],.15,axis=1)
@@ -22,16 +22,18 @@ def picture(entry):
         ax.add_patch(plt.Circle((6,6.045),1,color=SUB));ax.tick_params(colors=SUB);ax.set_ylabel('Y / m',color=SUB);ax.set_xlabel('X / m',color=SUB)
         cb=fig.colorbar(im,ax=ax,fraction=.025,pad=.02);cb.ax.tick_params(colors=SUB);cb.set_label(label,color=SUB);ax.set_anchor('C')
     fig.subplots_adjust(left=.04,right=.93,bottom=.08,top=.98,hspace=.27);fig.canvas.draw();result=Image.fromarray(np.asarray(fig.canvas.buffer_rgba())[:,:,:3]);plt.close(fig)
+    if closing:
+        return card('Inspect the saved fields','Open the Grasshopper example. Record a run. Move the frame slider.',result,footer='Demonstration case / compare finer grids and larger domains before using engineering results')
     return card('Follow the cylinder wake',f"MPS / iteration {entry['iteration']:04d} / simulation time {entry['time']:.2f} s",result,'Re = 100 / 161 × 81 × 4 lattice / periodic transverse faces / fixed color limits')
 
 def frames():
-    yield card('Hawa / evolving wake','A recorded simulation with a cylinder and an open outlet.'),90
+    yield picture(data['frames'][0]),90
     for i,e in enumerate(data['frames']):
         im=picture(e)
         if i in (0,40,80):im.save(CAP/f'wake-{i:02d}.png')
         print(i,flush=True);yield im,10
-    yield card('Inspect the saved fields','Open the Grasshopper example. Record a run. Move the frame slider.',footer='Demonstration case / repeat with finer grids and a larger domain before using engineering results'),150
+    yield picture(data['frames'][-1],closing=True),150
 
 if __name__=='__main__':
     path=OUT/'hawa-cylinder-wake.mp4';write_video(path,frames())
-    (OUT/'wake-provenance.json').write_text(json.dumps({'video':path.name,'manifest':str(SOURCE/'manifest.json'),'sha256':hashlib.sha256((SOURCE/'manifest.json').read_bytes()).hexdigest(),'iterations':8000,'frames':81,'render':'scripts/make_wake_demo.py','audio':False},indent=2))
+    (OUT/'wake-provenance.json').write_text(json.dumps({'video':path.name,'manifest':str(SOURCE/'manifest.json'),'sha256':hashlib.sha256((SOURCE/'manifest.json').read_bytes()).hexdigest(),'iterations':8000,'frames':81,'render':'scripts/make_wake_demo.py','audio':False,'revision':'visuals-on-all-cards'},indent=2))

@@ -21,7 +21,7 @@ FONT='/System/Library/Fonts/HelveticaNeue.ttc'
 TITLE=ImageFont.truetype(FONT,54,index=10);BODY=ImageFont.truetype(FONT,28);SMALL=ImageFont.truetype(FONT,22)
 CMAP=LinearSegmentedColormap.from_list('hawa',['#08306b','#00a0b4','#96eb8c'])
 
-def card(title,caption,picture=None,footer='Hawa 0.4 / development preview'):
+def card(title,caption,picture,footer='Hawa 0.4 / development preview'):
     im=Image.new('RGB',(1920,1080),BG);d=ImageDraw.Draw(im)
     d.text((90,50),title,font=TITLE,fill=FG)
     d.text((90,125),caption,font=BODY,fill=SUB)
@@ -66,8 +66,24 @@ def write_video(path,frames):
     finally:proc.stdin.close()
     if proc.wait():raise RuntimeError('ffmpeg failed')
 
+def airfoil_picture():
+    path=ROOT/'examples/grasshopper/data/naca0012.dat'
+    xy=np.loadtxt(path,skiprows=1)
+    fig,ax=plt.subplots(figsize=(16,6),dpi=110,facecolor=BG)
+    ax.set_facecolor(BG)
+    ax.fill(xy[:,0],xy[:,1],color='#00a0b4',alpha=.25)
+    ax.plot(xy[:,0],xy[:,1],color='#96eb8c',linewidth=3)
+    ax.set_aspect('equal');ax.set_xlim(-.05,1.05);ax.set_ylim(-.18,.18)
+    ax.set_xlabel('x / chord',color=SUB,fontsize=17);ax.set_ylabel('y / chord',color=SUB,fontsize=17)
+    ax.tick_params(colors=SUB);ax.grid(alpha=.15,color=SUB)
+    for spine in ax.spines.values():spine.set_color(SUB)
+    ax.set_title('NACA 0012 / supplied local coordinate file',color=FG,fontsize=22,pad=20)
+    fig.tight_layout(pad=2);fig.canvas.draw()
+    result=Image.fromarray(np.asarray(fig.canvas.buffer_rgba())[:,:,:3]);plt.close(fig)
+    return result
+
 def frames():
-    yield card('Hawa / flow tools','Open the definition. Run the case. Inspect the fields.'),90
+    yield card('Hawa / flow tools','Open the definition. Run the case. Inspect the fields.',Image.open(CAP/'block-flow.png')),90
     yield card('Inspect the domain in Rhino','3D flow tubes, a domain wireframe, and a blue-green speed plane.',Image.open(CAP/'block-flow.png')),180
     for i,entry in enumerate(DATA['frames']):
         im=evolving(entry)
@@ -77,10 +93,10 @@ def frames():
     yield card('Search after each completed result','Five hull candidates completed after a pause and resume.',Image.open(CAP/'search-completed.png')),180
     yield card('Inspect pressure around a sphere','Offset Cp samples and 3D flow tubes.',Image.open(CAP/'sphere-pressure.png')),150
     yield card('Inspect a fixed refinement patch','Two coupled grids return separate field frames.',Image.open(CAP/'refinement.png')),150
-    yield card('Use local airfoil files','Import coordinates and polars. Keep the source and operating conditions.'),120
-    yield card('Check the model limits','Experimental refinement. Single-phase flow. Validate each case.'),120
+    yield card('Use local airfoil files','Import coordinates and polars. Keep the source and operating conditions.',airfoil_picture()),120
+    yield card('Check the model limits','Experimental refinement. Single-phase flow. Validate each case.',Image.open(CAP/'refinement.png')),120
 
 if __name__=='__main__':
     output=OUT/'hawa-flow-tools.mp4';write_video(output,frames())
-    (OUT/'provenance.json').write_text(json.dumps({'video':output.name,'source_manifest':str(SOURCE/'manifest.json'),'source_sha256':hashlib.sha256((SOURCE/'manifest.json').read_bytes()).hexdigest(),'frames':31,'device':'mps','rhino_captures':['block-flow.png','search-completed.png','sphere-pressure.png','refinement.png'],'render':'scripts/make_v04_demo.py','audio':False},indent=2))
+    (OUT/'provenance.json').write_text(json.dumps({'video':output.name,'source_manifest':str(SOURCE/'manifest.json'),'source_sha256':hashlib.sha256((SOURCE/'manifest.json').read_bytes()).hexdigest(),'frames':31,'device':'mps','rhino_captures':['block-flow.png','search-completed.png','sphere-pressure.png','refinement.png'],'render':'scripts/make_v04_demo.py','audio':False,'airfoil_coordinates':'examples/grasshopper/data/naca0012.dat','revision':'visuals-on-all-cards'},indent=2))
     print(output)
