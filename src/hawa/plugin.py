@@ -30,6 +30,7 @@ def case_key(spec):
 
 def check_case(spec):
     if "example" in spec:
+        if spec.get("moving_bodies"):raise ValueError("Moving bodies require a physical 3D case")
         from .cases import CASES,example_size
         n=example_size(spec['example'],spec.get('size'))
         dimension=3 if CASES[spec['example']][0]=='tgv3d' else 2
@@ -70,7 +71,10 @@ def check_case(spec):
         ix = np.asarray(solid) // (shape[1] * shape[2])
         if np.any((ix == 0) | (ix == shape[0] - 1)):
             raise ValueError("Obstacles intersect the inlet or outlet; enlarge the domain")
-    estimated = math.prod(shape) * 19 * 4 * 10
+    if spec.get("moving_bodies"):
+        from .motion import validate_bodies
+        validate_bodies(spec)
+    estimated = math.prod(shape) * 19 * 4 * (24 if spec.get("moving_bodies") else 10)
     limit = int(spec.get("memory_limit_mb", 1024)) * 1024 ** 2
     if estimated > limit:
         raise ValueError("Estimated peak allocation {:.0f} MiB exceeds the case budget".format(estimated / 1024 ** 2))
@@ -190,12 +194,16 @@ def make_solver(spec, device):
     if spec.get("wall_links"):
         from .walls import install_interpolated_walls
         install_interpolated_walls(solver, spec["wall_links"])
+    if spec.get("moving_bodies"):
+        from .moving_boundaries import MovingBoundaries
+        solver.moving=MovingBoundaries(solver,spec)
     return backend, flow, solver
 
 
 class Session:
     def __init__(self, spec, device):
         self.spec = json.loads(canonical(spec))
+        self.key=case_key(self.spec)
         self.backend, self.flow, self.solver = make_solver(spec, device)
         self.id = str(uuid.uuid4())
         self.lock = threading.RLock()
@@ -225,7 +233,7 @@ class Session:
                 self.backend.synchronize()
                 if not bool(torch.isfinite(self.flow.f).all().cpu()) or not bool((self.flow.rho() > 0).all().cpu()):
                     raise RuntimeError("Simulation became unstable; revise physics, grid or boundaries")
-                if self.flow.i % 5 == 0:
+                if self.flow.i % 5 == 0 and not hasattr(self.solver,"moving"):
                     self.samples += 1
                     for name, value in (("mean_u", self.flow.u_pu), ("mean_p", self.flow.p_pu), ("mean_rho", self.flow.rho_pu)):
                         old = getattr(self, name, None)
@@ -280,12 +288,13 @@ class Session:
         # UI polling reads Python scalars. GPU reductions happen in the worker.
         return {"session": self.id, "state": self.state, "steps": self.flow.i,
                 "target": self.target, "error": self.error, "backend": self.backend.info(),
-                "case_hash": case_key(self.spec), "resolution": self.flow.resolution,
+                "case_hash": self.key, "resolution": self.flow.resolution,
                 "physical_time": self.flow.units.convert_time_to_pu(self.flow.i),
                 "relative_mass_change": self.relative_mass_change,
                 "averaging_samples": self.samples, "updated": self.updated}
 
     def fields(self, mean=False):
+        if mean and hasattr(self.solver,"moving"):raise ValueError("Moving fields require instantaneous snapshots; average body loads over cycles")
         with self.lock, torch.no_grad():
             u = self.mean_u if mean and self.mean_u is not None else self.flow.u_pu
             result = {"velocity": u.detach().cpu().numpy().copy(),
@@ -401,6 +410,7 @@ def dispatch(request):
         with session.lock:
             session.flow.f.copy_(session.initial_f)
             session.flow.i = 0
+            if hasattr(session.solver,"moving"):session.solver.moving.reset()
             session.samples = 0
             session.relative_mass_change = 0.0
             session.mean_u = session.mean_p = session.mean_rho = None
@@ -412,6 +422,11 @@ def dispatch(request):
         with REGISTRY_LOCK:
             del SESSIONS[session.id]
         return {"closed": True}
+    if op == "body_loads":
+        with session.lock:
+            if not hasattr(session.solver,"moving"):raise ValueError("This session has no moving bodies")
+            moving=session.solver.moving
+            return {**moving.metadata(),"history":list(moving.history),"case":session.spec,"time":session.flow.units.convert_time_to_pu(session.flow.i)}
     if op == "status":
         return session.status()
     if op == "sample":
@@ -474,7 +489,9 @@ def dispatch(request):
         path.parent.mkdir(parents=True, exist_ok=True)
         with session.lock, path.open("wb") as out:
             np.savez_compressed(out, populations=session.flow.f.detach().cpu().numpy(),
-                                iteration=np.array(session.flow.i), spec=np.array(canonical(session.spec)))
+                                iteration=np.array(session.flow.i), spec=np.array(canonical(session.spec)),
+                                motion_history=np.array(json.dumps(list(session.solver.moving.history) if hasattr(session.solver,"moving") else [])),
+                                transition_mass=np.array(session.solver.moving.transition_mass if hasattr(session.solver,"moving") else 0.))
         return {"path": str(path)}
     if op == "load":
         session.pause()
@@ -493,6 +510,10 @@ def dispatch(request):
             with session.lock:
                 session.flow.f.copy_(session.flow.context.convert_to_tensor(populations))
                 session.flow.i = int(iteration)
+                if hasattr(session.solver,"moving"):
+                    session.solver.moving.reset(int(iteration))
+                    if "motion_history" in data:session.solver.moving.history.extend(json.loads(str(data["motion_history"])))
+                    if "transition_mass" in data:session.solver.moving.transition_mass=float(data["transition_mass"])
                 session.mean_u = session.mean_p = session.mean_rho = None
                 session.samples = 0
                 session.relative_mass_change=(float(density.sum())-session.initial_mass)/session.initial_mass

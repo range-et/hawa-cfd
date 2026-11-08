@@ -18,6 +18,7 @@ def capture(session, mean=False):
         arrays=session.fields(mean)
         meta={'iteration':session.flow.i,'time':session.flow.units.convert_time_to_pu(session.flow.i),
               'case':{**session.spec,'physical_dx':float(session.flow.units.convert_length_to_pu(1))},'mean':mean,'samples':session.samples}
+        if hasattr(session.solver,"moving"):meta["motion"]=session.solver.moving.metadata()
     return store(arrays,meta)
 
 

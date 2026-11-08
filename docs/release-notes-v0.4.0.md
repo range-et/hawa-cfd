@@ -2,6 +2,14 @@
 
 This is a local development build. The new package has not been published. The corrected [Tools video](https://youtu.be/GN6Ou3yOF_I) and [Wake video](https://youtu.be/zpRlRn9Qbf4) are public and linked from the project website. Use the supplied examples to inspect the implementation and repeat the checks before applying it to an engineering problem.
 
+## Moving-surface development build
+
+Prescribed moving rigid surfaces are implemented as the final experimental base feature for 0.4. Translation, rotation and oscillation drive time-dependent flow and measured body loads. Native and numerical evidence is recorded in the moving-surface guide. See the [moving-surface guide](moving-surfaces-v0.4.md) for boundaries, nodes and acceptance checks. Thermal transport remains outside this release.
+
+## Known numerical issue
+
+The local hardening pass found that the upstream PorousMedium example exceeds the unchanged CPU/MPS comparison tolerance after 50 steps. Both runs finish with finite fields and matching obstacle masks. Its relaxation time is 0.5009765625; the cause of the growing numerical difference remains unresolved. The other 15 upstream example comparisons and the separate engine comparison suite pass. See the [hardening review](hardening-v0.4.md) for measurements and current test results. Do not interpret successful execution as cross-device numerical agreement for this case.
+
 ## Added
 
 - GPL-3.0-only for original Hawa code, with corresponding source in the plugin ZIP and retained upstream notices.
@@ -12,7 +20,7 @@ This is a local development build. The new package has not been published. The c
 - Unswept tapered-wing geometry and attached-flow lifting-line analysis. Optional local polar data supplies approximate profile drag.
 - Field recording, playback and time-dependent particle paths, with physical times and completion metadata.
 - Geometry checks, voxel preview, experimental stationary interpolated walls and a fixed 2:1 BGK refinement patch.
-- Editable definitions 10–16. The package contains 15 supported definitions; historical example 09 is excluded.
+- Editable definitions 10–20, including four prescribed-motion workflows. The package contains 19 supported definitions; historical example 09 is excluded.
 
 ## Bugs fixed
 
@@ -28,7 +36,7 @@ The wind outlet previously became unstable near the outlet in long cylinder runs
 
 | Check | Evidence |
 | --- | --- |
-| Hawa Python 3.9 suite | 112 passed, 29 skipped, four inherited warnings |
+| Hawa Python 3.9 suite | 140 passed, 29 skipped, four inherited warnings |
 | Vendored upstream suite, earlier run | 419 passed, 884 skipped, 40 warnings |
 | C# Release build | No compile errors; Rhino-provided drawing APIs produce platform annotation warnings |
 | Native examples 01–08, 11, 12, 14 | 11 graphs passed; flow cases completed 25 steps with valid field meshes; wing closed; local polar output present |
@@ -58,7 +66,7 @@ Three earlier test instances were terminated with signals, which caused Rhino's 
 
 CUDA hardware, Windows installation, production CFD accuracy and full-duration upstream convergence remain unverified. The first embedded dependency initialization can occupy the UI. Running multiple large live Solve components can still compete for device memory; use the case budgets and small initial grids.
 
-The aircraft tools do not port XFOIL's viscous solver, XFLR5 VLM/panel methods, stall or stability derivatives. The hull model excludes waves, buoyancy and motion. The airfoil sample polar is synthetic format data and must be replaced for analysis. A multi-building validation study remains outside the supplied evidence.
+The aircraft tools do not port XFOIL's viscous solver, XFLR5 VLM/panel methods, stall or stability derivatives. The hull model excludes waves, buoyancy and force-driven free-body motion. The airfoil sample polar is synthetic format data and must be replaced for analysis. A multi-building validation study remains outside the supplied evidence.
 
 ## References
 

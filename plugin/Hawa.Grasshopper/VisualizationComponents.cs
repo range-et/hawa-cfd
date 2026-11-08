@@ -32,11 +32,23 @@ public sealed class SeedsComponent:HawaComponent {
 }
 
 public sealed class SnapshotComponent:HawaQueryComponent {
-    public SnapshotComponent():base("Hawa Field Snapshot","Frame","Capture one immutable field frame for consistent visualization","06 Results"){}
+    private JsonObject? previous;
+    private string? previousKey;
+    public SnapshotComponent():base("Hawa Field Snapshot","Frame","Capture an immutable field frame. Keep the last completed frame visible while the next capture runs.","06 Results"){}
     public override Guid ComponentGuid=>new("a7bb3b0a-ae4f-42ae-9301-a3c55f077121");
     protected override void RegisterInputParams(GH_InputParamManager p){p.AddGenericParameter("Solution","S","Solution",GH_ParamAccess.item);p.AddBooleanParameter("Mean","M","Mean sampled every five iterations",GH_ParamAccess.item,false);}
-    protected override void RegisterOutputParams(GH_OutputParamManager p){p.AddGenericParameter("Frame","F","Immutable frame",GH_ParamAccess.item);p.AddNumberParameter("Time","T","Physical time",GH_ParamAccess.item);}
-    protected override void SolveHawa(IGH_DataAccess da){var s=ReadObject(da,0);bool mean=false;da.GetData(1,ref mean);var r=View(new JsonObject{["op"]="field",["action"]="capture",["session"]=s["session"]!.DeepClone(),["mean"]=mean,["revision"]=s["revision"]?.DeepClone()});if(r==null)return;r=r.DeepClone().AsObject();r["kind"]="Frame";da.SetData(0,new HawaGoo(r));da.SetData(1,r["time"]!.GetValue<double>());}
+    protected override void RegisterOutputParams(GH_OutputParamManager p){p.AddGenericParameter("Frame","F","Last completed immutable frame",GH_ParamAccess.item);p.AddNumberParameter("Time","T","Physical time of the displayed frame",GH_ParamAccess.item);}
+    protected override void SolveHawa(IGH_DataAccess da){
+        var s=ReadObject(da,0);bool mean=false;da.GetData(1,ref mean);
+        string identity=s["session"]!.GetValue<string>()+":"+mean;
+        var last=identity==previousKey?previous:null;
+        var frame=View(new JsonObject{["op"]="field",["action"]="capture",["session"]=s["session"]!.DeepClone(),["mean"]=mean,["revision"]=s["revision"]?.DeepClone()},true);
+        previous=frame??last;previousKey=identity;
+        if(previous==null)return;
+        var output=previous.DeepClone().AsObject();output["kind"]="Frame";
+        da.SetData(0,new HawaGoo(output));da.SetData(1,output["time"]!.GetValue<double>());
+    }
+    protected override void InputsMissing(){previous=null;previousKey=null;base.InputsMissing();}
 }
 
 public sealed class ColorMapComponent:HawaComponent {

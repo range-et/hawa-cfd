@@ -29,7 +29,7 @@ public sealed class CheckComponent : HawaComponent
 public sealed class SolveComponent : HawaComponent
 {
     private string? session, specText, deviceText, creation;
-    private bool previousRun, previousReset, scheduled;
+    private bool previousRun, previousReset, scheduled, runArmed;
     private bool first = true;
     public SolveComponent() : base("Hawa Solve", "Solve", "Persistent background solver. Run true starts/resumes, false pauses. Reset uses a rising edge. No external process.", "05 Solve") { }
     public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077109");
@@ -43,11 +43,14 @@ public sealed class SolveComponent : HawaComponent
         if (target < 0) throw new ArgumentException("Target steps must be nonnegative");
         var text = spec.ToJsonString();
         // Set the saved-toggle guard before queuing the allocation.
-        if (first) { previousRun = run; previousReset = reset; first = false; }
+        if (first) { previousRun = run; previousReset = reset; runArmed = !run; first = false; }
+        if (!run) runArmed = true;
         bool changed = specText != text || deviceText != device;
         if (creation == null || changed)
         {
+            bool restartChanged = changed && creation != null && run && runArmed;
             CloseSession();
+            if (restartChanged) previousRun = false;
             var submitted=EmbeddedRuntime.Call(new JsonObject { ["op"]="evaluate_submit", ["kind"]="create", ["case"]=spec.DeepClone(), ["device"]=device });
             creation=submitted["job"]!.GetValue<string>();specText=text;deviceText=device;
         }

@@ -1,0 +1,97 @@
+{
+  "1": {
+    "title": "3D Taylor–Green vortex",
+    "explore": "Change grid size, backend and target iterations. Inspect velocity decay.",
+    "limits": "Reference units. Use this small case to check installation and backend selection."
+  },
+  "2": {
+    "title": "2D Taylor–Green vortex",
+    "explore": "Change grid size and target iterations. Compare the same physical time.",
+    "limits": "Reference units. This is a planar numerical benchmark."
+  },
+  "3": {
+    "title": "Taylor–Green vortex / TRT",
+    "explore": "Compare the TRT collision model with example 02 at matching settings.",
+    "limits": "Reference units. Collision models can have different stability limits."
+  },
+  "4": {
+    "title": "2D vortex / Smagorinsky",
+    "explore": "Change grid resolution and compare decay with example 02.",
+    "limits": "Reference units. Subgrid modelling does not replace a grid study."
+  },
+  "5": {
+    "title": "3D vortex / Smagorinsky",
+    "explore": "Compare this 3D case with example 01 at matching settings.",
+    "limits": "Reference units. Begin with a small grid and increase it gradually."
+  },
+  "6": {
+    "title": "Driven cavity",
+    "explore": "Run the cavity and inspect the recirculation pattern.",
+    "limits": "Reference units. Wall-adjacent fields require grid refinement."
+  },
+  "7": {
+    "title": "Forced channel flow",
+    "explore": "Inspect the velocity profile across the channel.",
+    "limits": "Reference units. Compare profiles after the flow has settled."
+  },
+  "8": {
+    "title": "Wind around a block",
+    "explore": "Edit domain, closed mesh, grid spacing and physics. Inspect slice and flow lines.",
+    "limits": "Geometry uses metres. Demonstration viscosity is not atmospheric air."
+  },
+  "10": {
+    "title": "Responsive hull search",
+    "explore": "Enable evaluation and Run search. Pause holds the current candidate; disabling cancels.",
+    "limits": "Single fluid, submerged hull. No waves or buoyancy. Short scores demonstrate search; they do not establish an optimum."
+  },
+  "11": {
+    "title": "3D field visualization",
+    "explore": "Use the shared snapshot to compare planes, tubes, contours and isosurfaces. Change field and colour map.",
+    "limits": "Use one snapshot for comparisons. Keep colour ranges fixed when comparing cases."
+  },
+  "12": {
+    "title": "Local airfoil and RC wing",
+    "explore": "Choose an offline NACA code or local coordinate file. Edit wing span/chord. Load your own local polar.",
+    "limits": "The bundled polar is synthetic format data. Lifting-line results assume attached flow; stall is not predicted."
+  },
+  "13": {
+    "title": "Record and replay",
+    "explore": "Choose a new absolute output directory. Start Record, wait for completion, then change Frame.",
+    "limits": "Recording creates files. Use a new directory for each run. Playback must use the returned manifest."
+  },
+  "14": {
+    "title": "Stationary curved sphere",
+    "explore": "Run the sphere. Inspect pressure and surface samples; compare grid spacings.",
+    "limits": "Experimental stationary curved links. Do not combine with refinement or moving bodies."
+  },
+  "15": {
+    "title": "Fixed refinement patch",
+    "explore": "Edit the domain and interior patch; run both grids and compare their field planes.",
+    "limits": "One fixed 2:1 BGK patch. Keep interpolation stencils in fluid. No automatic adaptive mesh."
+  },
+  "16": {
+    "title": "Cylinder wake recording",
+    "explore": "Set a new absolute directory, then record the wake. Pause/resume or cancel. Replay saved frames.",
+    "limits": "The full recording runs 8000 steps. Use a smaller trial first. Outlet and domain size affect the wake."
+  },
+  "17": {
+    "title": "Oscillating cylinder",
+    "explore": "Set travel amplitude in metres. Run the case; inspect the shared field snapshot and moved body.",
+    "limits": "Prescribed motion, uniform BGK. Keep the full trajectory two cells from domain faces. Check grids and cycle averages."
+  },
+  "18": {
+    "title": "Pitching airfoil",
+    "explore": "Edit the offline NACA section and wing. Set pitch amplitude in radians; run and inspect loads.",
+    "limits": "Coarse thick-foil demonstration. RC boundary layers are not resolved. Motion does not respond to fluid forces."
+  },
+  "19": {
+    "title": "Rotating paddle",
+    "explore": "Set RPM and run. Inspect body pose, torque and signed fluid power.",
+    "limits": "Single fluid. No water surface, cavitation or free-body response. This is not a validated propeller model."
+  },
+  "20": {
+    "title": "Completed-cycle motion search",
+    "explore": "Run search. Each amplitude is evaluated only after settling and complete measured cycles. Pause or cancel as needed.",
+    "limits": "Default objective is input power. Compare longer settling, more cycles and finer grids before ranking designs."
+  }
+}

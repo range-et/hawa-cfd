@@ -6,7 +6,7 @@ Hawa runs its Python 3.9 engine inside Rhino. Define geometry and physics in Gra
 
 This branch contains the experimental **0.4** update. The published **0.3** package and videos remain available on the [project page](https://range-et.github.io/hawa-cfd/). Read the [0.4 checks and limits](docs/release-notes-v0.4.0.md) before using the new package.
 
-[Plugin guide](docs/plugin.md) · [Editable definitions](examples/grasshopper) · [License](LICENSE)
+[Plugin guide](docs/plugin.md) · [Rhino MCP agent guide](docs/agents/rhino-mcp.md) · [Editable definitions](examples/grasshopper) · [License](LICENSE)
 
 ## New workflows
 
@@ -14,10 +14,11 @@ This branch contains the experimental **0.4** update. The published **0.3** pack
 - 3D stream tubes, domain wireframes, field planes, contours, isosurfaces and offset surface sampling.
 - Shared blue-green, spectrum and diverging color maps with fixed ranges.
 - Timed field recording, playback and particle paths.
+- Experimental prescribed moving meshes: translation, rotation, oscillation, body loads and completed-cycle search.
 - Local airfoil coordinates and polars, offline NACA four-digit generation, tapered wings and attached-flow lifting-line analysis.
 - Mesh checks, voxel inspection, experimental stationary curved-wall links and one fixed 2:1 refinement patch.
 
-The package has 38 Hawa components and 15 editable definitions. Example 09 is historical and excluded from the new package. Use example 10 for asynchronous optimization.
+The package has 46 Hawa components and 19 supported editable definitions. Example 09 is historical and excluded from the new package. Use example 10 for asynchronous optimization.
 
 ## Install and run
 
@@ -25,11 +26,11 @@ Build the current package with `scripts/build_plugin.py`, or use the provided de
 
 Rhino installs the pinned dependencies on first use. This needs internet access. Select a backend and set Run true. The solver then runs inside Rhino. No separate Python or OpenFOAM installation is required.
 
-For new visualization tools, open example 11. Examples 12–16 cover local airfoils, recording, sphere pressure, refinement and cylinder flow. See the [plugin guide](docs/plugin.md) for controls and input limits.
+For new visualization tools, open example 11. Examples 12–16 cover local airfoils, recording, sphere pressure, refinement and cylinder flow. Examples 17–20 add an oscillating cylinder, pitching foil, rotating paddle and completed-cycle search. Read the [moving-surface guide](docs/moving-surfaces-v0.4.md) before using body loads. See the [plugin guide](docs/plugin.md) for controls and input limits.
 
 ## Videos
 
-The new local renders are `dist/videos-v04/hawa-flow-tools.mp4` and `dist/videos-v04/hawa-cylinder-wake.mp4`. They use actual recorded fields, native Rhino captures, Monad colors and captions. They have no audio. Watch the published [Tools video](https://youtu.be/GN6Ou3yOF_I) and [Wake video](https://youtu.be/zpRlRn9Qbf4).
+The moving-surface demo is `dist/videos-v04/hawa-moving-surfaces.mp4` (1,000 MPS steps, synchronized body motion and raw loads). The other local renders are `dist/videos-v04/hawa-flow-tools.mp4` and `dist/videos-v04/hawa-cylinder-wake.mp4`. They use actual recorded fields, native Rhino captures, Monad colors and captions. They have no audio. Watch the published [Tools video](https://youtu.be/GN6Ou3yOF_I) and [Wake video](https://youtu.be/zpRlRn9Qbf4).
 
 Earlier published walkthroughs: [overview](https://youtu.be/Ji_9iOYXSXg), [block](https://youtu.be/PVBanKHGhC4), [historical Galapagos hull](https://youtu.be/0kVTmHttA78).
 
@@ -50,7 +51,7 @@ uv sync --extra test
 .venv/bin/python scripts/build_plugin.py
 ```
 
-The Grasshopper build needs the installed Rhino SDK. Run `scripts/create_grasshopper_examples.cs` inside Rhino to create the `.gh` files. Run `scripts/verify_grasshopper_examples.cs` to reopen and check those graphs. Run `scripts/create_hull_example.cs` and `scripts/verify_hull_example.cs` for the hull assembly.
+The Grasshopper build needs the installed Rhino SDK. Run `scripts/create_grasshopper_examples.cs` inside Rhino to create the `.gh` files. Run `scripts/verify_grasshopper_examples.cs` to reopen and check those graphs. Use `scripts/create_responsive_hull_example.cs` for the supported hull search. Preserve the historical user-modified example 09. Run `scripts/annotate_grasshopper_examples.cs` after regenerating supported definitions.
 
 The C# helper scripts contain this checkout's paths. Change the paths before you run the scripts on another machine.
 
@@ -68,7 +69,7 @@ The video renderer needs macOS Helvetica Neue and Menlo, Pillow, ffmpeg, and ffp
 
 ## Verification
 
-The current Hawa suite passes **112 tests**, with 29 skipped and four inherited warnings. The earlier vendored upstream run passed 419 tests with 884 skipped. The Lettuce compatibility engine remains unchanged by the new Hawa outlet and refinement modules.
+The current Hawa suite passes **140 tests**, with 29 skipped and four inherited warnings. The earlier vendored upstream run passed 419 tests with 884 skipped. The Lettuce compatibility engine remains unchanged by the new Hawa outlet and refinement modules.
 
 The core CPU comparison matched the upstream oracle bitwise; MPS passed declared tolerances. All 16 upstream executable entrypoints completed bounded runs. These are separate from the Grasshopper gallery. PorousMedium retains a known pointwise CPU/MPS discrepancy.
 

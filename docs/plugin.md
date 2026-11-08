@@ -82,3 +82,18 @@ Airfoil uses offline four-digit NACA generation or local Selig/Lednicer files. P
 See [release notes](release-notes-v0.4.0.md) for measured checks and remaining limits. MPS and CPU were exercised here. CUDA hardware and Windows installation remain unverified. Numerical and UI checks do not establish engineering accuracy.
 
 Hawa source is `GPL-3.0-only`. Lettuce and Monad retain their MIT notices. Butterfly, OpenFOAM, Autodesk Flow Design and XFLR5 are references; their source is not bundled. The package includes corresponding Hawa source and build scripts. See `THIRD_PARTY_NOTICES.md` and `licenses/lettuce`.
+
+
+## Prescribed moving bodies (experimental)
+
+Use **Translation**, **Rotation** or **Oscillation** to define motion. **Moving Body** prepares a closed mesh against a base physical Case in the background. Its pivot and axis use model coordinates; speed is m/s, RPM is rev/min, and angular oscillation amplitude is radians. Connect one to four prepared bodies to **Motion Case**, then use the existing Solve or Record component. Do not also place those meshes in stationary Geometry.
+
+Use uniform BGK. Keep every moving body at least two cells from every domain face and clear of other bodies. Thin parts need enough cells across their thickness. The check includes wall speed, including rotational tip speed. The experimental limits are 150,000 domain cells, four bodies and 200,000 signed-distance samples per body.
+
+Connect one Field Snapshot to both Plane Field and **Body Loads**. Connect Body Loads' motion-state output and the reference mesh to **Body Preview**. This displays the body at the same time as the field. Recorded frames carry the same pose/load metadata.
+
+**Motion Evaluate** publishes a fitness and candidate ID after complete cycles. Set a common period for all motions, settling cycles and measured cycles. The startup ramp must finish during settling. Connect its completed fitness and ID to Search. The default objective, `input_power`, is negative fluid work on the body; minimizing it minimizes mean mechanical input power under the prescribed motion. Force and torque objectives are signed domain-axis components. No rigid-body response, thrust target or design constraint is inferred.
+
+Example 20 demonstrates this wiring. Its short candidate count and settling interval demonstrate the workflow; they do not establish an optimum. Instantaneous loads can contain startup and cell-transition transients. Compare cycle averages, grid sizes, time steps and longer settling periods.
+
+CPU and MPS work through the same tensor implementation. On the tested small imported-mesh case, CPU was substantially faster than MPS because of many small geometry and boundary tensor operations. `auto` selects an available accelerator, not the fastest measured backend. Select `cpu` when responsiveness matters for a small grid. CUDA moving-body hardware tests remain outstanding.

@@ -74,6 +74,10 @@ class Job:
                 self.checkpoint(0)
                 if self.request.get('kind') == 'create':
                     value = {}
+                elif self.request.get('kind') == 'motion_evaluate':
+                    from .motion import evaluate_motion
+                    value=evaluate_motion(s,self.request,self.checkpoint)
+                    self.target=value['steps'];s.target=self.target;s.state='completed'
                 elif self.request.get('kind') == 'record':
                     from .recording import record
                     value = record(s, self.target, self.request.get('interval', 10), self.request['directory'], self.checkpoint)

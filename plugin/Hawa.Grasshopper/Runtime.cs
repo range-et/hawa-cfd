@@ -135,7 +135,7 @@ public abstract class HawaComponent : GH_Component
     {
         if (Params.Input.Any(p => !p.Optional && !p.VolatileData.AllData(true).Any(v => v != null))) { InputsMissing(); return; }
         try {
-            if(this is HawaQueryComponent || this is SolveComponent || this is GeometryComponent || this is EvaluateComponent || this is RecordComponent || this is RefinedSolveComponent || this is SearchComponent){
+            if(this is HawaQueryComponent || this is SolveComponent || this is GeometryComponent || this is EvaluateComponent || this is RecordComponent || this is RefinedSolveComponent || this is SearchComponent || this is MovingBodyComponent || this is MotionEvaluateComponent){
                 if(Params.Input.Any(p=>p.Access==GH_ParamAccess.item&&p.VolatileData.AllData(true).Count(v=>v!=null)>1)){
                     InputsMissing();throw new ArgumentException("Use one value per item input on a background component. Duplicate the component for separate cases.");
                 }
@@ -159,18 +159,20 @@ public abstract class HawaComponent : GH_Component
 
 public abstract class HawaQueryComponent : HawaComponent
 {
-    private string? job, signature;
+    private string? job, signature, pendingIdentity;
     private JsonObject? result;
     protected HawaQueryComponent(string name,string nick,string description,string group):base(name,nick,description,group){}
-    protected JsonObject? View(JsonObject request){
-        string key=request.ToJsonString();
-        if(signature!=key||job==null){InputsMissing();signature=key;var submitted=EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_submit",["kind"]="query",["request"]=request.DeepClone()});job=submitted["job"]!.GetValue<string>();}
+    protected JsonObject? View(JsonObject request,bool finishPending=false){
+        string key=request.ToJsonString();var identityRequest=request.DeepClone().AsObject();identityRequest.Remove("revision");string identity=identityRequest.ToJsonString();
+        // A live capture must finish before a newer revision replaces it.
+        // Changed sessions or settings still cancel immediately.
+        if((signature!=key&&!(finishPending&&result==null&&pendingIdentity==identity))||job==null){InputsMissing();signature=key;pendingIdentity=identity;var submitted=EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_submit",["kind"]="query",["request"]=request.DeepClone()});job=submitted["job"]!.GetValue<string>();}
         if(result!=null)return result;
         var status=EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_poll",["job"]=job});string state=status["state"]!.GetValue<string>();Message=state;
         if(state=="failed")throw new InvalidOperationException(status["error"]!.GetValue<string>());
-        if(state=="completed"){result=status["result"]!.AsObject();return result;}
+        if(state=="completed"){result=status["result"]!.AsObject();if(key!=signature){string completed=job!;OnPingDocument()?.ScheduleSolution(100,_=>{if(!Locked&&job==completed)ExpireSolution(false);});}return result;}
         string expected=job;OnPingDocument()?.ScheduleSolution(100,_=>{if(!Locked&&job==expected)ExpireSolution(false);});return null;
     }
-    protected override void InputsMissing(){if(job!=null){try{EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_control",["job"]=job,["action"]="close"});}catch{}}job=signature=null;result=null;}
+    protected override void InputsMissing(){if(job!=null){try{EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_control",["job"]=job,["action"]="close"});}catch{}}job=signature=pendingIdentity=null;result=null;}
     public override void RemovedFromDocument(GH_Document document){InputsMissing();base.RemovedFromDocument(document);}
 }

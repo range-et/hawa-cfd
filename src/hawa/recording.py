@@ -12,14 +12,19 @@ def record(session, steps, interval, directory, checkpoint):
     root=Path(directory).resolve()
     # A new directory prevents accidental overwrite of a previous run.
     root.mkdir(parents=True,exist_ok=False)
-    frames=[]
+    frames=[];saved_bytes=0
     def save():
+        nonlocal saved_bytes
         checkpoint(session.flow.i)
         meta={'iteration':session.flow.i,'time':session.flow.units.convert_time_to_pu(session.flow.i),'case':case,'mean':False,'samples':0}
+        if hasattr(session.solver,"moving"):meta["motion"]=session.solver.moving.metadata()
         name='frame-{:06d}.npz'.format(len(frames))
         fields=session.fields()
-        if (len(frames)+1)*sum(v.nbytes for v in fields.values())>2*1024**3:raise ValueError('Recording exceeds 2 GiB uncompressed budget')
-        with (root/name).open('wb') as f:np.savez_compressed(f,**fields,metadata=np.array(json.dumps(meta)))
+        metadata=np.array(json.dumps(meta))
+        size=sum(v.nbytes for v in fields.values())+metadata.nbytes
+        if saved_bytes+size>2*1024**3:raise ValueError('Recording exceeds 2 GiB uncompressed budget')
+        with (root/name).open('wb') as f:np.savez_compressed(f,**fields,metadata=metadata)
+        saved_bytes+=size
         frames.append({'file':name,'time':meta['time'],'iteration':meta['iteration']})
         manifest={'case':case,'frames':frames,'complete':session.flow.i==steps}
         temporary=root/'manifest.tmp';temporary.write_text(json.dumps(manifest,indent=2));temporary.replace(root/'manifest.json')
@@ -38,7 +43,7 @@ MAX_PATH_POINTS = 100000
 
 def read_manifest(manifest):
     path=Path(manifest).resolve()
-    if path.stat().st_size>2_000_000:raise ValueError('Recording manifest exceeds 2 MB')
+    if path.stat().st_size>16*1024**2:raise ValueError('Recording manifest exceeds 16 MiB')
     data=json.loads(path.read_text())
     if not isinstance(data,dict) or not isinstance(data.get('case'),dict):
         raise ValueError('Recording requires case metadata')

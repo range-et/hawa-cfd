@@ -1,0 +1,367 @@
+{
+  "date": "2026-11-08",
+  "status": "implemented, experimental; local development build",
+  "hawa_tests": {
+    "passed": 140,
+    "skipped": 29,
+    "warnings": 4
+  },
+  "engine_parity": {
+    "passed": true,
+    "devices": [
+      "cpu-fp32",
+      "cpu-fp64",
+      "mps"
+    ],
+    "log": "cpu: all fields/checkpoints passed\ncpu64: all fields/checkpoints passed\nmps: all fields/checkpoints passed\nReport: /Users/r2d2/Desktop/hawa-cfd/results/parity/report.json\n"
+  },
+  "native_motion": {
+    "state": "completed",
+    "results": [
+      {
+        "file": "17-oscillating-cylinder.gh",
+        "passed": true,
+        "steps": 80,
+        "seconds": 29.654404,
+        "field_faces": 814,
+        "body_closed": true,
+        "force": "{5.116597,19.979113,0.08803}"
+      },
+      {
+        "file": "18-pitching-airfoil.gh",
+        "passed": true,
+        "steps": 80,
+        "seconds": 28.190651,
+        "field_faces": 767,
+        "body_closed": true,
+        "force": "{7.41903,0.000112,20.474323}"
+      },
+      {
+        "file": "19-rotating-paddle.gh",
+        "passed": true,
+        "steps": 80,
+        "seconds": 83.398638,
+        "field_faces": 808,
+        "body_closed": true,
+        "force": "{1.836111,-1.517637,0.372782}"
+      }
+    ]
+  },
+  "native_controls": {
+    "submit_ms": 65,
+    "state": "completed",
+    "pause_ms": 38,
+    "paused": true,
+    "resume_ms": 34,
+    "cancel_ms": 18,
+    "restart_ms": 60,
+    "history": [
+      "1: 1.91803986; genes 0.01; candidate 42007e45-6d70-4d56-b0e0-d81c9d3b2897",
+      "2: 2.31886493; genes 0.011; candidate e712d185-2e54-444f-8a71-627c786201a5"
+    ],
+    "close_ms": 53,
+    "close_cleared": true
+  },
+  "native_cleanup": {
+    "jobs": 0,
+    "sessions": 0,
+    "workers": []
+  },
+  "native_stationary_regression": {
+    "state": "completed",
+    "results": [
+      {
+        "file": "01-tgv3d-bgk.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "02-tgv2d-bgk.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "03-tgv2d-trt.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "04-tgv2d-smagorinsky.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "05-tgv3d-smagorinsky.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "06-cavity2d-bgk.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "07-poiseuille2d-guo.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "08-wind-around-block.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 476
+      },
+      {
+        "file": "11-block-3d-visualization.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 659
+      },
+      {
+        "file": "12-local-airfoil-rc-wing.gh",
+        "passed": true,
+        "wing_closed": true,
+        "local_polar": true
+      },
+      {
+        "file": "14-curved-sphere-pressure.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 725
+      }
+    ]
+  },
+  "rotating_sphere": [
+    {
+      "dx": 0.5,
+      "steps": 693,
+      "torque": -0.5710447766314978,
+      "analytic_unbounded": -0.5026548245743669,
+      "relative_error": 0.1360574865963764,
+      "seconds": 6.3365937500000005
+    },
+    {
+      "dx": 0.3333333333333333,
+      "steps": 1040,
+      "torque": -0.5356792124751883,
+      "analytic_unbounded": -0.5026548245743669,
+      "relative_error": 0.06569993221249892,
+      "seconds": 14.515370749999999
+    },
+    {
+      "dx": 0.25,
+      "steps": 1386,
+      "torque": -0.5176966999381007,
+      "analytic_unbounded": -0.5026548245743669,
+      "relative_error": 0.02992486021888041,
+      "seconds": 63.978074666000005
+    }
+  ],
+  "comoving_equilibrium": [
+    {
+      "device": "cpu",
+      "steps": 100,
+      "max_fluid_population_error": 5.364418029785156e-07,
+      "max_force_newtons": 0.0002043611207743333,
+      "transition_mass_lu": -11.0
+    },
+    {
+      "device": "mps",
+      "steps": 100,
+      "max_fluid_population_error": 8.940696716308594e-07,
+      "max_force_newtons": 0.00032160983699992314,
+      "transition_mass_lu": -11.000244140625
+    }
+  ],
+  "indicative_timing": [
+    {
+      "device": "cpu",
+      "steps": 20,
+      "seconds": 0.45820775,
+      "cells": 26691
+    },
+    {
+      "device": "mps",
+      "steps": 20,
+      "seconds": 5.644941083,
+      "cells": 26691
+    }
+  ],
+  "media": {
+    "path": "dist/videos-v04/hawa-moving-surfaces.mp4",
+    "steps": 1000,
+    "fields": 101,
+    "device": "mps",
+    "decode_errors": 0,
+    "inspected_frames": [
+      0,
+      50,
+      100
+    ],
+    "audio": false
+  },
+  "components": 46,
+  "supported_definitions": 19,
+  "annotations": [
+    {
+      "file": "01-tgv3d-bgk.gh",
+      "wires": 13,
+      "functional_objects": 14,
+      "columns": 5,
+      "connections_preserved": true
+    },
+    {
+      "file": "02-tgv2d-bgk.gh",
+      "wires": 13,
+      "functional_objects": 14,
+      "columns": 5,
+      "connections_preserved": true
+    },
+    {
+      "file": "03-tgv2d-trt.gh",
+      "wires": 13,
+      "functional_objects": 14,
+      "columns": 5,
+      "connections_preserved": true
+    },
+    {
+      "file": "04-tgv2d-smagorinsky.gh",
+      "wires": 13,
+      "functional_objects": 14,
+      "columns": 5,
+      "connections_preserved": true
+    },
+    {
+      "file": "05-tgv3d-smagorinsky.gh",
+      "wires": 13,
+      "functional_objects": 14,
+      "columns": 5,
+      "connections_preserved": true
+    },
+    {
+      "file": "06-cavity2d-bgk.gh",
+      "wires": 13,
+      "functional_objects": 14,
+      "columns": 5,
+      "connections_preserved": true
+    },
+    {
+      "file": "07-poiseuille2d-guo.gh",
+      "wires": 13,
+      "functional_objects": 14,
+      "columns": 5,
+      "connections_preserved": true
+    },
+    {
+      "file": "08-wind-around-block.gh",
+      "wires": 21,
+      "functional_objects": 21,
+      "columns": 7,
+      "connections_preserved": true
+    },
+    {
+      "file": "10-responsive-hull-search.gh",
+      "wires": 41,
+      "functional_objects": 34,
+      "columns": 7,
+      "connections_preserved": true
+    },
+    {
+      "file": "11-block-3d-visualization.gh",
+      "wires": 27,
+      "functional_objects": 26,
+      "columns": 7,
+      "connections_preserved": true
+    },
+    {
+      "file": "12-local-airfoil-rc-wing.gh",
+      "wires": 17,
+      "functional_objects": 15,
+      "columns": 3,
+      "connections_preserved": true
+    },
+    {
+      "file": "13-record-and-playback.gh",
+      "wires": 8,
+      "functional_objects": 9,
+      "columns": 4,
+      "connections_preserved": true
+    },
+    {
+      "file": "14-curved-sphere-pressure.gh",
+      "wires": 32,
+      "functional_objects": 30,
+      "columns": 7,
+      "connections_preserved": true
+    },
+    {
+      "file": "15-fixed-refinement.gh",
+      "wires": 26,
+      "functional_objects": 21,
+      "columns": 7,
+      "connections_preserved": true
+    },
+    {
+      "file": "16-cylinder-wake-recording.gh",
+      "wires": 21,
+      "functional_objects": 20,
+      "columns": 7,
+      "connections_preserved": true
+    },
+    {
+      "file": "17-oscillating-cylinder.gh",
+      "wires": 30,
+      "functional_objects": 28,
+      "columns": 9,
+      "connections_preserved": true
+    },
+    {
+      "file": "18-pitching-airfoil.gh",
+      "wires": 33,
+      "functional_objects": 31,
+      "columns": 9,
+      "connections_preserved": true
+    },
+    {
+      "file": "19-rotating-paddle.gh",
+      "wires": 30,
+      "functional_objects": 28,
+      "columns": 9,
+      "connections_preserved": true
+    },
+    {
+      "file": "20-motion-cycle-search.gh",
+      "wires": 36,
+      "functional_objects": 30,
+      "columns": 9,
+      "connections_preserved": true
+    }
+  ],
+  "layout_review": {
+    "rendered": 19,
+    "visually_inspected": 19,
+    "legacy_09_preserved": true
+  },
+  "limitations": [
+    "CUDA hardware and Windows installation unverified",
+    "Uniform BGK, prescribed rigid motion only",
+    "Transient loads contain startup and cell-transition noise",
+    "Voxel transitions do not conserve exact displaced fluid volume",
+    "Small moving cases can be substantially slower on MPS than CPU",
+    "PorousMedium CPU/MPS example parity remains unresolved",
+    "Earlier upstream suite results were not rerun; vendored source unchanged"
+  ],
+  "package_checks": {
+    "zip_integrity": true,
+    "definitions": 19,
+    "assembly_matches_installed": true,
+    "python_matches_installed": true
+  }
+}

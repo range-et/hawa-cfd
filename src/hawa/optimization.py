@@ -36,6 +36,7 @@ class MeasuredBounceBack(lt.BounceBackBoundary):
 
 def evaluate(session, steps, window, reference_volume, checkpoint=None):
     """Start from an unadvanced session and return one final averaged objective."""
+    if hasattr(session.solver,"moving"):raise ValueError("Use cycle-based motion evaluation for moving bodies")
     if type(steps) is not int or not 2 <= steps <= 10000:
         raise ValueError("Evaluation steps must be an integer from 2 to 10000")
     if type(window) is not int or not 1 <= window < steps:

@@ -78,7 +78,8 @@ public sealed class SearchComponent : HawaComponent
                 pending=null;
                 // Distinct genes can share the same voxel mask. Force a fresh candidate ID.
                 foreach(var source in Params.Input[1].Sources)
-                    if(source.Attributes.GetTopLevel.DocObject is EvaluateComponent evaluation)evaluation.RequestCandidate();
+                    {if(source.Attributes.GetTopLevel.DocObject is EvaluateComponent evaluation)evaluation.RequestCandidate();
+                    if(source.Attributes.GetTopLevel.DocObject is MotionEvaluateComponent moving)moving.RequestCandidate();}
                 ExpireSolution(false);
             }
         });

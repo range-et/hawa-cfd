@@ -90,6 +90,7 @@ def run_refined(request,checkpoint):
     if type(steps) is not int or not 1<=steps<=10000:raise ValueError('Refined steps must be 1..10000')
     if coarse_spec.get('collision')!='bgk' or fine_spec.get('collision')!='bgk':raise ValueError('Select BGK in both refinement cases')
     if coarse_spec.get('wall_links') or fine_spec.get('wall_links'):raise ValueError('Refinement currently uses voxel walls; disable curved walls')
+    if coarse_spec.get('moving_bodies') or fine_spec.get('moving_bodies'):raise ValueError('Moving bodies cannot be combined with refinement')
     coarse_check=check_case(coarse_spec);fine_check=check_case(fine_spec)
     if coarse_check['estimated_peak_mb']+fine_check['estimated_peak_mb']>coarse_spec.get('memory_limit_mb',1024):raise ValueError('Combined coarse/fine memory exceeds budget')
     lower=fine_spec['refinement_lower'];upper=fine_spec['refinement_upper']

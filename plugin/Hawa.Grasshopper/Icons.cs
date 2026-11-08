@@ -18,7 +18,11 @@ internal static class HawaIcons
         using var light = new Pen(Color.FromArgb(205, 242, 239), 1.4f);
         using var fill = new SolidBrush(Color.FromArgb(22, 49, 66));
         g.FillEllipse(fill, 1, 1, 22, 22);
-        if(name.Contains("Refinement")) {
+        if(name.Contains("Rotation") || name.Contains("Oscillation") || name.Contains("Translation")) {
+            g.DrawArc(p,4,4,16,16,30,290);g.DrawLines(light,new[]{new Point(17,3),new Point(21,7),new Point(16,8)});
+        } else if(name.Contains("Body") || name.Contains("Motion")) {
+            g.DrawRectangle(p,5,8,10,10);g.DrawLine(light,11,5,21,5);g.DrawLines(light,new[]{new Point(17,2),new Point(21,5),new Point(17,8)});
+        } else if(name.Contains("Refinement")) {
             g.DrawRectangle(p,3,4,18,16);g.DrawRectangle(light,9,9,9,8);g.DrawLine(light,13,9,13,17);g.DrawLine(light,9,13,18,13);
         } else if (name.Contains("Domain") || name.Contains("Tunnel")) {
             g.DrawRectangle(p, 5, 6, 14, 13); g.DrawLine(light, 5, 6, 9, 3); g.DrawLine(light, 19, 6, 22, 3); g.DrawLine(light, 9, 3, 22, 3); g.DrawLine(p, 10, 7, 10, 18); g.DrawLine(p, 15, 7, 15, 18); g.DrawLine(p, 6, 12, 18, 12);
