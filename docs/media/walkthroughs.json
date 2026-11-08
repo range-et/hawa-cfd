@@ -26,7 +26,7 @@
       },
       {
         "seconds": 42,
-        "title": "Check device support"
+        "title": "Select the device"
       },
       {
         "seconds": 50,
@@ -59,8 +59,8 @@
         "text": "The slice shows the computed velocity magnitude. Blue marks low values. Red marks high values."
       },
       {
-        "title": "Check device support",
-        "text": "CPU and MPS checks passed. CUDA hardware checks remain open."
+        "title": "Select the device",
+        "text": "Choose a backend in the Grasshopper definition."
       },
       {
         "title": "Hawa",

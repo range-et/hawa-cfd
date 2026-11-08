@@ -30,7 +30,7 @@ VIDEOS = [
             ('Select the backend', 'Auto checks the available devices. This Mac selected MPS.', '02-vortex-ready.jpg', (1080,715,1980,1660), 9),
             ('Run the solver', 'The vortex completed 200 iterations inside Rhino.', '03-vortex-mps-completed.jpg', (1190,750,1980,1660), 9),
             ('View the speed field', 'The slice shows the computed velocity magnitude. Blue marks low values. Red marks high values.', '04-vortex-rhino-preview.jpg', (260,400,1550,1450), 10),
-            ('Check device support', 'CPU and MPS checks passed. CUDA hardware checks remain open.', None, None, 8),
+            ('Select the device', 'Choose a backend in the Grasshopper definition.', None, None, 8),
             ('Hawa', 'Download the plugin. Open an example. Change the inputs.', None, None, 7),
          ]),
     dict(slug='hawa-block-workflow', title='Hawa: 3D block flow in Grasshopper with MPS',

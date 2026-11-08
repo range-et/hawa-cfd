@@ -15,7 +15,6 @@ Download: https://github.com/range-et/hawa-cfd/releases/tag/v0.2.0
 00:32 View the speed field
 
 Runtime: Python 3.9, PyTorch 2.8.0, NumPy 2.0.2.
-CPU and MPS checks passed. NVIDIA hardware and Windows installation checks remain open.
 
 Lettuce supplies the numerical engine under the MIT license. Monad System supplies the visual tokens under the MIT license.
 Butterfly informs the workflow. Hawa contains no Butterfly code or assets.
