@@ -1,0 +1,115 @@
+{
+  "passed": true,
+  "galapagos_genes": 3,
+  "closed_fixed_volume_variants": 3,
+  "mesh_volume": 6,
+  "fitness": 3.8955860539475653,
+  "backend": "mps",
+  "iterations": 200,
+  "field_faces": 1800,
+  "enabled_reopen_idle": true,
+  "disabled_outputs_empty": true,
+  "python_tests": {
+    "passed": 83,
+    "skipped": 29
+  },
+  "previous_definitions": {
+    "passed": true,
+    "definitions": [
+      {
+        "file": "01-tgv3d-bgk.gh",
+        "passed": true,
+        "steps": 25,
+        "vertices": 256,
+        "faces": 225,
+        "backend": "mps"
+      },
+      {
+        "file": "02-tgv2d-bgk.gh",
+        "passed": true,
+        "steps": 25,
+        "vertices": 256,
+        "faces": 225,
+        "backend": "mps"
+      },
+      {
+        "file": "03-tgv2d-trt.gh",
+        "passed": true,
+        "steps": 25,
+        "vertices": 256,
+        "faces": 225,
+        "backend": "mps"
+      },
+      {
+        "file": "04-tgv2d-smagorinsky.gh",
+        "passed": true,
+        "steps": 25,
+        "vertices": 256,
+        "faces": 225,
+        "backend": "mps"
+      },
+      {
+        "file": "05-tgv3d-smagorinsky.gh",
+        "passed": true,
+        "steps": 25,
+        "vertices": 256,
+        "faces": 225,
+        "backend": "mps"
+      },
+      {
+        "file": "06-cavity2d-bgk.gh",
+        "passed": true,
+        "steps": 25,
+        "vertices": 256,
+        "faces": 225,
+        "backend": "mps"
+      },
+      {
+        "file": "07-poiseuille2d-guo.gh",
+        "passed": true,
+        "steps": 25,
+        "vertices": 256,
+        "faces": 225,
+        "backend": "mps"
+      },
+      {
+        "file": "08-wind-around-block.gh",
+        "passed": true,
+        "steps": 25,
+        "vertices": 561,
+        "faces": 476,
+        "backend": "mps"
+      }
+    ]
+  },
+  "headless_hull_parity": {
+    "passed": true,
+    "rtol": 0.0003,
+    "results": [
+      {
+        "fitness": 3.8956422012437155,
+        "force_newtons": [
+          6431.5635681152335,
+          -18.45932006835937,
+          -305.17959594726557
+        ],
+        "steps": 200,
+        "window": 20,
+        "voxel_volume": 4.864000000000001,
+        "device": "cpu"
+      },
+      {
+        "fitness": 3.8955860539475653,
+        "force_newtons": [
+          6431.470870971679,
+          -18.46046447753906,
+          -305.0857543945312
+        ],
+        "steps": 200,
+        "window": 20,
+        "voxel_volume": 4.864000000000001,
+        "device": "mps"
+      }
+    ]
+  }
+}

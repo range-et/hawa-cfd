@@ -1,0 +1,227 @@
+{
+  "description": "Embedded Rhino MPS, one Galapagos population, fixed-duration submerged hull demonstration",
+  "baseline": {
+    "time": "2026-11-08T03:48:11.658037+00:00",
+    "sliders": {
+      "Bow fullness": 0.8,
+      "Stern fullness": 0.8,
+      "Beam / draft": 2,
+      "Fixed length (m)": 8,
+      "Fixed volume (m\u00b3)": 6,
+      "Cell size (m)": 0.4,
+      "Flow speed (m/s)": 1,
+      "Viscosity (m\u00b2/s)": 0.1,
+      "Iterations per candidate": 200,
+      "Final averaging window": 20
+    },
+    "fitness": 3.964145,
+    "report": "Backend: mps\nIterations: 200; final window: 20\nFitness (minimize): 3.9641446752526734\nMean force (N): [\n  6544.658660888671,\n  -8.711242675781246,\n  -257.13500976562494\n]\nForce std (N): [\n  180.45741587410123,\n  82.8663535257643,\n  289.206280479112\n]\nVoxel volume (m\u00b3): 5.056000000000001\nFixed-duration submerged-body demo. No free surface."
+  },
+  "best": {
+    "time": "2026-11-08T03:48:48.85942+00:00",
+    "sliders": {
+      "Bow fullness": 0.896,
+      "Stern fullness": 1.461,
+      "Beam / draft": 2.586,
+      "Fixed length (m)": 8,
+      "Fixed volume (m\u00b3)": 6,
+      "Cell size (m)": 0.4,
+      "Flow speed (m/s)": 1,
+      "Viscosity (m\u00b2/s)": 0.1,
+      "Iterations per candidate": 200,
+      "Final averaging window": 20
+    },
+    "fitness": 3.895586,
+    "report": "Backend: mps\nIterations: 200; final window: 20\nFitness (minimize): 3.8955860539475653\nMean force (N): [\n  6431.470870971679,\n  -18.46046447753906,\n  -305.0857543945312\n]\nForce std (N): [\n  244.8888466815557,\n  11.321663728752966,\n  190.22318579594784\n]\nVoxel volume (m\u00b3): 4.864000000000001\nFixed-duration submerged-body demo. No free surface."
+  },
+  "candidates": [
+    {
+      "time": "2026-11-08T03:48:11.658037+00:00",
+      "sliders": {
+        "Bow fullness": 0.8,
+        "Stern fullness": 0.8,
+        "Beam / draft": 2,
+        "Fixed length (m)": 8,
+        "Fixed volume (m\u00b3)": 6,
+        "Cell size (m)": 0.4,
+        "Flow speed (m/s)": 1,
+        "Viscosity (m\u00b2/s)": 0.1,
+        "Iterations per candidate": 200,
+        "Final averaging window": 20
+      },
+      "fitness": 3.964145,
+      "report": "Backend: mps\nIterations: 200; final window: 20\nFitness (minimize): 3.9641446752526734\nMean force (N): [\n  6544.658660888671,\n  -8.711242675781246,\n  -257.13500976562494\n]\nForce std (N): [\n  180.45741587410123,\n  82.8663535257643,\n  289.206280479112\n]\nVoxel volume (m\u00b3): 5.056000000000001\nFixed-duration submerged-body demo. No free surface."
+    },
+    {
+      "time": "2026-11-08T03:48:19.664131+00:00",
+      "sliders": {
+        "Bow fullness": 0.8,
+        "Stern fullness": 0.8,
+        "Beam / draft": 2,
+        "Fixed length (m)": 8,
+        "Fixed volume (m\u00b3)": 6,
+        "Cell size (m)": 0.4,
+        "Flow speed (m/s)": 1,
+        "Viscosity (m\u00b2/s)": 0.1,
+        "Iterations per candidate": 200,
+        "Final averaging window": 20
+      },
+      "fitness": 3.964145,
+      "report": "Backend: mps\nIterations: 200; final window: 20\nFitness (minimize): 3.9641446752526734\nMean force (N): [\n  6544.658660888671,\n  -8.711242675781246,\n  -257.13500976562494\n]\nForce std (N): [\n  180.45741587410123,\n  82.8663535257643,\n  289.206280479112\n]\nVoxel volume (m\u00b3): 5.056000000000001\nFixed-duration submerged-body demo. No free surface."
+    },
+    {
+      "time": "2026-11-08T03:48:26.964042+00:00",
+      "sliders": {
+        "Bow fullness": 0.499,
+        "Stern fullness": 0.958,
+        "Beam / draft": 2.414,
+        "Fixed length (m)": 8,
+        "Fixed volume (m\u00b3)": 6,
+        "Cell size (m)": 0.4,
+        "Flow speed (m/s)": 1,
+        "Viscosity (m\u00b2/s)": 0.1,
+        "Iterations per candidate": 200,
+        "Final averaging window": 20
+      },
+      "fitness": 4.15735,
+      "report": "Backend: mps\nIterations: 200; final window: 20\nFitness (minimize): 4.157350294010737\nMean force (N): [\n  6863.6341094970685,\n  -71.12388610839842,\n  -281.71691894531244\n]\nForce std (N): [\n  190.2561660618313,\n  60.53280649031811,\n  233.14262682483732\n]\nVoxel volume (m\u00b3): 5.056000000000001\nFixed-duration submerged-body demo. No free surface."
+    },
+    {
+      "time": "2026-11-08T03:48:34.281619+00:00",
+      "sliders": {
+        "Bow fullness": 0.773,
+        "Stern fullness": 0.979,
+        "Beam / draft": 2.656,
+        "Fixed length (m)": 8,
+        "Fixed volume (m\u00b3)": 6,
+        "Cell size (m)": 0.4,
+        "Flow speed (m/s)": 1,
+        "Viscosity (m\u00b2/s)": 0.1,
+        "Iterations per candidate": 200,
+        "Final averaging window": 20
+      },
+      "fitness": 4.082874,
+      "report": "Backend: mps\nIterations: 200; final window: 20\nFitness (minimize): 4.082874024962019\nMean force (N): [\n  6740.676498413084,\n  -49.40299987792968,\n  -296.17080688476557\n]\nForce std (N): [\n  211.87095450121092,\n  40.63177207600452,\n  262.23530289607015\n]\nVoxel volume (m\u00b3): 4.928000000000001\nFixed-duration submerged-body demo. No free surface."
+    },
+    {
+      "time": "2026-11-08T03:48:41.612801+00:00",
+      "sliders": {
+        "Bow fullness": 1.357,
+        "Stern fullness": 0.823,
+        "Beam / draft": 2.005,
+        "Fixed length (m)": 8,
+        "Fixed volume (m\u00b3)": 6,
+        "Cell size (m)": 0.4,
+        "Flow speed (m/s)": 1,
+        "Viscosity (m\u00b2/s)": 0.1,
+        "Iterations per candidate": 200,
+        "Final averaging window": 20
+      },
+      "fitness": 3.924483,
+      "report": "Backend: mps\nIterations: 200; final window: 20\nFitness (minimize): 3.924482502522926\nMean force (N): [\n  6479.177856445312,\n  -9.93576049804687,\n  -242.33779907226557\n]\nForce std (N): [\n  221.70055606793414,\n  31.38024552953627,\n  268.8091956154444\n]\nVoxel volume (m\u00b3): 4.928000000000001\nFixed-duration submerged-body demo. No free surface."
+    },
+    {
+      "time": "2026-11-08T03:48:48.85942+00:00",
+      "sliders": {
+        "Bow fullness": 0.896,
+        "Stern fullness": 1.461,
+        "Beam / draft": 2.586,
+        "Fixed length (m)": 8,
+        "Fixed volume (m\u00b3)": 6,
+        "Cell size (m)": 0.4,
+        "Flow speed (m/s)": 1,
+        "Viscosity (m\u00b2/s)": 0.1,
+        "Iterations per candidate": 200,
+        "Final averaging window": 20
+      },
+      "fitness": 3.895586,
+      "report": "Backend: mps\nIterations: 200; final window: 20\nFitness (minimize): 3.8955860539475653\nMean force (N): [\n  6431.470870971679,\n  -18.46046447753906,\n  -305.0857543945312\n]\nForce std (N): [\n  244.8888466815557,\n  11.321663728752966,\n  190.22318579594784\n]\nVoxel volume (m\u00b3): 4.864000000000001\nFixed-duration submerged-body demo. No free surface."
+    },
+    {
+      "time": "2026-11-08T03:48:56.085048+00:00",
+      "sliders": {
+        "Bow fullness": 1.355,
+        "Stern fullness": 1.363,
+        "Beam / draft": 2.526,
+        "Fixed length (m)": 8,
+        "Fixed volume (m\u00b3)": 6,
+        "Cell size (m)": 0.4,
+        "Flow speed (m/s)": 1,
+        "Viscosity (m\u00b2/s)": 0.1,
+        "Iterations per candidate": 200,
+        "Final averaging window": 20
+      },
+      "fitness": 4.044717,
+      "report": "Backend: mps\nIterations: 200; final window: 20\nFitness (minimize): 4.044717431580885\nMean force (N): [\n  6677.681350708006,\n  -19.572830200195305,\n  -364.09378051757807\n]\nForce std (N): [\n  304.871129669134,\n  46.702063673246805,\n  274.7938919113745\n]\nVoxel volume (m\u00b3): 4.992000000000001\nFixed-duration submerged-body demo. No free surface."
+    },
+    {
+      "time": "2026-11-08T03:49:03.437442+00:00",
+      "sliders": {
+        "Bow fullness": 1.176,
+        "Stern fullness": 0.746,
+        "Beam / draft": 2.945,
+        "Fixed length (m)": 8,
+        "Fixed volume (m\u00b3)": 6,
+        "Cell size (m)": 0.4,
+        "Flow speed (m/s)": 1,
+        "Viscosity (m\u00b2/s)": 0.1,
+        "Iterations per candidate": 200,
+        "Final averaging window": 20
+      },
+      "fitness": 4.02044,
+      "report": "Backend: mps\nIterations: 200; final window: 20\nFitness (minimize): 4.020440311172728\nMean force (N): [\n  6637.600708007811,\n  -18.90335083007812,\n  -290.06652832031244\n]\nForce std (N): [\n  226.84152923543988,\n  19.871372704786324,\n  322.81214379079074\n]\nVoxel volume (m\u00b3): 4.7360000000000015\nFixed-duration submerged-body demo. No free surface."
+    },
+    {
+      "time": "2026-11-08T03:49:10.985556+00:00",
+      "sliders": {
+        "Bow fullness": 1.347,
+        "Stern fullness": 1.423,
+        "Beam / draft": 2.514,
+        "Fixed length (m)": 8,
+        "Fixed volume (m\u00b3)": 6,
+        "Cell size (m)": 0.4,
+        "Flow speed (m/s)": 1,
+        "Viscosity (m\u00b2/s)": 0.1,
+        "Iterations per candidate": 200,
+        "Final averaging window": 20
+      },
+      "fitness": 3.977146,
+      "report": "Backend: mps\nIterations: 200; final window: 20\nFitness (minimize): 3.977145893605624\nMean force (N): [\n  6566.123199462889,\n  -52.90145874023436,\n  -368.5386657714843\n]\nForce std (N): [\n  321.3176455862046,\n  46.75726807562375,\n  244.30494784107668\n]\nVoxel volume (m\u00b3): 4.928000000000001\nFixed-duration submerged-body demo. No free surface."
+    },
+    {
+      "time": "2026-11-08T03:49:18.211746+00:00",
+      "sliders": {
+        "Bow fullness": 0.899,
+        "Stern fullness": 1.14,
+        "Beam / draft": 2.074,
+        "Fixed length (m)": 8,
+        "Fixed volume (m\u00b3)": 6,
+        "Cell size (m)": 0.4,
+        "Flow speed (m/s)": 1,
+        "Viscosity (m\u00b2/s)": 0.1,
+        "Iterations per candidate": 200,
+        "Final averaging window": 20
+      },
+      "fitness": 3.971277,
+      "report": "Backend: mps\nIterations: 200; final window: 20\nFitness (minimize): 3.9712774613932074\nMean force (N): [\n  6556.434631347654,\n  -23.968505859374993,\n  -301.51062011718744\n]\nForce std (N): [\n  220.37975093003953,\n  27.82576979926811,\n  233.23993296532632\n]\nVoxel volume (m\u00b3): 4.992000000000001\nFixed-duration submerged-body demo. No free surface."
+    }
+  ],
+  "reinstated": {
+    "time": "2026-11-08T03:50:31.422663+00:00",
+    "sliders": {
+      "Bow fullness": 0.896,
+      "Stern fullness": 1.461,
+      "Beam / draft": 2.586,
+      "Fixed length (m)": 8,
+      "Fixed volume (m\u00b3)": 6,
+      "Cell size (m)": 0.4,
+      "Flow speed (m/s)": 1,
+      "Viscosity (m\u00b2/s)": 0.1,
+      "Iterations per candidate": 200,
+      "Final averaging window": 20
+    },
+    "fitness": 3.895586,
+    "report": "Backend: mps\nIterations: 200; final window: 20\nFitness (minimize): 3.8955860539475653\nMean force (N): [\n  6431.470870971679,\n  -18.46046447753906,\n  -305.0857543945312\n]\nForce std (N): [\n  244.8888466815557,\n  11.321663728752966,\n  190.22318579594784\n]\nVoxel volume (m\u00b3): 4.864000000000001\nFixed-duration submerged-body demo. No free surface."
+  },
+  "limits": "No convergence or real-boat resistance claim. Coarse voxel volumes differ from fixed mesh volume."
+}

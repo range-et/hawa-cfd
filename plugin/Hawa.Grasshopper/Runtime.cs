@@ -107,6 +107,7 @@ public abstract class HawaComponent : GH_Component
     }
     protected override void SolveInstance(IGH_DataAccess da)
     {
+        if (Params.Input.Any(p => !p.Optional && !p.VolatileData.AllData(true).Any(v => v != null))) return;
         try { SolveHawa(da); }
         catch (Exception ex) { AddRuntimeMessage(GH_RuntimeMessageLevel.Error, ex.GetBaseException().Message); }
     }

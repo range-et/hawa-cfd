@@ -20,6 +20,10 @@ internal static class HawaIcons
         g.FillEllipse(fill, 1, 1, 22, 22);
         if (name.Contains("Domain") || name.Contains("Tunnel")) {
             g.DrawRectangle(p, 5, 6, 14, 13); g.DrawLine(light, 5, 6, 9, 3); g.DrawLine(light, 19, 6, 22, 3); g.DrawLine(light, 9, 3, 22, 3); g.DrawLine(p, 10, 7, 10, 18); g.DrawLine(p, 15, 7, 15, 18); g.DrawLine(p, 6, 12, 18, 12);
+        } else if (name.Contains("Hull")) {
+            g.DrawPolygon(p,new[]{new Point(3,10),new Point(20,10),new Point(17,17),new Point(8,17)});g.DrawLine(light,12,4,12,10);g.DrawLines(light,new[]{new Point(5,20),new Point(10,19),new Point(16,20),new Point(21,19)});
+        } else if (name.Contains("Evaluate")) {
+            g.DrawLines(p,new[]{new Point(4,5),new Point(4,20),new Point(21,20)});g.DrawLines(light,new[]{new Point(6,8),new Point(10,12),new Point(14,15),new Point(20,16)});
         } else if (name.Contains("Geometry")) {
             g.FillRectangle(Brushes.LightSeaGreen, 5, 11, 6, 8); g.FillRectangle(Brushes.PaleTurquoise, 12, 5, 6, 14);
         } else if (name.Contains("Physics")) {

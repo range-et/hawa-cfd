@@ -7,7 +7,7 @@ var assembly=AppDomain.CurrentDomain.GetAssemblies().First(a=>a.GetName().Name==
 var bridge=assembly.GetType("Hawa.Grasshopper.EmbeddedRuntime");
 JsonObject Call(JsonObject r)=>(JsonObject)bridge.GetMethod("Call").Invoke(null,new object[]{r});
 var results=new JsonArray();
-foreach(var file in System.IO.Directory.GetFiles("/Users/r2d2/Desktop/hawa-cfd/examples/grasshopper","*.gh").OrderBy(x=>x)) {
+foreach(var file in System.IO.Directory.GetFiles("/Users/r2d2/Desktop/hawa-cfd/examples/grasshopper","*.gh").Where(x=>!System.IO.Path.GetFileName(x).StartsWith("09-")).OrderBy(x=>x)) {
  var io=new GH_DocumentIO();if(!io.Open(file))throw new Exception("Cannot open "+file);var d=io.Document; string session=null;
  try {
  Console.WriteLine("Checking "+file); d.Enabled=true;

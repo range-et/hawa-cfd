@@ -27,3 +27,13 @@ Run `scripts/make_walkthroughs.py` on macOS. The script needs Pillow, ffmpeg, ff
 It reads the pinned palette from `vendor/monad_system/colors.json`. It writes the MP4 files to ignored `dist/videos-monad/`.
 
 `walkthroughs.json` records the captions, chapter times, durations, and Monad revision. The H.264 files use a 1920 × 1080 frame at 30 fps.
+
+## Parametric hull demo
+
+Build the new 131-second captioned walkthrough with:
+
+```sh
+.venv/bin/python scripts/make_walkthroughs.py --only hawa-hull-galapagos
+```
+
+The local video is `dist/videos-monad/hawa-hull-galapagos.mp4`. The renderer also creates its thumbnail and adds it to the local upload kit. See [the hull guide](../hull-optimization.md), [the recorded population](hull-search.json), and [the verification report](hull-verification.json).

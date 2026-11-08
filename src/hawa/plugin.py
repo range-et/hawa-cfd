@@ -286,6 +286,15 @@ def dispatch(request):
                 "mps": torch.backends.mps.is_available(), "cuda": torch.cuda.is_available()}
     if op == "check":
         return check_case(request["case"])
+    if op == "evaluate":
+        from .optimization import evaluate
+        session = Session(request["case"], request.get("device", "auto"))
+        result = evaluate(session, request.get("steps", 200), request.get("window", 20),
+                          float(request["reference_volume"]))
+        with REGISTRY_LOCK:
+            SESSIONS[session.id] = session
+        result["status"] = session.status()
+        return result
     if op == "create":
         session = Session(request["case"], request.get("device", "auto"))
         with REGISTRY_LOCK:

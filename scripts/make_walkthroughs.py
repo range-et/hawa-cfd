@@ -5,6 +5,7 @@ Requires macOS Helvetica Neue and Menlo, Pillow, ffmpeg, and ffprobe.
 """
 from pathlib import Path
 import json
+import argparse
 import subprocess
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
@@ -46,6 +47,31 @@ VIDEOS = [
          ]),
 ]
 
+VIDEOS.append(dict(slug='hawa-hull-galapagos', version='v0.3.0',
+    title='Hawa: parametric hull search with Galapagos and MPS', scenes=[
+        ('Hawa', 'Parametric hull search in Grasshopper.', None, None, 5),
+        ('Open the assembly', 'Open example 09. All geometry, controls, solver nodes, and Galapagos links are in the definition.', '12-hull-assembly.jpg', (160,480,2940,1600), 9),
+        ('Change the hull', 'Bow: 0.8. Stern: 0.8. Beam / draft: 2. The closed mesh volume stays at 6 m³.', 'hull-variant-1.jpg', (360,220,1540,780), 7),
+        ('Make the ends fuller', 'Bow: 0.4. Stern: 0.4. Beam / draft: 3.', 'hull-variant-2.jpg', (360,220,1540,780), 6),
+        ('Make the ends finer', 'Bow: 1.6. Stern: 1.6. Beam / draft: 1.', 'hull-variant-3.jpg', (360,220,1540,780), 6),
+        ('Keep the test fixed', 'Use the same tank, fluid, grid, and iteration count for every candidate. Enable evaluation.', '12-hull-assembly.jpg', (1100,480,2500,1480), 9),
+        ('Minimize the fitness', 'Galapagos controls the three shape sliders. Fitness comes from the completed CFD run.', '08-hull-galapagos-options.jpg', None, 9),
+        ('Run the search', 'This two-minute MPS search completed one population of ten genomes.', '09-hull-galapagos-search.jpg', None, 10),
+        ('Restore a candidate', 'Select a genome. Press Reinstate. Hawa runs the selected hull again.', '09-hull-galapagos-search.jpg', (880,630,1380,1150), 8),
+        ('Inspect the selected hull', 'Bow: 0.896. Stern: 1.461. Beam / draft: 2.586. Mesh volume: 6 m³.', 'hull-variant-4.jpg', (360,220,1540,780), 8),
+        ('View the completed run', 'MPS completed 200 iterations. The force average uses the final 20 iterations.', '13-hull-mps-completed.jpg', (900,400,2610,1660), 9),
+        ('Inspect the flow', 'The speed slice and streamlines show the completed field around the submerged hull.', '10-hull-best-flow.jpg', (260,260,1800,1020), 10),
+        ('Read the result', 'Starting fitness: 3.964145. Selected fitness: 3.895586. Reinstating the selected hull reproduced its score.', None, None, 9),
+        ('Check the limits', 'The coarse grid changes the voxel volume. This short search verifies the assembly. It does not establish a real-boat resistance improvement.', None, None, 10),
+        ('Single phase flow', 'The hull is fully submerged in a viscous demonstration fluid. The model excludes waves, buoyancy, and boat motion.', None, None, 9),
+        ('Hawa', 'Open example 09. Change the shape. Evaluate. Search with Galapagos.', None, None, 7),
+    ]))
+parser = argparse.ArgumentParser()
+parser.add_argument('--only', choices=[v['slug'] for v in VIDEOS])
+args = parser.parse_args()
+if args.only:
+    VIDEOS = [v for v in VIDEOS if v['slug'] == args.only]
+
 def font(size, medium=False, mono=False):
     return ImageFont.truetype(MENLO if mono else HELVETICA, size, index=0 if mono else 10 if medium else 0)
 
@@ -67,7 +93,7 @@ def draw_text(draw, text, xy, face, width, color, spacing=12):
         y += face.size + spacing
     return y
 
-def frame(scene):
+def frame(scene, version="v0.2.0"):
     title, caption, source, crop, _ = scene
     result = Image.new('RGB', (1920, 1080), BG)
     draw = ImageDraw.Draw(result)
@@ -88,17 +114,19 @@ def frame(scene):
         draw_text(draw, caption, (72, bottom + 56), font(48), 1500, SECONDARY, 16)
         draw.text((72, 972), 'range-et.github.io/hawa-cfd', font=font(25, mono=True), fill=SECONDARY)
     draw.text((64, 1040), 'Screenshot walkthrough', font=font(18), fill=DISABLED)
-    draw.text((1720, 1040), 'v0.2.0', font=font(18, mono=True), fill=DISABLED)
+    draw.text((1720, 1040), version, font=font(18, mono=True), fill=DISABLED)
     return result
 
-metadata = []
+metadata_path = OUT / "metadata.json"
+selected = {v["slug"] for v in VIDEOS}
+metadata = [m for m in json.loads(metadata_path.read_text()) if m["slug"] not in selected] if metadata_path.exists() else []
 for video in VIDEOS:
     folder = OUT / video['slug']
     folder.mkdir(exist_ok=True)
     concat, chapters, elapsed = [], [], 0
     for number, scene in enumerate(video['scenes'], 1):
         path = folder / f'{number:02}.png'
-        frame(scene).save(path)
+        frame(scene, video.get("version", "v0.2.0")).save(path)
         concat.extend([f"file '{path}'", f'duration {scene[4]}'])
         chapters.append({'seconds': elapsed, 'title': scene[0]})
         elapsed += scene[4]
@@ -136,7 +164,7 @@ for video in VIDEOS:
         thumbnail.resize((1280, 720), Image.Resampling.LANCZOS).save(
             OUT / (slug + '-thumbnail.jpg'), quality=95)
     scene = '04.png' if slug == 'hawa-first-look' else '05.png'
-    name = 'first-look-poster.jpg' if slug == 'hawa-first-look' else 'block-workflow-poster.jpg'
+    name = {'hawa-first-look':'first-look-poster.jpg','hawa-block-workflow':'block-workflow-poster.jpg','hawa-hull-galapagos':'hull-workflow-poster.jpg'}[slug]
     with Image.open(OUT / slug / scene) as poster:
         poster.resize((1280, 720), Image.Resampling.LANCZOS).save(
             ROOT / 'site/assets' / name, quality=92)

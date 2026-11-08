@@ -39,7 +39,7 @@ def main():
         shutil.copy2(ROOT / "docs/plugin.md", output / "README.md")
     if (ROOT / "examples/grasshopper").exists():
         shutil.copytree(ROOT / "examples/grasshopper", output / "examples", dirs_exist_ok=True)
-    archive = ROOT / "dist/Hawa-0.2.0-rh8.zip"
+    archive = ROOT / "dist/Hawa-0.3.0-rh8.zip"
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as bundle:
         for file in output.rglob("*"):
             if file.is_file():

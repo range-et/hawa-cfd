@@ -148,5 +148,146 @@
     ],
     "youtube_id": "PVBanKHGhC4",
     "youtube_url": "https://youtu.be/PVBanKHGhC4"
+  },
+  {
+    "slug": "hawa-hull-galapagos",
+    "title": "Hawa: parametric hull search with Galapagos and MPS",
+    "duration_seconds": 131.0,
+    "chapters": [
+      {
+        "seconds": 0,
+        "title": "Hawa"
+      },
+      {
+        "seconds": 5,
+        "title": "Open the assembly"
+      },
+      {
+        "seconds": 14,
+        "title": "Change the hull"
+      },
+      {
+        "seconds": 21,
+        "title": "Make the ends fuller"
+      },
+      {
+        "seconds": 27,
+        "title": "Make the ends finer"
+      },
+      {
+        "seconds": 33,
+        "title": "Keep the test fixed"
+      },
+      {
+        "seconds": 42,
+        "title": "Minimize the fitness"
+      },
+      {
+        "seconds": 51,
+        "title": "Run the search"
+      },
+      {
+        "seconds": 61,
+        "title": "Restore a candidate"
+      },
+      {
+        "seconds": 69,
+        "title": "Inspect the selected hull"
+      },
+      {
+        "seconds": 77,
+        "title": "View the completed run"
+      },
+      {
+        "seconds": 86,
+        "title": "Inspect the flow"
+      },
+      {
+        "seconds": 96,
+        "title": "Read the result"
+      },
+      {
+        "seconds": 105,
+        "title": "Check the limits"
+      },
+      {
+        "seconds": 115,
+        "title": "Single phase flow"
+      },
+      {
+        "seconds": 124,
+        "title": "Hawa"
+      }
+    ],
+    "file": "hawa-hull-galapagos.mp4",
+    "theme": "Monad System",
+    "theme_commit": "358d0559da407897957a5817b24f9ebd8774b791",
+    "format": "1920x1080 H.264, captioned screenshots, no audio",
+    "captions": [
+      {
+        "title": "Hawa",
+        "text": "Parametric hull search in Grasshopper."
+      },
+      {
+        "title": "Open the assembly",
+        "text": "Open example 09. All geometry, controls, solver nodes, and Galapagos links are in the definition."
+      },
+      {
+        "title": "Change the hull",
+        "text": "Bow: 0.8. Stern: 0.8. Beam / draft: 2. The closed mesh volume stays at 6 m\u00b3."
+      },
+      {
+        "title": "Make the ends fuller",
+        "text": "Bow: 0.4. Stern: 0.4. Beam / draft: 3."
+      },
+      {
+        "title": "Make the ends finer",
+        "text": "Bow: 1.6. Stern: 1.6. Beam / draft: 1."
+      },
+      {
+        "title": "Keep the test fixed",
+        "text": "Use the same tank, fluid, grid, and iteration count for every candidate. Enable evaluation."
+      },
+      {
+        "title": "Minimize the fitness",
+        "text": "Galapagos controls the three shape sliders. Fitness comes from the completed CFD run."
+      },
+      {
+        "title": "Run the search",
+        "text": "This two-minute MPS search completed one population of ten genomes."
+      },
+      {
+        "title": "Restore a candidate",
+        "text": "Select a genome. Press Reinstate. Hawa runs the selected hull again."
+      },
+      {
+        "title": "Inspect the selected hull",
+        "text": "Bow: 0.896. Stern: 1.461. Beam / draft: 2.586. Mesh volume: 6 m\u00b3."
+      },
+      {
+        "title": "View the completed run",
+        "text": "MPS completed 200 iterations. The force average uses the final 20 iterations."
+      },
+      {
+        "title": "Inspect the flow",
+        "text": "The speed slice and streamlines show the completed field around the submerged hull."
+      },
+      {
+        "title": "Read the result",
+        "text": "Starting fitness: 3.964145. Selected fitness: 3.895586. Reinstating the selected hull reproduced its score."
+      },
+      {
+        "title": "Check the limits",
+        "text": "The coarse grid changes the voxel volume. This short search verifies the assembly. It does not establish a real-boat resistance improvement."
+      },
+      {
+        "title": "Single phase flow",
+        "text": "The hull is fully submerged in a viscous demonstration fluid. The model excludes waves, buoyancy, and boat motion."
+      },
+      {
+        "title": "Hawa",
+        "text": "Open example 09. Change the shape. Evaluate. Search with Galapagos."
+      }
+    ]
   }
 ]

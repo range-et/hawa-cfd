@@ -4,7 +4,7 @@
 
 Hawa runs the numerical engine in Rhino's Python runtime. Define the case in Grasshopper. View the velocity and pressure in Rhino.
 
-[Project page](https://range-et.github.io/hawa-cfd/) · [Download v0.2.0](https://github.com/range-et/hawa-cfd/releases/download/v0.2.0/Hawa-0.2.0-rh8.zip) · [Installation guide](docs/plugin.md) · [Examples](examples/grasshopper)
+[Project page](https://range-et.github.io/hawa-cfd/) · [Download v0.3.0](https://github.com/range-et/hawa-cfd/releases/download/v0.3.0/Hawa-0.3.0-rh8.zip) · [Installation guide](docs/plugin.md) · [Examples](examples/grasshopper)
 
 ![The block definition after 300 MPS iterations](docs/captures/06-block-mps-completed.jpg)
 
@@ -12,8 +12,8 @@ Hawa runs the numerical engine in Rhino's Python runtime. Define the case in Gra
 
 This release is an experimental prototype. It includes:
 
-- **15 Grasshopper components** for domains, geometry, physics, solving, results, and files.
-- **8 editable `.gh` definitions** with controls and instructions.
+- **17 Grasshopper components** for domains, geometry, physics, solving, results, and files.
+- **9 editable `.gh` definitions** with controls and instructions.
 - **Python 3.9 and PyTorch 2.8.0** inside Rhino.
 - **Device selection** through `auto`, `cpu`, `mps`, or `cuda:0`.
 - **Results** through field slices, point sampling, velocity vectors, snapshot streamlines, and local NPZ files.
@@ -23,7 +23,7 @@ Apple GPU acceleration uses PyTorch MPS. CPU and MPS checks passed on this Mac. 
 
 ## Install
 
-1. [Download the plugin ZIP](https://github.com/range-et/hawa-cfd/releases/download/v0.2.0/Hawa-0.2.0-rh8.zip).
+1. [Download the plugin ZIP](https://github.com/range-et/hawa-cfd/releases/download/v0.3.0/Hawa-0.3.0-rh8.zip).
 2. Copy the complete **Hawa** folder into Grasshopper's Libraries directory.
 3. Restart Rhino 8.
 4. Open `Hawa/examples/01-tgv3d-bgk.gh`.
@@ -51,7 +51,7 @@ The videos use captions and screenshots from the verified Rhino sessions. They h
 
 ## Examples
 
-The gallery contains five Taylor–Green cases, a driven cavity, a forced channel, and a physical block case.
+The gallery contains five Taylor–Green cases, a driven cavity, a forced channel, and a physical block case, and a parametric hull search.
 
 Open `08-wind-around-block.gh` to follow the full workflow:
 
@@ -62,6 +62,8 @@ Domain → Geometry + Physics + Boundaries → Case → Solve → Slice / Stream
 The block definition contains its geometry. Its length units are meters. Its demonstration viscosity is `0.1 m²/s`. Atmospheric validation remains open.
 
 ![The block, speed slice, and snapshot streamlines in Rhino](docs/captures/07-block-rhino-preview.jpg)
+
+Open [09-parametric-hull-galapagos.gh](examples/grasshopper/09-parametric-hull-galapagos.gh) for the constant-volume hull search. Three shape sliders form the Galapagos Genome. Hawa Evaluate completes each candidate before it emits fitness. See [the hull guide](docs/hull-optimization.md) for the objective, recorded results, and physical limits.
 
 ### Controls
 
@@ -90,7 +92,7 @@ uv sync --extra test
 .venv/bin/python scripts/build_plugin.py
 ```
 
-The Grasshopper build needs the installed Rhino SDK. Run `scripts/create_grasshopper_examples.cs` inside Rhino to create the `.gh` files. Run `scripts/verify_grasshopper_examples.cs` to reopen and check those graphs.
+The Grasshopper build needs the installed Rhino SDK. Run `scripts/create_grasshopper_examples.cs` inside Rhino to create the `.gh` files. Run `scripts/verify_grasshopper_examples.cs` to reopen and check those graphs. Run `scripts/create_hull_example.cs` and `scripts/verify_hull_example.cs` for the hull assembly.
 
 The C# helper scripts contain this checkout's paths. Change the paths before you run the scripts on another machine.
 
@@ -110,7 +112,7 @@ The video renderer needs macOS Helvetica Neue and Menlo, Pillow, ffmpeg, and ffp
 
 | Check | Result |
 | --- | --- |
-| Hawa tests | 77 passed, 29 skipped |
+| Hawa tests | 83 passed, 29 skipped |
 | Vendored upstream tests | 419 passed, 884 skipped |
 | Core CPU comparisons | FP32 and FP64 arrays matched the upstream oracle bitwise |
 | Core MPS comparisons | Arrays passed the declared tolerances |
@@ -124,7 +126,7 @@ The default example harness limits runs to 50 steps. It permits 250 steps for th
 
 PorousMedium has a known pointwise CPU/MPS difference after the bounded FP32 KBC run. Its geometry masks match. The strict pointwise comparison remains open.
 
-The gallery contains eight `.gh` files. Wrappers for the remaining upstream examples remain open. Production CFD validation, NVIDIA checks, and Windows installation checks also remain open.
+The gallery contains nine `.gh` files. Wrappers for the remaining upstream examples remain open. Production CFD validation, NVIDIA checks, and Windows installation checks also remain open.
 
 See [the verification notes](docs/backport.md) for the check scope and upstream exclusions.
 
