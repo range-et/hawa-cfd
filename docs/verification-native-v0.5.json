@@ -205,5 +205,11 @@
     "restore_clears_runtime_state": true,
     "case_close_does_not_recreate": true,
     "new_case_idle": true
+  },
+  "template_check": {
+    "template_case_id_empty": true,
+    "opens_in_fresh_case": true,
+    "field_mesh_outputs": 1,
+    "errors": 0
   }
 }
