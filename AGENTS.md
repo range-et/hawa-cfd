@@ -5,6 +5,8 @@ Hawa is an experimental embedded CFD plugin for Rhino 8 and Grasshopper.
 For operating the installed plugin through **Rhino MCP only**, read
 [docs/agents/rhino-mcp.md](docs/agents/rhino-mcp.md), then
 [examples/grasshopper/README.md](examples/grasshopper/README.md).
+For the 0.5 native panel and public shared-case API, also read
+[docs/agents/native-prototype.md](docs/agents/native-prototype.md).
 These workflows use native Hawa components and Rhino's embedded Python runtime.
 They do not require a separate Python process, shell access, browser automation,
 or direct access to private embedded-runtime fields.

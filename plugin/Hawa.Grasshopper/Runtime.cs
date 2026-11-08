@@ -43,51 +43,8 @@ public sealed class HawaGoo : GH_Goo<string>
 
 public static class EmbeddedRuntime
 {
-    private static readonly object Gate = new();
-    private static object? script;
-    private static MethodInfo? execute;
-    private static bool initialized;
-    public static string Root => Path.GetDirectoryName(typeof(HawaInfo).Assembly.Location)!;
-
-    public static JsonObject Call(JsonObject request)
-    {
-        lock (Gate)
-        {
-            if (script == null)
-            {
-                // Use Rhino's own CPython integration. No Python.NET copy and no subprocess.
-                var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == "RhinoCodePlatform.Rhino3D")
-                    ?? Assembly.Load("RhinoCodePlatform.Rhino3D");
-                var type = assembly.GetType("RhinoCodePlatform.Rhino3D.Languages.Python3Script", true)!;
-                script = Activator.CreateInstance(type)!;
-                execute = type.GetMethod("ExecuteScript", new[] { typeof(string) })!;
-            }
-            if (!initialized)
-            {
-                var bootstrap = Path.Combine(Root, "Bootstrap.py");
-                var directory = Convert.ToBase64String(Encoding.UTF8.GetBytes(Root));
-                var code = File.ReadAllText(bootstrap).Replace("# hawa-bootstrap-root", $"import base64\nHAWA_PACKAGE_DIR = base64.b64decode('{directory}').decode()");
-                var ok = (bool)execute!.Invoke(script, new object[] { code })!;
-                if (!ok) throw new InvalidOperationException("Hawa dependency setup failed. See Rhino script output; a restart may be required after dependency changes.");
-                initialized = true;
-            }
-            var folder = Path.Combine(Path.GetTempPath(), "hawa", Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(folder);
-            var reply = Path.Combine(folder, "reply.json");
-            var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(request.ToJsonString()));
-            var destination = Convert.ToBase64String(Encoding.UTF8.GetBytes(reply));
-            var python = $"import base64, pathlib\nfrom hawa.plugin import dispatch_json\npathlib.Path(base64.b64decode('{destination}').decode()).write_text(dispatch_json(base64.b64decode('{payload}').decode()))";
-            try
-            {
-                var ok = (bool)execute!.Invoke(script, new object[] { python })!;
-                if (!ok || !File.Exists(reply)) throw new InvalidOperationException("Embedded Python did not return a result. Check the Rhino script output.");
-                var result = JsonNode.Parse(File.ReadAllText(reply))!.AsObject();
-                if (result["ok"]?.GetValue<bool>() != true) throw new InvalidOperationException(result["error"]?.GetValue<string>() ?? "Solver error");
-                return JsonNode.Parse(result["result"]!.ToJsonString())!.AsObject();
-            }
-            finally { Directory.Delete(folder, true); }
-        }
-    }
+    public static string Root => Hawa.Shared.EmbeddedRuntime.Root;
+    public static JsonObject Call(JsonObject request) => Hawa.Shared.EmbeddedRuntime.Call(request);
 }
 
 public abstract class HawaComponent : GH_Component

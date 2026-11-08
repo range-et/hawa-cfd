@@ -18,7 +18,10 @@ def main():
     output = ROOT / "dist/Hawa"
     subprocess.run(["dotnet", "build", str(ROOT / "plugin/Hawa.Grasshopper"), "-c", "Release",
                     "--nologo", "-v", "quiet"], check=True)
+    subprocess.run(["dotnet", "build", str(ROOT / "plugin/Hawa.Rhino"), "-c", "Release", "--nologo", "-v", "quiet"], check=True)
     output.mkdir(parents=True, exist_ok=True)
+    for name in ("Hawa.Rhino.rhp", "Hawa.Shared.dll"):
+        shutil.copy2(ROOT / "plugin/Hawa.Rhino/bin/Release/net7.0" / name, output / name)
     assembly = output / "Hawa.Grasshopper.gha"
     shutil.copy2(ROOT / "plugin/Hawa.Grasshopper/bin/Release/net7.0/Hawa.Grasshopper.gha", assembly.with_suffix(".gha.new"))
     os.replace(assembly.with_suffix(".gha.new"), assembly)
@@ -36,7 +39,7 @@ def main():
     for name in ("LICENSE", "AUTHORS.rst", "PORTING.md", "upstream.json"):
         shutil.copy2(ROOT / "vendor/lettuce" / name, notices / name)
     if (ROOT / "docs/plugin.md").exists():
-        shutil.copy2(ROOT / "docs/plugin.md", output / "README.md")
+        (output / "README.md").write_text((ROOT / "docs/native-prototype-v0.5.md").read_text().replace("](captures/", "](docs/captures/"))
         shutil.copy2(ROOT / "docs/release-notes-v0.4.0.md", output / "release-notes-v0.4.0.md")
         shutil.copy2(ROOT / "docs/verification-v0.4.json", output / "verification-v0.4.json")
         for name in ("moving-surfaces-v0.4.md", "verification-motion-v0.4.json", "hardening-v0.4.md", "hardening-v0.4.json"):
@@ -44,6 +47,7 @@ def main():
     if (ROOT / "examples/grasshopper").exists():
         if (output / "examples").exists(): shutil.rmtree(output / "examples")
         shutil.copytree(ROOT / "examples/grasshopper", output / "examples", ignore=shutil.ignore_patterns("09-parametric-hull-galapagos.gh"))
+    shutil.copytree(ROOT / "examples/native-prototype", output / "examples/native-prototype", dirs_exist_ok=True)
     # Keep the agent workflow and its relative links usable in the installed bundle.
     (output / "AGENTS.md").write_text((ROOT / "AGENTS.md").read_text().replace("examples/grasshopper/README.md", "examples/README.md"))
     docs_output = output / "docs"
@@ -52,6 +56,7 @@ def main():
         for document in (ROOT / "docs").glob(pattern):
             shutil.copy2(document, docs_output / document.name)
     shutil.copytree(ROOT / "docs/agents", docs_output / "agents", dirs_exist_ok=True)
+    shutil.copytree(ROOT / "docs/captures/v05", docs_output / "captures/v05", dirs_exist_ok=True)
     for guide in (output / "examples/README.md", *list((docs_output / "agents").glob("*.md"))):
         content = guide.read_text()
         content = content.replace("../../docs/", "../docs/") if guide.parent.name == "examples" else content.replace("../../examples/grasshopper/", "../../examples/")
@@ -64,7 +69,7 @@ def main():
                         ignore=shutil.ignore_patterns("bin", "obj", "__pycache__", "*.pyc", ".pytest_cache"))
     for name in ("pyproject.toml", "uv.lock", "LICENSE", "THIRD_PARTY_NOTICES.md", "README.md", "AGENTS.md"):
         shutil.copy2(ROOT / name, source_root / name)
-    archive = ROOT / "dist/Hawa-0.4.0-rh8.zip"
+    archive = ROOT / "dist/Hawa-0.5.0-prototype-rh8.zip"
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as bundle:
         for file in output.rglob("*"):
             if file.is_file():

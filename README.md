@@ -4,7 +4,7 @@
 
 Hawa runs its Python 3.9 engine inside Rhino. Define geometry and physics in Grasshopper. Use MPS, CUDA or CPU through PyTorch. Inspect pressure, speed and flow paths in the viewport.
 
-This branch contains the experimental **0.4** update. The published **0.3** package and videos remain available on the [project page](https://range-et.github.io/hawa-cfd/). Read the [0.4 checks and limits](docs/release-notes-v0.4.0.md) before using the new package.
+This branch contains the **0.5 native-panel prototype**, built on the closed-out 0.4 engine. Read the [native prototype guide](docs/native-prototype-v0.5.md) for dockable panel setup and live GH sync. The [0.4 closeout](docs/closeout-v0.4.md) records the frozen release. The published **0.3** package and videos remain available on the [project page](https://range-et.github.io/hawa-cfd/). Read the [0.4 checks and limits](docs/release-notes-v0.4.0.md) before using the new package.
 
 [Plugin guide](docs/plugin.md) · [Rhino MCP agent guide](docs/agents/rhino-mcp.md) · [Editable definitions](examples/grasshopper) · [License](LICENSE)
 
@@ -18,7 +18,7 @@ This branch contains the experimental **0.4** update. The published **0.3** pack
 - Local airfoil coordinates and polars, offline NACA four-digit generation, tapered wings and attached-flow lifting-line analysis.
 - Mesh checks, voxel inspection, experimental stationary curved-wall links and one fixed 2:1 refinement patch.
 
-The package has 46 Hawa components and 19 supported editable definitions. Example 09 is historical and excluded from the new package. Use example 10 for asynchronous optimization.
+The prototype package has 47 Hawa components, 19 existing supported definitions and one native live-sync example. Example 09 is historical and excluded from the new package. Use example 10 for asynchronous optimization.
 
 ## Install and run
 

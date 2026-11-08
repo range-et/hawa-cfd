@@ -1,0 +1,209 @@
+{
+  "version": "0.5.0-prototype",
+  "scope": "One native block-flow case per Rhino document; dockable panel and live GH binding",
+  "platform": "macOS Apple Silicon / Rhino 8.36 / embedded Python 3.9 / PyTorch 2.8.0",
+  "python_tests": {
+    "passed": 140,
+    "skipped": 29,
+    "warnings": 4
+  },
+  "native_cold_start": {
+    "id": "9a749cdd-0542-46bc-a9b5-2532e24996a3",
+    "revision": 0,
+    "run_revision": 0,
+    "result_revision": 0,
+    "state": "completed",
+    "steps": 200,
+    "session": "ea31ff5b-c03e-408e-90da-1043ab274979",
+    "job": "04e46c62-b209-4433-9a24-11cda761dce5",
+    "error": "",
+    "settings": {
+      "schema": 1,
+      "id": "9a749cdd-0542-46bc-a9b5-2532e24996a3",
+      "speed": 1,
+      "cell": 0.5,
+      "width": 1,
+      "target": 200,
+      "device": "cpu",
+      "field": "speed"
+    },
+    "linked": false,
+    "outdated": false,
+    "ui_only_cold_start": true,
+    "hawa_gh_loaded": false,
+    "docked_with_layers": true
+  },
+  "interaction_checks": {
+    "state": "completed",
+    "phase": 17,
+    "checks": [
+      "one shared assembly and one binding",
+      "panel changes reached all three GH sliders; old session closed",
+      "GH slider updates shared case without feedback loop",
+      "waiting for normal Rhino Undo command",
+      "Rhino undo restored shared case and slider; waiting for normal Redo command",
+      "Rhino redo restored shared case and slider",
+      "run started; cooperative pause submitted",
+      "worker acknowledged pause",
+      "pause held; display edit reused session; resume submitted",
+      "resumed to target with same session and GH field output",
+      "panel close/reopen kept case and result",
+      "physical edit marks field outdated and closes old run",
+      "cancel and reset release runtime handles",
+      "stale revision and duplicate binding rejected",
+      "GH close unbound and settings restore stayed idle",
+      "native MPS run submitted",
+      "native MPS completed 25 steps; case closed"
+    ],
+    "pause_submit_ms": 17,
+    "cancel_submit_ms": 34,
+    "mps_status": {
+      "session": "921a4297-74c8-4689-806f-7273e4de66a2",
+      "state": "completed",
+      "steps": 25,
+      "target": 25,
+      "error": null,
+      "backend": {
+        "requested": "mps",
+        "selected": "mps",
+        "torch": "2.8.0",
+        "cuda_available": false,
+        "mps_available": true,
+        "notes": []
+      },
+      "case_hash": "604fd43f7af7ccba5eebabb10d147dfc2722361f943410138a630f7e0ed10a40",
+      "resolution": [
+        17,
+        13,
+        9
+      ],
+      "physical_time": 0.22205779584216376,
+      "relative_mass_change": 0.0005717481303418804,
+      "averaging_samples": 5,
+      "updated": 1794180725.304987
+    }
+  },
+  "regression_examples": {
+    "state": "completed",
+    "results": [
+      {
+        "file": "01-tgv3d-bgk.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "02-tgv2d-bgk.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "03-tgv2d-trt.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "04-tgv2d-smagorinsky.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "05-tgv3d-smagorinsky.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "06-cavity2d-bgk.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "07-poiseuille2d-guo.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "08-wind-around-block.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 476
+      },
+      {
+        "file": "11-block-3d-visualization.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 659
+      },
+      {
+        "file": "12-local-airfoil-rc-wing.gh",
+        "passed": true,
+        "wing_closed": true,
+        "local_polar": true
+      },
+      {
+        "file": "14-curved-sphere-pressure.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 725
+      }
+    ]
+  },
+  "persistence": {
+    "saved_and_reopened": true,
+    "same_id": true,
+    "idle": true,
+    "document_isolation": true
+  },
+  "binding_safety": {
+    "computed_input_readonly": true,
+    "computed_speed": 1.1
+  },
+  "final_binding": {
+    "invalid_slider_range_rejected": true,
+    "invalid_binding_detached": true,
+    "valid_binding_recovers": true,
+    "shared_session": "ea31ff5b-c03e-408e-90da-1043ab274979",
+    "gh_field_mesh": true
+  },
+  "definition_lifecycle": {
+    "definition_close_keeps_native_session": true,
+    "saved_definition_rebinds": true,
+    "different_case_rejected": true,
+    "original_case_recovers": true,
+    "restore_idle": true
+  },
+  "cleanup": {
+    "jobs": 0,
+    "sessions": 0,
+    "workers": []
+  },
+  "limits": [
+    "Windows and CUDA hardware not tested",
+    "Clean-machine dependency installation not tested; Rhino-managed dependencies were already present",
+    "Native panel exposes only the block-flow prototype; full geometry, motion, optimization and visualization editors remain future work",
+    "0.4 numerical limitations, including PorousMedium CPU/MPS mismatch, remain unchanged"
+  ],
+  "test_notes": [
+    "Undo and redo passed through normal Rhino UI commands. Direct RhinoDoc.Undo from the timer harness left Rhino in UndoActive state; the harness now requires UI commands for these two phases.",
+    "All plugin replacements used normal Rhino Quit; no forced process termination.",
+    "The MCP server connection was restarted once while Rhino remained running.",
+    "0.4 release ZIP remains frozen and unchanged."
+  ],
+  "captures": [
+    "captures/v05/native-docked-live-sync.png",
+    "captures/v05/native-field.png",
+    "captures/v05/grasshopper-live-sync.png"
+  ],
+  "final_restore_check": {
+    "completed_cpu_steps": 25,
+    "restore_clears_runtime_state": true,
+    "case_close_does_not_recreate": true,
+    "new_case_idle": true
+  }
+}
