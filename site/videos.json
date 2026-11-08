@@ -1,4 +1,14 @@
 [
-  {"slug":"hawa-first-look","title":"Hawa overview","description":"Open an example. Select a backend. Inspect the completed vortex run.","file":"https://github.com/range-et/hawa-cfd/releases/download/v0.2.0/hawa-first-look.mp4","poster":"assets/first-look-poster.jpg"},
-  {"slug":"hawa-block-workflow","title":"3D block flow","description":"Define the case. Run the MPS solver. View the slice and streamlines.","file":"https://github.com/range-et/hawa-cfd/releases/download/v0.2.0/hawa-block-workflow.mp4","poster":"assets/block-workflow-poster.jpg"}
+  {
+    "slug": "hawa-first-look",
+    "id": "Ji_9iOYXSXg",
+    "title": "Hawa overview",
+    "description": "Open an example. Select a backend. Inspect the completed vortex run."
+  },
+  {
+    "slug": "hawa-block-workflow",
+    "id": "PVBanKHGhC4",
+    "title": "3D block flow",
+    "description": "Define the case. Run the MPS solver. View the slice and streamlines."
+  }
 ]

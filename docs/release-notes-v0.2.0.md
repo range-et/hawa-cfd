@@ -4,12 +4,14 @@ Hawa runs a GPU lattice Boltzmann solver inside Rhino 8 and Grasshopper. This re
 
 - **Hawa-0.2.0-rh8.zip:** the plugin, Python source, eight editable definitions, and license notices.
 - **Hawa-walkthrough-captures.zip:** seven original UI captures and a shot list.
-- **hawa-first-look.mp4:** the Hawa overview. Duration: 57 seconds.
-- **hawa-block-workflow.mp4:** the block-flow example. Duration: 68 seconds.
-- **Hawa-YouTube-upload-kit.zip:** both videos, thumbnails, titles, descriptions, and license notices.
 
 The videos use captions and screenshots from verified Rhino runs. They have no audio. The edits use Monad colors and Helvetica titles.
 The slides contain no added header bars or title rules.
+
+## Videos
+
+- [Hawa overview](https://youtu.be/Ji_9iOYXSXg). Duration: 57 seconds.
+- [3D block flow](https://youtu.be/PVBanKHGhC4). Duration: 68 seconds.
 
 ## Install
 

@@ -40,10 +40,10 @@ See [the plugin guide](docs/plugin.md) for units, controls, and troubleshooting.
 
 The videos use captions and screenshots from the verified Rhino sessions. They have no audio. The edits use the Monad palette and Helvetica titles.
 
-| Video | File |
+| Video | YouTube |
 | --- | --- |
-| Hawa overview | [Download MP4](https://github.com/range-et/hawa-cfd/releases/download/v0.2.0/hawa-first-look.mp4) |
-| 3D block flow | [Download MP4](https://github.com/range-et/hawa-cfd/releases/download/v0.2.0/hawa-block-workflow.mp4) |
+| Hawa overview | [Watch](https://youtu.be/Ji_9iOYXSXg) |
+| 3D block flow | [Watch](https://youtu.be/PVBanKHGhC4) |
 
 <!-- HAWA_VIDEO_LINKS -->
 

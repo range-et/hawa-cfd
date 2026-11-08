@@ -4,10 +4,10 @@ The videos use captions and screenshots from the verified Rhino sessions. They h
 
 The slides contain no added header bars or title rules. The captured Rhino interface retains its original colors.
 
-| Video | Duration | Download | Upload text |
+| Video | Duration | YouTube | Upload text |
 | --- | --- | --- | --- |
-| Hawa overview | 0:57 | [MP4](https://github.com/range-et/hawa-cfd/releases/download/v0.2.0/hawa-first-look.mp4) | [Title and description](youtube-first-look.txt) |
-| 3D block flow | 1:08 | [MP4](https://github.com/range-et/hawa-cfd/releases/download/v0.2.0/hawa-block-workflow.mp4) | [Title and description](youtube-block-workflow.txt) |
+| Hawa overview | 0:57 | [Watch](https://youtu.be/Ji_9iOYXSXg) | [Title and description](youtube-first-look.txt) |
+| 3D block flow | 1:08 | [Watch](https://youtu.be/PVBanKHGhC4) | [Title and description](youtube-block-workflow.txt) |
 
 ## Upload to YouTube
 
@@ -18,7 +18,7 @@ The slides contain no added header bars or title rules. The captured Rhino inter
 5. Publish the video.
 6. Send the video link to this chat.
 
-The website can show the release videos now. Add each YouTube ID to `site/videos.json` to replace its player with a YouTube embed.
+The website uses YouTube embeds. Add each published YouTube ID to `site/videos.json`.
 
 ## Recreate the files
 
