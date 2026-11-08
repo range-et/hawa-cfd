@@ -1,4 +1,4 @@
-fetch('videos.json?v=20261107-hull').then(response => {
+fetch('videos.json?v=20261108-v04').then(response => {
   if (!response.ok) throw new Error('Videos unavailable');
   return response.json();
 }).then(videos => {

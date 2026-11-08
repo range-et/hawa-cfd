@@ -1,5 +1,17 @@
 [
   {
+    "slug": "hawa-flow-tools-v04",
+    "id": "GN6Ou3yOF_I",
+    "title": "Hawa 0.4: flow tools and responsive search",
+    "description": "Inspect 3D flow tubes, field contours, sphere pressure, a fixed refinement patch and local airfoil data. Experimental preview."
+  },
+  {
+    "slug": "hawa-cylinder-wake-v04",
+    "id": "zpRlRn9Qbf4",
+    "title": "Hawa 0.4: evolving cylinder wake",
+    "description": "Follow 8,000 MPS steps through recorded speed and vorticity fields. Compare fixed color ranges and inspect the final wake."
+  },
+  {
     "slug": "hawa-hull-galapagos",
     "id": "0kVTmHttA78",
     "title": "Parametric hull and Galapagos",
