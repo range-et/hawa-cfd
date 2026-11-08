@@ -1,0 +1,47 @@
+{
+  "type": "unaltered UI still screenshots",
+  "captures": [
+    {
+      "file": "01-hawa-toolbar.jpg",
+      "width": 3024,
+      "height": 1750,
+      "sha256": "c4f17afb97223500eea6e31d6e925997318a8793166be5bc06e79bd75e13c2df"
+    },
+    {
+      "file": "02-vortex-ready.jpg",
+      "width": 3024,
+      "height": 1750,
+      "sha256": "23380b607ffd8cc53372735d22da4fe79c4e39e4285745ae4d2735a37be44cce"
+    },
+    {
+      "file": "03-vortex-mps-completed.jpg",
+      "width": 3024,
+      "height": 1750,
+      "sha256": "4d4eaa1600cecf45d1c051a8fe294ae85e378647da645f4c9e85b9a07a15d000"
+    },
+    {
+      "file": "04-vortex-rhino-preview.jpg",
+      "width": 1606,
+      "height": 1750,
+      "sha256": "abc691ce6061f8abae2fea8cfe03c216d6b982d7a4d6bd18f4b524749c1d4ecf"
+    },
+    {
+      "file": "05-block-ready.jpg",
+      "width": 3024,
+      "height": 1750,
+      "sha256": "3bd6dea66f63471cd48aa08314f2f984c88e5ece1be0779510cff1d01de9205f"
+    },
+    {
+      "file": "06-block-mps-completed.jpg",
+      "width": 3024,
+      "height": 1750,
+      "sha256": "6afb7c75fbf31d2f1cf1f7e06c929511c2b45e655fbe28761130c173fdc23d56"
+    },
+    {
+      "file": "07-block-rhino-preview.jpg",
+      "width": 1606,
+      "height": 1750,
+      "sha256": "5d857f6d7d19197b60e72d97bfe340d92d7e8885067a60faafabb5c867ed631a"
+    }
+  ]
+}

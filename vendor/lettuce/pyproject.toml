@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=77,<83"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hawa-lettuce"
+version = "0.3.0.post1"
+description = "Hawa's Python 3.9 compatibility fork of Lettuce"
+requires-python = ">=3.9,<3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+readme = "PORTING.md"
+dependencies = [
+  "torch==2.8.0", "numpy==2.0.2", "click==8.1.8", "h5py==3.14.0",
+  "matplotlib==3.9.4", "mmh3==5.2.0", "packaging==26.0",
+  "pyevtk==1.7.0", "setuptools==82.0.1",
+]
+
+[project.scripts]
+hawa-lettuce = "lettuce.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["lettuce*"]

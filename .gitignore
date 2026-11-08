@@ -1,0 +1,16 @@
+.venv/
+.venv-reference/
+.reference/
+.runtime/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+results/
+dist/
+build/
+bin/
+obj/
+*.user
+
+.DS_Store

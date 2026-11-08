@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Hawa.Grasshopper</AssemblyName>
+    <TargetExt>.gha</TargetExt>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <Version>0.2.0</Version>
+    <RhinoSystem Condition="'$(RhinoSystem)' == '' and $([MSBuild]::IsOSPlatform('OSX'))">/Applications/Rhino 8.app/Contents/Frameworks/RhCore.framework/Versions/A/Resources</RhinoSystem>
+    <RhinoSystem Condition="'$(RhinoSystem)' == '' and $([MSBuild]::IsOSPlatform('Windows'))">C:\Program Files\Rhino 8\System</RhinoSystem>
+    <GrasshopperSystem Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(RhinoSystem)/ManagedPlugIns/GrasshopperPlugin.rhp</GrasshopperSystem>
+    <GrasshopperSystem Condition="$([MSBuild]::IsOSPlatform('Windows'))">C:\Program Files\Rhino 8\Plug-ins\Grasshopper</GrasshopperSystem>
+    <SdkReferences Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(RhinoSystem)/ref/net48</SdkReferences>
+    <SdkReferences Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(RhinoSystem)</SdkReferences>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="RhinoCommon"><HintPath>$(SdkReferences)/RhinoCommon.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Grasshopper"><HintPath Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(SdkReferences)/Grasshopper.dll</HintPath><HintPath Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(GrasshopperSystem)/Grasshopper.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="GH_IO"><HintPath Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(SdkReferences)/GH_IO.dll</HintPath><HintPath Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(GrasshopperSystem)/GH_IO.dll</HintPath><Private>false</Private></Reference>
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" ExcludeAssets="runtime" />
+  </ItemGroup>
+</Project>
