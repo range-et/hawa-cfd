@@ -1,5 +1,11 @@
 [
   {
+    "slug": "hawa-hull-galapagos",
+    "id": "0kVTmHttA78",
+    "title": "Parametric hull and Galapagos",
+    "description": "Change the hull shape. Evaluate each candidate on MPS. Search with Galapagos."
+  },
+  {
     "slug": "hawa-first-look",
     "id": "Ji_9iOYXSXg",
     "title": "Hawa overview",

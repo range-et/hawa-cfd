@@ -8,6 +8,7 @@ The slides contain no added header bars or title rules. The captured Rhino inter
 | --- | --- | --- | --- |
 | Hawa overview | 0:57 | [Watch](https://youtu.be/Ji_9iOYXSXg) | [Title and description](youtube-first-look.txt) |
 | 3D block flow | 1:08 | [Watch](https://youtu.be/PVBanKHGhC4) | [Title and description](youtube-block-workflow.txt) |
+| Parametric hull and Galapagos | 2:11 | [Watch](https://youtu.be/0kVTmHttA78) | [Title and description](youtube-hull-galapagos.txt) |
 
 ## Upload to YouTube
 

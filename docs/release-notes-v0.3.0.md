@@ -11,6 +11,8 @@ This experimental release adds a complete hull search assembly in Grasshopper.
 
 [Hull instructions and limits](https://github.com/range-et/hawa-cfd/blob/main/docs/hull-optimization.md) · [Recorded search](https://github.com/range-et/hawa-cfd/blob/main/docs/media/hull-search.json)
 
+[Watch the hull walkthrough on YouTube](https://youtu.be/0kVTmHttA78).
+
 Verification: 83 Python tests passed, 29 skipped. All eight previous definitions reopened and completed 25 MPS steps. The new hull definition passed closure, fixed volume, Galapagos links, completed evaluation, result mesh, and idle-reopen checks. A visible Galapagos run completed ten genomes on MPS. Reinstating the selected hull reproduced its score.
 
 The hull example models a fully submerged stationary body in a viscous demonstration fluid. It excludes waves, a free surface, buoyancy, and boat motion. The coarse grid changes voxel volume. The short search demonstrates the assembly and does not establish an optimum or a real-boat resistance improvement.

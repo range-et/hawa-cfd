@@ -44,6 +44,7 @@ The videos use captions and screenshots from the verified Rhino sessions. They h
 | --- | --- |
 | Hawa overview | [Watch](https://youtu.be/Ji_9iOYXSXg) |
 | 3D block flow | [Watch](https://youtu.be/PVBanKHGhC4) |
+| Parametric hull and Galapagos | [Watch](https://youtu.be/0kVTmHttA78) |
 
 <!-- HAWA_VIDEO_LINKS -->
 
