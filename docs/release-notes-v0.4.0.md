@@ -1,6 +1,6 @@
 # Hawa 0.4 experimental update
 
-This is a local development build. The new package and videos have not been published. Use the supplied examples to inspect the implementation and repeat the checks before applying it to an engineering problem.
+This is a local development build. The new package has not been published. The corrected [Tools video](https://youtu.be/GN6Ou3yOF_I) and [Wake video](https://youtu.be/zpRlRn9Qbf4) are public and linked from the project website. Use the supplied examples to inspect the implementation and repeat the checks before applying it to an engineering problem.
 
 ## Added
 

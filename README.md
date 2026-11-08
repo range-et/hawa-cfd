@@ -29,7 +29,7 @@ For new visualization tools, open example 11. Examples 12–16 cover local airfo
 
 ## Videos
 
-The new local renders are `dist/videos-v04/hawa-flow-tools.mp4` and `dist/videos-v04/hawa-cylinder-wake.mp4`. They use actual recorded fields, native Rhino captures, Monad colors and captions. They have no audio. These videos have not been uploaded to YouTube.
+The new local renders are `dist/videos-v04/hawa-flow-tools.mp4` and `dist/videos-v04/hawa-cylinder-wake.mp4`. They use actual recorded fields, native Rhino captures, Monad colors and captions. They have no audio. Watch the published [Tools video](https://youtu.be/GN6Ou3yOF_I) and [Wake video](https://youtu.be/zpRlRn9Qbf4).
 
 Earlier published walkthroughs: [overview](https://youtu.be/Ji_9iOYXSXg), [block](https://youtu.be/PVBanKHGhC4), [historical Galapagos hull](https://youtu.be/0kVTmHttA78).
 
