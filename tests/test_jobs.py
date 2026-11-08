@@ -100,3 +100,17 @@ def test_query_failure_preserves_diagnostic():
         assert value['state']=='failed' and value['error']
         assert value['result'] is None
     finally:dispatch(dict(op='evaluate_control',job=job,action='close'))
+
+
+def test_closing_creation_job_stops_running_solver():
+    from hawa.plugin import SESSIONS
+    job=dispatch(dict(op='evaluate_submit',kind='create',case={'example':'tgv3d-bgk','size':8},device='cpu'))['job']
+    done=wait(job,{'completed','failed'})
+    assert done['state']=='completed'
+    session=SESSIONS[done['result']['status']['session']]
+    session.start(100000)
+    worker=session.thread
+    dispatch(dict(op='evaluate_control',job=job,action='close'))
+    worker.join(timeout=5)
+    assert not worker.is_alive() and session.id not in SESSIONS
+    assert session.flow.i<100000

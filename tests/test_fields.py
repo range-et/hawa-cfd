@@ -44,3 +44,22 @@ def test_frame_rejects_mismatched_shapes():
     with pytest.raises(ValueError,match='shapes'):
         store({'velocity':np.zeros((3,5,5,5)), 'pressure':np.zeros((4,4,4)),
                'density':np.ones((4,4,4))},{'case':{}})
+
+
+def test_compressed_frame_budget_checked_before_allocation(tmp_path,monkeypatch):
+    import json
+    import pytest
+    import hawa.fields as fields
+    path=tmp_path/'frame.npz'
+    np.savez_compressed(path,velocity=np.zeros((3,20,20,20)),pressure=np.zeros((20,20,20)),
+                        density=np.ones((20,20,20)),metadata=np.array(json.dumps({'case':{}})))
+    monkeypatch.setattr(fields,'MAX_BYTES',10000)
+    assert path.stat().st_size<10000
+    with pytest.raises(ValueError,match='budget'):fields.read_frame(path)
+
+
+def test_contour_grid_and_level_limits():
+    import pytest
+    points=[[0,0,0],[0,1,0],[1,0,0],[1,1,0]]
+    with pytest.raises(ValueError,match='grid'):contours(points,[0,0,1,1],[True]*4,[3,2],[.5])
+    with pytest.raises(ValueError,match='levels'):contours(points,[0,0,1,1],[True]*4,[2,2],[.5]*101)

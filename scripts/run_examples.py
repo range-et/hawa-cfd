@@ -41,12 +41,16 @@ def main():
                    "--device", args.device, "--source-root", str(examples), "--output", str(directory)]
         if args.full:
             command.append("--full")
+        report = directory / "report.json"
+        report.unlink(missing_ok=True)
         try:
             result = subprocess.run(command, cwd=ROOT, env=dict(os.environ, MPLBACKEND="Agg"),
                                     capture_output=True, text=True, timeout=None if args.full else 180)
-            report = directory / "report.json"
             if report.exists():
-                return json.loads(report.read_text())
+                record=json.loads(report.read_text())
+                if result.returncode and record.get('status') in ('passed','launcher-only'):
+                    record.update(status='failed',error='Worker exited with code '+str(result.returncode))
+                return record
             return {"source": name, "status": "failed", "error": result.stderr[-2500:]}
         except subprocess.TimeoutExpired:
             return {"source": name, "status": "timeout"}

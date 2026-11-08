@@ -11,11 +11,18 @@ CASES = {
 }
 
 
+def example_size(name, size=None):
+    if name not in CASES:raise ValueError('Unknown example')
+    n=(12 if CASES[name][0]=='tgv3d' else 32) if size is None else size
+    if type(n) is not int or not 8<=n<=128:raise ValueError('Example size must be an integer from 8 to 128')
+    return n
+
+
 def make_case(name, context, size=None):
     import lettuce as lt
 
+    n=example_size(name,size)
     flow_type, collision_type = CASES[name]
-    n = size or (12 if flow_type == "tgv3d" else 32)
     common = dict(context=context, reynolds_number=10, mach_number=0.05)
     force = None
     if flow_type.startswith("tgv"):

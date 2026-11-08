@@ -30,10 +30,13 @@ def case_key(spec):
 
 def check_case(spec):
     if "example" in spec:
-        from .cases import CASES
-        if spec["example"] not in CASES:
-            raise ValueError("Unknown example")
-        return {"valid": True, "case_hash": case_key(spec), "example": spec["example"]}
+        from .cases import CASES,example_size
+        n=example_size(spec['example'],spec.get('size'))
+        dimension=3 if CASES[spec['example']][0]=='tgv3d' else 2
+        estimated=n**dimension*(27 if dimension==3 else 9)*4*10/1024**2
+        if estimated>float(spec.get('memory_limit_mb',1024)):
+            raise ValueError('Example allocation exceeds the case memory budget')
+        return {"valid": True, "case_hash": case_key(spec), "example": spec["example"],"estimated_peak_mb":estimated}
     shape = spec["shape"]
     if len(shape) != 3 or any(type(n) is not int or n < 4 for n in shape):
         raise ValueError("A 3D domain requires three integer resolutions >= 4")
@@ -476,15 +479,25 @@ def dispatch(request):
     if op == "load":
         session.pause()
         with np.load(request["path"], allow_pickle=False) as data:
-            if str(data["spec"]) != canonical(session.spec) or data["populations"].shape != tuple(session.flow.f.shape):
+            populations=data['populations']
+            iteration=data['iteration']
+            if str(data["spec"]) != canonical(session.spec) or populations.shape != tuple(session.flow.f.shape):
                 raise ValueError("Checkpoint belongs to a different case")
-            if not np.isfinite(data["populations"]).all():
+            if not np.isfinite(populations).all():
                 raise ValueError("Checkpoint contains nonfinite populations")
+            if iteration.shape!=() or iteration.dtype.kind not in 'iu' or int(iteration)<0:
+                raise ValueError('Checkpoint iteration must be a nonnegative integer')
+            density=populations.sum(axis=0)
+            if not np.isfinite(density).all() or np.any(density<=0):
+                raise ValueError('Checkpoint density must be finite and positive')
             with session.lock:
-                session.flow.f.copy_(session.flow.context.convert_to_tensor(data["populations"]))
-                session.flow.i = int(data["iteration"])
+                session.flow.f.copy_(session.flow.context.convert_to_tensor(populations))
+                session.flow.i = int(iteration)
                 session.mean_u = session.mean_p = session.mean_rho = None
                 session.samples = 0
+                session.relative_mass_change=(float(density.sum())-session.initial_mass)/session.initial_mass
+                session.error=None
+                session.updated=time.time()
                 session.state = "paused"
         return session.status()
     if op == "export":

@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import threading
 import uuid
+import zipfile
 import numpy as np
 
 FRAMES=OrderedDict()
@@ -20,19 +21,37 @@ def capture(session, mean=False):
     return store(arrays,meta)
 
 
-def store(arrays,meta):
+def validate(arrays,meta):
     required={'velocity','pressure','density'}
-    if not required.issubset(arrays) or not isinstance(meta.get('case'),dict):
+    if not required.issubset(arrays) or not isinstance(meta,dict) or not isinstance(meta.get('case'),dict):
         raise ValueError('Frame requires velocity, pressure, density and case metadata')
     shape=arrays['pressure'].shape
     if len(shape) not in (2,3) or min(shape)<3 or arrays['velocity'].shape!=(len(shape),)+shape or arrays['density'].shape!=shape:
         raise ValueError('Frame field shapes do not match a 2D or 3D lattice')
     if any(not np.isfinite(arrays[k]).all() for k in required):
         raise ValueError('Frame fields must be finite')
+    if np.any(arrays['density']<=0):raise ValueError('Frame density must be positive')
     if 'solid' in arrays and (arrays['solid'].shape!=shape or arrays['solid'].dtype!=bool):
         raise ValueError('Frame solid mask must be a matching boolean array')
     size=sum(a.nbytes for a in arrays.values())
     if size>MAX_BYTES:raise ValueError('Frame exceeds 256 MiB budget')
+    return size
+
+
+def read_frame(path):
+    # Check expanded size before NumPy allocates compressed archive members.
+    with zipfile.ZipFile(path) as archive:
+        if sum(entry.file_size for entry in archive.infolist())>MAX_BYTES:
+            raise ValueError('Frame exceeds 256 MiB budget')
+    with np.load(path,allow_pickle=False) as data:
+        meta=json.loads(str(data['metadata']))
+        arrays={k:data[k] for k in ('velocity','pressure','density','solid') if k in data}
+    validate(arrays,meta)
+    return arrays,meta
+
+
+def store(arrays,meta):
+    size=validate(arrays,meta)
     for a in arrays.values():a.setflags(write=False)
     key=str(uuid.uuid4())
     with LOCK:
@@ -127,6 +146,9 @@ def isosurface(values, level, solid=None, stride=1, max_faces=100000, checkpoint
 
 def contours(points, values, valid, shape, levels, checkpoint=lambda n:None):
     points=np.asarray(points);values=np.asarray(values);valid=np.asarray(valid);lines=[]
+    if len(shape)!=2 or any(type(n) is not int or not 2<=n<=100 for n in shape) or len(points)!=shape[0]*shape[1]:
+        raise ValueError('Contours require a matching 2..100 by 2..100 plane grid')
+    if len(levels)>100:raise ValueError('At most 100 contour levels')
     nx,ny=shape
     for level in levels:
         if not np.isfinite(level):raise ValueError('Contour levels must be finite')
@@ -139,7 +161,9 @@ def contours(points, values, valid, shape, levels, checkpoint=lambda n:None):
                     cut=[]
                     for x,y in itertools.combinations(ids,2):
                         if (values[x]<=level)!=(values[y]<=level):cut.append((points[x]+(level-values[x])/(values[y]-values[x])*(points[y]-points[x])).tolist())
-                    if len(cut)==2:lines.append(cut)
+                    if len(cut)==2:
+                        if len(lines)>=100000:raise ValueError('Contours exceed 100000 segment budget; reduce levels or resolution')
+                        lines.append(cut)
     return lines
 
 
@@ -178,9 +202,7 @@ def dispatch_field(request, session=None, checkpoint=lambda n:None):
     action=request['action']
     if action=='capture':return capture(session,request.get('mean',False))
     if action=='load':
-        with np.load(request['path'],allow_pickle=False) as data:
-            meta=json.loads(str(data['metadata']))
-            return store({k:data[k].copy() for k in ('velocity','pressure','density','solid') if k in data},meta)
+        return store(*read_frame(request['path']))
     fields,meta=get(request['frame']);spec=meta['case'];name=request.get('field','speed')
     if action=='save':
         path=Path(request['path']);path.parent.mkdir(parents=True,exist_ok=True)

@@ -33,28 +33,67 @@ def record(session, steps, interval, directory, checkpoint):
     return {'manifest':str(root/'manifest.json'),'frames':len(frames)}
 
 
+MAX_PATH_POINTS = 100000
+
+
+def read_manifest(manifest):
+    path=Path(manifest).resolve()
+    if path.stat().st_size>2_000_000:raise ValueError('Recording manifest exceeds 2 MB')
+    data=json.loads(path.read_text())
+    if not isinstance(data,dict) or not isinstance(data.get('case'),dict):
+        raise ValueError('Recording requires case metadata')
+    frames=data.get('frames')
+    if not isinstance(frames,list) or not 1<=len(frames)<=1000:
+        raise ValueError('Recording requires 1..1000 frames')
+    previous=-float('inf')
+    for entry in frames:
+        if not isinstance(entry,dict) or not isinstance(entry.get('file'),str):
+            raise ValueError('Recording frame requires a filename')
+        target=(path.parent/entry['file']).resolve()
+        if target.parent!=path.parent:raise ValueError('Frame path must stay in the recording directory')
+        time=entry.get('time')
+        if not isinstance(time,(int,float)) or not np.isfinite(time) or time<=previous:
+            raise ValueError('Recording times must be finite and increase')
+        previous=time
+    dx=data['case'].get('physical_dx',data['case'].get('dx',1.))
+    if not isinstance(dx,(int,float)) or not np.isfinite(dx) or dx<=0:
+        raise ValueError('Recording spacing must be finite and positive')
+    return path,data,dx
+
+
 def load_frame(manifest,index):
-    from .fields import dispatch_field
-    path=Path(manifest);data=json.loads(path.read_text())
+    from .fields import read_frame,store
+    path,data,_=read_manifest(manifest)
     if type(index) is not int or not 0<=index<len(data['frames']):raise ValueError('Frame index outside recording')
-    target=(path.parent/data['frames'][index]['file']).resolve()
-    if target.parent!=path.parent.resolve():raise ValueError('Frame path must stay in the recording directory')
-    return dispatch_field({'action':'load','path':str(target)})
+    entry=data['frames'][index]
+    arrays,meta=read_frame(path.parent/entry['file'])
+    if meta['case']!=data['case'] or meta.get('time')!=entry['time']:
+        raise ValueError('Recording frame metadata does not match the manifest')
+    return store(arrays,meta)
 
 
 def pathlines(manifest,seeds,last=None,checkpoint=lambda n:None):
     from .plugin import sample_arrays
-    root=Path(manifest);data=json.loads(root.read_text());frames=data['frames'];last=len(frames)-1 if last is None else int(last)
-    if len(seeds)>200 or not 0<=last<len(frames):raise ValueError('At most 200 seeds and a valid final frame index')
-    points=np.asarray(seeds,float);paths=[[p.tolist()] for p in points];alive=np.ones(len(points),bool)
+    from .fields import read_frame
+    root,data,dx=read_manifest(manifest);frames=data['frames']
+    last=len(frames)-1 if last is None else last
+    if type(last) is not int or not 0<=last<len(frames):raise ValueError('Invalid final frame index')
+    points=np.asarray(seeds,float)
+    if points.ndim!=2 or points.shape[1]!=3 or not 1<=len(points)<=200 or not np.isfinite(points).all():
+        raise ValueError('Use 1..200 finite three-coordinate seeds')
+    points=points.copy()
+    paths=[[p.tolist()] for p in points];alive=np.ones(len(points),bool);total=len(points)
     def read(entry):
-        path=(root.parent/entry['file']).resolve()
-        if path.parent!=root.parent.resolve():raise ValueError('Invalid recording path')
-        with np.load(path,allow_pickle=False) as f:return {k:f[k].copy() for k in ('velocity','pressure','density','solid') if k in f}
-    before=read(frames[0]);dx=data['case'].get('physical_dx',data['case'].get('dx',1.))
+        checkpoint(0)
+        arrays,meta=read_frame(root.parent/entry['file'])
+        if meta['case']!=data['case'] or meta.get('time')!=entry['time']:
+            raise ValueError('Recording frame metadata does not match the manifest')
+        return arrays
+    before=read(frames[0])
     for k in range(last):
         after=read(frames[k+1]);dt=frames[k+1]['time']-frames[k]['time']
-        if dt<=0:raise ValueError('Recording times must increase')
+        if after['velocity'].shape!=before['velocity'].shape:
+            raise ValueError('Recording frame lattice shapes must match')
         speed=max(np.linalg.norm(before['velocity'],axis=0).max(),np.linalg.norm(after['velocity'],axis=0).max())
         sub=max(1,int(np.ceil(dt*speed/dx/.4)))
         if sub>1000:raise ValueError('Frames too far apart for pathline integration')
@@ -71,6 +110,7 @@ def pathlines(manifest,seeds,last=None,checkpoint=lambda n:None):
                 if a is None or b is None:alive[i]=False;continue
                 q=p+h*((1-t)*np.array(a['velocity'])+t*np.array(b['velocity']))
                 if sample_arrays(after,[q])[0] is None:alive[i]=False;continue
-                points[i]=q;paths[i].append(q.tolist())
+                if total>=MAX_PATH_POINTS:raise ValueError('Pathlines exceed 100000 point budget; reduce seeds or frame range')
+                points[i]=q;paths[i].append(q.tolist());total+=1
         before=after
     return {'paths':paths,'time':frames[last]['time'],'case':data['case']}

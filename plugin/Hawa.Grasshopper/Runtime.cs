@@ -142,7 +142,7 @@ public abstract class HawaComponent : GH_Component
             }
             SolveHawa(da);
         }
-        catch (Exception ex) { AddRuntimeMessage(GH_RuntimeMessageLevel.Error, ex.GetBaseException().Message); }
+        catch (Exception ex) { InputsMissing(); AddRuntimeMessage(GH_RuntimeMessageLevel.Error, ex.GetBaseException().Message); }
     }
     protected string LocalPath(string path) {
         if(System.IO.Path.IsPathRooted(path))return System.IO.Path.GetFullPath(path);

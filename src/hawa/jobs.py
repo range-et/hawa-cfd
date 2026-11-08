@@ -119,10 +119,13 @@ class Job:
                 self.disposed = True
                 self.cancelled = True
                 if self.session is not None and self.state == 'completed':
+                    # A completed creation job can own a running Solve session.
+                    # Request cancellation before dropping its registry entry.
+                    self.session.stop.set()
                     with REGISTRY_LOCK:
                         SESSIONS.pop(self.session.id, None)
                     self.session = None
-                    self.result = None
+                self.result = None
                 self.condition.notify_all()
             elif self.state in ('completed', 'cancelled', 'failed'):
                 return

@@ -8,6 +8,9 @@ ROOT = Path(__file__).resolve().parents[1]
 cpu = ROOT / "results/examples/backport-cpu"
 gpu = ROOT / "results/examples/backport-mps"
 records = []
+report_path=ROOT / "results/examples/parity.json"
+# A failed rerun must never leave an earlier successful report behind.
+report_path.unlink(missing_ok=True)
 for path in sorted(cpu.glob("*/report.json")):
     other = gpu / path.parent.name / "report.json"
     if not other.exists():
@@ -28,13 +31,15 @@ for path in sorted(cpu.glob("*/report.json")):
                 # not equality after an unstable trajectory has diverged.
                 if sa["failure_detection_example"]:
                     continue
-                np.testing.assert_allclose(fb[name], fa[name], rtol=1e-3, atol=1e-5 * abs(scale),
-                                           equal_nan=False, err_msg=a["source"] + " / " + name)
+                passed=bool(np.allclose(fb[name],fa[name],rtol=1e-3,atol=1e-5*abs(scale),equal_nan=False))
                 comparisons.append({"simulation": number, "field": name,
                                     "max_abs_error": float(np.max(np.abs(fb[name] - fa[name]))),
-                                    "rtol": 1e-3, "atol": 1e-5 * abs(scale)})
+                                    "rtol": 1e-3, "atol": 1e-5 * abs(scale),"passed":passed})
     records.append({"source": a["source"], "simulations": len(a["simulations"]),
-                    "comparisons": comparisons, "passed": True})
-report = {"passed": True, "profile": "bounded", "examples": records}
+                    "comparisons": comparisons, "passed": all(c['passed'] for c in comparisons)})
+report = {"passed": all(r['passed'] for r in records), "profile": "bounded", "examples": records}
 (ROOT / "results/examples/parity.json").write_text(json.dumps(report, indent=2) + "\n")
-print("CPU/MPS example parity:", len(records), "entrypoints passed")
+print("CPU/MPS example parity:", sum(r['passed'] for r in records),"/",len(records), "entrypoints passed")
+for record in records:
+    if not record['passed']:print('FAILED:',record['source'])
+raise SystemExit(0 if report['passed'] else 1)
