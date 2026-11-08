@@ -47,3 +47,15 @@ runtime graphics assemblies are supplied by Rhino, not bundled in the zip.
 Hawa is an independent project. These credits do not imply endorsement by the
 upstream projects or their authors. Future inclusion of third-party source/assets
 must preserve the applicable license and attribution rather than assuming MIT.
+
+## Monad System
+
+The website uses the generated Monad CSS. The website assets and video renderer use its palette.
+
+- Source: https://github.com/range-et/monad_system
+- Commit: `358d0559da407897957a5817b24f9ebd8774b791`
+- License: MIT
+- Copyright (c) 2025 Indrajeet Haldar
+
+The full license is in `vendor/monad_system/LICENSE`. The static website also includes it at `assets/monad/LICENSE.txt`.
+The Hawa layouts and video renderer use the supplied tokens. The original Rhino screenshots retain their captured interface colors.

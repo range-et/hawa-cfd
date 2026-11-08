@@ -1,0 +1,23 @@
+Title
+Hawa: GPU flow simulation in Rhino and Grasshopper
+
+Description
+Hawa runs a lattice Boltzmann solver inside Rhino 8. Define the case in Grasshopper. View the velocity and pressure in Rhino.
+
+This video presents captions and screenshots from the verified Rhino sessions. The vortex run completed 200 iterations on PyTorch MPS.
+
+Project: https://range-et.github.io/hawa-cfd/
+Source and examples: https://github.com/range-et/hawa-cfd
+Download: https://github.com/range-et/hawa-cfd/releases/tag/v0.2.0
+
+00:00 Open the example
+00:14 Select the backend
+00:32 View the speed field
+
+Runtime: Python 3.9, PyTorch 2.8.0, NumPy 2.0.2.
+CPU and MPS checks passed. NVIDIA hardware and Windows installation checks remain open.
+
+Lettuce supplies the numerical engine under the MIT license. Monad System supplies the visual tokens under the MIT license.
+Butterfly informs the workflow. Hawa contains no Butterfly code or assets.
+Notices: https://github.com/range-et/hawa-cfd/blob/main/THIRD_PARTY_NOTICES.md
+Monad: https://github.com/range-et/monad_system

@@ -1,47 +1,81 @@
-<p align="center"><img src="site/assets/hawa.svg" width="76" alt="Hawa"></p>
+# Hawa
 
-# Hawa — Flow, inside Rhino.
+**GPU lattice Boltzmann simulation for Rhino 8 and Grasshopper.**
 
-**An open-source GPU lattice Boltzmann prototype for Rhino 8 and Grasshopper.** Create a domain, voxelize closed geometry, set the physics, and inspect the resulting flow fields without launching an external solver.
+Hawa runs the numerical engine in Rhino's Python runtime. Define the case in Grasshopper. View the velocity and pressure in Rhino.
 
-[Project page](https://range-et.github.io/hawa-cfd/) · [Download v0.2.0](https://github.com/range-et/hawa-cfd/releases/download/v0.2.0/Hawa-0.2.0-rh8.zip) · [Installation guide](docs/plugin.md) · [Editable examples](examples/grasshopper)
+[Project page](https://range-et.github.io/hawa-cfd/) · [Download v0.2.0](https://github.com/range-et/hawa-cfd/releases/download/v0.2.0/Hawa-0.2.0-rh8.zip) · [Installation guide](docs/plugin.md) · [Examples](examples/grasshopper)
 
-![The Hawa Grasshopper workflow, with a completed 300-step MPS run](docs/captures/06-block-mps-completed.jpg)
+![The block definition after 300 MPS iterations](docs/captures/06-block-mps-completed.jpg)
 
-## What is here
+## Scope
 
-- **15 Grasshopper components** with original icons, input descriptions, and numbered workflow groups.
-- **8 editable `.gh` definitions**, including Taylor–Green vortices, cavity flow, forced channel flow, and a self-contained 3D block case.
-- **Embedded Python 3.9 + PyTorch** with explicit `auto`, `cpu`, `mps`, and `cuda:0` selection.
-- **Native results**: colored field slices, point sampling, velocity vectors, snapshot streamlines, and local NPZ checkpoints/exports.
-- A complete vendored Lettuce source tree, original upstream tests, additional compatibility checks, and a separate unmodified reference environment.
+This release is an experimental prototype. It includes:
 
-Apple GPU acceleration uses **PyTorch MPS**, not MLX. CPU and MPS have been exercised on this Mac. NVIDIA CUDA and Windows installation verification remain outstanding.
+- **15 Grasshopper components** for domains, geometry, physics, solving, results, and files.
+- **8 editable `.gh` definitions** with controls and instructions.
+- **Python 3.9 and PyTorch 2.8.0** inside Rhino.
+- **Device selection** through `auto`, `cpu`, `mps`, or `cuda:0`.
+- **Results** through field slices, point sampling, velocity vectors, snapshot streamlines, and local NPZ files.
+- **Lettuce source and tests**, plus Hawa compatibility checks and an unmodified upstream reference environment.
 
-## Start in Grasshopper
+Apple GPU acceleration uses PyTorch MPS. CPU and MPS checks passed on this Mac. NVIDIA hardware and Windows installation checks remain open.
 
-1. [Download the plugin ZIP](https://github.com/range-et/hawa-cfd/releases/download/v0.2.0/Hawa-0.2.0-rh8.zip) and copy its **entire `Hawa` folder** into Grasshopper's Libraries directory. Restart Rhino 8.
-2. Open `Hawa/examples/01-tgv3d-bgk.gh`. Rhino downloads the pinned dependencies on first initialization; allow time and internet access for this setup.
-3. Choose **auto** in Backend and double-click **Run / Pause**. Keep Grasshopper open while viewing its Rhino preview.
-4. Change the displayed field or slice. Run false pauses; Reset true → false clears state; Run false → true resumes toward the absolute target iteration count.
+## Install
 
-No separate Python installation or OpenFOAM installation is required. If another script already loaded a conflicting NumPy version, restart Rhino before initializing Hawa. See [the full plugin guide](docs/plugin.md) for units, controls and troubleshooting.
+1. [Download the plugin ZIP](https://github.com/range-et/hawa-cfd/releases/download/v0.2.0/Hawa-0.2.0-rh8.zip).
+2. Copy the complete **Hawa** folder into Grasshopper's Libraries directory.
+3. Restart Rhino 8.
+4. Open `Hawa/examples/01-tgv3d-bgk.gh`.
+5. Allow Rhino to install the pinned dependencies. This first setup needs internet access.
+6. Select **auto** in Backend.
+7. Double-click **Run / Pause**.
+8. Keep Grasshopper open while you inspect the Rhino preview.
 
-## Watch the walkthroughs
+The package uses Rhino's Python runtime. The numerical solver runs in Rhino's process. If another script loaded an incompatible NumPy version, restart Rhino before you initialize Hawa.
 
-The launch videos use captioned screenshots from the actual verified Rhino sessions. They are screenshot-based walkthroughs, not continuous screen recordings. Public YouTube links are listed here once published.
+See [the plugin guide](docs/plugin.md) for units, controls, and troubleshooting.
+
+## Videos
+
+The videos use captions and screenshots from the verified Rhino sessions. They have no audio. The edits use the Monad palette and Helvetica titles.
+
+| Video | File |
+| --- | --- |
+| Hawa overview | [Download MP4](https://github.com/range-et/hawa-cfd/releases/download/v0.2.0/hawa-first-look.mp4) |
+| 3D block flow | [Download MP4](https://github.com/range-et/hawa-cfd/releases/download/v0.2.0/hawa-block-workflow.mp4) |
 
 <!-- HAWA_VIDEO_LINKS -->
 
-## A physical case you can edit
+[Video source and captions](docs/media/README.md) · [Original captures](docs/captures/README.md)
 
-![Block obstacle, computed speed slice and instantaneous streamlines in Rhino](docs/captures/07-block-rhino-preview.jpg)
+## Examples
 
-Open `08-wind-around-block.gh` to follow Domain → Geometry / Physics / Boundaries → Case → Solve → Slice / Streamlines. Its geometry is internalized and its length units are explicitly meters. It uses a viscous demonstration fluid (`nu = 0.1 m²/s`); it is not a validated atmospheric wind analysis.
+The gallery contains five Taylor–Green cases, a driven cavity, a forced channel, and a physical block case.
+
+Open `08-wind-around-block.gh` to follow the full workflow:
+
+```text
+Domain → Geometry + Physics + Boundaries → Case → Solve → Slice / Streamlines
+```
+
+The block definition contains its geometry. Its length units are meters. Its demonstration viscosity is `0.1 m²/s`. Atmospheric validation remains open.
+
+![The block, speed slice, and snapshot streamlines in Rhino](docs/captures/07-block-rhino-preview.jpg)
+
+### Controls
+
+- Set Run to false to pause.
+- Toggle Reset from false to true to clear the state.
+- Toggle Run from false to true to start or resume.
+- Set Target iterations to the required total count.
+- Set Slice index to `-1` to select the center.
+
+Pause the solver before you change its case or backend. Those changes create an idle session.
 
 ## Development
 
-The production target is CPython 3.9 with PyTorch 2.8.0 and NumPy 2.0.2. Python 3.12 is a separate unmodified upstream oracle, not a user dependency.
+The production target is Python 3.9 with PyTorch 2.8.0 and NumPy 2.0.2. A separate Python 3.12 environment runs unmodified upstream Lettuce for reference comparisons.
 
 ```sh
 uv sync --extra test
@@ -56,19 +90,49 @@ uv sync --extra test
 .venv/bin/python scripts/build_plugin.py
 ```
 
-The Rhino SDK must be installed to build the Grasshopper assembly. Run `scripts/create_grasshopper_examples.cs` inside Rhino to regenerate the native examples; `scripts/verify_grasshopper_examples.cs` reopens their saved graphs and verifies MPS stepping and meshes. These developer scripts currently use this checkout's absolute path; adjust `root`/paths on another machine.
+The Grasshopper build needs the installed Rhino SDK. Run `scripts/create_grasshopper_examples.cs` inside Rhino to create the `.gh` files. Run `scripts/verify_grasshopper_examples.cs` to reopen and check those graphs.
 
-## Verification status
+The C# helper scripts contain this checkout's paths. Change the paths before you run the scripts on another machine.
 
-- Hawa tests: **77 passed, 29 skipped** on this Mac.
-- Vendored upstream suite: **419 passed, 884 skipped** in the last complete run. Skips include unavailable native/CUDA combinations and upstream exclusions; they are not additional passing tests.
-- Six comparable core cases: CPU FP32/FP64 field arrays bitwise match the upstream oracle; MPS comparisons pass declared tolerances. The repaired cavity is checked separately because the upstream constructor fails.
-- All **16 original executable example entrypoints** complete bounded CPU and MPS runs. Default stepping caps are 50 iterations (250 for the intentional-failure example); this does not establish original full-duration convergence.
-- PorousMedium has a localized CPU/MPS FP32 KBC difference after the bounded run. Its strict pointwise comparison remains a known discrepancy, despite small aggregate relative errors. Do not claim universal pointwise example parity.
-- All **8 native Grasshopper definitions** reopen and run their actual graphs to 25 MPS steps with valid slice meshes. UI verification additionally ran the vortex to 200 and block case to 300 steps in embedded CPython 3.9.10, PyTorch 2.8.0, NumPy 2.0.2, without diagnostic overrides.
+### Website and videos
 
-The `.gh` gallery covers seven numerical cases plus a physical block workflow; it does not yet wrap all sixteen upstream entrypoints. The block uses a viscous demonstration fluid and is not a validated atmospheric analysis. Production CFD validation, complete upstream-example GH wrappers, and NVIDIA/Windows verification remain work to do.
+The website and video renderer use the pinned Monad palette in `vendor/monad_system/colors.json`.
 
-See [the editable example gallery](examples/grasshopper/README.md), [screenshots and video shot list](docs/captures/README.md), [backport notes](vendor/lettuce/PORTING.md), and [third-party notices](THIRD_PARTY_NOTICES.md).
+```sh
+.venv/bin/python scripts/sync_design_tokens.py
+.venv/bin/python scripts/build_site.py
+.venv/bin/python scripts/make_walkthroughs.py
+```
 
-Hawa and vendored Lettuce retain MIT notices. Butterfly is **GPL-3.0+**, used only as an API/workflow reference; no Butterfly code or assets are bundled.
+The video renderer needs macOS Helvetica Neue and Menlo, Pillow, ffmpeg, and ffprobe. It writes the MP4 files to ignored `dist/videos-monad/`.
+
+## Verification
+
+| Check | Result |
+| --- | --- |
+| Hawa tests | 77 passed, 29 skipped |
+| Vendored upstream tests | 419 passed, 884 skipped |
+| Core CPU comparisons | FP32 and FP64 arrays matched the upstream oracle bitwise |
+| Core MPS comparisons | Arrays passed the declared tolerances |
+| Original executable examples | All 16 completed bounded CPU and MPS runs |
+| Native Grasshopper graphs | All 8 reopened and completed 25 MPS steps with valid slice meshes |
+| Visible Rhino runs | Vortex: 200 MPS iterations. Block: 300 MPS iterations |
+
+The clean Rhino session used CPython 3.9.10, PyTorch 2.8.0, and NumPy 2.0.2.
+
+The default example harness limits runs to 50 steps. It permits 250 steps for the intentional failure example. Full-duration convergence checks remain open.
+
+PorousMedium has a known pointwise CPU/MPS difference after the bounded FP32 KBC run. Its geometry masks match. The strict pointwise comparison remains open.
+
+The gallery contains eight `.gh` files. Wrappers for the remaining upstream examples remain open. Production CFD validation, NVIDIA checks, and Windows installation checks also remain open.
+
+See [the verification notes](docs/backport.md) for the check scope and upstream exclusions.
+
+## Attribution
+
+- **Hawa:** MIT license. See [LICENSE](LICENSE).
+- **Lettuce:** MIT license. The vendored source retains its original copyright and author notices.
+- **Butterfly:** GPL-3.0+ workflow reference. Hawa contains no Butterfly code or assets.
+- **Monad System:** MIT license. The website and videos use its pinned colors and styles.
+
+See [the third-party notices](THIRD_PARTY_NOTICES.md) and [the Monad license](vendor/monad_system/LICENSE).

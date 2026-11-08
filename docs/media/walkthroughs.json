@@ -1,80 +1,148 @@
 [
   {
     "slug": "hawa-first-look",
-    "title": "Hawa: GPU CFD inside Rhino and Grasshopper | First Look",
-    "duration_seconds": 63.0,
+    "title": "Hawa: GPU flow simulation in Rhino and Grasshopper",
+    "duration_seconds": 57.0,
     "chapters": [
       {
         "seconds": 0,
-        "title": "Flow, inside Rhino."
+        "title": "Hawa"
       },
       {
         "seconds": 5,
-        "title": "A Grasshopper workflow you can open."
+        "title": "Open the example"
       },
       {
         "seconds": 14,
-        "title": "Choose a case. Choose a backend."
+        "title": "Select the backend"
       },
       {
         "seconds": 23,
-        "title": "200 iterations on the Apple GPU."
+        "title": "Run the solver"
       },
       {
         "seconds": 32,
-        "title": "See the field directly in Rhino."
+        "title": "View the speed field"
       },
       {
-        "seconds": 41,
-        "title": "One engine. Three device choices."
+        "seconds": 42,
+        "title": "Check device support"
       },
       {
-        "seconds": 49,
-        "title": "Open it. Run it. Tweak it."
+        "seconds": 50,
+        "title": "Hawa"
       }
     ],
     "file": "hawa-first-look.mp4",
-    "format": "1920x1080, captioned screenshot walkthrough, no audio"
+    "theme": "Monad System",
+    "theme_commit": "358d0559da407897957a5817b24f9ebd8774b791",
+    "format": "1920x1080 H.264, captioned screenshots, no audio",
+    "captions": [
+      {
+        "title": "Hawa",
+        "text": "GPU flow simulation in Rhino 8 and Grasshopper."
+      },
+      {
+        "title": "Open the example",
+        "text": "Open the supplied Grasshopper definition. Select a backend."
+      },
+      {
+        "title": "Select the backend",
+        "text": "Auto checks the available devices. This Mac selected MPS."
+      },
+      {
+        "title": "Run the solver",
+        "text": "The vortex completed 200 iterations inside Rhino."
+      },
+      {
+        "title": "View the speed field",
+        "text": "The slice shows the computed velocity magnitude. Blue marks low values. Red marks high values."
+      },
+      {
+        "title": "Check device support",
+        "text": "CPU and MPS checks passed. CUDA hardware checks remain open."
+      },
+      {
+        "title": "Hawa",
+        "text": "Download the plugin. Open an example. Change the inputs."
+      }
+    ]
   },
   {
     "slug": "hawa-block-workflow",
-    "title": "Hawa: 3D Block Flow in Grasshopper | Embedded MPS Workflow",
-    "duration_seconds": 74.0,
+    "title": "Hawa: 3D block flow in Grasshopper with MPS",
+    "duration_seconds": 68.0,
     "chapters": [
       {
         "seconds": 0,
-        "title": "Geometry to flow, in one definition."
+        "title": "Hawa"
       },
       {
         "seconds": 5,
-        "title": "Build the physical case."
+        "title": "Define the case"
       },
       {
         "seconds": 15,
-        "title": "Set units and resolution explicitly."
+        "title": "Set the length units"
       },
       {
         "seconds": 24,
-        "title": "Run the embedded solver on MPS."
+        "title": "Run 300 iterations"
       },
       {
-        "seconds": 33,
-        "title": "Inspect the obstacle and its wake."
+        "seconds": 34,
+        "title": "View the flow field"
       },
       {
-        "seconds": 43,
-        "title": "Edit the definition and experiment."
+        "seconds": 44,
+        "title": "Pause or reset"
       },
       {
-        "seconds": 52,
-        "title": "A working prototype, with stated limits."
+        "seconds": 53,
+        "title": "Check the physical case"
       },
       {
-        "seconds": 60,
-        "title": "Try the editable block example."
+        "seconds": 61,
+        "title": "Hawa"
       }
     ],
     "file": "hawa-block-workflow.mp4",
-    "format": "1920x1080, captioned screenshot walkthrough, no audio"
+    "theme": "Monad System",
+    "theme_commit": "358d0559da407897957a5817b24f9ebd8774b791",
+    "format": "1920x1080 H.264, captioned screenshots, no audio",
+    "captions": [
+      {
+        "title": "Hawa",
+        "text": "Three-dimensional flow around a block."
+      },
+      {
+        "title": "Define the case",
+        "text": "Connect the domain, geometry, physics, and boundaries to Case."
+      },
+      {
+        "title": "Set the length units",
+        "text": "Use meters. Set the cell size to 0.5 meters."
+      },
+      {
+        "title": "Run 300 iterations",
+        "text": "The case completed 300 iterations on MPS. The grid contains 33 \u00d7 17 \u00d7 17 sites."
+      },
+      {
+        "title": "View the flow field",
+        "text": "The slice excludes solid cells. Each streamline follows one field snapshot."
+      },
+      {
+        "title": "Pause or reset",
+        "text": "Set Run to false to pause. Toggle Reset to clear the state."
+      },
+      {
+        "title": "Check the physical case",
+        "text": "The demonstration viscosity is 0.1 m\u00b2/s. Atmospheric validation remains open."
+      },
+      {
+        "title": "Hawa",
+        "text": "Open the block example. Change its controls. Inspect the results."
+      }
+    ]
   }
 ]

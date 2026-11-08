@@ -1,0 +1,1 @@
+{"repository":"https://github.com/range-et/monad_system","commit":"358d0559da407897957a5817b24f9ebd8774b791","files":{"colors.json":"vendor/monad_system/colors.json","build/monad.css":"site/assets/monad/monad.css","LICENSE":"vendor/monad_system/LICENSE"},"usage":"Design tokens and web styles. The video renderer reads the same palette."}
