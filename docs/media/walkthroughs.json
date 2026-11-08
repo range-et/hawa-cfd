@@ -1,0 +1,80 @@
+[
+  {
+    "slug": "hawa-first-look",
+    "title": "Hawa: GPU CFD inside Rhino and Grasshopper | First Look",
+    "duration_seconds": 63.0,
+    "chapters": [
+      {
+        "seconds": 0,
+        "title": "Flow, inside Rhino."
+      },
+      {
+        "seconds": 5,
+        "title": "A Grasshopper workflow you can open."
+      },
+      {
+        "seconds": 14,
+        "title": "Choose a case. Choose a backend."
+      },
+      {
+        "seconds": 23,
+        "title": "200 iterations on the Apple GPU."
+      },
+      {
+        "seconds": 32,
+        "title": "See the field directly in Rhino."
+      },
+      {
+        "seconds": 41,
+        "title": "One engine. Three device choices."
+      },
+      {
+        "seconds": 49,
+        "title": "Open it. Run it. Tweak it."
+      }
+    ],
+    "file": "hawa-first-look.mp4",
+    "format": "1920x1080, captioned screenshot walkthrough, no audio"
+  },
+  {
+    "slug": "hawa-block-workflow",
+    "title": "Hawa: 3D Block Flow in Grasshopper | Embedded MPS Workflow",
+    "duration_seconds": 74.0,
+    "chapters": [
+      {
+        "seconds": 0,
+        "title": "Geometry to flow, in one definition."
+      },
+      {
+        "seconds": 5,
+        "title": "Build the physical case."
+      },
+      {
+        "seconds": 15,
+        "title": "Set units and resolution explicitly."
+      },
+      {
+        "seconds": 24,
+        "title": "Run the embedded solver on MPS."
+      },
+      {
+        "seconds": 33,
+        "title": "Inspect the obstacle and its wake."
+      },
+      {
+        "seconds": 43,
+        "title": "Edit the definition and experiment."
+      },
+      {
+        "seconds": 52,
+        "title": "A working prototype, with stated limits."
+      },
+      {
+        "seconds": 60,
+        "title": "Try the editable block example."
+      }
+    ],
+    "file": "hawa-block-workflow.mp4",
+    "format": "1920x1080, captioned screenshot walkthrough, no audio"
+  }
+]
