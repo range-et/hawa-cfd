@@ -14,8 +14,8 @@ def wait(job, state):
     raise AssertionError(v)
 
 
-def test_job_controls_and_completed_identity():
-    req=dict(op='evaluate_submit',case=spec(),device='cpu',steps=40,window=10,reference_volume=6)
+def test_job_controls_and_completed_identity(solver_device):
+    req=dict(op='evaluate_submit',case=spec(),device=solver_device,steps=40,window=10,reference_volume=6)
     a=dispatch(req)['job']
     try:
         done=wait(a,{'completed','failed'})
@@ -25,10 +25,10 @@ def test_job_controls_and_completed_identity():
     assert a not in JOBS
 
 
-def test_queued_pause_and_cancel_are_nonblocking():
+def test_queued_pause_and_cancel_are_nonblocking(solver_device):
     from hawa.jobs import DEVICE_SLOT
     DEVICE_SLOT.acquire()
-    a=dispatch(dict(op='evaluate_submit',case=spec(),device='cpu',steps=100,window=10,reference_volume=6))['job']
+    a=dispatch(dict(op='evaluate_submit',case=spec(),device=solver_device,steps=100,window=10,reference_volume=6))['job']
     try:
         dispatch(dict(op='evaluate_control',job=a,action='pause'))
         assert wait(a,{'paused'})['result'] is None
@@ -39,12 +39,12 @@ def test_queued_pause_and_cancel_are_nonblocking():
         dispatch(dict(op='evaluate_control',job=a,action='close'))
 
 
-def test_mean_independent_of_call_batch():
-    a=Session({'example':'tgv3d-bgk','size':8},'cpu')
-    b=Session({'example':'tgv3d-bgk','size':8},'cpu')
+def test_mean_independent_of_call_batch(solver_device):
+    a=Session({'example':'tgv3d-bgk','size':8},solver_device)
+    b=Session({'example':'tgv3d-bgk','size':8},solver_device)
     a.advance(10)
     for _ in range(10):b.advance(1)
-    np.testing.assert_array_equal(a.mean_u.numpy(),b.mean_u.numpy())
+    np.testing.assert_array_equal(a.mean_u.cpu().numpy(),b.mean_u.cpu().numpy())
     assert a.samples==b.samples==2
 
 
@@ -55,8 +55,8 @@ def test_wall_interpolation_does_not_mix_solid():
     assert sample_arrays(f,[[1,1,1]])[0]['speed']>0
 
 
-def test_quick_pause_resume_does_not_lose_run():
-    s=Session({'example':'tgv3d-bgk','size':8},'cpu')
+def test_quick_pause_resume_does_not_lose_run(solver_device):
+    s=Session({'example':'tgv3d-bgk','size':8},solver_device)
     s.start(300)
     for _ in range(10):
         s.stop.set()
@@ -66,9 +66,9 @@ def test_quick_pause_resume_does_not_lose_run():
     assert s.state=='completed' and s.flow.i==300
 
 
-def test_background_creation_cleanup():
+def test_background_creation_cleanup(solver_device):
     from hawa.plugin import SESSIONS
-    job=dispatch(dict(op='evaluate_submit',kind='create',case={'example':'tgv3d-bgk','size':8},device='cpu'))['job']
+    job=dispatch(dict(op='evaluate_submit',kind='create',case={'example':'tgv3d-bgk','size':8},device=solver_device))['job']
     done=wait(job,{'completed','failed'})
     assert done['state']=='completed'
     session=done['result']['status']['session']
@@ -77,13 +77,13 @@ def test_background_creation_cleanup():
     assert session not in SESSIONS
 
 
-def test_cancelled_candidate_never_publishes_or_leaks():
+def test_cancelled_candidate_never_publishes_or_leaks(solver_device):
     from hawa.jobs import DEVICE_SLOT
     from hawa.plugin import SESSIONS
     before=set(SESSIONS)
     DEVICE_SLOT.acquire()
     try:
-        job=dispatch(dict(op='evaluate_submit',case=spec(),device='cpu',steps=40,window=10,reference_volume=6))['job']
+        job=dispatch(dict(op='evaluate_submit',case=spec(),device=solver_device,steps=40,window=10,reference_volume=6))['job']
         worker=JOBS[job]
         dispatch(dict(op='evaluate_control',job=job,action='close'))
     finally:DEVICE_SLOT.release()
@@ -102,9 +102,9 @@ def test_query_failure_preserves_diagnostic():
     finally:dispatch(dict(op='evaluate_control',job=job,action='close'))
 
 
-def test_closing_creation_job_stops_running_solver():
+def test_closing_creation_job_stops_running_solver(solver_device):
     from hawa.plugin import SESSIONS
-    job=dispatch(dict(op='evaluate_submit',kind='create',case={'example':'tgv3d-bgk','size':8},device='cpu'))['job']
+    job=dispatch(dict(op='evaluate_submit',kind='create',case={'example':'tgv3d-bgk','size':8},device=solver_device))['job']
     done=wait(job,{'completed','failed'})
     assert done['state']=='completed'
     session=SESSIONS[done['result']['status']['session']]

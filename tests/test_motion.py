@@ -23,9 +23,9 @@ def test_motion_derivative_and_rotation():
         np.testing.assert_allclose(velocity,np.cross(m['omega'],r[:,0]),atol=1e-8)
 
 
-def test_moving_cpu_mps_and_nonzero_loads():
+def test_moving_device_parity_and_nonzero_loads():
     states=[]
-    for device in ['cpu']+(['mps'] if torch.backends.mps.is_available() else []):
+    for device in ['cpu']+(['mps'] if torch.backends.mps.is_available() else []) + (['cuda:0'] if torch.cuda.is_available() else []):
         s=Session(moving_case(),device);s.advance(12)
         assert s.flow.i==12 and len(s.solver.moving.history)==12
         assert np.isfinite(s.solver.moving.history[-1]['loads'][0]['force']).all()
@@ -33,39 +33,40 @@ def test_moving_cpu_mps_and_nonzero_loads():
     for state in states[1:]:np.testing.assert_allclose(state,states[0],rtol=3e-4,atol=3e-6)
 
 
-def test_moving_restart_matches_continuous(tmp_path):
-    s=Session(moving_case(),'cpu');SESSIONS[s.id]=s
+def test_moving_restart_matches_continuous(tmp_path, solver_device):
+    s=Session(moving_case(),solver_device);SESSIONS[s.id]=s
     try:
         s.advance(5);dispatch(dict(op='save',session=s.id,path=str(tmp_path/'state.npz')))
         s.advance(5);expected=s.flow.f.clone();load=s.solver.moving.history[-1]
         dispatch(dict(op='load',session=s.id,path=str(tmp_path/'state.npz')));s.advance(5)
-        np.testing.assert_array_equal(s.flow.f.numpy(),expected.numpy())
+        np.testing.assert_array_equal(s.flow.f.cpu().numpy(),expected.cpu().numpy())
         assert s.solver.moving.history[-1]==load
         dispatch(dict(op='reset',session=s.id));assert s.flow.i==0 and not s.solver.moving.history
     finally:dispatch(dict(op='close',session=s.id))
 
 
-def test_moving_speed_and_overlap_rejected():
+def test_moving_speed_and_overlap_rejected(solver_device):
     c=moving_case();c['moving_bodies'][0]['motion']['frequency']=100
-    with pytest.raises(ValueError,match='Mach'):Session(c,'cpu')
+    with pytest.raises(ValueError,match='Mach'):Session(c,solver_device)
     c=moving_case();b={**c['moving_bodies'][0],'id':'other'};c['moving_bodies'].append(b)
-    with pytest.raises(ValueError,match='overlap'):Session(c,'cpu')
+    with pytest.raises(ValueError,match='overlap'):Session(c,solver_device)
 
 
-def test_uniform_flow_translates_with_body_without_force_spikes():
+def test_uniform_flow_translates_with_body_without_force_spikes(solver_device):
     import sys
     from pathlib import Path
     sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
     from benchmark_motion import comoving
-    result=comoving('cpu',100)
+    result=comoving(solver_device,100)
     assert result['max_fluid_population_error']<3e-6
     assert result['max_force_newtons']<.002
 
 
-def test_couette_moving_reflection_matches_analytic_profile():
+def test_couette_moving_reflection_matches_analytic_profile(solver_device):
     import lettuce as lt
     from hawa.moving_boundaries import moving_reflection
-    stencil=lt.D2Q9();e=torch.tensor(stencil.e,dtype=torch.float64);w=torch.tensor(stencil.w,dtype=torch.float64)
+    if solver_device == 'mps':pytest.skip('MPS does not support float64')
+    stencil=lt.D2Q9();e=torch.tensor(stencil.e,dtype=torch.float64,device=solver_device);w=torch.tensor(stencil.w,dtype=torch.float64,device=solver_device)
     n=10;speed=.02;tau=.8
     populations=w[:,None,None].expand(-1,4,n).clone()
     for _ in range(1500):
@@ -77,51 +78,51 @@ def test_couette_moving_reflection_matches_analytic_profile():
         for i,v in enumerate(stencil.e):
             if v[1]==0:continue
             y=n-1 if v[1]>0 else 0;wall=speed if v[1]>0 else 0
-            populations[stencil.opposite[i],:,y]=moving_reflection(post[i,:,y],post[stencil.opposite[i],:,y],post[i,:,y],torch.tensor(.5),rho[:,y],wall*v[0],w[i])
+            populations[stencil.opposite[i],:,y]=moving_reflection(post[i,:,y],post[stencil.opposite[i],:,y],post[i,:,y],torch.tensor(.5,device=solver_device),rho[:,y],wall*v[0],w[i])
     u=torch.einsum('qd,qxy->dxy',e,populations)/populations.sum(0)
     expected=speed*(np.arange(n)+.5)/n
-    np.testing.assert_allclose(u[0].numpy(),np.broadcast_to(expected,(4,n)),rtol=2e-5,atol=1e-8)
+    np.testing.assert_allclose(u[0].cpu().numpy(),np.broadcast_to(expected,(4,n)),rtol=2e-5,atol=1e-8)
 
 
-def test_sdf_sampling_matches_sphere():
+def test_sdf_sampling_matches_sphere(solver_device):
     from hawa.moving_boundaries import MovingBoundaries
     c=moving_case();b=c['moving_bodies'][0];h=.125;lo=np.array([1.25,1.25,.75]);shape=[13]*3
     xyz=np.stack(np.meshgrid(*[lo[i]+np.arange(shape[i])*h for i in range(3)],indexing='ij'),-1)
     b['geometry']=dict(type='sdf',origin=lo.tolist(),shape=shape,spacing=h,values=(np.linalg.norm(xyz-np.array([2,2,1.5]),axis=-1)-.55).reshape(-1).tolist())
-    s=Session(c,'cpu');s.advance(5)
+    s=Session(c,solver_device);s.advance(5)
     assert s.flow.solid.any()
     assert np.isfinite(s.solver.moving.history[-1]['loads'][0]['force']).all()
 
 
-def test_recorded_pose_is_synchronized(tmp_path):
+def test_recorded_pose_is_synchronized(tmp_path, solver_device):
     from hawa.recording import record,load_frame
-    s=Session(moving_case(),'cpu');r=record(s,4,2,tmp_path/'motion',lambda n:None)
+    s=Session(moving_case(),solver_device);r=record(s,4,2,tmp_path/'motion',lambda n:None)
     frame=load_frame(r['manifest'],2)
     assert frame['motion']['poses'][0]['time']==frame['time']
     assert frame['motion']['poses']==s.solver.moving.poses
 
 
-def test_cycle_objective_rejects_partial_cycles():
+def test_cycle_objective_rejects_partial_cycles(solver_device):
     from hawa.motion import evaluate_motion
-    s=Session(moving_case(),'cpu')
+    s=Session(moving_case(),solver_device)
     with pytest.raises(ValueError,match='whole cycles'):evaluate_motion(s,dict(period=.3),lambda n:None)
 
 
-def test_cycle_evaluation_returns_complete_window():
+def test_cycle_evaluation_returns_complete_window(solver_device):
     from hawa.motion import evaluate_motion
     c=moving_case();m=c['moving_bodies'][0]['motion'];m.update(amplitude=.01,frequency=5)
-    s=Session(c,'cpu');result=evaluate_motion(s,dict(period=.2,settle_cycles=1,cycles=1,metric='input_power'),lambda n:None)
+    s=Session(c,solver_device);result=evaluate_motion(s,dict(period=.2,settle_cycles=1,cycles=1,metric='input_power'),lambda n:None)
     assert result['samples']>=10 and np.isfinite(result['fitness'])
     assert s.flow.i==result['steps']
     samples=[h['loads'][0]['power'] for h in s.solver.moving.history if .2<h['time']<=.4]
     np.testing.assert_allclose(result['fitness'],-np.mean(samples))
 
 
-def test_moving_recording_pathlines_and_pause_cancel(tmp_path):
+def test_moving_recording_pathlines_and_pause_cancel(tmp_path, solver_device):
     import time
     from hawa.jobs import JOBS
     c=moving_case()
-    job=dispatch(dict(op='evaluate_submit',kind='record',case=c,device='cpu',steps=1000,interval=100,directory=str(tmp_path/'run')))['job']
+    job=dispatch(dict(op='evaluate_submit',kind='record',case=c,device=solver_device,steps=1000,interval=100,directory=str(tmp_path/'run')))['job']
     worker=JOBS[job]
     dispatch(dict(op='evaluate_control',job=job,action='pause'))
     end=time.monotonic()+5
@@ -134,17 +135,62 @@ def test_moving_recording_pathlines_and_pause_cancel(tmp_path):
     assert not worker.thread.is_alive() and worker.result is None and worker.session is None
 
 
-def test_two_body_load_ids_and_domain_exit():
+def test_two_body_load_ids_and_domain_exit(solver_device):
     c=moving_case();first=c['moving_bodies'][0];first['geometry']['radius']=.3;first['pivot']=[1.5,2,1.5];first['geometry']['center']=[1.5,2,1.5]
     import copy
     second=copy.deepcopy(first);second['id']='second';second['pivot']=[3.5,2,1.5];second['geometry']['center']=[3.5,2,1.5];c['moving_bodies'].append(second)
-    s=Session(c,'cpu');s.advance(3)
+    s=Session(c,solver_device);s.advance(3)
     assert [v['id'] for v in s.solver.moving.history[-1]['loads']]==['body','second']
     c=moving_case();c['moving_bodies'][0]['pivot']=[.5,2,1.5];c['moving_bodies'][0]['geometry']['center']=[.5,2,1.5]
-    with pytest.raises(ValueError,match='clearance'):Session(c,'cpu')
+    with pytest.raises(ValueError,match='clearance'):Session(c,solver_device)
 
 
-def test_rotating_sphere_occupancy_is_constant():
+def test_rotating_sphere_occupancy_is_constant(solver_device):
     c=moving_case();c['moving_bodies'][0]['motion']=dict(type='rotation',axis=[0,0,1],rpm=5)
-    s=Session(c,'cpu');before=s.flow.solid.clone();s.advance(30)
+    s=Session(c,solver_device);before=s.flow.solid.clone();s.advance(30)
     assert torch.equal(before,s.flow.solid)
+
+
+@pytest.mark.parametrize('device', ['cuda:0'])
+def test_rotating_sphere_surface_mask_matches_cpu(device):
+    """Regression: FP32 SDF rounding must not change geometry across devices.
+
+    Four cells straddled sdf == 0 at dx=1/3 on the RTX 5070 Ti before the
+    ordered, rationalized distance calculation.
+    """
+    if not torch.cuda.is_available():pytest.skip('CUDA hardware unavailable')
+    case=moving_case()
+    case.update(shape=[25]*3,dx=1/3,viscosity=.2,mach=.1)
+    case['moving_bodies']=[dict(id='sphere',pivot=[4,4,4],
+        geometry=dict(type='sphere',center=[4,4,4],radius=1.),
+        motion=dict(type='rotation',axis=[0,0,1],rpm=.1*60/(2*np.pi),ramp=1.))]
+    cpu=Session(case,'cpu');gpu=Session(case,device)
+    np.testing.assert_array_equal(gpu.flow.solid.cpu().numpy(),cpu.flow.solid.numpy(),
+                                  err_msg='CPU/CUDA must classify the same sphere surface cells')
+
+
+@pytest.mark.parametrize('dimension', [2, 3])
+def test_radial_distance_preserves_surface_sign_and_accuracy(solver_device, dimension):
+    from hawa.moving_boundaries import _radial_distance
+    # Include the immediate representable neighbours of an on-surface point.
+    x=np.array([0., np.nextafter(np.float32(1),np.float32(0)), 1.,
+                np.nextafter(np.float32(1),np.float32(2)), 2.],np.float32)
+    points=np.zeros((len(x),dimension),np.float32);points[:,0]=x
+    actual=_radial_distance(torch.tensor(points,device=solver_device),1.).cpu().numpy()
+    np.testing.assert_array_equal(np.sign(actual),np.sign(x.astype(float)-1))
+    np.testing.assert_allclose(actual,x.astype(float)-1,rtol=2e-7,atol=1e-14)
+
+
+@pytest.mark.parametrize('kind', ['sphere', 'cylinder'])
+def test_rotated_off_pivot_body_geometry_device_parity(kind, solver_device):
+    case=moving_case();case.update(shape=[25]*3,dx=1/3,viscosity=.2,mach=.1)
+    geometry=dict(type=kind,center=[4,4,4],radius=1.)
+    if kind=='cylinder':geometry['length']=2.
+    case['moving_bodies']=[dict(id='body',pivot=[4.2,4,4],geometry=geometry,
+        motion=dict(type='rotation',axis=[1,2,3],rpm=.5))]
+    cpu=Session(case,'cpu');candidate=Session(case,solver_device)
+    for time in (0.,.23,1.):
+        cpu.solver.moving.update(time,False);candidate.solver.moving.update(time,False)
+        np.testing.assert_array_equal(candidate.flow.solid.cpu().numpy(),cpu.flow.solid.numpy())
+        np.testing.assert_allclose(candidate.solver.moving.distances[0].cpu().numpy(),
+                                   cpu.solver.moving.distances[0].numpy(),rtol=2e-6,atol=2e-7)

@@ -5,8 +5,8 @@ from hawa.backends import select_backend
 from hawa.lbm import VortexConfig, VortexSimulation
 
 
-def test_vortex_conservation_and_analytic_decay():
-    sim = VortexSimulation(select_backend("cpu"))
+def test_vortex_conservation_and_analytic_decay(solver_device):
+    sim = VortexSimulation(select_backend(solver_device))
     initial_energy = sim.diagnostics()["mean_kinetic_energy"]
     sim.advance(200)
     report = sim.diagnostics()
@@ -15,9 +15,9 @@ def test_vortex_conservation_and_analytic_decay():
     assert report["velocity_relative_l2_error"] < 0.02
 
 
-def test_chunked_stepping_matches_single_run():
-    a = VortexSimulation(select_backend("cpu"), VortexConfig(size=32))
-    b = VortexSimulation(select_backend("cpu"), VortexConfig(size=32))
+def test_chunked_stepping_matches_single_run(solver_device):
+    a = VortexSimulation(select_backend(solver_device), VortexConfig(size=32))
+    b = VortexSimulation(select_backend(solver_device), VortexConfig(size=32))
     a.advance(20)
     b.advance(7).advance(13)
     torch.testing.assert_close(a.f, b.f, rtol=0, atol=0)

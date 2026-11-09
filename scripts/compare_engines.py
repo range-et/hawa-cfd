@@ -64,13 +64,14 @@ def compare(reference, candidate, device):
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path, default=ROOT / "results/parity")
     parser.add_argument("--reference-python", type=Path,
                         default=ROOT / ".venv-reference" / ("Scripts/python.exe" if os.name == "nt" else "bin/python"))
     args = parser.parse_args()
     if sys.version_info[:2] != (3, 9):
         parser.error("Run this orchestrator with Hawa's Python 3.9 environment")
     source_audit = audit()
-    output = ROOT / "results/parity"
+    output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=True)
     (output / "report.json").unlink(missing_ok=True)
     worker = ROOT / "scripts/parity_worker.py"

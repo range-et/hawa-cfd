@@ -76,6 +76,16 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 9 2026 CUDA candidate verification repairs
+
+Implemented complete pytest inventory/outcome checks, staged/source drift checks
+and the MPS device-identity test repair for HAWA-044/045/046. This is a local
+integration candidate, not a remote merge or release. The measured tooling tests
+and exact Windows acceptance workflow are recorded in the
+[repair review](docs/review-cuda-blocker-fixes.md). CUDA qualification and broader
+HAWA-026 historical coverage debt remain open.
+
+
 ### November 9 2026 function testing gate
 
 Added the source/signature/test matrix, coverage.py call evidence, Roslyn C#

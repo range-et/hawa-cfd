@@ -19,6 +19,11 @@ ALLOWED = {
 }
 
 
+def source_digest(path):
+    """Ignore Git's Windows CRLF checkout conversion, but no other byte changes."""
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
+
 def audit():
     manifest = json.loads((VENDOR / "upstream.json").read_text())
     changed = []
@@ -26,14 +31,14 @@ def audit():
         path = VENDOR / name
         if not path.exists():
             raise RuntimeError("Missing upstream module: " + name)
-        if hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+        if source_digest(path) != digest:
             changed.append(name)
     unexpected = set(changed) - ALLOWED
-    extra = {str(p.relative_to(VENDOR)) for p in (VENDOR / "lettuce").rglob("*.py")} - set(manifest["source_sha256"])
+    extra = {p.relative_to(VENDOR).as_posix() for p in (VENDOR / "lettuce").rglob("*.py")} - set(manifest["source_sha256"])
     if unexpected or extra:
         raise RuntimeError("Unreviewed source changes: " + repr(unexpected | extra))
     for name, digest in manifest.get("test_sha256", {}).items():
-        if hashlib.sha256((VENDOR / name).read_bytes()).hexdigest() != digest:
+        if source_digest(VENDOR / name) != digest:
             raise RuntimeError("Original upstream test modified: " + name)
     return {"commit": manifest["commit"], "changed_modules": changed,
             "unchanged_modules": len(manifest["source_sha256"]) - len(changed),

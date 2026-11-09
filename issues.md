@@ -49,6 +49,17 @@ presence in an example or a passing suite name is not function-level evidence.
 
 
 
+### CUDA PR #2 integration follow-up (November 9, 2026)
+
+IDs HAWA-027–047 are already allocated in the main checkout's intake/review;
+do not reuse them. These three candidate entries retain the shared review IDs.
+
+| ID | Status / owner | Evidence and scope | Next action / completion |
+| --- | --- | --- | --- |
+| HAWA-044 | In progress; Codex | Complete independent test inventory and adverse-result checks implemented in this candidate; [repair review](docs/review-cuda-blocker-fixes.md). | Local measured gate passes; run the exact Windows full-scope checks before integration; mocked CUDA metadata is not hardware evidence. |
+| HAWA-045 | In progress; Codex | Full repository/index provenance and stage-boundary drift rejection implemented; [repair review](docs/review-cuda-blocker-fixes.md). | Qualify immutable candidate on Windows; retain before/after hashes and staged/combined diffs. |
+| HAWA-046 | In progress; Codex | Actual-device KBC assertion repaired; focused CPU/MPS tests pass; [repair review](docs/review-cuda-blocker-fixes.md). | Include in accepted integration revision and verify its CUDA cases; no tolerance change. |
+
 ## Improvements and delivery work
 
 | ID | Type and status | Desired outcome | Next action and acceptance |

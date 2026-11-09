@@ -1,26 +1,36 @@
-"""Compare CPU/MPS snapshots from all original example entrypoints."""
+"""Compare CPU/accelerator snapshots from every original example entrypoint."""
 
+import argparse
 import json
 from pathlib import Path
 import numpy as np
 from example_inventory import entrypoints, require_complete_reports
 
 ROOT = Path(__file__).resolve().parents[1]
-cpu = ROOT / "results/examples/backport-cpu"
-gpu = ROOT / "results/examples/backport-mps"
+parser = argparse.ArgumentParser()
+parser.add_argument('--cpu-dir', type=Path, default=ROOT / 'results/examples/backport-cpu')
+parser.add_argument('--gpu-dir', type=Path, default=ROOT / 'results/examples/backport-mps')
+parser.add_argument('--output', type=Path, default=ROOT / 'results/examples/parity.json')
+args = parser.parse_args()
+cpu, gpu = args.cpu_dir, args.gpu_dir
 records = []
-report_path=ROOT / "results/examples/parity.json"
+report_path=args.output
+report_path.parent.mkdir(parents=True, exist_ok=True)
 # A failed rerun must never leave an earlier successful report behind.
 report_path.unlink(missing_ok=True)
 source_root = ROOT / "vendor/lettuce/examples"
-expected = [str(p.relative_to(source_root)) for p in entrypoints(source_root)]
+expected = [p.relative_to(source_root).as_posix() for p in entrypoints(source_root)]
 for directory in (cpu, gpu):
     require_complete_reports(directory, expected)
 for path in sorted(cpu.glob("*/report.json")):
     other = gpu / path.parent.name / "report.json"
     if not other.exists():
-        raise RuntimeError("MPS example missing: " + path.parent.name)
+        raise RuntimeError("Accelerator example missing: " + path.parent.name)
     a, b = json.loads(path.read_text()), json.loads(other.read_text())
+    if a["source"] != b["source"] or a["source_sha256"] != b["source_sha256"]:
+        raise RuntimeError("Example source mismatch: " + a["source"])
+    if a["device"] != "cpu" or b["device"] == "cpu":
+        raise RuntimeError("Expected CPU and accelerator evidence")
     if a["status"] != "passed" or b["status"] != "passed":
         raise RuntimeError("Example did not pass: " + a["source"])
     if len(a["simulations"]) != len(b["simulations"]):
@@ -43,8 +53,8 @@ for path in sorted(cpu.glob("*/report.json")):
     records.append({"source": a["source"], "simulations": len(a["simulations"]),
                     "comparisons": comparisons, "passed": all(c['passed'] for c in comparisons)})
 report = {"passed": all(r['passed'] for r in records), "profile": "bounded", "examples": records}
-(ROOT / "results/examples/parity.json").write_text(json.dumps(report, indent=2) + "\n")
-print("CPU/MPS example parity:", sum(r['passed'] for r in records),"/",len(records), "entrypoints passed")
+report_path.write_text(json.dumps(report, indent=2) + "\n")
+print("CPU/accelerator example parity:", sum(r['passed'] for r in records),"/",len(records), "entrypoints passed")
 for record in records:
     if not record['passed']:print('FAILED:',record['source'])
 raise SystemExit(0 if report['passed'] else 1)

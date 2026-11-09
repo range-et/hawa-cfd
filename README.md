@@ -38,6 +38,8 @@ Earlier published walkthroughs: [overview](https://youtu.be/Ji_9iOYXSXg), [block
 
 ## Development
 
+For NVIDIA hardware on Windows, see the [CUDA setup and repeatable verification workflow](docs/windows-cuda.md).
+
 The production target is Python 3.9 with PyTorch 2.8.0 and NumPy 2.0.2. A separate Python 3.12 environment runs unmodified upstream Lettuce for reference comparisons.
 
 ```sh
@@ -77,7 +79,7 @@ The core CPU comparison matched the upstream oracle bitwise; MPS passed declared
 
 Native MPS checks exercise saved definitions, valid field meshes, recording, a repeated hull search, and the fixed refinement patch. See the [release notes](docs/release-notes-v0.4.0.md) for exact evidence and limits.
 
-CUDA hardware, Windows installation, full-duration upstream convergence and engineering-case validation remain open. Refinement is experimental. Aircraft analysis does not include XFOIL viscous calculations, VLM, stall or stability derivatives.
+Windows CUDA headless checks have an [initial verification record](docs/verification-windows-cuda-2026-11-09.md) and a [numerical repair record](docs/verification-windows-cuda-fixes-2026-11-09.md) for PorousMedium parity and rotating-sphere surface-mask/torque failures. Clean Windows Rhino installation, full-duration upstream convergence and engineering-case validation remain open. Refinement is experimental. Aircraft analysis does not include XFOIL viscous calculations, VLM, stall or stability derivatives.
 
 ## Attribution
 

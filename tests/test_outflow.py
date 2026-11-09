@@ -4,17 +4,17 @@ import pytest
 from hawa.plugin import Session
 
 
-def test_open_cylinder_outflow_stays_bounded():
+def test_open_cylinder_outflow_stays_bounded(solver_device):
     shape=[61,31,4];x,y,z=np.indices(shape)
-    s=Session(dict(shape=shape,dx=.4,spacing=.4,speed=1.,viscosity=.1,density=1.225,mach=.1,collision='bgk',boundaries=['inlet','outlet','periodic','periodic','periodic','periodic'],solid=np.flatnonzero((x-15)**2+(y-15.3)**2<=9).tolist()),'cpu')
+    s=Session(dict(shape=shape,dx=.4,spacing=.4,speed=1.,viscosity=.1,density=1.225,mach=.1,collision='bgk',boundaries=['inlet','outlet','periodic','periodic','periodic','periodic'],solid=np.flatnonzero((x-15)**2+(y-15.3)**2<=9).tolist()),solver_device)
     # The previous anti-bounce-back outlet developed negative density by step 750.
     s.advance(1000)
-    rho=s.flow.rho().numpy()
+    rho=s.flow.rho().cpu().numpy()
     assert rho.min()>.9 and rho.max()<1.1
-    assert np.linalg.norm(s.flow.u().numpy(),axis=0).max()<.15
+    assert np.linalg.norm(s.flow.u().cpu().numpy(),axis=0).max()<.15
 
 
-def test_uniform_open_flow_remains_uniform():
-    s=Session(dict(shape=[12,8,4],dx=1.,speed=1.,viscosity=.1,density=1.225,mach=.05,collision='bgk',boundaries=['inlet','outlet','periodic','periodic','periodic','periodic'],solid=[]),'cpu')
+def test_uniform_open_flow_remains_uniform(solver_device):
+    s=Session(dict(shape=[12,8,4],dx=1.,speed=1.,viscosity=.1,density=1.225,mach=.05,collision='bgk',boundaries=['inlet','outlet','periodic','periodic','periodic','periodic'],solid=[]),solver_device)
     s.advance(100)
-    np.testing.assert_allclose(s.flow.u_pu[0].numpy(),1,atol=5e-5)
+    np.testing.assert_allclose(s.flow.u_pu[0].cpu().numpy(),1,atol=5e-5)
