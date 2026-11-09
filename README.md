@@ -8,6 +8,8 @@ This branch contains **Hawa 0.5**, with selected Rhino geometry, editable domain
 
 [Plugin guide](docs/plugin.md) · [Rhino MCP agent guide](docs/agents/rhino-mcp.md) · [Editable definitions](examples/grasshopper) · [License](LICENSE)
 
+Future direction: [project roadmap](docs/roadmap.md) and [existing and proposed examples](docs/example-roadmap.md). Future solver work is outside the bounded 0.5 prototype.
+
 ## New workflows
 
 - Responsive hull search with completed-candidate IDs, pause, cancel and best-result history.
