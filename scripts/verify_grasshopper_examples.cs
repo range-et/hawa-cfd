@@ -1,3 +1,7 @@
+// HISTORICAL HARNESS — DO NOT RUN in the current Rhino workflow.
+// This uses blocking UI-thread polling and an obsolete bridge lookup.
+// Use the scoped nonblocking checks in examples/grasshopper/VERIFICATION.md.
+// Retained as historical source, not an approved verification entrypoint.
 using System.Reflection;
 using System.Text.Json.Nodes;
 using Grasshopper.Kernel;

@@ -51,6 +51,13 @@ Example 12 uses `data/naca0012.dat` and `data/polar-format.csv`. Relative paths 
 
 ## Maintainer checks
 
+Use [the verification matrix](VERIFICATION.md) for required checks and supported
+node-combination variations. Each example is a reusable workflow fixture for
+humans and agents. Follow [the review gates](../../docs/quality-gates.md) and record
+the exact configuration and results with [the review template](../../docs/review-record-template.md).
+The matrix defines coverage obligations; it does not claim that every combination
+has already been tested.
+
 `annotations.json` contains the example-specific descriptions. Run `scripts/annotate_grasshopper_examples.cs` through Rhino MCP after regenerating definitions. It checks that connections are unchanged and saves local backups. `scripts/capture_example_layouts.cs` renders each supported canvas without running its solver. Adjust the checkout path in either script before use on another machine.
 
 The gallery covers selected workflows. It is separate from the sixteen upstream Lettuce entrypoints and does not claim to wrap every upstream example. CPU/MPS PorousMedium parity remains a documented open issue.

@@ -2,6 +2,12 @@
 
 Hawa is an experimental embedded CFD plugin for Rhino 8 and Grasshopper.
 
+Before changing or reviewing Hawa, read [docs/quality-gates.md](docs/quality-gates.md).
+Assess research, architecture, software reliability, numerical physics and UI/UX
+as separate evidence gates. Use [the review record](docs/review-record-template.md)
+and [example coverage matrix](examples/grasshopper/VERIFICATION.md). Record actual
+reviewers, checks and omissions; a persona name or a skipped check is not a pass.
+
 For operating the installed plugin through **Rhino MCP only**, read
 [docs/agents/rhino-mcp.md](docs/agents/rhino-mcp.md), then
 [examples/grasshopper/README.md](examples/grasshopper/README.md).

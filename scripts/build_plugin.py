@@ -49,7 +49,7 @@ def main():
         shutil.copytree(ROOT / "examples/grasshopper", output / "examples", ignore=shutil.ignore_patterns("09-parametric-hull-galapagos.gh"))
     shutil.copytree(ROOT / "examples/native-prototype", output / "examples/native-prototype", dirs_exist_ok=True)
     # Keep the agent workflow and its relative links usable in the installed bundle.
-    (output / "AGENTS.md").write_text((ROOT / "AGENTS.md").read_text().replace("examples/grasshopper/README.md", "examples/README.md"))
+    (output / "AGENTS.md").write_text((ROOT / "AGENTS.md").read_text().replace("examples/grasshopper/", "examples/"))
     docs_output = output / "docs"
     docs_output.mkdir(exist_ok=True)
     for pattern in ("*.md", "*.json"):
@@ -57,9 +57,12 @@ def main():
             shutil.copy2(document, docs_output / document.name)
     shutil.copytree(ROOT / "docs/agents", docs_output / "agents", dirs_exist_ok=True)
     shutil.copytree(ROOT / "docs/captures/v05", docs_output / "captures/v05", dirs_exist_ok=True)
-    for guide in (output / "examples/README.md", *list((docs_output / "agents").glob("*.md"))):
+    for guide in (*list((output / "examples").glob("*.md")), *list(docs_output.glob("*.md")), *list((docs_output / "agents").glob("*.md"))):
         content = guide.read_text()
-        content = content.replace("../../docs/", "../docs/") if guide.parent.name == "examples" else content.replace("../../examples/grasshopper/", "../../examples/")
+        if guide.parent.name == "examples":
+            content = content.replace("../../docs/", "../docs/")
+        else:
+            content = content.replace("examples/grasshopper/", "examples/")
         guide.write_text(content)
     # Include corresponding build source with GPL binary distributions.
     source_root = output / "source"

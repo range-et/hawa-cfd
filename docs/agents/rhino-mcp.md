@@ -1,5 +1,10 @@
 # Operate Hawa through Rhino MCP
 
+For verification work, use [the review gates](../quality-gates.md),
+[example coverage matrix](../../examples/grasshopper/VERIFICATION.md) and
+[run/review record](../review-record-template.md). Report the exact example,
+variation, build and observed results. Do not report unrun combinations as passed.
+
 This guide is for an agent using an installed Hawa plugin in Rhino 8. Use Rhino
 MCP tools for the entire simulation workflow. Hawa runs its Python 3.9 engine
 inside Rhino; a shell, standalone Python, OpenFOAM and browser control are not
