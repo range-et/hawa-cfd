@@ -76,6 +76,16 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 9 2026 HAWA-021/022 diagnostic harness (C1)
+
+Added frozen-reference preparation/replay, strict source/frame/configuration
+identity, explicit analysis windows and partial-scope reporting to the Python
+nesting study. Fixed numerical criteria remain unchanged; HAWA-021/022 stay open.
+No solver or host behavior changed. Local checks: 32 focused tests, 656 suite
+passes, 32 CUDA skips, 33 state contracts and zero function-gate failures. The
+real bounded CPU run and replay retain the same RMS failure; see the [C1 review](docs/review-neutral-nesting-harness.md).
+
+
 ### November 9 2026 parent/child documentation (HAWA-034 partial)
 
 Added a general [parent/child domain guide](docs/parent-child-domains.md), linked
