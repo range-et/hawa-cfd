@@ -8,7 +8,7 @@ permissions:
   contents: read
 jobs:
   functions:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6
@@ -16,14 +16,15 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
-          python-version: '3.9'
+          python-version: '3.9.25'
       - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '10.0.x'
       - name: Install developer dependencies
         run: |
           python -m venv .venv
-          .venv/bin/python -m pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
+          .venv/bin/python -m pip install --upgrade pip==25.3
+          .venv/bin/python -m pip install torch==2.8.0+cpu --index-url https://download.pytorch.org/whl/cpu --no-deps
           .venv/bin/python -m pip install -e vendor/lettuce -e '.[test]'
       - name: Measure and check new functions
         env:
