@@ -117,6 +117,28 @@ Fix merged through [PR #3](https://github.com/range-et/hawa-cfd/pull/3) into the
 Completion: preserve round trips, prior output and temporary cleanup for valid
 long destinations in both writers. No host export UI claim.
 
+**HAWA-053 — Reset discards imported rough-wall filter history (in progress; owner: Codex; November 9, 2026).**
+Python session reset restored initial populations but cleared imported filtered
+wall velocity, changing subsequent traction/flow. A real recorded/mapped CPU
+case reproduces lost state. The integration review fix clones the original
+filter state and restores it on every reset; two repeated two-step replays match
+exactly. Full combined verification and integration pending. No host claim.
+
+**HAWA-054 — Exterior-boundary preparation omitted from memory estimate (in progress; owner: Codex; November 9, 2026).**
+Python preflight accepted a 4x128x1024 open-face case using a 912 MiB grid estimate,
+while two dense per-node float64 matrices alone exceed 1.4 GiB. Constructor
+sentinel reproduces reaching link compilation. Preflight now counts the union of
+active exterior planes without allocating grids and reserves 32 KiB/node for
+matrix/link workspace before compilation. This conservative estimate is not an
+OS memory limit; solids are not subtracted. Budget rejection and smaller valid
+controls pass. Complete combined gates and review before integration.
+
+**HAWA-055 — Source bundle omits verification inputs (in progress; owner: Codex; November 9, 2026).**
+Packaged tests import tools absent from source ZIP; the pinned .NET tool manifest
+was also missing. Package fixture reproduces missing files. Include tools,
+.config, docs and examples in corresponding source; exclude legacy09 throughout.
+Acceptance: exact file/ZIP checks and packaged test collection, then integration.
+
 ## Improvements and delivery work
 
 | ID | Type and status | Desired outcome | Next action and acceptance | Execution surface |
@@ -166,6 +188,8 @@ which lacked the required Python 3.9 binary; a follow-up exposed pip metadata an
 specialized-index dependency resolution failures. The shared study base pins
 Ubuntu 24.04/Python 3.9.25/pip 25.3 and separates the CPU torch wheel from normal
 PyPI resolution. Initial PR #3/#4/#5 hosted gates passed. [Evidence](docs/review-python-ci-runner.md).
+Review follow-up also regenerated uv.lock for coverage 7.10.7 after locked sync
+was found stale; uv lock --check and locked-sync dry run now pass.
 Next action/completion: preserve passing checks on revised heads and integrate
 the shared-base fix into the main development branch. No runtime dependency or
 numerical threshold change.

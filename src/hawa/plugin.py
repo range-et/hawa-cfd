@@ -111,6 +111,19 @@ def check_case(spec):
     estimated = math.prod(shape) * 19 * 4 * (24 if spec.get("moving_bodies") or neutral else 10)
     if spec.get("boundary_field"):
         estimated += (512 if spec['boundary_field'].get('schema')=='hawa-boundary-series-2' else 64) * 1024**2
+    boundary_preparation = 0
+    if neutral and spec['neutral_precursor'].get('mode') == 'external':
+        from .boundary_contracts import conditions
+        faces = conditions(spec)
+        # Count the union of exterior planes without building cell/link arrays.
+        # Ignore solids conservatively. ExternalLinks currently builds per-node
+        # float64 19x19 projections plus link work arrays and host/device copies.
+        # Reserve 32 KiB per exterior node for those simultaneous temporaries;
+        # this is a conservative estimate, not an OS-enforced memory limit.
+        interior = math.prod(n - sum(faces[2*a+i]['type'] in ('open', 'velocity')
+                                    for i in (0, 1)) for a, n in enumerate(shape))
+        boundary_preparation = (math.prod(shape) - interior) * 32 * 1024
+        estimated += boundary_preparation
     limit = int(spec.get("memory_limit_mb", 1024)) * 1024 ** 2
     if estimated > limit:
         raise ValueError("Estimated peak allocation {:.0f} MiB exceeds the case budget".format(estimated / 1024 ** 2))
@@ -126,6 +139,7 @@ def check_case(spec):
     return {"valid": True, "case_hash": case_key(spec), "shape": shape, "tau": tau,
             "reynolds": speed * dx * max(shape) / viscosity,
             "estimated_peak_mb": estimated / 1024 ** 2,
+            "estimated_boundary_preparation_mb": boundary_preparation / 1024 ** 2,
             "time_step_seconds": mach / math.sqrt(3) * dx / speed, "boundary_plan": boundary_report,
             "numerical_scaling": scaling,
             "neutral_model": validate(spec) if neutral else None}
@@ -289,6 +303,9 @@ class Session:
         self.initial_mass = float(self.flow.rho().sum().cpu())
         self.relative_mass_change = 0.0
         self.initial_f = self.flow.f.clone()
+        wall = getattr(self.solver, 'rough_floor', None)
+        self.initial_wall_velocity = (wall.filtered.detach().clone()
+                                      if wall is not None and wall.filtered is not None else None)
         self.mean_u = None
         self.samples = 0
         self.updated = time.time()
@@ -509,7 +526,10 @@ def dispatch(request):
             session.flow.i = 0
             if hasattr(session.solver,"moving"):session.solver.moving.reset()
             if hasattr(session.solver,"general_boundary"):session.solver.general_boundary.reset()
-            if hasattr(session.solver,"rough_floor"):session.solver.rough_floor.reset()
+            if hasattr(session.solver,"rough_floor"):
+                session.solver.rough_floor.reset()
+                if session.initial_wall_velocity is not None:
+                    session.solver.rough_floor.filtered = session.initial_wall_velocity.clone()
             if hasattr(session.solver,"external_links"):session.solver.external_links.reset()
             session.samples = 0
             session.relative_mass_change = 0.0

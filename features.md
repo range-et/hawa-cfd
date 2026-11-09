@@ -288,3 +288,14 @@ skips, 33 contracts, zero coverage failures; 97,561 CPU G6 passes with 4,898 GPU
 rows blocked; development package checks pass. This candidate is not an installed
 release. [Integration review](docs/review-python-integration.md). HAWA-001 and
 atmospheric qualification remain unresolved; Windows acceptance stays separate.
+
+
+### Integration review repairs (November 9, 2026)
+
+HAWA-053 preserves imported wall-filter state on reset; HAWA-054 includes exterior
+matrix/link preparation in the conservative preflight budget; HAWA-055 includes
+verification tools/configuration/docs/examples in the source bundle. The coverage
+test dependency is now in uv.lock. Fresh combined gate: 810 passes/82 skips,
+33 contracts, no ratchet failures; actual bundled source collects all 892 tests.
+These candidates remain pending integration and do not establish Windows/host
+qualification. [Evidence](docs/review-python-integration.md#pr-6-review-follow-up).
