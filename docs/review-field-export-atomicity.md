@@ -62,7 +62,8 @@ Both Hawa and Lettuce import from this isolated checkout.
    Both committed matrices refreshed and checked against the same base. Evidence:
    `function-gate/`, `function-gate.log`, `matrix-check.log`.
 5. Both development assemblies and `dist/HAWA-048.zip` build successfully, with
-   two existing CA1416 Windows-icon warnings and zero errors (`build.log`). ZIP
+   **105 existing CA1416 warnings in unchanged icon sources**: 103 from
+   Grasshopper and 2 from Rhino, with zero errors (`build.log`). ZIP
    integrity, legacy-09 exclusion and exact packaged Python/source equality pass
    (`package-check.json`). Nothing installed.
 
