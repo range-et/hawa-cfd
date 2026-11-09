@@ -76,6 +76,20 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 9 2026 HAWA-021/022 diagnostic harness (C1)
+
+Added frozen-reference preparation/replay, strict source/frame/configuration
+identity, explicit analysis windows and partial-scope reporting to the Python
+nesting study. Fixed numerical criteria remain unchanged; HAWA-021/022 stay open.
+No solver or host behavior changed. Original C1 checks: 32 focused tests, 656 suite
+passes, 32 CUDA skips, 33 state contracts and zero function-gate failures. The
+real bounded CPU run and replay retain the same RMS failure; see the [C1 review](docs/review-neutral-nesting-harness.md).
+
+PR #5 review additionally hardens malformed descriptor failures, records selected
+source/child backends and exercises actual ratio-2 fine-reference replay with
+nonzero warmup. A later damaged-archive finding is repaired with explicit ZIP,
+DEFLATE and EOF failure reporting and refreshed-hash regression cases. Fresh
+measurements are recorded in the C1 review.
 ### November 9 2026 long export filename review repair (HAWA-051 candidate)
 
 Both Python NPZ writers now use bounded temporary prefixes, so valid long
