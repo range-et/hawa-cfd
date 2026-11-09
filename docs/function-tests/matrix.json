@@ -79,7 +79,7 @@
     "scripts/verify_general_boundaries.py": "b84a8a8b12d81995224137cb5f1f6b350628db70c56b928c7669893d07f296a6",
     "scripts/verify_neutral_adjustment.py": "0213c618a2769d66efdda5b1f993120a0e98249418ede07912b3cf50854a350f",
     "scripts/verify_neutral_coupling.py": "f76d34dc4485bc43fb3eae00171d006f7873e9ef899684e3d37ad2a1d1330136",
-    "scripts/verify_neutral_nesting.py": "5b11fbcdbc666a0ff3f5d8a87f02e5fca57916515374b842f3d0fe860dc8eabf",
+    "scripts/verify_neutral_nesting.py": "e2eb14b281ddf7ebb127825b7fcc0c5e225305008180a9f5f15f8a2a700d052a",
     "scripts/verify_neutral_precursor.py": "df5cb8532165c7880ce80954191d115f6d23980ee0bec83809231bf6e44a10b0",
     "scripts/verify_neutral_stationary.py": "b83a6406a63ca3eba84f56fe24d8554d033b5ead7d1f8ad553ac639189eca94f",
     "scripts/verify_runtime.py": "4738cf7f41ef7e4402dda8e24a306e5bd0aeeb302e7287eaad8702c91a042b90",
@@ -108,7 +108,7 @@
     "src/hawa/plugin.py": "50614f5be6683d7a7c112a36949de2e722ba9d6579f09cd091618ab537047aef",
     "src/hawa/quality.py": "b53d23b7249e0c1fef1adc0256cac4f7dd36616d3fe018d329a645c7e3bb8873",
     "src/hawa/recording.py": "9faaa69489ffc9d673844644755cb3c3936bf5899caed8d5d1255691fa656edd",
-    "src/hawa/refinement.py": "e1deb76b9cc7acc0f79e2e8ba1e0cb9ad593e4ac1626d1202289dd52e59cc413",
+    "src/hawa/refinement.py": "cb9f6bb8bf5b97da238da3e6fc71b8b308d85096aad286955c2f3333ca9de6c6",
     "src/hawa/roughness.py": "fbebbd3fd84f2d0db139afca3c18e4f4faa7802d26848df47b77605002e2b48f",
     "src/hawa/step.py": "e468cbce49f84efe7c1eb89696893ec52cae20dacb746ad2d4d73e623f89ba45",
     "src/hawa/walls.py": "d2c0ac391a689e9b51ee4088c4821fa979eaf72a044f549327a78c8e639ca134",
@@ -139,13 +139,14 @@
     "tests/test_motion.py": "27b10661c544f8183bfe4b54f52d8b6d3b1efd68821a606718498191f4ba3df5",
     "tests/test_neutral.py": "287434b4c666f289a99635f216ef47b8c491ed1867c1bc52a8197969bc857bfa",
     "tests/test_neutral_external.py": "567aeb332d87232ac8bad589d909961511817ba106c262e3acdad0d721149501",
-    "tests/test_neutral_nesting_verification.py": "c152b13608846a7101b98d9cc5ad59ab30c283782864c04b279aa2ef1bfa8209",
+    "tests/test_neutral_nesting_verification.py": "43fc98c75efd488c54e95f273f7a9f8f55b0bbd5d555f2cb19753f60b1fcca50",
     "tests/test_optimization.py": "a10a0f01b5bf0a9dfd62686b16b72628d4e5d9bf8b3db7c397292faba8bd77af",
     "tests/test_outflow.py": "4f9deea92a662084c25cb86f74e3691581a489ae665376d191f415dad2f5cf90",
     "tests/test_plugin_service.py": "8e53c5dc34df18730471c5296067362ac6a0c2e4c2148dc11cc5b316c7d8b31c",
     "tests/test_port_features.py": "f45ac0cfa460cb0b562d895fb26039ad28b0337bf45dc086d8a0a6dd89653ea3",
     "tests/test_recording.py": "f22f4bddff6e7ac339e269ce4eefa7b1d85e56d77e465ecff0f04843d6cb3733",
     "tests/test_refinement.py": "b62ab49453c4eff53c0ac6fe137cee4ed5207eededbb341889716e86b6325e08",
+    "tests/test_refinement_preflight.py": "65e462f37eb576e22788b4e056b400557bca4f69921408da9619322f0d1547ec",
     "tests/test_walls.py": "b490b8625fb36e36fa307d9b874cee76fe9bde63ee0d66fae01f01be28e50abe",
     "tools/FunctionInventory/FunctionInventory.csproj": "5b40122f82db47b69ba4101cd6af9c1d1516df164ebd158355964f18e3cf33ac",
     "tools/FunctionInventory/Program.cs": "fdea78af6e03f436023ee8aa1ec5387f8f951ae4646f007ae3bb25c8964d5a1b",
@@ -722,6 +723,19 @@
       "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
       "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass",
       "tests/test_neutral_nesting_verification.py::test_rehashed_consistent_but_wrong_clock_is_rejected",
+      "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[value0]",
+      "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[None]",
+      "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[reference]",
+      "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[3]",
+      "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[False]",
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-value0]",
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-None]",
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-3]",
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recordings-value3]",
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recording-value4]",
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-None]",
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-value6]",
+      "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
       "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force",
       "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
       "tests/test_optimization.py::test_invalid_evaluation_does_not_register_a_session[changes0]",
@@ -841,6 +855,36 @@
       "tests/test_refinement.py::test_constant_flow_and_composite_mass",
       "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
       "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-0.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1--1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-0.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2--1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-0.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0--1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-0.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1--1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-0.0]",
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-1000000.0]",
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False--1000000.0]",
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
       "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
       "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
       "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -1391,13 +1435,26 @@
       "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[stale]",
       "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[wrong_points]",
       "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-None]",
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-value6]",
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-3]",
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-None]",
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-value0]",
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recording-value4]",
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recordings-value3]",
       "tests/test_neutral_nesting_verification.py::test_metrics_preserve_seeded_failures[health]",
       "tests/test_neutral_nesting_verification.py::test_metrics_preserve_seeded_failures[mean]",
       "tests/test_neutral_nesting_verification.py::test_metrics_preserve_seeded_failures[none]",
       "tests/test_neutral_nesting_verification.py::test_metrics_preserve_seeded_failures[pressure]",
       "tests/test_neutral_nesting_verification.py::test_metrics_preserve_seeded_failures[reference_drift]",
       "tests/test_neutral_nesting_verification.py::test_metrics_preserve_seeded_failures[rms]",
+      "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[3]",
+      "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[False]",
+      "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[None]",
+      "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[reference]",
+      "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[value0]",
       "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+      "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
       "tests/test_neutral_nesting_verification.py::test_reference_configuration_is_bounded[interval-2]",
       "tests/test_neutral_nesting_verification.py::test_reference_configuration_is_bounded[ratios-value1]",
       "tests/test_neutral_nesting_verification.py::test_reference_configuration_is_bounded[ratios-value2]",
@@ -1499,6 +1556,36 @@
       "tests/test_refinement.py::test_constant_flow_and_composite_mass",
       "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
       "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel",
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False--1000000.0]",
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-0.0]",
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-1000000.0]",
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1--1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-0.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2--1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-0.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0--1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-0.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1--1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-0.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
       "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
       "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
       "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -9402,6 +9489,188 @@
           "passed"
         ]
       ],
+      "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[value0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[None]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[reference]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[3]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[False]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-value0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-None]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-3]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recordings-value3]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recording-value4]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-None]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-value6]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
       "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force": [
         [
           "setup",
@@ -10947,6 +11216,426 @@
         ]
       ],
       "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-0.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1--1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-0.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2--1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-0.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0--1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-0.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1--1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-0.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False--1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]": [
         [
           "setup",
           "passed"
@@ -30007,7 +30696,15 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[stale]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[wrong_points]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-value6]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-3]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-value0]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recording-value4]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recordings-value3]",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_rehashed_consistent_but_wrong_clock_is_rejected",
         "tests/test_neutral_nesting_verification.py::test_reuse_rejects_argument_mismatch_and_recording_changed_during_analysis",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass"
@@ -30051,7 +30748,20 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[stale]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[wrong_points]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-value6]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-3]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-value0]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recording-value4]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recordings-value3]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[3]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[False]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[None]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[reference]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[value0]",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_reuse_rejects_argument_mismatch_and_recording_changed_during_analysis",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass"
       ],
@@ -30095,7 +30805,15 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[stale]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[wrong_points]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-value6]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-3]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-value0]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recording-value4]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recordings-value3]",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_rehashed_consistent_but_wrong_clock_is_rejected",
         "tests/test_neutral_nesting_verification.py::test_reuse_rejects_argument_mismatch_and_recording_changed_during_analysis",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass"
@@ -30140,7 +30858,20 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[stale]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[wrong_points]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-value6]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-3]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-value0]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recording-value4]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recordings-value3]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[3]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[False]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[None]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[reference]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[value0]",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_rehashed_consistent_but_wrong_clock_is_rejected",
         "tests/test_neutral_nesting_verification.py::test_reuse_rejects_argument_mismatch_and_recording_changed_during_analysis",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass"
@@ -30185,7 +30916,20 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[stale]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[wrong_points]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-value6]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-3]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-value0]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recording-value4]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recordings-value3]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[3]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[False]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[None]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[reference]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[value0]",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_rehashed_consistent_but_wrong_clock_is_rejected",
         "tests/test_neutral_nesting_verification.py::test_reuse_rejects_argument_mismatch_and_recording_changed_during_analysis",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass"
@@ -30230,7 +30974,15 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[stale]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[wrong_points]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-value6]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-3]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-value0]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recording-value4]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recordings-value3]",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_rehashed_consistent_but_wrong_clock_is_rejected",
         "tests/test_neutral_nesting_verification.py::test_reuse_rejects_argument_mismatch_and_recording_changed_during_analysis",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass"
@@ -30266,6 +31018,7 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[none]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_rehashed_consistent_but_wrong_clock_is_rejected",
         "tests/test_neutral_nesting_verification.py::test_reuse_rejects_argument_mismatch_and_recording_changed_during_analysis",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass"
@@ -30307,6 +31060,7 @@
         "tests/test_neutral_nesting_verification.py::test_metrics_preserve_seeded_failures[reference_drift]",
         "tests/test_neutral_nesting_verification.py::test_metrics_preserve_seeded_failures[rms]",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass"
       ],
       "lines": {
@@ -30346,6 +31100,7 @@
         "tests/test_neutral_nesting_verification.py::test_metrics_preserve_seeded_failures[reference_drift]",
         "tests/test_neutral_nesting_verification.py::test_metrics_preserve_seeded_failures[rms]",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass"
       ],
       "lines": {
@@ -30374,7 +31129,8 @@
         "total": 0
       },
       "tests": [
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 1,
@@ -30395,14 +31151,15 @@
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "afbc49918e22696241326b2e5f632d72215a868f1153c0a05b4715d2fbc890f9",
+      "fingerprint": "91a929ece977deec09c4f4244690dbf1dda9d7874ec775fd4dd46c0c30d0ae42",
       "id": "scripts/verify_neutral_nesting.py::create_recording",
       "branches": {
         "hit": 0,
         "total": 0
       },
       "tests": [
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 4,
@@ -30417,24 +31174,25 @@
       "signature": "prepare_reference(output, config, device) -> unannotated",
       "kind": "FunctionDef",
       "line": 148,
-      "end_line": 164,
+      "end_line": 166,
       "first_line": 148,
       "code_name": "prepare_reference",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "Materialize parent and optional full fine-domain sources once for replay.",
-      "fingerprint": "172386c298583c915e8b53dac709cb133ab5d1fb9e67d69fca3955be3bda558b",
+      "fingerprint": "4e43496827439ac844b1459ecbdc600c9fbee6bf42a58e13aa716e3deac8361a",
       "id": "scripts/verify_neutral_nesting.py::prepare_reference",
       "branches": {
         "hit": 3,
         "total": 4
       },
       "tests": [
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
-        "hit": 12,
-        "total": 13
+        "hit": 13,
+        "total": 14
       },
       "status": "covered"
     },
@@ -30444,18 +31202,18 @@
       "name": "load_reference",
       "signature": "load_reference(path) -> unannotated",
       "kind": "FunctionDef",
-      "line": 167,
-      "end_line": 215,
-      "first_line": 167,
+      "line": 169,
+      "end_line": 225,
+      "first_line": 169,
       "code_name": "load_reference",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "Reject stale code, absent frames, changed bytes, schema and clock mismatches.",
-      "fingerprint": "e3c685103eb470cafccae39ac73706437e58a20ce6fa8b36714561324ad74e1c",
+      "fingerprint": "567a104120bdb94acf5763e8533a09ef94f6a555c3fe832a9adb52d07aad1e5e",
       "id": "scripts/verify_neutral_nesting.py::load_reference",
       "branches": {
-        "hit": 22,
-        "total": 26
+        "hit": 29,
+        "total": 32
       },
       "tests": [
         "tests/test_neutral_nesting_verification.py::test_descriptor_iteration_inventory_cannot_silently_change",
@@ -30472,14 +31230,27 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[stale]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[wrong_points]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-value6]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-3]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-value0]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recording-value4]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recordings-value3]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[3]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[False]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[None]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[reference]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[value0]",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_rehashed_consistent_but_wrong_clock_is_rejected",
         "tests/test_neutral_nesting_verification.py::test_reuse_rejects_argument_mismatch_and_recording_changed_during_analysis",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass"
       ],
       "lines": {
-        "hit": 42,
-        "total": 45
+        "hit": 49,
+        "total": 52
       },
       "status": "covered"
     },
@@ -30489,18 +31260,18 @@
       "name": "validate_config",
       "signature": "validate_config(config) -> unannotated",
       "kind": "FunctionDef",
-      "line": 218,
-      "end_line": 231,
-      "first_line": 218,
+      "line": 228,
+      "end_line": 243,
+      "first_line": 228,
       "code_name": "validate_config",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "3c56f950860ecc8268ee5b1bd823e35f69fbcff958cd13013b31444cdc0feb42",
+      "fingerprint": "0a070be255f25ed10bb8041574a044f86401bd8a193c92490a7db368b9c10d33",
       "id": "scripts/verify_neutral_nesting.py::validate_config",
       "branches": {
-        "hit": 10,
-        "total": 10
+        "hit": 12,
+        "total": 12
       },
       "tests": [
         "tests/test_neutral_nesting_verification.py::test_descriptor_iteration_inventory_cannot_silently_change",
@@ -30515,7 +31286,15 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[none]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[path_escape]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-value6]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-3]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-value0]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recording-value4]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recordings-value3]",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_reference_configuration_is_bounded[interval-2]",
         "tests/test_neutral_nesting_verification.py::test_reference_configuration_is_bounded[ratios-value1]",
         "tests/test_neutral_nesting_verification.py::test_reference_configuration_is_bounded[ratios-value2]",
@@ -30527,8 +31306,8 @@
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass"
       ],
       "lines": {
-        "hit": 11,
-        "total": 11
+        "hit": 13,
+        "total": 13
       },
       "status": "covered"
     },
@@ -30538,14 +31317,14 @@
       "name": "main",
       "signature": "main(argv=None) -> unannotated",
       "kind": "FunctionDef",
-      "line": 234,
-      "end_line": 328,
-      "first_line": 234,
+      "line": 246,
+      "end_line": 342,
+      "first_line": 246,
       "code_name": "main",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "6459789ca3bc00b14cefc0b509ea7c912da5ef754b1d47a16d4f9800b71553df",
+      "fingerprint": "7ec115e9a6d7fb59f38dc28a108026acc71516d2cdf6ee2bb946114ab53d0f38",
       "id": "scripts/verify_neutral_nesting.py::main",
       "branches": {
         "hit": 21,
@@ -30566,13 +31345,26 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[stale]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[wrong_points]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-value6]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-3]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-value0]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recording-value4]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recordings-value3]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[3]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[False]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[None]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[reference]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[value0]",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_reuse_rejects_argument_mismatch_and_recording_changed_during_analysis",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass"
       ],
       "lines": {
-        "hit": 75,
-        "total": 78
+        "hit": 76,
+        "total": 79
       },
       "status": "covered"
     },
@@ -30911,6 +31703,7 @@
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_external.py::test_unsupported_inputs_fail_explicitly",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force",
         "tests/test_optimization.py::test_force_units_scale_with_density_but_fitness_does_not",
@@ -30923,6 +31716,36 @@
         "tests/test_plugin_service.py::test_preflight_rejects_invalid_cases[change2]",
         "tests/test_plugin_service.py::test_preflight_rejects_invalid_cases[change3]",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False--1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-0.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -30994,7 +31817,8 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_external.py::test_unsupported_inputs_fail_explicitly",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 2,
@@ -31067,7 +31891,8 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_external.py::test_unsupported_inputs_fail_explicitly",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 15,
@@ -31135,7 +31960,8 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_external.py::test_unsupported_inputs_fail_explicitly",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 4,
@@ -31285,6 +32111,7 @@
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_external.py::test_unsupported_inputs_fail_explicitly",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force",
         "tests/test_optimization.py::test_force_units_scale_with_density_but_fitness_does_not",
@@ -31297,6 +32124,36 @@
         "tests/test_plugin_service.py::test_preflight_rejects_invalid_cases[change2]",
         "tests/test_plugin_service.py::test_preflight_rejects_invalid_cases[change3]",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False--1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-0.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -31412,6 +32269,7 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force",
         "tests/test_optimization.py::test_force_units_scale_with_density_but_fitness_does_not",
@@ -31431,6 +32289,12 @@
         "tests/test_recording.py::test_record_and_playback",
         "tests/test_recording.py::test_recording_budget_counts_only_new_frames_after_warmup",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -31486,6 +32350,8 @@
         "tests/test_motion.py::test_moving_restart_matches_continuous",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
         "tests/test_neutral.py::test_reversal_and_checkpoint_reset",
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_plugin_service.py::test_background_lifecycle_and_resume",
         "tests/test_plugin_service.py::test_checkpoint_rejects_invalid_state_atomically[-1-1]",
@@ -31495,7 +32361,13 @@
         "tests/test_plugin_service.py::test_interpolation_slice_streamlines_and_checkpoint",
         "tests/test_plugin_service.py::test_physical_wind_boundaries_and_solid_on_cpu_and_mps",
         "tests/test_plugin_service.py::test_slice_provenance_tracks_captured_fields_not_later_solver_state",
-        "tests/test_refinement.py::test_physical_patch_matches_time_and_units"
+        "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
       ],
       "lines": {
         "hit": 1,
@@ -31606,6 +32478,7 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force",
         "tests/test_optimization.py::test_force_units_scale_with_density_but_fitness_does_not",
@@ -31625,6 +32498,12 @@
         "tests/test_recording.py::test_record_and_playback",
         "tests/test_recording.py::test_recording_budget_counts_only_new_frames_after_warmup",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -31741,6 +32620,7 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force",
         "tests/test_optimization.py::test_force_units_scale_with_density_but_fitness_does_not",
@@ -31760,6 +32640,12 @@
         "tests/test_recording.py::test_record_and_playback",
         "tests/test_recording.py::test_recording_budget_counts_only_new_frames_after_warmup",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -32032,7 +32918,8 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_external.py::test_unsupported_inputs_fail_explicitly",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 40,
@@ -32081,7 +32968,8 @@
         "tests/test_flow_statistics.py::test_statistics_rejects_bad_windows_and_warns_short_records",
         "tests/test_general_boundaries.py::test_channel_record_capture_with_walls",
         "tests/test_general_boundaries.py::test_composition_mapped_curved_walls",
-        "tests/test_general_boundaries.py::test_mapped_with_walls_and_open"
+        "tests/test_general_boundaries.py::test_mapped_with_walls_and_open",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 3,
@@ -32130,7 +33018,8 @@
         "tests/test_flow_statistics.py::test_statistics_rejects_bad_windows_and_warns_short_records",
         "tests/test_general_boundaries.py::test_channel_record_capture_with_walls",
         "tests/test_general_boundaries.py::test_composition_mapped_curved_walls",
-        "tests/test_general_boundaries.py::test_mapped_with_walls_and_open"
+        "tests/test_general_boundaries.py::test_mapped_with_walls_and_open",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 1,
@@ -32189,6 +33078,7 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[none]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_rehashed_consistent_but_wrong_clock_is_rejected",
         "tests/test_neutral_nesting_verification.py::test_reuse_rejects_argument_mismatch_and_recording_changed_during_analysis",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass"
@@ -32237,7 +33127,8 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_general_boundaries.py::test_channel_record_capture_with_walls",
         "tests/test_general_boundaries.py::test_composition_mapped_curved_walls",
-        "tests/test_general_boundaries.py::test_mapped_with_walls_and_open"
+        "tests/test_general_boundaries.py::test_mapped_with_walls_and_open",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 2,
@@ -32391,7 +33282,8 @@
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
-        "tests/test_general_boundaries.py::test_channel_record_capture_with_walls"
+        "tests/test_general_boundaries.py::test_channel_record_capture_with_walls",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 49,
@@ -32432,7 +33324,8 @@
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
-        "tests/test_general_boundaries.py::test_channel_record_capture_with_walls"
+        "tests/test_general_boundaries.py::test_channel_record_capture_with_walls",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 1,
@@ -32581,6 +33474,14 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[stale]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[wrong_points]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-value6]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-3]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-value0]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recording-value4]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recordings-value3]",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_rehashed_consistent_but_wrong_clock_is_rejected",
         "tests/test_neutral_nesting_verification.py::test_reuse_rejects_argument_mismatch_and_recording_changed_during_analysis",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass"
@@ -32620,7 +33521,8 @@
         "tests/test_boundary_series.py::test_v2_reader_bounds_grid_and_source_clock",
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
-        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height"
+        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 2,
@@ -32658,7 +33560,8 @@
         "tests/test_boundary_series.py::test_v2_reader_bounds_grid_and_source_clock",
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
-        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height"
+        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 4,
@@ -32696,7 +33599,8 @@
         "tests/test_boundary_series.py::test_v2_reader_bounds_grid_and_source_clock",
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
-        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height"
+        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 5,
@@ -32733,7 +33637,8 @@
         "tests/test_boundary_series.py::test_v2_reader_bounds_grid_and_source_clock",
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
-        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height"
+        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 1,
@@ -32770,7 +33675,8 @@
         "tests/test_boundary_series.py::test_v2_reader_bounds_grid_and_source_clock",
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
-        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height"
+        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 33,
@@ -32807,7 +33713,8 @@
         "tests/test_boundary_series.py::test_v2_reader_bounds_grid_and_source_clock",
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
-        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height"
+        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 12,
@@ -32844,7 +33751,8 @@
         "tests/test_boundary_series.py::test_v2_reader_bounds_grid_and_source_clock",
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
-        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height"
+        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 10,
@@ -32885,6 +33793,7 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[none]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_rehashed_consistent_but_wrong_clock_is_rejected",
         "tests/test_neutral_nesting_verification.py::test_reuse_rejects_argument_mismatch_and_recording_changed_during_analysis",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass"
@@ -32918,6 +33827,7 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[none]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_rehashed_consistent_but_wrong_clock_is_rejected",
         "tests/test_neutral_nesting_verification.py::test_reuse_rejects_argument_mismatch_and_recording_changed_during_analysis",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass"
@@ -32958,7 +33868,8 @@
         "tests/test_boundary_series.py::test_v2_reader_bounds_grid_and_source_clock",
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
-        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height"
+        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 38,
@@ -33021,7 +33932,8 @@
         "tests/test_boundary_series.py::test_v2_reader_bounds_grid_and_source_clock",
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
-        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height"
+        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 13,
@@ -33080,7 +33992,8 @@
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[mps]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
-        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height"
+        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 7,
@@ -33112,7 +34025,8 @@
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[mps]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
-        "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step"
+        "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 8,
@@ -33144,7 +34058,8 @@
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[mps]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
-        "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step"
+        "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 4,
@@ -34352,13 +35267,20 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[none]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_rehashed_consistent_but_wrong_clock_is_rejected",
         "tests/test_neutral_nesting_verification.py::test_reuse_rejects_argument_mismatch_and_recording_changed_during_analysis",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass",
         "tests/test_recording.py::test_pathline_inputs_and_output_budget",
         "tests/test_recording.py::test_pathlines_reject_inconsistent_frames",
         "tests/test_recording.py::test_record_and_playback",
-        "tests/test_refinement.py::test_physical_patch_matches_time_and_units"
+        "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
       ],
       "lines": {
         "hit": 14,
@@ -34590,6 +35512,7 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[none]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_rehashed_consistent_but_wrong_clock_is_rejected",
         "tests/test_neutral_nesting_verification.py::test_reuse_rejects_argument_mismatch_and_recording_changed_during_analysis",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass",
@@ -34993,7 +35916,13 @@
         "tests/test_fields.py::test_frame_rejects_mismatched_shapes",
         "tests/test_motion.py::test_recorded_pose_is_synchronized",
         "tests/test_recording.py::test_record_and_playback",
-        "tests/test_refinement.py::test_physical_patch_matches_time_and_units"
+        "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
       ],
       "lines": {
         "hit": 7,
@@ -35389,7 +36318,13 @@
         "tests/test_field_collection.py::test_streamline_crosses_parent_child_and_isosurface_is_continuous",
         "tests/test_field_collection.py::test_world_rotation_units_and_time_alignment",
         "tests/test_recording.py::test_record_and_playback",
-        "tests/test_refinement.py::test_physical_patch_matches_time_and_units"
+        "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
       ],
       "lines": {
         "hit": 3,
@@ -38655,7 +39590,8 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_external.py::test_unsupported_inputs_fail_explicitly",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 29,
@@ -38711,7 +39647,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 6,
@@ -38819,7 +39756,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 5,
@@ -38874,7 +39812,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 15,
@@ -38983,7 +39922,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 44,
@@ -39039,7 +39979,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 3,
@@ -39095,7 +40036,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 1,
@@ -39146,7 +40088,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 2,
@@ -39201,7 +40144,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 2,
@@ -39257,7 +40201,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 14,
@@ -39313,7 +40258,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 1,
@@ -39369,7 +40315,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 9,
@@ -39423,7 +40370,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 8,
@@ -39477,7 +40425,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 40,
@@ -39560,7 +40509,8 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_external.py::test_unsupported_inputs_fail_explicitly",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 68,
@@ -39607,7 +40557,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 67,
@@ -39654,7 +40605,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 3,
@@ -39701,7 +40653,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 2,
@@ -39748,7 +40701,8 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 73,
@@ -39986,6 +40940,7 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force",
         "tests/test_optimization.py::test_force_units_scale_with_density_but_fitness_does_not",
@@ -40005,6 +40960,36 @@
         "tests/test_recording.py::test_record_and_playback",
         "tests/test_recording.py::test_recording_budget_counts_only_new_frames_after_warmup",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False--1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-0.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -40123,6 +41108,7 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force",
         "tests/test_optimization.py::test_force_units_scale_with_density_but_fitness_does_not",
@@ -40142,6 +41128,36 @@
         "tests/test_recording.py::test_record_and_playback",
         "tests/test_recording.py::test_recording_budget_counts_only_new_frames_after_warmup",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False--1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-0.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -40263,6 +41279,7 @@
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_external.py::test_unsupported_inputs_fail_explicitly",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force",
         "tests/test_optimization.py::test_force_units_scale_with_density_but_fitness_does_not",
@@ -40293,6 +41310,36 @@
         "tests/test_recording.py::test_record_and_playback",
         "tests/test_recording.py::test_recording_budget_counts_only_new_frames_after_warmup",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False--1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-0.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -40599,6 +41646,12 @@
         "tests/test_outflow.py::test_uniform_open_flow_remains_uniform",
         "tests/test_plugin_service.py::test_physical_wind_boundaries_and_solid_on_cpu_and_mps",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -40653,6 +41706,12 @@
         "tests/test_outflow.py::test_uniform_open_flow_remains_uniform",
         "tests/test_plugin_service.py::test_physical_wind_boundaries_and_solid_on_cpu_and_mps",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]"
@@ -40714,6 +41773,12 @@
         "tests/test_outflow.py::test_uniform_open_flow_remains_uniform",
         "tests/test_plugin_service.py::test_physical_wind_boundaries_and_solid_on_cpu_and_mps",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -40777,6 +41842,12 @@
         "tests/test_outflow.py::test_uniform_open_flow_remains_uniform",
         "tests/test_plugin_service.py::test_physical_wind_boundaries_and_solid_on_cpu_and_mps",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -40928,6 +41999,7 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force",
         "tests/test_optimization.py::test_force_units_scale_with_density_but_fitness_does_not",
@@ -40938,6 +42010,12 @@
         "tests/test_outflow.py::test_uniform_open_flow_remains_uniform",
         "tests/test_plugin_service.py::test_physical_wind_boundaries_and_solid_on_cpu_and_mps",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -41019,6 +42097,12 @@
         "tests/test_outflow.py::test_uniform_open_flow_remains_uniform",
         "tests/test_plugin_service.py::test_physical_wind_boundaries_and_solid_on_cpu_and_mps",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -41136,6 +42220,12 @@
         "tests/test_outflow.py::test_uniform_open_flow_remains_uniform",
         "tests/test_plugin_service.py::test_physical_wind_boundaries_and_solid_on_cpu_and_mps",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -41245,6 +42335,7 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force",
         "tests/test_optimization.py::test_force_units_scale_with_density_but_fitness_does_not",
@@ -41264,6 +42355,12 @@
         "tests/test_recording.py::test_record_and_playback",
         "tests/test_recording.py::test_recording_budget_counts_only_new_frames_after_warmup",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -41405,6 +42502,7 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force",
         "tests/test_optimization.py::test_force_units_scale_with_density_but_fitness_does_not",
@@ -41424,6 +42522,12 @@
         "tests/test_recording.py::test_record_and_playback",
         "tests/test_recording.py::test_recording_budget_counts_only_new_frames_after_warmup",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -41518,6 +42622,7 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_force_units_scale_with_density_but_fitness_does_not",
         "tests/test_outflow.py::test_open_cylinder_outflow_stays_bounded",
@@ -41554,7 +42659,7 @@
       "fingerprint": "0d0b165685038b2827aa9766f4177c8f40a379d9486522ef356f5bbfff4c00cc",
       "id": "src/hawa/plugin.py::Session.start",
       "branches": {
-        "hit": 5,
+        "hit": 6,
         "total": 8
       },
       "tests": [
@@ -41565,7 +42670,7 @@
         "tests/test_plugin_service.py::test_background_lifecycle_and_resume"
       ],
       "lines": {
-        "hit": 12,
+        "hit": 13,
         "total": 15
       },
       "status": "covered"
@@ -41769,6 +42874,7 @@
         "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_plugin_service.py::test_default_fields_remain_array_only_for_recording_and_exports",
         "tests/test_plugin_service.py::test_interpolation_slice_streamlines_and_checkpoint",
         "tests/test_plugin_service.py::test_slice_provenance_tracks_captured_fields_not_later_solver_state",
@@ -42321,6 +43427,7 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force",
         "tests/test_optimization.py::test_force_units_scale_with_density_but_fitness_does_not",
@@ -42340,6 +43447,12 @@
         "tests/test_recording.py::test_record_and_playback",
         "tests/test_recording.py::test_recording_budget_counts_only_new_frames_after_warmup",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -42380,6 +43493,7 @@
         "tests/test_general_boundaries.py::test_channel_record_capture_with_walls",
         "tests/test_motion.py::test_recorded_pose_is_synchronized",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_recording.py::test_record_and_playback",
         "tests/test_recording.py::test_recording_budget_counts_only_new_frames_after_warmup"
       ],
@@ -42418,6 +43532,7 @@
         "tests/test_general_boundaries.py::test_channel_record_capture_with_walls",
         "tests/test_motion.py::test_recorded_pose_is_synchronized",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_recording.py::test_record_and_playback",
         "tests/test_recording.py::test_recording_budget_counts_only_new_frames_after_warmup"
       ],
@@ -42478,7 +43593,15 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[stale]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[wrong_points]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-value6]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-3]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-value0]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recording-value4]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recordings-value3]",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_rehashed_consistent_but_wrong_clock_is_rejected",
         "tests/test_neutral_nesting_verification.py::test_reuse_rejects_argument_mismatch_and_recording_changed_during_analysis",
         "tests/test_neutral_nesting_verification.py::test_subset_replay_is_explicitly_not_a_full_scope_pass",
@@ -42636,7 +43759,13 @@
       "tests": [
         "tests/test_refinement.py::test_constant_flow_and_composite_mass",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
-        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel"
+        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
       ],
       "lines": {
         "hit": 25,
@@ -42666,7 +43795,13 @@
       "tests": [
         "tests/test_refinement.py::test_constant_flow_and_composite_mass",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
-        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel"
+        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
       ],
       "lines": {
         "hit": 4,
@@ -42696,7 +43831,13 @@
       "tests": [
         "tests/test_refinement.py::test_constant_flow_and_composite_mass",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
-        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel"
+        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
       ],
       "lines": {
         "hit": 3,
@@ -42726,7 +43867,13 @@
       "tests": [
         "tests/test_refinement.py::test_constant_flow_and_composite_mass",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
-        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel"
+        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
       ],
       "lines": {
         "hit": 3,
@@ -42756,7 +43903,13 @@
       "tests": [
         "tests/test_refinement.py::test_constant_flow_and_composite_mass",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
-        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel"
+        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
       ],
       "lines": {
         "hit": 4,
@@ -42786,7 +43939,13 @@
       "tests": [
         "tests/test_refinement.py::test_constant_flow_and_composite_mass",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
-        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel"
+        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
       ],
       "lines": {
         "hit": 8,
@@ -42845,7 +44004,13 @@
       "tests": [
         "tests/test_refinement.py::test_constant_flow_and_composite_mass",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
-        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel"
+        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
       ],
       "lines": {
         "hit": 3,
@@ -42875,7 +44040,13 @@
       "tests": [
         "tests/test_refinement.py::test_constant_flow_and_composite_mass",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
-        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel"
+        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
       ],
       "lines": {
         "hit": 4,
@@ -42890,25 +44061,55 @@
       "signature": "run_refined(request, checkpoint) -> unannotated",
       "kind": "FunctionDef",
       "line": 84,
-      "end_line": 133,
+      "end_line": 136,
       "first_line": 84,
       "code_name": "run_refined",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "Run a fixed two-level physical case and return independent field frames.",
-      "fingerprint": "7326acf7bdd76c1024a711a3b90c94e53428c62e80611e385e1a2dd424acda81",
+      "fingerprint": "fef301dca3682522d751cb383ad8bd69848b625b4422147805d7f29615360aa9",
       "id": "src/hawa/refinement.py::run_refined",
       "branches": {
-        "hit": 20,
+        "hit": 21,
         "total": 32
       },
       "tests": [
         "tests/test_general_boundaries.py::test_refinement_and_reset_guards",
-        "tests/test_refinement.py::test_physical_patch_matches_time_and_units"
+        "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False--1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-0.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]"
       ],
       "lines": {
-        "hit": 36,
-        "total": 36
+        "hit": 38,
+        "total": 38
       },
       "status": "covered"
     },
@@ -42918,9 +44119,9 @@
       "name": "run_refined.PatchFlow.post_boundaries",
       "signature": "@property post_boundaries(self) -> unannotated",
       "kind": "FunctionDef",
-      "line": 110,
-      "end_line": 110,
-      "first_line": 109,
+      "line": 113,
+      "end_line": 113,
+      "first_line": 112,
       "code_name": "post_boundaries",
       "declaration": false,
       "visibility": "public/conventional",
@@ -42932,7 +44133,13 @@
         "total": 2
       },
       "tests": [
-        "tests/test_refinement.py::test_physical_patch_matches_time_and_units"
+        "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
       ],
       "lines": {
         "hit": 1,
@@ -42946,9 +44153,9 @@
       "name": "run_refined.frame",
       "signature": "frame(flow, spec, covered=False) -> unannotated",
       "kind": "FunctionDef",
-      "line": 125,
-      "end_line": 130,
-      "first_line": 125,
+      "line": 128,
+      "end_line": 133,
+      "first_line": 128,
       "code_name": "frame",
       "declaration": false,
       "visibility": "public/conventional",
@@ -42960,7 +44167,13 @@
         "total": 0
       },
       "tests": [
-        "tests/test_refinement.py::test_physical_patch_matches_time_and_units"
+        "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
       ],
       "lines": {
         "hit": 3,
@@ -43024,7 +44237,8 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_external.py::test_unsupported_inputs_fail_explicitly",
-        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay"
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu"
       ],
       "lines": {
         "hit": 7,
@@ -43129,6 +44343,7 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -43209,6 +44424,7 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -43283,6 +44499,7 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -43402,6 +44619,7 @@
         "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -44387,13 +45605,26 @@
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[stale]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[wrong_points]",
         "tests/test_neutral_nesting_verification.py::test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-value6]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-3]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-None]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[config-value0]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recording-value4]",
+        "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[recordings-value3]",
         "tests/test_neutral_nesting_verification.py::test_metrics_preserve_seeded_failures[health]",
         "tests/test_neutral_nesting_verification.py::test_metrics_preserve_seeded_failures[mean]",
         "tests/test_neutral_nesting_verification.py::test_metrics_preserve_seeded_failures[none]",
         "tests/test_neutral_nesting_verification.py::test_metrics_preserve_seeded_failures[pressure]",
         "tests/test_neutral_nesting_verification.py::test_metrics_preserve_seeded_failures[reference_drift]",
         "tests/test_neutral_nesting_verification.py::test_metrics_preserve_seeded_failures[rms]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[3]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[False]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[None]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[reference]",
+        "tests/test_neutral_nesting_verification.py::test_nonobject_descriptor_saves_failed_report[value0]",
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_neutral_nesting_verification.py::test_reference_configuration_is_bounded[interval-2]",
         "tests/test_neutral_nesting_verification.py::test_reference_configuration_is_bounded[ratios-value1]",
         "tests/test_neutral_nesting_verification.py::test_reference_configuration_is_bounded[ratios-value2]",
@@ -44495,6 +45726,36 @@
         "tests/test_refinement.py::test_constant_flow_and_composite_mass",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
         "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False--1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-0.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",

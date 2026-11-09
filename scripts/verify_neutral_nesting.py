@@ -142,7 +142,7 @@ def create_recording(spec, warmup, steps, interval, directory, device):
     session = Session(spec, device)
     session.advance(warmup)
     result = record(session, warmup+steps, interval, str(directory), checkpoint)
-    return result['manifest']
+    return dict(manifest=result['manifest'], backend=session.backend.info())
 
 
 def prepare_reference(output, config, device):
@@ -152,9 +152,11 @@ def prepare_reference(output, config, device):
     for ratio in [1] + ([r for r in config['ratios'] if r != 1] if config['fine_reference'] else []):
         spec = reference_case(ratio)
         name = 'parent' if ratio == 1 else 'reference-%d' % ratio
-        manifest = create_recording(spec, config['warmup']*ratio, config['steps']*ratio,
-                                    config['interval']*ratio, output/name, device)
-        paths[name] = dict(manifest=str(Path(manifest).relative_to(output)), **recording_identity(manifest))
+        recording = create_recording(spec, config['warmup']*ratio, config['steps']*ratio,
+                                     config['interval']*ratio, output/name, device)
+        manifest = recording['manifest']
+        paths[name] = dict(manifest=Path(manifest).relative_to(output).as_posix(),
+                           backend=recording['backend'], **recording_identity(manifest))
     if before != sources():
         raise ValueError('Source changed during reference preparation')
     bundle = dict(schema=1, config=config, device=device, environment=runtime(), sources=before,
@@ -171,6 +173,8 @@ def load_reference(path):
         raise ValueError('Reference descriptor exceeds 4 MiB')
     descriptor_before = digest(path)
     bundle = json.loads(path.read_text())
+    if not isinstance(bundle, dict):
+        raise ValueError('Reference descriptor must be an object')
     if (bundle.get('schema') != 1 or bundle.get('sources') != sources()
             or bundle.get('points') != POINTS.tolist()):
         raise ValueError('Stale or incompatible frozen reference source/schema/probes')
@@ -178,10 +182,16 @@ def load_reference(path):
     validate_config(config)
     expected = {'parent'} | ({'reference-%d' % r for r in config['ratios'] if r != 1}
                              if config['fine_reference'] else set())
-    if set(bundle['recordings']) != expected:
+    if not isinstance(bundle.get('recordings'), dict) or set(bundle['recordings']) != expected:
         raise ValueError('Missing or unexpected reference recordings')
     paths = {}
     for name, item in bundle['recordings'].items():
+        if not isinstance(item, dict) or not isinstance(item.get('manifest'), str):
+            raise ValueError('Reference recording must be an object with a manifest path')
+        backend=item.get('backend')
+        if (not isinstance(backend, dict) or any(not isinstance(backend.get(k), str) or not backend[k]
+                for k in ('requested','selected','torch')) or backend['selected']=='auto'):
+            raise ValueError('Reference recording requires actual selected backend provenance')
         manifest = (path.parent/item['manifest']).resolve()
         if path.parent not in manifest.parents:
             raise ValueError('Reference recording must remain inside its bundle directory')
@@ -216,6 +226,8 @@ def load_reference(path):
 
 
 def validate_config(config):
+    if not isinstance(config, dict):
+        raise ValueError('Reference configuration must be an object')
     for key in ('warmup', 'steps', 'interval'):
         minimum = 0 if key == 'warmup' else 1
         if type(config.get(key)) is not int or not minimum <= config[key] <= 100000:
@@ -296,8 +308,9 @@ def main(argv=None):
                 child=case([20*ratio,16*ratio,12*ratio],dx,np.array([4+dx/2,4+dx/2,dx/2]))
                 child['origin']=child['origin'].tolist()
                 mapped=capture(paths['parent'],child,a.output/('boundary-%d.npz'%ratio))
-                child_manifest=create_recording(mapped['case'],0,config['steps']*ratio,
+                child_recording=create_recording(mapped['case'],0,config['steps']*ratio,
                                                 config['interval']*ratio,a.output/('child-%d'%ratio),a.device)
+                child_manifest=child_recording['manifest']
                 ct,cu,cp,cq=series(child_manifest,POINTS)
                 if ct.shape!=pt.shape or not np.allclose(ct,pt,atol=1e-10,rtol=0):
                     raise ValueError('Child and parent absolute clocks differ')
@@ -305,7 +318,8 @@ def main(argv=None):
                 _,ru,rp,_=series(paths[name],POINTS)
                 health='within-tested-envelope' if all(q=='within-tested-envelope' for q in cq) else 'unchecked'
                 row=metrics(ct,ru,rp,cu,cp,health,a.window_start,a.window_end)
-                row.update(ratio=ratio,reference=name,child_recording=recording_identity(child_manifest))
+                row.update(ratio=ratio,reference=name,backend=child_recording['backend'],
+                           child_recording=recording_identity(child_manifest))
                 report['rows'].append(row)
                 report['evaluated_ratios'].append(ratio)
                 np.savez_compressed(a.output/('comparison-%d.npz'%ratio),points=POINTS,times=ct,

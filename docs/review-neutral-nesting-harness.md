@@ -94,7 +94,7 @@ reset incompatible wall-filter history and require spin-up: retain that behavior
 and diagnose it rather than removing the guard. A later production repair gets
 its own PR and newly prepared references.
 
-## Evidence and remaining checks
+## Original C1 evidence (historical source snapshot) and remaining checks
 
 Local environment: macOS arm64, Python 3.9.25, PyTorch 2.8.0, NumPy 2.0.2.
 Focused harness and numerical smoke/replay runs explicitly use CPU with one
@@ -127,7 +127,7 @@ no dedicated MPS nesting study, CUDA run or Rhino session is claimed.
   This short smoke/debugging study is **not** long-window statistical qualification.
   Evidence: `results/study/cpu-final-commands.json`, `cpu-smoke-final/`,
   `cpu-replay-final/` and `cpu-final-{0,1}.log`. Earlier smoke outputs are retained
-  but are stale after harness edits; only the final folders match current source.
+  but are stale after harness edits; the final folders matched the original C1 snapshot. They are stale after the PR review fixes and shared-base integration below.
 - Full function gate on final source: **656 passed, 32 CUDA skips, four existing
   MRT warnings**, 167.16 seconds; **33 production-linked state contracts pass**.
   Zero ratchet failures against `a26924c`; committed matrices refreshed and checked.
@@ -153,3 +153,69 @@ no dedicated MPS nesting study, CUDA run or Rhino session is claimed.
 HAWA-021 and HAWA-022 remain open. Harness readiness does not qualify the parent,
 child turbulence, atmospheric model, refined transfer, installed workflow or
 engineering predictions. Preserve all failed reports when advancing to C2.
+
+
+## PR #5 review repairs — November 9, 2026
+
+Transfer-study agent reviewed all three inline findings (no issue comments).
+Malformed JSON object shapes now raise validation errors and preserve a failed
+`result.json`, including array/null/scalar descriptors, non-object configurations,
+recording inventories and recording entries. Frozen records require actual selected
+backend metadata; source and child recordings store `session.backend.info()` so
+`--device auto` retains its request, selected backend, PyTorch version and notes.
+This is execution provenance, not a backend parity claim. Older frozen bundles
+are rejected by the unchanged strict source fingerprint contract.
+
+A real CPU regression prepares parent and ratio-2 fine-reference recordings with
+200 parent warmup steps (400 fine steps), eight recorded parent steps and nine
+frames, then captures and replays the refined child. It checks exact iteration
+inventories, physical time alignment, fine-reference selection, probe array shape
+and selected-backend provenance. GPU availability is mocked false only for auto
+selection; session creation, stepping, recording, capture and replay are real.
+The initial two-step warmup hit the existing 2% imported-pressure guard; that
+failure was not bypassed. Thresholds and numerical failure reporting are unchanged.
+This short regression is not statistical or atmospheric qualification.
+
+Integrated shared base `a00223f9d86e95077d1b19c6eaa00e68dd16123e` (HAWA-049),
+preserving its separate review/history. Original C1 full gate, Docker and smoke
+measurements above are historical; fresh combined measurements follow below.
+
+
+Fresh review-fix validation on the combined branch:
+
+- macOS arm64, Python 3.9.25, PyTorch 2.8.0: focused CPU suite **45 passed in
+  38.09 s**, no skips or warnings (`results/review-fixes/focused.{log,xml}`).
+- Full function gate against shared base `a00223f`: **699 passed, 32 CUDA skips,
+  four existing MRT warnings, 115.92 s**. **33 production-linked state contracts
+  passed**. Zero ratchet failures; both committed matrices refreshed and checked.
+  Inventory remains 297 covered, 142 uncovered, 630 unmeasured, 58 declarations.
+  Evidence: `results/review-fixes/function-gate/`, `function-gate.log`,
+  `matrix-check.log`. CPU/MPS tests ran where available; no CUDA hardware claim.
+- Actual short ratio-2 fine replay reports `passed=false` and
+  `full_nesting_passed=false`: mean error **10.4322%**, RMS error **204.8839%**,
+  Cp RMSE **0.432043**, reference stationarity 0.7017%; child stationarity
+  0.7035% is diagnostic. Five analysis samples from nine frames are deliberately
+  too short for qualification. This is fresh evidence of the harness retaining
+  failure, not a new claim about long-window convergence. Result/descriptor
+  metadata copies: `results/review-fixes/real-fine-regression/`; complete test
+  artifacts remain under the checkout-specific `results/review-fixes/tmp/`.
+- Both plugin projects build: **103 GH + 2 Rhino CA1416 warnings, zero errors**;
+  development archive `dist/Hawa-transfer-review-final.zip` (package refreshed after records). Evidence:
+  `results/review-fixes/build.log` and `package.json`. No installation or release.
+
+These repairs satisfy the three review findings within C1. G0/G1 remain scoped
+self-review passes; G2 has fresh combined evidence above. G3 remains failed for
+numerical qualification, G4/G6 remain inapplicable to this developer-only harness,
+and G5 remains blocked for release. The merged HAWA-049 production fix has its own
+review and G6 evidence; no new G6 execution is claimed here. HAWA-021/022 stay open.
+
+
+Separate final Linux CPU-only Docker validation: **45 passed in 82.00 s**, no
+skips or warnings (`results/docker-review/focused.{log,xml}`). The pinned image is
+`sha256:6b367745131c89cf349cd005532efe5ac708f871b1758105669406e468e18e93`:
+Linux aarch64, Python 3.9.25, PyTorch 2.8.0+cpu, NumPy 2.0.2. Limits: one CPU,
+2 GiB memory, no network, read-only root/source, writable temporary storage and
+isolated results directory. This is the focused harness regression suite,
+including the real fine-reference replay, not a Linux full function/state/G6 run
+or numerical qualification. Source and tests were unchanged between native and
+container measurements.

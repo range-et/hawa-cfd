@@ -56,7 +56,7 @@ def descriptor(tmp_path,monkeypatch):
     manifest=recording(folder/'parent',parent,times=tuple(np.arange(8)*dt),vary=False)
     bundle=dict(schema=1,config=dict(warmup=0,steps=7,interval=1,ratios=[1],fine_reference=False),
                 device='cpu',sources=study.sources(),points=study.POINTS.tolist(),recordings={
-                    'parent':dict(manifest='parent/manifest.json',**study.recording_identity(manifest))})
+                    'parent':dict(manifest='parent/manifest.json',backend=dict(requested='cpu',selected='cpu',torch='test-double'),**study.recording_identity(manifest))})
     path=folder/'reference.json';path.write_text(json.dumps(bundle))
     return path,manifest,bundle
 
@@ -154,7 +154,7 @@ def test_descriptor_iteration_inventory_cannot_silently_change(tmp_path,monkeypa
 def test_full_child_orchestration_and_failed_reference_requires_diagnostic_opt_in(tmp_path,monkeypatch):
     path,manifest,bundle=descriptor(tmp_path,monkeypatch)
     monkeypatch.setattr(study,'capture',lambda *args,**kwargs: {'case': {}})
-    monkeypatch.setattr(study,'create_recording',lambda *args,**kwargs: str(manifest))
+    monkeypatch.setattr(study,'create_recording',lambda *args,**kwargs: dict(manifest=str(manifest),backend=dict(requested='cpu',selected='cpu',torch='test-double')))
     assert study.main(['--output',str(tmp_path/'complete'),'--reuse-reference',str(path)])==0
     result=json.loads((tmp_path/'complete/result.json').read_text())
     assert result['full_nesting_passed'] and len(result['rows'])==1
@@ -181,7 +181,7 @@ def test_subset_replay_is_explicitly_not_a_full_scope_pass(tmp_path,monkeypatch)
     bundle['config']['ratios']=[1,2]
     path.write_text(json.dumps(bundle))
     monkeypatch.setattr(study,'capture',lambda *args,**kwargs: {'case': {}})
-    monkeypatch.setattr(study,'create_recording',lambda *args,**kwargs: str(manifest))
+    monkeypatch.setattr(study,'create_recording',lambda *args,**kwargs: dict(manifest=str(manifest),backend=dict(requested='cpu',selected='cpu',torch='test-double')))
     assert study.main(['--output',str(tmp_path/'subset'),'--reuse-reference',str(path),'--ratios','1'])==0
     result=json.loads((tmp_path/'subset/result.json').read_text())
     assert result['passed'] and not result['full_nesting_passed'] and not result['full_scope']
@@ -202,3 +202,64 @@ def test_rehashed_consistent_but_wrong_clock_is_rejected(tmp_path,monkeypatch):
     bundle['recordings']['parent'].update(study.recording_identity(manifest))
     path.write_text(json.dumps(bundle))
     with pytest.raises(ValueError,match='absolute clock differs'):study.load_reference(path)
+
+
+@pytest.mark.parametrize('value',[[],None,'reference',3,False])
+def test_nonobject_descriptor_saves_failed_report(tmp_path,value):
+    path=tmp_path/'reference.json';path.write_text(json.dumps(value))
+    output=tmp_path/'result'
+    assert study.main(['--output',str(output),'--reuse-reference',str(path)])==1
+    result=json.loads((output/'result.json').read_text())
+    assert not result['passed'] and not result['full_nesting_passed']
+    assert 'descriptor must be an object' in result['error']
+
+
+@pytest.mark.parametrize('part,value',[('config',[]),('config',None),('config',3),
+                                        ('recordings',[]),('recording',[]),('backend',None),
+                                        ('backend',{'requested':'auto','selected':'auto','torch':'test'})])
+def test_malformed_nested_descriptor_saves_failed_report(tmp_path,monkeypatch,part,value):
+    path,manifest,bundle=descriptor(tmp_path,monkeypatch)
+    if part=='recording':bundle['recordings']['parent']=value
+    elif part=='backend':bundle['recordings']['parent']['backend']=value
+    else:bundle[part]=value
+    path.write_text(json.dumps(bundle))
+    output=tmp_path/'result'
+    assert study.main(['--output',str(output),'--reuse-reference',str(path)])==1
+    result=json.loads((output/'result.json').read_text())
+    assert not result['passed'] and not result['full_nesting_passed'] and 'error' in result
+
+
+def test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu(tmp_path,monkeypatch):
+    import torch
+    # Exercise real auto selection while avoiding GPU work in the focused CPU lane.
+    monkeypatch.setattr(torch.cuda,'is_available',lambda:False)
+    monkeypatch.setattr(torch.backends.mps,'is_available',lambda:False)
+    output=tmp_path/'fine-source'
+    code=study.main(['--output',str(output),'--device','auto','--warmup','200','--steps','8',
+                    '--interval','1','--ratios','2','--fine-reference','--reference-only'])
+    source=json.loads((output/'result.json').read_text())
+    assert 'error' not in source and code==int(not source['passed'])
+    bundle,paths=study.load_reference(output/'reference.json')
+    assert set(paths)=={'parent','reference-2'}
+    parent_times,*_=study.series(paths['parent'],study.POINTS)
+    fine_times,*_=study.series(paths['reference-2'],study.POINTS)
+    np.testing.assert_allclose(parent_times,fine_times,rtol=0,atol=1e-10)
+    for name,warmup,step in [('parent',200,1),('reference-2',400,2)]:
+        manifest=json.loads(paths[name].read_text())
+        assert [e['iteration'] for e in manifest['frames']]==list(range(warmup,warmup+8*step+1,step))
+        backend=bundle['recordings'][name]['backend']
+        assert backend['requested']=='auto' and backend['selected']=='cpu'
+        assert backend['torch']==torch.__version__ and backend['notes']
+    replay=tmp_path/'fine-replay'
+    code=study.main(['--output',str(replay),'--device','auto','--reuse-reference',str(output/'reference.json'),
+                    '--diagnostic-nonstationary-reference'])
+    result=json.loads((replay/'result.json').read_text())
+    assert 'error' not in result and code==int(not result['passed'])
+    assert result['evaluated_ratios']==[2] and result['full_scope']
+    row=result['rows'][0]
+    assert row['reference']=='reference-2' and row['backend']['selected']=='cpu'
+    assert row['backend']['requested']=='auto'
+    assert result['reference']['recordings']['reference-2']['backend']==bundle['recordings']['reference-2']['backend']
+    with np.load(replay/'comparison-2.npz') as data:
+        np.testing.assert_allclose(data['times'],fine_times,rtol=0,atol=1e-10)
+        assert data['reference_velocity'].shape==data['child_velocity'].shape==(9,7,3)

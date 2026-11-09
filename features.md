@@ -81,9 +81,28 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 Added frozen-reference preparation/replay, strict source/frame/configuration
 identity, explicit analysis windows and partial-scope reporting to the Python
 nesting study. Fixed numerical criteria remain unchanged; HAWA-021/022 stay open.
-No solver or host behavior changed. Local checks: 32 focused tests, 656 suite
+No solver or host behavior changed. Original C1 checks: 32 focused tests, 656 suite
 passes, 32 CUDA skips, 33 state contracts and zero function-gate failures. The
 real bounded CPU run and replay retain the same RMS failure; see the [C1 review](docs/review-neutral-nesting-harness.md).
+
+PR #5 review additionally hardens malformed descriptor failures, records selected
+source/child backends and exercises actual ratio-2 fine-reference replay with
+nonzero warmup. Fresh measurements are recorded in the C1 review.
+
+### November 9 2026 refinement placement repair candidate (HAWA-049)
+
+The Python refinement preflight now uses its existing absolute origin tolerance
+without a translation-dependent relative allowance. Misaligned patches reject
+before solver construction and report expected/received origins. Thirty new
+regression cases plus the existing focused domain tests pass on CPU (58 passed,
+four device cases deliberately deselected). Full measured gate passes with 654
+Python tests, 32 CUDA skips and 33 state contracts; matrices are refreshed and
+checked. Development build and ZIP integrity pass. Fresh Docker CPU G6 records
+97,561 passes, zero failures and 4,898 unavailable MPS/CUDA rows, accounting for
+all 102,459 expected rows with unchanged source. The combined checker links this
+Linux matrix to the native suite/contract evidence without claiming a full GPU
+matrix pass. Integration review remains pending; this is not a completed release
+or closed issue. [Review](docs/review-refinement-preflight.md).
 
 
 ### November 9 2026 parent/child documentation (HAWA-034 partial)
