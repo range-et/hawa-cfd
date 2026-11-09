@@ -3563,7 +3563,7 @@
       "fingerprint": "e6e2a5294b8e60e6d7a9b9656b2d4f445370a01997c58c98aad72547790d2348"
     },
     "src/hawa/airfoils.py::dispatch_airfoil": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "8aa9fa70244ef279bb489848313802c1f774128c6c9e165d340d0d07e8ec8fa9"
     },
     "src/hawa/atmosphere.py::_positive": {

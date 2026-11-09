@@ -128,6 +128,7 @@
     "tests/matrix/contract.py": "19fb074aed6a448633febf435fe4f4ff052a5a4ca61b6aec33f627dded549e13",
     "tests/matrix/nesting.py": "85409bd1f9a3be433a3f03c4942a1951ffc3444534ff4ac0cc0bbbc7b93f9251",
     "tests/matrix/operations.py": "7a6da1517add50225b48ef549391854e0c28770e4b6f72d489549cd2debaba8d",
+    "tests/test_airfoil_dispatch.py": "f1a5a19b4ef3e4046009a332e23800686eb4706ef36c7d93a01a410e9af0c2c0",
     "tests/test_airfoils.py": "289172bb568c7932ec15b0d760ab39896eb8b76f80d1d846a0f8f89a585d7895",
     "tests/test_atmosphere.py": "a058d0502e1cf55bfa4e3c3841211f762726d34f3dee0a6aec96630bba6a3a99",
     "tests/test_backport_audit.py": "01802ceafaa8aa7d945b4fbcecaf654067f586c27d3d9245cd82af372894111d",
@@ -174,6 +175,29 @@
   },
   "tests": {
     "collected": [
+      "tests/test_airfoil_dispatch.py::test_naca_defaults_and_explicit_trailing_edge",
+      "tests/test_airfoil_dispatch.py::test_import_normalizes_translated_scaled_coordinates",
+      "tests/test_airfoil_dispatch.py::test_polar_metadata_sorting_and_degree_interpolation",
+      "tests/test_airfoil_dispatch.py::test_wing_degree_units_similarity_and_forwarded_options",
+      "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options0-four-digit]",
+      "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options1-thickness]",
+      "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options2-camber]",
+      "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options3-Point count]",
+      "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options4-Point count]",
+      "tests/test_airfoil_dispatch.py::test_import_rejects_invalid_coordinates[1 0\\n.5 nan\\n0 0\\n.5 -.1\\n1 0\\n-finite]",
+      "tests/test_airfoil_dispatch.py::test_import_rejects_invalid_coordinates[1 0\\n1 .1\\n1 0\\n1 -.1\\n1 0\\n-chord]",
+      "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options0-0,0,.01\\n-Reynolds]",
+      "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options1-0,0,.01\\n-Mach]",
+      "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options2-0,0,-.01\\n-nonnegative drag]",
+      "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options3-0,0,.01\\n0,.1,.02\\n-duplicate angles]",
+      "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[-5]",
+      "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[5]",
+      "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[nan]",
+      "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options0-positive dimensions]",
+      "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options1-Finite]",
+      "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options2-Stations]",
+      "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options3-Stations]",
+      "tests/test_airfoil_dispatch.py::test_unknown_action_and_missing_required_field",
       "tests/test_airfoils.py::test_naca_symmetry_and_camber",
       "tests/test_airfoils.py::test_import_formats",
       "tests/test_airfoils.py::test_local_polar_no_extrapolation",
@@ -1135,6 +1159,29 @@
       "tests/test_walls.py::test_invalid_fraction_rejected[mps]"
     ],
     "passed": [
+      "tests/test_airfoil_dispatch.py::test_import_normalizes_translated_scaled_coordinates",
+      "tests/test_airfoil_dispatch.py::test_import_rejects_invalid_coordinates[1 0\\n.5 nan\\n0 0\\n.5 -.1\\n1 0\\n-finite]",
+      "tests/test_airfoil_dispatch.py::test_import_rejects_invalid_coordinates[1 0\\n1 .1\\n1 0\\n1 -.1\\n1 0\\n-chord]",
+      "tests/test_airfoil_dispatch.py::test_naca_defaults_and_explicit_trailing_edge",
+      "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options0-four-digit]",
+      "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options1-thickness]",
+      "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options2-camber]",
+      "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options3-Point count]",
+      "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options4-Point count]",
+      "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[-5]",
+      "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[5]",
+      "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[nan]",
+      "tests/test_airfoil_dispatch.py::test_polar_metadata_sorting_and_degree_interpolation",
+      "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options0-0,0,.01\\n-Reynolds]",
+      "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options1-0,0,.01\\n-Mach]",
+      "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options2-0,0,-.01\\n-nonnegative drag]",
+      "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options3-0,0,.01\\n0,.1,.02\\n-duplicate angles]",
+      "tests/test_airfoil_dispatch.py::test_unknown_action_and_missing_required_field",
+      "tests/test_airfoil_dispatch.py::test_wing_degree_units_similarity_and_forwarded_options",
+      "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options0-positive dimensions]",
+      "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options1-Finite]",
+      "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options2-Stations]",
+      "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options3-Stations]",
       "tests/test_airfoils.py::test_import_formats",
       "tests/test_airfoils.py::test_local_polar_no_extrapolation",
       "tests/test_airfoils.py::test_moment_coefficient_and_missing_moment",
@@ -2013,6 +2060,328 @@
       "tests/test_walls.py::test_invalid_fraction_rejected[mps]"
     ],
     "outcomes": {
+      "tests/test_airfoil_dispatch.py::test_naca_defaults_and_explicit_trailing_edge": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_import_normalizes_translated_scaled_coordinates": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_polar_metadata_sorting_and_degree_interpolation": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_wing_degree_units_similarity_and_forwarded_options": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options0-four-digit]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options1-thickness]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options2-camber]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options3-Point count]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options4-Point count]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_import_rejects_invalid_coordinates[1 0\\n.5 nan\\n0 0\\n.5 -.1\\n1 0\\n-finite]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_import_rejects_invalid_coordinates[1 0\\n1 .1\\n1 0\\n1 -.1\\n1 0\\n-chord]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options0-0,0,.01\\n-Reynolds]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options1-0,0,.01\\n-Mach]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options2-0,0,-.01\\n-nonnegative drag]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options3-0,0,.01\\n0,.1,.02\\n-duplicate angles]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[-5]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[5]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[nan]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options0-positive dimensions]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options1-Finite]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options2-Stations]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options3-Stations]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_airfoil_dispatch.py::test_unknown_action_and_missing_required_field": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
       "tests/test_airfoils.py::test_naca_symmetry_and_camber": [
         [
           "setup",
@@ -35925,10 +36294,16 @@
       "fingerprint": "5e1234cea5c0c1af6a909044bfc62f87cd1c9fcdcd3bbe52af3985afe8899f23",
       "id": "src/hawa/airfoils.py::naca",
       "branches": {
-        "hit": 5,
+        "hit": 8,
         "total": 8
       },
       "tests": [
+        "tests/test_airfoil_dispatch.py::test_naca_defaults_and_explicit_trailing_edge",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options0-four-digit]",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options1-thickness]",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options2-camber]",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options3-Point count]",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options4-Point count]",
         "tests/test_airfoils.py::test_naca_symmetry_and_camber"
       ],
       "lines": {
@@ -35953,14 +36328,17 @@
       "fingerprint": "a1565cd103d29b6ab5090a9ced4a3f37226dea6d53ab2903a3b8768af4be5a98",
       "id": "src/hawa/airfoils.py::read_airfoil",
       "branches": {
-        "hit": 11,
+        "hit": 13,
         "total": 16
       },
       "tests": [
+        "tests/test_airfoil_dispatch.py::test_import_normalizes_translated_scaled_coordinates",
+        "tests/test_airfoil_dispatch.py::test_import_rejects_invalid_coordinates[1 0\\n.5 nan\\n0 0\\n.5 -.1\\n1 0\\n-finite]",
+        "tests/test_airfoil_dispatch.py::test_import_rejects_invalid_coordinates[1 0\\n1 .1\\n1 0\\n1 -.1\\n1 0\\n-chord]",
         "tests/test_airfoils.py::test_import_formats"
       ],
       "lines": {
-        "hit": 19,
+        "hit": 20,
         "total": 20
       },
       "status": "covered"
@@ -35981,10 +36359,15 @@
       "fingerprint": "2a0ce3940cf53756cee35ee9ea5ff07ff1e68bde0bb5f7e04d01dd6608d3e2e3",
       "id": "src/hawa/airfoils.py::read_polar",
       "branches": {
-        "hit": 12,
+        "hit": 16,
         "total": 20
       },
       "tests": [
+        "tests/test_airfoil_dispatch.py::test_polar_metadata_sorting_and_degree_interpolation",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options0-0,0,.01\\n-Reynolds]",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options1-0,0,.01\\n-Mach]",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options2-0,0,-.01\\n-nonnegative drag]",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options3-0,0,.01\\n0,.1,.02\\n-duplicate angles]",
         "tests/test_airfoils.py::test_local_polar_no_extrapolation",
         "tests/test_airfoils.py::test_moment_coefficient_and_missing_moment",
         "tests/test_airfoils.py::test_wing_profile_drag_with_local_polar"
@@ -36015,6 +36398,10 @@
         "total": 0
       },
       "tests": [
+        "tests/test_airfoil_dispatch.py::test_polar_metadata_sorting_and_degree_interpolation",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options0-0,0,.01\\n-Reynolds]",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options1-0,0,.01\\n-Mach]",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options3-0,0,.01\\n0,.1,.02\\n-duplicate angles]",
         "tests/test_airfoils.py::test_local_polar_no_extrapolation",
         "tests/test_airfoils.py::test_moment_coefficient_and_missing_moment",
         "tests/test_airfoils.py::test_wing_profile_drag_with_local_polar"
@@ -36045,6 +36432,11 @@
         "total": 4
       },
       "tests": [
+        "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[-5]",
+        "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[5]",
+        "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[nan]",
+        "tests/test_airfoil_dispatch.py::test_polar_metadata_sorting_and_degree_interpolation",
+        "tests/test_airfoil_dispatch.py::test_wing_degree_units_similarity_and_forwarded_options",
         "tests/test_airfoils.py::test_local_polar_no_extrapolation",
         "tests/test_airfoils.py::test_moment_coefficient_and_missing_moment",
         "tests/test_airfoils.py::test_wing_profile_drag_with_local_polar"
@@ -36071,10 +36463,15 @@
       "fingerprint": "e6e2a5294b8e60e6d7a9b9656b2d4f445370a01997c58c98aad72547790d2348",
       "id": "src/hawa/airfoils.py::wing_analysis",
       "branches": {
-        "hit": 4,
+        "hit": 6,
         "total": 6
       },
       "tests": [
+        "tests/test_airfoil_dispatch.py::test_wing_degree_units_similarity_and_forwarded_options",
+        "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options0-positive dimensions]",
+        "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options1-Finite]",
+        "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options2-Stations]",
+        "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options3-Stations]",
         "tests/test_airfoils.py::test_wing_profile_drag_with_local_polar",
         "tests/test_airfoils.py::test_wing_symmetry_and_induced_drag"
       ],
@@ -36100,15 +36497,39 @@
       "fingerprint": "8aa9fa70244ef279bb489848313802c1f774128c6c9e165d340d0d07e8ec8fa9",
       "id": "src/hawa/airfoils.py::dispatch_airfoil",
       "branches": {
-        "hit": 0,
+        "hit": 10,
         "total": 10
       },
-      "tests": [],
+      "tests": [
+        "tests/test_airfoil_dispatch.py::test_import_normalizes_translated_scaled_coordinates",
+        "tests/test_airfoil_dispatch.py::test_import_rejects_invalid_coordinates[1 0\\n.5 nan\\n0 0\\n.5 -.1\\n1 0\\n-finite]",
+        "tests/test_airfoil_dispatch.py::test_import_rejects_invalid_coordinates[1 0\\n1 .1\\n1 0\\n1 -.1\\n1 0\\n-chord]",
+        "tests/test_airfoil_dispatch.py::test_naca_defaults_and_explicit_trailing_edge",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options0-four-digit]",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options1-thickness]",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options2-camber]",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options3-Point count]",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options4-Point count]",
+        "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[-5]",
+        "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[5]",
+        "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[nan]",
+        "tests/test_airfoil_dispatch.py::test_polar_metadata_sorting_and_degree_interpolation",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options0-0,0,.01\\n-Reynolds]",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options1-0,0,.01\\n-Mach]",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options2-0,0,-.01\\n-nonnegative drag]",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options3-0,0,.01\\n0,.1,.02\\n-duplicate angles]",
+        "tests/test_airfoil_dispatch.py::test_unknown_action_and_missing_required_field",
+        "tests/test_airfoil_dispatch.py::test_wing_degree_units_similarity_and_forwarded_options",
+        "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options0-positive dimensions]",
+        "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options1-Finite]",
+        "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options2-Stations]",
+        "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options3-Stations]"
+      ],
       "lines": {
-        "hit": 0,
+        "hit": 7,
         "total": 7
       },
-      "status": "uncovered"
+      "status": "covered"
     },
     {
       "path": "src/hawa/atmosphere.py",
@@ -49369,10 +49790,33 @@
       "fingerprint": "e19a2ee9f481933e895dafb992a80c0bd4f3bdd3c89b23a257e70b005dc9be1c",
       "id": "src/hawa/plugin.py::dispatch",
       "branches": {
-        "hit": 78,
+        "hit": 79,
         "total": 116
       },
       "tests": [
+        "tests/test_airfoil_dispatch.py::test_import_normalizes_translated_scaled_coordinates",
+        "tests/test_airfoil_dispatch.py::test_import_rejects_invalid_coordinates[1 0\\n.5 nan\\n0 0\\n.5 -.1\\n1 0\\n-finite]",
+        "tests/test_airfoil_dispatch.py::test_import_rejects_invalid_coordinates[1 0\\n1 .1\\n1 0\\n1 -.1\\n1 0\\n-chord]",
+        "tests/test_airfoil_dispatch.py::test_naca_defaults_and_explicit_trailing_edge",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options0-four-digit]",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options1-thickness]",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options2-camber]",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options3-Point count]",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options4-Point count]",
+        "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[-5]",
+        "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[5]",
+        "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[nan]",
+        "tests/test_airfoil_dispatch.py::test_polar_metadata_sorting_and_degree_interpolation",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options0-0,0,.01\\n-Reynolds]",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options1-0,0,.01\\n-Mach]",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options2-0,0,-.01\\n-nonnegative drag]",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options3-0,0,.01\\n0,.1,.02\\n-duplicate angles]",
+        "tests/test_airfoil_dispatch.py::test_unknown_action_and_missing_required_field",
+        "tests/test_airfoil_dispatch.py::test_wing_degree_units_similarity_and_forwarded_options",
+        "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options0-positive dimensions]",
+        "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options1-Finite]",
+        "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options2-Stations]",
+        "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options3-Stations]",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
@@ -49432,7 +49876,7 @@
         "tests/test_plugin_service.py::test_slice_provenance_tracks_captured_fields_not_later_solver_state[mps]"
       ],
       "lines": {
-        "hit": 177,
+        "hit": 179,
         "total": 223
       },
       "status": "covered"
@@ -51463,6 +51907,29 @@
         "total": 0
       },
       "tests": [
+        "tests/test_airfoil_dispatch.py::test_import_normalizes_translated_scaled_coordinates",
+        "tests/test_airfoil_dispatch.py::test_import_rejects_invalid_coordinates[1 0\\n.5 nan\\n0 0\\n.5 -.1\\n1 0\\n-finite]",
+        "tests/test_airfoil_dispatch.py::test_import_rejects_invalid_coordinates[1 0\\n1 .1\\n1 0\\n1 -.1\\n1 0\\n-chord]",
+        "tests/test_airfoil_dispatch.py::test_naca_defaults_and_explicit_trailing_edge",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options0-four-digit]",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options1-thickness]",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options2-camber]",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options3-Point count]",
+        "tests/test_airfoil_dispatch.py::test_naca_invalid_inputs[options4-Point count]",
+        "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[-5]",
+        "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[5]",
+        "tests/test_airfoil_dispatch.py::test_operating_point_never_extrapolates[nan]",
+        "tests/test_airfoil_dispatch.py::test_polar_metadata_sorting_and_degree_interpolation",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options0-0,0,.01\\n-Reynolds]",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options1-0,0,.01\\n-Mach]",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options2-0,0,-.01\\n-nonnegative drag]",
+        "tests/test_airfoil_dispatch.py::test_polar_rejects_invalid_conditions_and_data[options3-0,0,.01\\n0,.1,.02\\n-duplicate angles]",
+        "tests/test_airfoil_dispatch.py::test_unknown_action_and_missing_required_field",
+        "tests/test_airfoil_dispatch.py::test_wing_degree_units_similarity_and_forwarded_options",
+        "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options0-positive dimensions]",
+        "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options1-Finite]",
+        "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options2-Stations]",
+        "tests/test_airfoil_dispatch.py::test_wing_rejects_invalid_geometry_and_discretization[options3-Stations]",
         "tests/test_airfoils.py::test_import_formats",
         "tests/test_airfoils.py::test_local_polar_no_extrapolation",
         "tests/test_airfoils.py::test_moment_coefficient_and_missing_moment",

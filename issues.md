@@ -87,6 +87,11 @@ gaps with asserting tests and measured execution, update the baseline to preserv
 the improvement, and retain separate live Rhino and numerical validation. Full
 closure requires resolving all executable gaps in the declared inventory; a node's
 presence in an example or a passing suite name is not function-level evidence.
+November 9 scoped progress: public airfoil dispatch now has 23 asserting cases and
+measured 7/7 lines, 10/10 branches; its baseline is promoted. Native/Linux focused
+checks, seven seeded faults and the full gate are recorded in the
+[tranche review](docs/review-airfoil-dispatch-coverage.md). Continue with another
+named inventory gap; whole-issue and live-host coverage remain open.
 
 | ID | Type and status | Scope and evidence | Next action and acceptance | Execution surface |
 | --- | --- | --- | --- | --- |
