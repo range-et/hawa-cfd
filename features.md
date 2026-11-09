@@ -82,7 +82,22 @@ Added a bounded repeated-cell KBC diagnostic with exact FP32 inputs, actual
 device/stage/stabilizer evidence and unchanged population criteria. Original
 512-square/50-step CPU/MPS parity still fails; an improved but still-failing
 scratch candidate was rejected. No production or vendor repair is claimed.
-[Diagnosis and limits](docs/review-porous-kbc-diagnostic.md). HAWA-001 remains open.
+[Diagnosis and limits](docs/review-porous-kbc-diagnostic.md). Review follow-up
+HAWA-056/057 adds actual loaded-source validation and partial failure evidence.
+HAWA-001 remains open.
+
+### November 9 2026 domain relationship contracts (HAWA-028 partial / HAWA-052 candidate)
+
+Independent Python state and intentional view overlap now have explicit relation
+controls. A shared refinement bounds check preserves existing topology criteria
+while rejecting unsupported patches before solver allocation, with fine/parent
+indices in diagnostics. HAWA-049 alignment checks remain unchanged. Focused CPU
+checks pass (82 native and Docker CPU tests). Final function gate: 852 passed,
+82 skips, 33 state contracts, zero ratchet failures; matrices refreshed. Linux
+CPU G6 and its combined checker pass with 4,898 MPS/CUDA rows explicitly blocked;
+development packaging passes. HAWA-028 stays open for host/pre-Job workflow and
+HAWA-052 remains an integration candidate.
+[Contract inventory and evidence](docs/review-domain-relationships.md).
 
 ### November 9 2026 HAWA-021/022 diagnostic harness (C1)
 

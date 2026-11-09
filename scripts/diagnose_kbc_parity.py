@@ -33,6 +33,21 @@ def source_hashes():
             for p in sorted(paths)}
 
 
+
+def loaded_module_paths():
+    return {name: str(Path(module.__file__).resolve()) if getattr(module, '__file__', None) else None
+            for name, module in sorted(tuple(sys.modules.items()))
+            if name == 'lettuce' or name.startswith('lettuce.')}
+
+
+def validate_loaded_modules(paths):
+    vendor = (ROOT/'vendor/lettuce/lettuce').resolve()
+    if 'lettuce' not in paths:
+        raise ValueError('Loaded Lettuce package provenance is missing')
+    for name, location in paths.items():
+        if location is None or vendor not in Path(location).parents or not Path(location).is_file():
+            raise ValueError('Loaded module is outside this checkout vendor source: '+name)
+
 def make_flow(device, size, dtype=torch.float32):
     if type(size) is not int or not 1 <= size <= 512:
         raise ValueError('Diagnostic side length must be an integer in [1, 512]')
@@ -97,7 +112,7 @@ def summarize(stages):
     return result
 
 
-def study(device, sizes):
+def study(device, sizes, evidence=None):
     if device not in ('cpu', 'mps', 'cuda:0'):
         raise ValueError('Explicit cpu, mps or cuda:0 device required')
     if not sizes or len(sizes) > 4 or len(set(sizes)) != len(sizes):
@@ -105,8 +120,11 @@ def study(device, sizes):
     # Construct the reference from the exact stored FP32 values, not decimal FP64 values.
     reference = make_flow('cpu', 1, torch.float64)
     reference_stages = inspect_collision(reference)
-    rows = []
+    evidence = {} if evidence is None else evidence
+    evidence.update(reference=summarize(reference_stages), rows=[], completed_sizes=[], failed_size=None, passed=False)
+    rows = evidence['rows']
     for size in sizes:
+        evidence['failed_size'] = size
         flow = make_flow(device, size)
         original = flow.f.clone()
         stages = inspect_collision(flow)
@@ -122,8 +140,10 @@ def study(device, sizes):
                          public_vs_raw=compare(stages['output'], public),
                          mass_error=compare(flow.rho(original), flow.rho(public)),
                          momentum_error=compare(flow.j(original), flow.j(public))))
-    return dict(reference=summarize(reference_stages), rows=rows,
-                passed=all(row['public_vs_reference']['passed'] for row in rows))
+        evidence['completed_sizes'].append(size)
+        evidence['failed_size'] = None
+    evidence['passed'] = all(row['public_vs_reference']['passed'] for row in rows)
+    return evidence
 
 
 def main(argv=None):
@@ -142,7 +162,14 @@ def main(argv=None):
                                    platform=platform.platform(),
                                    mps_fallback_env=os.environ.get('PYTORCH_ENABLE_MPS_FALLBACK')))
     try:
-        report.update(study(args.device, args.sizes))
+        report['loaded_modules_before'] = loaded_module_paths()
+        validate_loaded_modules(report['loaded_modules_before'])
+        report.update(study(args.device, args.sizes, report))
+        report['loaded_modules_after'] = loaded_module_paths()
+        validate_loaded_modules(report['loaded_modules_after'])
+        if any(report['loaded_modules_after'].get(name) != path
+               for name, path in report['loaded_modules_before'].items()):
+            raise ValueError('Loaded module provenance changed during diagnostic')
         report['source_after'] = source_hashes()
         if report['source_before'] != report['source_after']:
             raise ValueError('Source changed during diagnostic')

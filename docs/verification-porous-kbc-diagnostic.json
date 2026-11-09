@@ -101,14 +101,21 @@
     "cpu_fp64_max_abs": 0.0
   },
   "original_parity_passed": false,
-  "final_base": "977bb78aee6041cf40cd31c4c90d75d68207a913",
+  "final_base": "9999481daf13ae30725acb8f09e24717bbad4778",
   "final_diagnostics": {
     "cpu": {
       "completed": true,
       "passed": true,
       "original_512x512_50_step_qualified": false,
-      "wall_seconds": 0.14544495899999998,
-      "report_sha256": "50185ffbe72e3cbc875cf32d19a3c43e71afa49eeb06c943b961f0682d2eaf4a",
+      "wall_seconds": 0.15228295800000002,
+      "completed_sizes": [
+        1,
+        8,
+        32,
+        512
+      ],
+      "failed_size": null,
+      "report_sha256": "393cddc6a27598b4b0f556715e464d55920913a5ce3f5881bd88d9217b819744",
       "rows": [
         {
           "size": 1,
@@ -192,8 +199,15 @@
       "completed": true,
       "passed": false,
       "original_512x512_50_step_qualified": false,
-      "wall_seconds": 0.486908083,
-      "report_sha256": "7e8774fc8dd992221caadc5a9064e0d3f173907dde5607f24447b86471477978",
+      "wall_seconds": 0.45690095799999997,
+      "completed_sizes": [
+        1,
+        8,
+        32,
+        512
+      ],
+      "failed_size": null,
+      "report_sha256": "8c9094342fd6436ba6d3c375ad0d590b91fa6789ba236573b9937c3a9d587d2b",
       "rows": [
         {
           "size": 1,
@@ -283,18 +297,25 @@
   },
   "source_provenance": {
     "inventory_count": 82,
-    "inventory_sha256": "2f3fe67ddfd51151ac97c89345d79aa3c22c1f9b52bcdcb89eb65604c64949b9",
+    "inventory_sha256": "b12ebc912fae0daaa2fa5439c4b7e0f5da94cf323c3641a1ca02f6b7d80427c6",
     "selected_hashes": {
       "pyproject.toml": "85a71faa468ca71cf6c1ee9684d82a375daf61942509a1935e92f8a91d5bad6c",
-      "scripts/diagnose_kbc_parity.py": "e055fb34feb5cc202cbb14ee4ec545a049025be5acf93dafd2ca270e5ac1acf8",
+      "scripts/diagnose_kbc_parity.py": "89e15b8e2709142aa799703a3682dd14c6b93998f04ab25b5b04d06e6bf216b0",
       "uv.lock": "98f2ebfda5cdc3755bfa56e96e53f697b7967880a1aae563ac11bc3d8263d91f",
       "vendor/lettuce/examples/advanced_flows/PorousMedium.ipynb": "584f38ff06e2d933dcf6c9a6271150ba6dfbeb4545443a4babae608060dd133b",
       "vendor/lettuce/lettuce/_flow.py": "fc286c25c89056ac7a02fc2d4a011bd9f39e22c85bc4d6cbfb29708b455a07cc",
       "vendor/lettuce/lettuce/ext/_collision/kbc_collision.py": "32f68cce91c3da36bff637c97839359239dac4370828a304afc1f20ec2fe56b1",
       "vendor/lettuce/lettuce/ext/_equilibrium/quadratic_equilibrium.py": "3f123660e6d6f93107531c3fb106aabcc209744998358427d32285beb0d6b7e8"
+    },
+    "loaded_module_count": 73,
+    "selected_loaded_modules": {
+      "lettuce": "/Users/r2d2/Desktop/hawa-python-sandboxes/issue-001/vendor/lettuce/lettuce/__init__.py",
+      "lettuce._flow": "/Users/r2d2/Desktop/hawa-python-sandboxes/issue-001/vendor/lettuce/lettuce/_flow.py",
+      "lettuce.ext._collision.kbc_collision": "/Users/r2d2/Desktop/hawa-python-sandboxes/issue-001/vendor/lettuce/lettuce/ext/_collision/kbc_collision.py",
+      "lettuce.ext._equilibrium.quadratic_equilibrium": "/Users/r2d2/Desktop/hawa-python-sandboxes/issue-001/vendor/lettuce/lettuce/ext/_equilibrium/quadratic_equilibrium.py"
     }
   },
-  "validation": {
+  "previous_validation": {
     "focused_native_passed": 17,
     "focused_native_cuda_skipped": 1,
     "docker_cpu_passed": 16,
@@ -306,5 +327,22 @@
     "state_contracts_passed": 33,
     "function_ratchet_failures": [],
     "base": "977bb78aee6041cf40cd31c4c90d75d68207a913"
+  },
+  "review_findings": {
+    "HAWA-056": "Foreign imported package now rejected before measurement; actual paths recorded",
+    "HAWA-057": "Prior rows retained after later device/nonfinite failure, with failing size"
+  },
+  "validation": {
+    "focused_native_passed": 24,
+    "focused_native_cuda_skipped": 1,
+    "docker_cpu_passed": 23,
+    "docker_accelerators_deselected": 2,
+    "full_passed": 876,
+    "full_cuda_skipped": 82,
+    "full_mps_fp64_skipped": 1,
+    "full_warnings": 18,
+    "state_contracts_passed": 33,
+    "function_ratchet_failures": [],
+    "base": "9999481daf13ae30725acb8f09e24717bbad4778"
   }
 }

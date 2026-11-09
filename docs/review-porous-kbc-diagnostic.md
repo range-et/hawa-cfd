@@ -125,9 +125,9 @@ are recorded. CPU FP64 is a separately labelled reference, not execution of the
 MPS collision on CPU. Evidence directories must be new; no stale report reuse.
 Runtime device errors, nonfinite stages or changed sources preserve failure.
 
-## Final validation and gate disposition
+## Initial published validation and gate disposition
 
-Final source is based on integration `977bb78aee6041cf40cd31c4c90d75d68207a913`.
+Initial published source is based on integration `977bb78aee6041cf40cd31c4c90d75d68207a913`.
 The vendor engine, original notebook and original example worker are byte-unchanged
 from `abe7545`; the original full-trajectory experiment remains attributed to its
 initial snapshot, not relabelled as a new run. The final diagnostic was rerun on
@@ -154,7 +154,7 @@ increment: no solver/node/field/shared-state contract changes. G5 is **BLOCKED**
 for release; development packaging does not constitute installation or release.
 
 
-Final full function gate: **827 passed, 83 skipped, 18 warnings in 152.77 s**;
+Initial published full function gate: **827 passed, 83 skipped, 18 warnings in 152.77 s**;
 **33 production-linked state contracts pass**; zero ratchet failures against
 `977bb78`. Skips: 82 unavailable CUDA cases and one unsupported MPS FP64 case.
 Warnings: 14 existing Matplotlib/pyparsing deprecations and four upstream MRT
@@ -184,3 +184,51 @@ The final package refresh reuses the assemblies built above. No installation.
 | G4 | Parity-study agent, self-review | NOT APPLICABLE | No UI, node, archive or installed-host change |
 | G5 | Parity-study agent, self-review | BLOCKED for release | Developer package only; no installation or unrestricted numerical qualification |
 | G6 | Parity-study agent, self-review | NOT APPLICABLE | No production solver, field format, shared state or node-contract change |
+
+
+## PR #9 review follow-up
+
+Integrated shared base `9999481daf13ae30725acb8f09e24717bbad4778` after PR #7
+merged, preserving both diagnostic and domain-contract histories. Review findings
+4519369173/4519369177 are tracked as HAWA-056/057, repaired in this PR candidate.
+
+The previous diagnostic was run against an actual copied Lettuce package selected
+through PYTHONPATH: it returned exit 0 while its report hashed the checkout's
+vendor files. The candidate now records loaded `lettuce` module file paths,
+requires every path to resolve inside this checkout's vendor package before
+measuring, checks again afterward, and rejects changed module identities. The
+same foreign-package command now saves `completed=false`, `passed=false` with its
+actual foreign path and an explicit provenance error before measurement.
+
+A second-size device error injected into the previous implementation dropped all
+prior rows and the failing-size label. The candidate incrementally retains rows,
+`completed_sizes` and `failed_size`; overall completion/pass remain false after
+an error. Tests exercise both later device errors and nonfinite input, proving
+that the first completed row survives. Evidence: `results/parity-001/review/`
+(`reproduced.log`, `old-foreign-report/`, `old-partial-report/`,
+`fixed-foreign-report/`, `focused.{log,xml}`). The foreign copy is scratch test
+evidence, not a dependency or production change.
+
+Fresh focused native checks: **24 passed, one CUDA skip in 0.60 s**. Final CPU
+and actual-MPS CLI diagnostics were rerun after source freeze with loaded-path
+provenance; CPU comparisons pass and MPS still completes with the expected
+numerical-failure exit 1. The older diagnostic outputs above are historical
+snapshots, not reused evidence for this revised source. No numerical thresholds
+or production code changed; HAWA-001 remains open.
+
+
+Final review-fix combined gate on `9999481`: **876 passed, 83 skipped, 18 existing
+warnings in 151.65 s; 33 state contracts passed; zero ratchet failures**. Skips
+remain 82 unavailable CUDA cases and one unsupported MPS FP64 case. Matrices are
+regenerated and checked: 346 covered, 127 uncovered, 630 unmeasured, 58 declarations.
+Evidence: `results/parity-001/review/function-gate/`, `function-gate.log`,
+`matrix-check.log`. Final restricted Linux CPU focused check: **23 passed,
+two accelerator tests deliberately deselected in 0.42 s**, no warnings, same
+pinned image/restrictions; `results/docker-parity-001-review/focused.{log,xml}`.
+
+Final review package-only refresh: `dist/Hawa-parity-001-review-final.zip`, using
+the previously tested assemblies and exact combined source/build inputs, excluding
+legacy example 09. Evidence: `results/parity-001/review/package-final.log` and
+`package.json`. No C# source/build, installation, G6 or release claim is added in
+this follow-up. G2 is refreshed by the combined checks; the other gate decisions
+above remain unchanged. HAWA-056/057 await integration; HAWA-001 remains open.
