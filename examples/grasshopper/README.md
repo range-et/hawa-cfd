@@ -117,6 +117,12 @@ node has an example; this does not mean every possible GH assembly is enumerated
 
 ## 33 — Three-stage neutral boundary transfer (development)
 
+This is an **outer parent → local child → finer child** chain of separate cases.
+The existing canvas calls them city, neighbourhood and pond. Those are application
+labels, not required domain types. Read the [parent/child guide](../../docs/parent-child-domains.md)
+for the label/resolution map and the distinction between offline transfer,
+coupled refinement and combined views. The finest region simulates air, not water.
+
 Open [33-neutral-city-to-pond.gh](33-neutral-city-to-pond.gh). It is an annotated
 Grasshopper assembly of reusable tools. Save a copy and replace the three recording
 directories and two boundary-file paths with new absolute paths. The source opens

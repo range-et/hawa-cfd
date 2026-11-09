@@ -7,6 +7,8 @@ The JSON interface never launches an external Python or CFD process.
 import hashlib
 import json
 import math
+import os
+import tempfile
 from pathlib import Path
 import threading
 import time
@@ -455,7 +457,7 @@ def dispatch(request):
         from .jobs import dispatch_job
         return dispatch_job(request)
     if op == "info":
-        import os, sys
+        import sys
         return {"python": sys.version, "numpy": np.__version__, "torch": torch.__version__,
                 "pid": os.getpid(), "engine": lt.__version__,
                 "mps": torch.backends.mps.is_available(), "cuda": torch.cuda.is_available()}
@@ -657,11 +659,27 @@ def dispatch(request):
     if op == "export":
         path = Path(request["path"])
         path.parent.mkdir(parents=True, exist_ok=True)
-        with path.open("wb") as out:
-            with session.lock:
-                np.savez_compressed(out, **session.fields(), metadata=np.array(json.dumps({
-                    'case': session.spec, 'quality': session.quality, 'iteration': session.flow.i,
-                    'time': session.flow.units.convert_time_to_pu(session.flow.i)})))
+        # Capture arrays and metadata together, before touching the destination.
+        with session.lock:
+            arrays = session.fields()
+            metadata = np.array(json.dumps({
+                'case': session.spec, 'quality': session.quality, 'iteration': session.flow.i,
+                'time': session.flow.units.convert_time_to_pu(session.flow.i)}))
+        temporary = None
+        try:
+            # Same-directory replacement leaves the last complete artifact intact
+            # if capture, compression, flush or replacement fails.
+            with tempfile.NamedTemporaryFile(mode="wb", dir=path.parent,
+                                             prefix="." + path.name + ".", suffix=".tmp",
+                                             delete=False) as out:
+                temporary = Path(out.name)
+                np.savez_compressed(out, **arrays, metadata=metadata)
+                out.flush()
+                os.fsync(out.fileno())
+            os.replace(temporary, path)
+        finally:
+            if temporary is not None:
+                temporary.unlink(missing_ok=True)
         return {"path": str(path)}
     raise ValueError("Unknown Hawa operation: " + op)
 

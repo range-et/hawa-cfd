@@ -1,0 +1,54 @@
+{
+  "date": "2026-11-09",
+  "pr_head": "864a2652eed371ab8c16e65d9ab1228d09a00e79",
+  "integration_base": "0822db93cccb31bdf4dff04cf36ea62522ebc6f6",
+  "reviewer": "Codex primary agent (self-review)",
+  "suite": {
+    "passed": 700,
+    "skipped": 82,
+    "cuda_unavailable": 81,
+    "mps_fp64_unsupported": 1,
+    "warnings": 18,
+    "seconds": 541.05
+  },
+  "state_contracts_passed": 33,
+  "function_gate": {
+    "failures": [],
+    "covered": 318,
+    "uncovered": 136,
+    "unmeasured": 630,
+    "declarations": 58,
+    "committed_matrix_checked": true
+  },
+  "g6": {
+    "matrix": {
+      "passed": 100010,
+      "failed": 0,
+      "blocked": 2449
+    },
+    "examples": {
+      "public_nodes": 54,
+      "examples": 31,
+      "unique_edges": 191
+    },
+    "unit_tests": {
+      "passed": 700,
+      "skipped": 82
+    },
+    "state_contracts": 33,
+    "local_pass": true,
+    "release_pass": false,
+    "scope": "Finite compatibility and complete declared test-module execution. Host and numerical qualification remain separate gates."
+  },
+  "g6_execution": "Previous complete run; current source/environment and fresh suite inventory revalidated",
+  "build": "both assemblies and development ZIP; not installed",
+  "cuda_executed": false,
+  "remote_merge": false,
+  "remaining": [
+    "Windows exact-candidate acceptance",
+    "HAWA-001 CPU/MPS PorousMedium",
+    "Windows clean embedded installation and host checks"
+  ],
+  "candidate_commit": "46fe0a6419cc2653062c1e4ea91448d8d5d17825",
+  "handoff_bundle_sha256": "b856a8a56c044027950d1385bd7ec309b980bd5d17c5ee0920f974e3c2fc3bd2"
+}

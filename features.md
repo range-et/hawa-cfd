@@ -76,6 +76,71 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 9 2026 parent/child documentation (HAWA-034 partial)
+
+Added a general [parent/child domain guide](docs/parent-child-domains.md), linked
+from the GH user guide, example 33 instructions and roadmap. It distinguishes
+separate recorded transfer, restricted coupled refinement and composed views,
+with actual sample counts, spacing, time and ownership rules. Historical numerical
+failures remain explicit. Example files are unchanged; canvas presentation and
+live review remain open under HAWA-034. [Documentation review](docs/review-parent-child-guide.md).
+
+
+### November 9 2026 CUDA blocker repairs in separate candidate
+
+The isolated CUDA integration candidate repairs HAWA-044/045/046 and resolves
+all 17 PR coverage blockers. Fresh local evidence: 700 tests passed, 82 device
+skips, 33 state contracts, zero function-gate failures; current G6 source/evidence
+recheck passes and development assemblies build. This code is not merged into
+this checkout or published. See [repair review](docs/review-cuda-blocker-fixes.md)
+and [Windows acceptance handoff](docs/windows-cuda-merge-checks.md). The original
+main-checkout export increment is separate; CUDA and clean-host release remain
+unverified.
+
+
+### November 9 2026 atomic raw-result export
+
+**HAWA-047 closed for Python export failure paths:** capture/compression failures
+previously truncated an existing NPZ result. Exports now write a temporary sibling
+and replace only after completion, preserving raw arrays and metadata. Ten focused
+CPU tests and the full 624-pass/32-CUDA-skip suite pass; 33 state contracts pass,
+and the function matrix is refreshed with no ratchet failures. No host install,
+Windows check or release. HAWA-033 remains in progress for broader export UX/CSV;
+baking is still HAWA-032. [Review](docs/review-export-atomicity.md).
+
+### November 9 2026 CUDA PR integration review
+
+Reviewed PR #2 in an isolated no-commit combination with current source. Found
+HAWA-044/045 evidence-validation defects and HAWA-046 MPS test alias failure.
+After the local alias fix, 668 tests and 33 state contracts pass; 82 tests skip,
+the function gate has 17 untested new/changed functions, and the original bounded
+CPU/MPS PorousMedium comparison still fails. Local G6 also passes 100,010 rows with 2,449 unavailable-CUDA rows blocked.
+PR remains unmerged, with no CUDA rerun or installed-candidate claim. [Review and merge prerequisites](docs/review-cuda-pr2.md).
+
+### November 9 2026 CUDA PR planning follow-up
+
+Linked existing PR #2’s headless CUDA evidence and numerical repairs into
+HAWA-001/002/006 and the execution plan. Replaced duplicate CPU/CUDA investigation
+with PR review/integration and current-source device checks. The PR is open;
+reported branch results are not merged, independently reproduced or installed-host
+qualification. [Scope and remaining work](docs/issue-execution-plan.md#existing-windows-cuda-pr).
+
+### November 9 2026 issue execution planning
+
+Classified all 35 open issues by isolated Python/C# work, device requirements and
+live Rhino/GH acceptance; proposed a bounded worker/PR pilot and serial host
+queue for user review. This is a plan, not implemented sandbox infrastructure or
+completed verification. [Plan](docs/issue-execution-plan.md) and
+[documentation review](docs/review-issue-execution-plan.md).
+
+### November 9 2026 user-notes intake
+
+Reconciled user feedback into HAWA-027–043 and existing open issues, with
+provisional verification/workflow/research groupings for later triage. Missing
+cells and overlap validation remain unreproduced hypotheses; HAWA-024’s scoped
+repair remains closed. No implementation or runtime checks were performed.
+[Documentation review](docs/review-notes-intake.md).
+
 ### November 9 2026 function testing gate
 
 Added the source/signature/test matrix, coverage.py call evidence, Roslyn C#

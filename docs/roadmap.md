@@ -252,7 +252,15 @@ for D and E can inform C, but broad UI or schema generalization should follow
 actual adapter needs. Neither an unsuccessful particle experiment nor delayed
 finite-volume work should prevent improving the LBM product.
 
-### Nested city → neighbourhood → pond studies
+<a id="nested-city--neighbourhood--pond-studies"></a>
+
+### Parent/child flow studies
+
+Use an outer parent → local child → finer child hierarchy to describe separate
+flow studies, with explicit source identity, resolution and physical time.
+The [user guide](parent-child-domains.md) separates existing offline transfer,
+restricted coupled refinement and composed views. City → neighbourhood → pond is
+one atmospheric application; the terminology does not qualify other physics.
 
 Add [boundary-field transfer and atmospheric study capabilities](nested-flow-roadmap.md)
 to the future LBM/shared-case workstreams. Prioritize result-quality diagnostics
