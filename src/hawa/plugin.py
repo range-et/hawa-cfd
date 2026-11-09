@@ -293,7 +293,7 @@ class Session:
                 "relative_mass_change": self.relative_mass_change,
                 "averaging_samples": self.samples, "updated": self.updated}
 
-    def fields(self, mean=False):
+    def fields(self, mean=False, with_provenance=False):
         if mean and hasattr(self.solver,"moving"):raise ValueError("Moving fields require instantaneous snapshots; average body loads over cycles")
         with self.lock, torch.no_grad():
             u = self.mean_u if mean and self.mean_u is not None else self.flow.u_pu
@@ -302,6 +302,9 @@ class Session:
                     "density": (self.mean_rho if mean and self.mean_u is not None else self.flow.rho_pu)[0].detach().cpu().numpy().copy()}
             if hasattr(self.flow, "solid"):
                 result["solid"] = self.flow.solid.detach().cpu().numpy().copy()
+            if with_provenance:
+                result["snapshot"] = {"steps": int(self.flow.i), "session": self.id,
+                                      "physical_time": float(self.flow.units.convert_time_to_pu(self.flow.i))}
             return result
 
 
@@ -382,6 +385,8 @@ def dispatch(request):
         with REGISTRY_LOCK:
             SESSIONS[session.id] = session
         return session.status()
+    if op == "close_async" and request["session"] not in SESSIONS:
+        return {"closed": True}
     session = SESSIONS[request["session"]]
     if op in ("pause_async", "close_async", "reset_async"):
         session.stop.set()
@@ -435,7 +440,7 @@ def dispatch(request):
         return {"values": sample_arrays(session.fields(request.get("mean", False)), request["points"])}
     if op == "slice":
         axis = int(request.get("axis", 2))
-        fields = session.fields(request.get("mean", False))
+        fields = session.fields(request.get("mean", False), with_provenance=True)
         shape = fields["pressure"].shape
         if len(shape) == 2:
             axis = 2
@@ -462,7 +467,9 @@ def dispatch(request):
         dimensions = list(shape) if len(shape) == 2 else [shape[a] for a in range(3) if a != axis]
         return {"shape": dimensions, "coordinates": [list(p) + [0] * (3 - len(p)) for p in coordinates],
                 "values": [p[name] if p else 0.0 for p in values],
-                "valid": [p is not None for p in values], "field": name}
+                "valid": [p is not None for p in values], "field": name,
+                "steps": fields["snapshot"]["steps"], "session": fields["snapshot"]["session"],
+                "physical_time": fields["snapshot"]["physical_time"]}
     if op == "streamlines":
         fields = session.fields(request.get("mean", False))
         paths = []

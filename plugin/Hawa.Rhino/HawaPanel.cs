@@ -19,6 +19,7 @@ public sealed class HawaPanel : Panel
     private readonly Label link = new() { Width = 300, Wrap = WrapMode.Word };
     private readonly Label error = new() { Width = 300, Wrap = WrapMode.Word, TextColor = Colors.DarkRed };
     private bool refreshing;
+    private long displayedVersion;
     public HawaPanel(uint documentSerialNumber)
     {
         document = documentSerialNumber;
@@ -34,26 +35,27 @@ public sealed class HawaPanel : Panel
         layout.AddSeparateRow(Button("Run / Resume", () => CaseHub.Run(document)), Button("Pause", () => CaseHub.Pause(document)));
         layout.AddSeparateRow(Button("Cancel", () => CaseHub.Cancel(document)), Button("Reset", () => CaseHub.Reset(document)));
         layout.AddSeparateRow(Button("Fit domain", () => { var doc = RhinoDoc.FromRuntimeSerialNumber(document)!; double s = RhinoMath.UnitScale(UnitSystem.Meters, doc.ModelUnitSystem); doc.Views.ActiveView.ActiveViewport.ZoomBoundingBox(new Rhino.Geometry.BoundingBox(Rhino.Geometry.Point3d.Origin, new Rhino.Geometry.Point3d(8 * s, 6 * s, 4 * s))); doc.Views.Redraw(); }));
+        layout.AddSeparateRow(Button("Refresh field", () => CaseHub.RefreshView(document)));
         layout.AddSeparateRow(state); layout.AddSeparateRow(link); layout.AddSeparateRow(error);
         layout.AddSeparateRow(new Label { Text = "Live sync uses Hawa Linked Case in Grasshopper.\nEdits stop the previous run; press Run for the new revision.\nClosing this panel keeps the case. Reopening a file never auto-runs.\nFirst dependency setup may take time. CPU is the small-case default.", Width = 300, Wrap = WrapMode.Word });
         layout.Add(null); Content = new Scrollable { Content = layout };
         CaseHub.Changed += OnChanged; RefreshState();
     }
     protected override void Dispose(bool disposing) { if (disposing) CaseHub.Changed -= OnChanged; base.Dispose(disposing); }
-    private void Safe(Action action) { try { error.Text = ""; action(); RefreshState(); } catch (Exception e) { error.Text = e.Message; } }
-    private void Edit(JsonObject patch) { if (refreshing) return; Safe(() => CaseHub.Edit(document, patch, CaseHub.Get(document).Revision)); }
+    private void Safe(Action action) { try { error.Text = ""; action(); RefreshState(); } catch (Exception e) { RefreshState(); error.Text = e.GetBaseException().Message; } }
+    private void Edit(JsonObject patch) { if (refreshing) return; Safe(() => CaseHub.Edit(document, patch, displayedVersion)); }
     private void OnChanged(CaseState c, string origin) { if (c.Document != document) return; if (origin == "closed") { state.Text = "CASE CLOSED"; link.Text = "Grasshopper: unlinked"; error.Text = ""; } else RefreshState(); }
     private void RefreshState()
     {
         if (RhinoDoc.FromRuntimeSerialNumber(document) == null) return;
-        var c = CaseHub.Get(document); refreshing = true;
+        var c = CaseHub.Get(document); displayedVersion = c.Version; refreshing = true;
         try
         {
             foreach (var p in CaseHub.Parameters) { numbers[p.Key].Value = c.Value(p.Key); numbers[p.Key].Enabled = !c.Driven.Contains(p.Key); }
             target.Value = c.Target; device.SelectedValue = c.Device; field.SelectedValue = c.Field;
             state.Text = $"{c.State.ToUpperInvariant()} · {c.Steps} / {c.Target} steps\nCase {c.Id.ToString()[..8]} · revision {c.Revision}\nResult revision: {(c.ResultRevision < 0 ? "none" : c.ResultRevision.ToString())}";
             link.Text = c.BindingOwner == null ? "Grasshopper: unlinked" : c.Driven.Count == 0 ? "Grasshopper: live · three editable controls" : "Grasshopper: live · driven: " + string.Join(", ", c.Driven);
-            error.Text = c.Error;
+            error.Text = c.Error + (c.ViewError.Length > 0 ? "\nField unavailable: " + c.ViewError + ". Use Refresh field." : "") + (CaseHub.PendingCleanupCount > 0 ? "\nCleanup pending; Hawa will retry." : "");
         }
         finally { refreshing = false; }
     }

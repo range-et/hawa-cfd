@@ -24,7 +24,7 @@ public sealed class HawaPlugin : PlugIn
     }
     private static void Closed(object? sender, DocumentEventArgs e) => CaseHub.Close(e.Document.RuntimeSerialNumber);
     private static void Redraw(CaseState c, string origin) => RhinoDoc.FromRuntimeSerialNumber(c.Document)?.Views.Redraw();
-    protected override void OnShutdown() { timer?.Stop(); foreach (var c in CaseHub.All) CaseHub.Close(c.Document); if (preview != null) preview.Enabled = false; RhinoDoc.CloseDocument -= Closed; CaseHub.Changed -= Redraw; base.OnShutdown(); }
+    protected override void OnShutdown() { timer?.Stop(); foreach (var c in CaseHub.All) CaseHub.Close(c.Document); preview?.Dispose(); RhinoDoc.CloseDocument -= Closed; CaseHub.Changed -= Redraw; base.OnShutdown(); }
     protected override bool ShouldCallWriteDocument(FileWriteOptions options) => true;
     protected override void WriteDocument(RhinoDoc doc, BinaryArchiveWriter archive, FileWriteOptions options)
     {

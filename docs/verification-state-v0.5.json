@@ -1,0 +1,157 @@
+{
+  "date": "2026-11-08",
+  "scope": "0.5 shared-case and GH/native exchange hardening",
+  "python_tests": {
+    "passed": 144,
+    "skipped": 29,
+    "warnings": 4
+  },
+  "contracts": {
+    "passed": 17,
+    "host": "Rhino/transport doubles; production CaseHub source",
+    "edit_p50_ms": 0.0115,
+    "edit_p95_ms": 0.0137,
+    "edit_max_ms": 0.8808
+  },
+  "rhino": {
+    "rhino": "8.36.26296.17002",
+    "host": "macOS Rhino 8 embedded Python",
+    "state": "completed",
+    "phase": 13,
+    "checks": [
+      "pending panel pull survives an intervening GH solution",
+      "locked component retains native change for unlock",
+      "non-finite input releases binding and preserves case",
+      "multi-value input cannot produce several competing edits",
+      "computed input owns its parameter; panel write rejected",
+      "display and target edits are versioned; CPU run submitted",
+      "cooperative pause submitted",
+      "worker acknowledged pause",
+      "pause held and resume retained run",
+      "CPU completion publishes capture step and physical time",
+      "unit change rescales preview; physical edit withholds outdated GH field",
+      "MPS run submitted",
+      "MPS snapshot verified; cancel/reset/GH close release runtime and binding"
+    ],
+    "run_submit_ms": 1504.7072,
+    "pause_submit_ms": 15.3056,
+    "pause_observed_ack_ms": 511.952,
+    "field_size_before_unit_change": 10000,
+    "field_size_meters": 10,
+    "mps_result": {
+      "id": "39f6f0e8-29f0-4f0c-a898-05597bb788f1",
+      "version": 8,
+      "revision": 6,
+      "generation": 8,
+      "run_revision": 6,
+      "result_revision": 6,
+      "result_version": 7,
+      "result_steps": 25,
+      "result_time_seconds": 0.2107117770765058,
+      "result_field": "pressure",
+      "state": "completed",
+      "steps": 25,
+      "session": "edeabb5e-45d3-45d3-9b76-1b882e768d66",
+      "job": "656d3479-6169-4a7f-bf45-8398762023df",
+      "error": "",
+      "view_error": "",
+      "fault_area": null,
+      "retryable": null,
+      "settings": {
+        "schema": 1,
+        "id": "39f6f0e8-29f0-4f0c-a898-05597bb788f1",
+        "speed": 1.37,
+        "cell": 0.5,
+        "width": 1,
+        "target": 25,
+        "device": "mps",
+        "field": "pressure"
+      },
+      "linked": true,
+      "outdated": false
+    },
+    "cancel_submit_ms": 16.2646
+  },
+  "native_integration": {
+    "state": "completed",
+    "phase": 17,
+    "checks": [
+      "one shared assembly and one binding",
+      "panel changes reached all three GH sliders; old session closed",
+      "GH slider updates shared case without feedback loop",
+      "waiting for normal Rhino Undo command",
+      "Rhino undo restored shared case and slider; waiting for normal Redo command",
+      "Rhino redo restored shared case and slider",
+      "run started; cooperative pause submitted",
+      "worker acknowledged pause",
+      "pause held; display edit reused session; resume submitted",
+      "resumed to target with same session and GH field output",
+      "panel close/reopen kept case and result",
+      "physical edit marks field outdated and closes old run",
+      "cancel and reset release runtime handles",
+      "stale revision and duplicate binding rejected",
+      "GH close unbound and settings restore stayed idle",
+      "native MPS run submitted",
+      "native MPS completed 25 steps; case closed"
+    ],
+    "pause_submit_ms": 17,
+    "cancel_submit_ms": 31,
+    "mps_status": {
+      "session": "192e059a-4d0d-4de4-a287-f9bace877151",
+      "state": "completed",
+      "steps": 25,
+      "target": 25,
+      "error": null,
+      "backend": {
+        "requested": "mps",
+        "selected": "mps",
+        "torch": "2.8.0",
+        "cuda_available": false,
+        "mps_available": true,
+        "notes": []
+      },
+      "case_hash": "c35d70852fe7d0151eddacb071b5cad394307a64667905772c1e84b909a420b5",
+      "resolution": [
+        17,
+        13,
+        9
+      ],
+      "physical_time": 0.22205779584216376,
+      "relative_mass_change": 0.0005717481303418804,
+      "averaging_samples": 5,
+      "updated": 1794183355.064474
+    }
+  },
+  "binding_callbacks": {
+    "state": "completed",
+    "phase": 3,
+    "checks": [
+      "native edit queued while duplicate component has no lease",
+      "duplicate callback leaves its sliders and current owner unchanged",
+      "case replacement invalidates queued pull without rewriting old definition"
+    ]
+  },
+  "cleanup": {
+    "jobs": 0,
+    "sessions": 0,
+    "workers": []
+  },
+  "timing_notes": [
+    "Run submission includes first embedded-runtime initialization in the final focused run (about 1.5 seconds). Dependencies were already installed.",
+    "Pause acknowledgement is sampled by a 200 ms timer; it is not precise worker latency.",
+    "Contract edit timings use Rhino and transport doubles, not actual UI.",
+    "No competitor performance benchmark was run."
+  ],
+  "not_verified": [
+    "Windows docking",
+    "CUDA execution",
+    "clean-machine dependency installation",
+    "large-case UI latency",
+    "full legacy GH component cleanup migration"
+  ],
+  "installed_binary_sha256": {
+    "Hawa.Shared.dll": "40bf3fca703ad4b3429d56da9abb425cac3a2499768b51af23a07bf50a781ce2",
+    "Hawa.Grasshopper.gha": "c1a032b1c144aa70906e38ec26147a332866f7aa8a346f3499475a75913bc3ea",
+    "Hawa.Rhino.rhp": "3859c945356a0ad8113405de922f1413f248152faf6758bf8d16db26baf4e819"
+  }
+}

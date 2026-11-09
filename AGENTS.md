@@ -7,6 +7,8 @@ For operating the installed plugin through **Rhino MCP only**, read
 [examples/grasshopper/README.md](examples/grasshopper/README.md).
 For the 0.5 native panel and public shared-case API, also read
 [docs/agents/native-prototype.md](docs/agents/native-prototype.md).
+For state ownership, failure handling and GH scheduling rules, read
+[docs/architecture-v0.5.md](docs/architecture-v0.5.md).
 These workflows use native Hawa components and Rhino's embedded Python runtime.
 They do not require a separate Python process, shell access, browser automation,
 or direct access to private embedded-runtime fields.
@@ -43,3 +45,8 @@ scripts must be adjusted for a different checkout.
 
 Build with `scripts/build_plugin.py`. It includes source and supported examples.
 The installed-user workflow is documented separately from this developer build.
+
+Shared-state changes also require `dotnet run --project tests/dotnet/StateContracts`
+(test host: .NET 10; plugin target: .NET 7). These tests link production service
+source against host/transport doubles. They do not replace live GH scheduling
+checks in `scripts/verify_state_hardening.cs` and `scripts/verify_binding_callbacks.cs`.

@@ -7,10 +7,10 @@ public static class CaseGeometry
 {
     public static Mesh? ResultMesh(CaseState c)
     {
-        if (c.Slice == null || c.ResultSpec == null) return null;
-        var data = c.Slice; var values = data["values"]!.AsArray().Select(x => x!.GetValue<double>()).ToArray(); var valid = data["valid"]!.AsArray().Select(x => x!.GetValue<bool>()).ToArray();
+        if (c.SliceData == null || c.ResultSpecData == null) return null;
+        var data = c.SliceData; var values = data["values"]!.AsArray().Select(x => x!.GetValue<double>()).ToArray(); var valid = data["valid"]!.AsArray().Select(x => x!.GetValue<bool>()).ToArray();
         var range = values.Where((_, i) => valid[i]).ToArray(); double lo = range.Length == 0 ? 0 : range.Min(), hi = range.Length == 0 ? 1 : range.Max();
-        double dx = c.ResultSpec["spacing"]!.GetValue<double>(); var mesh = new Mesh(); int k = 0;
+        double dx = c.ResultSpecData["dx"]!.GetValue<double>() * Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Meters, Rhino.RhinoDoc.FromRuntimeSerialNumber(c.Document)!.ModelUnitSystem); var mesh = new Mesh(); int k = 0;
         foreach (var p in data["coordinates"]!.AsArray())
         {
             mesh.Vertices.Add(p![0]!.GetValue<double>() * dx, p[1]!.GetValue<double>() * dx, p[2]!.GetValue<double>() * dx);

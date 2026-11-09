@@ -163,6 +163,8 @@ def dispatch_job(request):
         job.thread.start()
         return job.snapshot()
     with LOCK:
+        if request['op'] == 'evaluate_control' and request.get('action') == 'close' and request['job'] not in JOBS:
+            return {'closed': True}
         job = JOBS[request['job']]
     if request['op'] == 'evaluate_control':
         action = request['action']

@@ -114,3 +114,8 @@ def test_closing_creation_job_stops_running_solver():
     worker.join(timeout=5)
     assert not worker.is_alive() and session.id not in SESSIONS
     assert session.flow.i<100000
+
+
+def test_close_missing_job_is_idempotent():
+    from hawa.jobs import dispatch_job
+    assert dispatch_job({'op': 'evaluate_control', 'job': 'already-closed', 'action': 'close'}) == {'closed': True}

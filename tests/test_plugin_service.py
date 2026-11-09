@@ -102,3 +102,30 @@ def test_example_preflight_checks_size(size):
 
 def test_example_preflight_checks_memory():
     with pytest.raises(ValueError,match='memory'):check_case({'example':'tgv3d-bgk','size':128})
+
+
+def test_slice_provenance_tracks_captured_fields_not_later_solver_state(session, monkeypatch):
+    solver = SESSIONS[session]
+    dispatch({'op': 'step', 'session': session, 'steps': 5})
+    capture = solver.fields
+
+    def fields_then_advance(mean=False, with_provenance=False):
+        fields = capture(mean, with_provenance=with_provenance)
+        solver.advance(3)
+        return fields
+
+    monkeypatch.setattr(solver, 'fields', fields_then_advance)
+    result = dispatch({'op': 'slice', 'session': session, 'field': 'pressure'})
+    assert solver.flow.i == 8
+    assert result['steps'] == 5
+    assert result['session'] == session
+    assert result['physical_time'] == pytest.approx(solver.flow.units.convert_time_to_pu(5))
+    assert result['field'] == 'pressure'
+
+
+def test_default_fields_remain_array_only_for_recording_and_exports(session):
+    assert all(isinstance(value, np.ndarray) for value in SESSIONS[session].fields().values())
+
+
+def test_async_close_of_missing_session_is_idempotent():
+    assert dispatch({'op': 'close_async', 'session': 'already-closed'}) == {'closed': True}
