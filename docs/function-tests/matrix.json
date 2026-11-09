@@ -79,7 +79,7 @@
     "scripts/verify_general_boundaries.py": "b84a8a8b12d81995224137cb5f1f6b350628db70c56b928c7669893d07f296a6",
     "scripts/verify_neutral_adjustment.py": "0213c618a2769d66efdda5b1f993120a0e98249418ede07912b3cf50854a350f",
     "scripts/verify_neutral_coupling.py": "f76d34dc4485bc43fb3eae00171d006f7873e9ef899684e3d37ad2a1d1330136",
-    "scripts/verify_neutral_nesting.py": "e2eb14b281ddf7ebb127825b7fcc0c5e225305008180a9f5f15f8a2a700d052a",
+    "scripts/verify_neutral_nesting.py": "44135f45a7606fce8cee3ca6d47ed3a126b5643e921301777295436c9faf5e44",
     "scripts/verify_neutral_precursor.py": "df5cb8532165c7880ce80954191d115f6d23980ee0bec83809231bf6e44a10b0",
     "scripts/verify_neutral_stationary.py": "b83a6406a63ca3eba84f56fe24d8554d033b5ead7d1f8ad553ac639189eca94f",
     "scripts/verify_runtime.py": "4738cf7f41ef7e4402dda8e24a306e5bd0aeeb302e7287eaad8702c91a042b90",
@@ -96,7 +96,7 @@
     "src/hawa/collision.py": "0ea22217f196832027661c159fa02f0b12ed3b409b138332bfd3639c9da2db78",
     "src/hawa/engine.py": "5a66e746c8d23c2ad3ac9a5e05596136527437704fba2ade779b99263567d09e",
     "src/hawa/field_collection.py": "52b05e3dbcc3642fa13c926d5ceb0bb158af323155a0c3016205ecf030ad4c93",
-    "src/hawa/fields.py": "2c7791e564cce75fe0a466f63c769d508fad809968f0125c652b636fbb6f76ec",
+    "src/hawa/fields.py": "64bb609530a53300dade47a65589c27a79c48e5e9e14a79c07f52e2a0f2070ef",
     "src/hawa/flow_statistics.py": "260ae8055bcc6bea81ac445f304054b6b800cfb79ae281d116e89c79d4654f4e",
     "src/hawa/jobs.py": "c96b509c28b5755e61c40d8ee1dec5c679c1a31d88711fff981fbf1e9ece4488",
     "src/hawa/lbm.py": "058cacba479e8acdd283340c22581eac8ccee15bd92eedbdfd7474b8817df942",
@@ -105,7 +105,7 @@
     "src/hawa/neutral.py": "27cbf822215ead155e8a046e19a364d02265a45aa0b98a18dfb6ccaa9cd727e9",
     "src/hawa/neutral_external.py": "5e1cbd8fdbcf63222212dd2723002c4fa728be5e012595cd31886dcd9283a592",
     "src/hawa/optimization.py": "a7a7f910da56c1de3ad80867f36d8f37480ba7948fb144d1b8bf2de022dac3d9",
-    "src/hawa/plugin.py": "50614f5be6683d7a7c112a36949de2e722ba9d6579f09cd091618ab537047aef",
+    "src/hawa/plugin.py": "609e4cdb7eef4eed6e1dfba9e785d922016b58d87428a42130d64c97dc6665af",
     "src/hawa/quality.py": "b53d23b7249e0c1fef1adc0256cac4f7dd36616d3fe018d329a645c7e3bb8873",
     "src/hawa/recording.py": "9faaa69489ffc9d673844644755cb3c3936bf5899caed8d5d1255691fa656edd",
     "src/hawa/refinement.py": "cb9f6bb8bf5b97da238da3e6fc71b8b308d85096aad286955c2f3333ca9de6c6",
@@ -128,8 +128,9 @@
     "tests/test_compatibility_matrix.py": "ee5bdedccf9125277ef708cac15a5d9870c81fdea014c2c1b3cc5eb2d48fa62d",
     "tests/test_engine.py": "c7c0f3dd4058338788584e036dad0af68d3cf7884da3914962b5a2c3daff52b8",
     "tests/test_example_inventory.py": "04fdc3a5ddae56e610844b508adc55391f18dde39f2eb0178866caaa5883f338",
-    "tests/test_export.py": "9c3701971a1a80d50abc2fca564d685e1454baa8bd5e6193fe72fff652c81e08",
+    "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
     "tests/test_field_collection.py": "d6fde4a27949e3dda5121da0effa6240f7d33feb121bc9392e116990593a41b1",
+    "tests/test_field_export.py": "0b4c77baed2b1f32f8028f784d39e298aa4ca9e4aea9a2a01802e3abef21919a",
     "tests/test_fields.py": "74aebe57c1d36871f7f418493b06b756dc7d7d7c50dab7e65854e10b4d3f6999",
     "tests/test_flow_statistics.py": "23d45a3ebf82b0cdf5a7cfbc3dda684af67019e2eb3a1fe99090667455f41be4",
     "tests/test_function_coverage.py": "ec85147830b41c0aa675cabfdc10fa2b7f485643bb130738512d13620adfb8e3",
@@ -139,7 +140,7 @@
     "tests/test_motion.py": "27b10661c544f8183bfe4b54f52d8b6d3b1efd68821a606718498191f4ba3df5",
     "tests/test_neutral.py": "287434b4c666f289a99635f216ef47b8c491ed1867c1bc52a8197969bc857bfa",
     "tests/test_neutral_external.py": "567aeb332d87232ac8bad589d909961511817ba106c262e3acdad0d721149501",
-    "tests/test_neutral_nesting_verification.py": "43fc98c75efd488c54e95f273f7a9f8f55b0bbd5d555f2cb19753f60b1fcca50",
+    "tests/test_neutral_nesting_verification.py": "2f3ba5e20d4fb5dbd0a78fa610acedd170c339ba93b96cc06884ac7448446a54",
     "tests/test_optimization.py": "a10a0f01b5bf0a9dfd62686b16b72628d4e5d9bf8b3db7c397292faba8bd77af",
     "tests/test_outflow.py": "4f9deea92a662084c25cb86f74e3691581a489ae665376d191f415dad2f5cf90",
     "tests/test_plugin_service.py": "8e53c5dc34df18730471c5296067362ac6a0c2e4c2148dc11cc5b316c7d8b31c",
@@ -582,6 +583,8 @@
       "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[replace-False]",
       "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[replace-True]",
       "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
+      "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+      "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
       "tests/test_field_collection.py::test_nested_finest_owner_and_no_fallback_through_child_solid",
       "tests/test_field_collection.py::test_world_rotation_units_and_time_alignment",
       "tests/test_field_collection.py::test_disjoint_domains_and_shared_plane_contours",
@@ -589,6 +592,21 @@
       "tests/test_field_collection.py::test_collection_cancellation_budget_and_equal_spacing_order",
       "tests/test_field_collection.py::test_plane_trims_crossing_triangles_without_a_blank_fluid_band",
       "tests/test_field_collection.py::test_reference_example_frames_use_recorded_physical_spacing",
+      "tests/test_field_export.py::test_frame_save_round_trips_exact_fields_and_metadata_and_overwrites",
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-False]",
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-True]",
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-False]",
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-True]",
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-False]",
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-True]",
+      "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-False]",
+      "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-True]",
+      "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-False]",
+      "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-True]",
+      "tests/test_field_export.py::test_expired_frame_does_not_touch_target[False]",
+      "tests/test_field_export.py::test_expired_frame_does_not_touch_target[True]",
+      "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[False]",
+      "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[True]",
       "tests/test_fields.py::test_plane_isosurface_and_mask",
       "tests/test_fields.py::test_rigid_rotation_vorticity_q",
       "tests/test_fields.py::test_contour_crossing",
@@ -736,6 +754,10 @@
       "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-None]",
       "tests/test_neutral_nesting_verification.py::test_malformed_nested_descriptor_saves_failed_report[backend-value6]",
       "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
+      "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]",
+      "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]",
+      "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]",
+      "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]",
       "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force",
       "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
       "tests/test_optimization.py::test_invalid_evaluation_does_not_register_a_session[changes0]",
@@ -1304,6 +1326,8 @@
       "tests/test_example_inventory.py::test_pinned_inventory_has_all_sixteen_entrypoints",
       "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
       "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+      "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+      "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
       "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
       "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
       "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -1319,6 +1343,21 @@
       "tests/test_field_collection.py::test_reference_example_frames_use_recorded_physical_spacing",
       "tests/test_field_collection.py::test_streamline_crosses_parent_child_and_isosurface_is_continuous",
       "tests/test_field_collection.py::test_world_rotation_units_and_time_alignment",
+      "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-False]",
+      "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-True]",
+      "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-False]",
+      "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-True]",
+      "tests/test_field_export.py::test_expired_frame_does_not_touch_target[False]",
+      "tests/test_field_export.py::test_expired_frame_does_not_touch_target[True]",
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-False]",
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-True]",
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-False]",
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-True]",
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-False]",
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-True]",
+      "tests/test_field_export.py::test_frame_save_round_trips_exact_fields_and_metadata_and_overwrites",
+      "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[False]",
+      "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[True]",
       "tests/test_fields.py::test_compressed_frame_budget_checked_before_allocation",
       "tests/test_fields.py::test_contour_crossing",
       "tests/test_fields.py::test_contour_grid_and_level_limits",
@@ -1420,6 +1459,10 @@
       "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
       "tests/test_neutral_external.py::test_unsupported_inputs_fail_explicitly",
       "tests/test_neutral_nesting_verification.py::test_child_stationarity_diagnostic_does_not_change_original_gate",
+      "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]",
+      "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]",
+      "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]",
+      "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]",
       "tests/test_neutral_nesting_verification.py::test_descriptor_iteration_inventory_cannot_silently_change",
       "tests/test_neutral_nesting_verification.py::test_explicit_window_and_invalid_sampling",
       "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[clock]",
@@ -7515,6 +7558,34 @@
           "passed"
         ]
       ],
+      "tests/test_export.py::test_export_supports_long_valid_destination_name[False]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_export.py::test_export_supports_long_valid_destination_name[True]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
       "tests/test_field_collection.py::test_nested_finest_owner_and_no_fallback_through_child_solid": [
         [
           "setup",
@@ -7600,6 +7671,216 @@
         ]
       ],
       "tests/test_field_collection.py::test_reference_example_frames_use_recorded_physical_spacing": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_field_export.py::test_frame_save_round_trips_exact_fields_and_metadata_and_overwrites": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-False]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-True]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-False]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-True]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-False]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-True]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-False]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-True]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-False]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-True]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_field_export.py::test_expired_frame_does_not_touch_target[False]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_field_export.py::test_expired_frame_does_not_touch_target[True]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[False]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[True]": [
         [
           "setup",
           "passed"
@@ -9658,6 +9939,62 @@
         ]
       ],
       "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]": [
         [
           "setup",
           "passed"
@@ -30682,6 +31019,10 @@
         "total": 0
       },
       "tests": [
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]",
         "tests/test_neutral_nesting_verification.py::test_descriptor_iteration_inventory_cannot_silently_change",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[clock]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[corrupt]",
@@ -30735,6 +31076,10 @@
         "total": 0
       },
       "tests": [
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[clock]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[corrupt]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[frame_changed]",
@@ -30791,6 +31136,10 @@
         "total": 0
       },
       "tests": [
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]",
         "tests/test_neutral_nesting_verification.py::test_descriptor_iteration_inventory_cannot_silently_change",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[clock]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[corrupt]",
@@ -30844,6 +31193,10 @@
         "total": 0
       },
       "tests": [
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]",
         "tests/test_neutral_nesting_verification.py::test_descriptor_iteration_inventory_cannot_silently_change",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[clock]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[corrupt]",
@@ -30902,6 +31255,10 @@
         "total": 0
       },
       "tests": [
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]",
         "tests/test_neutral_nesting_verification.py::test_descriptor_iteration_inventory_cannot_silently_change",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[clock]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[corrupt]",
@@ -30960,6 +31317,10 @@
         "total": 2
       },
       "tests": [
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]",
         "tests/test_neutral_nesting_verification.py::test_descriptor_iteration_inventory_cannot_silently_change",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[clock]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[corrupt]",
@@ -31013,6 +31374,10 @@
         "total": 6
       },
       "tests": [
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[clock]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[metadata]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[none]",
@@ -31216,6 +31581,10 @@
         "total": 32
       },
       "tests": [
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]",
         "tests/test_neutral_nesting_verification.py::test_descriptor_iteration_inventory_cannot_silently_change",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[clock]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[corrupt]",
@@ -31274,6 +31643,10 @@
         "total": 12
       },
       "tests": [
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]",
         "tests/test_neutral_nesting_verification.py::test_descriptor_iteration_inventory_cannot_silently_change",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[clock]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[corrupt]",
@@ -31318,19 +31691,23 @@
       "signature": "main(argv=None) -> unannotated",
       "kind": "FunctionDef",
       "line": 246,
-      "end_line": 342,
+      "end_line": 343,
       "first_line": 246,
       "code_name": "main",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "7ec115e9a6d7fb59f38dc28a108026acc71516d2cdf6ee2bb946114ab53d0f38",
+      "fingerprint": "c4a004809b4a4baca84ed5199bfab2e616d422b7eda1c9e7a33feca35409ddb5",
       "id": "scripts/verify_neutral_nesting.py::main",
       "branches": {
         "hit": 21,
         "total": 24
       },
       "tests": [
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]",
         "tests/test_neutral_nesting_verification.py::test_explicit_window_and_invalid_sampling",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[clock]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[corrupt]",
@@ -32208,6 +32585,8 @@
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[mps]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -32334,6 +32713,8 @@
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[mps]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -32417,6 +32798,8 @@
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[mps]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -32558,6 +32941,8 @@
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[mps]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -33460,6 +33845,10 @@
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_flow_statistics.py::test_statistics_rejects_bad_windows_and_warns_short_records",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]",
         "tests/test_neutral_nesting_verification.py::test_descriptor_iteration_inventory_cannot_silently_change",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[clock]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[corrupt]",
@@ -34093,6 +34482,8 @@
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[mps]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -34154,6 +34545,8 @@
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[mps]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -34835,9 +35228,9 @@
       "name": "capture",
       "signature": "capture(session, mean=False) -> unannotated",
       "kind": "FunctionDef",
-      "line": 16,
-      "end_line": 22,
-      "first_line": 16,
+      "line": 18,
+      "end_line": 24,
+      "first_line": 18,
       "code_name": "capture",
       "declaration": false,
       "visibility": "public/conventional",
@@ -34863,9 +35256,9 @@
       "name": "validate",
       "signature": "validate(arrays, meta) -> unannotated",
       "kind": "FunctionDef",
-      "line": 25,
-      "end_line": 43,
-      "first_line": 25,
+      "line": 27,
+      "end_line": 45,
+      "first_line": 27,
       "code_name": "validate",
       "declaration": false,
       "visibility": "public/conventional",
@@ -35258,6 +35651,19 @@
         "tests/test_field_collection.py::test_reference_example_frames_use_recorded_physical_spacing",
         "tests/test_field_collection.py::test_streamline_crosses_parent_child_and_isosurface_is_continuous",
         "tests/test_field_collection.py::test_world_rotation_units_and_time_alignment",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-False]",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-True]",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-False]",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-True]",
+        "tests/test_field_export.py::test_frame_save_round_trips_exact_fields_and_metadata_and_overwrites",
+        "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[False]",
+        "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[True]",
         "tests/test_fields.py::test_frame_rejects_mismatched_shapes",
         "tests/test_flow_statistics.py::test_statistics_rejects_bad_windows_and_warns_short_records",
         "tests/test_general_boundaries.py::test_channel_record_capture_with_walls",
@@ -35294,9 +35700,9 @@
       "name": "read_frame",
       "signature": "read_frame(path) -> unannotated",
       "kind": "FunctionDef",
-      "line": 46,
-      "end_line": 55,
-      "first_line": 46,
+      "line": 48,
+      "end_line": 57,
+      "first_line": 48,
       "code_name": "read_frame",
       "declaration": false,
       "visibility": "public/conventional",
@@ -35502,11 +35908,18 @@
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/plane]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/trace]",
+        "tests/test_field_export.py::test_frame_save_round_trips_exact_fields_and_metadata_and_overwrites",
+        "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[False]",
+        "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[True]",
         "tests/test_fields.py::test_compressed_frame_budget_checked_before_allocation",
         "tests/test_flow_statistics.py::test_statistics_rejects_bad_windows_and_warns_short_records",
         "tests/test_general_boundaries.py::test_channel_record_capture_with_walls",
         "tests/test_jobs.py::test_query_failure_preserves_diagnostic",
         "tests/test_motion.py::test_recorded_pose_is_synchronized",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[clock]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[metadata]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[none]",
@@ -35532,9 +35945,9 @@
       "name": "store",
       "signature": "store(arrays, meta) -> unannotated",
       "kind": "FunctionDef",
-      "line": 58,
-      "end_line": 65,
-      "first_line": 58,
+      "line": 60,
+      "end_line": 67,
+      "first_line": 60,
       "code_name": "store",
       "declaration": false,
       "visibility": "public/conventional",
@@ -35913,6 +36326,19 @@
         "tests/test_field_collection.py::test_reference_example_frames_use_recorded_physical_spacing",
         "tests/test_field_collection.py::test_streamline_crosses_parent_child_and_isosurface_is_continuous",
         "tests/test_field_collection.py::test_world_rotation_units_and_time_alignment",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-False]",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-True]",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-False]",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-True]",
+        "tests/test_field_export.py::test_frame_save_round_trips_exact_fields_and_metadata_and_overwrites",
+        "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[False]",
+        "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[True]",
         "tests/test_fields.py::test_frame_rejects_mismatched_shapes",
         "tests/test_motion.py::test_recorded_pose_is_synchronized",
         "tests/test_recording.py::test_record_and_playback",
@@ -35936,9 +36362,9 @@
       "name": "get",
       "signature": "get(key) -> unannotated",
       "kind": "FunctionDef",
-      "line": 68,
-      "end_line": 71,
-      "first_line": 68,
+      "line": 70,
+      "end_line": 73,
+      "first_line": 70,
       "code_name": "get",
       "declaration": false,
       "visibility": "public/conventional",
@@ -36317,6 +36743,21 @@
         "tests/test_field_collection.py::test_reference_example_frames_use_recorded_physical_spacing",
         "tests/test_field_collection.py::test_streamline_crosses_parent_child_and_isosurface_is_continuous",
         "tests/test_field_collection.py::test_world_rotation_units_and_time_alignment",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-False]",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-True]",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-False]",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-True]",
+        "tests/test_field_export.py::test_expired_frame_does_not_touch_target[False]",
+        "tests/test_field_export.py::test_expired_frame_does_not_touch_target[True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-True]",
+        "tests/test_field_export.py::test_frame_save_round_trips_exact_fields_and_metadata_and_overwrites",
+        "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[False]",
+        "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[True]",
         "tests/test_recording.py::test_record_and_playback",
         "tests/test_refinement.py::test_physical_patch_matches_time_and_units",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
@@ -36338,9 +36779,9 @@
       "name": "scalar",
       "signature": "scalar(fields, name, spec) -> unannotated",
       "kind": "FunctionDef",
-      "line": 74,
-      "end_line": 89,
-      "first_line": 74,
+      "line": 76,
+      "end_line": 91,
+      "first_line": 76,
       "code_name": "scalar",
       "declaration": false,
       "visibility": "public/conventional",
@@ -36733,9 +37174,9 @@
       "name": "validity_mask",
       "signature": "validity_mask(fields, name) -> unannotated",
       "kind": "FunctionDef",
-      "line": 92,
-      "end_line": 101,
-      "first_line": 92,
+      "line": 94,
+      "end_line": 103,
+      "first_line": 94,
       "code_name": "validity_mask",
       "declaration": false,
       "visibility": "public/conventional",
@@ -37056,9 +37497,9 @@
       "name": "sample_scalar",
       "signature": "sample_scalar(fields, points, name, spec) -> unannotated",
       "kind": "FunctionDef",
-      "line": 104,
-      "end_line": 110,
-      "first_line": 104,
+      "line": 106,
+      "end_line": 112,
+      "first_line": 106,
       "code_name": "sample_scalar",
       "declaration": false,
       "visibility": "public/conventional",
@@ -37301,9 +37742,9 @@
       "name": "isosurface",
       "signature": "isosurface(values, level, solid=None, stride=1, max_faces=100000, checkpoint=lambda n: None) -> unannotated",
       "kind": "FunctionDef",
-      "line": 113,
-      "end_line": 149,
-      "first_line": 113,
+      "line": 115,
+      "end_line": 151,
+      "first_line": 115,
       "code_name": "isosurface",
       "declaration": false,
       "visibility": "public/conventional",
@@ -37403,9 +37844,9 @@
       "name": "isosurface.<lambda>#1",
       "signature": "<lambda>(n) -> unannotated",
       "kind": "Lambda",
-      "line": 113,
-      "end_line": 113,
-      "first_line": 113,
+      "line": 115,
+      "end_line": 115,
+      "first_line": 115,
       "code_name": "<lambda>",
       "declaration": false,
       "visibility": "public/conventional",
@@ -37431,9 +37872,9 @@
       "name": "contours",
       "signature": "contours(points, values, valid, shape, levels, checkpoint=lambda n: None) -> unannotated",
       "kind": "FunctionDef",
-      "line": 152,
-      "end_line": 172,
-      "first_line": 152,
+      "line": 154,
+      "end_line": 174,
+      "first_line": 154,
       "code_name": "contours",
       "declaration": false,
       "visibility": "public/conventional",
@@ -37606,9 +38047,9 @@
       "name": "contours.<lambda>#1",
       "signature": "<lambda>(n) -> unannotated",
       "kind": "Lambda",
-      "line": 152,
-      "end_line": 152,
-      "first_line": 152,
+      "line": 154,
+      "end_line": 154,
+      "first_line": 154,
       "code_name": "<lambda>",
       "declaration": false,
       "visibility": "public/conventional",
@@ -37634,9 +38075,9 @@
       "name": "trace",
       "signature": "trace(fields, seeds, steps=200, step=0.4, direction=1, name='speed', spec=None, checkpoint=lambda n: None) -> unannotated",
       "kind": "FunctionDef",
-      "line": 175,
-      "end_line": 203,
-      "first_line": 175,
+      "line": 177,
+      "end_line": 205,
+      "first_line": 177,
       "code_name": "trace",
       "declaration": false,
       "visibility": "public/conventional",
@@ -37733,9 +38174,9 @@
       "name": "trace.<lambda>#1",
       "signature": "<lambda>(n) -> unannotated",
       "kind": "Lambda",
-      "line": 175,
-      "end_line": 175,
-      "first_line": 175,
+      "line": 177,
+      "end_line": 177,
+      "first_line": 177,
       "code_name": "<lambda>",
       "declaration": false,
       "visibility": "public/conventional",
@@ -37759,9 +38200,9 @@
       "name": "trace.tangent",
       "signature": "tangent(p) -> unannotated",
       "kind": "FunctionDef",
-      "line": 181,
-      "end_line": 184,
-      "first_line": 181,
+      "line": 183,
+      "end_line": 186,
+      "first_line": 183,
       "code_name": "tangent",
       "declaration": false,
       "visibility": "public/conventional",
@@ -37858,14 +38299,14 @@
       "name": "dispatch_field",
       "signature": "dispatch_field(request, session=None, checkpoint=lambda n: None) -> unannotated",
       "kind": "FunctionDef",
-      "line": 206,
-      "end_line": 231,
-      "first_line": 206,
+      "line": 208,
+      "end_line": 248,
+      "first_line": 208,
       "code_name": "dispatch_field",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "aeef486f5eeffec3ee2997afd2129eb800a9e897f378736a455c40235543cb80",
+      "fingerprint": "85102ba79dd6301dab5f193ef28937560cec6a38e223d9af9452a9bd1f98d5be",
       "id": "src/hawa/fields.py::dispatch_field",
       "branches": {
         "hit": 17,
@@ -38239,11 +38680,26 @@
         "tests/test_field_collection.py::test_reference_example_frames_use_recorded_physical_spacing",
         "tests/test_field_collection.py::test_streamline_crosses_parent_child_and_isosurface_is_continuous",
         "tests/test_field_collection.py::test_world_rotation_units_and_time_alignment",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-False]",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-True]",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-False]",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-True]",
+        "tests/test_field_export.py::test_expired_frame_does_not_touch_target[False]",
+        "tests/test_field_export.py::test_expired_frame_does_not_touch_target[True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-True]",
+        "tests/test_field_export.py::test_frame_save_round_trips_exact_fields_and_metadata_and_overwrites",
+        "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[False]",
+        "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[True]",
         "tests/test_jobs.py::test_query_failure_preserves_diagnostic"
       ],
       "lines": {
-        "hit": 24,
-        "total": 25
+        "hit": 35,
+        "total": 36
       },
       "status": "covered"
     },
@@ -38253,9 +38709,9 @@
       "name": "dispatch_field.<lambda>#1",
       "signature": "<lambda>(n) -> unannotated",
       "kind": "Lambda",
-      "line": 206,
-      "end_line": 206,
-      "first_line": 206,
+      "line": 208,
+      "end_line": 208,
+      "first_line": 208,
       "code_name": "<lambda>",
       "declaration": false,
       "visibility": "public/conventional",
@@ -38295,31 +38751,49 @@
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/memory/vorticity/plane]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/memory/vorticity/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/cp/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/cp/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/cp/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/cp/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/cp/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/density/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/density/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/density/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/density/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/density/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/pressure/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/pressure/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/pressure/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/pressure/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/pressure/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/q/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/q/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/q/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/q/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/q/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/speed/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/speed/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/speed/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/speed/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/speed/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/ux/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/ux/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/ux/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/ux/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/ux/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/uy/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/uy/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/uy/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/uy/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/uy/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/uz/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/uz/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/uz/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/uz/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/uz/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/vorticity/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/vorticity/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/vorticity/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/vorticity/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/fluid/reload/vorticity/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/memory/cp/contours]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/memory/cp/plane]",
@@ -38349,31 +38823,49 @@
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/memory/vorticity/plane]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/memory/vorticity/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/cp/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/cp/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/cp/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/cp/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/cp/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/density/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/density/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/density/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/density/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/density/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/pressure/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/pressure/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/pressure/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/pressure/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/pressure/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/q/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/q/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/q/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/q/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/q/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/speed/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/speed/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/speed/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/speed/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/speed/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/ux/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/ux/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/ux/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/ux/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/ux/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/uy/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/uy/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/uy/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/uy/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/uy/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/uz/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/uz/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/uz/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/uz/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/uz/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/vorticity/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/vorticity/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/vorticity/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/vorticity/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/2/solid/reload/vorticity/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/memory/cp/contours]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/memory/cp/isosurface]",
@@ -38407,31 +38899,47 @@
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/cp/contours]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/cp/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/cp/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/cp/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/cp/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/density/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/density/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/density/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/density/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/density/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/pressure/contours]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/pressure/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/pressure/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/pressure/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/pressure/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/q/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/q/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/q/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/q/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/q/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/speed/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/speed/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/speed/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/speed/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/speed/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/ux/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/ux/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/ux/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/ux/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/ux/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/uy/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/uy/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/uy/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/uy/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/uy/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/uz/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/uz/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/uz/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/uz/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/uz/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/vorticity/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/vorticity/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/vorticity/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/vorticity/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/fluid/reload/vorticity/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/memory/cp/contours]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/memory/cp/isosurface]",
@@ -38465,31 +38973,47 @@
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/cp/contours]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/cp/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/cp/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/cp/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/cp/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/density/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/density/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/density/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/density/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/density/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/pressure/contours]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/pressure/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/pressure/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/pressure/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/pressure/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/q/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/q/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/q/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/q/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/q/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/speed/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/speed/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/speed/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/speed/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/speed/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/ux/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/ux/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/ux/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/ux/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/ux/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/uy/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/uy/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/uy/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/uy/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/uy/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/uz/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/uz/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/uz/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/uz/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/uz/trace]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/contours]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/plane]",
+        "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/trace]",
         "tests/test_field_collection.py::test_collection_cancellation_budget_and_equal_spacing_order",
         "tests/test_field_collection.py::test_disjoint_domains_and_shared_plane_contours",
@@ -38497,7 +39021,17 @@
         "tests/test_field_collection.py::test_plane_trims_crossing_triangles_without_a_blank_fluid_band",
         "tests/test_field_collection.py::test_reference_example_frames_use_recorded_physical_spacing",
         "tests/test_field_collection.py::test_streamline_crosses_parent_child_and_isosurface_is_continuous",
-        "tests/test_field_collection.py::test_world_rotation_units_and_time_alignment"
+        "tests/test_field_collection.py::test_world_rotation_units_and_time_alignment",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-True]",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-True]",
+        "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[False]",
+        "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[True]"
       ],
       "lines": {
         "hit": 1,
@@ -40879,6 +41413,8 @@
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -41047,6 +41583,8 @@
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -41216,6 +41754,8 @@
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -42278,6 +42818,8 @@
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -42445,6 +42987,8 @@
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -42575,6 +43119,8 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -42659,7 +43205,7 @@
       "fingerprint": "0d0b165685038b2827aa9766f4177c8f40a379d9486522ef356f5bbfff4c00cc",
       "id": "src/hawa/plugin.py::Session.start",
       "branches": {
-        "hit": 6,
+        "hit": 5,
         "total": 8
       },
       "tests": [
@@ -42670,7 +43216,7 @@
         "tests/test_plugin_service.py::test_background_lifecycle_and_resume"
       ],
       "lines": {
-        "hit": 13,
+        "hit": 12,
         "total": 15
       },
       "status": "covered"
@@ -42730,6 +43276,8 @@
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -42782,6 +43330,8 @@
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -42848,6 +43398,8 @@
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-True]",
@@ -43228,7 +43780,7 @@
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "09a8eb0de04f2c0514c78571eb84242c74683252a66b08e8836cfaf6b86bd4f9",
+      "fingerprint": "d359aa0510e88643587faa001b01763dc9e0a6d306194067c44e1df8e75351bc",
       "id": "src/hawa/plugin.py::dispatch",
       "branches": {
         "hit": 74,
@@ -43240,6 +43792,8 @@
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -43371,6 +43925,8 @@
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -43579,6 +44135,10 @@
         "tests/test_flow_statistics.py::test_statistics_rejects_bad_windows_and_warns_short_records",
         "tests/test_general_boundaries.py::test_channel_record_capture_with_walls",
         "tests/test_motion.py::test_recorded_pose_is_synchronized",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]",
         "tests/test_neutral_nesting_verification.py::test_descriptor_iteration_inventory_cannot_silently_change",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[clock]",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[corrupt]",
@@ -45474,6 +46034,8 @@
         "tests/test_example_inventory.py::test_pinned_inventory_has_all_sixteen_entrypoints",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
+        "tests/test_export.py::test_export_supports_long_valid_destination_name[True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-False]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[capture-True]",
         "tests/test_export.py::test_failed_export_preserves_destination_and_cleans_temporary_files[flush-False]",
@@ -45489,6 +46051,21 @@
         "tests/test_field_collection.py::test_reference_example_frames_use_recorded_physical_spacing",
         "tests/test_field_collection.py::test_streamline_crosses_parent_child_and_isosurface_is_continuous",
         "tests/test_field_collection.py::test_world_rotation_units_and_time_alignment",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-False]",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[1-True]",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-False]",
+        "tests/test_field_export.py::test_cancel_observed_before_write_or_publication_preserves_target[2-True]",
+        "tests/test_field_export.py::test_expired_frame_does_not_touch_target[False]",
+        "tests/test_field_export.py::test_expired_frame_does_not_touch_target[True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[fsync-True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[replace-True]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-False]",
+        "tests/test_field_export.py::test_failed_frame_save_preserves_target_and_removes_temporary_file[write-True]",
+        "tests/test_field_export.py::test_frame_save_round_trips_exact_fields_and_metadata_and_overwrites",
+        "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[False]",
+        "tests/test_field_export.py::test_frame_save_supports_long_valid_destination_name[True]",
         "tests/test_fields.py::test_compressed_frame_budget_checked_before_allocation",
         "tests/test_fields.py::test_contour_crossing",
         "tests/test_fields.py::test_contour_grid_and_level_limits",
@@ -45590,6 +46167,10 @@
         "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
         "tests/test_neutral_external.py::test_unsupported_inputs_fail_explicitly",
         "tests/test_neutral_nesting_verification.py::test_child_stationarity_diagnostic_does_not_change_original_gate",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[crc]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[deflate]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[not_zip]",
+        "tests/test_neutral_nesting_verification.py::test_damaged_frame_with_refreshed_hash_saves_failed_report[truncated_npy]",
         "tests/test_neutral_nesting_verification.py::test_descriptor_iteration_inventory_cannot_silently_change",
         "tests/test_neutral_nesting_verification.py::test_explicit_window_and_invalid_sampling",
         "tests/test_neutral_nesting_verification.py::test_frozen_reference_requires_complete_current_immutable_input[clock]",

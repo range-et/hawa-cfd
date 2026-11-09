@@ -87,7 +87,30 @@ real bounded CPU run and replay retain the same RMS failure; see the [C1 review]
 
 PR #5 review additionally hardens malformed descriptor failures, records selected
 source/child backends and exercises actual ratio-2 fine-reference replay with
-nonzero warmup. Fresh measurements are recorded in the C1 review.
+nonzero warmup. A later damaged-archive finding is repaired with explicit ZIP,
+DEFLATE and EOF failure reporting and refreshed-hash regression cases. Fresh
+measurements are recorded in the C1 review.
+### November 9 2026 long export filename review repair (HAWA-051 candidate)
+
+Both Python NPZ writers now use bounded temporary prefixes, so valid long
+basenames do not fail solely because an atomic-write suffix is appended. Four
+new/overwrite regressions reproduced the failure before repair. Final combined
+verification after incorporating PR #4: 35 focused tests on native and constrained
+Linux CPU, 671 full native passes, 32 CUDA skips, 33 state contracts and zero
+coverage failures. Matrices refreshed; no schema, solver or C# change.
+HAWA-051 and the enclosing HAWA-048 PR remain pending integration.
+[Review follow-up](docs/review-field-export-atomicity.md#pr-3-review-follow-up--hawa-051).
+
+
+### November 9 2026 immutable-frame export repair candidate (HAWA-048)
+
+Implemented atomic NPZ publication for immutable-frame saves, complementing the
+existing session-export repair. Observed cancellation and failed compression/IO
+preserve earlier output and clean temporary files. Focused CPU tests: 31 passed
+natively and in constrained Linux Docker. Full native gate: 637 passed, 32 CUDA
+skips, 33 state contracts, zero coverage failures; matrices and development ZIP
+checked. HAWA-048 remains open pending integration.
+No format, solver, C# or installed-plugin change. [Review](docs/review-field-export-atomicity.md).
 
 ### November 9 2026 refinement placement repair candidate (HAWA-049)
 

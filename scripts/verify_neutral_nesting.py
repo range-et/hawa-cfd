@@ -3,7 +3,7 @@
 Thresholds: mean U relative L2 <=5%, fluctuation RMS <=10%, Cp RMSE <=0.1.
 Small deterministic building experiment, not an atmospheric engineering benchmark.
 """
-import argparse, hashlib, json, platform, sys, time
+import argparse, hashlib, json, platform, sys, time, zipfile, zlib
 from pathlib import Path
 import numpy as np
 from hawa.plugin import Session
@@ -333,7 +333,8 @@ def main(argv=None):
         report['source_after']=sources()
         if report['source_before']!=report['source_after']:
             raise ValueError('Source changed during study')
-    except (OSError, ValueError, KeyError, TypeError, RuntimeError) as exc:
+    except (OSError, ValueError, KeyError, TypeError, RuntimeError,
+            zipfile.BadZipFile, EOFError, zlib.error) as exc:
         report.update(passed=False,full_nesting_passed=False,error=type(exc).__name__+': '+str(exc))
     report['wall_seconds']=time.monotonic()-began
     (a.output/'result.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')

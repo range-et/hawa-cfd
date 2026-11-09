@@ -2,8 +2,10 @@
 from collections import OrderedDict
 import itertools
 import json
+import os
 from pathlib import Path
 import threading
+import tempfile
 import uuid
 import zipfile
 import numpy as np
@@ -213,8 +215,23 @@ def dispatch_field(request, session=None, checkpoint=lambda n:None):
         return store(*read_frame(request['path']))
     fields,meta=get(request['frame']);spec=meta['case'];name=request.get('field','speed')
     if action=='save':
+        checkpoint(0)
+        metadata=np.array(json.dumps(meta))
         path=Path(request['path']);path.parent.mkdir(parents=True,exist_ok=True)
-        with path.open('wb') as f:np.savez_compressed(f,**fields,metadata=np.array(json.dumps(meta)))
+        temporary=None
+        try:
+            # Publish only a completed sibling file, preserving any prior export.
+            with tempfile.NamedTemporaryFile(mode='wb',dir=path.parent,
+                    prefix='.hawa-frame.',suffix='.tmp',delete=False) as output:
+                temporary=Path(output.name)
+                np.savez_compressed(output,**fields,metadata=metadata)
+                output.flush()
+                os.fsync(output.fileno())
+            # Compression is synchronous; cancellation is observed at these boundaries.
+            checkpoint(0)
+            os.replace(temporary,path)
+        finally:
+            if temporary is not None:temporary.unlink(missing_ok=True)
         return {'path':str(path)}
     if action=='trace':return {**trace(fields,request['seeds'],request.get('steps',200),request.get('step',.4),request.get('direction',1),name,spec,checkpoint),**meta}
     if action=='plane':

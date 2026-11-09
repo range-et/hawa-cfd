@@ -263,3 +263,41 @@ def test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu(tmp_path,mo
     with np.load(replay/'comparison-2.npz') as data:
         np.testing.assert_allclose(data['times'],fine_times,rtol=0,atol=1e-10)
         assert data['reference_velocity'].shape==data['child_velocity'].shape==(9,7,3)
+
+
+@pytest.mark.parametrize('damage',['not_zip','crc','deflate','truncated_npy'])
+def test_damaged_frame_with_refreshed_hash_saves_failed_report(tmp_path,monkeypatch,damage):
+    import zipfile
+    path,manifest,bundle=descriptor(tmp_path,monkeypatch)
+    frame=manifest.parent/'frame0.npz'
+    if damage=='not_zip':
+        frame.write_bytes(b'not an NPZ archive')
+    elif damage=='truncated_npy':
+        with zipfile.ZipFile(frame,'w') as archive:
+            archive.writestr('metadata.npy',b'\x93NUMPY')
+    else:
+        # Damage real member bytes without updating the ZIP CRC or descriptor schema.
+        with zipfile.ZipFile(frame) as archive:
+            item=archive.getinfo('metadata.npy')
+        data=bytearray(frame.read_bytes())
+        offset=item.header_offset
+        start=offset+30+int.from_bytes(data[offset+26:offset+28],'little')+int.from_bytes(data[offset+28:offset+30],'little')
+        if damage=='deflate':
+            assert item.compress_type==zipfile.ZIP_DEFLATED
+            data[start:start+item.compress_size]=b'\xff'*item.compress_size
+        else:
+            # Repack stored data, then corrupt it so ZIP verification detects CRC failure.
+            with zipfile.ZipFile(frame,'w',compression=zipfile.ZIP_STORED) as archive:
+                archive.writestr('metadata.npy',b'valid member bytes')
+            data=bytearray(frame.read_bytes())
+            data[30+len('metadata.npy')]^=1
+        frame.write_bytes(data)
+    bundle['recordings']['parent'].update(study.recording_identity(manifest))
+    path.write_text(json.dumps(bundle))
+    output=tmp_path/'failed'
+    assert study.main(['--output',str(output),'--reuse-reference',str(path)])==1
+    result=json.loads((output/'result.json').read_text())
+    assert not result['passed'] and not result['full_nesting_passed']
+    expected={'not_zip':'BadZipFile:', 'crc':'BadZipFile:',
+              'deflate':'error:', 'truncated_npy':'ValueError:'}
+    assert result['error'].startswith(expected[damage])

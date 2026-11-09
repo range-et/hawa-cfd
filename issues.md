@@ -88,7 +88,7 @@ presence in an example or a passing suite name is not function-level evidence.
 
 | ID | Type and status | Scope and evidence | Next action and acceptance | Execution surface |
 | --- | --- | --- | --- | --- |
-| HAWA-021 | Bug · in progress (owner: Codex, November 9 2026) | The imported-data rejection is repaired in development and the three-stage CPU/MPS GH workflow runs. Nested statistical and atmospheric qualification still prevent completion. [Completion contract](docs/atmospheric-nesting-implementation.md). | The [C1 frozen-reference harness](docs/review-neutral-nesting-harness.md) separates reference preparation, replay and explicit windows; PR review adds malformed-evidence rejection, actual backend provenance and real fine-reference replay coverage. Numerical qualification remains open. Retain passing v2/manufactured/host gates; fix nested mean/RMS and stationary-turbulence comparisons. Current 6-cells/H AIJ mean-flow checks pass, but TKE and grid sensitivity remain open. Do not close with a short workflow demo. | Python + CPU/MPS; GH regression |
+| HAWA-021 | Bug · in progress (owner: Codex, November 9 2026) | The imported-data rejection is repaired in development and the three-stage CPU/MPS GH workflow runs. Nested statistical and atmospheric qualification still prevent completion. [Completion contract](docs/atmospheric-nesting-implementation.md). | The [C1 frozen-reference harness](docs/review-neutral-nesting-harness.md) separates reference preparation, replay and explicit windows; PR review adds malformed descriptor/archive failure reporting, actual backend provenance and real fine-reference replay coverage. Numerical qualification remains open. Retain passing v2/manufactured/host gates; fix nested mean/RMS and stationary-turbulence comparisons. Current 6-cells/H AIJ mean-flow checks pass, but TKE and grid sensitivity remain open. Do not close with a short workflow demo. | Python + CPU/MPS; GH regression |
 | HAWA-022 | Bug · in progress (owner: Codex, November 9 2026) | Long AIJ cube runs and a mapped nested child reveal kinetic instability at open faces, including ground/open intersections. Short finite-step gates missed it. Failed runs retained under `results/atmosphere-nesting/`. | Constrained stress reconstruction now passes wall/pulse checks and a 60k-step MPS reference run stays healthy. Nested long-window mean/RMS and reference stationarity still fail; qualify sustained turbulence and resolution sensitivity without changing viscosity or thresholds. | Python + CPU/MPS; GH regression |
 | HAWA-001 | Bug · open | PorousMedium CPU/MPS pointwise disagreement remains open. [PR #2](https://github.com/range-et/hawa-cfd/pull/2) records a CPU/CUDA KBC precision repair, retaining the MPS FP32 path; it does not close CPU/MPS parity. [Historical evidence](docs/hardening-v0.4.md). | The combined review candidate still fails original 50-step CPU/MPS criteria for populations, velocity and pressure ([fresh review](docs/review-cuda-pr2.md)). Review the precision tradeoff and fix remaining differences without widening tolerances. Diagnose only remaining differences rather than duplicate the CPU/CUDA repair. Close only with scoped comparison evidence; finite fields alone do not close it. | Python + CPU/MPS |
 | HAWA-002 | Verification gap · in progress (headless evidence in PR #2; host owner unassigned) | Windows native behavior and clean-machine dependency installation remain unverified. [PR #2](https://github.com/range-et/hawa-cfd/pull/2) records bounded headless CPU/CUDA passes on RTX 5070 Ti; the PR is open and predates this checkout’s newer gates. [Integration plan](docs/issue-execution-plan.md#existing-windows-cuda-pr). | Local candidate repairs HAWA-044/045/046 and passes the function gate with all 17 coverage blockers resolved ([repair review](docs/review-cuda-blocker-fixes.md)). Run the [exact Windows acceptance checks](docs/windows-cuda-merge-checks.md) on that candidate before integration. Retain its bounded CUDA evidence separately from pending clean Windows Rhino installation, lifecycle and wider CUDA coverage. Track each platform/scope independently. | Platform + Rhino/GH + CUDA |
@@ -102,6 +102,37 @@ presence in an example or a passing suite name is not function-level evidence.
 | HAWA-044 | Bug · in progress (Codex; November 9, 2026) | Filtered/incomplete CUDA suite acceptance repaired in the isolated integration candidate: independent IDs, completed outcomes, strict JUnit and explicit partial scope. Adverse tests and full local measured gate pass. [Repair review](docs/review-cuda-blocker-fixes.md). | Run exact-candidate Windows CUDA acceptance, then integrate. No hardware pass is inferred from mocked orchestration tests. | Python harness + CPU mocks; CUDA acceptance |
 | HAWA-045 | Bug · in progress (Codex; November 9, 2026) | Candidate now hashes complete tracked/nonignored inputs and Git index, records staged/combined diffs, and rejects source drift. Mutation tests and local measured gate pass. [Repair review](docs/review-cuda-blocker-fixes.md). | Qualify unchanged candidate on Windows and integrate; preserve source/test/config/lock and index provenance. | Python harness + CPU mocks; CUDA acceptance |
 | HAWA-046 | Bug · in progress (Codex; November 9, 2026) | Candidate compares actual before/after devices, accepting MPS alias normalization. Fresh complete suite passes: 700 tests, 82 skips; no numerical tolerance change. [Repair review](docs/review-cuda-blocker-fixes.md). | Verify CUDA cases on Windows and integrate the accepted candidate; source remains separate from main export work. | Python tests + MPS/CUDA |
+
+### HAWA-048 — Immutable-frame save destroys prior export on write failure
+
+Bug · in progress; owner: Codex export agent; November 9, 2026. The
+`fields.dispatch_field(action='save')` path truncates before compression; fault
+injection changed a valid 887-byte NPZ into a 7-byte partial file and also left a
+partial new destination. The isolated Python repair now writes a sibling temporary
+file, checks cancellation before publication and replaces only complete output.
+Focused CPU verification passes 31 tests both natively and in constrained Linux
+Docker. The complete native gate passes 637 tests, 33 state contracts and the
+coverage ratchet; matrices refreshed, development build/ZIP checked.
+[Review and evidence](docs/review-field-export-atomicity.md).
+Next action: integration review against the common checkpoint; Windows and host
+qualification remain outside this scoped Python repair. Completion: exact round-trip compatibility, preserved
+old/absent destination under failure or observed cancellation, cleaned owned temp
+files and passing required checks. CSV/baking and Rhino export UX remain HAWA-033/032.
+
+### HAWA-051 — Valid long export filenames fail in atomic NPZ writers
+
+Bug · in progress; owner: Codex export agent; November 9, 2026. PR #3 review
+identified full destination basenames being embedded in temporary names. Both
+immutable-frame save and session export failed for directly creatable 250-byte
+ASCII names (new target and overwrite). Fixed short randomized temporary prefixes
+preserve the existing destination/API/metadata contracts. Final combined tests:
+35 focused native and Linux CPU passes; 671 full native passes, 32 CUDA skips,
+33 contracts, zero coverage failures against updated base `a00223f`.
+[Scoped follow-up evidence](docs/review-field-export-atomicity.md#pr-3-review-follow-up--hawa-051).
+Next action: PR #3 integration review. Completion: both writers create/overwrite
+long valid destinations, exact data round-trip, no temporary leftovers, and the
+existing failure/cancellation protections remain passing. Windows remains
+unverified; this does not complete broader HAWA-033.
 
 ## Improvements and delivery work
 

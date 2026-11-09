@@ -91,3 +91,23 @@ def test_export_metadata_describes_capture_before_later_steps(export_session, tm
         assert json.loads(str(data['metadata']))['iteration'] == 3
         for name, value in expected.items():
             np.testing.assert_array_equal(data[name], value)
+
+
+@pytest.mark.parametrize('existing', [False, True])
+def test_export_supports_long_valid_destination_name(export_session, tmp_path, existing):
+    path = tmp_path / ('f' * 246 + '.npz')
+    assert len(path.name.encode('ascii')) == 250
+    path.write_bytes(b'previous result')  # Confirm the destination itself is valid.
+    if not existing:
+        path.unlink()
+    expected = SESSIONS[export_session].fields()
+    result = dispatch({'op': 'export', 'session': export_session, 'path': str(path)})
+    assert result == {'path': str(path)}
+    with np.load(path, allow_pickle=False) as data:
+        assert set(data.files) == set(expected) | {'metadata'}
+        for name, value in expected.items():
+            np.testing.assert_array_equal(data[name], value)
+        metadata = json.loads(str(data['metadata']))
+        assert metadata['iteration'] == 3
+        assert metadata['case'] == SESSIONS[export_session].spec
+    assert list(tmp_path.iterdir()) == [path]

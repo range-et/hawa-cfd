@@ -219,3 +219,43 @@ isolated results directory. This is the focused harness regression suite,
 including the real fine-reference replay, not a Linux full function/state/G6 run
 or numerical qualification. Source and tests were unchanged between native and
 container measurements.
+
+
+## Damaged-archive review follow-up
+
+PR #5 finding 4518979545 is reproduced with an actual damaged frame whose hash
+is deliberately refreshed in the descriptor. Before repair, invalid ZIP, bad
+member CRC and invalid DEFLATE data each escape without a failure report (three
+failed regression cases); a truncated NPY member already fails through the
+existing ValueError path. The harness now explicitly catches `zipfile.BadZipFile`,
+`EOFError` and `zlib.error` alongside existing validation/I/O errors, without a
+blanket exception handler or changes to the production reader. Four real archive
+regressions assert the saved failure and expected error class, proving they reach
+archive parsing rather than stopping at the hash comparison.
+
+Shared base `74eae0dc2537f7a32ad604efc8aa2249e549898b` incorporates PR #3's export
+repairs. Both histories are preserved; prior C1 measurements above describe their
+stated snapshots. This harness edit again invalidates older frozen references.
+Initial focused checks: 49 passed in 28.75 s, then all four corruption cases passed
+in 0.94 s after strengthening error-class assertions. Evidence:
+`results/archive-review/repro.log`, `focused.{log,xml}`, `final-corruption.log`.
+Final combined measurements follow below.
+
+
+Final archive-review source validation against `74eae0d`: **720 full native tests
+passed, 32 CUDA skips, four existing MRT warnings in 79.77 s; 33 state contracts
+passed; zero ratchet failures**. Both committed matrices are regenerated and
+checked (297 covered, 142 uncovered, 630 unmeasured, 58 declarations). Evidence:
+`results/archive-review/function-gate/`, `function-gate.log`, `matrix-check.log`.
+Final constrained Linux CPU suite: **49 passed in 56.29 s**, no skips/warnings,
+under the same pinned image and one-CPU/2-GiB/no-network/read-only restrictions;
+`results/docker-archive-review/focused.{log,xml}`. Final native measured suite
+includes the strengthened error assertions and all 49 focused tests.
+
+The fresh real ratio-2 replay still reports numerical failure with mean 10.4322%,
+RMS 204.8839% and Cp 0.432043; no threshold or qualification change. Package-only
+refresh uses the existing tested assemblies and includes the final combined
+Python source: `dist/Hawa-transfer-archive-final.zip`, evidence
+`results/archive-review/package-final.log` and `package.json`. No new C# build,
+installation, host/G6 qualification or release is claimed. G2 repair evidence is
+fresh; HAWA-021/022 physics remains open.
