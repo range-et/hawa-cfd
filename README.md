@@ -77,7 +77,7 @@ The core CPU comparison matched the upstream oracle bitwise; MPS passed declared
 
 Native MPS checks exercise saved definitions, valid field meshes, recording, a repeated hull search, and the fixed refinement patch. See the [release notes](docs/release-notes-v0.4.0.md) for exact evidence and limits.
 
-Windows CUDA headless checks now have a [dated verification record](docs/verification-windows-cuda-2026-11-09.md), including unresolved PorousMedium parity and rotating-sphere surface-mask/torque failures. Clean Windows Rhino installation, full-duration upstream convergence and engineering-case validation remain open. Refinement is experimental. Aircraft analysis does not include XFOIL viscous calculations, VLM, stall or stability derivatives.
+Windows CUDA headless checks have an [initial verification record](docs/verification-windows-cuda-2026-11-09.md) and a [numerical repair record](docs/verification-windows-cuda-fixes-2026-11-09.md) for PorousMedium parity and rotating-sphere surface-mask/torque failures. Clean Windows Rhino installation, full-duration upstream convergence and engineering-case validation remain open. Refinement is experimental. Aircraft analysis does not include XFOIL viscous calculations, VLM, stall or stability derivatives.
 
 ## Attribution
 

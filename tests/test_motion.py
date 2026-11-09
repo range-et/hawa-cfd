@@ -155,8 +155,8 @@ def test_rotating_sphere_occupancy_is_constant(solver_device):
 def test_rotating_sphere_surface_mask_matches_cpu(device):
     """Regression: FP32 SDF rounding must not change geometry across devices.
 
-    Known failing CUDA case from the Windows verification, deliberately not
-    xfailed: four cells straddled sdf == 0 at dx=1/3 on the RTX 5070 Ti.
+    Four cells straddled sdf == 0 at dx=1/3 on the RTX 5070 Ti before the
+    ordered, rationalized distance calculation.
     """
     if not torch.cuda.is_available():pytest.skip('CUDA hardware unavailable')
     case=moving_case()
@@ -167,3 +167,30 @@ def test_rotating_sphere_surface_mask_matches_cpu(device):
     cpu=Session(case,'cpu');gpu=Session(case,device)
     np.testing.assert_array_equal(gpu.flow.solid.cpu().numpy(),cpu.flow.solid.numpy(),
                                   err_msg='CPU/CUDA must classify the same sphere surface cells')
+
+
+@pytest.mark.parametrize('dimension', [2, 3])
+def test_radial_distance_preserves_surface_sign_and_accuracy(solver_device, dimension):
+    from hawa.moving_boundaries import _radial_distance
+    # Include the immediate representable neighbours of an on-surface point.
+    x=np.array([0., np.nextafter(np.float32(1),np.float32(0)), 1.,
+                np.nextafter(np.float32(1),np.float32(2)), 2.],np.float32)
+    points=np.zeros((len(x),dimension),np.float32);points[:,0]=x
+    actual=_radial_distance(torch.tensor(points,device=solver_device),1.).cpu().numpy()
+    np.testing.assert_array_equal(np.sign(actual),np.sign(x.astype(float)-1))
+    np.testing.assert_allclose(actual,x.astype(float)-1,rtol=2e-7,atol=1e-14)
+
+
+@pytest.mark.parametrize('kind', ['sphere', 'cylinder'])
+def test_rotated_off_pivot_body_geometry_device_parity(kind, solver_device):
+    case=moving_case();case.update(shape=[25]*3,dx=1/3,viscosity=.2,mach=.1)
+    geometry=dict(type=kind,center=[4,4,4],radius=1.)
+    if kind=='cylinder':geometry['length']=2.
+    case['moving_bodies']=[dict(id='body',pivot=[4.2,4,4],geometry=geometry,
+        motion=dict(type='rotation',axis=[1,2,3],rpm=.5))]
+    cpu=Session(case,'cpu');candidate=Session(case,solver_device)
+    for time in (0.,.23,1.):
+        cpu.solver.moving.update(time,False);candidate.solver.moving.update(time,False)
+        np.testing.assert_array_equal(candidate.flow.solid.cpu().numpy(),cpu.flow.solid.numpy())
+        np.testing.assert_allclose(candidate.solver.moving.distances[0].cpu().numpy(),
+                                   cpu.solver.moving.distances[0].numpy(),rtol=2e-6,atol=2e-7)

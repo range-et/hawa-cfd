@@ -97,8 +97,9 @@ count as passing tests. Original upstream test files are unchanged.
   recording, optimization, moving bodies, refinement and outlet stability.
   Device-parity loops also include CUDA. Missing hardware remains a visible skip.
 
-The dated result record is [the November 9 verification report](verification-windows-cuda-2026-11-09.md).
-It records two unresolved numerical issues: PorousMedium pointwise parity, and
-rotating-sphere surface classification/torque parity. The new surface-mask unit
-regression intentionally fails on the tested CUDA hardware; these commands are
-not expected to return an overall PASS until the underlying issues are repaired.
+The [initial November 9 verification report](verification-windows-cuda-2026-11-09.md)
+preserves the original PorousMedium and rotating-sphere failures. The subsequent
+[repair record](verification-windows-cuda-fixes-2026-11-09.md) documents the fixes
+and fresh verification on `codex/windows-cuda`. KBC now uses FP64 collision
+intermediates on CPU/CUDA with FP32 storage; see that record for the cost and
+scope. MPS parity and clean Rhino CUDA dependency installation remain open.
