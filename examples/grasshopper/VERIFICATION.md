@@ -36,17 +36,19 @@ the checkout; installed packages place it inside `examples/native-prototype`.
 | 20 motion-cycle search | Settling followed by complete measured cycles; candidate ID and objective sign | `test_motion.py`, `test_optimization.py`; `verify_motion_controls.cs` plus explicit Search run |
 | 21 native live sync | Panel↔GH ownership, lock/edit/unlock, duplicate/stale writers, undo/reopen/units and cleanup | `tests/dotnet/StateContracts`; `verify_native_prototype.cs`, `verify_state_hardening.cs`, `verify_binding_callbacks.cs` |
 | 22 selected native canopy | Closed mesh/Brep selection, editable physical domain, native CPU/MPS, deletion/replacement/units invalidation, palette/slice, persistence and two-input GH sync | `verify_native_geometry.cs`; selected example UI/public API run; state contracts |
+| 23 native curved solid | Saved idle curved-wall setup, fractional slice outline, speed/pressure on all axes, unchanged raw samples and session | `verify_native_curved.cs`, `verify_native_slice_display.cs`; three-grid geometry and CPU/MPS parity checks |
 
 Python paths above are under `tests/`; scripts are under `scripts/`. These are
 entrypoints, not a claim that one script fully asserts every item in its row.
-`verify_v04_examples.cs` provides the nonblocking baseline for 01–08, 11, 12 and
-14; it does not cover 15. Inspect its actual selection and settings before
+`verify_curved_gallery.cs` provides the current nonblocking baseline for 01–08,
+11, 12 and 14; it does not cover 15. Inspect its actual selection and settings before
 running. The old `verify_grasshopper_examples.cs` is historical and blocking: do
 not use it. Agent operators use installed public nodes/APIs; developer harnesses
 may perform internal inspection and require an isolated session.
 
-**09 is excluded:** preserve the user's legacy Galapagos file unchanged. **21
-supported workflows** means 19 GH gallery files plus native examples 21 and 22, not the
+**09 is excluded:** preserve the user's legacy Galapagos file unchanged. **22
+supported workflows** means 19 GH gallery files, native GH examples 21 and 22,
+and native-only example 23, not the
 16 upstream Lettuce entrypoints. Neither inventory covers every possible graph.
 
 ## Combination strategy
@@ -82,7 +84,7 @@ Minimum selection rules:
 3. **High-risk triples:** ownership × lifecycle × delayed callback; motion × field
    capture × recording/playback; candidate ID × cancellation × objective publication;
    geometry units × discretization × preview. Pairwise tests alone miss these bugs.
-4. **Release candidate:** open/inspect all 21 supported workflows, run bounded smoke
+4. **Release candidate:** open/inspect all 22 supported workflows, run bounded smoke
    configurations for each, then run full recordings/cycles and numerical studies
    required by the advertised claims. Run applicable hardware configurations or
    mark them unverified. A reduced smoke target does not pass a cycle/full-run gate.

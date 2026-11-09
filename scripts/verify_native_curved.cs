@@ -8,7 +8,7 @@ object Call(string method,params object[] args)=>hub.GetMethod(method).Invoke(nu
 uint serial=__rhino_doc__.RuntimeSerialNumber;dynamic c=Call("Get",serial);
 void Edit(JsonObject patch)=>Call("Edit",serial,patch,(long)c.Version,"panel",true);
 void Select(params Guid[] ids)=>geometry.GetMethod("SelectObjects").Invoke(null,new object[]{serial,ids,true});
-if(__rhino_doc__.Objects.Count!=0)throw new Exception("Use an empty isolated document");
+if(__rhino_doc__.Objects.Where(o=>!o.IsDeleted).Any())throw new Exception("Use an empty isolated document");
 __rhino_doc__.ModelUnitSystem=Rhino.UnitSystem.Meters;
 var mesh=Mesh.CreateFromBox(new BoundingBox(Point3d.Origin,new Point3d(1,1,1)),1,1,1);
 var first=__rhino_doc__.Objects.AddMesh(mesh);mesh.Dispose();

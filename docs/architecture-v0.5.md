@@ -18,7 +18,7 @@ return detached copies; it is not an immutable atomic snapshot of the whole case
 
 | Data | Identity and lifetime | Rule |
 | --- | --- | --- |
-| Saved case definition | Schema 1 and persistent case GUID; saved in `.3dm` | Settings only. Reopen stays idle. No worker or binding is restored. |
+| Saved case definition | Schema 2 (schema-1 reads retained) and persistent case GUID; saved in `.3dm` | Settings only. Reopen stays idle. No worker or binding is restored. |
 | Live case | Rhino document runtime serial plus case object | One service-owned case per open document. Copies with the same saved GUID remain isolated. |
 | Settings version | Monotonic `Version` | Every settings edit checks the version the writer actually read, including field and target edits. |
 | Physics revision | Monotonic `Revision` | Speed, cell size, width or backend edits invalidate the physical run. Display and target edits preserve it. |
@@ -107,12 +107,11 @@ Rhino 8.36 with embedded Python 3.9 and PyTorch 2.8.0. Submission time measures 
 command returning. Pause acknowledgement is observed by a timer and includes its
 sampling interval. Neither is solver throughput or a competitor ranking.
 
-## Gates before the full 0.5 release
+## Prototype follow-up and current release gaps
 
-- Extend the persisted definition to geometry references, boundaries and view
-  settings through an explicit schema migration. Preserve schema-1 reads.
-- Give native geometry references a clear policy for deleted, replaced and
-  transformed Rhino objects. Never silently use stale geometry.
+- Implemented in the expanded build: schema 2 persists geometry references,
+  boundaries and view settings; schema-1 reads remain supported. Deletion,
+  replacement and unit changes invalidate referenced geometry explicitly.
 - Unify job ownership across the older GH-only components and the shared service.
   The new cleanup queue protects this native path; older components still have
   their own lifecycle code and need a separate migration and failure audit.
@@ -125,9 +124,9 @@ sampling interval. Neither is solver throughput or a competitor ranking.
 - Keep a completed evaluation protocol for optimization: candidate ID, accepted
   case revision, completion status, objective and error. The native live preview
   is not a substitute for this protocol.
-- Add named display controls, fixed legend ranges and a playback timeline after
-  these contracts remain stable. Keep numerical-method selection separate from
-  CPU/MPS/CUDA device selection in any future solver work.
+- Named field/slice/palette controls and fixed legend ranges are implemented.
+  A native playback timeline remains outside this release. Keep numerical-method
+  selection separate from CPU/MPS/CUDA device selection in future solver work.
 
 Known numerical limits, including unresolved PorousMedium CPU/MPS parity, remain
 unchanged. This work improves software state and interaction reliability; it does

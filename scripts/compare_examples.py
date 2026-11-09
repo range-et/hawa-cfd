@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 import numpy as np
+from example_inventory import entrypoints, require_complete_reports
 
 ROOT = Path(__file__).resolve().parents[1]
 cpu = ROOT / "results/examples/backport-cpu"
@@ -11,6 +12,10 @@ records = []
 report_path=ROOT / "results/examples/parity.json"
 # A failed rerun must never leave an earlier successful report behind.
 report_path.unlink(missing_ok=True)
+source_root = ROOT / "vendor/lettuce/examples"
+expected = [str(p.relative_to(source_root)) for p in entrypoints(source_root)]
+for directory in (cpu, gpu):
+    require_complete_reports(directory, expected)
 for path in sorted(cpu.glob("*/report.json")):
     other = gpu / path.parent.name / "report.json"
     if not other.exists():
