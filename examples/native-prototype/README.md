@@ -30,3 +30,17 @@ The 0.8 m canopy and viscosity 0.1 m²/s are deliberately coarse demonstration
 settings. This is not an RC aerodynamic prediction. Use physical fluid properties,
 resolved geometry and sensitivity/reference studies before interpreting designs.
 Use the review gates and example matrix in the package for repeatable checks.
+
+## 23 / Curved solid
+
+Open `23-curved-solid.3dm`, then open the Hawa dockable panel. The saved case is
+idle, with backend Auto, a closed spherical Brep, 0.1 m cells and interpolated
+stationary walls enabled. Press Run for the 100-step demonstration. View shows
+pressure using the spectrum palette. The radius is 0.43 m, so this is a coarse
+workflow example rather than a resolved engineering case.
+
+Compare 0.1 m and 0.05 m cell sizes. Brep tessellation is rebuilt for each spacing.
+Compare equal physical times and fixed colour limits; equal iteration counts
+represent different times. The viscosity is the demonstration value 0.1 m²/s.
+For a GH assembly of the same operation, use example 14 and its optional S input.
+See [curved-solid verification](../../docs/curved-boundaries-v0.5.md).

@@ -61,8 +61,8 @@
   },
   "14": {
     "title": "Stationary curved sphere",
-    "explore": "Run the sphere. Inspect pressure and surface samples; compare grid spacings.",
-    "limits": "Experimental stationary curved links. Do not combine with refinement or moving bodies."
+    "explore": "Connect a closed solid Brep to S on Hawa Geometry. Its surface approximation follows Cell size; W enables stationary wall interpolation. Compare cell sizes. The separate mesh supplies display and surface sampling only. Hawa Slice shows wall-clipped pressure; the hidden Plane Field remains available for a conservative-mask comparison.",
+    "limits": "A smooth body needs resolved cells and gaps. Grid Preview remains a voxel diagnostic; interpolation places walls between sites. Do not combine these stationary links with refinement or moving bodies."
   },
   "15": {
     "title": "Fixed refinement patch",

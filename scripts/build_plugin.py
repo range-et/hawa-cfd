@@ -41,7 +41,7 @@ def main():
     for name in ("LICENSE", "AUTHORS.rst", "PORTING.md", "upstream.json"):
         shutil.copy2(ROOT / "vendor/lettuce" / name, notices / name)
     if (ROOT / "docs/plugin.md").exists():
-        (output / "README.md").write_text((ROOT / "docs/native-v0.5.md").read_text().replace("](captures/", "](docs/captures/"))
+        (output / "README.md").write_text((ROOT / "docs/native-v0.5.md").read_text().replace("](captures/", "](docs/captures/").replace("](verification-v0.5.json)", "](docs/verification-v0.5.json)").replace("](verification-boundaries-v0.5.json)", "](docs/verification-boundaries-v0.5.json)").replace("](curved-boundaries-v0.5.md)", "](docs/curved-boundaries-v0.5.md)").replace("](../examples/", "](examples/"))
         shutil.copy2(ROOT / "docs/release-notes-v0.4.0.md", output / "release-notes-v0.4.0.md")
         shutil.copy2(ROOT / "docs/verification-v0.4.json", output / "verification-v0.4.json")
         for name in ("moving-surfaces-v0.4.md", "verification-motion-v0.4.json", "hardening-v0.4.md", "hardening-v0.4.json"):

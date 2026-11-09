@@ -20,7 +20,7 @@ public sealed class SliceComponent : HawaQueryComponent
     public SliceComponent() : base("Hawa Slice", "Slice", "Colored field slice. Speed in m/s, pressure in Pa, density in kg/m³ for physical wind cases.", "07 Visualize") { }
     public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077111");
     protected override void RegisterInputParams(GH_InputParamManager p) { p.AddGenericParameter("Solution", "S", "Hawa Solution", GH_ParamAccess.item); p.AddIntegerParameter("Axis", "A", "Normal: 0=X, 1=Y, 2=Z", GH_ParamAccess.item, 2); p.AddIntegerParameter("Index", "I", "Grid slice index; -1 selects center", GH_ParamAccess.item, -1); p.AddTextParameter("Field", "F", "speed, pressure or density", GH_ParamAccess.item, "speed"); p.AddBooleanParameter("Mean", "M", "Use sampled mean velocity", GH_ParamAccess.item, false); }
-    protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddMeshParameter("Mesh", "M", "Colored slice mesh", GH_ParamAccess.item); p.AddNumberParameter("Values", "V", "Field values; masked sites are zero", GH_ParamAccess.list); p.AddNumberParameter("Range", "R", "Color legend minimum and maximum", GH_ParamAccess.list); p.AddBooleanParameter("Valid", "Valid", "Fluid sites; solid geometry is excluded", GH_ParamAccess.list); }
+    protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddMeshParameter("Mesh", "M", "Colored slice mesh. Stationary curved walls clip cut cells; boundary colours use zero wall speed or the adjacent fluid pressure/density. Values output remains lattice samples.", GH_ParamAccess.item); p.AddNumberParameter("Values", "V", "Field values; masked sites are zero", GH_ParamAccess.list); p.AddNumberParameter("Range", "R", "Color legend minimum and maximum", GH_ParamAccess.list); p.AddBooleanParameter("Valid", "Valid", "Fluid sites; solid geometry is excluded", GH_ParamAccess.list); }
     protected override void SolveHawa(IGH_DataAccess da)
     {
         var s = ReadObject(da, 0); int axis = 2, index = -1; string field = "speed"; bool mean = false; da.GetData(1, ref axis); da.GetData(2, ref index); da.GetData(3, ref field); da.GetData(4, ref mean);
@@ -28,9 +28,11 @@ public sealed class SliceComponent : HawaQueryComponent
         req["revision"]=s["revision"]?.DeepClone();var data = View(req);if(data==null)return; var values = data["values"]!.AsArray().Select(v => v!.GetValue<double>()).ToArray();
         var valid = data["valid"]!.AsArray().Select(v => v!.GetValue<bool>()).ToArray();
         var shape = data["shape"]!.AsArray().Select(v => v!.GetValue<int>()).ToArray(); var mesh = new Mesh(); var fluid = values.Where((v, i) => valid[i]).ToArray(); var min = fluid.Length > 0 ? fluid.Min() : 0; var max = fluid.Length > 0 ? fluid.Max() : 0;
-        var points = data["coordinates"]!.AsArray();
-        for (int i = 0; i < points.Count; i++) { mesh.Vertices.Add(Coordinates.World(s, points[i]!)); double t = Math.Clamp(max > min ? (values[i] - min) / (max - min) : .5, 0, 1); mesh.VertexColors.Add(FieldTools.ColorAt(t,"blue-green")); }
-        for (int a = 0; a < shape[0] - 1; a++) for (int b = 0; b < shape[1] - 1; b++) { int i = a * shape[1] + b; if (valid[i] && valid[i + shape[1]] && valid[i + shape[1] + 1] && valid[i + 1]) mesh.Faces.AddFace(i, i + shape[1], i + shape[1] + 1, i + 1); }
+        if(field=="speed"&&s["case"]?["wall_links"] is JsonArray links&&links.Count>0)min=0;
+        mesh.Dispose();mesh=Hawa.Shared.SliceDisplay.Build(data,s["case"]!.AsObject(),field,
+            p=>Coordinates.World(s,new JsonArray(p.Select(v=>JsonValue.Create(v)).ToArray())),
+            v=>FieldTools.ColorAt(max>min?Math.Clamp((v-min)/(max-min),0,1):.5,"blue-green"));
+        Message=s["case"]?["wall_links"] is JsonArray?"wall-clipped display":"lattice display";
         mesh.Normals.ComputeNormals(); da.SetData(0, mesh); da.SetDataList(1, values); da.SetDataList(2, new[] { min, max }); da.SetDataList(3, valid);
     }
 }

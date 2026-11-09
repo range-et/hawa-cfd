@@ -15,6 +15,7 @@ public sealed class HawaPanel : Panel
     private readonly NumericStepper[] size = Enumerable.Range(0,3).Select(_=>Number(.00001,1e7,6,.1)).ToArray();
     private readonly NumericStepper viscosity = Number(1e-9,100,9,.00001), density = Number(.000001,1e6,6,.1), mach = Number(.001,.2,3,.01);
     private readonly NumericStepper target = Number(1,100000,0,25), position = Number(0,1,3,.05), low = Number(-1e12,1e12,6,.1), high = Number(-1e12,1e12,6,.1);
+    private readonly CheckBox curvedWalls = new() { Text="Interpolated stationary walls", ToolTip="Resolve subcell surface intersections. Requires two-cell clearance and resolved gaps. Off uses voxel walls." };
     private readonly DropDown device = Choice("cpu","mps","auto","cuda:0"), field = Choice("speed","pressure","density"), collision = Choice("bgk","trt","regularized","smagorinsky"), axis = Choice("YZ · X normal","XZ · Y normal","XY · Z normal"), palette = Choice("blue-green","spectrum","diverging");
     private readonly DropDown[] boundaries = Enumerable.Range(0,6).Select(_=>Choice("inlet","outlet","wall","slip","periodic")).ToArray();
     private readonly CheckBox autoRange = new() { Text="Automatic colour limits" }, showDomain = new() { Text="Domain wireframe" }, showBody = new() { Text="Body bounds" }, showField = new() { Text="Field plane and legend" };
@@ -46,6 +47,8 @@ public sealed class HawaPanel : Panel
         setup.AddSeparateRow(Text("1 / Geometry and domain · global +X flow"));
         setup.AddSeparateRow(Action("Select bodies","geometry","Select closed Rhino meshes or solid Breps. The suggested domain is a starting point; study domain sensitivity.",()=>NativeGeometry.Pick(document)),Action("Fit domain","domain","Rebuild domain padding around the current selection.",()=>NativeGeometry.FitDomain(document)));
         setup.AddSeparateRow(geometry);
+        setup.AddSeparateRow(curvedWalls);
+        setup.AddSeparateRow(Text("Solid Brep meshing adapts to cell size and body extent. Existing meshes keep their supplied surface shape. Curves must first form a closed solid."));
         setup.AddSeparateRow(Action("Block preset","reset","Return to the original demonstration. Geometry in Rhino is preserved.",()=> {
             var c=CaseHub.Get(document);CaseHub.Edit(document,new(){["setup"]=NativeSettings.DefaultSetup(),["cell"]=.5,["speed"]=1d,["width"]=1d},displayedVersion);
         }));
@@ -72,7 +75,7 @@ public sealed class HawaPanel : Panel
         root.Add(tabs,true,true);root.AddSeparateRow(error);Content=root;
         CaseHub.Changed+=OnChanged;RefreshState(true);
     }
-    private void ApplySetup(){var c=CaseHub.Get(document);var setup=c.Setup;setup["origin"]=new JsonArray(origin.Select(v=>JsonValue.Create(v.Value)).ToArray());setup["size"]=new JsonArray(size.Select(v=>JsonValue.Create(v.Value)).ToArray());setup["viscosity"]=viscosity.Value;setup["density"]=density.Value;setup["mach"]=mach.Value;setup["collision"]=collision.SelectedValue.ToString();setup["boundaries"]=new JsonArray(boundaries.Select(v=>JsonValue.Create(v.SelectedValue.ToString())).ToArray());CaseHub.Edit(document,new(){["setup"]=setup},displayedVersion);}
+    private void ApplySetup(){var c=CaseHub.Get(document);var setup=c.Setup;setup["curved_walls"]=curvedWalls.Checked==true;setup["origin"]=new JsonArray(origin.Select(v=>JsonValue.Create(v.Value)).ToArray());setup["size"]=new JsonArray(size.Select(v=>JsonValue.Create(v.Value)).ToArray());setup["viscosity"]=viscosity.Value;setup["density"]=density.Value;setup["mach"]=mach.Value;setup["collision"]=collision.SelectedValue.ToString();setup["boundaries"]=new JsonArray(boundaries.Select(v=>JsonValue.Create(v.SelectedValue.ToString())).ToArray());CaseHub.Edit(document,new(){["setup"]=setup},displayedVersion);}
     private void ApplyView(){var view=new JsonObject{["axis"]=axis.SelectedIndex,["position"]=position.Value,["palette"]=palette.SelectedValue.ToString(),["auto_range"]=autoRange.Checked==true,["min"]=low.Value,["max"]=high.Value,["domain"]=showDomain.Checked==true,["body"]=showBody.Checked==true,["field"]=showField.Checked==true};CaseHub.Edit(document,new(){["view"]=view},displayedVersion);}
     protected override void Dispose(bool disposing){if(disposing)CaseHub.Changed-=OnChanged;base.Dispose(disposing);}
     private void Safe(System.Action action){try{error.Text="";action();RefreshState();}catch(Exception e){RefreshState(true);error.Text=e.GetBaseException().Message;}}
@@ -85,6 +88,7 @@ public sealed class HawaPanel : Panel
             if(force||displayedVersion!=c.Version){
                 foreach(var p in NativeSettings.Parameters(c.SelectedGeometry)){var input=numbers[p.Key];input.MinValue=p.Minimum;input.MaxValue=p.Maximum;input.Value=c.Value(p.Key);input.Enabled=!c.Driven.Contains(p.Key)&&(!c.SelectedGeometry||p.Key!="width");}
                 var setup=c.Setup;var view=c.View;
+                curvedWalls.Checked=setup["curved_walls"]?.GetValue<bool>()??false;curvedWalls.Enabled=c.SelectedGeometry;
                 for(int i=0;i<3;i++){origin[i].Value=setup["origin"]![i]!.GetValue<double>();size[i].Value=setup["size"]![i]!.GetValue<double>();origin[i].Enabled=size[i].Enabled=c.SelectedGeometry;}
                 viscosity.Value=setup["viscosity"]!.GetValue<double>();density.Value=setup["density"]!.GetValue<double>();mach.Value=setup["mach"]!.GetValue<double>();collision.SelectedValue=setup["collision"]!.GetValue<string>();for(int i=0;i<6;i++){boundaries[i].SelectedValue=setup["boundaries"]![i]!.GetValue<string>();boundaries[i].Enabled=i>=2;}
                 target.Value=c.Target;device.SelectedValue=c.Device;field.SelectedValue=c.Field;axis.SelectedIndex=view["axis"]!.GetValue<int>();position.Value=view["position"]!.GetValue<double>();palette.SelectedValue=view["palette"]!.GetValue<string>();autoRange.Checked=view["auto_range"]!.GetValue<bool>();low.Value=view["min"]!.GetValue<double>();high.Value=view["max"]!.GetValue<double>();showDomain.Checked=view["domain"]!.GetValue<bool>();showBody.Checked=view["body"]!.GetValue<bool>();showField.Checked=view["field"]!.GetValue<bool>();displayedVersion=c.Version;

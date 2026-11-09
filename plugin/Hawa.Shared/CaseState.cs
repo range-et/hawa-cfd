@@ -23,6 +23,7 @@ public sealed class CaseState
     internal JsonObject SetupData = NativeSettings.DefaultSetup(), ViewData = NativeSettings.DefaultView();
     public JsonObject Setup => Copy(SetupData)!;
     public JsonObject View => Copy(ViewData)!;
+    public bool HasInterpolatedWalls => ResultSpecData?["wall_links"] is JsonArray links && links.Count>0;
     public bool SelectedGeometry => SetupData["mode"]!.GetValue<string>() == "selected";
     internal Task<JsonObject>? Preparation;
     internal CancellationTokenSource? PreparationCancel;

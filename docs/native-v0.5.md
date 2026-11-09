@@ -97,3 +97,13 @@ See [the 0.5 verification record](verification-v0.5.json) for the exact test sco
 platform exclusions and assembly hashes. The expanded panel is shown below.
 
 ![Selected geometry and native field controls](captures/v05/native-selected-view.png)
+
+## Curved solids
+
+Use [23-curved-solid.3dm](../examples/native-prototype/23-curved-solid.3dm)
+for the stationary curved-wall workflow. It opens idle with backend Auto. Select
+**Interpolated stationary walls** in Setup and Apply setup for your own selected
+bodies. Brep tessellation now follows cell size and body extent. Read
+[curved-boundaries-v0.5.md](curved-boundaries-v0.5.md) for the measured checks and
+limits. Existing mesh shape is preserved. Grid Preview shows discrete lattice
+sites even when wall positions lie between them.

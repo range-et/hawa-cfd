@@ -28,7 +28,7 @@ public static class CaseGeometry
         if (!c.ViewData["auto_range"]!.GetValue<bool>()) return (c.ViewData["min"]!.GetValue<double>(), c.ViewData["max"]!.GetValue<double>());
         if (c.SliceData == null) return (0,1);
         var values = c.SliceData["values"]!.AsArray().Where((_,i) => c.SliceData["valid"]![i]!.GetValue<bool>()).Select(v => v!.GetValue<double>()).ToArray();
-        return values.Length == 0 ? (0,1) : (values.Min(), values.Max());
+        return values.Length == 0 ? (0,1) : ((c.Result?.Field == "speed" && c.ResultSpecData?["wall_links"] is JsonArray links && links.Count>0 ? 0 : values.Min()), values.Max());
     }
     public static Color ColorAt(double t, string palette) {
         t = Math.Clamp(t,0,1);
@@ -39,19 +39,12 @@ public static class CaseGeometry
     public static Mesh? ResultMesh(CaseState c)
     {
         if (c.SliceData == null || c.ResultSpecData == null) return null;
-        var data = c.SliceData; var values = data["values"]!.AsArray().Select(x => x!.GetValue<double>()).ToArray(); var valid = data["valid"]!.AsArray().Select(x => x!.GetValue<bool>()).ToArray();
         var (lo, hi) = Range(c);
         double scale = Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Meters, Rhino.RhinoDoc.FromRuntimeSerialNumber(c.Document)!.ModelUnitSystem);
         var origin = c.ResultSpecData["origin_m"]?.AsArray().Select(v => v!.GetValue<double>() * scale).ToArray() ?? new double[3];
-        double dx = c.ResultSpecData["dx"]!.GetValue<double>() * Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Meters, Rhino.RhinoDoc.FromRuntimeSerialNumber(c.Document)!.ModelUnitSystem); var mesh = new Mesh(); int k = 0;
-        foreach (var p in data["coordinates"]!.AsArray())
-        {
-            mesh.Vertices.Add(origin[0] + p![0]!.GetValue<double>() * dx, origin[1] + p[1]!.GetValue<double>() * dx, origin[2] + p[2]!.GetValue<double>() * dx);
-            double t = hi > lo ? Math.Clamp((values[k++] - lo) / (hi - lo), 0, 1) : .5;
-            mesh.VertexColors.Add(ColorAt(t, c.ViewData["palette"]!.GetValue<string>()));
-        }
-        int nx = data["shape"]![0]!.GetValue<int>(), ny = data["shape"]![1]!.GetValue<int>();
-        for (int x = 0; x < nx - 1; x++) for (int y = 0; y < ny - 1; y++) { int a = x * ny + y; if (valid[a] && valid[a + ny] && valid[a + ny + 1] && valid[a + 1]) mesh.Faces.AddFace(a, a + ny, a + ny + 1, a + 1); }
-        mesh.Normals.ComputeNormals(); return mesh;
+        double dx=c.ResultSpecData["dx"]!.GetValue<double>()*scale;
+        return SliceDisplay.Build(c.SliceData,c.ResultSpecData,c.Result?.Field??c.Field,
+            p=>new Point3d(origin[0]+p[0]*dx,origin[1]+p[1]*dx,origin[2]+p[2]*dx),
+            v=>ColorAt(hi>lo?(v-lo)/(hi-lo):.5,c.ViewData["palette"]!.GetValue<string>()));
     }
 }

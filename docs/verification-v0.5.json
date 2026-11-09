@@ -1403,5 +1403,7 @@
     "src/hawa/plugin.py": "fe15a68ab37a26626d1ab244f5a6c91341ab44b74d45321d0f4ddaa1e911a65d",
     "src/hawa/airfoils.py": "4117731d899c5641817ac7b3145850595b01e4dafa5899489b49ebbb6431af39",
     "src/hawa/walls.py": "dc6c236d74578e322534e61eba45dd27662029a869933cc012c744bb438b97d6"
-  }
+  },
+  "follow_up": "verification-boundaries-v0.5.json",
+  "artifact_note": "Historical expanded-0.5 closeout record. The boundary follow-up contains the current package binary hashes and additional checks."
 }

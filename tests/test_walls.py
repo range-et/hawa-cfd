@@ -7,21 +7,22 @@ from hawa.optimization import evaluate
 from test_optimization import spec
 
 
-def link_spec():
+def link_spec(fraction=.5):
     case=spec();shape=case['shape'];solid=set(case['solid']);links=[]
     for site in solid:
         c=np.array(np.unravel_index(site,shape))
         for i,e in enumerate(lt.D3Q19().e[1:],1):
             f=c-e;idx=int(np.ravel_multi_index(f,shape))
-            if idx not in solid:links.append([i,idx,.5])
+            if idx not in solid:links.append([i,idx,fraction])
     case['wall_links']=links
     return case
 
 
-def test_halfway_reflection_and_force_parity():
+@pytest.mark.parametrize("fraction", [.25, .5, .75])
+def test_fractional_reflection_and_force_parity(fraction):
     values=[]
     for device in ['cpu']+(['mps'] if torch.backends.mps.is_available() else []):
-        s=Session(link_spec(),device)
+        s=Session(link_spec(fraction),device)
         r=evaluate(s,40,10,6);assert r['fitness']>0;values.append(r['fitness'])
     np.testing.assert_allclose(values,values[0],rtol=3e-4)
 

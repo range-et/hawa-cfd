@@ -60,6 +60,7 @@ public static class NativeGeometry
             }
         } catch { foreach (var g in captured) g.Dispose(); throw; }
         double units = RhinoMath.UnitScale(doc.ModelUnitSystem, UnitSystem.Meters);
+        bool curved = c.Setup["curved_walls"]?.GetValue<bool>() ?? false;
         var spec = CaseHub.BuildSpec(c); // No Rhino document access after this capture.
         return Task.Run(() => {
             var meshes = new List<Mesh>();
@@ -68,7 +69,7 @@ public static class NativeGeometry
                     token.ThrowIfCancellationRequested();
                     Mesh mesh;
                     if (geometry is Mesh m) mesh = m.DuplicateMesh();
-                    else { mesh = new Mesh(); foreach (var part in Mesh.CreateFromBrep((Brep)geometry, MeshingParameters.Default) ?? Array.Empty<Mesh>()) { mesh.Append(part); part.Dispose(); } }
+                    else mesh = SurfaceMeshing.Create((Brep)geometry, spec["dx"]!.GetValue<double>() / units);
                     meshes.Add(mesh); mesh.Transform(Transform.Scale(Point3d.Origin, units));
                     if (!mesh.IsValid || !mesh.IsClosed) throw new ArgumentException("Meshing did not produce a closed solid. Use a repaired closed mesh.");
                 }
@@ -87,7 +88,9 @@ public static class NativeGeometry
                     }
                 }
                 if (represented.Any(v => !v)) throw new ArgumentException("At least one selected body has no solid cells. Reduce cell size.");
-                spec["solid"] = solid; return spec;
+                spec["solid"] = solid;
+                if (curved) spec["wall_links"] = WallLinks.Build(meshes,n,solid.Select(v=>v!.GetValue<int>()),origin,Vector3d.XAxis*dx,Vector3d.YAxis*dx,Vector3d.ZAxis*dx,token);
+                return spec;
             } finally { foreach (var mesh in meshes) mesh.Dispose(); foreach (var geometry in captured) geometry.Dispose(); }
         }); // Always enter the delegate so cancellation also disposes captured geometry.
     }

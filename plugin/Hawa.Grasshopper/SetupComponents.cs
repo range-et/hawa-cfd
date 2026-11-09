@@ -64,63 +64,44 @@ public sealed class GeometryComponent : HawaComponent
     private Task<JsonObject>? task;
     private CancellationTokenSource? cancellation;
     private string? signature;
-    public GeometryComponent() : base("Hawa Geometry", "Geometry", "Cancellable background voxelization of closed meshes. Results are cached by geometry and domain.", "02 Geometry") { }
+    public GeometryComponent() : base("Hawa Geometry", "Geometry", "Cancellable background discretization of closed meshes or solid Breps. Brep approximation follows cell size; interpolated walls resolve subcell positions.", "02 Geometry") { }
     public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077102");
-    protected override void RegisterInputParams(GH_InputParamManager p) { p.AddGenericParameter("Domain", "D", "Hawa Domain", GH_ParamAccess.item); p.AddMeshParameter("Obstacles", "M", "Closed solid meshes", GH_ParamAccess.list); p[1].Optional = true; p.AddBooleanParameter("Curved walls","W","Compute link/surface intersections for interpolated bounce-back",GH_ParamAccess.item,false); }
+    protected override void RegisterInputParams(GH_InputParamManager p) { p.AddGenericParameter("Domain", "D", "Hawa Domain", GH_ParamAccess.item); p.AddMeshParameter("Obstacles", "M", "Closed solid meshes", GH_ParamAccess.list); p[1].Optional = true; p.AddBooleanParameter("Curved walls","W","Compute link/surface intersections for interpolated bounce-back",GH_ParamAccess.item,false); p.AddBrepParameter("Solid Breps","S","Optional closed solid Breps; meshed in the background with cell-dependent tolerance. Existing meshes retain their supplied shape.",GH_ParamAccess.list); p[3].Optional=true; }
     protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddGenericParameter("Geometry", "G", "Voxelized obstacles", GH_ParamAccess.item); p.AddIntegerParameter("Solid cells", "N", "Occupied lattice sites", GH_ParamAccess.item); }
     internal static bool Contains(Mesh mesh, BoundingBox bounds, Point3d point, double tolerance) => Hawa.Shared.MeshContainment.Contains(mesh, bounds, point, tolerance);
-    internal static double LinkFraction(Mesh mesh,Point3d origin,Vector3d segment){
-        double nearest=double.PositiveInfinity;
-        foreach(var face in mesh.Faces){
-            Test((Point3d)mesh.Vertices[face.A],(Point3d)mesh.Vertices[face.B],(Point3d)mesh.Vertices[face.C]);
-            if(face.IsQuad)Test((Point3d)mesh.Vertices[face.A],(Point3d)mesh.Vertices[face.C],(Point3d)mesh.Vertices[face.D]);
-        }
-        return nearest;
-        void Test(Point3d a,Point3d b,Point3d c){
-            var e1=b-a;var e2=c-a;var h=Vector3d.CrossProduct(segment,e2);double det=e1*h;
-            if(Math.Abs(det)<=1e-12*e1.Length*e2.Length*segment.Length)return;
-            double inv=1/det;var s=origin-a;double u=inv*(s*h);
-            if(u < -1e-8||u>1+1e-8)return;
-            var q=Vector3d.CrossProduct(s,e1);double v=inv*(segment*q);
-            if(v < -1e-8||u+v>1+1e-8)return;
-            double t=inv*(e2*q);if(t>=-1e-8&&t<=1+1e-8)nearest=Math.Min(nearest,Math.Clamp(t,0,1));
-        }
-    }
+    internal static double LinkFraction(Mesh mesh,Point3d origin,Vector3d segment) => Hawa.Shared.WallLinks.Fraction(mesh,origin,segment);
     protected override void SolveHawa(IGH_DataAccess da)
     {
+        if(new[]{1,3}.Any(i=>Params.Input[i].SourceCount>0 && !Params.Input[i].VolatileData.AllData(true).Any(v=>v!=null))){InputsMissing();Message="waiting for geometry";return;}
         var domain=ReadObject(da,0);var meshes=new List<Mesh>();da.GetDataList(1,meshes);
+        var breps=new List<Brep>();da.GetDataList(3,breps);
+        if(breps.Any(b=>!b.IsValid||!b.IsSolid))throw new ArgumentException("Brep obstacles must be valid closed solids");
         if(meshes.Any(m=>!m.IsValid||!m.IsClosed))throw new ArgumentException("Obstacle meshes must be valid and closed");
         bool curved=false;da.GetData(2,ref curved);
-        string key=curved+domain.ToJsonString()+string.Join(",",meshes.Select(m=>m.DataCRC(0)));
+        string key=curved+domain.ToJsonString()+string.Join(",",meshes.Select(m=>m.DataCRC(0)))+";breps="+string.Join(",",breps.Select(b=>b.DataCRC(0)));
         if(key!=signature || task==null){
             cancellation?.Cancel();cancellation=new CancellationTokenSource();var token=cancellation.Token;
-            var copies=meshes.Select(m=>m.DuplicateMesh()).ToArray();signature=key;
+            var copies=meshes.Select(m=>m.DuplicateMesh()).ToList();var surfaces=breps.Select(b=>b.DuplicateBrep()).ToArray();signature=key;
             task=Task.Run(()=>{
                 try {
                     var n=domain["shape"]!.AsArray().Select(v=>v!.GetValue<int>()).ToArray();
-                    var solution=new JsonObject{["case"]=domain.DeepClone()};var bounds=copies.Select(m=>m.GetBoundingBox(false)).ToArray();double dx=domain["spacing"]!.GetValue<double>();
+                    double dx=domain["spacing"]!.GetValue<double>();
+                    foreach(var surface in surfaces){token.ThrowIfCancellationRequested();copies.Add(Hawa.Shared.SurfaceMeshing.Create(surface,dx));}
+                    var solution=new JsonObject{["case"]=domain.DeepClone()};var bounds=copies.Select(m=>m.GetBoundingBox(false)).ToArray();
                     var o=Coordinates.Origin(solution);var origin=new Point3d(o[0],o[1],o[2]);var ax=Coordinates.Axis(solution,0)*dx;var ay=Coordinates.Axis(solution,1)*dx;var az=Coordinates.Axis(solution,2)*dx;
-                    var solid=new JsonArray();
+                    var solid=new JsonArray();var represented=new bool[copies.Count];
                     for(int x=0;x<n[0];x++){token.ThrowIfCancellationRequested();for(int y=0;y<n[1];y++)for(int z=0;z<n[2];z++){
                         var point=origin+x*ax+y*ay+z*az;
-                        for(int m=0;m<copies.Length;m++)if(Contains(copies[m],bounds[m],point,dx*1e-5)){solid.Add((x*n[1]+y)*n[2]+z);break;}
+                        bool occupied=false;for(int m=0;m<copies.Count;m++)if(Contains(copies[m],bounds[m],point,dx*1e-5)){represented[m]=true;occupied=true;}
+                        if(occupied)solid.Add((x*n[1]+y)*n[2]+z);
                     }}
+                    if(represented.Any(v=>!v))throw new ArgumentException("At least one obstacle has no solid cells. Reduce cell size or check domain placement.");
                     var data=new JsonObject{["kind"]="Geometry",["label"]=$"Hawa geometry: {solid.Count} solid cells",["domain"]=domain.DeepClone(),["solid"]=solid};
                     if(curved){
-                        // Direction order matches Lettuce D3Q19 exactly.
-                        int[][] directions={new[]{0,0,0},new[]{1,0,0},new[]{-1,0,0},new[]{0,1,0},new[]{0,-1,0},new[]{0,0,1},new[]{0,0,-1},new[]{0,1,1},new[]{0,-1,-1},new[]{0,1,-1},new[]{0,-1,1},new[]{1,0,1},new[]{-1,0,-1},new[]{1,0,-1},new[]{-1,0,1},new[]{1,1,0},new[]{-1,-1,0},new[]{1,-1,0},new[]{-1,1,0}};
-                        var occupied=solid.Select(v=>v!.GetValue<int>()).ToHashSet();var links=new JsonArray();
-                        foreach(int site in occupied){token.ThrowIfCancellationRequested();int[] c={site/(n[1]*n[2]),site/n[2]%n[1],site%n[2]};if(Enumerable.Range(0,3).Any(a=>c[a]<2||c[a]>=n[a]-2))throw new ArgumentException("Curved walls require two-cell domain clearance");for(int dir=1;dir<directions.Length;dir++){
-                            var e=directions[dir];var f=Enumerable.Range(0,3).Select(a=>c[a]-e[a]).ToArray();if(Enumerable.Range(0,3).Any(a=>f[a]<1||f[a]>=n[a]-1))continue;
-                            int index=(f[0]*n[1]+f[1])*n[2]+f[2];if(occupied.Contains(index))continue;
-                            var point=origin+f[0]*ax+f[1]*ay+f[2]*az;var segment=e[0]*ax+e[1]*ay+e[2]*az;double fraction=double.PositiveInfinity;
-                            foreach(var m in copies)fraction=Math.Min(fraction,LinkFraction(m,point,segment));
-                            if(!double.IsFinite(fraction))throw new ArgumentException("Cannot locate wall intersection. Check geometry and spacing.");
-                            links.Add(new JsonArray(dir,index,Math.Clamp(fraction,1e-6,1)));
-                        }}data["wall_links"]=links;
+                        data["wall_links"]=Hawa.Shared.WallLinks.Build(copies,n,solid.Select(v=>v!.GetValue<int>()),origin,ax,ay,az,token);
                     }
                     return data;
-                } finally {foreach(var m in copies)m.Dispose();}
+                } finally {foreach(var m in copies)m.Dispose();foreach(var b in surfaces)b.Dispose();}
             });
         }
         if(!task.IsCompleted){Message="voxelizing";string expected=signature!;OnPingDocument()?.ScheduleSolution(100,_=>{if(!Locked&&signature==expected)ExpireSolution(false);});return;}

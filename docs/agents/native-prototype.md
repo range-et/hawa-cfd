@@ -58,3 +58,10 @@ For selected cases, Linked Case accepts speed/cell inputs; disconnect block widt
 Use example 22 and save its bound `.gh` together with its `.3dm`. The distributed
 GH template stays unbound. Geometry selection and configuration are through the
 public native service; agents need no private runtime fields for these operations.
+
+For stationary curved solids, `setup.curved_walls=true` enables fractional wall
+links on selected geometry. Missing keys in older archives mean false. The block
+preset rejects this flag. `NativeGeometry.Prepare` meshes selected solid Breps
+using cell/body-scaled tolerances; closed meshes keep their supplied shape.
+GH Geometry also accepts optional solid Breps at input S. See example 14 and
+`examples/native-prototype/23-curved-solid.3dm`.

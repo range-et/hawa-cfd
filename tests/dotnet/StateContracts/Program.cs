@@ -114,6 +114,14 @@ Test("native setup validates cell budget, periodic pairs and finite domain", () 
     var bad = c.Setup; bad["boundaries"]![2]="wall"; Reject(()=>Edit(c,new(){["setup"]=bad}));
     Assert(c.Setup["boundaries"]![2]!.GetValue<string>() == "periodic","Rejected patch mutated setup");
 });
+Test("curved walls persist and cannot silently apply to the block preset", () => {
+    var c=Fresh();var setup=c.Setup;setup["curved_walls"]=true;
+    Reject(()=>Edit(c,new(){["setup"]=setup.DeepClone()}));
+    setup["mode"]="selected";Edit(c,new(){["setup"]=setup});
+    CaseHub.Restore(1,CaseHub.Save(1));Assert(c.Setup["curved_walls"]!.GetValue<bool>(),"Wall setting lost");
+    var old=c.Settings();old["setup"]!.AsObject().Remove("curved_walls");
+    CaseHub.Restore(1,old.ToJsonString());Assert(!(c.Setup["curved_walls"]?.GetValue<bool>()??false),"Old archive changed wall mode");
+});
 Test("palette edits recolor without restarting or replacing field capture", () => {
     var c = Fresh(); Start(c); Field(c); var stamp=c.Result; var session=c.Session; long rv=c.ResultVersion;
     var view=c.View;view["palette"]="spectrum";Edit(c,new(){["view"]=view});
@@ -143,6 +151,34 @@ Test("unit change invalidates referenced geometry but preserves physical setup",
     var c=Fresh();var setup=c.Setup;setup["mode"]="selected";setup["objects"]=new JsonArray(Guid.NewGuid().ToString());Edit(c,new(){["setup"]=setup});
     var before=c.Setup.ToJsonString();long revision=c.Revision;doc.ModelUnitSystem=UnitSystem.Millimeters;Tick();
     Assert(c.Revision==revision+1 && c.Setup.ToJsonString()==before && c.GeometryError.Length>0,"Units silently reinterpreted geometry");doc.ModelUnitSystem=UnitSystem.Meters;
+});
+double[][] plane={new[]{0d,0d,0d},new[]{0d,1d,0d},new[]{1d,0d,0d},new[]{1d,1d,0d}};
+double Area(SliceCutCells.Vertex[] polygon){double area=0;for(int i=0;i<polygon.Length;i++){var a=polygon[i].Grid;var b=polygon[(i+1)%polygon.Length].Grid;area+=a[0]*b[1]-a[1]*b[0];}return Math.Abs(area)/2;}
+Test("fractional wall clips a cell at its actual link position",()=>{
+    var links=new JsonArray(new JsonArray(1,0,.25),new JsonArray(1,1,.25));
+    var p=SliceCutCells.Polygons(plane,new[]{2d,4d,99d,99d},new[]{true,true,false,false},2,2,new[]{2,2,1},links,"pressure").Single();
+    Assert(Math.Abs(Area(p)-.25)<1e-12&&p.Max(v=>v.Grid[0])==.25,"Whole-cell erasure or half-cell approximation");
+    Assert(p.All(v=>v.Value==2||v.Value==4),"Solid value leaked into colour reconstruction");
+});
+Test("stationary speed colours reach zero without mutating sampled values",()=>{
+    double[] values={2d,4d,99d,99d};var links=new JsonArray(new JsonArray(1,0,.25),new JsonArray(1,1,.25));
+    var p=SliceCutCells.Polygons(plane,values,new[]{true,true,false,false},2,2,new[]{2,2,1},links,"speed").Single();
+    Assert(p.Where(v=>v.Grid[0]==.25).All(v=>v.Value==0)&&values[2]==99&&values[0]==2,"Display changed samples or wall speed");
+});
+Test("missing wall data preserves conservative masking",()=>{
+    Assert(!SliceCutCells.Polygons(plane,new double[4],new[]{true,true,false,false},2,2,new[]{2,2,1},null,"pressure").Any(),"Invented boundary");
+    var full=SliceCutCells.Polygons(plane,new double[4],new[]{true,true,true,true},2,2,new[]{2,2,1},null,"pressure").Single();Assert(Area(full)==1,"Fluid cell lost");
+    Assert(!SliceCutCells.Polygons(plane,new double[4],new bool[4],2,2,new[]{2,2,1},null,"pressure").Any(),"Solid cell drawn");
+});
+Test("diagonal fluid corners stay separate",()=>{
+    var links=new JsonArray(new JsonArray(1,0,.5),new JsonArray(3,0,.5),new JsonArray(2,3,.5),new JsonArray(4,3,.5));
+    var p=SliceCutCells.Polygons(plane,new double[4],new[]{true,false,false,true},2,2,new[]{2,2,1},links,"pressure").ToArray();
+    Assert(p.Length==2&&p.All(v=>v.Length==3)&&Math.Abs(p.Sum(Area)-.25)<1e-12,"Bridged a solid corner");
+});
+Test("exact wall endpoints do not create duplicate polygon corners",()=>{
+    var links=new JsonArray(new JsonArray(1,1,1d),new JsonArray(3,2,1d));
+    var p=SliceCutCells.Polygons(plane,new double[4],new[]{true,true,true,false},2,2,new[]{2,2,1},links,"pressure").Single();
+    Assert(p.Length==4&&Area(p)==1,"Degenerate endpoint clipping");
 });
 var benchmarkCase = Fresh();
 for (int i = 0; i < 1000; i++) { var sw = Stopwatch.StartNew(); CaseHub.Edit(1, new() { ["target"] = 200 + i % 2 }, benchmarkCase.Version, "panel", false); timings.Add(sw.Elapsed.TotalMilliseconds); }

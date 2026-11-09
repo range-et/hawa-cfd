@@ -5,7 +5,7 @@ namespace Hawa.Shared;
 public static class NativeSettings
 {
     public static JsonObject DefaultSetup() => new() {
-        ["mode"] = "block", ["objects"] = new JsonArray(),
+        ["mode"] = "block", ["curved_walls"] = false, ["objects"] = new JsonArray(),
         ["origin"] = new JsonArray(0d, 0d, 0d), ["size"] = new JsonArray(8d, 6d, 4d),
         ["viscosity"] = .1, ["density"] = 1.225, ["mach"] = .04, ["collision"] = "bgk",
         ["boundaries"] = new JsonArray("inlet", "outlet", "periodic", "periodic", "wall", "slip") };
@@ -31,6 +31,9 @@ public static class NativeSettings
             if (!double.IsFinite(setup[key]!.GetValue<double>()) || setup[key]!.GetValue<double>() <= 0) throw new ArgumentException(key + " must be finite and positive");
         if (setup["mach"]!.GetValue<double>() > .2) throw new ArgumentException("Lattice Mach must be at most 0.2");
         if (!new[] { "bgk", "trt", "regularized", "smagorinsky" }.Contains(setup["collision"]!.GetValue<string>())) throw new ArgumentException("Unsupported collision model");
+        _ = setup["curved_walls"]?.GetValue<bool>();
+        if ((setup["curved_walls"]?.GetValue<bool>() ?? false) && setup["mode"]!.GetValue<string>() != "selected")
+            throw new ArgumentException("Interpolated walls require selected stationary geometry");
         var faces = setup["boundaries"]!.AsArray().Select(v => v!.GetValue<string>()).ToArray();
         if (faces.Length != 6 || faces.Any(v => !new[] { "inlet", "outlet", "wall", "slip", "periodic" }.Contains(v))) throw new ArgumentException("Assign all six domain boundaries");
         if (faces[0] != "inlet" || faces[1] != "outlet" || faces.Skip(2).Any(v => v is "inlet" or "outlet")) throw new ArgumentException("Native wind cases use +X flow: X− inlet and X+ outlet");

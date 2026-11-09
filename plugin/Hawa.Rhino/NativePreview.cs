@@ -38,6 +38,8 @@ public sealed class NativePreview : DisplayConduit, IDisposable
             var (lo,hi) = (entry.low,entry.high);
             for (int i=0;i<5;i++) e.Display.Draw2dText($"■ {lo+(hi-lo)*i/4:g4}",CaseGeometry.ColorAt(i/4d,view["palette"]!.GetValue<string>()),new Point2d(20,80+i*20),false,13);
             e.Display.Draw2dText(CaseGeometry.FieldUnits(c.Result.Field)+(view["auto_range"]!.GetValue<bool>() ? " · auto range" : " · fixed range"),Color.DarkSlateGray,new Point2d(20,184),false,12);
+            if(c.HasInterpolatedWalls)
+                e.Display.Draw2dText(c.Result.Field=="speed"?"Clipped boundary · stationary wall speed = 0":"Clipped boundary · colours use adjacent fluid samples",Color.DarkSlateGray,new Point2d(20,207),false,12);
         }
     }
 }

@@ -27,7 +27,7 @@ the checkout; installed packages place it inside `examples/native-prototype`.
 | 11 3D visualization | One snapshot feeds planes, contours, isosurfaces and flow display; field/legend/units agree | `test_fields.py`; `verify_v04_examples.cs` |
 | 12 local airfoil/wing | Offline coordinate/polar import, closed wing, useful malformed-data errors; synthetic-data label | `test_airfoils.py`; `verify_v04_examples.cs` |
 | 13 record/playback | New directory, completed manifest, valid final frame and metadata; interruption/missing frame | `test_recording.py`; `verify_recording_examples.cs` |
-| 14 curved sphere | Stationary curved-wall capability, surface samples/pressure conventions | `test_walls.py`, `benchmark_curved_walls.py`; `verify_v04_examples.cs` |
+| 14 curved sphere | Stationary curved-wall capability, surface samples/pressure conventions | `test_walls.py`, `benchmark_curved_walls.py`; `verify_curved_gallery.cs`, `verify_curved_geometry.cs`, `verify_geometry_inputs.cs` |
 | 15 fixed refinement | Supported 2:1 BGK patch, interpolation validity, coarse/fine time alignment and conservation | `test_refinement.py`, `benchmark_refinement.py`; `verify_recording_examples.cs` (recording/refinement group) |
 | 16 cylinder wake | Small smoke run plus separately specified full-duration recording; final frame and wake observables | `test_recording.py`, `test_fields.py`; `verify_recording_examples.cs` |
 | 17 oscillating cylinder | Translation trajectory, domain clearance, same-time body/field/loads | `test_motion.py`, `benchmark_motion.py`; `verify_motion_examples.cs`, `verify_motion_controls.cs` |
@@ -121,3 +121,5 @@ expected outputs/rejections and known limits. Put these in its guide panels and
 README; link its tests and coverage IDs here. Keep baseline `annotations.json`
 entries synchronized and run the annotation connection check after regeneration.
 For example 21, preserve its native generator annotations and unbound saved ID.
+
+Native example 23 adds a saved idle curved-solid case; `verify_native_curved.cs` checks the shared native path. See `docs/verification-boundaries-v0.5.json` for scope and results.
