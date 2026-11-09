@@ -34,8 +34,9 @@ class MeasuredBounceBack(lt.BounceBackBoundary):
         return super().__call__(flow)
 
 
-def evaluate(session, steps, window, reference_volume):
+def evaluate(session, steps, window, reference_volume, checkpoint=None):
     """Start from an unadvanced session and return one final averaged objective."""
+    if hasattr(session.solver,"moving"):raise ValueError("Use cycle-based motion evaluation for moving bodies")
     if type(steps) is not int or not 2 <= steps <= 10000:
         raise ValueError("Evaluation steps must be an integer from 2 to 10000")
     if type(window) is not int or not 1 <= window < steps:
@@ -52,21 +53,34 @@ def evaluate(session, steps, window, reference_volume):
         for side in (0, -1):
             if bool(mask.select(axis, side).any().cpu()):
                 raise ValueError("The hull touches a domain face; enlarge the domain")
-    measured = MeasuredBounceBack(session.flow, mask, window)
-    session.solver.post_boundaries[-1] = measured
+    if hasattr(session.solver, "wall_history"):
+        session.solver.wall_history = deque(maxlen=window)
+        history = session.solver.wall_history
+    else:
+        measured = MeasuredBounceBack(session.flow, mask, window)
+        session.solver.post_boundaries[-1] = measured
+        history = measured.history
     # Session.advance performs finite-density/population checks every batch.
     remaining = steps
     while remaining:
-        n = min(10, remaining)
+        if session.stop.is_set():
+            raise RuntimeError("Evaluation cancelled")
+        if checkpoint is not None:
+            checkpoint(session.flow.i)
+        n = min(5, remaining)
         session.advance(n)
         remaining -= n
+    if session.stop.is_set():
+        raise RuntimeError('Evaluation cancelled')
+    if checkpoint is not None:
+        checkpoint(session.flow.i)
     session.state = 'completed'
     session.target = steps
     units = session.flow.units
     dx = float(session.spec['dx'])
     dt = units.convert_time_to_pu(1)
     scale = units.characteristic_density_pu / units.characteristic_density_lu * dx**4 / dt**2
-    forces = torch.stack(list(measured.history)).cpu().numpy().astype(float) * scale
+    forces = torch.stack(list(history)).cpu().numpy().astype(float) * scale
     mean = forces.mean(axis=0)
     denominator = .5 * session.spec.get('density', 1.225) * session.spec['speed']**2 * reference_volume**(2/3)
     fitness = float(mean[0] / denominator)

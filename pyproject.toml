@@ -4,9 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hawa-cfd"
-version = "0.3.0"
+version = "0.5.0"
 description = "Embedded Python 3.9 LBM engine and Grasshopper plugin"
-license = "MIT"
+license = "GPL-3.0-only"
 license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
 requires-python = ">=3.9,<3.10"
 dependencies = ["torch==2.8.0", "numpy==2.0.2", "hawa-lettuce==0.3.0.post1"]

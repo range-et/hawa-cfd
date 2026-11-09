@@ -1,0 +1,796 @@
+{
+  "date": "2026-11-08",
+  "scope": "local hardening; experimental v0.4",
+  "hawa_tests": {
+    "passed": 127,
+    "skipped": 29,
+    "warnings": 4
+  },
+  "upstream_tests": {
+    "passed": 419,
+    "skipped": 884,
+    "warnings": 40
+  },
+  "engine_parity": {
+    "passed": true,
+    "devices": [
+      "cpu-fp32",
+      "cpu-fp64",
+      "mps"
+    ]
+  },
+  "example_execution": {
+    "cpu": 16,
+    "mps": 16,
+    "profile": "bounded"
+  },
+  "example_cpu_mps_parity": {
+    "passed": false,
+    "profile": "bounded",
+    "examples": [
+      {
+        "source": "00_simplest_TGV.py",
+        "simulations": 1,
+        "comparisons": [
+          {
+            "simulation": 0,
+            "field": "f",
+            "max_abs_error": 8.046627044677734e-07,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "rho",
+            "max_abs_error": 1.6689300537109375e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "u",
+            "max_abs_error": 1.9282102584838867e-05,
+            "rtol": 0.001,
+            "atol": 0.00034641016151377546,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "p",
+            "max_abs_error": 0.000667572021484375,
+            "rtol": 0.001,
+            "atol": 0.004,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "source": "01a_first_example_TGV.ipynb",
+        "simulations": 1,
+        "comparisons": [
+          {
+            "simulation": 0,
+            "field": "f",
+            "max_abs_error": 7.152557373046875e-07,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "rho",
+            "max_abs_error": 1.430511474609375e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "u",
+            "max_abs_error": 1.7374753952026367e-05,
+            "rtol": 0.001,
+            "atol": 0.00034641016151377546,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "p",
+            "max_abs_error": 0.00057220458984375,
+            "rtol": 0.001,
+            "atol": 0.004,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "source": "01b_first_example_obstacle.py",
+        "simulations": 1,
+        "comparisons": [
+          {
+            "simulation": 0,
+            "field": "f",
+            "max_abs_error": 1.9073486328125e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "rho",
+            "max_abs_error": 2.384185791015625e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "u",
+            "max_abs_error": 0.00018662214279174805,
+            "rtol": 0.001,
+            "atol": 0.0017320508075688772,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "p",
+            "max_abs_error": 0.02384185791015625,
+            "rtol": 0.001,
+            "atol": 0.09999999999999999,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "source": "02_converging_obstacle_flow.py",
+        "simulations": 1,
+        "comparisons": [
+          {
+            "simulation": 0,
+            "field": "f",
+            "max_abs_error": 1.1920928955078125e-07,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "rho",
+            "max_abs_error": 3.5762786865234375e-07,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "u",
+            "max_abs_error": 1.4901161193847656e-06,
+            "rtol": 0.001,
+            "atol": 0.00017320508075688773,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "p",
+            "max_abs_error": 3.5762786865234375e-05,
+            "rtol": 0.001,
+            "atol": 0.001,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "source": "03_outputs_TGV.py",
+        "simulations": 1,
+        "comparisons": [
+          {
+            "simulation": 0,
+            "field": "f",
+            "max_abs_error": 1.0132789611816406e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "rho",
+            "max_abs_error": 2.205371856689453e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "u",
+            "max_abs_error": 1.4901161193847656e-05,
+            "rtol": 0.001,
+            "atol": 0.00017320508075688773,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "p",
+            "max_abs_error": 0.00022052228450775146,
+            "rtol": 0.001,
+            "atol": 0.001,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "source": "advanced_flows/FailingTGVandObstacle.py",
+        "simulations": 2,
+        "comparisons": [],
+        "passed": true
+      },
+      {
+        "source": "advanced_flows/LidDrivenCavity.ipynb",
+        "simulations": 1,
+        "comparisons": [
+          {
+            "simulation": 0,
+            "field": "f",
+            "max_abs_error": 1.1622905731201172e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "rho",
+            "max_abs_error": 2.0265579223632812e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "u",
+            "max_abs_error": 2.7035486709792167e-05,
+            "rtol": 0.001,
+            "atol": 0.00034641016151377546,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "p",
+            "max_abs_error": 0.0008106231689453125,
+            "rtol": 0.001,
+            "atol": 0.004,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "source": "advanced_flows/MixingLayer.ipynb",
+        "simulations": 1,
+        "comparisons": [
+          {
+            "simulation": 0,
+            "field": "f",
+            "max_abs_error": 1.1920928955078125e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "rho",
+            "max_abs_error": 2.1457672119140625e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "u",
+            "max_abs_error": 2.819693327182904e-05,
+            "rtol": 0.001,
+            "atol": 0.00034641016151377546,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "p",
+            "max_abs_error": 0.0008583069429732859,
+            "rtol": 0.001,
+            "atol": 0.004,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "source": "advanced_flows/PartiallySaturatedObstacle.py",
+        "simulations": 1,
+        "comparisons": [
+          {
+            "simulation": 0,
+            "field": "f",
+            "max_abs_error": 1.1920928955078125e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "rho",
+            "max_abs_error": 2.2649765014648438e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "u",
+            "max_abs_error": 0.00013647926971316338,
+            "rtol": 0.001,
+            "atol": 0.0017320508075688772,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "p",
+            "max_abs_error": 0.022649765014648438,
+            "rtol": 0.001,
+            "atol": 0.09999999999999999,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "source": "advanced_flows/PorousMedium.ipynb",
+        "simulations": 1,
+        "comparisons": [
+          {
+            "simulation": 0,
+            "field": "f",
+            "max_abs_error": 0.0007714331150054932,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": false
+          },
+          {
+            "simulation": 0,
+            "field": "rho",
+            "max_abs_error": 0.000606834888458252,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "u",
+            "max_abs_error": 0.027177756652235985,
+            "rtol": 0.001,
+            "atol": 0.00034641016151377546,
+            "passed": false
+          },
+          {
+            "simulation": 0,
+            "field": "p",
+            "max_abs_error": 0.2427349090576172,
+            "rtol": 0.001,
+            "atol": 0.004,
+            "passed": false
+          }
+        ],
+        "passed": false
+      },
+      {
+        "source": "advanced_projects/efficient_bounce_back_obstacle/00_run_parametrized_project.ipynb",
+        "simulations": 2,
+        "comparisons": [
+          {
+            "simulation": 0,
+            "field": "f",
+            "max_abs_error": 8.940696716308594e-07,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "rho",
+            "max_abs_error": 1.4901161193847656e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "u",
+            "max_abs_error": 1.016250917018624e-05,
+            "rtol": 0.001,
+            "atol": 0.00017320508075688773,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "p",
+            "max_abs_error": 0.00014901161193847656,
+            "rtol": 0.001,
+            "atol": 0.001,
+            "passed": true
+          },
+          {
+            "simulation": 1,
+            "field": "f",
+            "max_abs_error": 9.834766387939453e-07,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 1,
+            "field": "rho",
+            "max_abs_error": 1.7881393432617188e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 1,
+            "field": "u",
+            "max_abs_error": 1.138448715209961e-05,
+            "rtol": 0.001,
+            "atol": 0.00017320508075688773,
+            "passed": true
+          },
+          {
+            "simulation": 1,
+            "field": "p",
+            "max_abs_error": 0.00017881393432617188,
+            "rtol": 0.001,
+            "atol": 0.001,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "source": "advanced_projects/efficient_bounce_back_obstacle/01_script_cylinder_simulation.py",
+        "simulations": 1,
+        "comparisons": [
+          {
+            "simulation": 0,
+            "field": "f",
+            "max_abs_error": 2.384185791015625e-07,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "rho",
+            "max_abs_error": 4.172325134277344e-07,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "u",
+            "max_abs_error": 3.093387931585312e-06,
+            "rtol": 0.001,
+            "atol": 0.00017320508075688773,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "p",
+            "max_abs_error": 4.172325134277344e-05,
+            "rtol": 0.001,
+            "atol": 0.001,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "source": "simple_flows/Couette.ipynb",
+        "simulations": 1,
+        "comparisons": [
+          {
+            "simulation": 0,
+            "field": "f",
+            "max_abs_error": 3.5762786865234375e-07,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "rho",
+            "max_abs_error": 6.556510925292969e-07,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "u",
+            "max_abs_error": 3.871435183100402e-06,
+            "rtol": 0.001,
+            "atol": 0.00017320508075688773,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "p",
+            "max_abs_error": 6.556510925292969e-05,
+            "rtol": 0.001,
+            "atol": 0.001,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "source": "simple_flows/DecayingTurbulence.ipynb",
+        "simulations": 1,
+        "comparisons": [
+          {
+            "simulation": 0,
+            "field": "f",
+            "max_abs_error": 1.341104507446289e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "rho",
+            "max_abs_error": 2.3245811462402344e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "u",
+            "max_abs_error": 1.4876946806907654e-05,
+            "rtol": 0.001,
+            "atol": 0.0001567833371828583,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "p",
+            "max_abs_error": 0.00019046664237976074,
+            "rtol": 0.001,
+            "atol": 0.0008193671606064612,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "source": "simple_flows/Obstacle.ipynb",
+        "simulations": 1,
+        "comparisons": [
+          {
+            "simulation": 0,
+            "field": "f",
+            "max_abs_error": 7.748603820800781e-07,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "rho",
+            "max_abs_error": 1.4901161193847656e-06,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "u",
+            "max_abs_error": 2.4318695068359375e-05,
+            "rtol": 0.001,
+            "atol": 0.00034641016151377546,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "p",
+            "max_abs_error": 0.0005961060523986816,
+            "rtol": 0.001,
+            "atol": 0.004,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "source": "simple_flows/Poiseuille.ipynb",
+        "simulations": 1,
+        "comparisons": [
+          {
+            "simulation": 0,
+            "field": "f",
+            "max_abs_error": 3.725290298461914e-08,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "rho",
+            "max_abs_error": 0.0,
+            "rtol": 0.001,
+            "atol": 1e-05,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "u",
+            "max_abs_error": 9.678587957751006e-06,
+            "rtol": 0.001,
+            "atol": 0.0008660254037844386,
+            "passed": true
+          },
+          {
+            "simulation": 0,
+            "field": "p",
+            "max_abs_error": 0.0,
+            "rtol": 0.001,
+            "atol": 0.024999999999999998,
+            "passed": true
+          }
+        ],
+        "passed": true
+      }
+    ]
+  },
+  "native_examples": {
+    "state": "completed",
+    "results": [
+      {
+        "file": "01-tgv3d-bgk.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "02-tgv2d-bgk.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "03-tgv2d-trt.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "04-tgv2d-smagorinsky.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "05-tgv3d-smagorinsky.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "06-cavity2d-bgk.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "07-poiseuille2d-guo.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 225
+      },
+      {
+        "file": "08-wind-around-block.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 476
+      },
+      {
+        "file": "11-block-3d-visualization.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 659
+      },
+      {
+        "file": "12-local-airfoil-rc-wing.gh",
+        "passed": true,
+        "wing_closed": true,
+        "local_polar": true
+      },
+      {
+        "file": "14-curved-sphere-pressure.gh",
+        "passed": true,
+        "steps": 25,
+        "faces": 725
+      }
+    ]
+  },
+  "native_controls": {
+    "submit_ms": 46,
+    "state": "completed",
+    "pause_ms": 31,
+    "paused": true,
+    "resume_ms": 42,
+    "cancel_ms": 17,
+    "cancel_cleared": true,
+    "restart_ms": 75,
+    "history": [
+      "1: 3.90536331; genes 0.81, 0.8, 2; candidate f575f15d-e286-458e-a9a3-e9696f5bf523",
+      "2: 3.84699993; genes 0.855, 0.933, 1.729; candidate 35f1e5d9-1e36-4f8a-a5a0-da4a0ec38f56",
+      "3: 3.86139928; genes 0.786, 0.770, 1.491; candidate f38d8033-5a46-438d-9218-5e537cdbb05c",
+      "4: 3.99705877; genes 0.894, 0.858, 1.996; candidate 3b727f56-0e84-499f-b6ca-d371fd0da9b5",
+      "5: 3.91622746; genes 0.887, 0.848, 1.960; candidate dba3f088-7e42-472b-ad68-0fc2f3d1d15a"
+    ],
+    "input_change_completed": true,
+    "close_ms": 117,
+    "close_cleared_job": true
+  },
+  "native_recording_examples": {
+    "state": "completed",
+    "results": [
+      {
+        "file": "13-record-and-playback.gh",
+        "passed": true,
+        "seconds": 1.803457,
+        "last_frame": true,
+        "views": 1
+      },
+      {
+        "file": "15-fixed-refinement.gh",
+        "passed": true,
+        "seconds": 7.716686,
+        "last_frame": false,
+        "views": 2
+      },
+      {
+        "file": "16-cylinder-wake-recording.gh",
+        "passed": true,
+        "seconds": 118.999526,
+        "last_frame": true,
+        "views": 2
+      }
+    ]
+  },
+  "native_invalid_input": {
+    "passed": true,
+    "jobs": 0,
+    "sessions": 0,
+    "workers": []
+  },
+  "legacy_09": {
+    "archive_opened": true,
+    "objects": 36,
+    "executed": false,
+    "saved": false
+  },
+  "package": {
+    "path": "dist/Hawa-0.4.0-rh8.zip",
+    "sha256": "aaa54bdf3e70c9a9b744331e325ee4af64378e1338d1864379800dbd430ed4eb",
+    "definitions": 15,
+    "zip_integrity": true
+  },
+  "cuda_hardware_tested": false,
+  "open_findings": [
+    "PorousMedium CPU/MPS comparison fails unchanged tolerance at step 50; cause not conclusively resolved."
+  ],
+  "rhino_restart": "normal GUI Quit; no forced termination"
+}

@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+<PropertyGroup><TargetFramework>net7.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><Version>0.5.0</Version><PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+<RhinoSystem Condition="'$(RhinoSystem)' == '' and $([MSBuild]::IsOSPlatform('OSX'))">/Applications/Rhino 8.app/Contents/Frameworks/RhCore.framework/Versions/A/Resources</RhinoSystem>
+<RhinoSystem Condition="'$(RhinoSystem)' == '' and $([MSBuild]::IsOSPlatform('Windows'))">C:\Program Files\Rhino 8\System</RhinoSystem>
+<SdkReferences Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(RhinoSystem)/ref/net48</SdkReferences><SdkReferences Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(RhinoSystem)</SdkReferences></PropertyGroup><ItemGroup>
+<Reference Include="RhinoCommon"><HintPath>$(SdkReferences)/RhinoCommon.dll</HintPath><Private>false</Private></Reference>
+<Reference Include="Eto"><HintPath>$(RhinoSystem)/Eto.dll</HintPath><Private>false</Private></Reference>
+<PackageReference Include="System.Drawing.Common" Version="7.0.0" ExcludeAssets="runtime" />
+</ItemGroup></Project>

@@ -1,32 +1,44 @@
 [
   {
+    "slug": "hawa-0.5-build-log",
+    "id": "6oiTFRT7qRg",
+    "version": "0.5",
+    "title": "Hawa 0.5: native workspace and live sync",
+    "description": "Selected bodies, live Grasshopper sync, curved stationary walls, examples and reliable cleanup."
+  },
+  {
     "slug": "hawa-flow-tools-v04",
     "id": "GN6Ou3yOF_I",
     "title": "Hawa 0.4: flow tools and responsive search",
-    "description": "Inspect 3D flow tubes, field contours, sphere pressure, a fixed refinement patch and local airfoil data. Experimental preview."
+    "description": "Inspect 3D flow tubes, field contours, sphere pressure, a fixed refinement patch and local airfoil data. Experimental preview.",
+    "version": "0.4"
   },
   {
     "slug": "hawa-cylinder-wake-v04",
     "id": "zpRlRn9Qbf4",
     "title": "Hawa 0.4: evolving cylinder wake",
-    "description": "Follow 8,000 MPS steps through recorded speed and vorticity fields. Compare fixed color ranges and inspect the final wake."
+    "description": "Follow 8,000 MPS steps through recorded speed and vorticity fields. Compare fixed color ranges and inspect the final wake.",
+    "version": "0.4"
   },
   {
     "slug": "hawa-hull-galapagos",
     "id": "0kVTmHttA78",
     "title": "Parametric hull and Galapagos",
-    "description": "Change the hull shape. Evaluate each candidate on MPS. Search with Galapagos."
+    "description": "Change the hull shape. Evaluate each candidate on MPS. Search with Galapagos.",
+    "version": "0.3"
   },
   {
     "slug": "hawa-first-look",
     "id": "Ji_9iOYXSXg",
     "title": "Hawa overview",
-    "description": "Open an example. Select a backend. Inspect the completed vortex run."
+    "description": "Open an example. Select a backend. Inspect the completed vortex run.",
+    "version": "0.3"
   },
   {
     "slug": "hawa-block-workflow",
     "id": "PVBanKHGhC4",
     "title": "3D block flow",
-    "description": "Define the case. Run the MPS solver. View the slice and streamlines."
+    "description": "Define the case. Run the MPS solver. View the slice and streamlines.",
+    "version": "0.3"
   }
 ]

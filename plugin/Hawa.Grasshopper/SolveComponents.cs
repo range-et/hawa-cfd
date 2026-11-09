@@ -28,8 +28,8 @@ public sealed class CheckComponent : HawaComponent
 
 public sealed class SolveComponent : HawaComponent
 {
-    private string? session, specText, deviceText;
-    private bool previousRun, previousReset, scheduled;
+    private string? session, specText, deviceText, creation;
+    private bool previousRun, previousReset, scheduled, runArmed;
     private bool first = true;
     public SolveComponent() : base("Hawa Solve", "Solve", "Persistent background solver. Run true starts/resumes, false pauses. Reset uses a rising edge. No external process.", "05 Solve") { }
     public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077109");
@@ -42,50 +42,75 @@ public sealed class SolveComponent : HawaComponent
         da.GetData(1, ref device); da.GetData(2, ref target); da.GetData(3, ref run); da.GetData(4, ref reset);
         if (target < 0) throw new ArgumentException("Target steps must be nonnegative");
         var text = spec.ToJsonString();
+        // Set the saved-toggle guard before queuing the allocation.
+        if (first) { previousRun = run; previousReset = reset; runArmed = !run; first = false; }
+        if (!run) runArmed = true;
         bool changed = specText != text || deviceText != device;
-        if (session == null || changed)
+        if (creation == null || changed)
         {
+            bool restartChanged = changed && creation != null && run && runArmed;
             CloseSession();
-            var created = EmbeddedRuntime.Call(new JsonObject { ["op"] = "create", ["case"] = spec.DeepClone(), ["device"] = device });
-            session = created["session"]!.GetValue<string>(); specText = text; deviceText = device;
+            if (restartChanged) previousRun = false;
+            var submitted=EmbeddedRuntime.Call(new JsonObject { ["op"]="evaluate_submit", ["kind"]="create", ["case"]=spec.DeepClone(), ["device"]=device });
+            creation=submitted["job"]!.GetValue<string>();specText=text;deviceText=device;
         }
-        // Opening an existing GH definition must not start a stored Run=true value.
-        if (first) { previousRun = run; previousReset = reset; first = false; }
-        if (reset && !previousReset) EmbeddedRuntime.Call(Request("reset", session));
+        if(session==null){
+            var ready=EmbeddedRuntime.Call(new JsonObject { ["op"]="evaluate_poll", ["job"]=creation });
+            string phase=ready["state"]!.GetValue<string>();
+            if(phase=="failed")throw new Exception(ready["error"]!.GetValue<string>());
+            if(phase!="completed"){
+                Message="preparing";da.SetData(1,"preparing");string expected=creation!;
+                OnPingDocument()?.ScheduleSolution(100,_=>{if(!Locked&&creation==expected)ExpireSolution(false);});return;
+            }
+            session=ready["result"]!["status"]!["session"]!.GetValue<string>();
+        }
+        if (reset && !previousReset) EmbeddedRuntime.Call(Request("reset_async", session));
         if (run && !previousRun) { var start = Request("start", session); start["steps"] = target; EmbeddedRuntime.Call(start); }
-        if (!run && previousRun) EmbeddedRuntime.Call(Request("pause", session));
+        if (!run && previousRun) EmbeddedRuntime.Call(Request("pause_async", session));
         var status = EmbeddedRuntime.Call(Request("status", session));
         previousRun = run; previousReset = reset;
         var state = status["state"]!.GetValue<string>(); Message = state;
-        var solution = new JsonObject { ["kind"] = "Solution", ["label"] = $"Hawa {state}: {status["steps"]} steps", ["session"] = session, ["case"] = spec.DeepClone() };
+        var solution = new JsonObject { ["kind"] = "Solution", ["label"] = $"Hawa {state}: {status["steps"]} steps", ["session"] = session, ["revision"]=status["steps"]!.DeepClone(), ["case"] = spec.DeepClone() };
         da.SetData(0, new HawaGoo(solution)); da.SetData(1, state); da.SetData(2, status["steps"]!.GetValue<int>()); var backend = status["backend"]!["selected"]!.GetValue<string>();
         var grid = string.Join(" × ", status["resolution"]!.AsArray().Select(v => v!.ToString()));
         var time = status["physical_time"]!.GetValue<double>();
         var mass = status["relative_mass_change"]!.GetValue<double>();
         da.SetData(3, $"Backend: {backend.ToUpperInvariant()}\nGrid: {grid}\nIterations: {status["steps"]} / {status["target"]}\nState: {state}\nSimulation time: {time:g5}\nRelative mass change: {mass:g3}\nMean samples: {status["averaging_samples"]}");
         if (status["error"] != null) AddRuntimeMessage(GH_RuntimeMessageLevel.Error, status["error"]!.GetValue<string>());
-        if (state == "running" && !scheduled)
+        if ((state == "running" || state == "pausing" || state == "resetting") && !scheduled)
         {
             scheduled = true;
             OnPingDocument()?.ScheduleSolution(200, _ => { if (!Locked) ExpireSolution(false); });
         }
     }
+    protected override void InputsMissing(){CloseSession();}
     private void CloseSession()
     {
-        if (session == null) return;
-        try { EmbeddedRuntime.Call(Request("close", session)); } catch { /* Runtime may have been reloaded. */ }
-        session = null;
+        var ownedCreation=creation;var ownedSession=session;
+        creation=session=null; // Invalidate local ownership before bridge callbacks.
+        Hawa.Shared.CaseHub.ReleaseJob(ownedCreation);
+        Hawa.Shared.CaseHub.ReleaseSession(ownedSession);
     }
     public override void RemovedFromDocument(GH_Document document) { CloseSession(); base.RemovedFromDocument(document); }
 }
 
-public sealed class CheckpointComponent : HawaComponent
+public sealed class CheckpointComponent : HawaQueryComponent
 {
     private bool previous;
+    private JsonObject? operation;
     private bool first = true;
     public CheckpointComponent() : base("Hawa Checkpoint", "Checkpoint", "Save/load a numerical checkpoint or export NPZ fields. Actions use a rising edge and pause the solver for checkpoint operations.", "08 Files") { }
     public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077110");
     protected override void RegisterInputParams(GH_InputParamManager p) { p.AddGenericParameter("Solution", "S", "Hawa Solution", GH_ParamAccess.item); p.AddTextParameter("Path", "P", "Local .npz output/input file", GH_ParamAccess.item); p.AddTextParameter("Operation", "O", "save, load or export", GH_ParamAccess.item, "save"); p.AddBooleanParameter("Execute", "E", "Rising edge executes operation", GH_ParamAccess.item, false); }
     protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddTextParameter("Report", "R", "Operation result", GH_ParamAccess.item); }
-    protected override void SolveHawa(IGH_DataAccess da) { var s = ReadObject(da, 0); string path = "", op = "save"; bool execute = false; da.GetData(1, ref path); da.GetData(2, ref op); da.GetData(3, ref execute); if (!new[] { "save", "load", "export" }.Contains(op)) throw new ArgumentException("Use save, load or export"); if (first) { previous = execute; first = false; } if (execute && !previous) { var r = Request(op, s["session"]!.GetValue<string>()); r["path"] = path; da.SetData(0, EmbeddedRuntime.Call(r).ToJsonString()); } previous = execute; }
+    protected override void SolveHawa(IGH_DataAccess da) {
+        var s=ReadObject(da,0);string path="",op="save";bool execute=false;
+        da.GetData(1,ref path);da.GetData(2,ref op);da.GetData(3,ref execute);
+        if(!new[]{"save","load","export"}.Contains(op))throw new ArgumentException("Use save, load or export");
+        if(first){previous=execute;first=false;}
+        if(execute&&!previous){operation=Request(op,s["session"]!.GetValue<string>());operation["path"]=LocalPath(path);operation["request_id"]=Guid.NewGuid().ToString();}
+        previous=execute;
+        if(operation!=null){var result=View(operation);if(result!=null)da.SetData(0,result.ToJsonString());}
+    }
+    protected override void InputsMissing(){base.InputsMissing();}
 }

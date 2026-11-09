@@ -8,6 +8,8 @@ from pathlib import Path
 import subprocess
 import sys
 
+from example_inventory import entrypoints
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -26,10 +28,10 @@ def main():
         commit = json.loads((ROOT / "vendor/lettuce/upstream.json").read_text())["commit"]
         subprocess.run(["git", "-C", str(checkout), "checkout", "--detach", commit], check=True, stdout=subprocess.DEVNULL)
         examples = checkout / "examples"
-    paths = sorted(p for p in examples.rglob("*") if p.suffix == ".ipynb" or (
-        p.suffix == ".py" and p.name != "__init__.py" and
-        (p.parent == examples or p.parent.name == "advanced_flows" or p.name == "01_script_cylinder_simulation.py")))
+    paths = entrypoints(examples)
     paths = [p for p in paths if args.match in str(p.relative_to(examples))]
+    if not paths:
+        parser.error("No executable examples match the requested selection")
     role = "reference" if args.reference else "backport"
     output = ROOT / "results/examples" / (role + "-" + args.device.replace(":", "-"))
     python = ROOT / ".venv-reference" / ("Scripts/python.exe" if os.name == "nt" else "bin/python") if args.reference else Path(sys.executable)
@@ -41,12 +43,16 @@ def main():
                    "--device", args.device, "--source-root", str(examples), "--output", str(directory)]
         if args.full:
             command.append("--full")
+        report = directory / "report.json"
+        report.unlink(missing_ok=True)
         try:
             result = subprocess.run(command, cwd=ROOT, env=dict(os.environ, MPLBACKEND="Agg"),
                                     capture_output=True, text=True, timeout=None if args.full else 180)
-            report = directory / "report.json"
             if report.exists():
-                return json.loads(report.read_text())
+                record=json.loads(report.read_text())
+                if result.returncode and record.get('status') in ('passed','launcher-only'):
+                    record.update(status='failed',error='Worker exited with code '+str(result.returncode))
+                return record
             return {"source": name, "status": "failed", "error": result.stderr[-2500:]}
         except subprocess.TimeoutExpired:
             return {"source": name, "status": "timeout"}

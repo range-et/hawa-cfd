@@ -1,0 +1,7 @@
+# Synthetic parser example. No measured or CFD aerodynamic data.
+alpha,cl,cd,cm
+-10,-1,.03,0
+-5,-.5,.015,0
+0,0,.01,0
+5,.5,.015,0
+10,1,.03,0

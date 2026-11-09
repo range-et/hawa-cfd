@@ -1,0 +1,344 @@
+{
+  "title": "Hawa 0.5 / Native workspace and live sync",
+  "duration_seconds": 250,
+  "audio": false,
+  "style": "Pinned Monad tokens; captions; no added title bars",
+  "chapters": [
+    {
+      "start_seconds": 0,
+      "title": "Hawa 0.5",
+      "caption": "Set up flow in Rhino. Connect Grasshopper controls. Inspect the same result.",
+      "source": "v05/gates-curved.png",
+      "crop": [
+        260,
+        210,
+        2990,
+        1630
+      ],
+      "seconds": 7,
+      "kind": "image",
+      "note": "Verified Rhino captures / 0.5"
+    },
+    {
+      "start_seconds": 7,
+      "title": "A native Rhino workspace",
+      "caption": "Open Hawa. Dock the panel. Setup, Solve and View keep the case controls together.",
+      "source": "v05/native-selected-view.png",
+      "crop": [
+        2200,
+        210,
+        2990,
+        1630
+      ],
+      "seconds": 9,
+      "kind": "image",
+      "note": "Verified Rhino captures / 0.5"
+    },
+    {
+      "start_seconds": 16,
+      "title": "Select the bodies",
+      "caption": "Use closed Rhino meshes or solid Breps. Fit the domain, then edit its origin and size.",
+      "source": "v05/native-selected-setup.png",
+      "crop": [
+        260,
+        210,
+        2990,
+        1630
+      ],
+      "seconds": 10,
+      "kind": "image",
+      "note": "Verified Rhino captures / 0.5"
+    },
+    {
+      "start_seconds": 26,
+      "title": "Set the physical case",
+      "caption": "Enter viscosity, density and speed. Choose each domain-face boundary. Native flow follows the global X axis.",
+      "source": "v05/native-selected-setup.png",
+      "crop": [
+        2240,
+        660,
+        2990,
+        1630
+      ],
+      "seconds": 10,
+      "kind": "image",
+      "note": "Verified Rhino captures / 0.5"
+    },
+    {
+      "start_seconds": 36,
+      "title": "Run, pause, cancel, reset",
+      "caption": "Set cell size, target steps and backend. Run the embedded Python solver. This canopy capture shows 200 MPS steps.",
+      "source": "v05/native-selected-solve.png",
+      "crop": [
+        260,
+        210,
+        2990,
+        1630
+      ],
+      "seconds": 10,
+      "kind": "image",
+      "note": "Verified Rhino captures / 0.5"
+    },
+    {
+      "start_seconds": 46,
+      "title": "Choose the field view",
+      "caption": "Select speed or pressure. Set the slice axis and position. Use blue-green or spectrum colours and fixed limits.",
+      "source": "v05/native-selected-view.png",
+      "crop": [
+        2240,
+        210,
+        2990,
+        1630
+      ],
+      "seconds": 10,
+      "kind": "image",
+      "note": "Verified Rhino captures / 0.5"
+    },
+    {
+      "start_seconds": 56,
+      "title": "Share the case with Grasshopper",
+      "caption": "Hawa Linked Case connects the panel to GH. Direct sliders can update from either interface.",
+      "source": "v05/native-selected-grasshopper.png",
+      "crop": [
+        500,
+        500,
+        2650,
+        1600
+      ],
+      "seconds": 10,
+      "kind": "image",
+      "note": "Verified Rhino captures / 0.5"
+    },
+    {
+      "start_seconds": 66,
+      "title": "Keep one owner for each edit",
+      "caption": "Computed GH inputs stay read-only in the panel. One Linked Case owns the binding. Physical edits invalidate old results.",
+      "source": null,
+      "crop": null,
+      "seconds": 11,
+      "kind": "diagram",
+      "note": "Shared-state contract / verified in Rhino",
+      "diagram": "sync"
+    },
+    {
+      "start_seconds": 77,
+      "title": "Save the model and definition",
+      "caption": "Save the .3dm and its bound .gh together. Reopening restores settings and stays idle. Missing bodies produce an error.",
+      "source": "v05/native-docked-live-sync.png",
+      "crop": [
+        260,
+        210,
+        2990,
+        1630
+      ],
+      "seconds": 10,
+      "kind": "image",
+      "note": "Verified Rhino captures / 0.5"
+    },
+    {
+      "start_seconds": 87,
+      "title": "Resolve curved stationary walls",
+      "caption": "Brep tessellation follows cell size and body scale. Enable interpolated stationary walls to use fractional wall-link distances.",
+      "source": "v05/gates-curved.png",
+      "crop": [
+        260,
+        210,
+        2990,
+        1630
+      ],
+      "seconds": 11,
+      "kind": "image",
+      "note": "Verified Rhino captures / 0.5"
+    },
+    {
+      "start_seconds": 98,
+      "title": "Clip the visible boundary",
+      "caption": "Supported slices now cut mixed cells at stored wall intersections. The old display discarded whole cells around the body.",
+      "source": null,
+      "crop": null,
+      "seconds": 11,
+      "kind": "compare",
+      "note": "Display correction / captured before and after"
+    },
+    {
+      "start_seconds": 109,
+      "title": "Read the wall colours correctly",
+      "caption": "Boundary colours are reconstructed for display. Raw probe samples stay unchanged. Plane Field and Grid Preview keep their existing masks.",
+      "source": "v05/curved-slice-after.png",
+      "crop": [
+        440,
+        490,
+        2140,
+        1500
+      ],
+      "seconds": 11,
+      "kind": "image",
+      "note": "Verified Rhino captures / 0.5"
+    },
+    {
+      "start_seconds": 120,
+      "title": "Three native starting points",
+      "caption": "21: linked block case. 22: selected canopy with GH controls. 23: curved sphere, operated from the Rhino panel.",
+      "source": null,
+      "crop": null,
+      "seconds": 11,
+      "kind": "gallery",
+      "note": "Editable examples / native-prototype folder"
+    },
+    {
+      "start_seconds": 131,
+      "title": "Find tools by their operation",
+      "caption": "The Hawa tab and icons group setup, solve and display tools. Hull construction stays in the example assembly.",
+      "source": "v05/gates-toolbar.png",
+      "crop": [
+        0,
+        45,
+        2850,
+        360
+      ],
+      "seconds": 8,
+      "kind": "image",
+      "note": "Verified Rhino captures / 0.5"
+    },
+    {
+      "start_seconds": 139,
+      "title": "Keep the wider GH toolbox",
+      "caption": "Use domain wireframes, 3D flow tubes, contours, isosurfaces and surface fields. Share one Field Snapshot across time-matched views.",
+      "source": "v04/block-flow.png",
+      "crop": null,
+      "seconds": 10,
+      "kind": "image",
+      "note": "Existing GH workflow / available in 0.5"
+    },
+    {
+      "start_seconds": 149,
+      "title": "Load airfoils from local files",
+      "caption": "Example 12 loads coordinates and polars. Generate four-digit NACA sections offline. Inspect the RC wing assembly.",
+      "source": "v04/airfoil-card.png",
+      "crop": null,
+      "seconds": 9,
+      "kind": "image",
+      "note": "Existing GH workflow / local data only"
+    },
+    {
+      "start_seconds": 158,
+      "title": "Search completed candidates",
+      "caption": "Example 10 varies a parametric hull. Hawa Search advances after each completed result. Pause or cancel at solver checkpoints.",
+      "source": "v04/search-completed.png",
+      "crop": null,
+      "seconds": 10,
+      "kind": "image",
+      "note": "Existing asynchronous GH search / available in 0.5"
+    },
+    {
+      "start_seconds": 168,
+      "title": "Explore prescribed motion",
+      "caption": "Examples 17\u201320 cover an oscillating cylinder, pitching foil, rotating paddle and cycle search. Body pose and fields share a capture time.",
+      "source": "dist/videos-v04/hawa-moving-surfaces.mp4",
+      "crop": null,
+      "seconds": 11,
+      "kind": "clip",
+      "note": "Recorded 0.4 motion footage / retained in 0.5",
+      "start": 8
+    },
+    {
+      "start_seconds": 179,
+      "title": "Compare a refinement patch",
+      "caption": "Example 15 uses one fixed 2:1 patch. Check a uniform fine-grid reference before interpreting a result.",
+      "source": "v04/refinement.png",
+      "crop": null,
+      "seconds": 8,
+      "kind": "image",
+      "note": "Existing experimental GH refinement / available in 0.5"
+    },
+    {
+      "start_seconds": 187,
+      "title": "Record the evolving flow",
+      "caption": "Examples 13 and 16 save fields for playback. Keep colour limits fixed while you inspect the changing wake.",
+      "source": "dist/videos-v04/hawa-cylinder-wake.mp4",
+      "crop": null,
+      "seconds": 11,
+      "kind": "clip",
+      "note": "Recorded 0.4 wake footage / 8,000 MPS steps",
+      "start": 12
+    },
+    {
+      "start_seconds": 198,
+      "title": "Open, change, repeat",
+      "caption": "Start with the annotated definitions. Keep the domain, fluid and comparison time controlled when you change geometry.",
+      "source": null,
+      "crop": null,
+      "seconds": 12,
+      "kind": "catalog",
+      "note": "21 supported GH definitions + native-only example 23"
+    },
+    {
+      "start_seconds": 210,
+      "title": "Recover after a failed close",
+      "caption": "Detached jobs stay in a shared cleanup queue. Failed close requests retry after GH closes. No native panel is required.",
+      "source": null,
+      "crop": null,
+      "seconds": 11,
+      "kind": "diagram",
+      "note": "0.5 cleanup fix / commit e8d316e",
+      "diagram": "cleanup"
+    },
+    {
+      "start_seconds": 221,
+      "title": "Check the work in Rhino",
+      "caption": "148 Python tests and 33 state contracts passed. Live failure tests covered all six cleanup paths. Final jobs, sessions and workers: zero.",
+      "source": null,
+      "crop": null,
+      "seconds": 11,
+      "kind": "checks",
+      "note": "Local macOS CPU/MPS verification / November 8, 2026"
+    },
+    {
+      "start_seconds": 232,
+      "title": "Use the documented scope",
+      "caption": "Native setup covers stationary, single-fluid flow. GH provides the broader workflows. These short examples demonstrate controls and output.",
+      "source": "v05/native-selected-view.png",
+      "crop": [
+        260,
+        210,
+        2230,
+        1600
+      ],
+      "seconds": 10,
+      "kind": "image",
+      "note": "Experimental solver / compare grids, domains and physical time"
+    },
+    {
+      "start_seconds": 242,
+      "title": "Start with an example",
+      "caption": "Open 21 for live sync, 22 for selected bodies, or 23 for curved walls. Read the build log and inspect the verification records.",
+      "source": "v05/gates-curved.png",
+      "crop": [
+        260,
+        210,
+        2230,
+        1600
+      ],
+      "seconds": 8,
+      "kind": "image",
+      "note": "Hawa 0.5 / local review cut / GPL-3.0-only"
+    }
+  ],
+  "video_sha256": "3a3a918f18c7e0357bccf49442acc080bf532c4b0f3681a589550495db1749d9",
+  "sources": {
+    "docs/captures/v05/gates-curved.png": "c7e0abdc33537be832546d1e62b4a381f43c0379d10127c202b690440e3d6808",
+    "docs/captures/v05/native-selected-view.png": "101309999166c3a4bee1af60209fb89b6b0aca83c8b8e242fc8bb509f49fdfe7",
+    "docs/captures/v05/native-selected-setup.png": "e504d00f82eb9cc4a49e68c60d3d6e6e53118d53664cf163c9235ae5a8516221",
+    "docs/captures/v05/native-selected-solve.png": "f5b27b7a1b9bf3f470d7229b006fa33f263737b540b3f47b3b0cda82295b4993",
+    "docs/captures/v05/native-selected-grasshopper.png": "720569f049b51c488fe38b2b138ea0b28c86678ff3045f4bc481c5d160c22c0d",
+    "docs/captures/v05/native-docked-live-sync.png": "786ef476446f83c4e1f5c002cd540d2c45908f4404ce0a045b2181e76ebfcf15",
+    "docs/captures/v05/curved-slice-after.png": "60daf9b4c5a8673fb9e9a679067d7a8f9ed22a55ffb05450c30f467e2c14cdd2",
+    "docs/captures/v05/gates-toolbar.png": "39d3315f6e5487d9b170125c0ccfa1e4acb8ddb668bb39e1814e713564dec67d",
+    "docs/captures/v04/block-flow.png": "283d8078d2f985e9fc06bf0e4acf410bb8a833757853bb6887ee6269f09f0a81",
+    "docs/captures/v04/airfoil-card.png": "252ddf045f5c4c9ea695a37c5fd349d1a858a8b2ef090d17a65a7f84a98a4113",
+    "docs/captures/v04/search-completed.png": "a5158dc4abe708e243266e87517798ae331a3f5d0082a37dd31920b5b3b6733d",
+    "dist/videos-v04/hawa-moving-surfaces.mp4": "6a2496ead389e0a6621ffcd45d7cf6f300a3dc9223e6bf45ecc3cc7dbd1f8fbb",
+    "docs/captures/v04/refinement.png": "09e5a456dcf8698dfffdeda376562a91c447544c2e8035ed9323e73bdde0a08e",
+    "dist/videos-v04/hawa-cylinder-wake.mp4": "5c16fe5d639b93ca5e5014de7777bd3e620b6241b5779b2d87244eb3d5e266ee"
+  }
+}

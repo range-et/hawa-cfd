@@ -80,3 +80,52 @@ def test_preflight_rejects_invalid_cases(change):
 def test_json_boundary_reports_errors_without_invalid_json():
     result = json.loads(dispatch_json('{"op":"status","session":"missing"}'))
     assert not result["ok"] and result["type"] == "KeyError"
+
+
+@pytest.mark.parametrize('iteration,density', [(-1,1), (1.5,1), (2,-1)])
+def test_checkpoint_rejects_invalid_state_atomically(session,tmp_path,iteration,density):
+    from hawa.plugin import canonical
+    s=SESSIONS[session]
+    before=s.flow.f.numpy().copy()
+    path=tmp_path/'bad.npz'
+    np.savez_compressed(path,populations=before*density,iteration=np.array(iteration),spec=np.array(canonical(s.spec)))
+    with pytest.raises(ValueError,match='Checkpoint'):
+        dispatch({'op':'load','session':session,'path':str(path)})
+    np.testing.assert_array_equal(before,s.flow.f.numpy())
+    assert s.flow.i==0
+
+
+@pytest.mark.parametrize('size',[0,-1,True,16.5,10000])
+def test_example_preflight_checks_size(size):
+    with pytest.raises(ValueError,match='size'):check_case({'example':'tgv3d-bgk','size':size})
+
+
+def test_example_preflight_checks_memory():
+    with pytest.raises(ValueError,match='memory'):check_case({'example':'tgv3d-bgk','size':128})
+
+
+def test_slice_provenance_tracks_captured_fields_not_later_solver_state(session, monkeypatch):
+    solver = SESSIONS[session]
+    dispatch({'op': 'step', 'session': session, 'steps': 5})
+    capture = solver.fields
+
+    def fields_then_advance(mean=False, with_provenance=False):
+        fields = capture(mean, with_provenance=with_provenance)
+        solver.advance(3)
+        return fields
+
+    monkeypatch.setattr(solver, 'fields', fields_then_advance)
+    result = dispatch({'op': 'slice', 'session': session, 'field': 'pressure'})
+    assert solver.flow.i == 8
+    assert result['steps'] == 5
+    assert result['session'] == session
+    assert result['physical_time'] == pytest.approx(solver.flow.units.convert_time_to_pu(5))
+    assert result['field'] == 'pressure'
+
+
+def test_default_fields_remain_array_only_for_recording_and_exports(session):
+    assert all(isinstance(value, np.ndarray) for value in SESSIONS[session].fields().values())
+
+
+def test_async_close_of_missing_session_is_idempotent():
+    assert dispatch({'op': 'close_async', 'session': 'already-closed'}) == {'closed': True}

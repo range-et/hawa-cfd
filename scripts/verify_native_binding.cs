@@ -1,0 +1,11 @@
+// Run after saving the bound-live-sync pair from the developer test. Isolated case only.
+using Grasshopper.Kernel;
+using System.Text.Json.Nodes;
+var root="/Users/r2d2/Desktop/hawa-cfd";
+var hub=AppDomain.CurrentDomain.GetAssemblies().First(a=>a.GetName().Name=="Hawa.Shared").GetType("Hawa.Shared.CaseHub");
+object Call(string name,params object[] args)=>hub.GetMethod(name).Invoke(null,args);
+uint serial=__rhino_doc__.RuntimeSerialNumber;dynamic c=Call("Get",serial);string saved=(string)Call("Save",serial);string session=(string)c.Session;
+void Close(){var d=Grasshopper.Instances.ActiveCanvas.Document;if(d!=null){Grasshopper.Instances.ActiveCanvas.Document=null;Grasshopper.Instances.DocumentServer.RemoveDocument(d);d.Dispose();}}
+GH_Component Open(){var io=new GH_DocumentIO();if(!io.Open(root+"/results/v05/bound-live-sync.gh"))throw new Exception("Cannot open test definition");var d=io.Document;Grasshopper.Instances.DocumentServer.AddDocument(d);Grasshopper.Instances.ActiveCanvas.Document=d;d.NewSolution(false);return d.Objects.OfType<GH_Component>().First(x=>x.Name=="Hawa Linked Case");}
+Close();if(c.BindingOwner!=null||(string)c.Session!=session)throw new Exception("GH close changed native session");var linked=Open();if(linked.RuntimeMessages(GH_RuntimeMessageLevel.Error).Count>0||c.BindingOwner==null)throw new Exception("Saved binding failed");Close();var wrong=JsonNode.Parse(saved).AsObject();wrong["id"]=Guid.NewGuid().ToString();Call("Restore",serial,wrong.ToJsonString());linked=Open();if(!linked.RuntimeMessages(GH_RuntimeMessageLevel.Error).Any(x=>x.Contains("another native case")))throw new Exception("Mismatched case ID accepted");Close();Call("Restore",serial,saved);linked=Open();if(linked.RuntimeMessages(GH_RuntimeMessageLevel.Error).Count>0)throw new Exception("Original case did not recover");
+var report=new JsonObject{["definition_close_keeps_native_session"]=true,["saved_definition_rebinds"]=true,["different_case_rejected"]=true,["original_case_recovers"]=true,["restore_idle"]=(string)c.State=="idle"&&c.Session==null};System.IO.File.WriteAllText(root+"/results/v05/definition-lifecycle.json",report.ToJsonString());Call("Run",serial);Console.WriteLine(report);

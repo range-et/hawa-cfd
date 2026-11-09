@@ -1,0 +1,14 @@
+using System.Drawing;
+using Grasshopper.Kernel;
+using Grasshopper.Kernel.Special;
+using Grasshopper.Kernel.Parameters;
+var root="/Users/r2d2/Desktop/hawa-cfd/examples/grasshopper";var io=new GH_DocumentIO();io.Open(root+"/17-oscillating-cylinder.gh");var d=io.Document;var assembly=AppDomain.CurrentDomain.GetAssemblies().First(a=>a.GetName().Name=="Hawa.Grasshopper");
+GH_Component Add(string name,float x,float y){var c=(GH_Component)Activator.CreateInstance(assembly.GetType("Hawa.Grasshopper."+name+"Component"));c.CreateAttributes();c.Attributes.Pivot=new PointF(x,y);d.AddObject(c,false);return c;}
+var solve=d.Objects.OfType<GH_Component>().First(c=>c.Name=="Hawa Solve");var snapshot=d.Objects.OfType<GH_Component>().First(c=>c.Name=="Hawa Field Snapshot");var spec=d.Objects.OfType<GH_Component>().First(c=>c.Name=="Hawa Motion Case");var motion=d.Objects.OfType<GH_Component>().First(c=>c.Name=="Hawa Oscillation");var amplitude=d.Objects.OfType<GH_NumberSlider>().First(s=>s.NickName=="Travel amplitude (m)");amplitude.SetSliderValue(.1m);
+var freq=(Param_Number)motion.Params.Input[3];freq.PersistentData.Clear();freq.SetPersistentData(1d);
+var run=d.Objects.OfType<GH_BooleanToggle>().First(t=>t.NickName=="Run / Pause");run.NickName="Run search";
+d.RemoveObject(solve,false);var eval=Add("MotionEvaluate",1650,150);eval.Params.Input[0].AddSource(spec.Params.Output[0]);eval.Params.Input[7].AddSource(run);((Param_Number)eval.Params.Input[1]).PersistentData.Clear();((Param_Number)eval.Params.Input[1]).SetPersistentData(1d);snapshot.Params.Input[0].AddSource(eval.Params.Output[1]);
+var search=Add("Search",2500,800);search.Params.Input[0].AddSource(amplitude);search.Params.Input[1].AddSource(eval.Params.Output[0]);search.Params.Input[2].AddSource(eval.Params.Output[2]);search.Params.Input[3].AddSource(run);((Param_Integer)search.Params.Input[5]).PersistentData.Clear();((Param_Integer)search.Params.Input[5]).SetPersistentData(3);
+var pause=new GH_BooleanToggle();pause.CreateAttributes();pause.Attributes.Pivot=new PointF(1400,400);pause.NickName="Pause search";d.AddObject(pause,false);eval.Params.Input[8].AddSource(pause);search.Params.Input[4].AddSource(pause);
+var note=d.Objects.OfType<GH_Panel>().First(p=>p.UserText.StartsWith("HAWA /"));note.UserText="HAWA / COMPLETED-CYCLE SEARCH\nRun search evaluates three prescribed amplitudes. Pause holds the worker and search.\nEach candidate settles for one complete cycle and measures the next cycle.\nFitness is mean input power, the negative of fluid work on the body.\nThis is a workflow demonstration. Compare more settled cycles and finer grids before ranking designs.\nSet Run search false to cancel. Saved true opens idle.";
+d.FilePath=root+"/20-motion-cycle-search.gh";new GH_DocumentIO{Document=d}.SaveQuiet(d.FilePath);d.Dispose();Console.WriteLine(d.FilePath);
