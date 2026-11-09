@@ -82,9 +82,10 @@ The Python refinement preflight now uses its existing absolute origin tolerance
 without a translation-dependent relative allowance. Misaligned patches reject
 before solver construction and report expected/received origins. Thirty new
 regression cases plus the existing focused domain tests pass on CPU (58 passed,
-four device cases deliberately deselected). Full measured coverage and G6 remain
-pending; this is an implemented candidate, not a completed release or closed
-issue. [Review](docs/review-refinement-preflight.md).
+four device cases deliberately deselected). Full measured gate passes with 654
+Python tests, 32 CUDA skips and 33 state contracts; matrices are refreshed and
+checked. Development build and ZIP integrity pass. Fresh G6 remains pending;
+this is an implemented candidate, not a completed release or closed issue. [Review](docs/review-refinement-preflight.md).
 
 
 ### November 9 2026 parent/child documentation (HAWA-034 partial)

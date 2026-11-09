@@ -44,14 +44,27 @@ CPU only with `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1`.
   positive/negative million-unit translations. Tests on either side of `1e-7`
   preserve the absolute bound; valid translated/rotated cases execute one coarse
   and two fine steps and check frame placement, physical time and finite fields.
-- `git diff --check` passes. Full function gate, committed matrix refresh and
-  fresh G6 are queued with the coordinator; focused passes alone are not merge
-  approval. No GPU, C#/Rhino, installed-plugin or release run in this phase.
+- Full measured gate: **654 passed, 32 unavailable-CUDA skips, four existing MRT
+  warnings**, 238.04 seconds; **33 state contracts passed**. Zero ratchet failures
+  against `a26924c`. Both committed matrices refreshed and checked: 281 covered,
+  149 uncovered, 630 unmeasured and 58 declarations; historical debt remains.
+  This full host run includes available MPS cases; it does not provide CUDA evidence.
+- Fresh development build: both assemblies and `dist/HAWA-049.zip` succeed.
+  Clean-build output contains 105 CA1416 platform warnings in unchanged icon
+  sources (103 Grasshopper, two Rhino); zero errors. No C# implementation changed.
+  ZIP integrity, legacy-09 exclusion and exact packaged refinement source match
+  pass; package SHA-256 is recorded in `package-check.json`. Nothing installed.
+- `git diff --check` passes. Fresh G6 is queued separately with the coordinator;
+  the source changed, so old matrix evidence is not substituted. No live Rhino,
+  clean-install or release qualification in this phase.
 
 Evidence under this checkout's ignored `results/` directory:
 `study/refinement-origin-results.json`, `study/domain-baseline.xml`,
 `refinement-preflight/before.xml`, `refinement-preflight/before.log`,
-`refinement-preflight/focused.xml`, `refinement-preflight/focused.log`.
+`refinement-preflight/focused.xml`, `refinement-preflight/focused.log`,
+`refinement-preflight/function-gate/`, `refinement-preflight/function-gate.log`,
+`refinement-preflight/committed-matrix-check.json`, `refinement-preflight/build.log`,
+`refinement-preflight/package-check.json`.
 
 ```sh
 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_refinement_preflight.py tests/test_refinement.py tests/test_field_collection.py tests/test_boundary_data.py tests/test_boundary_series.py -q -k 'not mps and not cuda' --junitxml=results/refinement-preflight/focused.xml
@@ -63,7 +76,7 @@ OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_refine
 | --- | --- | --- | --- |
 | G0 evidence | Codex domains agent | PASS for scoped repair | Reproduced bad acceptance and valid controls; fixed existing tolerance before repair; no new dependency or numerical method |
 | G1 architecture | Codex domains agent | PASS | Validation before solver allocation; no state/ownership or supported topology changes |
-| G2 reliability | Codex domains agent | PENDING full verification | Red/green regressions and focused CPU pass; full measured gate and matrix refresh queued |
+| G2 reliability | Codex domains agent | PASS locally | Red/green regressions, 654 suite passes, 33 state contracts, zero coverage failures, refreshed/checked matrices and development build; CUDA unavailable |
 | G3 numerical | Codex domains agent | PASS for placement contract only | Real one-step aligned controls plus existing CPU conservation/time tests; no engineering-accuracy or GPU claim |
 | G4 UI/UX | Codex domains agent | NOT APPLICABLE to core repair | No adapter/view/archive edit; native trimming remains unverified |
 | G5 release | Codex domains agent | BLOCKED | No build/install/release qualification in this phase |
