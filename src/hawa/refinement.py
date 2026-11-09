@@ -8,16 +8,31 @@ import numpy as np
 import torch
 
 
+def _validate_patch_bounds(parent_shape, fine_shape, lower, upper):
+    """Reject unsupported index topology before allocating either coupled grid."""
+    context = 'fine_case patch relative to parent case (lower=%s, upper=%s, parent shape=%s)' % (lower, upper, parent_shape)
+    try:
+        dimensions_match = len(lower) == len(parent_shape) and len(upper) == len(parent_shape)
+    except TypeError:
+        dimensions_match = False
+    if not dimensions_match:
+        raise ValueError(context + ': Patch dimension mismatch')
+    if any(type(x) is not int for x in (*lower, *upper)):
+        raise ValueError(context + ': Patch corners must be integer coarse indices')
+    if any(lo < 2 or hi > n - 3 or hi - lo < 4 for lo, hi, n in zip(lower, upper, parent_shape)):
+        raise ValueError(context + ': Patch needs cubic-stencil clearance and at least four coarse intervals')
+    expected = tuple(2 * (b - a) + 1 for a, b in zip(lower, upper))
+    if tuple(fine_shape) != expected:
+        raise ValueError(context + ': Fine patch resolution must be 2*(upper-lower)+1; expected %s, got %s' % (expected, fine_shape))
+
+
 class RefinedStepper:
     def __init__(self, coarse, fine, lower, upper):
         self.coarse=coarse;self.fine=fine
         self.lower=tuple(lower);self.upper=tuple(upper)
         c=coarse.flow;f=fine.flow;self.d=c.stencil.d
-        if len(lower)!=self.d or len(upper)!=self.d:raise ValueError('Patch dimension mismatch')
+        _validate_patch_bounds(c.resolution, f.resolution, lower, upper)
         if c.stencil.q!=f.stencil.q:raise ValueError('Matching stencils required')
-        if any(type(x) is not int for x in (*lower,*upper)):raise ValueError('Patch corners must be integer coarse indices')
-        if any(lo<2 or hi>n-3 or hi-lo<4 for lo,hi,n in zip(lower,upper,c.resolution)):raise ValueError('Patch needs cubic-stencil clearance and at least four coarse intervals')
-        if tuple(f.resolution)!=tuple(2*(b-a)+1 for a,b in zip(lower,upper)):raise ValueError('Fine patch resolution must be 2*(upper-lower)+1')
         if type(coarse.collision).__name__!='BGKCollision' or type(fine.collision).__name__!='BGKCollision':raise ValueError('Refinement currently supports BGK only')
         tc=float(coarse.collision.tau);tf=float(fine.collision.tau)
         if abs(tf-(2*tc-.5))>1e-6:raise ValueError('Fine relaxation must equal 2*tau_coarse - 0.5')
@@ -95,7 +110,8 @@ def run_refined(request,checkpoint):
     if coarse_spec.get('moving_bodies') or fine_spec.get('moving_bodies'):raise ValueError('Moving bodies cannot be combined with refinement')
     coarse_check=check_case(coarse_spec);fine_check=check_case(fine_spec)
     if coarse_check['estimated_peak_mb']+fine_check['estimated_peak_mb']>coarse_spec.get('memory_limit_mb',1024):raise ValueError('Combined coarse/fine memory exceeds budget')
-    lower=fine_spec['refinement_lower'];upper=fine_spec['refinement_upper']
+    lower=fine_spec.get('refinement_lower');upper=fine_spec.get('refinement_upper')
+    _validate_patch_bounds(coarse_spec['shape'], fine_spec['shape'], lower, upper)
     if not np.isclose(fine_spec['dx']*2,coarse_spec['dx']):raise ValueError('Fine cell size must be half the coarse size')
     for key in ('speed','viscosity','density','mach'):
         if coarse_spec.get(key)!=fine_spec.get(key):raise ValueError('Both grids need identical physical conditions')
