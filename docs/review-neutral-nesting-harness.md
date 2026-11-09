@@ -96,14 +96,25 @@ its own PR and newly prepared references.
 
 ## Evidence and remaining checks
 
-Local environment: macOS arm64, Python 3.9.25, PyTorch 2.8.0, NumPy 2.0.2. All
-runs here explicitly use CPU with one OMP/MKL thread. No Rhino, CUDA or MPS run.
+Local environment: macOS arm64, Python 3.9.25, PyTorch 2.8.0, NumPy 2.0.2.
+Focused harness and numerical smoke/replay runs explicitly use CPU with one
+OMP/MKL thread. The complete repository gate includes its available-device tests;
+no dedicated MPS nesting study, CUDA run or Rhino session is claimed.
 
 - Final focused harness run: **32 passed**, including seeded mean/RMS/pressure/
   health/reference-stationarity failures; changed/missing/corrupt recordings;
   source/config/geometry/clock mismatch; complete vs partial scope; live short CPU
   reference/replay; and refusal to overwrite prior evidence.
   `results/study/harness-focused-freeze.xml` and `.log`.
+- Separate Docker focused verification, operated by the coordinator and checked
+  against its retained log: **32 passed in 21.77 s**, no skips or warnings.
+  Environment: Linux 6.12.76-linuxkit aarch64, Python 3.9.25,
+  torch 2.8.0+cpu, NumPy 2.0.2. Image:
+  `sha256:6b367745131c89cf349cd005532efe5ac708f871b1758105669406e468e18e93`.
+  Container limits: one CPU, 2 GiB, no network, read-only source and root filesystem.
+  Evidence: `results/docker/focused.log` and `focused.xml`. This is the focused
+  harness suite on Linux, not a Linux full function/state/G6 gate or a rerun of
+  the 200+40-step numerical study. Production and test sources are unchanged.
 - Earlier combined operator/statistics run: 65 passed, four GPU cases deliberately
   deselected. Later final harness tests supersede that harness snapshot; the full
   function gate is required on final source before merge.
@@ -133,7 +144,7 @@ runs here explicitly use CPU with one OMP/MKL thread. No Rhino, CUDA or MPS run.
 | --- | --- | --- | --- |
 | G0 | Transfer-study agent self-review | PASS | Existing fixed completion contract and source reviewed; no new numerical method or dependency |
 | G1 | Transfer-study agent self-review | PASS | Immutable source/reference identity, explicit scope/time/ownership and fail-closed replay |
-| G2 | Transfer-study agent self-review | PASS locally | 32 focused tests, 656 full-suite passes, 33 contracts, zero coverage failures, fresh matrices and development build; hardware skips explicit |
+| G2 | Transfer-study agent self-review | PASS locally | 32 focused tests on macOS and separately in CPU-only Docker, 656 local full-suite passes, 33 contracts, zero coverage failures, fresh matrices and development build; hardware skips explicit |
 | G3 | Transfer-study agent self-review | FAIL for numerical qualification | Harness preserves failures and unchanged criteria; no HAWA-021/022 physics closure |
 | G4 | Transfer-study agent self-review | NOT APPLICABLE | No UI/host/node/archive change |
 | G5 | Transfer-study agent self-review | BLOCKED for release | Developer harness only; no installation or release |
