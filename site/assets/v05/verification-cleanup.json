@@ -1,0 +1,443 @@
+{
+  "version": "0.5.0",
+  "run": "cleanup-20261108",
+  "reviewer": "Codex, separate self-review passes; no independent specialist review",
+  "base_commit": "1943bc518fbb04f515df916c21eb1fddc44ab086",
+  "source_hashes": {
+    "plugin/Hawa.Grasshopper/Icons.cs": "9d43281dc5e683ea1897bb9f2ae5320a509e034686d17f21e710130255b85cda",
+    "plugin/Hawa.Grasshopper/ResultsComponents.cs": "d5f18928b726c6a8845ab9ec216207c734417a7f3912d173efb7b937ceb91a41",
+    "plugin/Hawa.Grasshopper/LinkedCaseComponent.cs": "88e664188d566534cbd4ddac31b64723de3d3582b65343d8824abc1516fcaf1f",
+    "plugin/Hawa.Grasshopper/Runtime.cs": "b5c0a53fd576d263c4d81f7eaf34d7d90bdb6d8c40e2dfe99787ec4af7b19ae4",
+    "plugin/Hawa.Grasshopper/LegacyHullComponent.cs": "b155dff3e3ae263f65f8a76cda49bd57804d0f44903bb243c560f1abe2669861",
+    "plugin/Hawa.Grasshopper/VisualizationComponents.cs": "8f3161dce985332425447887511e2573a7013d4692af0f51d7af54be94b0269f",
+    "plugin/Hawa.Grasshopper/MotionComponents.cs": "1cd0d1ba855e10ead2ce1e47bd28179548eb5f3eef972ade4dbea87f412198e2",
+    "plugin/Hawa.Grasshopper/SolveComponents.cs": "83c0750459faa98e3fa856a8d28232925d4c1e529be60a86caed557cdd49650e",
+    "plugin/Hawa.Grasshopper/SetupComponents.cs": "3f3e9705f0cc03d57d9740ac07115defa47fcb7ba1ee5aa7ff88ef0359fa1da8",
+    "plugin/Hawa.Grasshopper/SearchComponent.cs": "55938691ad9b86ac2a7e89742c40bd9f27eae7a449d5b378509af5d0b1900314",
+    "plugin/Hawa.Grasshopper/GridComponents.cs": "a2cbcdc184560914e36d9172969d94c2b394ed82591c3d92dafc5f048dfae3be",
+    "plugin/Hawa.Grasshopper/OptimizationComponents.cs": "d038fdfe02deda7a9ab3dd153ae89c241772ee7852c1d367f16ff9428348873c",
+    "plugin/Hawa.Grasshopper/AirfoilComponents.cs": "792a472f4fdc31c5d110cb79cdbf57e0fe86517e968072550755c5e3c3ff20e8",
+    "plugin/Hawa.Grasshopper/AnimationComponents.cs": "9f80636530fabd9420218ef5d6941ec76de50a94f101cb41f7ff3e5bf18527bb",
+    "plugin/Hawa.Grasshopper/RefinementComponents.cs": "2255b61a2419b687192300601b179fef5504e376c6cd00af5d1f4da0a49bc36d",
+    "plugin/Hawa.Shared/SliceCutCells.cs": "4652f9659fa0d41b44d038b2ad9f2166753c028784d42d8f1357047d01b751aa",
+    "plugin/Hawa.Shared/WallLinks.cs": "4979b818de52adf77917babcc3add78348e6eee270258d643433cef8616425b2",
+    "plugin/Hawa.Shared/SliceDisplay.cs": "28bf4adf54304c95b0c851d9f85959b4634abbc137985b6df687a3458dadf2ee",
+    "plugin/Hawa.Shared/SurfaceMeshing.cs": "eb912cb8042b966533f2f2b9ab4bc66b8232026bc756c96f5062c7ccaa8e0c55",
+    "plugin/Hawa.Shared/CaseGeometry.cs": "7d4916ece711c057af32b31c1ab7074dc3cd0971731383f789bc4a8999eccc6a",
+    "plugin/Hawa.Shared/CaseState.cs": "da0ba27b970837ee4c9cb7127d66d7b1c2bccd63d0accf533f5429b70a632ec2",
+    "plugin/Hawa.Shared/NativeSettings.cs": "a894bb6037e253e3e0a3ce3faf5f5f0b25f6f28657b97659a3f13ef334ac0fae",
+    "plugin/Hawa.Shared/JsonCompatibility.cs": "9287b4b457d95f6da74c4e1aac438171418afe563da13dcdd0d1489d0ed0492d",
+    "plugin/Hawa.Shared/EmbeddedRuntime.cs": "349a77423f08c62505c4dec3a7b5300586912e2f8a9ad60cf241a23405820a44",
+    "plugin/Hawa.Shared/MeshContainment.cs": "905c8ff444a010c68768cf2c41f9a8e769ab84bf45a5eabc710e333560ff95db",
+    "plugin/Hawa.Shared/CaseHub.cs": "c2091c9418ffe87388d383274adf06aeeb0a1485717267ce95467a1b647bf762",
+    "plugin/Hawa.Rhino/AssemblyInfo.cs": "f8354aa59b1f40f6823afc6e8d266b1e93e34f5e75dc0207b079d152a56b59ab",
+    "plugin/Hawa.Rhino/HawaPlugin.cs": "d2f94ef7f38451eb62b776961cc53198b753ad09024095887b25e5bed99ac07a",
+    "plugin/Hawa.Rhino/HawaPanel.cs": "575ffe92b4ed566ee1c562bf439e6a4ae91263801daac9271277d3c20184d6dc",
+    "plugin/Hawa.Rhino/NativePreview.cs": "615a05edc2d3fcde0f067ffe1b92e6030c3459a19d5288894d6e428fc66fd38f",
+    "plugin/Hawa.Rhino/NativeGeometry.cs": "1ce126cc50d9286d3f654685f503b57e8216fde9824677da30d49851e0c04d20",
+    "plugin/Hawa.Rhino/NativeIcons.cs": "2404ec813d1dfcd1e2bf570c57a72cc140a5e25a7f0207bcdd670dcefb934e85",
+    "tests/dotnet/StateContracts/HostDouble.cs": "124e51c25716a3b0ac6e8f18cd8c94051d97ebb98a342faea96f2d228309c9d7",
+    "tests/dotnet/StateContracts/Program.cs": "bc962123490cdc67cefc960950297ffc03b29d151a6003981e6b92c262944785"
+  },
+  "environment": {
+    "os": "macOS 27.0.1 arm64",
+    "rhino": "8.36.26296.17002",
+    "runtime": {
+      "python": "3.9.10 (v3.9.10:f2f3f53782, Jan 13 2022, 16:55:45) \n[Clang 13.0.0 (clang-1300.0.29.30)]",
+      "numpy": "2.0.2",
+      "torch": "2.8.0",
+      "pid": 32015,
+      "engine": "0.3.0.post1",
+      "mps": true,
+      "cuda": false
+    },
+    "devices_exercised": [
+      "cpu",
+      "mps"
+    ],
+    "cuda_tested": false,
+    "windows_tested": false,
+    "clean_install_tested": false
+  },
+  "tests": {
+    "state_contracts_passed": 33,
+    "python_passed": 148,
+    "python_skipped": 29,
+    "python_warnings": 4,
+    "build_errors": 0
+  },
+  "gates": {
+    "G0": "PASS: bounded existing lifecycle contract",
+    "G1": "PASS: older GH cleanup ownership finding resolved",
+    "G2": "PASS: declared contracts and live lifecycle regressions",
+    "G3": "NOT APPLICABLE: no numerical changes; PorousMedium CPU/MPS failure remains",
+    "G4": "PASS: change-scoped live workflow checks",
+    "G5": "BLOCKED: unrestricted release requires Windows/CUDA/clean-install verification; local package check separate"
+  },
+  "reports": {
+    "legacy-cleanup": {
+      "state": "completed",
+      "native_timer_disabled": true,
+      "pending": 0,
+      "results": [
+        {
+          "file": "01-tgv3d-bgk.gh",
+          "component": "Hawa Solve",
+          "query_fixture": true,
+          "passed": true,
+          "failed_close_attempts": 12,
+          "retained_after_disposal": 4,
+          "seconds_to_recovery": 4.477068,
+          "registry": {
+            "jobs": 0,
+            "sessions": 0,
+            "workers": []
+          }
+        },
+        {
+          "file": "10-responsive-hull-search.gh",
+          "component": "Hawa Evaluate",
+          "query_fixture": false,
+          "passed": true,
+          "failed_close_attempts": 2,
+          "retained_after_disposal": 1,
+          "seconds_to_recovery": 3.508207,
+          "registry": {
+            "jobs": 0,
+            "sessions": 0,
+            "workers": []
+          }
+        },
+        {
+          "file": "13-record-and-playback.gh",
+          "component": "Hawa Record",
+          "query_fixture": false,
+          "passed": true,
+          "failed_close_attempts": 2,
+          "retained_after_disposal": 1,
+          "seconds_to_recovery": 3.527558,
+          "registry": {
+            "jobs": 0,
+            "sessions": 0,
+            "workers": []
+          }
+        },
+        {
+          "file": "15-fixed-refinement.gh",
+          "component": "Hawa Refined Solve",
+          "query_fixture": false,
+          "passed": true,
+          "failed_close_attempts": 2,
+          "retained_after_disposal": 1,
+          "seconds_to_recovery": 3.757808,
+          "registry": {
+            "jobs": 0,
+            "sessions": 0,
+            "workers": []
+          }
+        },
+        {
+          "file": "20-motion-cycle-search.gh",
+          "component": "Hawa Motion Evaluate",
+          "query_fixture": false,
+          "passed": true,
+          "failed_close_attempts": 2,
+          "retained_after_disposal": 1,
+          "seconds_to_recovery": 4.018202,
+          "registry": {
+            "jobs": 0,
+            "sessions": 0,
+            "workers": []
+          }
+        }
+      ],
+      "error": null
+    },
+    "hull-controls": {
+      "submit_ms": 55,
+      "state": "completed",
+      "pause_ms": 33,
+      "paused": true,
+      "resume_ms": 39,
+      "cancel_ms": 19,
+      "cancel_cleared": true,
+      "restart_ms": 93,
+      "history": [
+        "1: 3.90536331; genes 0.81, 0.8, 2; candidate 3b5c5c1a-71e0-47a1-9b90-5b537e3bcc09",
+        "2: 3.84699993; genes 0.855, 0.933, 1.729; candidate 1e35dcb0-22a5-4fc4-bf38-25c67f9e3600",
+        "3: 3.86139928; genes 0.786, 0.770, 1.491; candidate 92f55ddd-60aa-4c58-9e56-fb20644a0713",
+        "4: 3.99705877; genes 0.894, 0.858, 1.996; candidate c34883cb-7e7a-4ca0-9685-83fb2bbf6b24",
+        "5: 3.91622746; genes 0.887, 0.848, 1.960; candidate beee25c4-e912-445a-81be-8f41f2a3e119"
+      ],
+      "input_change_completed": true,
+      "close_ms": 80,
+      "close_cleared_job": true
+    },
+    "native-recording-examples": {
+      "state": "completed",
+      "results": [
+        {
+          "file": "13-record-and-playback.gh",
+          "passed": true,
+          "seconds": 1.804115,
+          "last_frame": true,
+          "views": 1
+        },
+        {
+          "file": "15-fixed-refinement.gh",
+          "passed": true,
+          "seconds": 6.810366,
+          "last_frame": false,
+          "views": 2
+        },
+        {
+          "file": "16-cylinder-wake-recording.gh",
+          "passed": true,
+          "seconds": 74.941474,
+          "last_frame": true,
+          "views": 2
+        }
+      ]
+    },
+    "native-controls": {
+      "submit_ms": 83,
+      "state": "completed",
+      "pause_ms": 31,
+      "paused": true,
+      "resume_ms": 30,
+      "cancel_ms": 16,
+      "restart_ms": 59,
+      "history": [
+        "1: 1.91803986; genes 0.01; candidate 676af29d-a8ff-4277-90f5-f99f7fd74828",
+        "2: 2.31886493; genes 0.011; candidate 63719ec3-3795-430b-96b0-af2d7714ed5d"
+      ],
+      "close_ms": 64,
+      "close_cleared": true
+    },
+    "native-cleanup": {
+      "jobs": 0,
+      "sessions": 0,
+      "workers": []
+    },
+    "native-invalid-input": {
+      "passed": true,
+      "jobs": 0,
+      "sessions": 0,
+      "workers": []
+    },
+    "rhino": {
+      "rhino": "8.36.26296.17002",
+      "host": "macOS Rhino 8 embedded Python",
+      "state": "completed",
+      "phase": 13,
+      "checks": [
+        "pending panel pull survives an intervening GH solution",
+        "locked component retains native change for unlock",
+        "non-finite input releases binding and preserves case",
+        "multi-value input cannot produce several competing edits",
+        "computed input owns its parameter; panel write rejected",
+        "display and target edits are versioned; CPU run submitted",
+        "cooperative pause submitted",
+        "worker acknowledged pause",
+        "pause held and resume retained run",
+        "CPU completion publishes capture step and physical time",
+        "unit change rescales preview; physical edit withholds outdated GH field",
+        "MPS run submitted",
+        "MPS snapshot verified; cancel/reset/GH close release runtime and binding"
+      ],
+      "run_submit_ms": 64.8038,
+      "pause_submit_ms": 15.816,
+      "pause_observed_ack_ms": 185.361,
+      "field_size_before_unit_change": 10000,
+      "field_size_meters": 10,
+      "mps_result": {
+        "id": "39df1e8b-fbd8-44e5-b288-5ecd33224628",
+        "version": 8,
+        "revision": 6,
+        "generation": 8,
+        "run_revision": 6,
+        "result_revision": 6,
+        "result_version": 6,
+        "result_steps": 25,
+        "result_time_seconds": 0.2107117770765058,
+        "result_field": "pressure",
+        "state": "completed",
+        "steps": 25,
+        "session": "d65abc8e-aac5-4357-98d1-5611848450ae",
+        "job": "6b771469-5b3c-4d61-a90d-72b3ab105258",
+        "error": "",
+        "view_error": "",
+        "geometry_error": "",
+        "fault_area": null,
+        "retryable": null,
+        "settings": {
+          "schema": 2,
+          "setup": {
+            "mode": "block",
+            "curved_walls": false,
+            "objects": [],
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "size": [
+              8,
+              6,
+              4
+            ],
+            "viscosity": 0.1,
+            "density": 1.225,
+            "mach": 0.04,
+            "collision": "bgk",
+            "boundaries": [
+              "inlet",
+              "outlet",
+              "periodic",
+              "periodic",
+              "wall",
+              "slip"
+            ]
+          },
+          "view": {
+            "axis": 2,
+            "position": 0.5,
+            "palette": "blue-green",
+            "auto_range": true,
+            "min": 0,
+            "max": 1,
+            "domain": true,
+            "body": true,
+            "field": true
+          },
+          "id": "39df1e8b-fbd8-44e5-b288-5ecd33224628",
+          "speed": 1.37,
+          "cell": 0.5,
+          "width": 1,
+          "target": 25,
+          "device": "mps",
+          "field": "pressure"
+        },
+        "linked": true,
+        "outdated": false
+      },
+      "cancel_submit_ms": 18.6259
+    },
+    "binding-callbacks": {
+      "state": "completed",
+      "phase": 3,
+      "checks": [
+        "native edit queued while duplicate component has no lease",
+        "duplicate callback leaves its sliders and current owner unchanged",
+        "case replacement invalidates queued pull without rewriting old definition"
+      ]
+    },
+    "gallery": {
+      "state": "completed",
+      "results": [
+        {
+          "file": "01-tgv3d-bgk.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 450
+        },
+        {
+          "file": "02-tgv2d-bgk.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 450
+        },
+        {
+          "file": "03-tgv2d-trt.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 450
+        },
+        {
+          "file": "04-tgv2d-smagorinsky.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 450
+        },
+        {
+          "file": "05-tgv3d-smagorinsky.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 450
+        },
+        {
+          "file": "06-cavity2d-bgk.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 450
+        },
+        {
+          "file": "07-poiseuille2d-guo.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 450
+        },
+        {
+          "file": "08-wind-around-block.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 952
+        },
+        {
+          "file": "11-block-3d-visualization.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 659
+        },
+        {
+          "file": "12-local-airfoil-rc-wing.gh",
+          "passed": true,
+          "wing_closed": true,
+          "local_polar": true
+        },
+        {
+          "file": "14-curved-sphere-pressure.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 1004
+        }
+      ]
+    },
+    "final-cleanup": {
+      "jobs": 0,
+      "sessions": 0,
+      "workers": [],
+      "runtime": {
+        "python": "3.9.10 (v3.9.10:f2f3f53782, Jan 13 2022, 16:55:45) \n[Clang 13.0.0 (clang-1300.0.29.30)]",
+        "numpy": "2.0.2",
+        "torch": "2.8.0",
+        "pid": 32015,
+        "engine": "0.3.0.post1",
+        "mps": true,
+        "cuda": false
+      }
+    }
+  },
+  "omissions": [
+    "No new full upstream parity run; numerical code unchanged",
+    "No new full visual-layout or video audit; layout/assets unchanged",
+    "No exhaustive arbitrary graph combination claim"
+  ],
+  "publication": false,
+  "tested_binary_hashes": {
+    "Hawa.Grasshopper.gha": "b188e744576c95e9ffe2be5506b43856c18363b94ecf26242993c3ba8242ab24",
+    "Hawa.Shared.dll": "e12a5135f3d5bb810eac44db38e976b6056fce51689e367d7c1be71560d399ce",
+    "Hawa.Rhino.rhp": "afe0170820c2f26755c71b3110f65db12e67d5718090a95931254c26b55a7abd"
+  },
+  "local_package_checks": {
+    "passed": true,
+    "installed_and_tested_binaries_match": true,
+    "bundled_source_matches": true,
+    "supported_gh_definitions": 21,
+    "legacy09_excluded": true,
+    "frozen04_sha256": "be45d17cbcda550141bda6281919688e576aa7073f6d3ae1f39ef4bbc12c0b3c",
+    "licenses_present": true,
+    "root_guide_links_resolve": true,
+    "publication": false
+  }
+}

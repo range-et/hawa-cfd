@@ -1,0 +1,76 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:07.000
+Hawa 0.5. Set up flow in Rhino. Connect Grasshopper controls. Inspect the same result.
+
+00:00:07.000 --> 00:00:16.000
+A native Rhino workspace. Open Hawa. Dock the panel. Setup, Solve and View keep the case controls together.
+
+00:00:16.000 --> 00:00:26.000
+Select the bodies. Use closed Rhino meshes or solid Breps. Fit the domain, then edit its origin and size.
+
+00:00:26.000 --> 00:00:36.000
+Set the physical case. Enter viscosity, density and speed. Choose each domain-face boundary. Native flow follows the global X axis.
+
+00:00:36.000 --> 00:00:46.000
+Run, pause, cancel, reset. Set cell size, target steps and backend. Run the embedded Python solver. This canopy capture shows 200 MPS steps.
+
+00:00:46.000 --> 00:00:56.000
+Choose the field view. Select speed or pressure. Set the slice axis and position. Use blue-green or spectrum colours and fixed limits.
+
+00:00:56.000 --> 00:01:06.000
+Share the case with Grasshopper. Hawa Linked Case connects the panel to GH. Direct sliders can update from either interface.
+
+00:01:06.000 --> 00:01:17.000
+Keep one owner for each edit. Computed GH inputs stay read-only in the panel. One Linked Case owns the binding. Physical edits invalidate old results.
+
+00:01:17.000 --> 00:01:27.000
+Save the model and definition. Save the .3dm and its bound .gh together. Reopening restores settings and stays idle. Missing bodies produce an error.
+
+00:01:27.000 --> 00:01:38.000
+Resolve curved stationary walls. Brep tessellation follows cell size and body scale. Enable interpolated stationary walls to use fractional wall-link distances.
+
+00:01:38.000 --> 00:01:49.000
+Clip the visible boundary. Supported slices now cut mixed cells at stored wall intersections. The old display discarded whole cells around the body.
+
+00:01:49.000 --> 00:02:00.000
+Read the wall colours correctly. Boundary colours are reconstructed for display. Raw probe samples stay unchanged. Plane Field and Grid Preview keep their existing masks.
+
+00:02:00.000 --> 00:02:11.000
+Three native starting points. 21: linked block case. 22: selected canopy with GH controls. 23: curved sphere, operated from the Rhino panel.
+
+00:02:11.000 --> 00:02:19.000
+Find tools by their operation. The Hawa tab and icons group setup, solve and display tools. Hull construction stays in the example assembly.
+
+00:02:19.000 --> 00:02:29.000
+Keep the wider GH toolbox. Use domain wireframes, 3D flow tubes, contours, isosurfaces and surface fields. Share one Field Snapshot across time-matched views.
+
+00:02:29.000 --> 00:02:38.000
+Load airfoils from local files. Example 12 loads coordinates and polars. Generate four-digit NACA sections offline. Inspect the RC wing assembly.
+
+00:02:38.000 --> 00:02:48.000
+Search completed candidates. Example 10 varies a parametric hull. Hawa Search advances after each completed result. Pause or cancel at solver checkpoints.
+
+00:02:48.000 --> 00:02:59.000
+Explore prescribed motion. Examples 17–20 cover an oscillating cylinder, pitching foil, rotating paddle and cycle search. Body pose and fields share a capture time.
+
+00:02:59.000 --> 00:03:07.000
+Compare a refinement patch. Example 15 uses one fixed 2:1 patch. Check a uniform fine-grid reference before interpreting a result.
+
+00:03:07.000 --> 00:03:18.000
+Record the evolving flow. Examples 13 and 16 save fields for playback. Keep colour limits fixed while you inspect the changing wake.
+
+00:03:18.000 --> 00:03:30.000
+Open, change, repeat. Start with the annotated definitions. Keep the domain, fluid and comparison time controlled when you change geometry.
+
+00:03:30.000 --> 00:03:41.000
+Recover after a failed close. Detached jobs stay in a shared cleanup queue. Failed close requests retry after GH closes. No native panel is required.
+
+00:03:41.000 --> 00:03:52.000
+Check the work in Rhino. 148 Python tests and 33 state contracts passed. Live failure tests covered all six cleanup paths. Final jobs, sessions and workers: zero.
+
+00:03:52.000 --> 00:04:02.000
+Use the documented scope. Native setup covers stationary, single-fluid flow. GH provides the broader workflows. These short examples demonstrate controls and output.
+
+00:04:02.000 --> 00:04:10.000
+Start with an example. Open 21 for live sync, 22 for selected bodies, or 23 for curved walls. Read the build log and inspect the verification records.
