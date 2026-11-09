@@ -113,7 +113,7 @@
     "src/hawa/plugin.py": "84a2214bf7f790169d7f205025e74cc0ba5bb75af1fcb227066228e2ee70d465",
     "src/hawa/quality.py": "b53d23b7249e0c1fef1adc0256cac4f7dd36616d3fe018d329a645c7e3bb8873",
     "src/hawa/recording.py": "9faaa69489ffc9d673844644755cb3c3936bf5899caed8d5d1255691fa656edd",
-    "src/hawa/refinement.py": "cb9f6bb8bf5b97da238da3e6fc71b8b308d85096aad286955c2f3333ca9de6c6",
+    "src/hawa/refinement.py": "fff9b919114b6bd83e33d878b200a3dcdf0e2cbb7db28850ee91b31c08287c8f",
     "src/hawa/roughness.py": "fbebbd3fd84f2d0db139afca3c18e4f4faa7802d26848df47b77605002e2b48f",
     "src/hawa/step.py": "e468cbce49f84efe7c1eb89696893ec52cae20dacb746ad2d4d73e623f89ba45",
     "src/hawa/walls.py": "d2c0ac391a689e9b51ee4088c4821fa979eaf72a044f549327a78c8e639ca134",
@@ -135,6 +135,7 @@
     "tests/test_compatibility_matrix.py": "ee5bdedccf9125277ef708cac15a5d9870c81fdea014c2c1b3cc5eb2d48fa62d",
     "tests/test_cuda_tooling.py": "ef1b5f48742d24c17940fad65561553bc355def9e5105ab311d3b8eae4e8cf03",
     "tests/test_cuda_verification.py": "76255f5f651715b1c289457759c8d0b17f531121f0677d374cbcf5b173208a66",
+    "tests/test_domain_relationships.py": "95f7ef9953e4878711b7c76f740471578efc7b294016897fbbadad76ba3fd156",
     "tests/test_engine.py": "c7c0f3dd4058338788584e036dad0af68d3cf7884da3914962b5a2c3daff52b8",
     "tests/test_example_inventory.py": "04fdc3a5ddae56e610844b508adc55391f18dde39f2eb0178866caaa5883f338",
     "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
@@ -158,7 +159,7 @@
     "tests/test_port_features.py": "f45ac0cfa460cb0b562d895fb26039ad28b0337bf45dc086d8a0a6dd89653ea3",
     "tests/test_recording.py": "a175a8364cfcbae64881939a28727a77e9d12e244c4aecf3b8bacdc137d2282b",
     "tests/test_refinement.py": "93fb27dd65bf0db274ddf57d1e931c34eeab688a4866cba0e01215c9ba244c6e",
-    "tests/test_refinement_preflight.py": "65e462f37eb576e22788b4e056b400557bca4f69921408da9619322f0d1547ec",
+    "tests/test_refinement_preflight.py": "427d0c73c1c69ed1aa6377bbeb235c217809eb431c412788e4c3603eecaafc25",
     "tests/test_walls.py": "ccf7782a586b339b460e11d02dd0b0e61afc94a60b43d3d784d3679fd4077b78",
     "tools/FunctionInventory/FunctionInventory.csproj": "5b40122f82db47b69ba4101cd6af9c1d1516df164ebd158355964f18e3cf33ac",
     "tools/FunctionInventory/Program.cs": "fdea78af6e03f436023ee8aa1ec5387f8f951ae4646f007ae3bb25c8964d5a1b",
@@ -610,6 +611,21 @@
       "tests/test_cuda_verification.py::test_benchmark_orchestrator_retains_thresholds_and_hashes_engine[numeric]",
       "tests/test_cuda_verification.py::test_pytest_evidence_hooks_track_teardown_failures_and_duplicate_phases",
       "tests/test_cuda_verification.py::test_real_pytest_collection_execution_ignores_config_selectors",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]",
+      "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+      "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+      "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+      "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+      "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
       "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[cpu]",
       "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[mps]",
       "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[cuda:0]",
@@ -1054,6 +1070,33 @@
       "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
       "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
       "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower0-upper0-shape0-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower1-upper1-shape1-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower2-upper2-shape2-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower3-upper3-shape3-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower4-upper4-shape4-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower5-upper5-shape5-four coarse intervals]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower6-upper6-shape6-resolution]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower7-upper7-shape7-integer]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower8-upper8-shape8-dimension]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower0-upper0-shape0-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower1-upper1-shape1-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower2-upper2-shape2-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower3-upper3-shape3-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower4-upper4-shape4-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower5-upper5-shape5-four coarse intervals]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower6-upper6-shape6-resolution]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower7-upper7-shape7-integer]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower8-upper8-shape8-dimension]",
+      "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+      "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
+      "tests/test_refinement_preflight.py::test_relative_rotation_rejected_before_construction",
+      "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower0-upper0-shape0-clearance]",
+      "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower1-upper1-shape1-resolution]",
+      "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower2-upper2-shape2-integer]",
+      "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower3-upper3-shape3-dimension]",
+      "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[None]",
+      "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[5]",
       "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
       "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
       "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -1502,6 +1545,21 @@
       "tests/test_cuda_verification.py::test_snapshot_detects_source_inventory_lock_and_index_changes[edit]",
       "tests/test_cuda_verification.py::test_snapshot_detects_source_inventory_lock_and_index_changes[lock]",
       "tests/test_cuda_verification.py::test_snapshot_detects_source_inventory_lock_and_index_changes[stage]",
+      "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+      "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+      "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+      "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+      "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]",
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]",
       "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[cpu]",
       "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[mps]",
       "tests/test_engine.py::test_context_preserves_cpu_double_default_on_non_cuda_machine",
@@ -1844,12 +1902,18 @@
       "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
       "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
       "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+      "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower0-upper0-shape0-clearance]",
+      "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower1-upper1-shape1-resolution]",
+      "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower2-upper2-shape2-integer]",
+      "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower3-upper3-shape3-dimension]",
       "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False--1000000.0]",
       "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-0.0]",
       "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-1000000.0]",
       "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
       "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
       "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+      "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+      "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
       "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
       "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
       "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
@@ -1868,6 +1932,27 @@
       "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
       "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
       "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
+      "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[5]",
+      "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[None]",
+      "tests/test_refinement_preflight.py::test_relative_rotation_rejected_before_construction",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower0-upper0-shape0-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower1-upper1-shape1-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower2-upper2-shape2-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower3-upper3-shape3-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower4-upper4-shape4-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower5-upper5-shape5-four coarse intervals]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower6-upper6-shape6-resolution]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower7-upper7-shape7-integer]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower8-upper8-shape8-dimension]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower0-upper0-shape0-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower1-upper1-shape1-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower2-upper2-shape2-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower3-upper3-shape3-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower4-upper4-shape4-clearance]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower5-upper5-shape5-four coarse intervals]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower6-upper6-shape6-resolution]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower7-upper7-shape7-integer]",
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower8-upper8-shape8-dimension]",
       "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
       "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
       "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -8023,6 +8108,216 @@
           "passed"
         ]
       ],
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
       "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[cpu]": [
         [
           "setup",
@@ -13942,6 +14237,384 @@
         ]
       ],
       "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower0-upper0-shape0-clearance]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower1-upper1-shape1-clearance]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower2-upper2-shape2-clearance]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower3-upper3-shape3-clearance]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower4-upper4-shape4-clearance]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower5-upper5-shape5-four coarse intervals]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower6-upper6-shape6-resolution]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower7-upper7-shape7-integer]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower8-upper8-shape8-dimension]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower0-upper0-shape0-clearance]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower1-upper1-shape1-clearance]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower2-upper2-shape2-clearance]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower3-upper3-shape3-clearance]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower4-upper4-shape4-clearance]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower5-upper5-shape5-four coarse intervals]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower6-upper6-shape6-resolution]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower7-upper7-shape7-integer]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower8-upper8-shape8-dimension]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_relative_rotation_rejected_before_construction": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower0-upper0-shape0-clearance]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower1-upper1-shape1-resolution]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower2-upper2-shape2-integer]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower3-upper3-shape3-dimension]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[None]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[5]": [
         [
           "setup",
           "passed"
@@ -34751,6 +35424,11 @@
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_general_boundaries.py::test_boundary_neq_preserved_and_pressure_moment",
         "tests/test_general_boundaries.py::test_channel_prescribed_moments[0]",
@@ -34857,6 +35535,8 @@
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
@@ -34875,6 +35555,27 @@
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
+        "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[5]",
+        "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[None]",
+        "tests/test_refinement_preflight.py::test_relative_rotation_rejected_before_construction",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower1-upper1-shape1-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower2-upper2-shape2-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower3-upper3-shape3-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower4-upper4-shape4-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower5-upper5-shape5-four coarse intervals]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower6-upper6-shape6-resolution]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower7-upper7-shape7-integer]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower8-upper8-shape8-dimension]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower1-upper1-shape1-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower2-upper2-shape2-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower3-upper3-shape3-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower4-upper4-shape4-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower5-upper5-shape5-four coarse intervals]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower6-upper6-shape6-resolution]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower7-upper7-shape7-integer]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower8-upper8-shape8-dimension]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -35195,6 +35896,11 @@
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_general_boundaries.py::test_boundary_neq_preserved_and_pressure_moment",
         "tests/test_general_boundaries.py::test_channel_prescribed_moments[0]",
@@ -35301,6 +36007,8 @@
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
@@ -35319,6 +36027,27 @@
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
+        "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[5]",
+        "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[None]",
+        "tests/test_refinement_preflight.py::test_relative_rotation_rejected_before_construction",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower1-upper1-shape1-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower2-upper2-shape2-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower3-upper3-shape3-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower4-upper4-shape4-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower5-upper5-shape5-four coarse intervals]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower6-upper6-shape6-resolution]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower7-upper7-shape7-integer]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower8-upper8-shape8-dimension]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower1-upper1-shape1-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower2-upper2-shape2-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower3-upper3-shape3-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower4-upper4-shape4-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower5-upper5-shape5-four coarse intervals]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower6-upper6-shape6-resolution]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower7-upper7-shape7-integer]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower8-upper8-shape8-dimension]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -35371,6 +36100,11 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[cpu]",
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[mps]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
@@ -35501,6 +36235,8 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -35591,7 +36327,9 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
-        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]"
       ],
       "lines": {
         "hit": 1,
@@ -35637,6 +36375,11 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[cpu]",
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[mps]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
@@ -35767,6 +36510,8 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -35819,6 +36564,11 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[cpu]",
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[mps]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
@@ -35950,6 +36700,8 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -36376,6 +37128,16 @@
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]",
         "tests/test_field_collection.py::test_collection_cancellation_budget_and_equal_spacing_order",
         "tests/test_field_collection.py::test_disjoint_domains_and_shared_plane_contours",
         "tests/test_field_collection.py::test_nested_finest_owner_and_no_fallback_through_child_solid",
@@ -37818,6 +38580,16 @@
         "total": 0
       },
       "tests": [
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]",
         "tests/test_field_collection.py::test_collection_cancellation_budget_and_equal_spacing_order",
         "tests/test_field_collection.py::test_disjoint_domains_and_shared_plane_contours",
         "tests/test_field_collection.py::test_nested_finest_owner_and_no_fallback_through_child_solid",
@@ -37852,6 +38624,16 @@
         "total": 14
       },
       "tests": [
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]",
         "tests/test_field_collection.py::test_collection_cancellation_budget_and_equal_spacing_order",
         "tests/test_field_collection.py::test_disjoint_domains_and_shared_plane_contours",
         "tests/test_field_collection.py::test_nested_finest_owner_and_no_fallback_through_child_solid",
@@ -37912,6 +38694,16 @@
         "total": 0
       },
       "tests": [
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]",
         "tests/test_field_collection.py::test_collection_cancellation_budget_and_equal_spacing_order",
         "tests/test_field_collection.py::test_disjoint_domains_and_shared_plane_contours",
         "tests/test_field_collection.py::test_nested_finest_owner_and_no_fallback_through_child_solid",
@@ -37946,6 +38738,16 @@
         "total": 12
       },
       "tests": [
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]",
         "tests/test_field_collection.py::test_collection_cancellation_budget_and_equal_spacing_order",
         "tests/test_field_collection.py::test_disjoint_domains_and_shared_plane_contours",
         "tests/test_field_collection.py::test_nested_finest_owner_and_no_fallback_through_child_solid",
@@ -38152,6 +38954,16 @@
         "total": 6
       },
       "tests": [
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]",
         "tests/test_field_collection.py::test_collection_cancellation_budget_and_equal_spacing_order",
         "tests/test_field_collection.py::test_disjoint_domains_and_shared_plane_contours",
         "tests/test_field_collection.py::test_nested_finest_owner_and_no_fallback_through_child_solid",
@@ -38614,6 +39426,16 @@
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/plane]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/trace]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]",
         "tests/test_field_collection.py::test_collection_cancellation_budget_and_equal_spacing_order",
         "tests/test_field_collection.py::test_disjoint_domains_and_shared_plane_contours",
         "tests/test_field_collection.py::test_nested_finest_owner_and_no_fallback_through_child_solid",
@@ -38660,7 +39482,9 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
-        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]"
       ],
       "lines": {
         "hit": 14,
@@ -39296,6 +40120,16 @@
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/plane]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/trace]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]",
         "tests/test_field_collection.py::test_collection_cancellation_budget_and_equal_spacing_order",
         "tests/test_field_collection.py::test_disjoint_domains_and_shared_plane_contours",
         "tests/test_field_collection.py::test_nested_finest_owner_and_no_fallback_through_child_solid",
@@ -39328,7 +40162,9 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
-        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]"
       ],
       "lines": {
         "hit": 7,
@@ -39716,6 +40552,16 @@
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/plane]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/trace]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]",
         "tests/test_field_collection.py::test_collection_cancellation_budget_and_equal_spacing_order",
         "tests/test_field_collection.py::test_disjoint_domains_and_shared_plane_contours",
         "tests/test_field_collection.py::test_nested_finest_owner_and_no_fallback_through_child_solid",
@@ -39747,7 +40593,9 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
-        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]"
       ],
       "lines": {
         "hit": 3,
@@ -40135,6 +40983,16 @@
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/plane]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/trace]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]",
         "tests/test_field_collection.py::test_collection_cancellation_budget_and_equal_spacing_order",
         "tests/test_field_collection.py::test_disjoint_domains_and_shared_plane_contours",
         "tests/test_field_collection.py::test_nested_finest_owner_and_no_fallback_through_child_solid",
@@ -40458,6 +41316,16 @@
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/isosurface]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/plane]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/sample]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]",
         "tests/test_field_collection.py::test_collection_cancellation_budget_and_equal_spacing_order",
         "tests/test_field_collection.py::test_disjoint_domains_and_shared_plane_contours",
         "tests/test_field_collection.py::test_nested_finest_owner_and_no_fallback_through_child_solid",
@@ -41655,6 +42523,16 @@
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/plane]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/trace]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]",
         "tests/test_field_collection.py::test_collection_cancellation_budget_and_equal_spacing_order",
         "tests/test_field_collection.py::test_disjoint_domains_and_shared_plane_contours",
         "tests/test_field_collection.py::test_nested_finest_owner_and_no_fallback_through_child_solid",
@@ -41997,6 +42875,16 @@
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/plane]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/sample]",
         "tests/test_compatibility_matrix.py::test_field_product[field/3/solid/reload/vorticity/trace]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]",
         "tests/test_field_collection.py::test_collection_cancellation_budget_and_equal_spacing_order",
         "tests/test_field_collection.py::test_disjoint_domains_and_shared_plane_contours",
         "tests/test_field_collection.py::test_nested_finest_owner_and_no_fallback_through_child_solid",
@@ -44737,6 +45625,11 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
         "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
@@ -44872,6 +45765,8 @@
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
@@ -44890,6 +45785,27 @@
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
+        "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[5]",
+        "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[None]",
+        "tests/test_refinement_preflight.py::test_relative_rotation_rejected_before_construction",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower1-upper1-shape1-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower2-upper2-shape2-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower3-upper3-shape3-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower4-upper4-shape4-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower5-upper5-shape5-four coarse intervals]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower6-upper6-shape6-resolution]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower7-upper7-shape7-integer]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower8-upper8-shape8-dimension]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower1-upper1-shape1-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower2-upper2-shape2-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower3-upper3-shape3-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower4-upper4-shape4-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower5-upper5-shape5-four coarse intervals]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower6-upper6-shape6-resolution]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower7-upper7-shape7-integer]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower8-upper8-shape8-dimension]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -44947,6 +45863,11 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
         "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
@@ -45082,6 +46003,8 @@
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
@@ -45100,6 +46023,27 @@
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
+        "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[5]",
+        "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[None]",
+        "tests/test_refinement_preflight.py::test_relative_rotation_rejected_before_construction",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower1-upper1-shape1-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower2-upper2-shape2-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower3-upper3-shape3-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower4-upper4-shape4-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower5-upper5-shape5-four coarse intervals]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower6-upper6-shape6-resolution]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower7-upper7-shape7-integer]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower8-upper8-shape8-dimension]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower1-upper1-shape1-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower2-upper2-shape2-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower3-upper3-shape3-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower4-upper4-shape4-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower5-upper5-shape5-four coarse intervals]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower6-upper6-shape6-resolution]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower7-upper7-shape7-integer]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower8-upper8-shape8-dimension]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -45158,6 +46102,11 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
         "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
@@ -45305,6 +46254,8 @@
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
@@ -45323,6 +46274,27 @@
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
+        "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[5]",
+        "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[None]",
+        "tests/test_refinement_preflight.py::test_relative_rotation_rejected_before_construction",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower1-upper1-shape1-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower2-upper2-shape2-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower3-upper3-shape3-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower4-upper4-shape4-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower5-upper5-shape5-four coarse intervals]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower6-upper6-shape6-resolution]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower7-upper7-shape7-integer]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower8-upper8-shape8-dimension]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower1-upper1-shape1-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower2-upper2-shape2-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower3-upper3-shape3-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower4-upper4-shape4-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower5-upper5-shape5-four coarse intervals]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower6-upper6-shape6-resolution]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower7-upper7-shape7-integer]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower8-upper8-shape8-dimension]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -45679,6 +46651,11 @@
         "tests/test_boundary_data.py::test_quality_flux_and_record_provenance",
         "tests/test_boundary_data.py::test_rotated_mapping_mask_rejection_and_cancel",
         "tests/test_boundary_data.py::test_uniform_regression_and_time_profile",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_general_boundaries.py::test_composition_mapped_curved_walls",
         "tests/test_general_boundaries.py::test_smagorinsky_manufactured_stress",
         "tests/test_jobs.py::test_job_controls_and_completed_identity[cpu]",
@@ -45730,6 +46707,8 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -45803,6 +46782,8 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]"
@@ -45841,6 +46822,11 @@
         "tests/test_boundary_data.py::test_quality_flux_and_record_provenance",
         "tests/test_boundary_data.py::test_rotated_mapping_mask_rejection_and_cancel",
         "tests/test_boundary_data.py::test_uniform_regression_and_time_profile",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_general_boundaries.py::test_composition_mapped_curved_walls",
         "tests/test_general_boundaries.py::test_smagorinsky_manufactured_stress",
         "tests/test_jobs.py::test_job_controls_and_completed_identity[cpu]",
@@ -45892,6 +46878,8 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -45934,6 +46922,11 @@
         "tests/test_boundary_data.py::test_quality_flux_and_record_provenance",
         "tests/test_boundary_data.py::test_rotated_mapping_mask_rejection_and_cancel",
         "tests/test_boundary_data.py::test_uniform_regression_and_time_profile",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_general_boundaries.py::test_composition_mapped_curved_walls",
         "tests/test_general_boundaries.py::test_smagorinsky_manufactured_stress",
         "tests/test_jobs.py::test_job_controls_and_completed_identity[cpu]",
@@ -45985,6 +46978,8 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -46087,6 +47082,11 @@
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_cuda_tooling.py::test_rotating_sphere_cpu_reports_finite_opposing_torque",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_general_boundaries.py::test_boundary_neq_preserved_and_pressure_moment",
         "tests/test_general_boundaries.py::test_channel_prescribed_moments[0]",
@@ -46180,6 +47180,8 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -46224,6 +47226,11 @@
         "tests/test_boundary_data.py::test_rotated_mapping_mask_rejection_and_cancel",
         "tests/test_boundary_data.py::test_uniform_regression_and_time_profile",
         "tests/test_cuda_tooling.py::test_rotating_sphere_cpu_reports_finite_opposing_torque",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_general_boundaries.py::test_boundary_neq_preserved_and_pressure_moment",
         "tests/test_general_boundaries.py::test_channel_prescribed_moments[0]",
         "tests/test_general_boundaries.py::test_channel_prescribed_moments[1]",
@@ -46293,6 +47300,8 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -46389,6 +47398,11 @@
         "tests/test_boundary_data.py::test_quality_flux_and_record_provenance",
         "tests/test_boundary_data.py::test_rotated_mapping_mask_rejection_and_cancel",
         "tests/test_boundary_data.py::test_uniform_regression_and_time_profile",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_general_boundaries.py::test_boundary_neq_preserved_and_pressure_moment",
         "tests/test_general_boundaries.py::test_channel_prescribed_moments[0]",
         "tests/test_general_boundaries.py::test_channel_prescribed_moments[1]",
@@ -46455,6 +47469,8 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -46507,6 +47523,11 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
         "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
@@ -46629,6 +47650,8 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -46713,6 +47736,11 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
         "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
@@ -46835,6 +47863,8 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -47759,6 +48789,11 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
         "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
@@ -47879,6 +48914,8 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",
@@ -48185,21 +49222,21 @@
     {
       "path": "src/hawa/refinement.py",
       "language": "Python",
-      "name": "RefinedStepper.__init__",
-      "signature": "__init__(self, coarse, fine, lower, upper) -> unannotated",
+      "name": "_validate_patch_bounds",
+      "signature": "_validate_patch_bounds(parent_shape, fine_shape, lower, upper) -> unannotated",
       "kind": "FunctionDef",
-      "line": 12,
-      "end_line": 37,
-      "first_line": 12,
-      "code_name": "__init__",
+      "line": 11,
+      "end_line": 26,
+      "first_line": 11,
+      "code_name": "_validate_patch_bounds",
       "declaration": false,
       "visibility": "private",
-      "summary": "",
-      "fingerprint": "5a91beb963eafecf7d929093dda405a606df63d6a731776c37b6909a1cae2e70",
-      "id": "src/hawa/refinement.py::RefinedStepper.__init__",
+      "summary": "Reject unsupported index topology before allocating either coupled grid.",
+      "fingerprint": "34ce37d72715f1e2f6d489d0a2e107d4cb8d39c20bca22ec8df9e487510a65d2",
+      "id": "src/hawa/refinement.py::_validate_patch_bounds",
       "branches": {
-        "hit": 14,
-        "total": 22
+        "hit": 8,
+        "total": 8
       },
       "tests": [
         "tests/test_refinement.py::test_constant_flow_and_composite_mass[cpu]",
@@ -48213,11 +49250,107 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
-        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower1-upper1-shape1-resolution]",
+        "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower2-upper2-shape2-integer]",
+        "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower3-upper3-shape3-dimension]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False--1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-0.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
+        "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-2-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-0-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
+        "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[5]",
+        "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[None]",
+        "tests/test_refinement_preflight.py::test_relative_rotation_rejected_before_construction",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower1-upper1-shape1-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower2-upper2-shape2-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower3-upper3-shape3-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower4-upper4-shape4-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower5-upper5-shape5-four coarse intervals]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower6-upper6-shape6-resolution]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower7-upper7-shape7-integer]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower8-upper8-shape8-dimension]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower1-upper1-shape1-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower2-upper2-shape2-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower3-upper3-shape3-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower4-upper4-shape4-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower5-upper5-shape5-four coarse intervals]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower6-upper6-shape6-resolution]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower7-upper7-shape7-integer]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower8-upper8-shape8-dimension]"
       ],
       "lines": {
-        "hit": 25,
-        "total": 25
+        "hit": 14,
+        "total": 14
+      },
+      "status": "covered"
+    },
+    {
+      "path": "src/hawa/refinement.py",
+      "language": "Python",
+      "name": "RefinedStepper.__init__",
+      "signature": "__init__(self, coarse, fine, lower, upper) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 30,
+      "end_line": 52,
+      "first_line": 30,
+      "code_name": "__init__",
+      "declaration": false,
+      "visibility": "private",
+      "summary": "",
+      "fingerprint": "2abdc1d0fe63a30f828f7dc3b872235a9a9eecd9c87f774372c6eabf73e0e7c0",
+      "id": "src/hawa/refinement.py::RefinedStepper.__init__",
+      "branches": {
+        "hit": 10,
+        "total": 14
+      },
+      "tests": [
+        "tests/test_refinement.py::test_constant_flow_and_composite_mass[cpu]",
+        "tests/test_refinement.py::test_constant_flow_and_composite_mass[mps]",
+        "tests/test_refinement.py::test_physical_patch_matches_time_and_units[cpu]",
+        "tests/test_refinement.py::test_physical_patch_matches_time_and_units[mps]",
+        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel[cpu]",
+        "tests/test_refinement.py::test_three_dimensional_equilibrium_and_cancel[mps]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower1-upper1-shape1-resolution]",
+        "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower2-upper2-shape2-integer]",
+        "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower3-upper3-shape3-dimension]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]"
+      ],
+      "lines": {
+        "hit": 22,
+        "total": 22
       },
       "status": "covered"
     },
@@ -48227,9 +49360,9 @@
       "name": "RefinedStepper.interpolate",
       "signature": "interpolate(self, value) -> unannotated",
       "kind": "FunctionDef",
-      "line": 39,
-      "end_line": 43,
-      "first_line": 39,
+      "line": 54,
+      "end_line": 58,
+      "first_line": 54,
       "code_name": "interpolate",
       "declaration": false,
       "visibility": "public/conventional",
@@ -48252,7 +49385,9 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
-        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]"
       ],
       "lines": {
         "hit": 4,
@@ -48266,9 +49401,9 @@
       "name": "RefinedStepper.equilibrium",
       "signature": "@staticmethod equilibrium(flow, populations) -> unannotated",
       "kind": "FunctionDef",
-      "line": 46,
-      "end_line": 49,
-      "first_line": 45,
+      "line": 61,
+      "end_line": 64,
+      "first_line": 60,
       "code_name": "equilibrium",
       "declaration": false,
       "visibility": "public/conventional",
@@ -48291,7 +49426,9 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
-        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]"
       ],
       "lines": {
         "hit": 3,
@@ -48305,9 +49442,9 @@
       "name": "RefinedStepper.inject",
       "signature": "inject(self, coarse) -> unannotated",
       "kind": "FunctionDef",
-      "line": 51,
-      "end_line": 54,
-      "first_line": 51,
+      "line": 66,
+      "end_line": 69,
+      "first_line": 66,
       "code_name": "inject",
       "declaration": false,
       "visibility": "public/conventional",
@@ -48330,7 +49467,9 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
-        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]"
       ],
       "lines": {
         "hit": 3,
@@ -48344,9 +49483,9 @@
       "name": "RefinedStepper.restrict",
       "signature": "restrict(self) -> unannotated",
       "kind": "FunctionDef",
-      "line": 56,
-      "end_line": 60,
-      "first_line": 56,
+      "line": 71,
+      "end_line": 75,
+      "first_line": 71,
       "code_name": "restrict",
       "declaration": false,
       "visibility": "public/conventional",
@@ -48369,7 +49508,9 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
-        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]"
       ],
       "lines": {
         "hit": 4,
@@ -48383,9 +49524,9 @@
       "name": "RefinedStepper.__call__",
       "signature": "@torch.no_grad() __call__(self, steps, checkpoint=lambda n: None) -> unannotated",
       "kind": "FunctionDef",
-      "line": 63,
-      "end_line": 71,
-      "first_line": 62,
+      "line": 78,
+      "end_line": 86,
+      "first_line": 77,
       "code_name": "__call__",
       "declaration": false,
       "visibility": "private",
@@ -48408,7 +49549,9 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
-        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]"
       ],
       "lines": {
         "hit": 8,
@@ -48422,9 +49565,9 @@
       "name": "RefinedStepper.__call__.<lambda>#1",
       "signature": "<lambda>(n) -> unannotated",
       "kind": "Lambda",
-      "line": 63,
-      "end_line": 63,
-      "first_line": 63,
+      "line": 78,
+      "end_line": 78,
+      "first_line": 78,
       "code_name": "<lambda>",
       "declaration": false,
       "visibility": "public/conventional",
@@ -48453,9 +49596,9 @@
       "name": "RefinedStepper.composite_mass",
       "signature": "composite_mass(self) -> unannotated",
       "kind": "FunctionDef",
-      "line": 73,
-      "end_line": 81,
-      "first_line": 73,
+      "line": 88,
+      "end_line": 96,
+      "first_line": 88,
       "code_name": "composite_mass",
       "declaration": false,
       "visibility": "public/conventional",
@@ -48478,7 +49621,9 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
-        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]"
       ],
       "lines": {
         "hit": 3,
@@ -48492,9 +49637,9 @@
       "name": "RefinedStepper.composite_mass.integral",
       "signature": "integral(rho) -> unannotated",
       "kind": "FunctionDef",
-      "line": 75,
-      "end_line": 79,
-      "first_line": 75,
+      "line": 90,
+      "end_line": 94,
+      "first_line": 90,
       "code_name": "integral",
       "declaration": false,
       "visibility": "public/conventional",
@@ -48517,7 +49662,9 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
-        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]"
       ],
       "lines": {
         "hit": 4,
@@ -48531,17 +49678,17 @@
       "name": "run_refined",
       "signature": "run_refined(request, checkpoint) -> unannotated",
       "kind": "FunctionDef",
-      "line": 84,
-      "end_line": 136,
-      "first_line": 84,
+      "line": 99,
+      "end_line": 152,
+      "first_line": 99,
       "code_name": "run_refined",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "Run a fixed two-level physical case and return independent field frames.",
-      "fingerprint": "fef301dca3682522d751cb383ad8bd69848b625b4422147805d7f29615360aa9",
+      "fingerprint": "23e9f73ae0187cd53db001bdb42707eb929040487968556017c59aeec5243e7c",
       "id": "src/hawa/refinement.py::run_refined",
       "branches": {
-        "hit": 21,
+        "hit": 22,
         "total": 32
       },
       "tests": [
@@ -48560,6 +49707,8 @@
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
@@ -48577,11 +49726,32 @@
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-1-1000000.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
-        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]"
+        "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
+        "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[5]",
+        "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[None]",
+        "tests/test_refinement_preflight.py::test_relative_rotation_rejected_before_construction",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower1-upper1-shape1-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower2-upper2-shape2-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower3-upper3-shape3-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower4-upper4-shape4-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower5-upper5-shape5-four coarse intervals]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower6-upper6-shape6-resolution]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower7-upper7-shape7-integer]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower8-upper8-shape8-dimension]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower1-upper1-shape1-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower2-upper2-shape2-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower3-upper3-shape3-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower4-upper4-shape4-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower5-upper5-shape5-four coarse intervals]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower6-upper6-shape6-resolution]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower7-upper7-shape7-integer]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower8-upper8-shape8-dimension]"
       ],
       "lines": {
-        "hit": 38,
-        "total": 38
+        "hit": 39,
+        "total": 39
       },
       "status": "covered"
     },
@@ -48591,9 +49761,9 @@
       "name": "run_refined.PatchFlow.post_boundaries",
       "signature": "@property post_boundaries(self) -> unannotated",
       "kind": "FunctionDef",
-      "line": 113,
-      "end_line": 113,
-      "first_line": 112,
+      "line": 129,
+      "end_line": 129,
+      "first_line": 128,
       "code_name": "post_boundaries",
       "declaration": false,
       "visibility": "public/conventional",
@@ -48612,7 +49782,9 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
-        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]"
       ],
       "lines": {
         "hit": 1,
@@ -48626,9 +49798,9 @@
       "name": "run_refined.frame",
       "signature": "frame(flow, spec, covered=False) -> unannotated",
       "kind": "FunctionDef",
-      "line": 128,
-      "end_line": 133,
-      "first_line": 128,
+      "line": 144,
+      "end_line": 149,
+      "first_line": 144,
       "code_name": "frame",
       "declaration": false,
       "visibility": "public/conventional",
@@ -48647,7 +49819,9 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[None-1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
-        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]"
+        "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]"
       ],
       "lines": {
         "hit": 3,
@@ -49988,6 +51162,21 @@
         "tests/test_cuda_verification.py::test_snapshot_detects_source_inventory_lock_and_index_changes[edit]",
         "tests/test_cuda_verification.py::test_snapshot_detects_source_inventory_lock_and_index_changes[lock]",
         "tests/test_cuda_verification.py::test_snapshot_detects_source_inventory_lock_and_index_changes[stage]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin3-1.0]",
+        "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin4-0.5]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin4-0.5-point4-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin0-0.5-point0-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin1-0.5-point1-None]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin2-0.5-point2-2.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin3-1.0-point3-1.0]",
+        "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[1000000.0-origin4-0.5-point4-2.0]",
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[cpu]",
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[mps]",
         "tests/test_engine.py::test_context_preserves_cpu_double_default_on_non_cuda_machine",
@@ -50330,12 +51519,18 @@
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1--1000000.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-0.0]",
         "tests/test_refinement_preflight.py::test_aligned_translated_and_rotated_patch_retains_frame_placement[basis1-1000000.0]",
+        "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower1-upper1-shape1-resolution]",
+        "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower2-upper2-shape2-integer]",
+        "tests/test_refinement_preflight.py::test_direct_stepper_keeps_topology_defenses[lower3-upper3-shape3-dimension]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False--1000000.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-0.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[2e-07-False-1000000.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True--1000000.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-0.0]",
         "tests/test_refinement_preflight.py::test_existing_absolute_alignment_bound_is_preserved[5e-08-True-1000000.0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower0-upper0]",
+        "tests/test_refinement_preflight.py::test_minimum_patch_and_clearance_limits_remain_supported[lower1-upper1]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0--1000000.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-0.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[-1.0-0-1000000.0]",
@@ -50354,6 +51549,27 @@
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2--1000000.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-0.0]",
         "tests/test_refinement_preflight.py::test_misaligned_patch_rejected_before_solver_construction[1.0-2-1000000.0]",
+        "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[5]",
+        "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[None]",
+        "tests/test_refinement_preflight.py::test_relative_rotation_rejected_before_construction",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower1-upper1-shape1-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower2-upper2-shape2-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower3-upper3-shape3-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower4-upper4-shape4-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower5-upper5-shape5-four coarse intervals]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower6-upper6-shape6-resolution]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower7-upper7-shape7-integer]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[0.0-lower8-upper8-shape8-dimension]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower0-upper0-shape0-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower1-upper1-shape1-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower2-upper2-shape2-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower3-upper3-shape3-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower4-upper4-shape4-clearance]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower5-upper5-shape5-four coarse intervals]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower6-upper6-shape6-resolution]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower7-upper7-shape7-integer]",
+        "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower8-upper8-shape8-dimension]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.75]",

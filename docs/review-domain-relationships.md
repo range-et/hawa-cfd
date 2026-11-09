@@ -1,6 +1,6 @@
 # HAWA-028 Python domain contracts / HAWA-052 allocation preflight
 
-November 9, 2026. Author/reviewer: Codex domain agent, self-review. Base `abe7545`.
+November 9, 2026. Author/reviewer: Codex domain agent, self-review. Final base `977bb78` (integration PR #6); initial reproduction base `abe7545`.
 This is implementation verification of Python contracts, not physical validation,
 host acceptance, or release qualification. Original code licence is unchanged.
 
@@ -52,28 +52,46 @@ Native uses its own virtualenv/TMPDIR, `OMP_NUM_THREADS=1`, `MKL_NUM_THREADS=1`.
 Focused logs/JUnit: `results/issue-028/focused-final-corrected.*`.
 
 Docker focused CPU: **82 passed, six device cases deselected** on the same final
-fixtures (`results/docker/focused-final.*`). Image
+fixtures (`results/docker/focused-integrated.*`). Image
 `sha256:6b367745131c89cf349cd005532efe5ac708f871b1758105669406e468e18e93`,
 Python 3.9.25 / torch 2.8.0+cpu / NumPy 2.0.2, Linux aarch64; one CPU/2 GiB,
 network disabled, read-only root/source with dedicated writable results and tmp.
 
 Scoped Docker G6 completed: **97,561 passed, zero failed, 4,898 blocked**
 (MPS/CUDA unavailable), all **102,459** expected rows, source unchanged,
-33.98 seconds; 54 public nodes, 31 examples, 191 observed edges. Raw evidence:
-`results/docker/g6/{summary.json,rows.jsonl}`. This is not a GPU/release pass.
-The combined full-suite evidence checker has not yet run.
+39.13 seconds; 54 public nodes, 31 examples, 191 observed edges. Raw evidence:
+`results/docker/g6-integrated/{summary.json,rows.jsonl}`. This is not a GPU/release pass.
+The combined checker passed (`results/docker/g6-integrated-checked.json`), joining
+the Linux CPU matrix with the complete native test/contract evidence below;
+this does not imply all those tests ran in Linux or that GPUs passed G6.
 
-The full native gate was deliberately interrupted for integration-base review
-repairs; neither interrupted attempt is a pass. Final full function gate,
-committed matrices, G6 revalidation against the updated integration base and
-development build checks are pending. Publication is held until those checks.
+The earlier native attempts were deliberately interrupted (fixture correction,
+then integration-base review repairs); neither interrupted attempt is a pass.
+After merging `977bb78`, the complete native function gate passed: **852 passed,
+82 skipped, 33 state contracts, zero ratchet failures**; 153.15 seconds for pytest.
+Skips are 81 unavailable CUDA cases and one unsupported MPS float64 case. Eighteen
+warnings comprise 14 matplotlib/pyparsing deprecations and four existing MRT
+warnings. CPU/MPS ran on macOS arm64, Python 3.9.25 / torch 2.8.0 / NumPy 2.0.2.
+Both committed function matrices were refreshed and checked successfully.
+
+Reproduction: `tools/function_coverage.py run --base-ref 977bb78 --output
+results/issue-028/function-gate-integrated`, followed by `render` and `check` per
+[function policy](function-testing.md). G6/checker commands follow the
+[compatibility guide](compatibility-matrix.md), using `results/docker/g6-integrated`,
+the native gate's `pytest.xml` and `state-contracts.log`.
+
+The developer build completed with zero errors and 105 existing CA1416 warnings
+(103 Grasshopper, two Rhino icon warnings). A unique development ZIP passed
+integrity and legacy example 09 exclusion checks, including verification-tool and
+`.config` presence. No plugin was installed or Rhino opened. Development staging:
+`dist/HAWA-052`; ZIP: `dist/HAWA-052-review.zip`. Integration/release remains pending.
 
 | Gate | Reviewer | Current disposition |
 | --- | --- | --- |
 | G0 research | Codex, self-review | PASS for preserving the existing scoped topology contract; no new numerical method or dependency |
 | G1 architecture | Codex, self-review | PASS for allocation ordering and independent/view ownership; async/host preflight remains open |
-| G2 reliability | Codex, self-review | Focused CPU passes; full function gate and committed matrices pending |
+| G2 reliability | Codex, self-review | PASS: full native gate, refreshed matrices and focused native/Linux CPU checks |
 | G3 numerical physics | Codex, self-review | Existing bounded refinement controls pass on CPU; no new convergence/conservation claim or engine changes |
 | G4 host/UI | Unassigned host reviewer | BLOCKED: no Rhino/GH work in this sandbox |
-| G5 release/integration | Codex, self-review | Pending development build; installed-host qualification excluded |
-| G6 finite compatibility | Codex, self-review | Scoped Linux CPU matrix passes; final-base combined checker pending, MPS/CUDA blocked |
+| G5 release/integration | Codex, self-review | PASS for development build/package checks only; installed-host/release qualification blocked |
+| G6 finite compatibility | Codex, self-review | PASS for finite Linux CPU matrix and combined checker; MPS/CUDA matrix rows BLOCKED |
