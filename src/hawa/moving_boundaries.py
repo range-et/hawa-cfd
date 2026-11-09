@@ -11,6 +11,27 @@ import torch
 from .motion import pose
 
 
+def _rotate(vector, matrix):
+    """Small geometry transforms with the same summation order on every device."""
+    return ((vector[..., 0, None] * matrix[0] + vector[..., 1, None] * matrix[1])
+            + vector[..., 2, None] * matrix[2])
+
+
+def _radial_distance(vector, radius):
+    """Signed radial distance without subtracting two nearly equal square roots.
+
+    The numerator determines the inside/outside predicate. Explicitly ordered
+    squares avoid backend-dependent norm reductions at a surface lattice site;
+    rationalization keeps sqrt rounding from flipping that predicate. The same
+    signed distance is used for classification and interpolated wall links.
+    """
+    squared = vector[..., 0] * vector[..., 0]
+    for axis in range(1, vector.shape[-1]):
+        squared = squared + vector[..., axis] * vector[..., axis]
+    radius = vector.new_tensor(radius)
+    return (squared - radius * radius) / (torch.sqrt(squared) + radius)
+
+
 def moving_reflection(incoming, opposite, back, q, rho, wall_dot_e, weight):
     """Bouzidi linear interpolation plus wall velocity in lattice units."""
     return torch.where(q<.5,2*q*incoming+(1-2*q)*back-6*weight*rho*wall_dot_e,
@@ -37,11 +58,11 @@ class MovingBoundaries:
     def distance(self,body,state):
         g=body['geometry']
         if g['type']=='sphere':
-            center=(self.tensor(g['center'])-self.tensor(body['pivot']))@self.tensor(state['rotation']).T+self.tensor(state['pivot'])
-            return torch.linalg.vector_norm(self.points-center,dim=-1)-g['radius']
-        p=(self.points-self.tensor(state['pivot']))@self.tensor(state['rotation'])+self.tensor(body['pivot'])
+            center=_rotate(self.tensor(g['center'])-self.tensor(body['pivot']),self.tensor(state['rotation']).T)+self.tensor(state['pivot'])
+            return _radial_distance(self.points-center,g['radius'])
+        p=_rotate(self.points-self.tensor(state['pivot']),self.tensor(state['rotation']))+self.tensor(body['pivot'])
         if g['type']=='cylinder':
-            p=p-self.tensor(g['center']);a=torch.linalg.vector_norm(p[...,:2],dim=-1)-g['radius'];b=torch.abs(p[...,2])-g['length']/2
+            p=p-self.tensor(g['center']);a=_radial_distance(p[...,:2],g['radius']);b=torch.abs(p[...,2])-g['length']/2
             return torch.sqrt(torch.clamp(a,min=0)**2+torch.clamp(b,min=0)**2)+torch.minimum(torch.maximum(a,b),torch.zeros_like(a))
         x=(p-self.tensor(g['origin']))/g['spacing'];grid=self.sdfs[body['id']];n=torch.tensor(g['shape'],device=x.device)
         valid=((x>=0)&(x<=n-1)).all(-1);lo=torch.floor(x).long();lo=torch.maximum(torch.minimum(lo,n-2),torch.zeros_like(lo));f=x-lo

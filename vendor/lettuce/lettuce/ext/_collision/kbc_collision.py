@@ -1,4 +1,5 @@
 import warnings
+from copy import copy
 
 import torch
 
@@ -18,6 +19,8 @@ class KBCCollision(Collision):
         self.tau = tau
         self.beta = None
         self.M = None
+        self._compute_context = None
+        self._compute_stencil = None
 
     def kbc_moment_transform(self, f):
         pass
@@ -94,6 +97,27 @@ class KBCCollision(Collision):
         return s
 
     def __call__(self, flow: 'Flow') -> torch.Tensor:
+        # KBC subtracts nearly equal equilibrium/shear moments before dividing
+        # by a quadratic higher-order residual. FP32 rounding in those moments
+        # can therefore cause a large stabilizer error, not just an output ulp.
+        # Use wider intermediates where the device supports them, while keeping
+        # storage, streaming and the returned populations in the requested dtype.
+        # MPS has no FP64: retain its existing tensor path, never fall back to CPU.
+        storage_dtype = flow.f.dtype
+        epsilon = torch.finfo(storage_dtype).eps
+        if storage_dtype == torch.float32 and flow.f.device.type in ('cpu', 'cuda'):
+            if self._compute_context is None:
+                self._compute_context = copy(flow.context)
+                self._compute_context.dtype = torch.float64
+                self._compute_stencil = TorchStencil(flow.stencil, self._compute_context)
+            working = copy(flow)
+            working.context = self._compute_context
+            working.torch_stencil = self._compute_stencil
+            working.f = flow.f.to(torch.float64)
+            return self._collide(working, epsilon).to(storage_dtype)
+        return self._collide(flow, epsilon)
+
+    def _collide(self, flow: 'Flow', epsilon: float) -> torch.Tensor:
         if self.M is None:
             self.tau = flow.units.relaxation_parameter_lu
             self.beta = 1. / (2 * self.tau)
@@ -153,7 +177,9 @@ class KBCCollision(Collision):
 
         # A pure shear perturbation has zero higher-order entropy. In FP32,
         # dividing by its roundoff residue produces an unbounded stabilizer.
-        near_zero = sum_h <= (flow.stencil.q * torch.finfo(flow.f.dtype).eps) ** 2 * flow.rho()
+        # The uncertainty comes from stored populations, even when intermediates
+        # are wider. Preserve the existing storage-precision degeneracy guard.
+        near_zero = sum_h <= (flow.stencil.q * epsilon) ** 2 * flow.rho()
         denominator = torch.where(near_zero, torch.ones_like(sum_h), sum_h)
         gamma_stab = 1. / self.beta - (2 - 1. / self.beta) * sum_s / denominator
         gamma_stab = torch.where(near_zero | ~torch.isfinite(gamma_stab),

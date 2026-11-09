@@ -8,8 +8,8 @@ from hawa.plugin import check_case, dispatch, dispatch_json, SESSIONS
 
 
 @pytest.fixture
-def session():
-    result = dispatch({"op": "create", "case": {"example": "tgv3d-bgk", "size": 12}, "device": "cpu"})
+def session(solver_device):
+    result = dispatch({"op": "create", "case": {"example": "tgv3d-bgk", "size": 12}, "device": solver_device})
     yield result["session"]
     dispatch({"op": "close", "session": result["session"]})
 
@@ -37,7 +37,7 @@ def test_interpolation_slice_streamlines_and_checkpoint(session, tmp_path):
     dispatch({"op": "save", "session": session, "path": str(saved)})
     dispatch({"op": "step", "session": session, "steps": 5})
     dispatch({"op": "load", "session": session, "path": str(saved)})
-    np.testing.assert_array_equal(SESSIONS[session].flow.f.numpy(), before.numpy())
+    np.testing.assert_array_equal(SESSIONS[session].flow.f.cpu().numpy(), before.cpu().numpy())
     assert dispatch({"op": "status", "session": session})["steps"] == 5
     sampled = dispatch({"op": "sample", "session": session, "points": [[1.5, 2, 3], [-1, 0, 0]]})
     assert sampled["values"][0] is not None and sampled["values"][1] is None
@@ -48,7 +48,7 @@ def test_interpolation_slice_streamlines_and_checkpoint(session, tmp_path):
     assert len(lines["paths"][0]) <= 11
 
 
-def test_physical_wind_boundaries_and_solid_on_cpu_and_mps():
+def test_physical_wind_boundaries_and_solid_device_parity():
     import torch
     devices = ["cpu"] + (["mps"] if torch.backends.mps.is_available() else [])
     states = []
@@ -86,12 +86,12 @@ def test_json_boundary_reports_errors_without_invalid_json():
 def test_checkpoint_rejects_invalid_state_atomically(session,tmp_path,iteration,density):
     from hawa.plugin import canonical
     s=SESSIONS[session]
-    before=s.flow.f.numpy().copy()
+    before=s.flow.f.cpu().numpy().copy()
     path=tmp_path/'bad.npz'
     np.savez_compressed(path,populations=before*density,iteration=np.array(iteration),spec=np.array(canonical(s.spec)))
     with pytest.raises(ValueError,match='Checkpoint'):
         dispatch({'op':'load','session':session,'path':str(path)})
-    np.testing.assert_array_equal(before,s.flow.f.numpy())
+    np.testing.assert_array_equal(before,s.flow.f.cpu().numpy())
     assert s.flow.i==0
 
 
