@@ -44,6 +44,13 @@ CPU only with `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1`.
   positive/negative million-unit translations. Tests on either side of `1e-7`
   preserve the absolute bound; valid translated/rotated cases execute one coarse
   and two fine steps and check frame placement, physical time and finite fields.
+- Coordinator-run bounded Docker CPU check: **58 passed, four device cases
+  deliberately deselected**, 5.21 seconds. Linux 6.12.76-linuxkit aarch64,
+  Python 3.9.25, torch 2.8.0+cpu, NumPy 2.0.2; image
+  `sha256:6b367745131c89cf349cd005532efe5ac708f871b1758105669406e468e18e93`.
+  Cgroup limit: one CPU / 2 GiB; network disabled, read-only source/root. Evidence:
+  `results/docker/focused.log` and `focused.xml`. This bounded Linux run is
+  separate from the native complete function gate below; neither is a CUDA pass.
 - Full measured gate: **654 passed, 32 unavailable-CUDA skips, four existing MRT
   warnings**, 238.04 seconds; **33 state contracts passed**. Zero ratchet failures
   against `a26924c`. Both committed matrices refreshed and checked: 281 covered,
