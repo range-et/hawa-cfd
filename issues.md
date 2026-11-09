@@ -102,6 +102,19 @@ presence in an example or a passing suite name is not function-level evidence.
 | HAWA-045 | Bug · in progress (Codex; November 9, 2026) | Candidate now hashes complete tracked/nonignored inputs and Git index, records staged/combined diffs, and rejects source drift. Mutation tests and local measured gate pass. [Repair review](docs/review-cuda-blocker-fixes.md). | Qualify unchanged candidate on Windows and integrate; preserve source/test/config/lock and index provenance. | Python harness + CPU mocks; CUDA acceptance |
 | HAWA-046 | Bug · in progress (Codex; November 9, 2026) | Candidate compares actual before/after devices, accepting MPS alias normalization. Fresh complete suite passes: 700 tests, 82 skips; no numerical tolerance change. [Repair review](docs/review-cuda-blocker-fixes.md). | Verify CUDA cases on Windows and integrate the accepted candidate; source remains separate from main export work. | Python tests + MPS/CUDA |
 
+### HAWA-048 — Immutable-frame save destroys prior export on write failure
+
+Bug · in progress; owner: Codex export agent; November 9, 2026. The
+`fields.dispatch_field(action='save')` path truncates before compression; fault
+injection changed a valid 887-byte NPZ into a 7-byte partial file and also left a
+partial new destination. The isolated Python repair now writes a sibling temporary
+file, checks cancellation before publication and replaces only complete output.
+Focused CPU verification passes 31 tests; [review and evidence](docs/review-field-export-atomicity.md).
+Next action: full function gate/matrix refresh against the common checkpoint,
+then integration review. Completion: exact round-trip compatibility, preserved
+old/absent destination under failure or observed cancellation, cleaned owned temp
+files and passing required checks. CSV/baking and Rhino export UX remain HAWA-033/032.
+
 ## Improvements and delivery work
 
 | ID | Type and status | Desired outcome | Next action and acceptance | Execution surface |

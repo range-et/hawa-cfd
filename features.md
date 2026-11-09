@@ -76,6 +76,15 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 9 2026 immutable-frame export repair candidate (HAWA-048)
+
+Implemented atomic NPZ publication for immutable-frame saves, complementing the
+existing session-export repair. Observed cancellation and failed compression/IO
+preserve earlier output and clean temporary files. Focused CPU tests: 31 passed;
+full measured gate and integration remain pending, so HAWA-048 remains open.
+No format, solver, C# or installed-plugin change. [Review](docs/review-field-export-atomicity.md).
+
+
 ### November 9 2026 parent/child documentation (HAWA-034 partial)
 
 Added a general [parent/child domain guide](docs/parent-child-domains.md), linked
