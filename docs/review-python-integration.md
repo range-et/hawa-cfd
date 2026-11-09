@@ -72,3 +72,45 @@ shared-view and function-coverage checkpoint; it is larger than the three narrow
 issue PRs. Those existing changes retain their earlier reviews and limits.
 No fresh Rhino operation or new C# implementation was performed in this task.
 Next issue branches stack on this reviewed integration branch until it merges.
+
+## PR #6 review follow-up
+
+The first hosted function gate passed, but review identified four real gaps.
+The lockfile lacked coverage 7.10.7; `uv lock --check` failed before regeneration
+and passes afterward. `uv sync --locked --extra test --dry-run` now resolves
+without changes; the added wheel entries include Python 3.9 Windows variants,
+but this does not establish actual Windows installation.
+
+HAWA-053: a real imported-wall-history case lost its filter on reset. Preserve a
+cloned initial filter alongside initial populations and restore a fresh clone on
+each reset. Two repeated two-step replays now match initial filter, raw
+populations and evolved filter exactly on CPU.
+
+HAWA-054: the large boundary case reached compile_links under the old estimate
+(sentinel reproduction avoids allocating gigabytes). The guard now counts
+exterior plane union without grid allocation, conservatively ignores solids and
+reserves 32 KiB per node for float64 projection/nullspace/metric temporaries,
+per-link working arrays and host/device copies. This is an estimate, not a hard
+allocator guarantee; it deliberately errs toward earlier rejection. Numerical
+kernels and tolerances are unchanged. Smaller open/periodic controls pass.
+
+HAWA-055: source packaging now includes tools, the pinned .NET configuration,
+docs and examples needed by verification. Legacy09 remains excluded from both
+installed examples and the source subtree. A fixture build asserts exact copied
+inputs and ZIP exclusion; actual packaged test collection follows the final build.
+
+Review focused checks: 68 passed, 8 unavailable-device skips. Before-fix evidence:
+reset/package regressions failed; the separate corrected memory fixture reached
+the forbidden compiler. Logs are in results/integration-review. New full-gate,
+G6 and package results supersede the earlier integration counts for changed source.
+
+Final review-revision evidence: **810 passed, 82 device skips, 18 existing
+warnings**, 155.39 s; **33 state contracts**, zero coverage failures against
+`abe7545`. Matrices regenerated/checked: 336 covered, 127 uncovered, 630
+unmeasured, 58 declarations. Fresh Docker CPU G6 again passes 97,561 rows with
+4,898 device-blocked rows; combined checker passes against the new native suite.
+Both assemblies build (105 existing CA1416 warnings, zero errors). The actual
+packaged source collects **all 892 tests**, including the function-coverage tests,
+using its own src/vendor paths; this verifies collection, not another full
+packaged execution. Legacy09 remains absent. This supersedes initial 806-test
+counts for the review revision. No Windows/Rhino qualification is inferred.

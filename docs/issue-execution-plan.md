@@ -2,7 +2,7 @@
 
 **Execution plan — November 9, 2026.** The initial proposal is retained below;
 the current execution update records work now started. Ownership/status remains in
-[issues](../issues.md). All 42 active IDs are routed below; HAWA-047 is closed in feature history. The mapping is based
+[issues](../issues.md). All 45 active IDs are routed below; HAWA-047 is closed in feature history. The mapping is based
 on repository source and evidence, with the subsequent startup audit noted above. New
 reproductions can change a row’s surface. Broad research items have provisional
 surfaces because their designs do not yet exist.
@@ -292,6 +292,10 @@ RAM and time budget. It does not mean unlimited workers on one machine.
 | HAWA-050 | CI: pinned Python 3.9 runner and dependency provisioning repair | Hosted checks on actual PR heads; main integration | Implemented on shared study base; initial three PR gates passed |
 
 | HAWA-051 | P: bounded temporary prefixes in both NPZ writers, long-name regressions | Normal local filesystem checks; Windows unverified | Review repair in PR #3; no host UI change |
+
+| HAWA-053 | P: restore imported wall filter on reset | CPU repeated-reset replay; host/device scope separate | Integration PR #6 review repair |
+| HAWA-054 | P: budget exterior projection/workspace before allocation | Large-case rejection sentinel; valid small controls/G6 | Integration PR #6 review repair; conservative estimate |
+| HAWA-055 | P: complete corresponding source verification inputs | Package fixture and actual packaged test collection | Integration PR #6 review repair |
 
 ## Proposed sandbox and PR contract
 
