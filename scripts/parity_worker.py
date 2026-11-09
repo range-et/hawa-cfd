@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import sys
+from audit_backport import source_digest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -28,7 +29,7 @@ def run(role, device, output):
         if source == ROOT / "vendor/lettuce/lettuce":
             raise RuntimeError("Reference accidentally imported the compatibility fork")
         for name, digest in manifest["source_sha256"].items():
-            actual = hashlib.sha256((source.parent / name).read_bytes()).hexdigest()
+            actual = source_digest(source.parent / name)
             if actual != digest:
                 raise RuntimeError("Reference source was modified: " + name)
     else:

@@ -26,6 +26,23 @@ class BudgetReached(Exception):
     pass
 
 
+def windows_resource_adapter():
+    """Supply the example's Unix-only peak-RSS diagnostic from Windows counters."""
+    import types
+    import psutil
+    module = types.ModuleType('resource')
+    module.RUSAGE_SELF = 0
+
+    def getrusage(who):
+        if who != module.RUSAGE_SELF:
+            raise ValueError('Only the current process memory diagnostic is supported')
+        # The upstream example divides Linux ru_maxrss (KiB) by 1024 for MiB.
+        return types.SimpleNamespace(ru_maxrss=psutil.Process().memory_info().peak_wset / 1024)
+
+    module.getrusage = getrusage
+    sys.modules['resource'] = module
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("source")
@@ -34,6 +51,8 @@ def main():
     parser.add_argument("--full", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    args.output = args.output.resolve()
+    args.source_root = args.source_root.resolve()
     args.output.mkdir(parents=True, exist_ok=True)
     os.chdir(args.output)
     import numpy as np
@@ -66,6 +85,9 @@ def main():
               "profile": "full" if args.full else "50-steps-per-simulation",
               "verification_seed": 1234,
               "notebook_magics_not_executed": magic, "simulations": []}
+    if os.name == 'nt' and 'efficient_bounce_back_obstacle/' in args.source:
+        windows_resource_adapter()
+        report['platform_adaptations'] = ['Unix resource peak RSS diagnostic supplied by Windows psutil peak_wset']
     original_context = lt.Context.__init__
 
     def context(self, *a, **kw):

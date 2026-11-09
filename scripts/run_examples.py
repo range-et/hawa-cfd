@@ -19,6 +19,7 @@ def main():
     parser.add_argument("--reference", action="store_true")
     parser.add_argument("--full", action="store_true")
     parser.add_argument("--match", default="")
+    parser.add_argument("--output-root", type=Path, default=ROOT / "results/examples")
     args = parser.parse_args()
     examples = ROOT / "vendor/lettuce/examples"
     if args.reference:
@@ -29,15 +30,15 @@ def main():
         subprocess.run(["git", "-C", str(checkout), "checkout", "--detach", commit], check=True, stdout=subprocess.DEVNULL)
         examples = checkout / "examples"
     paths = entrypoints(examples)
-    paths = [p for p in paths if args.match in str(p.relative_to(examples))]
+    paths = [p for p in paths if args.match in p.relative_to(examples).as_posix()]
     if not paths:
         parser.error("No executable examples match the requested selection")
     role = "reference" if args.reference else "backport"
-    output = ROOT / "results/examples" / (role + "-" + args.device.replace(":", "-"))
+    output = args.output_root.resolve() / (role + "-" + args.device.replace(":", "-"))
     python = ROOT / ".venv-reference" / ("Scripts/python.exe" if os.name == "nt" else "bin/python") if args.reference else Path(sys.executable)
 
     def run(path):
-        name = str(path.relative_to(examples))
+        name = path.relative_to(examples).as_posix()
         directory = output / name.replace("/", "__")
         command = [str(python), str(ROOT / "scripts/example_worker.py"), name,
                    "--device", args.device, "--source-root", str(examples), "--output", str(directory)]
