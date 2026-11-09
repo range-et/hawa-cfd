@@ -2,9 +2,9 @@
 
 **GPU lattice Boltzmann simulation for Rhino 8 and Grasshopper.**
 
-Hawa runs its Python 3.9 engine inside Rhino. Define geometry and physics in Grasshopper. Use MPS, CUDA or CPU through PyTorch. Inspect pressure, speed and flow paths in the viewport.
+Hawa runs its Python 3.9 engine inside Rhino. Select geometry and set up a case in the native panel, or build workflows in Grasshopper. Use MPS, CUDA or CPU through PyTorch. Inspect pressure, speed and flow paths in the viewport.
 
-This branch contains the **0.5 native-panel prototype**, built on the closed-out 0.4 engine. Read the [native prototype guide](docs/native-prototype-v0.5.md) for dockable panel setup and live GH sync. The [0.4 closeout](docs/closeout-v0.4.md) records the frozen release. The published **0.3** package and videos remain available on the [project page](https://range-et.github.io/hawa-cfd/). Read the [0.4 checks and limits](docs/release-notes-v0.4.0.md) before using the new package.
+This branch contains **Hawa 0.5**, with selected Rhino geometry, editable domains and fluid settings, a dockable panel with icons, field controls and live GH sync. Read the [0.5 guide](docs/native-v0.5.md) and [release review](docs/release-review-v0.5.md). The [0.4 closeout](docs/closeout-v0.4.md) records the frozen release. The published **0.3** package and videos remain available on the [project page](https://range-et.github.io/hawa-cfd/). Read the [0.4 checks and limits](docs/release-notes-v0.4.0.md) before using the new package.
 
 [Plugin guide](docs/plugin.md) · [Rhino MCP agent guide](docs/agents/rhino-mcp.md) · [Editable definitions](examples/grasshopper) · [License](LICENSE)
 
@@ -18,7 +18,7 @@ This branch contains the **0.5 native-panel prototype**, built on the closed-out
 - Local airfoil coordinates and polars, offline NACA four-digit generation, tapered wings and attached-flow lifting-line analysis.
 - Mesh checks, voxel inspection, experimental stationary curved-wall links and one fixed 2:1 refinement patch.
 
-The prototype package has 47 Hawa components, 19 existing supported definitions and one native live-sync example. Example 09 is historical and excluded from the new package. Use example 10 for asynchronous optimization.
+The 0.5 package has 46 public Hawa components, 19 supported GH gallery definitions and two native examples (21: block sync; 22: selected canopy). Example 09 is historical and excluded from the new package. Use example 10 for asynchronous optimization.
 
 ## Install and run
 
@@ -51,7 +51,7 @@ uv sync --extra test
 .venv/bin/python scripts/build_plugin.py
 ```
 
-The Grasshopper build needs the installed Rhino SDK. Run `scripts/create_grasshopper_examples.cs` inside Rhino to create the `.gh` files. Run `scripts/verify_grasshopper_examples.cs` to reopen and check those graphs. Use `scripts/create_responsive_hull_example.cs` for the supported hull search. Preserve the historical user-modified example 09. Run `scripts/annotate_grasshopper_examples.cs` after regenerating supported definitions.
+The Grasshopper build needs the installed Rhino SDK. Run `scripts/create_grasshopper_examples.cs` inside Rhino to create the `.gh` files. Use the nonblocking harnesses listed in [the verification matrix](examples/grasshopper/VERIFICATION.md); the original `verify_grasshopper_examples.cs` is historical and must not be run. Use `scripts/create_responsive_hull_example.cs` for the supported hull search. Preserve the historical user-modified example 09. Run `scripts/annotate_grasshopper_examples.cs` after regenerating supported definitions.
 
 The C# helper scripts contain this checkout's paths. Change the paths before you run the scripts on another machine.
 

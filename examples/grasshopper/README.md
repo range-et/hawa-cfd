@@ -61,3 +61,10 @@ has already been tested.
 `annotations.json` contains the example-specific descriptions. Run `scripts/annotate_grasshopper_examples.cs` through Rhino MCP after regenerating definitions. It checks that connections are unchanged and saves local backups. `scripts/capture_example_layouts.cs` renders each supported canvas without running its solver. Adjust the checkout path in either script before use on another machine.
 
 The gallery covers selected workflows. It is separate from the sixteen upstream Lettuce entrypoints and does not claim to wrap every upstream example. CPU/MPS PorousMedium parity remains a documented open issue.
+
+Native Rhino examples 21 and 22 are in [the native example folder](../native-prototype/README.md). Example 22 combines selected Rhino geometry, editable domains and two-way GH controls.
+
+Example 10 builds its hull with ordinary Grasshopper expressions, Construct Mesh,
+Mesh Volume, Scale NU and Move. The construction is editable example content; it
+adds no Hawa hull node. The hidden legacy archive reader is retained only so old
+user definitions can still open.

@@ -6,4 +6,4 @@
 <Reference Include="RhinoCommon"><HintPath>$(SdkReferences)/RhinoCommon.dll</HintPath><Private>false</Private></Reference>
 <Reference Include="Eto"><HintPath>$(RhinoSystem)/Eto.dll</HintPath><Private>false</Private></Reference>
 <PackageReference Include="System.Drawing.Common" Version="7.0.0" ExcludeAssets="runtime" />
-</ItemGroup><PropertyGroup><TargetExt>.rhp</TargetExt><SdkReferences Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(RhinoSystem)/ref/net48</SdkReferences><SdkReferences Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(RhinoSystem)</SdkReferences></PropertyGroup><ItemGroup><ProjectReference Include="../Hawa.Shared/Hawa.Shared.csproj" /></ItemGroup></Project>
+</ItemGroup><PropertyGroup><TargetExt>.rhp</TargetExt><SdkReferences Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(RhinoSystem)/ref/net48</SdkReferences><SdkReferences Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(RhinoSystem)</SdkReferences></PropertyGroup><ItemGroup><ProjectReference Include="../Hawa.Shared/Hawa.Shared.csproj" /></ItemGroup><ItemGroup><EmbeddedResource Include="Assets/*.png" /><EmbeddedResource Include="Assets/*.ico" /></ItemGroup></Project>

@@ -1,0 +1,1407 @@
+{
+  "version": "0.5.0",
+  "recorded_utc": "2026-11-09T01:31:57.667536+00:00",
+  "scope": "Expanded native stationary selected-body setup, physical domains/fluid/boundaries, scalar view controls, icons and shared GH sync. Existing GH workflows retained.",
+  "reviewer": "Codex, separate self-review passes; no independent specialist approval claimed",
+  "environment": {
+    "python": "3.9.10 (v3.9.10:f2f3f53782, Jan 13 2022, 16:55:45) \n[Clang 13.0.0 (clang-1300.0.29.30)]",
+    "torch": "2.8.0",
+    "os": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "cuda_available": false,
+    "mps_available": true
+  },
+  "gates": {
+    "G0_research": {
+      "status": "PASS",
+      "scope": "Existing equations/containment reused; installed Rhino SDK API signatures checked; prior primary-source interface research in architecture-v0.5.md. No new runtime dependency."
+    },
+    "G1_architecture": {
+      "status": "PASS",
+      "scope": "24 state contracts plus host lifecycle/binding/geometry/persistence checks. One case per document; settings schema 2 reads schema 1."
+    },
+    "G2_development": {
+      "status": "PASS",
+      "scope": "Both assemblies compile; 144 Python tests passed, 29 CUDA-dependent skips, four existing MRT warnings; 24 state contracts passed; host reports embedded below."
+    },
+    "G3_numerical": {
+      "status": "PASS",
+      "scope": "Implementation regression scope only: existing numerical suite and geometry/units checks. No equations/tolerances changed. No new physical-validation or convergence claim; separate upstream suite not rerun for this adapter change."
+    },
+    "G4_ui": {
+      "status": "PASS",
+      "scope": "Actual macOS Rhino Setup/Solve/View, panel/action icons, normal Undo/Redo, selected example and GH canvas inspected. 46 public components plus one hidden archive reader have icons. All 21 supported workflows exercised via scoped host checks; not exhaustive graph combinations or full manual UI inspection of every old graph."
+    },
+    "G5_distribution": {
+      "status": "PASS",
+      "scope": "Existing tested binaries retained; source/docs/examples refreshed; ZIP integrity and installed/bundled hashes checked. GPL notices included; legacy 09 excluded; frozen 0.4 preserved."
+    }
+  },
+  "exclusions": [
+    {
+      "status": "BLOCKED",
+      "claim": "Windows docking and CUDA hardware",
+      "owner": "maintainer",
+      "next_check": "Run host/contract/example matrix on Windows with CUDA hardware before claiming platform verification."
+    },
+    {
+      "status": "BLOCKED",
+      "claim": "Clean-machine dependency installation",
+      "owner": "maintainer",
+      "next_check": "Install ZIP on a clean Rhino 8 Python environment; verify pinned downloads and first native run."
+    },
+    {
+      "status": "FAIL",
+      "claim": "PorousMedium CPU/MPS parity",
+      "owner": "maintainer",
+      "next_check": "Isolate the known backend discrepancy; do not widen tolerances. Historical unresolved issue, not rerun in this change."
+    }
+  ],
+  "python_tests": {
+    "passed": 144,
+    "skipped": 29,
+    "warnings": 4,
+    "command": ".venv/bin/python -m pytest tests -q",
+    "log_sha256": "c4c3649c37131d52821c95ec3f4fc07e31caaded1f35b04bde172860e8560a42"
+  },
+  "state_contracts": {
+    "passed": 24,
+    "command": "dotnet run --project tests/dotnet/StateContracts",
+    "checks": [
+      "PASS read-only outward state and detached JSON",
+      "PASS all edits use version, physical revision stays separate",
+      "PASS observer faults cannot abort edit, undo or healthy solver",
+      "PASS binding leases reject stale writers and protect computed inputs",
+      "PASS restore publishes one idle state with no old runtime",
+      "PASS old undo cannot recreate or change a replacement case",
+      "PASS query failure preserves healthy solver and last good field",
+      "PASS malformed field metadata does not partially replace a snapshot",
+      "PASS field reports capture step, time, field and session",
+      "PASS failed cleanup stays owned and can be retried idempotently",
+      "PASS close during notification drains without another command",
+      "PASS close during transport rejects late publication and releases jobs",
+      "PASS same persisted ID in two documents remains isolated",
+      "PASS off-thread mutation fails explicitly",
+      "PASS unit edits notify views without changing physics or restarting",
+      "PASS pause during preparation never auto-starts",
+      "PASS solver submission failure is visible and retryable",
+      "PASS schema 1 settings migrate to explicit physical setup and view",
+      "PASS native setup validates cell budget, periodic pairs and finite domain",
+      "PASS palette edits recolor without restarting or replacing field capture",
+      "PASS geometry preparation is cancellable and late completion cannot publish",
+      "PASS pause during geometry preparation suppresses automatic solver start",
+      "PASS geometry edits invalidate runtime even during a notification",
+      "PASS unit change invalidates referenced geometry but preserves physical setup",
+      "{\"passed\":24,\"host\":\"Rhino/transport doubles; production CaseHub source\",\"edit_p50_ms\":0.0426,\"edit_p95_ms\":0.0488,\"edit_max_ms\":0.4953}"
+    ]
+  },
+  "examples": {
+    "required": 21,
+    "exercised": 21,
+    "passed_workflow_checks": 21,
+    "legacy_excluded": "09",
+    "gallery_steps": 25,
+    "motion_smoke_steps": 80,
+    "wake_recording_steps": 8000,
+    "motion_search": "Two candidates; 5 Hz, 0.2 s measured cycle, amplitude 0.005\u20130.02 m; control regression, not design optimization validation.",
+    "selected_example_steps": 200
+  },
+  "verification_harness_fix": "Motion example 18 saved Run=true correctly stayed idle. The first pass used an explicit off/on edge; the corrected harness was rerun on example 18 and passed. Shipped motion definitions unchanged.",
+  "catalog": {
+    "state": "completed",
+    "public_components": 46,
+    "archive_readers": 1,
+    "components": [
+      {
+        "name": "Hawa Domain",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077101",
+        "category": "01 Domain",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Geometry",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077102",
+        "category": "02 Geometry",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Physics",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077103",
+        "category": "03 Physics",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Boundaries",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077104",
+        "category": "03 Physics",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Case",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077105",
+        "category": "04 Case",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Example",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077106",
+        "category": "04 Case",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Runtime",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077107",
+        "category": "00 Setup",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Check Case",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077108",
+        "category": "04 Case",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Solve",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077109",
+        "category": "05 Solve",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Checkpoint",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077110",
+        "category": "08 Files",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Slice",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077111",
+        "category": "07 Visualize",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Sample",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077112",
+        "category": "06 Results",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Vectors",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077113",
+        "category": "07 Visualize",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Streamlines",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077114",
+        "category": "07 Visualize",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Wind Tunnel",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077115",
+        "category": "01 Domain",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Parametric Hull",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077116",
+        "category": "02 Geometry",
+        "archive_only": true
+      },
+      {
+        "name": "Hawa Evaluate",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077117",
+        "category": "05 Solve",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Search",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077118",
+        "category": "05 Solve",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Domain Preview",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077119",
+        "category": "01 Domain",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Seed Points",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077120",
+        "category": "07 Visualize",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Field Snapshot",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077121",
+        "category": "06 Results",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Color Map",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077122",
+        "category": "07 Visualize",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Plane Field",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077123",
+        "category": "07 Visualize",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Isosurface",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077124",
+        "category": "07 Visualize",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Airfoil",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077125",
+        "category": "09 Airfoils",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Polar Data",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077126",
+        "category": "09 Airfoils",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Wing",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077127",
+        "category": "10 Aircraft",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Wing Analysis",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077128",
+        "category": "10 Aircraft",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Flow Display",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077129",
+        "category": "07 Visualize",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Surface Field",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077130",
+        "category": "07 Visualize",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Record",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077131",
+        "category": "11 Animation",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Playback",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077132",
+        "category": "11 Animation",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Particles",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077133",
+        "category": "11 Animation",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Geometry Check",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077134",
+        "category": "02 Geometry",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Grid Preview",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077135",
+        "category": "02 Geometry",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Legend",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077136",
+        "category": "07 Visualize",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Refinement Patch",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077137",
+        "category": "01 Domain",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Refined Solve",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077138",
+        "category": "05 Solve",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Translation",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077139",
+        "category": "03 Motion",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Rotation",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077140",
+        "category": "03 Motion",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Oscillation",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077141",
+        "category": "03 Motion",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Moving Body",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077142",
+        "category": "02 Geometry",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Motion Case",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077143",
+        "category": "04 Case",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Body Loads",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077144",
+        "category": "06 Results",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Body Preview",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077145",
+        "category": "11 Animation",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Motion Evaluate",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077146",
+        "category": "05 Solve",
+        "archive_only": false
+      },
+      {
+        "name": "Hawa Linked Case",
+        "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077150",
+        "category": "00 Setup",
+        "archive_only": false
+      }
+    ],
+    "supported_definitions_without_hull": [
+      "01-tgv3d-bgk.gh",
+      "05-tgv3d-smagorinsky.gh",
+      "18-pitching-airfoil.gh",
+      "06-cavity2d-bgk.gh",
+      "04-tgv2d-smagorinsky.gh",
+      "19-rotating-paddle.gh",
+      "14-curved-sphere-pressure.gh",
+      "15-fixed-refinement.gh",
+      "17-oscillating-cylinder.gh",
+      "13-record-and-playback.gh",
+      "10-responsive-hull-search.gh",
+      "08-wind-around-block.gh",
+      "12-local-airfoil-rc-wing.gh",
+      "07-poiseuille2d-guo.gh",
+      "20-motion-cycle-search.gh",
+      "11-block-3d-visualization.gh",
+      "03-tgv2d-trt.gh",
+      "16-cylinder-wake-recording.gh",
+      "02-tgv2d-bgk.gh",
+      "21-native-live-sync.gh",
+      "22-native-selected-geometry.gh"
+    ]
+  },
+  "evidence_relevance": "Full host matrix ran before the catalogue-only correction. Shared/native code unchanged; GH changed hull exposure and tooltips. Latest installed build reran catalogue archive checks and the migrated hull search controls. Python and state contracts rerun. Native screenshots precede the catalogue correction.",
+  "cleanup_before_selected_demo": {
+    "jobs": 0,
+    "sessions": 0,
+    "workers": []
+  },
+  "reports": {
+    "gallery": {
+      "state": "completed",
+      "results": [
+        {
+          "file": "01-tgv3d-bgk.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 225
+        },
+        {
+          "file": "02-tgv2d-bgk.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 225
+        },
+        {
+          "file": "03-tgv2d-trt.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 225
+        },
+        {
+          "file": "04-tgv2d-smagorinsky.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 225
+        },
+        {
+          "file": "05-tgv3d-smagorinsky.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 225
+        },
+        {
+          "file": "06-cavity2d-bgk.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 225
+        },
+        {
+          "file": "07-poiseuille2d-guo.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 225
+        },
+        {
+          "file": "08-wind-around-block.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 476
+        },
+        {
+          "file": "11-block-3d-visualization.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 659
+        },
+        {
+          "file": "12-local-airfoil-rc-wing.gh",
+          "passed": true,
+          "wing_closed": true,
+          "local_polar": true
+        },
+        {
+          "file": "14-curved-sphere-pressure.gh",
+          "passed": true,
+          "steps": 25,
+          "faces": 725
+        }
+      ]
+    },
+    "native-geometry": {
+      "rhino": "8.36.26296.17002",
+      "state": "completed",
+      "phase": 8,
+      "checks": [
+        "mesh and solid Brep capture returns with background preparation",
+        "CPU field completed with selected geometry; display edit retains session",
+        "slice axis/position and fixed spectrum work; domain edit invalidates run",
+        "MPS completed; deleting a referenced body invalidates and reports missing geometry",
+        "replacement invalidates pending geometry; cooperative cancellation submitted",
+        "retry after geometry replacement and cancellation",
+        "schema 2 and object references survive 3dm reopen without auto-run",
+        "open mesh rejected atomically; units invalidate geometry; selected case cleanup completed"
+      ],
+      "geometry_submit_ms": 8.5968,
+      "cpu": {
+        "id": "c455c79b-e54b-4bff-94d0-ffa6b4aaca14",
+        "version": 3,
+        "revision": 3,
+        "generation": 4,
+        "run_revision": 3,
+        "result_revision": 3,
+        "result_version": 3,
+        "result_steps": 30,
+        "result_time_seconds": 0.17320508075688776,
+        "result_field": "pressure",
+        "state": "completed",
+        "steps": 30,
+        "session": "2b832afd-f04d-4b0b-a8c8-75e5d084d773",
+        "job": "8b03785e-8de1-489d-887b-9b5074120fcc",
+        "error": "",
+        "view_error": "",
+        "geometry_error": "",
+        "fault_area": null,
+        "retryable": null,
+        "settings": {
+          "schema": 2,
+          "setup": {
+            "mode": "selected",
+            "objects": [
+              "10226fc3-9de3-4a47-9739-d6d5bb84edec",
+              "ee5cdf54-cdc9-4217-ba47-a4e1a3f0b1bc"
+            ],
+            "origin": [
+              -2,
+              -1,
+              -1
+            ],
+            "size": [
+              8.4,
+              3,
+              3
+            ],
+            "viscosity": 0.1,
+            "density": 1.225,
+            "mach": 0.04,
+            "collision": "bgk",
+            "boundaries": [
+              "inlet",
+              "outlet",
+              "periodic",
+              "periodic",
+              "wall",
+              "slip"
+            ]
+          },
+          "view": {
+            "axis": 2,
+            "position": 0.5,
+            "palette": "blue-green",
+            "auto_range": true,
+            "min": 0,
+            "max": 1,
+            "domain": true,
+            "body": true,
+            "field": true
+          },
+          "id": "c455c79b-e54b-4bff-94d0-ffa6b4aaca14",
+          "speed": 1,
+          "cell": 0.25,
+          "width": 1,
+          "target": 30,
+          "device": "cpu",
+          "field": "pressure"
+        },
+        "linked": false,
+        "outdated": false
+      },
+      "mps": {
+        "id": "c455c79b-e54b-4bff-94d0-ffa6b4aaca14",
+        "version": 5,
+        "revision": 4,
+        "generation": 6,
+        "run_revision": 4,
+        "result_revision": 4,
+        "result_version": 8,
+        "result_steps": 30,
+        "result_time_seconds": 0.17320508075688779,
+        "result_field": "pressure",
+        "state": "completed",
+        "steps": 30,
+        "session": "d1c8f23e-2dba-467d-b486-fd56c3f3fcce",
+        "job": "cf3ff0bc-bd43-47ba-9098-332f9775c6b5",
+        "error": "",
+        "view_error": "",
+        "geometry_error": "",
+        "fault_area": null,
+        "retryable": null,
+        "settings": {
+          "schema": 2,
+          "setup": {
+            "mode": "selected",
+            "objects": [
+              "10226fc3-9de3-4a47-9739-d6d5bb84edec",
+              "ee5cdf54-cdc9-4217-ba47-a4e1a3f0b1bc"
+            ],
+            "origin": [
+              -2,
+              -1,
+              -1
+            ],
+            "size": [
+              9.4,
+              3,
+              3
+            ],
+            "viscosity": 0.1,
+            "density": 1.225,
+            "mach": 0.04,
+            "collision": "bgk",
+            "boundaries": [
+              "inlet",
+              "outlet",
+              "periodic",
+              "periodic",
+              "wall",
+              "slip"
+            ]
+          },
+          "view": {
+            "axis": 0,
+            "position": 0.4,
+            "palette": "spectrum",
+            "auto_range": false,
+            "min": -2,
+            "max": 2,
+            "domain": true,
+            "body": true,
+            "field": true
+          },
+          "id": "c455c79b-e54b-4bff-94d0-ffa6b4aaca14",
+          "speed": 1,
+          "cell": 0.25,
+          "width": 1,
+          "target": 30,
+          "device": "mps",
+          "field": "pressure"
+        },
+        "linked": false,
+        "outdated": false
+      }
+    },
+    "state-hardening": {
+      "rhino": "8.36.26296.17002",
+      "host": "macOS Rhino 8 embedded Python",
+      "state": "completed",
+      "phase": 13,
+      "checks": [
+        "pending panel pull survives an intervening GH solution",
+        "locked component retains native change for unlock",
+        "non-finite input releases binding and preserves case",
+        "multi-value input cannot produce several competing edits",
+        "computed input owns its parameter; panel write rejected",
+        "display and target edits are versioned; CPU run submitted",
+        "cooperative pause submitted",
+        "worker acknowledged pause",
+        "pause held and resume retained run",
+        "CPU completion publishes capture step and physical time",
+        "unit change rescales preview; physical edit withholds outdated GH field",
+        "MPS run submitted",
+        "MPS snapshot verified; cancel/reset/GH close release runtime and binding"
+      ],
+      "run_submit_ms": 64.0118,
+      "pause_submit_ms": 14.0377,
+      "pause_observed_ack_ms": 164.247,
+      "field_size_before_unit_change": 10,
+      "field_size_meters": 10,
+      "mps_result": {
+        "id": "a6141142-2788-46b7-9916-10920d89e1bf",
+        "version": 8,
+        "revision": 6,
+        "generation": 8,
+        "run_revision": 6,
+        "result_revision": 6,
+        "result_version": 5,
+        "result_steps": 25,
+        "result_time_seconds": 0.2107117770765058,
+        "result_field": "pressure",
+        "state": "completed",
+        "steps": 25,
+        "session": "be708060-88f7-48a9-82ca-57add9e79c74",
+        "job": "19e0a200-4cd6-4a8d-90f5-86e949ae23ff",
+        "error": "",
+        "view_error": "",
+        "geometry_error": "",
+        "fault_area": null,
+        "retryable": null,
+        "settings": {
+          "schema": 2,
+          "setup": {
+            "mode": "block",
+            "objects": [],
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "size": [
+              8,
+              6,
+              4
+            ],
+            "viscosity": 0.1,
+            "density": 1.225,
+            "mach": 0.04,
+            "collision": "bgk",
+            "boundaries": [
+              "inlet",
+              "outlet",
+              "periodic",
+              "periodic",
+              "wall",
+              "slip"
+            ]
+          },
+          "view": {
+            "axis": 2,
+            "position": 0.5,
+            "palette": "blue-green",
+            "auto_range": true,
+            "min": 0,
+            "max": 1,
+            "domain": true,
+            "body": true,
+            "field": true
+          },
+          "id": "a6141142-2788-46b7-9916-10920d89e1bf",
+          "speed": 1.37,
+          "cell": 0.5,
+          "width": 1,
+          "target": 25,
+          "device": "mps",
+          "field": "pressure"
+        },
+        "linked": true,
+        "outdated": false
+      },
+      "cancel_submit_ms": 14.7093
+    },
+    "binding-callbacks": {
+      "state": "completed",
+      "phase": 3,
+      "checks": [
+        "native edit queued while duplicate component has no lease",
+        "duplicate callback leaves its sliders and current owner unchanged",
+        "case replacement invalidates queued pull without rewriting old definition"
+      ]
+    },
+    "native-integration": {
+      "state": "completed",
+      "phase": 17,
+      "checks": [
+        "one shared assembly and one binding",
+        "panel changes reached all three GH sliders; old session closed",
+        "GH slider updates shared case without feedback loop",
+        "waiting for normal Rhino Undo command",
+        "Rhino undo restored shared case and slider; waiting for normal Redo command",
+        "Rhino redo restored shared case and slider",
+        "run started; cooperative pause submitted",
+        "worker acknowledged pause",
+        "pause held; display edit reused session; resume submitted",
+        "resumed to target with same session and GH field output",
+        "panel close/reopen kept case and result",
+        "physical edit marks field outdated and closes old run",
+        "cancel and reset release runtime handles",
+        "stale revision and duplicate binding rejected",
+        "GH close unbound and settings restore stayed idle",
+        "native MPS run submitted",
+        "native MPS completed 25 steps; case closed"
+      ],
+      "pause_submit_ms": 15,
+      "cancel_submit_ms": 32,
+      "mps_status": {
+        "session": "b9b579db-8d40-4994-bfb7-061b5d3842da",
+        "state": "completed",
+        "steps": 25,
+        "target": 25,
+        "error": null,
+        "backend": {
+          "requested": "mps",
+          "selected": "mps",
+          "torch": "2.8.0",
+          "cuda_available": false,
+          "mps_available": true,
+          "notes": []
+        },
+        "case_hash": "c35d70852fe7d0151eddacb071b5cad394307a64667905772c1e84b909a420b5",
+        "resolution": [
+          17,
+          13,
+          9
+        ],
+        "physical_time": 0.22205779584216376,
+        "relative_mass_change": 0.0005717481303418804,
+        "averaging_samples": 5,
+        "updated": 1794186073.737153
+      }
+    },
+    "recording-examples": {
+      "state": "completed",
+      "results": [
+        {
+          "file": "13-record-and-playback.gh",
+          "passed": true,
+          "seconds": 2.10163,
+          "last_frame": true,
+          "views": 1
+        },
+        {
+          "file": "15-fixed-refinement.gh",
+          "passed": true,
+          "seconds": 7.171969,
+          "last_frame": false,
+          "views": 2
+        },
+        {
+          "file": "16-cylinder-wake-recording.gh",
+          "passed": true,
+          "seconds": 74.882441,
+          "last_frame": true,
+          "views": 2
+        }
+      ]
+    },
+    "motion-examples": {
+      "state": "completed",
+      "results": [
+        {
+          "file": "17-oscillating-cylinder.gh",
+          "passed": true,
+          "steps": 80,
+          "seconds": 32.836091,
+          "field_faces": 814,
+          "body_closed": true,
+          "force": "{5.116597,19.979113,0.08803}"
+        },
+        {
+          "file": "18-pitching-airfoil.gh",
+          "passed": true,
+          "steps": 80,
+          "seconds": 194.43116,
+          "field_faces": 767,
+          "body_closed": true,
+          "force": "{7.41903,0.000112,20.474323}"
+        },
+        {
+          "file": "19-rotating-paddle.gh",
+          "passed": true,
+          "steps": 80,
+          "seconds": 32.885832,
+          "field_faces": 808,
+          "body_closed": true,
+          "force": "{1.836111,-1.517637,0.372782}"
+        }
+      ]
+    },
+    "motion-saved-toggle": {
+      "state": "completed",
+      "results": [
+        {
+          "file": "18-pitching-airfoil.gh",
+          "passed": true,
+          "steps": 80,
+          "seconds": 30.003351,
+          "field_faces": 767,
+          "body_closed": true,
+          "force": "{7.41903,0.000112,20.474323}"
+        }
+      ]
+    },
+    "search-controls": {
+      "submit_ms": 74,
+      "state": "completed",
+      "pause_ms": 29,
+      "paused": true,
+      "resume_ms": 40,
+      "cancel_ms": 16,
+      "cancel_cleared": true,
+      "restart_ms": 88,
+      "history": [
+        "1: 3.90536331; genes 0.81, 0.8, 2; candidate dab381cb-3c6d-4b08-bb3a-94c14c707fe4",
+        "2: 3.84699993; genes 0.855, 0.933, 1.729; candidate 1205d6ac-6acf-41e5-b167-9b13d986dcce",
+        "3: 3.86139928; genes 0.786, 0.770, 1.491; candidate a8e857e6-c9ba-45e6-a8ae-e6f23ec8e4fa",
+        "4: 3.99705877; genes 0.894, 0.858, 1.996; candidate 64dbb2a0-d35a-43b2-a29a-d1cb8276abc5",
+        "5: 3.91622746; genes 0.887, 0.848, 1.960; candidate 790b12cc-e2f4-4098-bd8d-796ea8e71f14"
+      ],
+      "input_change_completed": true,
+      "close_ms": 152,
+      "close_cleared_job": true
+    },
+    "motion-controls": {
+      "submit_ms": 74,
+      "state": "completed",
+      "pause_ms": 31,
+      "paused": true,
+      "resume_ms": 32,
+      "cancel_ms": 15,
+      "restart_ms": 51,
+      "history": [
+        "1: 1.91803986; genes 0.01; candidate d1ac9337-cb6e-49b1-8fb5-73cfc1ca9711",
+        "2: 2.31886493; genes 0.011; candidate 7f64b6f9-e802-4bad-b2d9-fd847249582c"
+      ],
+      "close_ms": 52,
+      "close_cleared": true
+    },
+    "selected-sync": {
+      "document": 268435459,
+      "case_id": "72ad44cf-df6c-4534-8e0e-ab22624d62b4",
+      "template_unbound": true,
+      "state": "completed",
+      "phase": 4,
+      "checks": [
+        "saved selected case reopened idle; two-input binding acquired",
+        "panel-to-GH and GH-to-panel physical edits; MPS run submitted",
+        "200-step MPS field and physical origin verified; slice display edit reuses session",
+        "replacement slice captured; example remains open for UI inspection"
+      ],
+      "result": {
+        "id": "72ad44cf-df6c-4534-8e0e-ab22624d62b4",
+        "version": 3,
+        "revision": 3,
+        "generation": 5,
+        "run_revision": 3,
+        "result_revision": 3,
+        "result_version": 5,
+        "result_steps": 200,
+        "result_time_seconds": 0.17764623667373106,
+        "result_field": "speed",
+        "state": "completed",
+        "steps": 200,
+        "session": "c023134a-192b-4b09-8a1e-306fb15492c2",
+        "job": "1c4428af-8f9a-4d5b-b706-ff27bde3a28e",
+        "error": "",
+        "view_error": "",
+        "geometry_error": "",
+        "fault_area": null,
+        "retryable": null,
+        "settings": {
+          "schema": 2,
+          "setup": {
+            "mode": "selected",
+            "objects": [
+              "141d5781-448c-4d6a-be61-457b0b7c4514"
+            ],
+            "origin": [
+              -1,
+              -0.44999999999999996,
+              -0.425
+            ],
+            "size": [
+              2.6,
+              0.8999999999999999,
+              0.85
+            ],
+            "viscosity": 0.1,
+            "density": 1.225,
+            "mach": 0.04,
+            "collision": "bgk",
+            "boundaries": [
+              "inlet",
+              "outlet",
+              "periodic",
+              "periodic",
+              "wall",
+              "slip"
+            ]
+          },
+          "view": {
+            "axis": 2,
+            "position": 0.5,
+            "palette": "blue-green",
+            "auto_range": true,
+            "min": 0,
+            "max": 1,
+            "domain": true,
+            "body": true,
+            "field": true
+          },
+          "id": "72ad44cf-df6c-4534-8e0e-ab22624d62b4",
+          "speed": 1.3,
+          "cell": 0.05,
+          "width": 1,
+          "target": 200,
+          "device": "mps",
+          "field": "speed"
+        },
+        "linked": true,
+        "outdated": false
+      },
+      "gh_document": "b9a4b927-53c3-4b62-b26e-fd5b9b4e0e61"
+    },
+    "search-controls-native-graph": {
+      "submit_ms": 1509,
+      "state": "completed",
+      "pause_ms": 42,
+      "paused": true,
+      "resume_ms": 34,
+      "cancel_ms": 16,
+      "cancel_cleared": true,
+      "restart_ms": 90,
+      "history": [
+        "1: 3.90536331; genes 0.81, 0.8, 2; candidate 1f786123-b06d-4822-85b3-7d6c7704a557",
+        "2: 3.84699993; genes 0.855, 0.933, 1.729; candidate c23bb52e-3cd6-4c59-be96-5de71e60777d",
+        "3: 3.86139928; genes 0.786, 0.770, 1.491; candidate b8711c4c-4799-4aa5-8bdb-2e365a2007cf",
+        "4: 3.99705877; genes 0.894, 0.858, 1.996; candidate 753b00e7-340d-4d90-92dd-c31fa7ee9d36",
+        "5: 3.91622746; genes 0.887, 0.848, 1.960; candidate b47b2d6c-6e8e-4a2c-bb06-120432717ac2"
+      ],
+      "input_change_completed": true,
+      "close_ms": 203,
+      "close_cleared_job": true
+    },
+    "node-catalog": {
+      "state": "completed",
+      "public_components": 46,
+      "archive_readers": 1,
+      "components": [
+        {
+          "name": "Hawa Domain",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077101",
+          "category": "01 Domain",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Geometry",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077102",
+          "category": "02 Geometry",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Physics",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077103",
+          "category": "03 Physics",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Boundaries",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077104",
+          "category": "03 Physics",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Case",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077105",
+          "category": "04 Case",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Example",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077106",
+          "category": "04 Case",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Runtime",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077107",
+          "category": "00 Setup",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Check Case",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077108",
+          "category": "04 Case",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Solve",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077109",
+          "category": "05 Solve",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Checkpoint",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077110",
+          "category": "08 Files",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Slice",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077111",
+          "category": "07 Visualize",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Sample",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077112",
+          "category": "06 Results",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Vectors",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077113",
+          "category": "07 Visualize",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Streamlines",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077114",
+          "category": "07 Visualize",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Wind Tunnel",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077115",
+          "category": "01 Domain",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Parametric Hull",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077116",
+          "category": "02 Geometry",
+          "archive_only": true
+        },
+        {
+          "name": "Hawa Evaluate",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077117",
+          "category": "05 Solve",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Search",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077118",
+          "category": "05 Solve",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Domain Preview",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077119",
+          "category": "01 Domain",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Seed Points",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077120",
+          "category": "07 Visualize",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Field Snapshot",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077121",
+          "category": "06 Results",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Color Map",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077122",
+          "category": "07 Visualize",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Plane Field",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077123",
+          "category": "07 Visualize",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Isosurface",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077124",
+          "category": "07 Visualize",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Airfoil",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077125",
+          "category": "09 Airfoils",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Polar Data",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077126",
+          "category": "09 Airfoils",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Wing",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077127",
+          "category": "10 Aircraft",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Wing Analysis",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077128",
+          "category": "10 Aircraft",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Flow Display",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077129",
+          "category": "07 Visualize",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Surface Field",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077130",
+          "category": "07 Visualize",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Record",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077131",
+          "category": "11 Animation",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Playback",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077132",
+          "category": "11 Animation",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Particles",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077133",
+          "category": "11 Animation",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Geometry Check",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077134",
+          "category": "02 Geometry",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Grid Preview",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077135",
+          "category": "02 Geometry",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Legend",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077136",
+          "category": "07 Visualize",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Refinement Patch",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077137",
+          "category": "01 Domain",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Refined Solve",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077138",
+          "category": "05 Solve",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Translation",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077139",
+          "category": "03 Motion",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Rotation",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077140",
+          "category": "03 Motion",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Oscillation",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077141",
+          "category": "03 Motion",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Moving Body",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077142",
+          "category": "02 Geometry",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Motion Case",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077143",
+          "category": "04 Case",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Body Loads",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077144",
+          "category": "06 Results",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Body Preview",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077145",
+          "category": "11 Animation",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Motion Evaluate",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077146",
+          "category": "05 Solve",
+          "archive_only": false
+        },
+        {
+          "name": "Hawa Linked Case",
+          "id": "a7bb3b0a-ae4f-42ae-9301-a3c55f077150",
+          "category": "00 Setup",
+          "archive_only": false
+        }
+      ],
+      "supported_definitions_without_hull": [
+        "01-tgv3d-bgk.gh",
+        "05-tgv3d-smagorinsky.gh",
+        "18-pitching-airfoil.gh",
+        "06-cavity2d-bgk.gh",
+        "04-tgv2d-smagorinsky.gh",
+        "19-rotating-paddle.gh",
+        "14-curved-sphere-pressure.gh",
+        "15-fixed-refinement.gh",
+        "17-oscillating-cylinder.gh",
+        "13-record-and-playback.gh",
+        "10-responsive-hull-search.gh",
+        "08-wind-around-block.gh",
+        "12-local-airfoil-rc-wing.gh",
+        "07-poiseuille2d-guo.gh",
+        "20-motion-cycle-search.gh",
+        "11-block-3d-visualization.gh",
+        "03-tgv2d-trt.gh",
+        "16-cylinder-wake-recording.gh",
+        "02-tgv2d-bgk.gh",
+        "21-native-live-sync.gh",
+        "22-native-selected-geometry.gh"
+      ]
+    }
+  },
+  "binary_sha256": {
+    "Hawa.Rhino.rhp": "75c9e1d1849b6c32c7ab3c2feea7dfedf2feee564b5002a7d68e65df252b0a8c",
+    "Hawa.Shared.dll": "85d7b621cf102fabb23ac6fb14738b7fc379fad86be8310aa2923b0403cfb4ea",
+    "Hawa.Grasshopper.gha": "879b3b811f4768af595069fb50b777e9e6ea671d402a1feada4d61925446b30a"
+  },
+  "frozen_v04_sha256": "be45d17cbcda550141bda6281919688e576aa7073f6d3ae1f39ef4bbc12c0b3c",
+  "captures": {
+    "native-selected-grasshopper.png": "720569f049b51c488fe38b2b138ea0b28c86678ff3045f4bc481c5d160c22c0d",
+    "native-selected-solve.png": "f5b27b7a1b9bf3f470d7229b006fa33f263737b540b3f47b3b0cda82295b4993",
+    "native-selected-view.png": "101309999166c3a4bee1af60209fb89b6b0aca83c8b8e242fc8bb509f49fdfe7",
+    "native-selected-setup.png": "e504d00f82eb9cc4a49e68c60d3d6e6e53118d53664cf163c9235ae5a8516221",
+    "native-selected-boundaries.png": "f02bf3fad5f0da63e93eec96dcdec979b60fcf84e8726e492ac559c2df138c01"
+  },
+  "source_sha256": {
+    "plugin/Bootstrap.py": "015973861cc4557c91be8abbe84e10f23097d8a0b5a678b63cce08a633b52a42",
+    "plugin/Hawa.Grasshopper/Icons.cs": "9d43281dc5e683ea1897bb9f2ae5320a509e034686d17f21e710130255b85cda",
+    "plugin/Hawa.Grasshopper/ResultsComponents.cs": "8c9025733b1cb7bf2891a0cd3ca0ab7603ef43b88a0826c789d9fb4b6cb7c147",
+    "plugin/Hawa.Grasshopper/LinkedCaseComponent.cs": "88e664188d566534cbd4ddac31b64723de3d3582b65343d8824abc1516fcaf1f",
+    "plugin/Hawa.Grasshopper/Runtime.cs": "8f9467a77e528b1d60263c0ca0b86a4b6ad1a5ff8e93f7adc923c405686f2205",
+    "plugin/Hawa.Grasshopper/LegacyHullComponent.cs": "b155dff3e3ae263f65f8a76cda49bd57804d0f44903bb243c560f1abe2669861",
+    "plugin/Hawa.Grasshopper/VisualizationComponents.cs": "8f3161dce985332425447887511e2573a7013d4692af0f51d7af54be94b0269f",
+    "plugin/Hawa.Grasshopper/MotionComponents.cs": "61be1f1c64b2b7faec996f8e5aad6f59d7822961d9d1802a78c4da9f297bf3c5",
+    "plugin/Hawa.Grasshopper/Hawa.Grasshopper.csproj": "5da88a5c1bb5225c7763bec3f85b74c3c367dff0f94f9e5206a806805a7c5aba",
+    "plugin/Hawa.Grasshopper/SolveComponents.cs": "8258faaf40d75893e2231ba3b2189517e9bd6b52c98938650accd0b3a474a55f",
+    "plugin/Hawa.Grasshopper/SetupComponents.cs": "85d434041abac40e97e376d4cc0454e41fdccd8756710fbdb1a5b702f2afd2a7",
+    "plugin/Hawa.Grasshopper/SearchComponent.cs": "55938691ad9b86ac2a7e89742c40bd9f27eae7a449d5b378509af5d0b1900314",
+    "plugin/Hawa.Grasshopper/GridComponents.cs": "a2cbcdc184560914e36d9172969d94c2b394ed82591c3d92dafc5f048dfae3be",
+    "plugin/Hawa.Grasshopper/OptimizationComponents.cs": "14f3b09f2259472ffa2303778eb4d722f652463d141284d936635868fd78a82c",
+    "plugin/Hawa.Grasshopper/AirfoilComponents.cs": "792a472f4fdc31c5d110cb79cdbf57e0fe86517e968072550755c5e3c3ff20e8",
+    "plugin/Hawa.Grasshopper/AnimationComponents.cs": "8ae4e62e08b033f8693c90f4b0461fb20fe8219107a0587bb38a2041a7bd01a3",
+    "plugin/Hawa.Grasshopper/RefinementComponents.cs": "e12938cbda0bf8dd097e497533489cf86c6d618c4e929a5ad86052411011b577",
+    "plugin/Hawa.Shared/CaseGeometry.cs": "adb35ab3f1005a36335ed9b6ec106198972f70fdcbcdbdde1fda4e86d20437e2",
+    "plugin/Hawa.Shared/CaseState.cs": "0d43b66f69599b023082eb7d4ad3f8fac054830ba2bd878df254a551cf1c8f27",
+    "plugin/Hawa.Shared/NativeSettings.cs": "5edc9d6bd03e0ef4893a4c8a951c50ec9d1b1b5c853b29b4bb9307549f75ab7c",
+    "plugin/Hawa.Shared/Hawa.Shared.csproj": "968270cfec7a9c6595c525091160f9ad2fee87bd2425ed44806882e92a09b455",
+    "plugin/Hawa.Shared/JsonCompatibility.cs": "9287b4b457d95f6da74c4e1aac438171418afe563da13dcdd0d1489d0ed0492d",
+    "plugin/Hawa.Shared/EmbeddedRuntime.cs": "349a77423f08c62505c4dec3a7b5300586912e2f8a9ad60cf241a23405820a44",
+    "plugin/Hawa.Shared/MeshContainment.cs": "905c8ff444a010c68768cf2c41f9a8e769ab84bf45a5eabc710e333560ff95db",
+    "plugin/Hawa.Shared/CaseHub.cs": "d87d526a81a5b91c6d9ebfcd910817b93efad94cce1d65f002232cf313e202a2",
+    "plugin/Hawa.Rhino/AssemblyInfo.cs": "f8354aa59b1f40f6823afc6e8d266b1e93e34f5e75dc0207b079d152a56b59ab",
+    "plugin/Hawa.Rhino/Hawa.Rhino.csproj": "716c07d44925d5c2dcd54d82f0d882cb05ecca57fef5d15528a179f63462dfdd",
+    "plugin/Hawa.Rhino/HawaPlugin.cs": "d2f94ef7f38451eb62b776961cc53198b753ad09024095887b25e5bed99ac07a",
+    "plugin/Hawa.Rhino/HawaPanel.cs": "63781d30a8af406313bacb146c677ecf12a1cbf3f4fb708db7a0703363def581",
+    "plugin/Hawa.Rhino/NativePreview.cs": "8c8d4c750a7c4abb1712c1718b1ddb86e51d4d406e5944769ad71cd0b34bde9e",
+    "plugin/Hawa.Rhino/NativeGeometry.cs": "6997ce3fb422a50dec24771a628c9e8648b435bf6f5c3f402a576afb590060ab",
+    "plugin/Hawa.Rhino/NativeIcons.cs": "2404ec813d1dfcd1e2bf570c57a72cc140a5e25a7f0207bcdd670dcefb934e85",
+    "src/hawa/moving_boundaries.py": "03e9570db6304d32c9deec1d792f520e317fcdf6fc1a2deadf4683403fef2a50",
+    "src/hawa/fields.py": "27b0479ddec44d26ce2db2dfea0b1cae6929e897ee9d13260ef248a4104c3075",
+    "src/hawa/recording.py": "1e188e12fe792db5e98c9c639a47b5f81457129ce2a1bfeac476926174b1bea4",
+    "src/hawa/optimization.py": "a7a7f910da56c1de3ad80867f36d8f37480ba7948fb144d1b8bf2de022dac3d9",
+    "src/hawa/__init__.py": "3484c4615e9a7d8c6f9421b9233b0cf8ba70e9a20a554246a80904b9641a40c6",
+    "src/hawa/cases.py": "f8ad136bd78b60b7f21d6b8fb5a911a945fb0e6b9c16ebf9ad649b0be3c643d1",
+    "src/hawa/refinement.py": "d06a182728a1b0bc58c01fa19193c47b3f9703171e39856f9b6390a00d87d7ee",
+    "src/hawa/lbm.py": "058cacba479e8acdd283340c22581eac8ccee15bd92eedbdfd7474b8817df942",
+    "src/hawa/jobs.py": "342941e8aec16eb404b1e545df24701b4256499d1ab3d3671be2784c7ae894f2",
+    "src/hawa/backends.py": "6bdbf42473b3aa83d8b4497e7731db119d51a7344f1e3246cb64a5186cf42a73",
+    "src/hawa/motion.py": "128a3133372b43c36ffb3f0ef2b8cbb0ec96164d75d674a0f599834e2e4c63cf",
+    "src/hawa/engine.py": "5a66e746c8d23c2ad3ac9a5e05596136527437704fba2ade779b99263567d09e",
+    "src/hawa/cli.py": "ddf72cf58607aa78785997486623817aea62f5ccaa1cb766b60b1ba199b86fd6",
+    "src/hawa/plugin.py": "fe15a68ab37a26626d1ab244f5a6c91341ab44b74d45321d0f4ddaa1e911a65d",
+    "src/hawa/airfoils.py": "4117731d899c5641817ac7b3145850595b01e4dafa5899489b49ebbb6431af39",
+    "src/hawa/walls.py": "dc6c236d74578e322534e61eba45dd27662029a869933cc012c744bb438b97d6"
+  }
+}

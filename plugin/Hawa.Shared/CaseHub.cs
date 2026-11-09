@@ -14,10 +14,12 @@ public static class CaseHub
     private static readonly HashSet<uint> Closing = new();
     private static readonly HashSet<uint> PendingClose = new();
     private static readonly HashSet<CaseState> Busy = new();
+    private static readonly HashSet<(uint Document, Guid Object)> PendingGeometry = new();
     private static readonly Dictionary<string, JsonObject> Cleanup = new();
     private static DateTime cleanupAttempt;
     private static bool polling;
     internal static Func<JsonObject, JsonObject> Transport = EmbeddedRuntime.Call;
+    public static Func<CaseState, CancellationToken, Task<JsonObject>>? PrepareGeometry { get; set; }
     public static event Action<CaseState, string>? Changed;
     public static int PendingCleanupCount => Cleanup.Count;
     public static IEnumerable<CaseState> All => Cases.Values.ToArray();
@@ -39,7 +41,13 @@ public static class CaseHub
     {
         Current(c);
         if (!Busy.Add(c)) throw new InvalidOperationException("Case is applying another command; refresh and retry");
-        try { action(); } finally { Busy.Remove(c); if (PendingClose.Remove(c.Document)) Close(c.Document); }
+        try { action(); } finally { Busy.Remove(c); Drain(c); }
+    }
+    private static void Drain(CaseState c) {
+        if (PendingClose.Remove(c.Document)) Close(c.Document);
+        foreach (var item in PendingGeometry.Where(v => v.Document == c.Document).ToArray()) {
+            PendingGeometry.Remove(item); GeometryChanged(item.Document, item.Object);
+        }
     }
     private static void Notify(CaseState c, string origin)
     {
@@ -50,7 +58,7 @@ public static class CaseHub
             foreach (var handler in Changed?.GetInvocationList() ?? Array.Empty<Delegate>())
                 try { ((Action<CaseState, string>)handler)(c, origin); }
                 catch (Exception e) { RhinoApp.WriteLine("Hawa view update failed: " + e.GetBaseException().Message); }
-        } finally { if (added) { Busy.Remove(c); if (PendingClose.Remove(c.Document)) Close(c.Document); } }
+        } finally { if (added) { Busy.Remove(c); Drain(c); } }
     }
     public static Guid Bind(CaseState c, Guid owner, IEnumerable<string> driven)
     {
@@ -100,7 +108,7 @@ public static class CaseHub
             if (c.Version != expectedVersion) throw new InvalidOperationException("Case changed; refresh before applying this edit");
             var next = c.Settings();
             foreach (var pair in values) {
-                if (!new[] { "speed", "cell", "width", "target", "device", "field" }.Contains(pair.Key)) throw new ArgumentException("Unknown setting: " + pair.Key);
+                if (!new[] { "speed", "cell", "width", "target", "device", "field", "setup", "view" }.Contains(pair.Key)) throw new ArgumentException("Unknown setting: " + pair.Key);
                 if (owner == null && c.DrivenKeys.Contains(pair.Key)) throw new InvalidOperationException(pair.Key + " is driven by Grasshopper");
                 next[pair.Key] = pair.Value?.DeepClone();
             }
@@ -133,11 +141,14 @@ public static class CaseHub
     }
     public static void Validate(JsonObject settings)
     {
-        if (settings["schema"]?.GetValue<int>() != 1 || !Guid.TryParse(settings["id"]?.GetValue<string>(), out var id) || id == Guid.Empty) throw new ArgumentException("Unsupported case schema or ID");
-        foreach (var p in Parameters) {
+        if (settings["schema"]?.GetValue<int>() is not (1 or 2) || !Guid.TryParse(settings["id"]?.GetValue<string>(), out var id) || id == Guid.Empty) throw new ArgumentException("Unsupported case schema or ID");
+        var setup = settings["setup"]?.AsObject() ?? NativeSettings.DefaultSetup();
+        var view = settings["view"]?.AsObject() ?? NativeSettings.DefaultView();
+        foreach (var p in NativeSettings.Parameters(setup["mode"]?.GetValue<string>() == "selected")) {
             double value = settings[p.Key]?.GetValue<double>() ?? double.NaN;
             if (!double.IsFinite(value) || value < p.Minimum || value > p.Maximum) throw new ArgumentException($"{p.Label}: {p.Minimum}..{p.Maximum} {p.Unit}");
         }
+        NativeSettings.Validate(setup, view, settings["cell"]!.GetValue<double>());
         int target = settings["target"]?.GetValue<int>() ?? 0;
         if (target < 1 || target > 100000) throw new ArgumentException("Target steps: 1..100000");
         if (!new[] { "cpu", "mps", "auto", "cuda:0" }.Contains(settings["device"]?.GetValue<string>())) throw new ArgumentException("Unknown backend");
@@ -145,13 +156,18 @@ public static class CaseHub
     }
     private static void Apply(CaseState c, JsonObject n)
     {
-        bool physical = c.Speed != n["speed"]!.GetValue<double>() || c.Cell != n["cell"]!.GetValue<double>() || c.Width != n["width"]!.GetValue<double>() || c.Device != n["device"]!.GetValue<string>();
-        bool display = c.Field != n["field"]!.GetValue<string>();
+        var setup = n["setup"]?.DeepClone().AsObject() ?? NativeSettings.DefaultSetup();
+        var view = n["view"]?.DeepClone().AsObject() ?? NativeSettings.DefaultView();
+        bool physical = c.SetupData.ToJsonString() != setup.ToJsonString() || c.Speed != n["speed"]!.GetValue<double>() || c.Cell != n["cell"]!.GetValue<double>() || c.Width != n["width"]!.GetValue<double>() || c.Device != n["device"]!.GetValue<string>();
+        bool display = c.Field != n["field"]!.GetValue<string>() || c.ViewData["axis"]!.ToJsonString() != view["axis"]!.ToJsonString() || c.ViewData["position"]!.ToJsonString() != view["position"]!.ToJsonString();
+        bool recolor = c.ViewData.ToJsonString() != view.ToJsonString();
         if (physical) { Stop(c); c.Revision++; c.State = c.SliceData == null ? "idle" : "outdated"; }
         c.Id = Guid.Parse(n["id"]!.GetValue<string>());
         c.Speed = n["speed"]!.GetValue<double>(); c.Cell = n["cell"]!.GetValue<double>(); c.Width = n["width"]!.GetValue<double>();
         c.Target = n["target"]!.GetValue<int>(); c.Device = n["device"]!.GetValue<string>(); c.Field = n["field"]!.GetValue<string>();
-        c.Version++; c.Error = ""; c.Fault = null;
+        c.SetupData = setup; c.ViewData = view;
+        if (recolor) c.ResultVersion++;
+        c.Version++; c.Error = c.GeometryError = ""; c.Fault = null;
         if (display) { CloseQuery(c); ClearResult(c); c.ViewError = ""; c.ViewFailures = 0; c.LastQuery = DateTime.MinValue; }
     }
     public static string Save(uint doc) => Get(doc).Settings().ToJsonString();
@@ -168,11 +184,20 @@ public static class CaseHub
     private static void ClearResult(CaseState c) { c.SliceData = c.ResultSpecData = null; c.Result = null; c.SliceSteps = -1; c.ResultVersion++; }
     public static JsonObject BuildSpec(CaseState c)
     {
+        if (c.SelectedGeometry) {
+            var shape = NativeSettings.Shape(c.SetupData, c.Cell);
+            double units = RhinoMath.UnitScale(UnitSystem.Meters, RhinoDoc.FromRuntimeSerialNumber(c.Document)!.ModelUnitSystem);
+            return new() { ["kind"] = "Case", ["label"] = "Hawa selected geometry", ["shape"] = new JsonArray(shape.Select(v => JsonValue.Create(v)).ToArray()),
+                ["origin_m"] = c.SetupData["origin"]!.DeepClone(), ["origin"] = new JsonArray(c.SetupData["origin"]!.AsArray().Select(v => JsonValue.Create(v!.GetValue<double>() * units)).ToArray()),
+                ["spacing"] = c.Cell * units, ["dx"] = c.Cell, ["speed"] = c.Speed,
+                ["viscosity"] = c.SetupData["viscosity"]!.DeepClone(), ["density"] = c.SetupData["density"]!.DeepClone(),
+                ["mach"] = c.SetupData["mach"]!.DeepClone(), ["collision"] = c.SetupData["collision"]!.DeepClone(), ["boundaries"] = c.SetupData["boundaries"]!.DeepClone() };
+        }
         var lengths = new[] { 8d, 6d, 4d }; var n = lengths.Select(x => (int)Math.Floor(x / c.Cell) + 1).ToArray(); var solid = new JsonArray();
         for (int x = 0; x < n[0]; x++) for (int y = 0; y < n[1]; y++) for (int z = 0; z < n[2]; z++) if (Math.Abs(x * c.Cell - 3) <= c.Width / 2 && Math.Abs(y * c.Cell - 3) <= c.Width / 2 && Math.Abs(z * c.Cell - 2) <= c.Width / 2) solid.Add((x * n[1] + y) * n[2] + z);
         if (solid.Count == 0) throw new ArgumentException("The block is unresolved; reduce cell size or increase block width");
         double scale = RhinoMath.UnitScale(UnitSystem.Meters, RhinoDoc.FromRuntimeSerialNumber(c.Document)!.ModelUnitSystem);
-        return new() { ["kind"] = "Case", ["label"] = "Hawa native block prototype", ["hawa_block_width"] = c.Width, ["shape"] = new JsonArray(n[0], n[1], n[2]), ["origin"] = new JsonArray(0d, 0d, 0d), ["spacing"] = c.Cell * scale, ["dx"] = c.Cell, ["speed"] = c.Speed, ["viscosity"] = .1, ["density"] = 1.225, ["mach"] = .04, ["collision"] = "bgk", ["boundaries"] = new JsonArray("inlet", "outlet", "periodic", "periodic", "wall", "slip"), ["solid"] = solid };
+        return new() { ["kind"] = "Case", ["label"] = "Hawa native block prototype", ["hawa_block_width"] = c.Width, ["shape"] = new JsonArray(n[0], n[1], n[2]), ["origin"] = new JsonArray(0d, 0d, 0d), ["spacing"] = c.Cell * scale, ["dx"] = c.Cell, ["speed"] = c.Speed, ["viscosity"] = c.SetupData["viscosity"]!.DeepClone(), ["density"] = c.SetupData["density"]!.DeepClone(), ["mach"] = c.SetupData["mach"]!.DeepClone(), ["collision"] = c.SetupData["collision"]!.DeepClone(), ["boundaries"] = c.SetupData["boundaries"]!.DeepClone(), ["solid"] = solid };
     }
     private static JsonObject Request(string op, string session) => Transport(new() { ["op"] = op, ["session"] = session });
     private static void Failure(CaseState c, string area, Exception error)
@@ -185,12 +210,18 @@ public static class CaseHub
         Change(c, () => {
             try {
                 c.Error = ""; c.Fault = null; c.PauseRequested = false;
+                if (c.Preparation != null) { c.StartWhenReady = true; return; }
                 if (c.Job != null && c.Session == null) { c.StartWhenReady = true; return; }
                 if (c.Session != null && c.RunRevision == c.Revision) {
                     var status = Transport(new() { ["op"] = "start", ["session"] = c.Session, ["steps"] = c.Target });
                     c.State = status["state"]?.GetValue<string>() ?? "running"; return;
                 }
-                Stop(c); c.SpecData = BuildSpec(c); c.ViewFailures = 0; c.ViewError = "";
+                Stop(c); c.Steps = 0; c.GeometryError = ""; c.SpecData = BuildSpec(c); c.ViewFailures = 0; c.ViewError = "";
+                if (c.SelectedGeometry) {
+                    if (PrepareGeometry == null) throw new InvalidOperationException("Native geometry service is unavailable");
+                    c.PreparationCancel = new(); c.Preparation = PrepareGeometry(c, c.PreparationCancel.Token);
+                    c.RunRevision = c.Revision; c.StartWhenReady = true; c.State = "voxelizing"; return;
+                }
                 Transport(new() { ["op"] = "check", ["case"] = c.SpecData.DeepClone() });
                 var response = Transport(new() { ["op"] = "evaluate_submit", ["kind"] = "create", ["case"] = c.SpecData.DeepClone(), ["device"] = c.Device });
                 c.Job = response["job"]!.GetValue<string>(); c.RunRevision = c.Revision; c.StartWhenReady = true; c.State = "preparing";
@@ -203,7 +234,7 @@ public static class CaseHub
         var c = Get(doc);
         Change(c, () => {
             c.StartWhenReady = false; c.PauseRequested = true;
-            try { if (c.Session != null) Request("pause_async", c.Session); c.State = c.Session == null ? "paused" : "pausing"; }
+            try { if (c.Session != null) Request("pause_async", c.Session); c.State = c.Session == null && c.Preparation == null ? "paused" : "pausing"; }
             catch (Exception e) { Failure(c, "control", e); }
         }); Notify(c, "pause");
     }
@@ -234,12 +265,23 @@ public static class CaseHub
     }
     private static void Stop(CaseState c)
     {
+        c.PreparationCancel?.Cancel(); c.PreparationCancel?.Dispose(); c.PreparationCancel = null;
+        var preparation = c.Preparation; c.Preparation = null;
+        if (preparation != null) _ = preparation.ContinueWith(t => { _ = t.Exception; }, TaskContinuationOptions.OnlyOnFaulted);
         c.Generation++; // Invalidate replies before calling the bridge, which may pump UI messages.
         var job = c.Job; var session = c.Session;
         c.Job = c.Session = null; c.StartWhenReady = c.PauseRequested = false; c.StatusData = null;
         CloseQuery(c);
         if (job != null) Release("job:" + job, new() { ["op"] = "evaluate_control", ["job"] = job, ["action"] = "close" });
         else if (session != null) Release("session:" + session, new() { ["op"] = "close_async", ["session"] = session });
+    }
+    public static void GeometryChanged(uint doc, Guid objectId)
+    {
+        var c = Find(doc); if (c == null || !c.SelectedGeometry || !c.SetupData["objects"]!.AsArray().Any(v => v!.GetValue<string>() == objectId.ToString())) return;
+        UI();
+        if (Busy.Contains(c)) { PendingGeometry.Add((doc, objectId)); return; }
+        Change(c, () => { Stop(c); c.Version++; c.Revision++; c.GeometryError = "Selected geometry changed. Review it and run again; reselect any deleted objects."; c.State = c.Result == null ? "idle" : "outdated"; });
+        Notify(c, "geometry");
     }
     public static void Close(uint doc)
     {
@@ -292,7 +334,9 @@ public static class CaseHub
             }
             if (c.Query == null && c.ViewFailures < 3 && (DateTime.UtcNow - c.LastQuery).TotalSeconds > (c.ViewFailures == 0 ? .6 : 2) && (c.State == "running" || c.SliceData == null || c.SliceSteps != c.Steps)) {
                 var stamp = new ResultStamp(c.Id, c.Revision, c.Generation, c.Session!, c.Field, c.Steps);
-                var request = new JsonObject { ["op"] = "slice", ["session"] = c.Session, ["field"] = c.Field, ["axis"] = 2 };
+                int axis = c.ViewData["axis"]!.GetValue<int>();
+                int index = (int)Math.Round((c.SpecData!["shape"]![axis]!.GetValue<int>() - 1) * c.ViewData["position"]!.GetValue<double>());
+                var request = new JsonObject { ["op"] = "slice", ["session"] = c.Session, ["field"] = c.Field, ["axis"] = axis, ["index"] = index };
                 c.Query = Transport(new() { ["op"] = "evaluate_submit", ["kind"] = "query", ["request"] = request })["job"]!.GetValue<string>();
                 c.QueryStamp = stamp; c.LastQuery = DateTime.UtcNow;
             }
@@ -310,11 +354,29 @@ public static class CaseHub
                 if (Find(c.Document) != c || Busy.Contains(c)) continue;
                 var doc = RhinoDoc.FromRuntimeSerialNumber(c.Document);
                 if (doc == null) { Close(c.Document); continue; }
-                if (c.ModelUnits != doc.ModelUnitSystem) { c.ModelUnits = doc.ModelUnitSystem; Notify(c, "units"); }
+                if (c.ModelUnits != doc.ModelUnitSystem) {
+                    c.ModelUnits = doc.ModelUnitSystem;
+                    // Referenced geometry is reinterpreted by Rhino unit changes. Invalidate
+                    // conservatively even if Rhino also scales the objects to preserve size.
+                    if (c.SelectedGeometry && c.SetupData["objects"]!.AsArray().Count > 0)
+                        GeometryChanged(c.Document, Guid.Parse(c.SetupData["objects"]![0]!.GetValue<string>()));
+                    Notify(c, "units");
+                }
                 if (Find(c.Document) != c) continue;
                 var before = (c.State, c.Steps, c.ResultVersion, c.ViewError);
                 Change(c, () => {
                     try {
+                        if (c.Preparation != null) {
+                            if (!c.Preparation.IsCompleted) return;
+                            var preparation = c.Preparation; c.Preparation = null;
+                            c.PreparationCancel?.Dispose(); c.PreparationCancel = null;
+                            if (preparation.IsCanceled) { c.State = "cancelled"; return; }
+                            if (preparation.IsFaulted) throw preparation.Exception!.GetBaseException();
+                            c.SpecData = preparation.Result;
+                            Transport(new() { ["op"] = "check", ["case"] = c.SpecData.DeepClone() });
+                            c.Job = Transport(new() { ["op"] = "evaluate_submit", ["kind"] = "create", ["case"] = c.SpecData.DeepClone(), ["device"] = c.Device })["job"]!.GetValue<string>();
+                            c.State = "preparing";
+                        }
                         if (c.Job != null && c.Session == null) {
                             var response = Transport(new() { ["op"] = "evaluate_poll", ["job"] = c.Job });
                             string state = response["state"]!.GetValue<string>();

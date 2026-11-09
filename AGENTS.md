@@ -12,7 +12,8 @@ For operating the installed plugin through **Rhino MCP only**, read
 [docs/agents/rhino-mcp.md](docs/agents/rhino-mcp.md), then
 [examples/grasshopper/README.md](examples/grasshopper/README.md).
 For the 0.5 native panel and public shared-case API, also read
-[docs/agents/native-prototype.md](docs/agents/native-prototype.md).
+[docs/agents/native-prototype.md](docs/agents/native-prototype.md) and the
+[0.5 native guide](docs/native-v0.5.md).
 For state ownership, failure handling and GH scheduling rules, read
 [docs/architecture-v0.5.md](docs/architecture-v0.5.md).
 These workflows use native Hawa components and Rhino's embedded Python runtime.
@@ -41,6 +42,15 @@ or direct access to private embedded-runtime fields.
 - Original Hawa code is GPL-3.0-only. Preserve bundled upstream license notices.
 - Report what was actually run, including device, steps and skipped checks.
   A rendered field is not a convergence or engineering-accuracy result.
+
+## Product boundary
+
+A tutorial request does not authorize a new public node by default. Use ordinary
+Grasshopper assemblies for example geometry and recipes. Promote a component only
+when it represents a reusable solver/data operation or an explicitly scoped
+numerical service, with a defined contract and verification. The hull construction
+is example 10, not a Hawa tool. Its hidden archive reader exists only to preserve
+older user definitions. See [the node audit](docs/node-catalog-v0.5.md).
 
 ## Developer checks
 

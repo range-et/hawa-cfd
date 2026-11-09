@@ -14,11 +14,13 @@ ROOT = Path(__file__).resolve().parents[1]
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--install", type=Path, help="Optional Grasshopper Libraries destination")
+    parser.add_argument("--package-only", action="store_true", help="Refresh the bundle using existing tested Release assemblies; do not compile")
     args = parser.parse_args()
     output = ROOT / "dist/Hawa"
-    subprocess.run(["dotnet", "build", str(ROOT / "plugin/Hawa.Grasshopper"), "-c", "Release",
-                    "--nologo", "-v", "quiet"], check=True)
-    subprocess.run(["dotnet", "build", str(ROOT / "plugin/Hawa.Rhino"), "-c", "Release", "--nologo", "-v", "quiet"], check=True)
+    if not args.package_only:
+        subprocess.run(["dotnet", "build", str(ROOT / "plugin/Hawa.Grasshopper"), "-c", "Release",
+                        "--nologo", "-v", "quiet"], check=True)
+        subprocess.run(["dotnet", "build", str(ROOT / "plugin/Hawa.Rhino"), "-c", "Release", "--nologo", "-v", "quiet"], check=True)
     output.mkdir(parents=True, exist_ok=True)
     for name in ("Hawa.Rhino.rhp", "Hawa.Shared.dll"):
         shutil.copy2(ROOT / "plugin/Hawa.Rhino/bin/Release/net7.0" / name, output / name)
@@ -39,7 +41,7 @@ def main():
     for name in ("LICENSE", "AUTHORS.rst", "PORTING.md", "upstream.json"):
         shutil.copy2(ROOT / "vendor/lettuce" / name, notices / name)
     if (ROOT / "docs/plugin.md").exists():
-        (output / "README.md").write_text((ROOT / "docs/native-prototype-v0.5.md").read_text().replace("](captures/", "](docs/captures/"))
+        (output / "README.md").write_text((ROOT / "docs/native-v0.5.md").read_text().replace("](captures/", "](docs/captures/"))
         shutil.copy2(ROOT / "docs/release-notes-v0.4.0.md", output / "release-notes-v0.4.0.md")
         shutil.copy2(ROOT / "docs/verification-v0.4.json", output / "verification-v0.4.json")
         for name in ("moving-surfaces-v0.4.md", "verification-motion-v0.4.json", "hardening-v0.4.md", "hardening-v0.4.json"):
@@ -47,7 +49,8 @@ def main():
     if (ROOT / "examples/grasshopper").exists():
         if (output / "examples").exists(): shutil.rmtree(output / "examples")
         shutil.copytree(ROOT / "examples/grasshopper", output / "examples", ignore=shutil.ignore_patterns("09-parametric-hull-galapagos.gh"))
-    shutil.copytree(ROOT / "examples/native-prototype", output / "examples/native-prototype", dirs_exist_ok=True)
+    shutil.copytree(ROOT / "examples/native-prototype", output / "examples/native-prototype", dirs_exist_ok=True,
+                    ignore=shutil.ignore_patterns("*.rhl", "*.3dmbak", "*.ghbak"))
     # Keep the agent workflow and its relative links usable in the installed bundle.
     (output / "AGENTS.md").write_text((ROOT / "AGENTS.md").read_text().replace("examples/grasshopper/", "examples/"))
     docs_output = output / "docs"
@@ -72,7 +75,7 @@ def main():
                         ignore=shutil.ignore_patterns("bin", "obj", "__pycache__", "*.pyc", ".pytest_cache"))
     for name in ("pyproject.toml", "uv.lock", "LICENSE", "THIRD_PARTY_NOTICES.md", "README.md", "AGENTS.md"):
         shutil.copy2(ROOT / name, source_root / name)
-    archive = ROOT / "dist/Hawa-0.5.0-prototype-rh8.zip"
+    archive = ROOT / "dist/Hawa-0.5.0-rh8.zip"
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as bundle:
         for file in output.rglob("*"):
             if file.is_file():

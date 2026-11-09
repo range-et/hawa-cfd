@@ -2,7 +2,7 @@
 
 Read `rhino-mcp.md` first. Use an isolated test document. Preserve user files and never kill Rhino.
 
-For the 0.5 prototype, run the `Hawa` command and use the public `Hawa.Shared.CaseHub` API from `run_csharp`. MCP's C# compiler may not reference the plugin assembly automatically. This public reflection adapter works without accessing private fields:
+For Hawa 0.5, run the `Hawa` command and use the public `Hawa.Shared.CaseHub` API from `run_csharp`. MCP's C# compiler may not reference the plugin assembly automatically. This public reflection adapter works without accessing private fields:
 
 ```csharp
 var hub = AppDomain.CurrentDomain.GetAssemblies()
@@ -15,7 +15,7 @@ dynamic c = Call("Get", document);
 Console.WriteLine(c.Describe());
 ```
 
-Use `Edit(document, JsonObject patch, (long)c.Version, "panel", true)` to apply a validated change with undo. Supported keys: speed, cell, width, target, device, field. Use `Run(document)`, `Pause(document)`, `Cancel(document)`, `Reset(document)` and `Save(document)`. `Restore(document, json)` validates settings and stays idle. Do not write CaseState fields directly. Do not call Tick in a wait loop; the plugin already polls on its timer.
+Use `Edit(document, JsonObject patch, (long)c.Version, "panel", true)` to apply a validated change with undo. Supported keys: speed, cell, width, target, device, field, setup, view. Use `Run(document)`, `Pause(document)`, `Cancel(document)`, `Reset(document)` and `Save(document)`. `Restore(document, json)` validates settings and stays idle. Do not write CaseState fields directly. Do not call Tick in a wait loop; the plugin already polls on its timer.
 
 Read Describe on later MCP turns to observe progress. Pause is cooperative; wait for the reported paused state before comparing steps. Fields are queried asynchronously, so a completed solver may precede a field update. Require `outdated == false`, and compare `result_steps` with the required capture step. `steps` is solver progress; `result_steps` and `result_time_seconds` describe the field actually captured. Physical edits stop the old session. Field and target edits increment Version while retaining the physical revision.
 
@@ -36,3 +36,25 @@ sync, invalid inputs, units and CPU/MPS lifecycle; `scripts/verify_binding_callb
 exercises duplicate owners and replacement cases. Both create their own temporary
 definitions. See [the architecture review](../architecture-v0.5.md) for contracts
 and remaining release gates.
+
+
+## Hawa 0.5 selected geometry
+
+The expanded native workflow is described in `../native-v0.5.md`. Schema 2 adds
+`setup` and `view`; schema 1 still reads as the block preset. `Setup` and `View`
+return detached JSON copies. Edit a complete copy through `CaseHub.Edit` with the
+version read before editing. Setup coordinates are metres. View edits preserve
+physics; geometry/domain/fluid edits invalidate the run.
+
+The public `Hawa.Native.NativeGeometry` adapter in `Hawa.Rhino` provides
+`SelectObjects(documentSerial, IEnumerable<Guid>, fitDomain)` and
+`FitDomain(documentSerial)`. Use object IDs from the intended document. Selection
+requires valid closed meshes or solid Breps. Do not call the asynchronous geometry
+preparer directly as an operating API; use `CaseHub.Run`, then poll on later turns.
+Missing objects fail explicitly. Unit changes invalidate selected geometry for
+review; the block preset retains display-only unit conversion.
+
+For selected cases, Linked Case accepts speed/cell inputs; disconnect block width.
+Use example 22 and save its bound `.gh` together with its `.3dm`. The distributed
+GH template stays unbound. Geometry selection and configuration are through the
+public native service; agents need no private runtime fields for these operations.

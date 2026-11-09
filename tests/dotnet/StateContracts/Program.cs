@@ -103,6 +103,47 @@ Test("pause during preparation never auto-starts", () => {
 Test("solver submission failure is visible and retryable", () => {
     var c = Fresh(); fake.FailCreate = true; CaseHub.Run(1); Assert(c.State == "failed" && c.Fault?.Area == "solver" && c.Fault.Retryable && c.Session == null, "Invisible failure"); fake.FailCreate = false; Start(c); Assert(c.Session != null, "Retry failed");
 });
+Test("schema 1 settings migrate to explicit physical setup and view", () => {
+    var c = Fresh(); var legacy = c.Settings(); legacy["schema"] = 1; legacy.Remove("setup"); legacy.Remove("view");
+    CaseHub.Restore(1,legacy.ToJsonString()); Assert(!c.SelectedGeometry && c.Settings()["schema"]!.GetValue<int>() == 2 && c.Setup["viscosity"]!.GetValue<double>() == .1, "Migration failed");
+});
+Test("native setup validates cell budget, periodic pairs and finite domain", () => {
+    var c = Fresh(); var setup = c.Setup; setup["mode"] = "selected";
+    Edit(c,new(){["setup"]=setup,["cell"]=.1}); Assert(c.SelectedGeometry,"Selection mode missing");
+    Reject(()=>Edit(c,new(){["cell"]=.00001}));
+    var bad = c.Setup; bad["boundaries"]![2]="wall"; Reject(()=>Edit(c,new(){["setup"]=bad}));
+    Assert(c.Setup["boundaries"]![2]!.GetValue<string>() == "periodic","Rejected patch mutated setup");
+});
+Test("palette edits recolor without restarting or replacing field capture", () => {
+    var c = Fresh(); Start(c); Field(c); var stamp=c.Result; var session=c.Session; long rv=c.ResultVersion;
+    var view=c.View;view["palette"]="spectrum";Edit(c,new(){["view"]=view});
+    Assert(c.Session==session && c.Result==stamp && c.ResultVersion>rv && !c.Outdated,"Display changed physics");
+    view=c.View;view["axis"]=0;Edit(c,new(){["view"]=view}); Assert(c.Session==session && c.Result==null,"Slice edit retained wrong plane or stopped solver");
+});
+Test("geometry preparation is cancellable and late completion cannot publish", () => {
+    var c=Fresh();var setup=c.Setup;setup["mode"]="selected";Edit(c,new(){["setup"]=setup});
+    var pending=new TaskCompletionSource<JsonObject>(); CancellationToken token=default;
+    CaseHub.PrepareGeometry=(state,t)=>{token=t;return pending.Task;};
+    CaseHub.Run(1); Assert(c.State=="voxelizing","Preparation not visible");CaseHub.Cancel(1);
+    pending.SetResult(CaseHub.BuildSpec(c));Tick();Assert(token.IsCancellationRequested && c.Session==null && c.State=="cancelled","Late preparation escaped cancellation");CaseHub.PrepareGeometry=null;
+});
+Test("pause during geometry preparation suppresses automatic solver start", () => {
+    var c=Fresh();var setup=c.Setup;setup["mode"]="selected";Edit(c,new(){["setup"]=setup});
+    var pending=new TaskCompletionSource<JsonObject>();CaseHub.PrepareGeometry=(_,_)=>pending.Task;
+    CaseHub.Run(1);CaseHub.Pause(1);Assert(c.State=="pausing","Preparation pause misreported");
+    pending.SetResult(CaseHub.BuildSpec(c));Tick();Assert(c.State=="paused" && fake.State=="ready","Preparation started paused run");CaseHub.PrepareGeometry=null;
+});
+Test("geometry edits invalidate runtime even during a notification", () => {
+    var c=Fresh();var setup=c.Setup;var id=Guid.NewGuid();setup["mode"]="selected";setup["objects"]=new JsonArray(id.ToString());Edit(c,new(){["setup"]=setup});
+    long revision=c.Revision;Action<CaseState,string> edit=(state,origin)=>{if(origin=="panel")CaseHub.GeometryChanged(1,id);};
+    CaseHub.Changed+=edit;try{Edit(c,new(){["target"]=201});}finally{CaseHub.Changed-=edit;}
+    Assert(c.Revision==revision+1 && c.GeometryError.Length>0,"Geometry invalidation was lost");
+});
+Test("unit change invalidates referenced geometry but preserves physical setup", () => {
+    var c=Fresh();var setup=c.Setup;setup["mode"]="selected";setup["objects"]=new JsonArray(Guid.NewGuid().ToString());Edit(c,new(){["setup"]=setup});
+    var before=c.Setup.ToJsonString();long revision=c.Revision;doc.ModelUnitSystem=UnitSystem.Millimeters;Tick();
+    Assert(c.Revision==revision+1 && c.Setup.ToJsonString()==before && c.GeometryError.Length>0,"Units silently reinterpreted geometry");doc.ModelUnitSystem=UnitSystem.Meters;
+});
 var benchmarkCase = Fresh();
 for (int i = 0; i < 1000; i++) { var sw = Stopwatch.StartNew(); CaseHub.Edit(1, new() { ["target"] = 200 + i % 2 }, benchmarkCase.Version, "panel", false); timings.Add(sw.Elapsed.TotalMilliseconds); }
 CaseHub.Close(1); timings.Sort();

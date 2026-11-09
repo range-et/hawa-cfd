@@ -41,7 +41,7 @@
   },
   "10": {
     "title": "Responsive hull search",
-    "explore": "Enable evaluation and Run search. Pause holds the current candidate; disabling cancels.",
+    "explore": "Enable evaluation and Run search. Pause holds the current candidate; disabling cancels. Hull geometry is an editable assembly of native GH expressions, points, mesh faces, volume measurement and transforms. Replace it with your own mesh; no Hawa hull node is required.",
     "limits": "Single fluid, submerged hull. No waves or buoyancy. Short scores demonstrate search; they do not establish an optimum."
   },
   "11": {

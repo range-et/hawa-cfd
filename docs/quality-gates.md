@@ -42,7 +42,9 @@ scraping or database API. Research alone cannot pass an implementation gate.
 ## G1 — Software architect
 
 Review the data model, ownership and transitions before reviewing appearance.
-Check document/case identity, settings version, physics revision, run generation,
+First check the product boundary: example geometry/recipes stay in ordinary GH
+assemblies; a new node needs a reusable operation or a defined numerical service.
+Do not use the component count as a progress metric. Check document/case identity, settings version, physics revision, run generation,
 field capture provenance, binding leases, undo, persistence/schema migration and
 capability rejection. Draw the command/result path for a new workflow. Review
 host-thread boundaries, cancellation ownership, stale callbacks, cleanup retries,
@@ -153,7 +155,8 @@ backend; it is not MLX. `auto` selection is not a performance benchmark.
 | Invalid/disconnected/list input leaves work running | Release owned work and binding on input failure; test NaN, empty input and multiple items. Verify worker exit, not just null handles. |
 | Close loses resource ownership | Retain failed cleanup requests; make close idempotent. Test close during callbacks/transport and verify jobs, sessions and workers after teardown. |
 | Undo or restore revives an obsolete case | End undo records in `finally`; tie undo to case identity; restore once into idle. Test normal Rhino UI Undo/Redo, not timer-driven document Undo calls. |
-| Unit changes distort cached output | Store physical spacing and convert at view time; cache by units/result identity. Test metres↔millimetres without restarting physics. |
+| Unit changes distort cached output | Store physical spacing and convert at view time; cache by units/result identity. Test metres↔millimetres. The generated block preserves physics; referenced Rhino geometry invalidates conservatively because unscaled unit changes can alter its physical size. |
+| Saved Run is on but no steps advance | The reopen guard intentionally stays idle. Set Run off before the first valid solution, then on after preparation. Harnesses must initialize copied toggles, not assume saved defaults. |
 | A report shows a previous run's success | Give each run its own directory/ID; reset terminal status before start; fail on absent cases/files and check the declared inventory. |
 | Playback accepts corrupt/mismatched data | Validate shape, finite values, time, manifest identity, path boundaries and expanded archive size before use. Test missing frames and interrupted recordings. |
 | Preview or mesh uses different motion time | Feed views, body pose and loads from the same field snapshot. Compare complete cycles after settling. |

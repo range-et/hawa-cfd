@@ -20,6 +20,13 @@ public sealed class CaseState
     public int Target { get; internal set; } = 200;
     public string Device { get; internal set; } = "cpu";
     public string Field { get; internal set; } = "speed";
+    internal JsonObject SetupData = NativeSettings.DefaultSetup(), ViewData = NativeSettings.DefaultView();
+    public JsonObject Setup => Copy(SetupData)!;
+    public JsonObject View => Copy(ViewData)!;
+    public bool SelectedGeometry => SetupData["mode"]!.GetValue<string>() == "selected";
+    internal Task<JsonObject>? Preparation;
+    internal CancellationTokenSource? PreparationCancel;
+    public string GeometryError { get; internal set; } = "";
     public string State { get; internal set; } = "idle";
     public string Error { get; internal set; } = "";
     public CaseFault? Fault { get; internal set; }
@@ -51,13 +58,13 @@ public sealed class CaseState
     public bool Outdated => Result != null && (Result.CaseId != Id || Result.Revision != Revision || Result.Generation != Generation || Result.Field != Field);
     private static JsonObject? Copy(JsonObject? value) => value?.DeepClone().AsObject();
     public double Value(string key) => key switch { "speed" => Speed, "cell" => Cell, "width" => Width, _ => throw new ArgumentException("Unknown parameter") };
-    public JsonObject Settings() => new() { ["schema"] = 1, ["id"] = Id.ToString(), ["speed"] = Speed, ["cell"] = Cell, ["width"] = Width, ["target"] = Target, ["device"] = Device, ["field"] = Field };
+    public JsonObject Settings() => new() { ["schema"] = 2, ["setup"] = Setup, ["view"] = View, ["id"] = Id.ToString(), ["speed"] = Speed, ["cell"] = Cell, ["width"] = Width, ["target"] = Target, ["device"] = Device, ["field"] = Field };
     public JsonObject Describe() => new() {
         ["id"] = Id.ToString(), ["version"] = Version, ["revision"] = Revision, ["generation"] = Generation,
         ["run_revision"] = RunRevision, ["result_revision"] = ResultRevision, ["result_version"] = ResultVersion,
         ["result_steps"] = Result?.Steps, ["result_time_seconds"] = Result?.PhysicalTime, ["result_field"] = Result?.Field, ["state"] = State, ["steps"] = Steps,
         ["session"] = Session, ["job"] = Job, ["error"] = Error, ["view_error"] = ViewError,
-        ["fault_area"] = Fault?.Area, ["retryable"] = Fault?.Retryable,
+        ["geometry_error"] = GeometryError, ["fault_area"] = Fault?.Area, ["retryable"] = Fault?.Retryable,
         ["settings"] = Settings(), ["linked"] = BindingOwner != null, ["outdated"] = Outdated
     };
 }

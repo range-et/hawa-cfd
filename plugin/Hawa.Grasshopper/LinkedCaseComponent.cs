@@ -11,7 +11,7 @@ public sealed class LinkedCaseComponent : HawaComponent
     private Guid caseId, lease;
     private long seenVersion = -1, callbackGeneration;
     private bool subscribed, scheduled, pull;
-    public LinkedCaseComponent() : base("Hawa Linked Case", "LiveCase", "Live native block-case binding. Direct sliders sync both ways; calculated inputs are read-only in the panel. The shared service owns the solver.", "00 Setup") { Hidden = true; }
+    public LinkedCaseComponent() : base("Hawa Linked Case", "LiveCase", "Live native case binding. Direct sliders sync both ways; calculated inputs are read-only in the panel. The shared service owns the solver.", "00 Setup") { Hidden = true; }
     public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077150");
     protected override void RegisterInputParams(GH_InputParamManager p) { foreach (var setting in CaseHub.Parameters) { p.AddNumberParameter(setting.Label, setting.Key, setting.Unit + "; connect a slider for bidirectional editing", GH_ParamAccess.item); p[p.ParamCount - 1].Optional = true; } }
     protected override void RegisterOutputParams(GH_OutputParamManager p)
@@ -28,6 +28,8 @@ public sealed class LinkedCaseComponent : HawaComponent
         }
         var c = CaseHub.Get(document);
         if (caseId != Guid.Empty && caseId != c.Id) throw new Exception("This definition belongs to another native case. Reopen its Rhino file or place a new Linked Case component.");
+        var parameters = NativeSettings.Parameters(c.SelectedGeometry);
+        if (c.SelectedGeometry && Params.Input[2].Sources.Count > 0) throw new Exception("Block width applies to the block preset. Disconnect width for selected Rhino geometry.");
         bool savedBinding = caseId != Guid.Empty && seenVersion < 0;
         caseId = c.Id;
         if (!subscribed) { CaseHub.Changed += OnChanged; subscribed = true; }
@@ -36,7 +38,7 @@ public sealed class LinkedCaseComponent : HawaComponent
             var input = Params.Input[i];
             if (input.Sources.Count > 0 && (input.Sources.Count != 1 || input.VolatileDataCount != 1)) throw new Exception("Each linked input requires exactly one finite value from one source");
             if (input.Sources.Count == 1 && input.Sources[0] is GH_NumberSlider slider) {
-                var p = CaseHub.Parameters[i];
+                var p = parameters[i];
                 if ((double)slider.Slider.Minimum > p.Minimum || (double)slider.Slider.Maximum < p.Maximum || slider.Slider.DecimalPlaces < 2)
                     throw new Exception($"{p.Label}: linked slider must cover {p.Minimum}..{p.Maximum} with at least two decimal places");
                 precision[p.Key] = slider.Slider.DecimalPlaces;
@@ -51,7 +53,7 @@ public sealed class LinkedCaseComponent : HawaComponent
         for (int i = 0; i < 3; i++) if (Params.Input[i].Sources.Count > 0) {
             double value = 0;
             if (!da.GetData(i, ref value) || !double.IsFinite(value)) throw new Exception("Linked input must be one finite number");
-            var p = CaseHub.Parameters[i];
+            var p = parameters[i];
             if (value < p.Minimum || value > p.Maximum) throw new Exception($"{p.Label}: {p.Minimum}..{p.Maximum} {p.Unit}");
             if (Math.Abs(value - c.Value(p.Key)) > 1e-9) patch[p.Key] = value;
         }
@@ -61,7 +63,7 @@ public sealed class LinkedCaseComponent : HawaComponent
         if (patch.Count > 0) CaseHub.EditFromBinding(document, caseId, InstanceGuid, lease, patch, c.Version);
         seenVersion = c.Version;
         if (c.Session != null && c.Spec != null) da.SetData(0, new HawaGoo(new() {
-            ["kind"] = "Solution", ["session"] = c.Session, ["revision"] = c.Steps, ["case"] = c.Spec,
+            ["kind"] = "Solution", ["session"] = c.Session, ["revision"] = c.Steps, ["case"] = CaseGeometry.SpecInModelUnits(c),
             ["case_id"] = c.Id.ToString(), ["physics_revision"] = c.Revision, ["generation"] = c.Generation, ["completed"] = c.State == "completed"
         }));
         if (!c.Outdated) { var mesh = CaseGeometry.ResultMesh(c); if (mesh != null) da.SetData(1, mesh); }

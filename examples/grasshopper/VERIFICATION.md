@@ -28,13 +28,14 @@ the checkout; installed packages place it inside `examples/native-prototype`.
 | 12 local airfoil/wing | Offline coordinate/polar import, closed wing, useful malformed-data errors; synthetic-data label | `test_airfoils.py`; `verify_v04_examples.cs` |
 | 13 record/playback | New directory, completed manifest, valid final frame and metadata; interruption/missing frame | `test_recording.py`; `verify_recording_examples.cs` |
 | 14 curved sphere | Stationary curved-wall capability, surface samples/pressure conventions | `test_walls.py`, `benchmark_curved_walls.py`; `verify_v04_examples.cs` |
-| 15 fixed refinement | Supported 2:1 BGK patch, interpolation validity, coarse/fine time alignment and conservation | `test_refinement.py`, `benchmark_refinement.py`; public MCP run of example 15 (dedicated reusable native harness remains a gap) |
+| 15 fixed refinement | Supported 2:1 BGK patch, interpolation validity, coarse/fine time alignment and conservation | `test_refinement.py`, `benchmark_refinement.py`; `verify_recording_examples.cs` (recording/refinement group) |
 | 16 cylinder wake | Small smoke run plus separately specified full-duration recording; final frame and wake observables | `test_recording.py`, `test_fields.py`; `verify_recording_examples.cs` |
 | 17 oscillating cylinder | Translation trajectory, domain clearance, same-time body/field/loads | `test_motion.py`, `benchmark_motion.py`; `verify_motion_examples.cs`, `verify_motion_controls.cs` |
 | 18 pitching airfoil | Rotation origin/radians, body closure, load signs and motion limits | Same motion tests/harnesses; airfoil tests |
 | 19 rotating paddle | RPM conversion, torque/power sign, same-time body/field; single-fluid limits | Motion tests/harnesses; `benchmark_rotating_sphere.py` is a separate reference geometry |
 | 20 motion-cycle search | Settling followed by complete measured cycles; candidate ID and objective sign | `test_motion.py`, `test_optimization.py`; `verify_motion_controls.cs` plus explicit Search run |
 | 21 native live sync | Panel↔GH ownership, lock/edit/unlock, duplicate/stale writers, undo/reopen/units and cleanup | `tests/dotnet/StateContracts`; `verify_native_prototype.cs`, `verify_state_hardening.cs`, `verify_binding_callbacks.cs` |
+| 22 selected native canopy | Closed mesh/Brep selection, editable physical domain, native CPU/MPS, deletion/replacement/units invalidation, palette/slice, persistence and two-input GH sync | `verify_native_geometry.cs`; selected example UI/public API run; state contracts |
 
 Python paths above are under `tests/`; scripts are under `scripts/`. These are
 entrypoints, not a claim that one script fully asserts every item in its row.
@@ -44,8 +45,8 @@ running. The old `verify_grasshopper_examples.cs` is historical and blocking: do
 not use it. Agent operators use installed public nodes/APIs; developer harnesses
 may perform internal inspection and require an isolated session.
 
-**09 is excluded:** preserve the user's legacy Galapagos file unchanged. **20
-supported workflows** means 19 GH gallery files plus native example 21, not the
+**09 is excluded:** preserve the user's legacy Galapagos file unchanged. **21
+supported workflows** means 19 GH gallery files plus native examples 21 and 22, not the
 16 upstream Lettuce entrypoints. Neither inventory covers every possible graph.
 
 ## Combination strategy
@@ -81,7 +82,7 @@ Minimum selection rules:
 3. **High-risk triples:** ownership × lifecycle × delayed callback; motion × field
    capture × recording/playback; candidate ID × cancellation × objective publication;
    geometry units × discretization × preview. Pairwise tests alone miss these bugs.
-4. **Release candidate:** open/inspect all 20 supported workflows, run bounded smoke
+4. **Release candidate:** open/inspect all 21 supported workflows, run bounded smoke
    configurations for each, then run full recordings/cycles and numerical studies
    required by the advertised claims. Run applicable hardware configurations or
    mark them unverified. A reduced smoke target does not pass a cycle/full-run gate.
