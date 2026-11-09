@@ -2,7 +2,7 @@ using System.Text.Json.Nodes;
 namespace Rhino {
     public enum UnitSystem { Meters, Millimeters }
     public static class RhinoMath { public static double UnitScale(UnitSystem a, UnitSystem b) => a == b ? 1 : b == UnitSystem.Millimeters ? 1000 : .001; }
-    public static class RhinoApp { public static bool InvokeRequired; public static List<string> Log = new(); public static void WriteLine(string s) => Log.Add(s); }
+    public static class RhinoApp { public static bool InvokeRequired; public static event EventHandler? Idle; public static void RaiseIdle() => Idle?.Invoke(null, EventArgs.Empty); public static int IdleSubscribers => Idle?.GetInvocationList().Length ?? 0; public static List<string> Log = new(); public static void WriteLine(string s) => Log.Add(s); }
     public sealed class RhinoDoc {
         static readonly Dictionary<uint, RhinoDoc> docs = new();
         public RhinoDoc(uint id) { RuntimeSerialNumber = id; docs[id] = this; }

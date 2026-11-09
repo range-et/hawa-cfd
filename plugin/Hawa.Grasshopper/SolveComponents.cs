@@ -86,12 +86,10 @@ public sealed class SolveComponent : HawaComponent
     protected override void InputsMissing(){CloseSession();}
     private void CloseSession()
     {
-        if(session!=null){try { EmbeddedRuntime.Call(Request("pause_async",session)); } catch { }}
-        if (creation != null){
-            try { EmbeddedRuntime.Call(new JsonObject { ["op"]="evaluate_control", ["job"]=creation, ["action"]="close" }); } catch { }
-        }
-        if(session!=null){try { EmbeddedRuntime.Call(Request("close_async",session)); } catch { }}
-        creation=session=null;
+        var ownedCreation=creation;var ownedSession=session;
+        creation=session=null; // Invalidate local ownership before bridge callbacks.
+        Hawa.Shared.CaseHub.ReleaseJob(ownedCreation);
+        Hawa.Shared.CaseHub.ReleaseSession(ownedSession);
     }
     public override void RemovedFromDocument(GH_Document document) { CloseSession(); base.RemovedFromDocument(document); }
 }

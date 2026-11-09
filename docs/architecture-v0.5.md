@@ -131,3 +131,20 @@ sampling interval. Neither is solver throughput or a competitor ranking.
 Known numerical limits, including unresolved PorousMedium CPU/MPS parity, remain
 unchanged. This work improves software state and interaction reliability; it does
 not establish engineering accuracy or convergence.
+
+## Legacy Grasshopper cleanup ownership (November 8 follow-up)
+
+Solve, Evaluate, Record, Refined Solve, Motion Evaluate and the query-component
+base now detach their handles before transferring them to `CaseHub.ReleaseJob`
+or `ReleaseSession`. The process service retains failed close requests across GH
+document disposal. It stores IDs and request payloads, not component references.
+Duplicate requests are idempotent. A reentrant bridge callback cannot start a
+nested cleanup call. FIFO retry batches contain at most eight requests and run
+at most every two seconds on Rhino Idle; they do not depend on the native panel.
+The Idle handler unsubscribes when the queue drains.
+
+A successful close acknowledgement means cancellation was requested. It does not
+prove a worker has exited. Teardown verification must also inspect jobs, sessions
+and worker threads. A permanently unavailable bridge retains pending work for the
+current process lifetime and reports failures in Rhino's command output. This is
+not persistence across Rhino restarts. Call these APIs on Rhino's UI thread.

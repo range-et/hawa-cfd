@@ -1,5 +1,7 @@
 # Hawa 0.5 full local gate review
 
+Follow-up: the older-GH cleanup finding below is resolved in the [cleanup review](review-cleanup-v0.5.md). Other limitations remain.
+
 Run `full-gates-20261108-01`, started November 9, 2026 UTC (November 8 local).
 Tested production commit `ed7a2cf633db2b3049e62c7e99d4deb7322e1a33`.
 Reviewer: Codex, separate self-review passes. No independent specialist approval.

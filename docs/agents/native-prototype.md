@@ -65,3 +65,10 @@ preset rejects this flag. `NativeGeometry.Prepare` meshes selected solid Breps
 using cell/body-scaled tolerances; closed meshes keep their supplied shape.
 GH Geometry also accepts optional solid Breps at input S. See example 14 and
 `examples/native-prototype/23-curved-solid.3dm`.
+
+The cleanup queue also owns detached legacy GH jobs and Solve sessions. Failed
+requests retry on Rhino Idle even without the native panel. Maintainers can run
+`scripts/verify_legacy_cleanup.cs` in an isolated session to inject bridge-close
+failures and verify recovery after GH disposal. It temporarily changes the
+process transport and stops the native polling timer; do not run it in a user's
+active working session. See `../review-cleanup-v0.5.md` for scope and evidence.

@@ -29,6 +29,6 @@ public sealed class RefinedSolveComponent:HawaComponent {
         EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_control",["job"]=job,["action"]=pause?"pause":"resume"});var status=EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_poll",["job"]=job});string state=status["state"]!.GetValue<string>();Message=state;da.SetData(2,$"{state}: {status["steps"]}/{status["target"]}");if(state=="failed")throw new Exception(status["error"]!.GetValue<string>());
         if(state=="completed"){var r=status["result"]!;for(int i=0;i<2;i++){var f=r[i==0?"coarse_frame":"fine_frame"]!.DeepClone().AsObject();f["kind"]="Frame";da.SetData(i,new HawaGoo(f));}da.SetData(3,$"{r["report"]}\nRelative composite mass change: {r["relative_mass_change"]}");}else{string expected=job;OnPingDocument()?.ScheduleSolution(100,_=>{if(!Locked&&job==expected)ExpireSolution(false);});}}
     public override void DocumentContextChanged(GH_Document document,GH_DocumentContext context){if(context==GH_DocumentContext.Close||context==GH_DocumentContext.Unloaded||context==GH_DocumentContext.Lock)requireOff=true;base.DocumentContextChanged(document,context);}
-    protected override void InputsMissing(){if(job!=null){try{EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_control",["job"]=job,["action"]="close"});}catch{}}job=key=null;}
+    protected override void InputsMissing(){var owned=job;job=key=null;Hawa.Shared.CaseHub.ReleaseJob(owned);}
     public override void RemovedFromDocument(GH_Document doc){InputsMissing();base.RemovedFromDocument(doc);}
 }

@@ -61,6 +61,6 @@ public sealed class EvaluateComponent : HawaComponent
     }
     public override void DocumentContextChanged(GH_Document document, GH_DocumentContext context){if(context==GH_DocumentContext.Close||context==GH_DocumentContext.Unloaded||context==GH_DocumentContext.Lock)requireDisable=true;base.DocumentContextChanged(document,context);}
     protected override void InputsMissing(){Close();}
-    private void Close(){if(job!=null){try{EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_control",["job"]=job,["action"]="close"});}catch{}job=null;}signature=null;}
+    private void Close(){var owned=job;job=signature=null;Hawa.Shared.CaseHub.ReleaseJob(owned);}
     public override void RemovedFromDocument(GH_Document document){Close();base.RemovedFromDocument(document);}
 }

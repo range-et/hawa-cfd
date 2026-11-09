@@ -16,8 +16,9 @@ public static class CaseHub
     private static readonly HashSet<CaseState> Busy = new();
     private static readonly HashSet<(uint Document, Guid Object)> PendingGeometry = new();
     private static readonly Dictionary<string, JsonObject> Cleanup = new();
+    private static readonly Queue<string> CleanupOrder = new();
     private static DateTime cleanupAttempt;
-    private static bool polling;
+    private static bool polling, cleaning, cleanupSubscribed;
     internal static Func<JsonObject, JsonObject> Transport = EmbeddedRuntime.Call;
     public static Func<CaseState, CancellationToken, Task<JsonObject>>? PrepareGeometry { get; set; }
     public static event Action<CaseState, string>? Changed;
@@ -251,12 +252,48 @@ public static class CaseHub
         Change(c, () => { CloseQuery(c); c.ViewError = ""; c.ViewFailures = 0; c.SliceSteps = -1; c.LastQuery = DateTime.MinValue; });
         Notify(c, "view");
     }
+    /// <summary>Transfer a detached GH job to process-owned, retryable cleanup.</summary>
+    public static void ReleaseJob(string? job)
+    {
+        UI();
+        if (job != null) Release("job:" + job, new() { ["op"] = "evaluate_control", ["job"] = job, ["action"] = "close" });
+    }
+    /// <summary>Close cooperatively; acknowledgement does not imply worker exit.</summary>
+    public static void ReleaseSession(string? session)
+    {
+        UI();
+        if (session != null) Release("session:" + session, new() { ["op"] = "close_async", ["session"] = session });
+    }
     private static void Release(string key, JsonObject request)
     {
-        // Keep failed cleanup requests. Closing must not silently lose ownership.
-        Cleanup[key] = request;
-        try { Transport(request); Cleanup.Remove(key); }
-        catch (Exception e) { RhinoApp.WriteLine("Hawa cleanup pending: " + e.GetBaseException().Message); }
+        // Register ownership before crossing a bridge that can pump UI messages.
+        // IDs are never reused. Repeated close requests share the same entry.
+        if (!Cleanup.TryAdd(key, request)) return;
+        if (!cleanupSubscribed) { RhinoApp.Idle += CleanupIdle; cleanupSubscribed = true; }
+        if (cleaning) { CleanupOrder.Enqueue(key); return; }
+        cleaning = true;
+        try { if (!AttemptCleanup(key, request)) CleanupOrder.Enqueue(key); }
+        finally { cleaning = false; StopCleanupWatchIfEmpty(); }
+    }
+    private static bool AttemptCleanup(string key, JsonObject request)
+    {
+        try { Transport(request); Cleanup.Remove(key); return true; }
+        catch (Exception e) {
+            // Move failed work to the back so a persistent fault cannot starve
+            // another owner's cleanup when a retry batch is bounded.
+            RhinoApp.WriteLine("Hawa cleanup pending: " + e.GetBaseException().Message);
+            return false;
+        }
+    }
+    private static void StopCleanupWatchIfEmpty()
+    {
+        if (Cleanup.Count == 0 && cleanupSubscribed) { RhinoApp.Idle -= CleanupIdle; cleanupSubscribed = false; }
+    }
+    private static void CleanupIdle(object? sender, EventArgs e) => PollCleanup();
+    private static void PollCleanup()
+    {
+        if (Cleanup.Count == 0 || cleaning || (DateTime.UtcNow - cleanupAttempt).TotalSeconds < 2) return;
+        cleanupAttempt = DateTime.UtcNow; RetryCleanup();
     }
     private static void CloseQuery(CaseState c)
     {
@@ -295,9 +332,17 @@ public static class CaseHub
     public static void RetryCleanup()
     {
         UI();
-        foreach (var pair in Cleanup.ToArray()) {
-            try { Transport(pair.Value); Cleanup.Remove(pair.Key); } catch { /* Retained for the next bounded retry. */ }
-        }
+        if (cleaning) return;
+        cleaning = true;
+        try {
+            // Bound UI work. The Idle subscription survives GH document disposal
+            // and works even when the native panel/plugin has never been opened.
+            int count = Math.Min(8, CleanupOrder.Count);
+            for (int i = 0; i < count; i++) {
+                string key = CleanupOrder.Dequeue();
+                if (Cleanup.TryGetValue(key, out var request) && !AttemptCleanup(key, request)) CleanupOrder.Enqueue(key);
+            }
+        } finally { cleaning = false; StopCleanupWatchIfEmpty(); }
     }
     private static bool Matches(CaseState c, ResultStamp stamp) => Find(c.Document) == c && c.Id == stamp.CaseId && c.Generation == stamp.Generation && c.Revision == stamp.Revision && c.Session == stamp.Session && c.Field == stamp.Field;
     private static void ValidateSlice(JsonObject result)
@@ -349,7 +394,7 @@ public static class CaseHub
     {
         UI(); if (polling) return; polling = true;
         try {
-            if (Cleanup.Count > 0 && (DateTime.UtcNow - cleanupAttempt).TotalSeconds > 2) { cleanupAttempt = DateTime.UtcNow; RetryCleanup(); }
+            PollCleanup();
             foreach (var c in All) {
                 if (Find(c.Document) != c || Busy.Contains(c)) continue;
                 var doc = RhinoDoc.FromRuntimeSerialNumber(c.Document);

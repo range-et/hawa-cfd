@@ -16,6 +16,39 @@ void Tick() { CaseHub.Tick(); }
 void Start(CaseState c) { CaseHub.Run(c.Document); Tick(); }
 void Field(CaseState c) { c.LastQuery = DateTime.MinValue; Tick(); Tick(); }
 
+Test("GH-only cleanup survives a lost acknowledgement and retries on host idle", () => {
+    var transport = CaseHub.Transport; bool fail = true; int calls = 0; bool resource = true;
+    try {
+        CaseHub.Transport = request => { calls++; resource = false; if(fail) throw new Exception("Reply lost after close"); return new JsonObject(); };
+        CaseHub.ReleaseSession("gh-session"); CaseHub.ReleaseSession("gh-session");
+        Assert(CaseHub.PendingCleanupCount==1 && RhinoApp.IdleSubscribers==1 && calls==1 && !resource,"Transfer/deduplication failed");
+        fail=false; RhinoApp.RaiseIdle();
+        Assert(CaseHub.PendingCleanupCount==0 && calls==2 && RhinoApp.IdleSubscribers==0,"GH-only idle retry leaked ownership/subscription");
+    } finally { CaseHub.Transport=transport; CaseHub.RetryCleanup(); }
+});
+Test("cleanup bounds retry batches and persistent failures cannot starve other owners", () => {
+    var transport=CaseHub.Transport; bool failAll=true, recover=false; int calls=0;
+    try {
+        CaseHub.Transport = request => { calls++; int n=int.Parse(request["job"]!.GetValue<string>()); if(failAll || (!recover && n<8))throw new Exception("Bridge unavailable");return new JsonObject();};
+        for(int i=0;i<20;i++)CaseHub.ReleaseJob(i.ToString());
+        Assert(CaseHub.PendingCleanupCount==20,"Lost pending jobs");failAll=false;calls=0;
+        CaseHub.RetryCleanup();Assert(calls==8 && CaseHub.PendingCleanupCount==20,"Retry batch not bounded");
+        CaseHub.RetryCleanup();Assert(calls==16 && CaseHub.PendingCleanupCount==12,"Failed head starved healthy owners");
+        recover=true;for(int i=0;i<3;i++)CaseHub.RetryCleanup();
+        Assert(CaseHub.PendingCleanupCount==0 && RhinoApp.IdleSubscribers==0,"Recovered batch retained cleanup");
+    } finally { CaseHub.Transport=transport; CaseHub.RetryCleanup(); }
+});
+Test("cleanup bridge reentrancy preserves nested and duplicate ownership", () => {
+    var transport=CaseHub.Transport;bool nested=false;int depth=0,maxDepth=0;
+    try {
+        CaseHub.Transport=request=>{depth++;maxDepth=Math.Max(depth,maxDepth);try{
+            if(!nested){nested=true;CaseHub.ReleaseJob("parent");CaseHub.ReleaseJob("child");CaseHub.RetryCleanup();throw new Exception("Interrupted parent close");}
+            return new JsonObject();
+        }finally{depth--;}};
+        CaseHub.ReleaseJob("parent");Assert(CaseHub.PendingCleanupCount==2 && maxDepth==1,"Reentrant cleanup lost or recursively closed jobs");
+        CaseHub.RetryCleanup();Assert(CaseHub.PendingCleanupCount==0 && maxDepth==1,"Nested cleanup did not recover");
+    } finally { CaseHub.Transport=transport;CaseHub.RetryCleanup(); }
+});
 Test("read-only outward state and detached JSON", () => {
     var c = Fresh(); Assert(typeof(CaseState).GetProperty("Speed")!.SetMethod!.IsAssembly, "Public settings setter");
     Assert(typeof(CaseState).GetField("Session") == null, "Public mutable handle");

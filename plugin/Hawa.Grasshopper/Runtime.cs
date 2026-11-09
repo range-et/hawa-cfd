@@ -130,6 +130,6 @@ public abstract class HawaQueryComponent : HawaComponent
         if(state=="completed"){result=status["result"]!.AsObject();if(key!=signature){string completed=job!;OnPingDocument()?.ScheduleSolution(100,_=>{if(!Locked&&job==completed)ExpireSolution(false);});}return result;}
         string expected=job;OnPingDocument()?.ScheduleSolution(100,_=>{if(!Locked&&job==expected)ExpireSolution(false);});return null;
     }
-    protected override void InputsMissing(){if(job!=null){try{EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_control",["job"]=job,["action"]="close"});}catch{}}job=signature=pendingIdentity=null;result=null;}
+    protected override void InputsMissing(){var owned=job;job=signature=pendingIdentity=null;result=null;Hawa.Shared.CaseHub.ReleaseJob(owned);}
     public override void RemovedFromDocument(GH_Document document){InputsMissing();base.RemovedFromDocument(document);}
 }
