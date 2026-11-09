@@ -61,9 +61,16 @@ CPU only with `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1`.
   sources (103 Grasshopper, two Rhino); zero errors. No C# implementation changed.
   ZIP integrity, legacy-09 exclusion and exact packaged refinement source match
   pass; package SHA-256 is recorded in `package-check.json`. Nothing installed.
-- `git diff --check` passes. Fresh G6 is queued separately with the coordinator;
-  the source changed, so old matrix evidence is not substituted. No live Rhino,
-  clean-install or release qualification in this phase.
+- Coordinator-run fresh Docker CPU G6: **97,561 passed, zero failed, 4,898
+  blocked** because MPS/CUDA are unavailable in the container. All **102,459**
+  expected rows were recorded, with unchanged source, in 140.83 seconds.
+- Combined evidence checker passes: the **Linux CPU compatibility matrix** plus
+  the **native macOS 654-test/32-CUDA-skip suite and 33 state contracts** account
+  for 54 public nodes, 31 examples and 191 unique graph edges. This combines
+  declared evidence from two environments; it is not a full GPU matrix pass.
+  `local_pass=true`, `release_pass=false`.
+- `git diff --check` passes. No live Rhino, clean-install or release qualification
+  in this phase.
 
 Evidence under this checkout's ignored `results/` directory:
 `study/refinement-origin-results.json`, `study/domain-baseline.xml`,
@@ -71,7 +78,9 @@ Evidence under this checkout's ignored `results/` directory:
 `refinement-preflight/focused.xml`, `refinement-preflight/focused.log`,
 `refinement-preflight/function-gate/`, `refinement-preflight/function-gate.log`,
 `refinement-preflight/committed-matrix-check.json`, `refinement-preflight/build.log`,
-`refinement-preflight/package-check.json`.
+`refinement-preflight/package-check.json`; coordinator Docker evidence in
+`docker/g6/summary.json`, `docker/g6/rows.jsonl`, `docker/g6-command.log` and
+`docker/g6-checked.json`.
 
 ```sh
 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_refinement_preflight.py tests/test_refinement.py tests/test_field_collection.py tests/test_boundary_data.py tests/test_boundary_series.py -q -k 'not mps and not cuda' --junitxml=results/refinement-preflight/focused.xml
@@ -87,9 +96,11 @@ OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_refine
 | G3 numerical | Codex domains agent | PASS for placement contract only | Real one-step aligned controls plus existing CPU conservation/time tests; no engineering-accuracy or GPU claim |
 | G4 UI/UX | Codex domains agent | NOT APPLICABLE to core repair | No adapter/view/archive edit; native trimming remains unverified |
 | G5 release | Codex domains agent | BLOCKED | No build/install/release qualification in this phase |
-| G6 compatibility | Codex domains agent | PENDING fresh run | Source changed; coordinator will assign serial full matrix run |
+| G6 compatibility | Codex coordinator (execution), domains agent (record review) | PASS on Docker CPU; MPS/CUDA BLOCKED | Fresh complete 102,459-row inventory, zero failures, unchanged source; Linux matrix and native suite/contract evidence explicitly distinguished |
 
-HAWA-049 remains in progress until required full evidence is collected. Broader
+HAWA-049 is locally verified for the declared placement contract and remains in
+progress pending integration review. The fresh CPU G6 evidence does not qualify
+its blocked MPS/CUDA matrix rows or a release. Broader
 HAWA-028 policy work, HAWA-031 cell geometry and HAWA-027 native missing-cell
 reproduction remain open. Valid view overlap is intentional and is not rejected
 by this fix. Numerical transfer work in HAWA-021/022 is unchanged.

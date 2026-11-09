@@ -84,8 +84,12 @@ before solver construction and report expected/received origins. Thirty new
 regression cases plus the existing focused domain tests pass on CPU (58 passed,
 four device cases deliberately deselected). Full measured gate passes with 654
 Python tests, 32 CUDA skips and 33 state contracts; matrices are refreshed and
-checked. Development build and ZIP integrity pass. Fresh G6 remains pending;
-this is an implemented candidate, not a completed release or closed issue. [Review](docs/review-refinement-preflight.md).
+checked. Development build and ZIP integrity pass. Fresh Docker CPU G6 records
+97,561 passes, zero failures and 4,898 unavailable MPS/CUDA rows, accounting for
+all 102,459 expected rows with unchanged source. The combined checker links this
+Linux matrix to the native suite/contract evidence without claiming a full GPU
+matrix pass. Integration review remains pending; this is not a completed release
+or closed issue. [Review](docs/review-refinement-preflight.md).
 
 
 ### November 9 2026 parent/child documentation (HAWA-034 partial)
