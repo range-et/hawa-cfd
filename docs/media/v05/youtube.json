@@ -1,0 +1,17 @@
+{
+  "video_id": "6oiTFRT7qRg",
+  "url": "https://youtu.be/6oiTFRT7qRg",
+  "title": "Hawa 0.5: native Rhino workspace, live Grasshopper sync and curved walls",
+  "channel": "Indrajeet Haldar",
+  "channel_id": "UCgJtAm2k140cg6Hb_SSWk9Q",
+  "visibility": "public",
+  "status": "Video published",
+  "checks": "Checks complete. No issues found.",
+  "observed_at_utc": "2026-11-09T03:23:19.795574+00:00",
+  "source": "site/media/hawa-0.5-build-log.mp4",
+  "sha256": "3a3a918f18c7e0357bccf49442acc080bf532c4b0f3681a589550495db1749d9",
+  "thumbnail": "site/assets/v05/poster.jpg",
+  "description_chapters": 10,
+  "website_published": false,
+  "confirmation": "youtube-published.png"
+}
