@@ -103,6 +103,37 @@ presence in an example or a passing suite name is not function-level evidence.
 | HAWA-045 | Bug · in progress (Codex; November 9, 2026) | Candidate now hashes complete tracked/nonignored inputs and Git index, records staged/combined diffs, and rejects source drift. Mutation tests and local measured gate pass. [Repair review](docs/review-cuda-blocker-fixes.md). | Qualify unchanged candidate on Windows and integrate; preserve source/test/config/lock and index provenance. | Python harness + CPU mocks; CUDA acceptance |
 | HAWA-046 | Bug · in progress (Codex; November 9, 2026) | Candidate compares actual before/after devices, accepting MPS alias normalization. Fresh complete suite passes: 700 tests, 82 skips; no numerical tolerance change. [Repair review](docs/review-cuda-blocker-fixes.md). | Verify CUDA cases on Windows and integrate the accepted candidate; source remains separate from main export work. | Python tests + MPS/CUDA |
 
+### HAWA-048 — Immutable-frame save destroys prior export on write failure
+
+Bug · in progress; owner: Codex export agent; November 9, 2026. The
+`fields.dispatch_field(action='save')` path truncates before compression; fault
+injection changed a valid 887-byte NPZ into a 7-byte partial file and also left a
+partial new destination. The isolated Python repair now writes a sibling temporary
+file, checks cancellation before publication and replaces only complete output.
+Focused CPU verification passes 31 tests both natively and in constrained Linux
+Docker. The complete native gate passes 637 tests, 33 state contracts and the
+coverage ratchet; matrices refreshed, development build/ZIP checked.
+[Review and evidence](docs/review-field-export-atomicity.md).
+Next action: integration review against the common checkpoint; Windows and host
+qualification remain outside this scoped Python repair. Completion: exact round-trip compatibility, preserved
+old/absent destination under failure or observed cancellation, cleaned owned temp
+files and passing required checks. CSV/baking and Rhino export UX remain HAWA-033/032.
+
+### HAWA-051 — Valid long export filenames fail in atomic NPZ writers
+
+Bug · in progress; owner: Codex export agent; November 9, 2026. PR #3 review
+identified full destination basenames being embedded in temporary names. Both
+immutable-frame save and session export failed for directly creatable 250-byte
+ASCII names (new target and overwrite). Fixed short randomized temporary prefixes
+preserve the existing destination/API/metadata contracts. Final combined tests:
+35 focused native and Linux CPU passes; 671 full native passes, 32 CUDA skips,
+33 contracts, zero coverage failures against updated base `a00223f`.
+[Scoped follow-up evidence](docs/review-field-export-atomicity.md#pr-3-review-follow-up--hawa-051).
+Next action: PR #3 integration review. Completion: both writers create/overwrite
+long valid destinations, exact data round-trip, no temporary leftovers, and the
+existing failure/cancellation protections remain passing. Windows remains
+unverified; this does not complete broader HAWA-033.
+
 ## Improvements and delivery work
 
 | ID | Type and status | Desired outcome | Next action and acceptance | Execution surface |
