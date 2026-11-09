@@ -7,7 +7,9 @@ import numpy as np
 def record(session, steps, interval, directory, checkpoint):
     if type(steps) is not int or not 1<=steps<=100000:raise ValueError('Recording steps must be 1..100000')
     if type(interval) is not int or interval<1:raise ValueError('Frame interval must be positive')
-    if steps//interval+2>1000:raise ValueError('Recording exceeds 1000 frame budget')
+    if steps < session.flow.i:raise ValueError('Recording target precedes the current simulation time')
+    frame_count=1+steps//interval-session.flow.i//interval+int(steps%interval!=0 and steps>session.flow.i)
+    if frame_count>1000:raise ValueError('Recording exceeds 1000 frame budget')
     case={**session.spec,'physical_dx':float(session.flow.units.convert_length_to_pu(1))}
     root=Path(directory).resolve()
     # A new directory prevents accidental overwrite of a previous run.
@@ -16,10 +18,25 @@ def record(session, steps, interval, directory, checkpoint):
     def save():
         nonlocal saved_bytes
         checkpoint(session.flow.i)
-        meta={'iteration':session.flow.i,'time':session.flow.units.convert_time_to_pu(session.flow.i),'case':case,'mean':False,'samples':0}
+        meta={'iteration':session.flow.i,'time':session.flow.units.convert_time_to_pu(session.flow.i),'case':case,'mean':False,'samples':0,'quality':dict(session.quality)}
         if hasattr(session.solver,"moving"):meta["motion"]=session.solver.moving.metadata()
         name='frame-{:06d}.npz'.format(len(frames))
         fields=session.fields()
+        if session.spec.get('neutral_precursor'):
+            # Kinetic strain preserves the parent's non-equilibrium stress when
+            # reconstructing a child lattice at another spacing/time step.
+            import torch
+            flow=session.flow;model=session.solver.collision;rho=flow.rho()
+            pi=flow.shear_tensor(flow.f-flow.equilibrium(flow))
+            magnitude=torch.sqrt(2*(pi*pi).sum((0,1)))/(2*rho[0]*flow.stencil.cs**2)
+            tau0=.5+model.margin;b=12*model.cs**2*magnitude
+            tau=tau0+.5*b/(torch.sqrt(tau0*tau0+b)+tau0)
+            strain=-pi/(2*rho*flow.stencil.cs**2*tau*float(flow.units.convert_time_to_pu(1)))
+            strain[:,:,flow.solid]=0
+            fields['strain_rate']=strain.detach().cpu().numpy().copy()
+            wall=session.solver.rough_floor
+            if wall.filtered is not None:
+                fields['wall_velocity']=flow.units.convert_velocity_to_pu(wall.filtered).detach().cpu().numpy().copy()
         metadata=np.array(json.dumps(meta))
         size=sum(v.nbytes for v in fields.values())+metadata.nbytes
         if saved_bytes+size>2*1024**3:raise ValueError('Recording exceeds 2 GiB uncompressed budget')

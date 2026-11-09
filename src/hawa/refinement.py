@@ -87,6 +87,8 @@ def run_refined(request,checkpoint):
     from .plugin import Session,WindFlow,check_case
     from .fields import store
     coarse_spec=request['case'];fine_spec=request['fine_case'];steps=request.get('steps',200)
+    if coarse_spec.get('boundary_set') or fine_spec.get('boundary_set'):raise ValueError('General boundary sets cannot yet be combined with refinement')
+    if coarse_spec.get('boundary_field') or fine_spec.get('boundary_field'):raise ValueError('Boundary fields cannot yet be combined with refinement')
     if type(steps) is not int or not 1<=steps<=10000:raise ValueError('Refined steps must be 1..10000')
     if coarse_spec.get('collision')!='bgk' or fine_spec.get('collision')!='bgk':raise ValueError('Select BGK in both refinement cases')
     if coarse_spec.get('wall_links') or fine_spec.get('wall_links'):raise ValueError('Refinement currently uses voxel walls; disable curved walls')

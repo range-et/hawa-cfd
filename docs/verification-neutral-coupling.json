@@ -1,0 +1,172 @@
+{
+  "date": "2026-11-09",
+  "reviewer": "Codex self-review",
+  "scope": "Experimental neutral rough-floor and external boundary coupling",
+  "hawa_tests": {
+    "passed": 209,
+    "skipped": 31,
+    "warnings": 4
+  },
+  "state_contracts": 33,
+  "upstream": {
+    "reference_passed": 419,
+    "backport_passed": 419,
+    "skipped_each": 884,
+    "warnings_each": 40
+  },
+  "numerical": {
+    "walls": [
+      {
+        "nz": 12,
+        "steps": 2000,
+        "profile_relative_l2": 2.8905766168943476e-06,
+        "drag_error": 2.81072264005644e-05,
+        "passed": true
+      },
+      {
+        "nz": 24,
+        "steps": 4000,
+        "profile_relative_l2": 1.307599326276349e-06,
+        "drag_error": 1.6519934052938723e-05,
+        "passed": true
+      }
+    ],
+    "pulse": {
+      "relative_linf": 0.02339048773815824,
+      "residual_fraction": 0.023398534773954534,
+      "criterion": 0.1,
+      "steps": 1600,
+      "passed": true,
+      "budget": {
+        "method": "shifted-links-v1",
+        "body_links": 0,
+        "external_links": 640,
+        "ownership": "one writer per incoming link; halo solids before exterior, then ground/lid",
+        "nonreflecting": false,
+        "incoming_open_links": 0,
+        "external_mass_exchange_lu": -3.4226094181022404e-15,
+        "fluid_storage_change_lu": -4.440892098500626e-15,
+        "mass_budget_residual_lu": -1.0182826803983858e-15
+      }
+    },
+    "physical_validation": false,
+    "passed": true
+  },
+  "stationarity": {
+    "source": "results/atmosphere-coupling/stationary-cpu-long.json",
+    "final_predeclared_check": {
+      "steps": 200000,
+      "stationarity_change": 0.014026796152300439,
+      "drag_relative_error": 0.030509503467092358,
+      "log_profile_relative_l2": 0.010858124086384039,
+      "passed": true
+    },
+    "window_sensitivity": [
+      {
+        "window_steps": 10000,
+        "mean_profile_change": 0.014026796152300439,
+        "mean_drag_error": 0.030509503467092358
+      },
+      {
+        "window_steps": 30000,
+        "mean_profile_change": 0.015794992615643235,
+        "mean_drag_error": 0.0041361956233177954
+      },
+      {
+        "window_steps": 50000,
+        "mean_profile_change": 0.012787828123699819,
+        "mean_drag_error": 0.007182531659093883
+      }
+    ],
+    "post_spinup": {
+      "start_step": 100000,
+      "end_step": 200000,
+      "time_seconds": 577.3502691896259,
+      "mean_drag_error": 0.014656464794510438,
+      "bulk_acceleration_m_s2": -0.0001183706983024133,
+      "drive_minus_wall_acceleration_m_s2": -0.00012536793414847115,
+      "momentum_residual_relative_to_drive": 0.0008180300770943507
+    },
+    "physical_validation": false,
+    "profile_probe_count": 1,
+    "limitations": [
+      "12 Z planes: only one independent log-law probe in declared surface interval",
+      "No experimental atmospheric validation",
+      "Long-window sensitivity is additional evidence; original criteria unchanged"
+    ]
+  },
+  "archives": [
+    {
+      "example": 28,
+      "archived_inputs": 6,
+      "loaded_inputs": 9,
+      "guid_and_wires_preserved": true,
+      "read_warnings": 0,
+      "roundtrip": true
+    },
+    {
+      "example": 29,
+      "archived_inputs": 6,
+      "loaded_inputs": 9,
+      "guid_and_wires_preserved": true,
+      "read_warnings": 0,
+      "roundtrip": true
+    },
+    {
+      "example": 30,
+      "archived_inputs": 9,
+      "loaded_inputs": 9,
+      "guid_and_wires_preserved": true,
+      "read_warnings": 0,
+      "roundtrip": true
+    }
+  ],
+  "host": {
+    "rhino": "8.36",
+    "python": "3.9",
+    "torch": "2.8",
+    "platform": "macOS",
+    "example30": {
+      "mps_steps": 1000,
+      "time_seconds": 5.773502691896259,
+      "max_lattice_mach": 0.0747729018330574,
+      "valid_slice_faces": 743,
+      "cpu_recovery_steps": 400,
+      "solid_sites": 205,
+      "halo_sites": 264,
+      "pause": true,
+      "invalid_roughness_withholds_field": true,
+      "recovery": true,
+      "close_during_run": true,
+      "cleanup_pending": 0
+    },
+    "precursors": {
+      "examples": [
+        28,
+        29
+      ],
+      "mps_steps_each": 400,
+      "valid_slice_faces_each": 841
+    }
+  },
+  "unverified": [
+    "CUDA",
+    "Windows",
+    "clean-machine dependency installation",
+    "experimental atmospheric validation",
+    "multi-face time-dependent atmospheric nesting"
+  ],
+  "physical_validation": false,
+  "released": false,
+  "sha256": {
+    "src/hawa/neutral.py": "39443d915eb6110b65e4c0a2dc52042a7185fba5bbee7048fde33398292fdaec",
+    "src/hawa/neutral_external.py": "55e385d037e1862ec27bf0ffb8ed07a58414d3a642a666bcde1714e80dd37ad2",
+    "src/hawa/plugin.py": "8b6f180e96b25a82d21ba51eafb15df2de14ab60bf4090e8d2e18a239d1ecf57",
+    "src/hawa/quality.py": "729d6e724d448d89f046c7013811fd834022ab3355232debcbabff46f1bcd64d",
+    "src/hawa/boundary_contracts.py": "d7042f94db37c11abfadc5c1f5a687f6e385f2f0cae0ecbb4356f15f75817c9a",
+    "plugin/Hawa.Grasshopper/Runtime.cs": "3523216f409c7f200cdb9aed4ddf016c2be4f96d3c9542662725dca9b8d3fa50",
+    "plugin/Hawa.Grasshopper/BoundaryComponents.cs": "283dce92423ea3dc344e7483eba85c14942cbdd918614f75835215a45f624e23",
+    "plugin/Hawa.Grasshopper/SetupComponents.cs": "73365b77d7937b95be7ef098bfd5c72f46306b7cd1534716245833384d32d84f",
+    "plugin/Hawa.Grasshopper/bin/Release/net7.0/Hawa.Grasshopper.gha": "b9769ed50eab408e18cde0eab36b4474499a4cb1ef1856315a8ab6fad3a3114f"
+  }
+}

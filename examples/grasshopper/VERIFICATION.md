@@ -99,8 +99,7 @@ Minimum selection rules:
 Track required / exercised / passed / failed / blocked combinations, plus planned
 pairs or triples still uncovered. “100%” is meaningful only against a named,
 versioned finite inventory; it never means all possible Grasshopper graphs.
-There is currently no automatic exhaustive or pairwise graph generator. Coverage
-selection and run records are explicit maintainer work.
+G6 now generates a finite solver/boundary/field compatibility matrix and audits all shipped GH graphs. See [the compatibility guide](../../docs/compatibility-matrix.md). Arbitrary graph generation and continuous-input enumeration are outside that finite scope.
 
 ## Repeatable human / agent recipe
 
@@ -125,3 +124,71 @@ entries synchronized and run the annotation connection check after regeneration.
 For example 21, preserve its native generator annotations and unbound saved ID.
 
 Native example 23 adds a saved idle curved-solid case; `verify_native_curved.cs` checks the shared native path. See `docs/verification-boundaries-v0.5.json` for scope and results.
+
+## Boundary-transfer development coverage
+
+Example 24: coarse parent Record → Boundary Capture → Boundary Data → child Solve,
+with Result Quality and fixed-range field views. See [the gate record](../../docs/boundary-transfer-review.md).
+Required combinations: CPU/MPS imported vector field, uniform regression, temporal
+profile, rotated coordinates, model-unit conversion, missing/solid coverage,
+stale file hash, source quality rejection, time exhaustion and checkpoint history.
+Live MPS checks cover completed parent/child at matching physical time, valid
+meshes, target rejection/recovery, annotation wire preservation and idle reopen.
+CUDA/Windows remain unverified; atmospheric and wall-contact combinations are
+unsupported. No engineering validation is claimed.
+
+## Boundary foundation development examples (November 9, 2026)
+
+| Example | Live MCP coverage | Numerical claim |
+| --- | --- | --- |
+| 25 | MPS 400 steps; profile/wall/open assembly; valid plane; pause; incompatible-profile rejection; repair | Workflow; separate analytic channel benchmarks in boundary report |
+| 26 | MPS 400 steps; Y-oriented open pair; valid plane | Uniform directional workflow; no nonreflection claim |
+| 27 | MPS 400 steps; full closed mesh crossing X-; valid plane with solid mask | Cropped occupancy workflow, not general cut-face accuracy |
+
+Definitions are annotated and saved idle. `scripts/verify_general_boundary_examples.cs`
+uses one action per MCP call and preserves source files. Evidence and remaining
+G3/G5 limits: [boundary gate record](../../docs/general-boundaries-review.md).
+
+## Neutral precursor development checks (November 9, 2026)
+
+Examples 28 and 29: macOS Rhino 8.36 / embedded MPS, 400 steps each, 2.309401 seconds, no component errors, valid 841-face slice. Example 28 also exercised pause, invalid roughness, output withholding, recovery and close during run; cleanup count zero. Definitions are idle and annotated. Atmospheric qualification is **FAIL**, CUDA/Windows are unverified. See [gate record](../../docs/neutral-precursor-review.md).
+
+## Neutral coupling follow-up
+
+Example 30: embedded MPS 1000 steps at 5.773503 s; max Mach 0.074773; valid
+743-face slice and matching snapshot time. Pause, invalid z0/output withholding,
+repair/CPU400, close during run and zero pending cleanup verified. 28–29 each
+repeat MPS400 and 841-face slices. Archive migration tests preserve old GUIDs and
+wires with zero missing-chunk warnings. [Review](../../docs/neutral-coupling-review.md).
+The old startup-profile failure remains historical; the 200k-step stationary
+verification passes. Full atmospheric validation remains open.
+
+## G6 coverage-library additions
+
+Examples 31 and 32 cover the remaining reusable public operations: Wind Tunnel,
+Runtime, Sample, Vectors, Checkpoint, Translation and Particles. Native examples
+21–22 cover Linked Case. The archive inventory now covers all 52 public nodes
+across 30 GH definitions, excluding preserved legacy 09. All are annotated, idle
+and read without missing/corrupt archive messages. This is archive coverage;
+it does not assert a fresh numerical run of every older example.
+
+Live checks: 31 completes CPU60 with three valid probes/vectors and save/load/export;
+32 completes CPU40 with five recorded frames, three particle paths and a matching
+body pose. Source files remain idle. See [G6 evidence](../../docs/compatibility-matrix.md).
+
+
+## Neutral transfer and shared-view development checks
+
+Example 33 now runs the full CPU and MPS chain in embedded Rhino: city512,
+neighbourhood1024, pond1792, final absolute time 2.9560333782508845 s. All three
+recordings complete with valid plane meshes and quality/statistics outputs.
+Statistics correctly report insufficient evidence for this short demonstration.
+MPS pause holds the pond at 0/1792, survives a display edit, then resumes.
+A saved enabled copy reopens with all five controls requiring re-enabling.
+
+A shared slice at z=9 m spans the parent above both children; z=1.5 intersects
+all three. Additional owned test consumers produce seven 3D streamlines and a
+valid pressure isosurface. Final scope, hashes, lifecycle checks and remaining
+numerical failures are in [the transfer review](../../docs/neutral-transfer-review.md).
+31 supported archives round-trip with original IDs/wires and migrated frame-list
+inputs. Example 09 remains excluded. This is not a rerun of every old simulation.

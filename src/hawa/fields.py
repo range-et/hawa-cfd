@@ -17,7 +17,7 @@ def capture(session, mean=False):
     with session.lock:
         arrays=session.fields(mean)
         meta={'iteration':session.flow.i,'time':session.flow.units.convert_time_to_pu(session.flow.i),
-              'case':{**session.spec,'physical_dx':float(session.flow.units.convert_length_to_pu(1))},'mean':mean,'samples':session.samples}
+              'case':{**session.spec,'physical_dx':float(session.flow.units.convert_length_to_pu(1))},'mean':mean,'samples':session.samples,'quality':dict(session.quality)}
         if hasattr(session.solver,"moving"):meta["motion"]=session.solver.moving.metadata()
     return store(arrays,meta)
 
@@ -34,6 +34,10 @@ def validate(arrays,meta):
     if np.any(arrays['density']<=0):raise ValueError('Frame density must be positive')
     if 'solid' in arrays and (arrays['solid'].shape!=shape or arrays['solid'].dtype!=bool):
         raise ValueError('Frame solid mask must be a matching boolean array')
+    if 'strain_rate' in arrays and (arrays['strain_rate'].shape!=(3,3)+shape or not np.isfinite(arrays['strain_rate']).all()):
+        raise ValueError('Frame strain rate must be a finite 3x3 tensor on the lattice')
+    if 'wall_velocity' in arrays and (arrays['wall_velocity'].shape!=(3,)+shape[:2] or not np.isfinite(arrays['wall_velocity']).all()):
+        raise ValueError('Frame wall velocity must be finite on the ground plane')
     size=sum(a.nbytes for a in arrays.values())
     if size>MAX_BYTES:raise ValueError('Frame exceeds 256 MiB budget')
     return size
@@ -46,7 +50,7 @@ def read_frame(path):
             raise ValueError('Frame exceeds 256 MiB budget')
     with np.load(path,allow_pickle=False) as data:
         meta=json.loads(str(data['metadata']))
-        arrays={k:data[k] for k in ('velocity','pressure','density','solid') if k in data}
+        arrays={k:data[k] for k in ('velocity','pressure','density','solid','strain_rate','wall_velocity') if k in data}
     validate(arrays,meta)
     return arrays,meta
 
@@ -177,7 +181,7 @@ def trace(fields, seeds, steps=200, step=.4, direction=1, name='speed', spec=Non
     def tangent(p):
         r=sample_arrays(fields,[p])[0]
         if r is None or r['speed']<1e-10:return None
-        return np.asarray(r['velocity'])*direction/r['speed']
+        return np.asarray(r['velocity'])[:len(p)]*direction/r['speed']
     for seed in seeds:
         p=np.asarray(seed,float);path=[]
         for iteration in range(steps):
@@ -201,6 +205,9 @@ def trace(fields, seeds, steps=200, step=.4, direction=1, name='speed', spec=Non
 
 def dispatch_field(request, session=None, checkpoint=lambda n:None):
     action=request['action']
+    if request.get('frames') is not None:
+        from .field_collection import dispatch_collection
+        return dispatch_collection(request,checkpoint)
     if action=='capture':return capture(session,request.get('mean',False))
     if action=='load':
         return store(*read_frame(request['path']))

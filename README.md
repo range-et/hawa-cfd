@@ -8,7 +8,7 @@ This branch contains **Hawa 0.5**, with selected Rhino geometry, editable domain
 
 [Plugin guide](docs/plugin.md) · [Rhino MCP agent guide](docs/agents/rhino-mcp.md) · [Editable definitions](examples/grasshopper) · [License](LICENSE)
 
-Future direction: [project roadmap](docs/roadmap.md) and [existing and proposed examples](docs/example-roadmap.md). Future solver work is outside the bounded 0.5 prototype.
+Project records: [built features and history](features.md) · [open issues and ideas](issues.md) · [project roadmap](docs/roadmap.md) · [existing and proposed examples](docs/example-roadmap.md). Future solver work is outside the bounded 0.5 prototype.
 
 ## New workflows
 
@@ -87,3 +87,5 @@ CUDA hardware, Windows installation, full-duration upstream convergence and engi
 - **Monad System:** MIT license. The website and videos use its pinned colors and styles.
 
 See [the third-party notices](THIRD_PARTY_NOTICES.md) and [the Monad license](vendor/monad_system/LICENSE).
+
+Development verification includes the required [G6 compatibility matrix and example coverage gate](docs/compatibility-matrix.md). Its finite inventory, actual device results and annotated workflow coverage are recorded separately from numerical validation.

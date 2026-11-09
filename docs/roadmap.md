@@ -124,6 +124,41 @@ PorousMedium CPU/MPS parity is unresolved. Windows, CUDA and clean-machine setup
 still need their documented checks. Native demonstrations and valid field meshes
 do not establish engineering accuracy.
 
+## Runtime foundation and installation
+
+Decision recorded November 9, 2026: keep Python/PyTorch as the foundation for
+Hawa's embedded numerical engine. Preserve Python 3.9 and the pinned dependencies
+until a separately tested runtime migration is scoped. The Rhino/GH host remains
+in C#; additional solver adapters may use their own established engines.
+
+Make installation as seamless as possible on **macOS and Windows**. The intended
+experience is: install Hawa in Rhino, let it prepare the required numerical
+dependencies, then run locally on a supported device. Users should not need a
+separate Python installation or manual environment management for the embedded
+engine. First-use downloads, required restarts and errors must be clearly shown,
+with actionable retry/recovery guidance and a small installation-check case.
+
+Treat CPU as the baseline execution path, with MPS or CUDA acceleration on
+compatible, tested hardware/builds. Report the selected device and any automatic
+fallback; an unavailable explicitly requested device must produce a clear error.
+PyTorch portability is a foundation for platform support, not a guarantee that
+every device, operator or configuration works. Validate clean installation,
+first run, reopen, update and failed/interrupted dependency preparation on each
+supported OS. Record OS, architecture, Rhino/runtime versions and device; unrun
+platform checks remain unverified. Future external engines must disclose their
+own installation requirements.
+
+Do not schedule a Rust rewrite. Consider a small Rust accelerator only after
+profiling an actual workload identifies a material bottleneck. First distinguish
+Python execution, tensor/kernel work, synchronization, data copies and viewport
+cost. Compare simpler optimizations with a bounded native prototype, measuring
+the complete workflow and integration/packaging cost. Adopt it only with a
+demonstrated benefit, unchanged numerical acceptance criteria, and preserved
+pause/cancel and cleanup behavior. Keep the public case operations stable.
+
+This decision adds roadmap priorities, not new implementation requirements to
+the agreed 0.5 scope. See the [documentation review](review-runtime-roadmap.md).
+
 ## Related tools and the opportunity for Hawa
 
 This is a comparison of documented scope, not a performance ranking. Food4Rhino
@@ -205,7 +240,7 @@ tasks; assign versions after feasibility and contributor capacity are known.
 | --- | --- | --- |
 | 0.5 native prototype | Finish the existing block-case panel and GH sync scope | Existing native lifecycle, ownership, persistence and revision checks pass; document platform and installation checks actually completed or deferred. No new solver requirement. |
 | A Native case setup | Selected geometry, explicit units, editable domain, named boundaries, material settings, probes and measurement requests | A user and an agent independently reproduce one stationary block case through public operations; saving/reopening preserves intent and stays idle; invalid setup has actionable messages. |
-| B LBM evidence and examples | Stronger benchmark coverage, domain/grid/time sensitivity, force conventions, memory and device reports | Publish bounded benchmark outcomes and tolerances; investigate the PorousMedium discrepancy without widening tolerances to conceal it; qualify accuracy per case. |
+| B LBM evidence and examples | Stronger benchmark coverage, domain/grid/time sensitivity, force conventions, memory and device reports; user-defined refinement regions after coupling verification | Publish bounded benchmark outcomes and tolerances; investigate the PorousMedium discrepancy without widening tolerances to conceal it; qualify accuracy per case. |
 | C Shared solver contract | Physical-case schema, capability checks, adapter lifecycle, result metadata and solver-specific preparation | Two actual methods accept one overlapping case; round-trip intent and detect unsupported features; retain GH archives and migrate saved case schemas explicitly. |
 | D Particle feasibility | One bounded physics prototype independent of rendering, with a PyTorch candidate implementation | Choose liquid/free-surface or airflow scope first; measure stability, conservation, boundary behavior, neighbour-search cost and responsiveness on named hardware; adopt, revise or stop based on the evidence. |
 | E Finite-volume integration | One established engine connected to the shared case, initially one stationary isothermal flow class | Generate a mesh, run asynchronously, inspect convergence and conservation, obtain comparable fields/loads, and reproduce a published benchmark with documented settings. |
@@ -216,6 +251,75 @@ Stages A and B establish value with the existing engine. Short feasibility work
 for D and E can inform C, but broad UI or schema generalization should follow
 actual adapter needs. Neither an unsuccessful particle experiment nor delayed
 finite-volume work should prevent improving the LBM product.
+
+### Nested city → neighbourhood → pond studies
+
+Add [boundary-field transfer and atmospheric study capabilities](nested-flow-roadmap.md)
+to the future LBM/shared-case workstreams. Prioritize result-quality diagnostics
+and space/time-varying vector inlet import for separate uniform-grid cases.
+Atmospheric-model qualification and supported child-boundary geometry are gates
+for useful urban results. Multi-level wall-contact refinement and larger/block
+storage follow separately. Arbitrary graded volume-mesh import remains distinct.
+The linked plan defines reusable nodes, data contracts, sequencing and examples.
+A [bounded development implementation](boundary-transfer.md) now provides sampled
+quality diagnostics and offline inlet transfer; see its gate record for tested
+combinations and remaining limitations.
+
+### User-defined local refinement regions
+
+Requested November 8, 2026. Add spatial resolution controls to the future LBM
+workstream, building on example 15's experimental single fixed 2:1 patch.
+This is proposed work; support for multiple regions and levels remains to be
+implemented and verified. Keep surface tessellation settings separate from the
+volume grid used by the solver.
+
+The user starts with one physical simulation domain and a coarse base cell size.
+They add refinement regions and assign each a subdivision multiplier relative to
+that base: `requested local cell size = base cell size / multiplier`. A multiplier
+of 1 retains the base resolution. A multiplier of 10 requests cells one tenth as
+wide. Regions control resolution inside the same fluid domain; they do not create
+walls or independent simulations.
+
+Proposed reusable Grasshopper workflow (component names are provisional):
+
+1. **Domain** supplies the physical extent and base cell size.
+2. **Refinement Region** pairs a box or supported closed volume with a positive
+   subdivision multiplier. Start with boxes; qualify other closed volumes later.
+3. **Refinement Plan** combines regions. The finest requested resolution wins in
+   overlaps. Preserve region IDs, units and geometry snapshots; reject invalid
+   factors and report regions outside the domain or too small to resolve.
+4. **Generate Grid** prepares the supported hierarchy and reports actual cell
+   sizes, level boundaries, cell counts, estimated memory and any unsupported
+   settings before starting a solve. Preview the base domain, regions and grid
+   levels in Rhino. Preparation must support cancellation and resource limits.
+
+Native controls and public agent operations must use the same saved plan as GH.
+Keep requested resolution in the physical-case schema and generated hierarchy in
+solver preparation metadata. Editing either geometry or refinement invalidates
+old preparation and results through the existing revision/generation contract.
+Save/reopen must preserve intent without starting a job.
+
+The target includes roughly 10:1 coarse-to-fine cell widths. Select supported
+ratios, nesting, transition buffers, time stepping and interface coupling during
+numerical design. For example, if the implementation supports only nested 2:1
+levels, offer an explicit 8:1 or 16:1 alternative; never silently change a 10:1
+request. Arbitrary imported cell connectivity and automatic solution-driven
+adaptation require separate scope. This feature generates a solver-compatible
+grid from user regions.
+
+Before release, extend B08 with disjoint, nested, overlapping and boundary-touching
+regions; exercise supported wall/refinement combinations and reject unsupported
+ones. Compare conservation, interface errors, pressure and velocity against a
+uniform fine reference at equal physical time. Set tolerances before execution.
+Measure runtime and memory on each tested device. Check cancellation, failed
+preparation, stale completions, save/reopen and region edits through GH and native
+controls. A detailed grid preview alone does not verify solver coupling.
+
+The architectural example is **A19: building entrance pressure and vortices** in
+[the example backlog](example-roadmap.md). Use coarse cells across the site, a
+fine entrance region, and optional intermediate regions around the building and
+wake. The region tools also apply to drone gaps, wing tips and underwater parts.
+Keep the building and door geometry in an ordinary GH example assembly.
 
 ### Scope the first additional solvers narrowly
 
@@ -304,3 +408,16 @@ followed by an explicitly submerged boat rudder or fin. Keep powered rotor and
 surface-running boat work behind their own physics and validation gates.
 Only expand into another solver when it answers a specific user question better
 and the project can maintain the integration.
+
+## General boundary and atmospheric capability scope
+
+The [next-stage assessment](general-boundaries-atmosphere-scope.md) separates patch
+topology, open/wall boundary numerics, physical field transfer, high-Re closure
+and grid refinement. It records a reproduced mapped-inlet/curved-wall composition
+defect and defines the gates before enabling general nested-domain studies.
+
+Boundary foundation implementation: [guide](general-boundaries.md) and
+[gate record](general-boundaries-review.md). The physical patch contract and bounded
+NEE adapter are separate from future multi-patch datasets, atmospheric wall/SGS
+qualification, full cut-face validation and wall-contact refinement. Do not count
+the shared contract as completion of SPH or finite-volume adapters.

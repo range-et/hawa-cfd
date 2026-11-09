@@ -2,9 +2,32 @@
 
 Hawa is an experimental embedded CFD plugin for Rhino 8 and Grasshopper.
 
+## Project records and document hygiene
+
+- Read [features.md](features.md) and [issues.md](issues.md) before planning work,
+  alongside the quality gates below. Features records what exists and completed
+  work; issues records open bugs, verification gaps, improvements and ideas.
+- Keep [the roadmap](docs/roadmap.md) for direction and sequencing, and
+  [the example backlog](docs/example-roadmap.md) for tutorial candidates. Link to
+  detailed specifications and gate records instead of duplicating them.
+- Update the applicable records in the same change as the work. Add newly found
+  bugs or hypotheses to issues with stable `HAWA-NNN` IDs, evidence/repro, scope,
+  status, owner (or unassigned), next action and completion criteria. Never reuse
+  IDs or present a hypothesis as a reproduced defect.
+- When closing an item, move its outcome and evidence to features history with
+  its ID and date; remove the closed active entry from issues. Keep any remaining
+  scope open. Record rejected decisions without calling them built features.
+- Keep feature claims bounded by actual implementation and review evidence.
+  Separate built, verified, packaged and released; record devices, omissions and
+  limits. Historical tests are not fresh passes. Read newer follow-ups before
+  reopening an older repaired finding.
+- Preserve existing user edits and unrelated active work. Keep these registers
+  concise, update entries in place, and check local links after documentation
+  changes. Do not copy session transcripts or large logs into the registers.
+
 Before changing or reviewing Hawa, read [docs/quality-gates.md](docs/quality-gates.md).
 Assess research, architecture, software reliability, numerical physics and UI/UX
-as separate evidence gates. Use [the review record](docs/review-record-template.md)
+as separate evidence gates. G6 also requires the versioned compatibility matrix and public-node/example coverage; see [docs/compatibility-matrix.md](docs/compatibility-matrix.md). Use [the review record](docs/review-record-template.md)
 and [example coverage matrix](examples/grasshopper/VERIFICATION.md). Record actual
 reviewers, checks and omissions; a persona name or a skipped check is not a pass.
 

@@ -18,6 +18,7 @@ public sealed class NativePreview : DisplayConduit, IDisposable
     protected override void PostDrawObjects(DrawEventArgs e) {
         var c = CaseHub.Find(e.RhinoDoc.RuntimeSerialNumber); if (c == null) return;
         var view = c.View;
+        if (!view["domain"]!.GetValue<bool>() && !view["body"]!.GetValue<bool>() && !view["field"]!.GetValue<bool>()) return;
         if (view["domain"]!.GetValue<bool>()) e.Display.DrawBox(CaseGeometry.Bounds(c,c.Outdated), Color.FromArgb(65,85,95),2);
         double s = RhinoMath.UnitScale(UnitSystem.Meters,e.RhinoDoc.ModelUnitSystem);
         if (view["body"]!.GetValue<bool>()) {

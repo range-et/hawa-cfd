@@ -33,13 +33,18 @@ def install_interpolated_walls(simulation, links):
     bi=torch.tensor(np.ravel_multi_index(behind.T,shape),device=ctx.device,dtype=torch.long)
     q=ctx.convert_to_tensor(distance);ev=ctx.convert_to_tensor(e)
     simulation.wall_history=deque(maxlen=20)
-    def step(*args):
-        simulation._collide()
+    pending = {}
+    def capture():
         f=flow.f.view(flow.stencil.q,-1)
         incoming=f[qi,ix].clone();opposite=f[oi,ix].clone();back=f[qi,bi].clone()
         reflected=torch.where(q<.5,2*q*incoming+(1-2*q)*back,incoming/(2*q)+(1-1/(2*q))*opposite)
-        simulation._stream()
+        pending["reflected"] = reflected
+        pending["incoming"] = incoming
+    def reconstruct():
+        reflected = pending.pop("reflected")
+        incoming = pending.pop("incoming")
         flow.f.view(flow.stencil.q,-1)[oi,ix]=reflected
         simulation.wall_history.append(torch.sum((incoming+reflected)[:,None]*ev,dim=0).detach().clone())
-    simulation._collide_and_stream=step
+    from .step import coordinator
+    coordinator(simulation).register("interpolated-walls", capture, reconstruct)
     return simulation

@@ -85,7 +85,7 @@ implementation; experimental comparisons validate a stated physical prediction.
 | B05 | Low-Reynolds-number sphere | Resolved stationary walls | Drag against the appropriate analytic limit, blockage and grid sensitivity. |
 | B06 | Laminar cylinder shedding | Extend 16 | Strouhal number, mean drag, lift amplitude, domain and averaging sensitivity. |
 | B07 | Inlet/outlet disturbance test | LBM boundary study | Reflection, mass balance and downstream-domain sensitivity. |
-| B08 | Uniform versus refined grid | Extend 15 | Conservation, error and cost for equal physical time; then a separately qualified obstacle case. |
+| B08 | Uniform versus refined grid | Extend 15; future multi-region hierarchy | Conservation, interface error and cost at equal physical time; disjoint/nested/overlapping regions and boundary contacts; then separately qualify obstacle and curved-wall combinations. |
 | B09 | Curved versus voxel walls | Extend 14 | Geometry error and force/profile convergence without unsupported refinement combinations. |
 | B10 | Device reproducibility matrix | CPU/MPS; CUDA hardware | Declared pointwise and integral tolerances with device and precision metadata. |
 | B11 | PorousMedium discrepancy reproducer | Existing unresolved issue | Minimal case, growth history and unchanged comparison criteria. |
@@ -156,7 +156,47 @@ tracks require explicit implementation and acceptance work.
 | A02 | Building spacing and courtyard flow | Secondary architectural track | Multi-building geometry checks, domain/grid studies and suitable experimental data. |
 | A03 | Wind directions around a site | Secondary architectural track | Direction conventions, consistent sampling and per-direction evidence; comfort needs separate criteria/weather inputs. |
 | A04 | Isothermal cross ventilation | Secondary architectural track | Opening flow rates, pressure balance and internal recirculation references. |
+| A19 | Building entrance pressure and vortices | Future user-defined refinement regions | Coarse site and fine entrance grid; pressure histories, conservation, interface and resolution studies; atmospheric-flow assumptions qualified separately. |
 | A15 | Buoyancy-driven room or chimney | Secondary architectural and thermal track | Energy balance and coupled velocity/temperature validation. |
+
+### A19 — Building entrance pressure and vortices
+
+Proposed secondary architectural example, dependent on
+[user-defined local refinement regions](roadmap.md#user-defined-local-refinement-regions).
+Build the site, building and entrance with ordinary GH geometry. Define a coarse
+base domain, a fine entrance region requesting a subdivision factor of 10, and
+optional intermediate building/wake regions. Display the requested and actual
+cell sizes, transition levels and memory estimate before running. Unsupported
+ratios require an explicit user choice.
+
+Provide an annotated, editable GH definition with separate geometry, refinement,
+solver, probe and visualization groups. Show domain and refinement wireframes,
+3D streamlines, pressure slices and entrance pressure probes. Record pressure
+reference, units, probe location, physical time and averaging interval. Include a
+small smoke configuration and a larger study configuration with stated budgets.
+
+Compare coarse-only and locally refined runs, plus a bounded uniform-fine
+reference for verification. Study pressure histories, mean/peak pressure over a
+stated interval, vortex behavior, conservation, resolution sensitivity, runtime
+and memory. Atmospheric inlet, ground/wall treatment, turbulence assumptions and
+domain extent need their own evidence before making building-pressure claims.
+
+The future video should show users placing regions and changing their factors,
+inspect the generated levels, then animate settling flow and pressure histories
+at matching physical times. Label which frames are workflow demonstrations and
+which comparisons have passed numerical checks. Exercise overlap, invalid input,
+cancel and edit/restart behavior in the accompanying verification recipe.
+
+### A20 — City → neighbourhood → whole-pond boundary transfer
+
+Follow the [nested-study plan](nested-flow-roadmap.md). Deliver three annotated
+uniform-grid cases plus boundary capture/mapping connections, matching-time probes,
+quality reports and a synchronized animation. Begin with an analytic time-varying
+inlet verification example before the urban demonstration. Show missing coverage,
+solid intersections, unsupported backflow and an over-limit local Mach result as
+explicit rejection examples. Atmospheric qualification and boundary capabilities
+must match the study before making wind predictions. The first pond case models
+airflow over a prescribed stationary surface; water motion is separate scope.
 
 ## First additions to prioritize
 

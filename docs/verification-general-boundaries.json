@@ -1,0 +1,90 @@
+{
+  "date": "2026-11-09",
+  "scope": "stationary uniform LBM boundary foundation; bounded laminar verification",
+  "python_tests": {
+    "passed": 175,
+    "skipped": 31,
+    "warnings": 4
+  },
+  "state_contracts": 33,
+  "upstream_reference": {
+    "passed": 419,
+    "skipped": 884
+  },
+  "upstream_backport": {
+    "passed": 419,
+    "skipped": 884
+  },
+  "devices": [
+    "cpu",
+    "mps"
+  ],
+  "unverified": [
+    "cuda",
+    "windows",
+    "clean install",
+    "atmospheric LES",
+    "nonreflection",
+    "general cut-face validation"
+  ],
+  "examples": {
+    "25": {
+      "steps": 400,
+      "time_seconds": 0.6928203230275509,
+      "device": "mps",
+      "mesh_faces": 841,
+      "mesh_valid": true,
+      "errors": [],
+      "quality": "within-tested-envelope"
+    },
+    "26": {
+      "steps": 400,
+      "time_seconds": 0.6928203230275509,
+      "device": "mps",
+      "mesh_faces": 841,
+      "mesh_valid": true,
+      "errors": [],
+      "quality": "within-tested-envelope"
+    },
+    "27": {
+      "steps": 400,
+      "time_seconds": 0.6928203230275509,
+      "device": "mps",
+      "mesh_faces": 724,
+      "mesh_valid": true,
+      "errors": [],
+      "quality": "within-tested-envelope"
+    }
+  },
+  "cleanup": {
+    "pending_cleanup": 0,
+    "status_error": "'49408f1a-7f25-4a6b-bd5d-130c6e2f99f2'"
+  },
+  "hashes": {
+    "src/hawa/moving_boundaries.py": "03e9570db6304d32c9deec1d792f520e317fcdf6fc1a2deadf4683403fef2a50",
+    "src/hawa/fields.py": "3f87c8948edc3e3c018eba49a3676a006314d451f55a22e16606455953e1974c",
+    "src/hawa/boundaries.py": "7324ae8c92c54a798db6f67f350cd927e7cf8010df22caf31250a3c034325f11",
+    "src/hawa/recording.py": "d24e24dc07929d0b6c8b5c02cefc1a7ea342031996b08145ad5c099b68708b36",
+    "src/hawa/optimization.py": "a7a7f910da56c1de3ad80867f36d8f37480ba7948fb144d1b8bf2de022dac3d9",
+    "src/hawa/__init__.py": "3484c4615e9a7d8c6f9421b9233b0cf8ba70e9a20a554246a80904b9641a40c6",
+    "src/hawa/cases.py": "f8ad136bd78b60b7f21d6b8fb5a911a945fb0e6b9c16ebf9ad649b0be3c643d1",
+    "src/hawa/refinement.py": "e1deb76b9cc7acc0f79e2e8ba1e0cb9ad593e4ac1626d1202289dd52e59cc413",
+    "src/hawa/collision.py": "0ea22217f196832027661c159fa02f0b12ed3b409b138332bfd3639c9da2db78",
+    "src/hawa/boundary_contracts.py": "a642446ee3250e9fa2f83c94dcbe759aca1ac3ec197c3bc1ed10b3c5da268e67",
+    "src/hawa/lbm.py": "058cacba479e8acdd283340c22581eac8ccee15bd92eedbdfd7474b8817df942",
+    "src/hawa/jobs.py": "4d7f0998fa45d08cd9d16f47a2d2073d4b8551825e2c7bd9d7ae58e2dc840c42",
+    "src/hawa/step.py": "e468cbce49f84efe7c1eb89696893ec52cae20dacb746ad2d4d73e623f89ba45",
+    "src/hawa/backends.py": "6bdbf42473b3aa83d8b4497e7731db119d51a7344f1e3246cb64a5186cf42a73",
+    "src/hawa/motion.py": "128a3133372b43c36ffb3f0ef2b8cbb0ec96164d75d674a0f599834e2e4c63cf",
+    "src/hawa/engine.py": "5a66e746c8d23c2ad3ac9a5e05596136527437704fba2ade779b99263567d09e",
+    "src/hawa/cli.py": "ddf72cf58607aa78785997486623817aea62f5ccaa1cb766b60b1ba199b86fd6",
+    "src/hawa/plugin.py": "854ee3d4d8a7e97b52ca56453744274c19f50833aee0b64b4a89327ade7b9255",
+    "src/hawa/airfoils.py": "4117731d899c5641817ac7b3145850595b01e4dafa5899489b49ebbb6431af39",
+    "src/hawa/boundary_data.py": "9b79c6fef25ce8c5d97be4b38238cdaaf9969a92a1940fe530b08d4b47182fdc",
+    "src/hawa/quality.py": "f7ae15536efa5903937c147b69763016b79bb4046991f886c43a116578f39c8c",
+    "src/hawa/walls.py": "d2c0ac391a689e9b51ee4088c4821fa979eaf72a044f549327a78c8e639ca134",
+    "examples/grasshopper/25-channel-boundaries.gh": "9b6c43bb960b21ba2dc0f78fba8935f908cb8efd489397e40b85d5ea698ac998",
+    "examples/grasshopper/27-cropped-solid-boundary.gh": "ff0f8cb50570357effcd5b12cca153f25dcefb36e9156a698ae700485a1dd916",
+    "examples/grasshopper/26-bidirectional-open-faces.gh": "4cbe5a168fc7521a47f3db5339da179a0f3d0a0c587ef993a74f23096349f159"
+  }
+}

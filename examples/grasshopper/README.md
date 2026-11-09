@@ -27,6 +27,10 @@ For agent operation through Rhino MCP alone, read [the MCP guide](../../docs/age
 | [18-pitching-airfoil.gh](18-pitching-airfoil.gh) | Edit the offline NACA section and wing. Set pitch amplitude in radians; run and inspect loads. | Coarse thick-foil demonstration. RC boundary layers are not resolved. Motion does not respond to fluid forces. |
 | [19-rotating-paddle.gh](19-rotating-paddle.gh) | Set RPM and run. Inspect body pose, torque and signed fluid power. | Single fluid. No water surface, cavitation or free-body response. This is not a validated propeller model. |
 | [20-motion-cycle-search.gh](20-motion-cycle-search.gh) | Run search. Each amplitude is evaluated only after settling and complete measured cycles. Pause or cancel as needed. | Default objective is input power. Compare longer settling, more cycles and finer grids before ranking designs. |
+| [24-boundary-flow-transfer.gh](24-boundary-flow-transfer.gh) | Record a parent wake, map a time-varying vector inlet, then run a finer child. | Development feature; periodic transverse faces and stationary uniform child. Read [transfer instructions](../../docs/boundary-transfer.md). |
+| [25-channel-boundaries.gh](25-channel-boundaries.gh) | Six physical patches: profile inflow, walls and open outlet. | Stationary uniform NEE; wait for ready, then Run. |
+| [26-bidirectional-open-faces.gh](26-bidirectional-open-faces.gh) | Y-oriented open pair; edit initial velocity sign. | Approximate open condition; no nonreflection claim. |
+| [27-cropped-solid-boundary.gh](27-cropped-solid-boundary.gh) | Closed box crosses X-, leaving mixed fluid/solid sites. | Unsupported solid donors and curved cuts reject. |
 
 Example **09** is a historical Galapagos definition with user edits. It is preserved in this checkout and excluded from the supported package. Use **10** for asynchronous hull search. It is not part of the layout cleanup.
 
@@ -68,3 +72,83 @@ Example 10 builds its hull with ordinary Grasshopper expressions, Construct Mesh
 Mesh Volume, Scale NU and Move. The construction is editable example content; it
 adds no Hawa hull node. The hidden legacy archive reader is retained only so old
 user definitions can still open.
+
+Examples 25–27 use `hawa-nee-v1` and `smagorinsky-v1`. Read
+[the boundary guide](../../docs/general-boundaries.md) before editing their patches.
+All start idle; unsupported corners fail preflight. These are short workflow
+examples, not atmospheric validation.
+
+## Experimental neutral precursors
+
+- `28-neutral-rough-floor.gh`: shifted-population air solver and planar rough-floor stress.
+- `29-neutral-roughness-sensitivity.gh`: change the z0 slider and compare wall traction at equal physical time.
+
+Both open idle and carry explicit research warnings. Transfer is disabled: the finest-grid profile-preservation gate failed. These are not validated city-to-pond simulations. See [the review](../../docs/neutral-precursor-review.md) and [MCP instructions](../../docs/agents/rhino-mcp.md).
+
+## 30 — Neutral flow with cropped buildings
+
+Open [30-neutral-cropped-buildings.gh](30-neutral-cropped-buildings.gh). Closed box
+bodies feed Geometry; one extends through the inlet. Six Boundary Patch objects
+feed Neutral Flow. Ground is rough, X+ and Z+ are open, and Y is periodic. The
+32×18×16 grid uses dx=1 m, air viscosity 1.5e-5 m²/s and Uref=5 m/s at 6 m.
+The wall sample is 1.5 m above ground with a 3 s reference-velocity filter.
+
+Wait for preparation, then enable Run for 1000 MPS steps. Run false pauses. Reset
+clears the solution. Save a copy before editing boxes, z0 or patch values. The
+blue-green XY slice at z=2.5 m, domain frame and Quality report share the case.
+This is a short workflow example; atmospheric engineering accuracy and boundary
+transfer remain unqualified. See [the current review](../../docs/neutral-coupling-review.md).
+
+## Coverage-library workflows
+
+- **31 — Tunnel, probes and checkpoint:** closed mesh → Wind Tunnel → Geometry/Case
+  → Solve → Sample/Vectors. Runtime reports the embedded environment. Checkpoint
+  demonstrates save, load and export; set an absolute `.npz` path and toggle
+  Execute off/on. Use metres in Rhino. Default CPU60 is a smoke demonstration.
+- **32 — Translation and recorded particles:** closed mesh → Translation/Moving
+  Body/Motion Case → Record → Playback/Particles and Body Preview. Choose a new
+  absolute directory, then Record. Default CPU40 saves frames 0–4. Inspect three
+  particle paths and the final body pose. Motion is prescribed; no free-body dynamics.
+
+The [G6 compatibility gate](../../docs/compatibility-matrix.md) connects these
+annotated workflows to the finite machine-generated contract matrix. Every public
+node has an example; this does not mean every possible GH assembly is enumerated.
+
+
+## 33 — Three-stage neutral boundary transfer (development)
+
+Open [33-neutral-city-to-pond.gh](33-neutral-city-to-pond.gh). It is an annotated
+Grasshopper assembly of reusable tools. Save a copy and replace the three recording
+directories and two boundary-file paths with new absolute paths. The source opens
+idle. Enable the five Record/Capture controls; each waits for its upstream result.
+Pause controls act on their own recordings. Disable Record to cancel.
+
+The city grid is 32×24×16 at 1 m; neighbourhood is 24×24×16 at 0.5 m; pond is
+24×24×16 at 0.25 m. They share full closed building geometry. The atmosphere is
+neutral air at molecular viscosity, with a stationary rough ground. The pond is
+a low-roughness region on that air boundary. It does not model water circulation.
+
+The supplied CPU demonstration uses 512/1024/1792 steps. Pond capture starts at
+neighbourhood time 0.3695041722813605 s to exclude its startup pressure transient.
+Playback frames 64/64/56 end at the same absolute time, 2.9560333782508845 s.
+Changes to speed, Mach, cell width or capture window require matching child duration
+and playback time. An import can reject startup pressure even when general health
+reports finite fields. Keep that guard and select a physically appropriate window.
+
+All three Playback outputs feed Shared slice. Move **Shared slice height / m**
+to cut through the nested domains. A child supplies data where it contains the
+sample; the parent supplies the rest. Plane Field, Flow Display, Isosurface and
+Surface Field also accept multiple same-time frames. They reject mismatched times
+and preserve the finer solid mask. Halfway-wall slices retain fluid portions of
+partially intersected triangles. Boundary colours are reconstructed display values;
+the Values output remains raw samples with conservative validity in the engine.
+
+Hide an unrelated native case with its Domain, Body and Field checkboxes before
+comparing previews. The domain labels identify the three sample extents. The
+stationary ground is half a cell below the first centre; displaying sample extents
+does not add or remove simulated cells.
+
+**Qualification remains open.** This short run tests the complete data path and
+views. Longer nested mean/RMS and experimental atmospheric checks still fail.
+Read [the acceptance contract](../../docs/atmospheric-nesting-implementation.md)
+and the quality/statistics reports before using results for design decisions.
