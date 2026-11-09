@@ -71,3 +71,12 @@ Autodesk Flow Design documentation, the OpenFOAM Foundation development reposito
 The stationary wall-link method follows the linear interpolated bounce-back method of Bouzidi, Firdaouss and Lallemand (2001), Physical Review E 64, 046301. Hawa implements the formulas independently; validation limits are recorded in the 0.4 development notes.
 
 The fixed 2:1 refinement implementation uses cubic reconstruction and filtered nonequilibrium restriction described by Lagrava, Malaspinas, Latt and Chopard (2012), Journal of Computational Physics 231, DOI 10.1016/j.jcp.2012.03.015. The formulas are independently implemented. The method is experimental and does not provide exact finite-volume refluxing.
+
+## AIJ Case I wind-tunnel data (CC BY 4.0)
+
+The two unmodified measurement CSV files in `tests/reference_data/aij-case-i`
+are from Kondo, Mutou and Hori, edited by Tominaga, Kikumoto and Okaze:
+[Zenodo DOI 10.5281/zenodo.15430018](https://doi.org/10.5281/zenodo.15430018),
+version 15430019. They retain the [CC BY 4.0 licence](https://creativecommons.org/licenses/by/4.0/).
+See the accompanying README for units, scope and interpretation. Hawa's numerical
+implementation is original; these measurements do not imply endorsement.

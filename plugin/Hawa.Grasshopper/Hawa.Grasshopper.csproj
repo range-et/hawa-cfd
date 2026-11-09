@@ -18,6 +18,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RhinoCommon"><HintPath>$(SdkReferences)/RhinoCommon.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Eto"><HintPath>$(RhinoSystem)/Eto.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="Grasshopper"><HintPath Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(SdkReferences)/Grasshopper.dll</HintPath><HintPath Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(GrasshopperSystem)/Grasshopper.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="GH_IO"><HintPath Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(SdkReferences)/GH_IO.dll</HintPath><HintPath Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(GrasshopperSystem)/GH_IO.dll</HintPath><Private>false</Private></Reference>
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" ExcludeAssets="runtime" />

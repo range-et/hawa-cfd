@@ -195,3 +195,21 @@ substitute for the document-scoped operations above in a user's working session.
 Read [the plugin guide](../plugin.md), [moving-surface limits](../moving-surfaces-v0.4.md)
 and [the example catalogue](../../examples/grasshopper/README.md). The installed
 bundle contains this guide under `docs/agents` and the catalogue under `examples`.
+
+
+## Development example 33: transfer and shared views
+
+Use the five Record/Capture toggles and unique paths documented in the example
+catalogue. Enable them after the initial idle solution. Downstream components wait
+for data; monitor without forcing solutions. The retained Hawa polling service owns
+refresh requests, so unrelated GH solutions should not strand a completed worker.
+For maintainer lifecycle audits, `HawaPollScheduler.PendingCount` is a public
+read-only diagnostic; it should reach zero after owned work is disposed.
+
+Connect one or more same-time Playback/Snapshot frames to Plane Field, Flow Display,
+Isosurface or Surface Field. Coordinates are resolved from each case; finest cells
+win within overlapping domains. Move the shared height slider without rerunning
+recordings. Raw sample validity remains conservative. Reconstructed slice colours
+and trimmed display faces do not refine the solver grid or validate atmospheric flow.
+The independent native preview can be hidden using its three view checkboxes.
+Do not interpret its default case or “field 0” as part of the GH recording.

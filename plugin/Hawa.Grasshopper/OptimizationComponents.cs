@@ -56,7 +56,7 @@ public sealed class EvaluateComponent : HawaComponent
             da.SetData(3,$"{runtime["backend"]!["selected"]} / completed\nIterations: {steps}\nFitness: {result["fitness"]}\nForce: {result["force_newtons"]} N\nSingle phase submerged body. No waves.");
         } else if(state!="cancelled") {
             string expected=job;
-            OnPingDocument()?.ScheduleSolution(100,_=>{if(!Locked && job==expected)ExpireSolution(false);});
+            HawaPollScheduler.Request(this,()=>job==expected);
         }
     }
     public override void DocumentContextChanged(GH_Document document, GH_DocumentContext context){if(context==GH_DocumentContext.Close||context==GH_DocumentContext.Unloaded||context==GH_DocumentContext.Lock)requireDisable=true;base.DocumentContextChanged(document,context);}

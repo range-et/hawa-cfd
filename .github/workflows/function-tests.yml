@@ -1,0 +1,47 @@
+name: Function test coverage
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  functions:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.9.25'
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+      - name: Install developer dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install --upgrade pip==25.3
+          .venv/bin/python -m pip install torch==2.8.0+cpu --index-url https://download.pytorch.org/whl/cpu --no-deps
+          .venv/bin/python -m pip install -e vendor/lettuce -e '.[test]'
+      - name: Measure and check new functions
+        env:
+          BASE_REVISION: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          baseline_args=()
+          if [[ -n "$BASE_REVISION" ]] && git cat-file -e "$BASE_REVISION:tests/coverage/function-baseline.json" 2>/dev/null; then
+            baseline_args=(--base-ref "$BASE_REVISION")
+          fi
+          .venv/bin/python tools/function_coverage.py run --output results/function-coverage-ci "${baseline_args[@]}"
+          .venv/bin/python tools/function_coverage.py check --output docs/function-tests "${baseline_args[@]}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: function-test-evidence
+          path: |
+            results/function-coverage-ci/*.json
+            results/function-coverage-ci/*.xml
+            results/function-coverage-ci/*.md
+            results/function-coverage-ci/*.log

@@ -1,0 +1,93 @@
+{
+  "date": "2026-11-09",
+  "status": "experimental-development; atmospheric qualification failed",
+  "reviewer": "Codex main agent, self-review",
+  "tests": {
+    "hawa": {
+      "passed": 197,
+      "skipped": 31,
+      "warnings": 4
+    },
+    "state_contracts": {
+      "passed": 33
+    },
+    "reference": {
+      "passed": 419,
+      "skipped": 884,
+      "warnings": 40
+    },
+    "backport": {
+      "passed": 419,
+      "skipped": 884,
+      "warnings": 40
+    }
+  },
+  "source_sha256": {
+    "src/hawa/neutral.py": "660f81c82cadae0c6800ff7a97fe8d701c81093bee4e462a2ccc2794988f1cd1",
+    "src/hawa/atmosphere.py": "d00c7dad606da974b3f4a47bffc43a62948b2d95d88368f18d1796616cdde741",
+    "src/hawa/plugin.py": "c2f23aa32c6ee58b91091761c9ec62791e4970d9b2c0567e7f4292e779d83c60",
+    "src/hawa/quality.py": "4296bcaeb0b2fff3c24e971b4b07140bfaa396f5ecea398a2622f4918ec24567",
+    "tests/test_neutral.py": "ccb01cf376acc4c5026cb92e4791eb868019b0b6c548d188a92d61087433131f",
+    "plugin/Hawa.Grasshopper/BoundaryComponents.cs": "d794c558740fe18d288365cfad208831bac7787cd407e10494f37b29216b0e24",
+    "examples/grasshopper/28-neutral-rough-floor.gh": "17ad9d4344a52c0eb21e16633f9811cd6e6bcd25e84bd69d716a457a4e2c3549",
+    "examples/grasshopper/29-neutral-roughness-sensitivity.gh": "c853f2e8e1fabceabd97f64f9301ced4e6aa97bedd292a7dda1b8baa0ddc473c"
+  },
+  "profile": {
+    "cpu": {
+      "passed": false,
+      "relative_l2_drift": [
+        0.03540845587849617,
+        0.04410102218389511,
+        0.054182302206754684
+      ],
+      "threshold": 0.05
+    },
+    "mps": {
+      "passed": false,
+      "relative_l2_drift": [
+        0.035408470779657364,
+        0.04410095885396004,
+        0.05418268218636513
+      ],
+      "threshold": 0.05
+    }
+  },
+  "host": {
+    "28": {
+      "steps": 400,
+      "physical_seconds": 2.3094010767585034,
+      "max_lattice_mach": 0.05765237286686897,
+      "errors": [],
+      "mesh_faces": 841,
+      "transfer_eligible": false
+    },
+    "29": {
+      "steps": 400,
+      "physical_seconds": 2.3094010767585034,
+      "max_lattice_mach": 0.061842646449804306,
+      "errors": [],
+      "mesh_faces": 841,
+      "transfer_eligible": false
+    }
+  },
+  "adjustment": {
+    "shape": [
+      72,
+      36,
+      12
+    ],
+    "steps": 20000,
+    "physical_seconds": 115.47005383792518,
+    "max_lattice_mach": 0.06568195670843124,
+    "relative_mass_change": -2.511734825102881e-07,
+    "atmospheric_validation": false
+  },
+  "unverified": [
+    "converged turbulence statistics",
+    "experimental atmospheric comparison",
+    "general urban rough walls",
+    "open/cropped-building coupling",
+    "CUDA",
+    "Windows"
+  ]
+}

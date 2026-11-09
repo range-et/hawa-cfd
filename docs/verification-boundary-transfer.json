@@ -1,0 +1,162 @@
+{
+  "scope": "development verification; not atmospheric validation",
+  "reviewer": "Codex self-review",
+  "hawa_tests": {
+    "passed": 157,
+    "skipped": 30,
+    "warnings": 4
+  },
+  "state_contracts": 33,
+  "upstream_and_backport_each": {
+    "passed": 419,
+    "skipped": 884,
+    "warnings": 40
+  },
+  "engine_parity": [
+    "cpu",
+    "cpu64",
+    "mps"
+  ],
+  "cuda_tested": false,
+  "windows_tested": false,
+  "clean_install_tested": false,
+  "live": [
+    {
+      "policy": "hawa-low-mach-v1",
+      "status": "within-tested-envelope",
+      "current_status": "within-tested-envelope",
+      "reasons": [],
+      "iteration": 60,
+      "time_seconds": 0.2078460969082653,
+      "max_lattice_mach": 0.03975044935941696,
+      "peak_sampled_lattice_mach": 0.04068025201559067,
+      "mach_exceedance_cells": 0,
+      "max_density_deviation": 0.003495454788208008,
+      "finite": true,
+      "positive_density": true,
+      "boundary_flux": {
+        "outward_mass_kg_s": [
+          -3.0989511013031006,
+          3.127621650695801,
+          0.013137292116880417,
+          0.013139547780156136,
+          0.013138186186552048,
+          0.013140268623828888
+        ],
+        "net_external_mass_kg_s": 0.028670549392700195,
+        "periodic_pairs_excluded_from_net": true,
+        "method": "nodal trapezoidal face estimate; not a discrete conservation proof"
+      },
+      "backflow": {
+        "inlet_cells": 0,
+        "outlet_cells": 0
+      },
+      "cadence_steps": 5,
+      "transfer_eligible": true,
+      "scope": "Sampled low-Mach envelope only; not convergence, atmospheric validation or conservation certification"
+    },
+    {
+      "policy": "hawa-low-mach-v1",
+      "status": "within-tested-envelope",
+      "current_status": "within-tested-envelope",
+      "reasons": [],
+      "iteration": 120,
+      "time_seconds": 0.2078460969082653,
+      "max_lattice_mach": 0.03430391848087311,
+      "peak_sampled_lattice_mach": 0.03430391848087311,
+      "mach_exceedance_cells": 0,
+      "max_density_deviation": 0.0038260221481323242,
+      "finite": true,
+      "positive_density": true,
+      "boundary_flux": {
+        "outward_mass_kg_s": [
+          -1.4280805587768555,
+          1.467782974243164,
+          -0.02459895797073841,
+          -0.024599570780992508,
+          -0.024599380791187286,
+          -0.024599410593509674
+        ],
+        "net_external_mass_kg_s": 0.039702415466308594,
+        "periodic_pairs_excluded_from_net": true,
+        "method": "nodal trapezoidal face estimate; not a discrete conservation proof"
+      },
+      "backflow": {
+        "inlet_cells": 0,
+        "outlet_cells": 0
+      },
+      "cadence_steps": 5,
+      "transfer_eligible": true,
+      "scope": "Sampled low-Mach envelope only; not convergence, atmospheric validation or conservation certification"
+    }
+  ],
+  "native_smoke": {
+    "session": "1503a2a2-da56-4877-8b60-5fd4d4a4a1cb",
+    "state": "completed",
+    "steps": 20,
+    "target": 20,
+    "error": null,
+    "backend": {
+      "requested": "cpu",
+      "selected": "cpu",
+      "torch": "2.8.0",
+      "cuda_available": false,
+      "mps_available": true,
+      "notes": []
+    },
+    "case_hash": "1bf67b031ad53bac1fc7b73e95e726bc9b144e4b6ceca6cbd35d8dfc90b0bbc1",
+    "resolution": [
+      17,
+      13,
+      9
+    ],
+    "physical_time": 0.23094010767585035,
+    "relative_mass_change": 0.00017423711271367522,
+    "averaging_samples": 4,
+    "updated": 1794198345.017479,
+    "quality": {
+      "policy": "hawa-low-mach-v1",
+      "status": "within-tested-envelope",
+      "current_status": "within-tested-envelope",
+      "reasons": [],
+      "iteration": 20,
+      "time_seconds": 0.23094010767585035,
+      "max_lattice_mach": 0.06082664057612419,
+      "peak_sampled_lattice_mach": 0.06082664057612419,
+      "mach_exceedance_cells": 0,
+      "max_density_deviation": 0.011107802391052246,
+      "finite": true,
+      "positive_density": true,
+      "boundary_flux": {
+        "outward_mass_kg_s": [
+          -24.76529312133789,
+          26.146316528320312,
+          0.12230486422777176,
+          0.12227441370487213,
+          0.43206489086151123,
+          0.2546575367450714
+        ],
+        "net_external_mass_kg_s": 2.0677458345890045,
+        "periodic_pairs_excluded_from_net": true,
+        "method": "nodal trapezoidal face estimate; not a discrete conservation proof"
+      },
+      "backflow": {
+        "inlet_cells": 0,
+        "outlet_cells": 0
+      },
+      "cadence_steps": 5,
+      "transfer_eligible": true,
+      "scope": "Sampled low-Mach envelope only; not convergence, atmospheric validation or conservation certification"
+    }
+  },
+  "hashes": {
+    "plugin/Hawa.Grasshopper/bin/Release/net7.0/Hawa.Grasshopper.gha": "086685f28409331b1bbdf14514e27f36ccdcb6a183147bb5b1a383f69e829251",
+    "plugin/Hawa.Rhino/bin/Release/net7.0/Hawa.Rhino.rhp": "8523ebe1557c8d2eb2e123d900f79fd12b4348d9ffd1ee40b72b186c694245e7",
+    "src/hawa/plugin.py": "01b8d18eecc107004d5bc3bfcb0e9245886cbddbc7e078b4a8719af8489f367e",
+    "src/hawa/quality.py": "a0d69fd36e2be93724d14d1285de0184e317b719f59345ae5381c03aba447999",
+    "src/hawa/boundary_data.py": "32a58dae060963c5d16a33658513fd08fdc901e782237e65eefdb21b73be9ebb",
+    "examples/grasshopper/24-boundary-flow-transfer.gh": "217bac1dba13caba21bf0e248f00d0abd021058bb7a76245a6c344f490e5e0e8",
+    "zip_integrity": "pass",
+    "links": "pass"
+  }
+}

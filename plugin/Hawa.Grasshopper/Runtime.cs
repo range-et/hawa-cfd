@@ -59,6 +59,8 @@ public abstract class HawaComponent : GH_Component
         var minimum=GetType().Name switch {
             "GeometryComponent" => (2,2), "WindTunnelComponent" => (4,3),
             "EvaluateComponent" => (6,4), "PolarComponent" => (4,6),
+            "NeutralPrecursorComponent" => (6,2), "BoundaryCaptureComponent" => (4,3),
+            "BoundaryPatchComponent" => (6,1),
             "WingAnalysisComponent" => (6,4), _ => (Params.Input.Count,Params.Output.Count)
         };
         int inputs=0,outputs=0;
@@ -74,6 +76,10 @@ public abstract class HawaComponent : GH_Component
         finally {
             foreach(var param in appendedInputs)Params.RegisterInputParam(param);
             foreach(var param in appendedOutputs)Params.RegisterOutputParam(param);
+            // Existing frame-port GUIDs/wires remain intact. These views now
+            // collect several immutable frames into one world-space display.
+            if(this is PlaneFieldComponent || this is IsosurfaceComponent || this is FlowDisplayComponent || this is SurfaceFieldComponent)
+                Params.Input[0].Access=GH_ParamAccess.list;
             Params.OnParametersChanged();
         }
     }
@@ -108,7 +114,8 @@ public abstract class HawaComponent : GH_Component
         return System.IO.Path.GetFullPath(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(document)!,path));
     }
     protected virtual void InputsMissing() { }
-    public override void DocumentContextChanged(GH_Document document, GH_DocumentContext context) { if(context==GH_DocumentContext.Close || context==GH_DocumentContext.Unloaded || context==GH_DocumentContext.Lock) InputsMissing(); if(context==GH_DocumentContext.Loaded || context==GH_DocumentContext.Unlock)ExpireSolution(false); base.DocumentContextChanged(document,context); }
+    public override void DocumentContextChanged(GH_Document document, GH_DocumentContext context) { if(context==GH_DocumentContext.Close || context==GH_DocumentContext.Unloaded || context==GH_DocumentContext.Lock) {HawaPollScheduler.Cancel(this);InputsMissing();} if(context==GH_DocumentContext.Loaded || context==GH_DocumentContext.Unlock)ExpireSolution(false); base.DocumentContextChanged(document,context); }
+    public override void RemovedFromDocument(GH_Document document){HawaPollScheduler.Cancel(this);base.RemovedFromDocument(document);}
     protected abstract void SolveHawa(IGH_DataAccess da);
     protected static JsonArray Numbers(IEnumerable<double> values) => new(values.Select(v => JsonValue.Create(v)).ToArray());
     protected static JsonObject Request(string op, string session) => new() { ["op"] = op, ["session"] = session };
@@ -127,8 +134,8 @@ public abstract class HawaQueryComponent : HawaComponent
         if(result!=null)return result;
         var status=EmbeddedRuntime.Call(new JsonObject{["op"]="evaluate_poll",["job"]=job});string state=status["state"]!.GetValue<string>();Message=state;
         if(state=="failed")throw new InvalidOperationException(status["error"]!.GetValue<string>());
-        if(state=="completed"){result=status["result"]!.AsObject();if(key!=signature){string completed=job!;OnPingDocument()?.ScheduleSolution(100,_=>{if(!Locked&&job==completed)ExpireSolution(false);});}return result;}
-        string expected=job;OnPingDocument()?.ScheduleSolution(100,_=>{if(!Locked&&job==expected)ExpireSolution(false);});return null;
+        if(state=="completed"){result=status["result"]!.AsObject();if(key!=signature){string completed=job!;HawaPollScheduler.Request(this,()=>job==completed);}return result;}
+        string expected=job;HawaPollScheduler.Request(this,()=>job==expected);return null;
     }
     protected override void InputsMissing(){var owned=job;job=signature=pendingIdentity=null;result=null;Hawa.Shared.CaseHub.ReleaseJob(owned);}
     public override void RemovedFromDocument(GH_Document document){InputsMissing();base.RemovedFromDocument(document);}

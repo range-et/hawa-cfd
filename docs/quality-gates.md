@@ -58,6 +58,12 @@ Host doubles cannot verify actual GH scheduling or window lifetime.
 
 ## G2 — Software developer and reliability reviewer
 
+The [function coverage gate](function-testing.md) inventories first-party Python
+and plugin C# surfaces. Require a fresh complete run, current committed matrix,
+coverage for every new function, and no lost coverage relative to the trusted
+baseline. Existing unchanged gaps remain explicit debt; changed gaps require
+tests. This execution gate supplements assertion review and numerical/host gates.
+
 Review the diff for invalid inputs, missing/list data, non-finite values, partial
 mutation, exception isolation, idempotence, thread safety, bounded allocations,
 file handling and backward compatibility. Add a regression for each repaired
@@ -147,6 +153,9 @@ backend; it is not MLX. `auto` selection is not a performance benchmark.
 | Gotcha / symptom | Required prevention or regression |
 | --- | --- |
 | Rhino appears frozen during optimization | Never wait/sleep on the UI thread. Poll jobs across turns/timer callbacks. Pass only completed, candidate-tagged fitness to search. Test pause/cancel during preparation and execution. Galapagos is not made asynchronous by an async upstream node. |
+| A worker completes but GH still says running | GH ScheduleSolution can be erased by another solution. Retain job/generation polls in an owned UI timer; test idle completion, intervening solutions, pause and document disposal. |
+| Slice has a blank band around a body | Clip partially intersecting triangles at the represented boundary; do not discard their fluid portion. Test retained area, nested priority, disjoint gaps and raw validity separately from reconstructed colours. |
+| Example produces duplicate legends or geometry | SetPersistentData can append to a default. Clear persistent data before replacing defaults, and inspect output branch/count as well as the screenshot. |
 | “Expired during a solution” GH breakpoint | Never set sliders in `SolveInstance`. Pull in a validated pre-solution callback. Test an intervening solution before the pull. |
 | Old sliders overwrite a panel edit | Version all settings, remember pulls while locked, reacquire data after scheduled writes; test lock/edit/unlock. |
 | Old/duplicate component changes another case | Check document, case ID, owner, lease and callback generation before writes. Test restore to a new ID and duplicate components. Preflight every slider before applying any. |
@@ -172,6 +181,7 @@ backend; it is not MLX. `auto` selection is not a performance benchmark.
 | Playback accepts corrupt/mismatched data | Validate shape, finite values, time, manifest identity, path boundaries and expanded archive size before use. Test missing frames and interrupted recordings. |
 | Preview or mesh uses different motion time | Feed views, body pose and loads from the same field snapshot. Compare complete cycles after settling. |
 | Updating examples breaks saved graphs | Preserve object IDs, wires and parameter archives. Run annotation connection checks and reopen saved definitions. Use copies for test variations. |
+| Finite completed flow is treated as usable wind data | Keep job and quality status separate. Test local Mach exceedance, sticky rejection across checkpoints, source transfer eligibility and time-coverage rejection. |
 | “Rhino crashed” actually means missing MCP slot | Readopt with `list_slots` and inspect app/process state first. Save and Quit normally for assembly updates; never kill Rhino. |
 | “Saved file” is in the wrong folder | Use explicit save APIs/paths, verify the resulting file. macOS Save As can turn slash-containing names into colon-separated filenames. Keep temporary files out of example/package folders. |
 | Empty video slides or misleading screenshots | Inspect final rendered artifacts and captured UI, including final frames. Keep screenshot provenance with the run. |
@@ -196,3 +206,45 @@ reproduction steps, claims, exact configuration, gate decisions and linked or
 packaged evidence. Assign a maintainer/reviewer explicitly; an unassigned required
 gate remains BLOCKED. Add every newly discovered bug to this table, a regression
 and a reproducible example variation where the integration matters.
+
+Boundary foundation regressions: a full-node NEE writer must not erase curved-wall
+corrections; intersecting slip planes must enforce every normal and shear symmetry;
+open incoming data must satisfy the same edge constraints as prescribed velocity.
+Keep legacy SGS parity separate from corrected physical closure verification.
+The installer must receive the Libraries directory, not Libraries/Hawa; nested
+bundles cause duplicate assembly prompts. The build script now rejects that path.
+
+Shifted-population gotchas: checkpoints must declare storage (f versus g=f-w);
+density checks must include the reference density. Halfway walls are outside the
+first/last sample planes; nodal flux at those planes is not wall leakage. Report
+actual population exchange and preserve physical-model qualification separately
+from finite/low-Mach status. Neutral precursor transfer remains blocked.
+
+## G6 — Compatibility matrix and example coverage
+
+This is a required gate for new nodes, solver/boundary combinations, field formats,
+shared-state changes and release candidates. Its executable inventory is
+[tests/matrix](../tests/matrix/cases.py); the current scope and reproduction commands
+are in [the compatibility guide](compatibility-matrix.md).
+
+Enumerate the complete product of the **declared finite dimensions**. Maintain an
+independent acceptance rule, successful runtime checks, deliberate invalid cases,
+and named regression/lifecycle checks. Missing rows, duplicate IDs, stale sources,
+changed example archives, unannotated graphs and public nodes without a sample
+must fail. Source changes during a run invalidate its evidence. Unavailable
+hardware is BLOCKED. A rejection is a passing contract check only when rejection
+was the expected result; it is never a successful simulation.
+
+A new public component or enum option must update this inventory and its fixtures.
+A changed contract requires reviewing the independent oracle, its tests and the
+example instructions together. Do not derive expected support from the same
+production validator being tested. Run longer numerical/reference gates separately.
+Four finite steps do not demonstrate convergence, conservation or accuracy.
+
+Human examples are a covering library of annotated workflows. The machine matrix
+expands variations without producing tens of thousands of nearly identical GH
+files. Report node coverage, observed wire coverage, contract coverage and live
+host coverage separately. Arbitrary Grasshopper graph sizes, continuous geometry,
+parameter values and event orderings are unbounded; never call that whole space
+exhaustively tested. Explicitly declare which finite product is exhaustive and
+which stress/reference cases remain outside it.

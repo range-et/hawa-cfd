@@ -66,3 +66,14 @@ def test_pathlines_reject_inconsistent_frames(tmp_path):
     np.savez_compressed(tmp_path/'frame-1.npz',**fields)
     with pytest.raises(ValueError,match='metadata'):pathlines(manifest,[[1,2,3]])
     with pytest.raises(ValueError,match='metadata'):load_frame(manifest,1)
+
+
+def test_recording_budget_counts_only_new_frames_after_warmup(tmp_path):
+    import pytest
+    session=Session({'example':'tgv3d-bgk','size':8},'cpu')
+    session.advance(1001)
+    result=record(session,1003,1,tmp_path/'after-warmup',lambda n:None)
+    manifest=json.loads(open(result['manifest']).read())
+    assert [r['iteration'] for r in manifest['frames']]==[1001,1002,1003]
+    assert manifest['complete']
+    with pytest.raises(ValueError,match='precedes'):record(session,1002,1,tmp_path/'past',lambda n:None)

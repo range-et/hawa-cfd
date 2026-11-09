@@ -18,8 +18,19 @@ internal static class HawaIcons
         using var light = new Pen(Color.FromArgb(205, 242, 239), 1.4f);
         using var fill = new SolidBrush(Color.FromArgb(22, 49, 66));
         g.FillEllipse(fill, 1, 1, 22, 22);
-        if (name.Contains("Linked Case")) {
+        if (name.Contains("Neutral Precursor") || name.Contains("Neutral Flow")) {
+            g.DrawLines(p,new[]{new Point(3,20),new Point(6,17),new Point(9,20),new Point(12,17),new Point(15,20),new Point(21,17)});
+            g.DrawBezier(light,4,15,6,8,13,5,21,4);g.DrawLine(light,4,11,10,11);g.DrawLine(light,4,7,16,7);
+        } else if (name.Contains("Boundary Capture") || name.Contains("Boundary Data")) {
+            g.DrawRectangle(p,3,5,6,14);g.DrawRectangle(p,15,5,6,14);g.DrawLine(light,7,12,18,12);g.DrawLines(light,new[]{new Point(14,8),new Point(18,12),new Point(14,16)});
+        } else if(name.Contains("Result Quality")) {
+            g.DrawEllipse(p,4,4,16,16);g.DrawLines(light,new[]{new Point(7,12),new Point(11,16),new Point(18,7)});
+        } else if (name.Contains("Linked Case")) {
             g.DrawEllipse(p,3,6,11,11); g.DrawEllipse(light,10,6,11,11); g.DrawLine(light,8,12,16,12);
+        } else if(name.Contains("Statistics")) {
+            g.DrawLines(p,new[]{new Point(3,4),new Point(3,20),new Point(22,20)});g.DrawLines(light,new[]{new Point(5,14),new Point(8,8),new Point(11,16),new Point(15,6),new Point(20,11)});
+        } else if(name.Contains("Roughness")) {
+            g.DrawLines(p,new[]{new Point(2,18),new Point(5,13),new Point(8,18),new Point(11,8),new Point(14,18),new Point(18,14),new Point(22,18)});g.DrawLine(light,3,5,21,5);
         } else if(name.Contains("Rotation") || name.Contains("Oscillation") || name.Contains("Translation")) {
             g.DrawArc(p,4,4,16,16,30,290);g.DrawLines(light,new[]{new Point(17,3),new Point(21,7),new Point(16,8)});
         } else if(name.Contains("Body") || name.Contains("Motion")) {
@@ -36,7 +47,7 @@ internal static class HawaIcons
             g.FillRectangle(Brushes.LightSeaGreen, 5, 11, 6, 8); g.FillRectangle(Brushes.PaleTurquoise, 12, 5, 6, 14);
         } else if (name.Contains("Physics")) {
             g.DrawEllipse(p, 4, 8, 16, 8); g.DrawEllipse(light, 8, 4, 8, 16); g.FillEllipse(Brushes.White, 10, 10, 4, 4);
-        } else if (name.Contains("Boundaries")) {
+        } else if (name.Contains("Boundaries") || name.Contains("Boundary Patch") || name.Contains("Boundary Set")) {
             g.DrawRectangle(p, 6, 5, 12, 14); g.DrawLine(light, 2, 12, 12, 12); g.DrawLines(light, new[] {new Point(8,8),new Point(12,12),new Point(8,16)});
         } else if (name.Contains("Checkpoint")) {
             g.DrawRectangle(p, 5, 4, 14, 16); g.DrawRectangle(light, 8, 4, 8, 6); g.DrawRectangle(light, 8, 14, 8, 6);
