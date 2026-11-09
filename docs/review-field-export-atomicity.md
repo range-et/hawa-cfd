@@ -47,18 +47,40 @@ Both Hawa and Lettuce import from this isolated checkout.
    Regressions assert exact arrays/dtypes/metadata through `read_frame`, overwrite,
    existing/absent destinations under compression/fsync/replace faults, two
    cancellation boundaries, cleanup, and expired-frame rejection.
-3. Full function gate, matrix refresh and any applicable integration checks are
-   queued with the coordinator; no full-suite pass is claimed yet.
+3. Independent constrained Linux CPU run: **31 passed**, zero skips/warnings,
+   2.20 seconds (`results/docker/focused.xml` and `focused.log`). Coordinator
+   executed image `hawa-python-study:20261109`, immutable ID
+   `sha256:6b367745131c89cf349cd005532efe5ac708f871b1758105669406e468e18e93`;
+   Python 3.9.25, torch 2.8.0+cpu, NumPy 2.0.2, Linux 6.12.76-linuxkit aarch64.
+   One CPU / 2 GiB cgroup limit, network disabled, read-only root/source, dedicated
+   writable results/tmp. This image excludes .NET; native measurement supplies
+   the separate state-contract/function gate.
+4. Full native function gate: **637 passed, 32 CUDA-unavailable skips**, four
+   existing MRT warnings, 160.88 seconds; **33 instrumented state contracts pass**.
+   Against base `a26924c`, ratchet failures are empty. Inventory: 281 covered,
+   149 uncovered, 630 unmeasured, 58 declarations; historical debt remains visible.
+   Both committed matrices refreshed and checked against the same base. Evidence:
+   `function-gate/`, `function-gate.log`, `matrix-check.log`.
+5. Both development assemblies and `dist/HAWA-048.zip` build successfully, with
+   two existing CA1416 Windows-icon warnings and zero errors (`build.log`). ZIP
+   integrity, legacy-09 exclusion and exact packaged Python/source equality pass
+   (`package-check.json`). Nothing installed.
 
 Logs and JUnit are in `results/field-export-atomicity/`. Commands:
 
 ```sh
 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_field_export.py -q --junitxml=results/field-export-atomicity/before.xml
 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_field_export.py tests/test_export.py tests/test_fields.py -q --junitxml=results/field-export-atomicity/focused.xml
+OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python tools/function_coverage.py run --output results/field-export-atomicity/function-gate --base-ref a26924c
+.venv/bin/python tools/function_coverage.py render --output results/field-export-atomicity/function-gate > docs/function-test-matrix.md
+cp results/field-export-atomicity/function-gate/matrix.json docs/function-tests/matrix.json
+.venv/bin/python tools/function_coverage.py check --output docs/function-tests --base-ref a26924c
+.venv/bin/python scripts/build_plugin.py --output dist/HAWA-048 --archive dist/HAWA-048.zip
 ```
 
-No dependency/baseline changes, C# edits, Rhino session, GPU run, installed plugin
-update or release occurred. `git diff --check` and local document links pass.
+No dependency/baseline changes, C# edits, Rhino session, installed plugin update
+or release occurred. Focused filesystem tests were CPU-only; the full native
+suite includes available MPS coverage and explicitly skips unavailable CUDA. `git diff --check` and local document links pass.
 
 ## Gate disposition
 
@@ -66,13 +88,13 @@ update or release occurred. `git diff --check` and local document links pass.
 | --- | --- | --- |
 | G0 evidence | Export agent self-review | PASS for scoped repair: before-failure artifact, existing compatibility contract, fixed preservation criteria |
 | G1 architecture | Export agent self-review | PASS: immutable-frame source, single-file publication, explicit observed-cancellation boundaries; no shared-case or worker ownership change |
-| G2 reliability | Export agent self-review | Focused checks PASS; full measured gate pending coordinator slot |
+| G2 reliability | Export agent self-review; coordinator ran Docker checks | PASS locally: 637 tests, 33 contracts, zero ratchet failures, fresh matrices; 31 focused Linux CPU passes; Windows unverified |
 | G3 physics | Export agent self-review | NOT APPLICABLE: unchanged values/units/schema; no numerical or accuracy claim |
 | G4 UI/UX | Export agent self-review | NOT APPLICABLE to this Python repair: host export UX remains HAWA-033 |
-| G5 release | Export agent self-review | BLOCKED: no package/install/release verification in this increment |
+| G5 release | Export agent self-review | Development build/ZIP checks PASS; BLOCKED for release: no clean installed-host or Windows qualification |
 | G6 compatibility | Export agent self-review | NOT APPLICABLE to unchanged NPZ schema and dispatch contract; round-trip compatibility tested; no new node, format or supported solver combination |
 
-HAWA-048 remains in progress pending the full gate and integration. HAWA-033 stays
+HAWA-048 remains in progress pending integration; scoped local and Linux checks pass. HAWA-033 stays
 open for CSV/probe export, artifact provenance, broader cancellation and host UX;
 HAWA-032 baking is unaffected. Other workers own `field_collection.py` and transfer
 logic; no files in those surfaces changed here.

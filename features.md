@@ -80,8 +80,10 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 Implemented atomic NPZ publication for immutable-frame saves, complementing the
 existing session-export repair. Observed cancellation and failed compression/IO
-preserve earlier output and clean temporary files. Focused CPU tests: 31 passed;
-full measured gate and integration remain pending, so HAWA-048 remains open.
+preserve earlier output and clean temporary files. Focused CPU tests: 31 passed
+natively and in constrained Linux Docker. Full native gate: 637 passed, 32 CUDA
+skips, 33 state contracts, zero coverage failures; matrices and development ZIP
+checked. HAWA-048 remains open pending integration.
 No format, solver, C# or installed-plugin change. [Review](docs/review-field-export-atomicity.md).
 
 

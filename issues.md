@@ -109,9 +109,12 @@ Bug · in progress; owner: Codex export agent; November 9, 2026. The
 injection changed a valid 887-byte NPZ into a 7-byte partial file and also left a
 partial new destination. The isolated Python repair now writes a sibling temporary
 file, checks cancellation before publication and replaces only complete output.
-Focused CPU verification passes 31 tests; [review and evidence](docs/review-field-export-atomicity.md).
-Next action: full function gate/matrix refresh against the common checkpoint,
-then integration review. Completion: exact round-trip compatibility, preserved
+Focused CPU verification passes 31 tests both natively and in constrained Linux
+Docker. The complete native gate passes 637 tests, 33 state contracts and the
+coverage ratchet; matrices refreshed, development build/ZIP checked.
+[Review and evidence](docs/review-field-export-atomicity.md).
+Next action: integration review against the common checkpoint; Windows and host
+qualification remain outside this scoped Python repair. Completion: exact round-trip compatibility, preserved
 old/absent destination under failure or observed cancellation, cleaned owned temp
 files and passing required checks. CSV/baking and Rhino export UX remain HAWA-033/032.
 
