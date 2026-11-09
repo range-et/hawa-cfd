@@ -102,7 +102,10 @@ def run_refined(request,checkpoint):
     if coarse_spec.get('basis')!=fine_spec.get('basis'):raise ValueError('Grid axes must match')
     basis=np.asarray(coarse_spec.get('basis',np.eye(3)),float)
     expected=np.asarray(coarse_spec.get('origin',[0,0,0]))+np.asarray(lower)@basis*coarse_spec.get('spacing',coarse_spec['dx'])
-    if not np.allclose(expected,fine_spec.get('origin',[0,0,0]),atol=1e-7):raise ValueError('Fine grid origin does not match its parent patch')
+    # Absolute placement tolerance must not grow with translation of the case.
+    actual=fine_spec.get('origin',[0,0,0])
+    if not np.allclose(expected,actual,rtol=0,atol=1e-7):
+        raise ValueError('Fine grid origin does not match its parent patch: expected %s, got %s' % (expected.tolist(),actual))
     checkpoint(0)
     coarse=Session(coarse_spec,request.get('device','auto'))
     class PatchFlow(WindFlow):

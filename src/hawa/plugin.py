@@ -670,7 +670,7 @@ def dispatch(request):
             # Same-directory replacement leaves the last complete artifact intact
             # if capture, compression, flush or replacement fails.
             with tempfile.NamedTemporaryFile(mode="wb", dir=path.parent,
-                                             prefix="." + path.name + ".", suffix=".tmp",
+                                             prefix=".hawa-export.", suffix=".tmp",
                                              delete=False) as out:
                 temporary = Path(out.name)
                 np.savez_compressed(out, **arrays, metadata=metadata)

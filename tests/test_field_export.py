@@ -108,3 +108,21 @@ def test_expired_frame_does_not_touch_target(tmp_path, existing):
     if existing:
         assert path.read_bytes() == b'previous result'
     assert sorted(p.name for p in tmp_path.iterdir()) == (['frame.npz'] if existing else [])
+
+
+@pytest.mark.parametrize('existing', [False, True])
+def test_frame_save_supports_long_valid_destination_name(frame, tmp_path, existing):
+    # A valid destination component must not become the temporary file's prefix.
+    path = tmp_path / ('f' * 246 + '.npz')
+    assert len(path.name.encode('ascii')) == 250
+    path.write_bytes(b'previous result')  # Prove this filesystem accepts the target.
+    if not existing:
+        path.unlink()
+    result = dispatch_field(dict(action='save', frame=frame, path=str(path)))
+    assert result == {'path': str(path)}
+    arrays, metadata = read_frame(path)
+    expected_arrays, expected_metadata = get(frame)
+    assert metadata == expected_metadata
+    for name in expected_arrays:
+        np.testing.assert_array_equal(arrays[name], expected_arrays[name])
+    assert list(tmp_path.iterdir()) == [path]

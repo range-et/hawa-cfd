@@ -222,7 +222,7 @@ def dispatch_field(request, session=None, checkpoint=lambda n:None):
         try:
             # Publish only a completed sibling file, preserving any prior export.
             with tempfile.NamedTemporaryFile(mode='wb',dir=path.parent,
-                    prefix='.'+path.name+'.',suffix='.tmp',delete=False) as output:
+                    prefix='.hawa-frame.',suffix='.tmp',delete=False) as output:
                 temporary=Path(output.name)
                 np.savez_compressed(output,**fields,metadata=metadata)
                 output.flush()

@@ -5,6 +5,52 @@ Base: `a26924caa9ef5da070c0a82f2f8a8bf3ddf5782d`; isolated branch
 `codex/python-export-033`. Scope: `fields.dispatch_field(action='save')` and its
 regressions. Existing session export's HAWA-047 repair remains separate and intact.
 
+## PR #3 review follow-up — HAWA-051
+
+The original implementation and evidence below are retained as history. The
+[current PR review](https://github.com/range-et/hawa-cfd/pull/3#discussion_r4518760541)
+identified a new regression shared by **both Python atomic NPZ writers**:
+`fields.dispatch_field(action='save')` and session `plugin.dispatch(op='export')`
+used the entire destination basename as their temporary prefix. A valid 250-byte
+ASCII destination could be created directly, but saving failed with
+`ENAMETOOLONG` because the temporary name appended random characters and a suffix.
+New-target and overwrite regressions failed for each writer (two cases each).
+This is HAWA-051, separate from HAWA-047/048's failed-write data preservation.
+
+Both writers now use short fixed prefixes (`.hawa-frame.` / `.hawa-export.`) with
+stdlib random suffixes in the destination directory. Only those prefix expressions
+changed in production for this follow-up. The atomic replacement, checkpoint,
+metadata, array and API contracts remain unchanged. Four regression cases prove
+long destination names round-trip exactly for creation and overwrite, with no
+owned temporary files left behind.
+
+The user-merged PR #4 was incorporated from GitHub base
+`a00223f9d86e95077d1b19c6eaa00e68dd16123e`, preserving both issue histories.
+Combined coverage matrices were regenerated from execution, not merged as proof.
+Final evidence in `results/field-export-long-name/`:
+
+- `before.xml` / `session-before.xml`: two expected long-name failures each.
+- `focused-both.xml`: **35 passed**, zero skips/warnings, 1.18 seconds.
+- `final-function-gate/`: **671 passed, 32 CUDA-unavailable skips**, four existing
+  MRT warnings, 45.17 seconds; **33 state contracts passed**. Ratchet failures
+  empty against `origin/codex/python-study-base-20261109` at the exact base above.
+  Both committed matrices refreshed and checked (`matrix-check.log`).
+- Constrained Linux CPU rerun: **35 passed**, zero skips/warnings, 1.22 seconds,
+  `results/docker-review/focused.xml`. Same immutable image ID recorded below;
+  source/root read-only, network disabled, one CPU / 2 GiB, separate results/tmp.
+  No Windows/CUDA execution is claimed.
+- Updated development build: both assemblies and `dist/HAWA-048-review.zip`
+  succeed, with 105 existing CA1416 icon warnings (103 Grasshopper, 2 Rhino),
+  zero errors. ZIP integrity, legacy-09 exclusion and both packaged Python writer
+  sources match this checkout (`package-check.json`); nothing installed.
+
+The intermediate `function-gate/` run with 669 passes predates the session-writer
+follow-up and is not the final evidence. Domain G6 evidence belongs to PR #4's
+historical record; no fresh full G6 is claimed here. This follow-up changes file
+publication internals, not formats, solver combinations, nodes or shared-state
+contracts; round-trip and measured suite checks cover its declared scope.
+HAWA-048/051 remain pending integration, and HAWA-033's CSV/host scope remains open.
+
 ## Reproduction and repair contract
 
 The immutable-frame writer opened the destination with `wb` before compression.
