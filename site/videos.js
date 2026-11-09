@@ -1,9 +1,11 @@
-fetch('videos.json?v=20261108-v04').then(response => {
+const videoListUrl = new URL('videos.json', document.currentScript.src);
+const videoTarget = document.getElementById('videos');
+if (videoTarget) fetch(videoListUrl).then(response => {
   if (!response.ok) throw new Error('Videos unavailable');
   return response.json();
 }).then(videos => {
   const target = document.getElementById('videos');
-  const published = videos.filter(video => /^[A-Za-z0-9_-]{11}$/.test(video.id || ''));
+  const published = videos.filter(video => /^[A-Za-z0-9_-]{11}$/.test(video.id || '') && (!target.dataset.version || video.version === target.dataset.version));
   if (!published.length) {
     const message = document.createElement('p');
     message.textContent = 'The YouTube videos will appear here after publication.';

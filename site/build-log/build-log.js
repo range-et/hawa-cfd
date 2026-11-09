@@ -10,7 +10,7 @@
       const button = document.createElement('button'); button.type = 'button';
       const time = document.createElement('time'); time.textContent = stamp(scene.start_seconds);
       button.append(time, document.createTextNode(scene.title));
-      button.addEventListener('click', () => { film.currentTime = scene.start_seconds; film.play().catch(() => {}); });
+      button.addEventListener('click', () => { film.src = `https://www.youtube-nocookie.com/embed/6oiTFRT7qRg?start=${scene.start_seconds}&autoplay=1`; film.scrollIntoView({block: 'start'}); });
       document.getElementById('chapters').append(button);
     }
     const heading = document.createElement('h3'); heading.textContent = `${stamp(scene.start_seconds)} · ${scene.title}`;
