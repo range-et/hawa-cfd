@@ -44,5 +44,5 @@ def test_kbc_equilibrium_is_fixed_and_preserves_storage(solver_device, stencil):
     flow.f=flow.equilibrium(flow,flow.rho(),torch.zeros_like(flow.u()))
     before=flow.f.clone();collision=lt.KBCCollision()
     for _ in range(5):flow.f=collision(flow)
-    assert flow.f.dtype==torch.float32 and str(flow.f.device)==solver_device
+    assert flow.f.dtype==torch.float32 and flow.f.device==before.device
     torch.testing.assert_close(flow.f,before,rtol=2e-6,atol=2e-7)

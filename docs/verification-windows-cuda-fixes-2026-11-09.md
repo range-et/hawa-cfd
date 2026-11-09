@@ -170,3 +170,41 @@ execution, pause/cancel/close and saved/reopened graphs.
 No host adapter, case ownership, archive schema or public node changes were made.
 The plain Rhino bootstrap torch pin remains a separate installation issue.
 No assemblies are installed over a running Rhino and no release is published.
+
+## Review follow-up: MPS device assertion (2026-11-09)
+
+Reviewer: Codex domains agent, self-review. This follow-up starts from PR #2
+head `864a2652eed371ab8c16e65d9ab1228d09a00e79` in an isolated checkout.
+The [review finding](https://github.com/range-et/hawa-cfd/pull/2#discussion_r4518729416)
+was reproduced on real MPS hardware: both D2Q9 and D3Q27 cases failed because
+`str(flow.f.device)` is `mps:0` while the fixture requests `mps`. The assertion
+now compares the result device with the original tensor's device. The dtype
+assertion and population tolerances are unchanged; production code is unchanged.
+
+Fresh environment: macOS 27.0.1 arm64, Python 3.9.25, PyTorch 2.8.0, NumPy 2.0.2;
+CPU and MPS available, CUDA unavailable. Tests used the checkout's `.venv/bin/python`,
+`OMP_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, disabled pytest plugin autoload, and a
+checkout-specific `TMPDIR`. MPS fallback was not enabled.
+
+| Check | Fresh result |
+| --- | --- |
+| Original test file, `-k cpu` | 4 passed, 6 deselected |
+| Original test file, `-k mps` | 2 failed at the reviewed assertion, 8 deselected |
+| Corrected test file, `-k cpu` | 4 passed, 6 deselected |
+| Corrected complete `tests/test_kbc_precision.py` | 6 passed, 4 unavailable-CUDA skips |
+| Complete old-branch suite, `pytest tests -q -o addopts=` | 202 passed, 79 skipped, 4 MRT implementation warnings; 131.75 seconds |
+
+The full-suite skips comprise 78 unavailable-CUDA cases and one unsupported
+MPS float64 case. The corrected test source hash was unchanged through the full
+run. Local logs and JUnit files are retained under `results/pr2-mps-review/`
+(ignored evidence, not packaged or committed). These are fresh CPU/MPS software
+checks, separate from the historical Windows evidence above. They do not repeat
+the strict PorousMedium parity study or qualify a final Windows CUDA candidate.
+
+This two-file follow-up changes only the test assertion and this record. No
+plugin build, installation, Rhino/GH, state-contract, or Windows CUDA runs were
+performed for it. This old branch has no function-coverage/G6 scripts; newer
+checkpoint infrastructure was not imported. Broader CUDA evidence-runner
+completeness/provenance repairs remain separate work and are not included here.
+Windows CUDA qualification and the existing installed-host release exclusions
+remain open; this review fix alone does not establish merge or release readiness.
