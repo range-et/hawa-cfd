@@ -58,6 +58,12 @@ Host doubles cannot verify actual GH scheduling or window lifetime.
 
 ## G2 — Software developer and reliability reviewer
 
+The [function coverage gate](function-testing.md) inventories first-party Python
+and plugin C# surfaces. Require a fresh complete run, current committed matrix,
+coverage for every new function, and no lost coverage relative to the trusted
+baseline. Existing unchanged gaps remain explicit debt; changed gaps require
+tests. This execution gate supplements assertion review and numerical/host gates.
+
 Review the diff for invalid inputs, missing/list data, non-finite values, partial
 mutation, exception isolation, idempotence, thread safety, bounded allocations,
 file handling and backward compatibility. Add a regression for each repaired

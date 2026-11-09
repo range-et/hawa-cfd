@@ -12,7 +12,7 @@ requires-python = ">=3.9,<3.10"
 dependencies = ["torch==2.8.0", "numpy==2.0.2", "hawa-lettuce==0.3.0.post1"]
 
 [project.optional-dependencies]
-test = ["pytest>=8,<9", "psutil==7.2.2", "scipy==1.13.1"]
+test = ["pytest>=8,<9", "psutil==7.2.2", "scipy==1.13.1", "coverage==7.10.7"]
 
 [tool.uv.sources]
 hawa-lettuce = { path = "vendor/lettuce", editable = true }

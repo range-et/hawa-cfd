@@ -77,6 +77,11 @@ older user definitions. See [the node audit](docs/node-catalog-v0.5.md).
 
 ## Developer checks
 
+For code changes, run the [function coverage gate](docs/function-testing.md) and
+refresh its committed matrix. New functions and changes to uncovered functions
+need measured tests; imports and a named test alone do not count. Keep historical
+coverage debt visible and use the base-commit baseline for PR checks.
+
 Use the repository's `.venv/bin/python` for local development commands. Test
 changes with the relevant tests, then the Hawa suite. Run the native verification
 scripts through Rhino MCP for changes to Grasshopper behavior. Paths in C# helper

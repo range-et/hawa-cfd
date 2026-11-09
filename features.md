@@ -17,6 +17,7 @@ example checks.
 
 | Capability | Current scope and important limits | Guide and evidence |
 | --- | --- | --- |
+| Function inventory and coverage ratchet | Syntax inventory of first-party Python and plugin C#, actual Python function-entry evidence, and instrumented .NET state contracts. Rejects new/changed untested functions, lost coverage and stale reports. Historical and host-only gaps remain HAWA-026; execution does not establish assertion quality. | [Function policy](docs/function-testing.md), [matrix](docs/function-test-matrix.md) |
 | Embedded Python/PyTorch LBM | Runs inside Rhino's Python 3.9 environment with pinned dependencies. CPU/MPS evidence exists; CUDA and Windows qualification remain open in HAWA-002. | [Native guide](docs/native-v0.5.md), [backport](docs/backport.md) |
 | Native geometry and case setup | Selected closed meshes/solid Breps, editable physical domain/fluid settings and one shared case per document. | [Native guide](docs/native-v0.5.md), [full review](docs/review-full-v0.5.md) |
 | Native panel and GH live binding | Shared settings, direct/computed input ownership, revisions, stale-result handling, undo and saved idle cases. Public operations support agent workflows. | [Architecture](docs/architecture-v0.5.md), [agent operations](docs/agents/native-prototype.md), [state coverage](examples/grasshopper/VERIFICATION.md) |
@@ -74,6 +75,16 @@ Evidence: [transfer review](docs/neutral-transfer-review.md),
 qualification failures remain open in HAWA-021/022; these repairs do not close them.
 
 ## History
+
+### November 9 2026 function testing gate
+
+Added the source/signature/test matrix, coverage.py call evidence, Roslyn C#
+inventory and Coverlet state-contract measurement. The ratchet rejects new or
+changed untested functions, lost coverage and stale committed reports; PR CI uses
+the base commit's baseline. Local evidence: 614 Python passes, 32 CUDA skips and
+33 state-contract passes. Existing debt remains HAWA-026. No solver or host
+behavior changed; hosted CI and the long numerical gates were not run for this
+increment. [Review](docs/review-function-testing.md).
 
 ### November 9 2026 compatibility gate
 

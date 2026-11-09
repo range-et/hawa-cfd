@@ -28,6 +28,15 @@ open. Do not paste session transcripts or duplicate detailed benchmark logs.
 
 ## Bugs and verification gaps
 
+**HAWA-026 — Function coverage debt (open; owner: Codex).** The
+[function matrix](docs/function-test-matrix.md) records uncovered first-party
+Python and unmeasured host-only C# methods. The new gate prevents new or changed
+functions from adding debt, but existing unchanged gaps remain. Close individual
+gaps with asserting tests and measured execution, update the baseline to preserve
+the improvement, and retain separate live Rhino and numerical validation. Full
+closure requires resolving all executable gaps in the declared inventory; a node's
+presence in an example or a passing suite name is not function-level evidence.
+
 | ID | Type and status | Scope and evidence | Next action and acceptance |
 | --- | --- | --- | --- |
 | HAWA-021 | Bug · in progress (owner: Codex, November 9 2026) | The imported-data rejection is repaired in development and the three-stage CPU/MPS GH workflow runs. Nested statistical and atmospheric qualification still prevent completion. [Completion contract](docs/atmospheric-nesting-implementation.md). | Retain passing v2/manufactured/host gates; fix nested mean/RMS and stationary-turbulence comparisons. Current 6-cells/H AIJ mean-flow checks pass, but TKE and grid sensitivity remain open. Do not close with a short workflow demo. |
