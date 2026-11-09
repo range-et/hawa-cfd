@@ -24,3 +24,14 @@ G0/G1: PASS for scoped provisioning fix, based on actual failure and official
 runtime inventory. G2: local YAML change inspected; hosted recheck required.
 G3/G4/G6: not applicable to the runner-label/interpreter patch pin; no numerical,
 UI or compatibility-contract change. G5: no plugin install or release.
+
+The runner pin reached dependency installation on the next attempt, exposing a
+second provisioning failure: [dependency job](https://github.com/range-et/hawa-cfd/actions/runs/42711444283/job/129481723122).
+The bundled pip rejected normalized metadata names for dependencies and attempted
+to build typing-extensions using only the PyTorch CPU index, where `flit_core`
+was absent. Pin pip 25.3 (supports Python >=3.9), install the explicit
+`torch==2.8.0+cpu` wheel from that index with `--no-deps`, then resolve the existing
+project/test dependencies through normal PyPI. This keeps the CPU variant while
+avoiding use of a specialized wheel index as the general dependency source.
+Production dependency pins and test thresholds remain unchanged. Both failed
+attempts are retained; the next hosted run must reach and pass the actual tests.

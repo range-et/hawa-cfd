@@ -164,7 +164,9 @@ Do not create a new numerical capability or public node from that phrase alone.
 **HAWA-050 — Python 3.9 unavailable on drifting runner (in progress; owner: Codex; November 9, 2026).**
 PR #3 failed before tests because `ubuntu-latest` selected Ubuntu 26.04 and
 setup-python could not provide Python 3.9 there. The shared Python-study base now
-pins Ubuntu 24.04 and Python 3.9.25. [Evidence and fix](docs/review-python-ci-runner.md).
+pins Ubuntu 24.04 and Python 3.9.25. A second hosted attempt exposed old-pip
+metadata handling and general dependencies routed through the CPU wheel index;
+the base also pins pip 25.3 and isolates the CPU wheel install from PyPI dependency resolution. [Evidence and fix](docs/review-python-ci-runner.md).
 Scope: hosted function-gate provisioning only. Next action: rerun the three draft
 PR checks; completion requires successful hosted provisioning/full gate and
 integration of the runner pin. Local passes do not substitute for that hosted run.
