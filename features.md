@@ -268,3 +268,13 @@ when closing an issue. Include what changed, affected scope/version, actual
 checks/device, omissions, remaining limits and a link to the review or report.
 Distinguish implemented, locally verified, packaged and publicly released states.
 Use the next unique ID for newly discovered follow-up work in `issues.md`.
+
+
+### November 9 2026 combined Python / CUDA integration candidate
+
+The merged study branch and remote main now combine with the missing strict CUDA
+evidence-runner repairs. Fresh local verification: 806 suite passes, 82 device
+skips, 33 contracts, zero coverage failures; 97,561 CPU G6 passes with 4,898 GPU
+rows blocked; development package checks pass. This candidate is not an installed
+release. [Integration review](docs/review-python-integration.md). HAWA-001 and
+atmospheric qualification remain unresolved; Windows acceptance stays separate.

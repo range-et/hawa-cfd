@@ -35,3 +35,12 @@ project/test dependencies through normal PyPI. This keeps the CPU variant while
 avoiding use of a specialized wheel index as the general dependency source.
 Production dependency pins and test thresholds remain unchanged. Both failed
 attempts are retained; the next hosted run must reach and pass the actual tests.
+
+## Hosted follow-up
+
+The initial implementation heads of PRs #3, #4 and #5 all passed their hosted
+function gates after this repair. [PR #3 passing run](https://github.com/range-et/hawa-cfd/actions/runs/42711875100)
+and [PR #5 passing run](https://github.com/range-et/hawa-cfd/actions/runs/42712962650)
+provide executed evidence. G2 passes for that scoped provisioning check. The fix
+is on the shared study base; integration into the main development branch remains
+separate. Revised PR heads require their own CI checks.

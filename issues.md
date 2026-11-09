@@ -36,6 +36,8 @@ remaining gates, shared resources, dependencies and proposed batches for review.
 These are source-based routing assessments, not fresh runtime passes or assigned
 agent tasks. Keep the surface and plan row current when an issue’s scope changes.
 
+The [next-ten Python proposal](docs/issue-execution-plan.md#next-ten-python-issues--proposed-scope-for-review) ranks HAWA-001/021/022/004/028/035/038/033/007/026 and defines the integrated base, separate PR boundaries and three-agent queue. These are proposed increments; existing issue statuses and host/device gaps remain unchanged.
+
 ## November 9 notes intake
 
 The user’s November 9, 2026 notes are summarized below; this is issue intake,
@@ -88,51 +90,31 @@ presence in an example or a passing suite name is not function-level evidence.
 
 | ID | Type and status | Scope and evidence | Next action and acceptance | Execution surface |
 | --- | --- | --- | --- | --- |
-| HAWA-021 | Bug · in progress (owner: Codex, November 9 2026) | The imported-data rejection is repaired in development and the three-stage CPU/MPS GH workflow runs. Nested statistical and atmospheric qualification still prevent completion. [Completion contract](docs/atmospheric-nesting-implementation.md). | The [C1 frozen-reference harness](docs/review-neutral-nesting-harness.md) separates reference preparation, replay and explicit windows; PR review adds malformed descriptor/archive failure reporting, actual backend provenance and real fine-reference replay coverage. Numerical qualification remains open. Retain passing v2/manufactured/host gates; fix nested mean/RMS and stationary-turbulence comparisons. Current 6-cells/H AIJ mean-flow checks pass, but TKE and grid sensitivity remain open. Do not close with a short workflow demo. | Python + CPU/MPS; GH regression |
+| HAWA-021 | Bug · in progress (owner: Codex, November 9 2026) | The imported-data rejection is repaired in development and the three-stage CPU/MPS GH workflow runs. Nested statistical and atmospheric qualification still prevent completion. [Completion contract](docs/atmospheric-nesting-implementation.md). | [PR #5](https://github.com/range-et/hawa-cfd/pull/5) adds frozen-reference replay with explicit failure/device provenance and fine-reference regressions; it does not repair numerical failures. Retain passing v2/manufactured/host gates; fix nested mean/RMS and stationary-turbulence comparisons. Current 6-cells/H AIJ mean-flow checks pass, but TKE and grid sensitivity remain open. Do not close with a short workflow demo. | Python + CPU/MPS; GH regression |
 | HAWA-022 | Bug · in progress (owner: Codex, November 9 2026) | Long AIJ cube runs and a mapped nested child reveal kinetic instability at open faces, including ground/open intersections. Short finite-step gates missed it. Failed runs retained under `results/atmosphere-nesting/`. | Constrained stress reconstruction now passes wall/pulse checks and a 60k-step MPS reference run stays healthy. Nested long-window mean/RMS and reference stationarity still fail; qualify sustained turbulence and resolution sensitivity without changing viscosity or thresholds. | Python + CPU/MPS; GH regression |
 | HAWA-001 | Bug · open | PorousMedium CPU/MPS pointwise disagreement remains open. [PR #2](https://github.com/range-et/hawa-cfd/pull/2) records a CPU/CUDA KBC precision repair, retaining the MPS FP32 path; it does not close CPU/MPS parity. [Historical evidence](docs/hardening-v0.4.md). | The combined review candidate still fails original 50-step CPU/MPS criteria for populations, velocity and pressure ([fresh review](docs/review-cuda-pr2.md)). Review the precision tradeoff and fix remaining differences without widening tolerances. Diagnose only remaining differences rather than duplicate the CPU/CUDA repair. Close only with scoped comparison evidence; finite fields alone do not close it. | Python + CPU/MPS |
-| HAWA-002 | Verification gap · in progress (headless evidence in PR #2; host owner unassigned) | Windows native behavior and clean-machine dependency installation remain unverified. [PR #2](https://github.com/range-et/hawa-cfd/pull/2) records bounded headless CPU/CUDA passes on RTX 5070 Ti; the PR is open and predates this checkout’s newer gates. [Integration plan](docs/issue-execution-plan.md#existing-windows-cuda-pr). | Local candidate repairs HAWA-044/045/046 and passes the function gate with all 17 coverage blockers resolved ([repair review](docs/review-cuda-blocker-fixes.md)). Run the [exact Windows acceptance checks](docs/windows-cuda-merge-checks.md) on that candidate before integration. Retain its bounded CUDA evidence separately from pending clean Windows Rhino installation, lifecycle and wider CUDA coverage. Track each platform/scope independently. | Platform + Rhino/GH + CUDA |
+| HAWA-002 | Verification gap · in progress (headless evidence in PR #2; host owner unassigned) | Windows native behavior and clean-machine dependency installation remain unverified. [PR #2](https://github.com/range-et/hawa-cfd/pull/2) records bounded headless CPU/CUDA passes on RTX 5070 Ti; the PR has merged into remote main, but its bounded evidence predates this checkout’s newer gates. [Integration plan](docs/issue-execution-plan.md#existing-windows-cuda-pr). | Local candidate repairs HAWA-044/045/046 and passes the function gate with all 17 coverage blockers resolved ([repair review](docs/review-cuda-blocker-fixes.md)). Run the [exact Windows acceptance checks](docs/windows-cuda-merge-checks.md) on that candidate before integration. Retain its bounded CUDA evidence separately from pending clean Windows Rhino installation, lifecycle and wider CUDA coverage. Track each platform/scope independently. | Platform + Rhino/GH + CUDA |
 | HAWA-003 | Verification gap · in progress (owner: Codex) | Legacy coarse-grid molecular-air scaling remains restricted; the experimental shifted-population precursor now runs the tested CPU/MPS cases. General qualification remains open. [Measured blocker](docs/atmosphere-delivery.md#reproduced-numerical-blocker). | Select and verify an appropriate collision/precision/model strategy at physical viscosity. Preserve guards; do not increase viscosity or relax tolerances to claim qualification. | Python + CPU/MPS; host integration |
 | HAWA-004 | Verification gap · in progress (owner: Codex) | Shifted external mode now verifies halo-classified cropped buildings, side/top inflow, reversal, corner mass budget and a smooth outgoing pulse. General vortex/acoustic reflection and arbitrary separated cut-face accuracy remain open. [Boundary gate record](docs/general-boundaries-review.md). | Add enlarged-domain/reference comparisons, reversal and edge/corner tests with criteria fixed before runs. Keep supported combinations explicit. | Python + CPU/MPS; host integration |
 | HAWA-005 | Verification gap · open | Engineering loads for real RC wings, drone parts and hulls are not established by coarse demonstrations. [Limits](docs/release-notes-v0.4.0.md) and [RC example track](docs/example-roadmap.md#priority-rc-drone-and-small-boat-examples). | Pick a regime and observable, obtain suitable reference data, and measure grid/domain/time sensitivity. Qualify individual cases rather than the whole engine. | Python + numerical references; Rhino demo |
-| HAWA-049 | Bug · in progress (Codex domains agent; November 9, 2026) | Refinement origin validation used default relative tolerance: a one-metre fine-grid offset rejected at origin zero was accepted at x=1,000,000 m, advanced the solver and returned a misplaced frame. [Repair review](docs/review-refinement-preflight.md). | Candidate retains absolute 1e-7 tolerance with rtol=0 and rejects before solver creation; 58 focused CPU tests and full measured gate (654 passes, 32 CUDA skips, 33 contracts) pass. Matrices refreshed; development build/ZIP checks pass. Fresh Docker CPU G6 passes 97,561 rows with zero failures and 4,898 MPS/CUDA blocks; all 102,459 expected rows and combined native-suite/contract inventory check pass. Review/integrate the scoped repair; no native trimming, full GPU matrix or release claim. | Python refinement preflight; serial full compatibility verification |
 | HAWA-027 | Verification gap · open; trim-regression hypothesis | User reports missing cells at the yellow domain box in a “prebaked” example, and around the obstacle after native Solve. Exact file/build/view is unknown. Current-source audit: native [SliceDisplay](plugin/Hawa.Shared/SliceDisplay.cs) calls wall-link-only [SliceCutCells](plugin/Hawa.Shared/SliceCutCells.cs); snapshot [field collection](src/hawa/field_collection.py) has separate halfway-mask clipping. This is a candidate explanation for the obstacle band, not a fresh host reproduction. HAWA-024 remains closed for its scoped snapshot repair: [follow-up](docs/neutral-transfer-review.md). | Identify the file/build and reproduce outer-domain versus solid-wall gaps separately in native, legacy and snapshot views. Check other supported examples on copies; preserve example 09. Compare retained fluid area, cell/sample extents, raw validity and rendered geometry. Close with reproducible evidence of correct behavior, or a scoped repair/regression; do not reopen HAWA-024 wholesale. | Python + headless C# + Rhino/GH |
 | HAWA-028 | Verification gap · open; missing-validation hypothesis | User anticipates intersecting simulation domains being accepted without checks. Nested containment and finest-domain view ownership are intentional; arbitrary partial overlap may have different rules. [Refinement plan](docs/roadmap.md#user-defined-local-refinement-regions), [transfer scope](docs/boundary-transfer.md). | Inventory preflight for independent cases, coupled parent/child domains and view-only composition. Define valid containment, disjoint, touching, duplicate and partial-overlap cases. Verify unsupported combinations fail before jobs start with offending domains identified, while supported nesting remains usable. Do not impose a blanket no-intersections rule. | Python contracts + C# preflight + Rhino/GH |
 | HAWA-030 | Verification gap · open | User sees only colour meshes in the native panel and asks where other views went and whether the UI generates a hidden GH graph. [Native guide](docs/native-v0.5.md) documents a shared case and Linked Case binding; [feature inventory](features.md) records broader GH views. | Audit actual native/GH view availability and the command/state path, then document it. Assess an explicit “Open in Grasshopper” handoff using existing bindings; specify new versus existing definitions and preservation of user graphs. Close the audit with an observed capability map and a decision on the handoff; any implementation must preserve case identity and avoid duplicate ownership. | Docs/C# audit + Rhino/GH |
 | HAWA-044 | Bug · in progress (Codex; November 9, 2026) | Filtered/incomplete CUDA suite acceptance repaired in the isolated integration candidate: independent IDs, completed outcomes, strict JUnit and explicit partial scope. Adverse tests and full local measured gate pass. [Repair review](docs/review-cuda-blocker-fixes.md). | Run exact-candidate Windows CUDA acceptance, then integrate. No hardware pass is inferred from mocked orchestration tests. | Python harness + CPU mocks; CUDA acceptance |
 | HAWA-045 | Bug · in progress (Codex; November 9, 2026) | Candidate now hashes complete tracked/nonignored inputs and Git index, records staged/combined diffs, and rejects source drift. Mutation tests and local measured gate pass. [Repair review](docs/review-cuda-blocker-fixes.md). | Qualify unchanged candidate on Windows and integrate; preserve source/test/config/lock and index provenance. | Python harness + CPU mocks; CUDA acceptance |
-| HAWA-046 | Bug · in progress (Codex; November 9, 2026) | Candidate compares actual before/after devices, accepting MPS alias normalization. Fresh complete suite passes: 700 tests, 82 skips; no numerical tolerance change. [Repair review](docs/review-cuda-blocker-fixes.md). | Verify CUDA cases on Windows and integrate the accepted candidate; source remains separate from main export work. | Python tests + MPS/CUDA |
+| HAWA-046 | Bug · in progress (Codex; November 9, 2026) | Candidate compares actual before/after devices, accepting MPS alias normalization. The same narrow assertion repair at a92dbb1 merged through PR #2 into remote main: fresh old-branch suite 202 passed/79 skips; combined candidate historical evidence is 700 passed/82 skips. No numerical tolerance change. [Repair review](docs/review-cuda-blocker-fixes.md). | Verify CUDA cases on Windows and integrate the accepted candidate; source remains separate from main export work. | Python tests + MPS/CUDA |
+| HAWA-048 | Bug · in progress (owner: export agent / Codex; November 9, 2026) | Python immutable-frame save in `fields.py` truncates the destination before compression. Fault injection turns an existing valid 887-byte NPZ into 7 bytes and leaves a partial new file. Distinct from repaired session export HAWA-047. [Study](docs/python-sandbox-launch-plan.md#initial-study-results--completed). | [PR #3](https://github.com/range-et/hawa-cfd/pull/3) implements atomic save; review follow-up HAWA-051 repairs long destination filenames in both NPZ writers. Revised local/hosted gates pass and the PR merged into the study base; main-development integration remains. Preserve the old file or absent destination on capture/write/flush/replace failure; clean temporary output and verify exact array/metadata round trips. Scope ownership: fields.py and dedicated field-export tests. Host UI remains separate. | Python filesystem/immutable frames |
+| HAWA-049 | Bug · in progress (owner: domain agent / Codex; November 9, 2026) | Python refinement origin preflight uses default relative tolerance: a 1 m fine-grid misalignment is rejected near zero but accepted at parent x=1,000,000 m, and the solver advances. Valid translated controls pass. [Study](docs/python-sandbox-launch-plan.md#initial-study-results--completed). | [PR #4](https://github.com/range-et/hawa-cfd/pull/4) merged into the study base with translation-independent alignment and early rejection. Native function and Linux CPU G6 checks passed; main-checkout/device/release integration remains separate. This does not reproduce the native trimming symptom or close all overlap policy. | Python refinement validation; devices for runtime |
 
-### HAWA-048 — Immutable-frame save destroys prior export on write failure
-
-Bug · in progress; owner: Codex export agent; November 9, 2026. The
-`fields.dispatch_field(action='save')` path truncates before compression; fault
-injection changed a valid 887-byte NPZ into a 7-byte partial file and also left a
-partial new destination. The isolated Python repair now writes a sibling temporary
-file, checks cancellation before publication and replaces only complete output.
-Focused CPU verification passes 31 tests both natively and in constrained Linux
-Docker. The complete native gate passes 637 tests, 33 state contracts and the
-coverage ratchet; matrices refreshed, development build/ZIP checked.
-[Review and evidence](docs/review-field-export-atomicity.md).
-Next action: integration review against the common checkpoint; Windows and host
-qualification remain outside this scoped Python repair. Completion: exact round-trip compatibility, preserved
-old/absent destination under failure or observed cancellation, cleaned owned temp
-files and passing required checks. CSV/baking and Rhino export UX remain HAWA-033/032.
-
-### HAWA-051 — Valid long export filenames fail in atomic NPZ writers
-
-Bug · in progress; owner: Codex export agent; November 9, 2026. PR #3 review
-identified full destination basenames being embedded in temporary names. Both
-immutable-frame save and session export failed for directly creatable 250-byte
-ASCII names (new target and overwrite). Fixed short randomized temporary prefixes
-preserve the existing destination/API/metadata contracts. Final combined tests:
-35 focused native and Linux CPU passes; 671 full native passes, 32 CUDA skips,
-33 contracts, zero coverage failures against updated base `a00223f`.
-[Scoped follow-up evidence](docs/review-field-export-atomicity.md#pr-3-review-follow-up--hawa-051).
-Next action: PR #3 integration review. Completion: both writers create/overwrite
-long valid destinations, exact data round-trip, no temporary leftovers, and the
-existing failure/cancellation protections remain passing. Windows remains
-unverified; this does not complete broader HAWA-033.
+**HAWA-051 — Long valid NPZ destination filenames (in progress; owner: Codex export agent; November 9, 2026).**
+Execution surface: Python filesystem, immutable-frame and session export writers.
+PR #3 review exposed temporary filenames constructed from the full destination
+basename. Both writers fail with `ENAMETOOLONG` for a valid 250-byte ASCII target.
+New/overwrite regressions reproduce the defect in both paths. Fixed bounded
+prefixes pass 35 focused tests in the isolated branch; the full 671-pass/32-CUDA-skip gate, 33 contracts and 35 Docker tests pass.
+Fix merged through [PR #3](https://github.com/range-et/hawa-cfd/pull/3) into the study base; main-development integration remains pending.
+Completion: preserve round trips, prior output and temporary cleanup for valid
+long destinations in both writers. No host export UI claim.
 
 ## Improvements and delivery work
 
@@ -177,15 +159,15 @@ Do not create a new numerical capability or public node from that phrase alone.
 
 ## Hosted CI environment
 
-**HAWA-050 — Python 3.9 unavailable on drifting runner (in progress; owner: Codex; November 9, 2026).**
-PR #3 failed before tests because `ubuntu-latest` selected Ubuntu 26.04 and
-setup-python could not provide Python 3.9 there. The shared Python-study base now
-pins Ubuntu 24.04 and Python 3.9.25. A second hosted attempt exposed old-pip
-metadata handling and general dependencies routed through the CPU wheel index;
-the base also pins pip 25.3 and isolates the CPU wheel install from PyPI dependency resolution. [Evidence and fix](docs/review-python-ci-runner.md).
-Scope: hosted function-gate provisioning only. Next action: rerun the three draft
-PR checks; completion requires successful hosted provisioning/full gate and
-integration of the runner pin. Local passes do not substitute for that hosted run.
+**HAWA-050 — Python 3.9 hosted CI provisioning (in progress; owner: Codex; November 9, 2026).**
+Execution surface: CI configuration. `ubuntu-latest` selected Ubuntu 26.04,
+which lacked the required Python 3.9 binary; a follow-up exposed pip metadata and
+specialized-index dependency resolution failures. The shared study base pins
+Ubuntu 24.04/Python 3.9.25/pip 25.3 and separates the CPU torch wheel from normal
+PyPI resolution. Initial PR #3/#4/#5 hosted gates passed. [Evidence](docs/review-python-ci-runner.md).
+Next action/completion: preserve passing checks on revised heads and integrate
+the shared-base fix into the main development branch. No runtime dependency or
+numerical threshold change.
 
 ## Adding an item
 

@@ -1,10 +1,11 @@
 # PR #2 — Windows CUDA checks before merge
 
-Run these checks on the **corrected integration candidate**, not the old PR head
-`864a265`. The candidate combines PR #2 with `0822db9` and the HAWA-044/045/046
-repairs. It excludes the main checkout's subsequent uncommitted export feature.
-If that feature or any other source changes are added before merge, rerun the
-applicable gates on the resulting candidate.
+Run these checks on the **final combined integration candidate** identified by
+its generated `candidate-commit.txt`, not historical `46fe0a6` or PR #2's old
+head. The new branch combines merged PRs #2–#5 and the HAWA-044/045 evidence-runner
+repairs. [Integration review](review-python-integration.md) records local checks;
+none is Windows CUDA qualification. Re-export the bundle and commit file whenever
+source changes; do not reuse the old handoff files.
 
 ## Transfer and identify the candidate
 
@@ -25,7 +26,7 @@ function Invoke-Checked([string]$Program, [string[]]$Arguments) {
 }
 $candidate = (Get-Content .\candidate-commit.txt -Raw).Trim()
 Invoke-Checked git @('bundle', 'verify', '.\hawa-cuda-candidate.bundle')
-Invoke-Checked git @('clone', '-c', 'core.autocrlf=false', '-b', 'codex/cuda-review-integration', '.\hawa-cuda-candidate.bundle', 'hawa-cuda-acceptance')
+Invoke-Checked git @('clone', '-c', 'core.autocrlf=false', '-b', 'codex/python-integration-20261109', '.\hawa-cuda-candidate.bundle', 'hawa-cuda-acceptance')
 Set-Location .\hawa-cuda-acceptance
 $actual = (git rev-parse HEAD).Trim()
 if ($LASTEXITCODE -ne 0 -or $actual -ne $candidate) { throw 'Wrong candidate commit' }
@@ -68,8 +69,8 @@ Invoke-Checked $py @('scripts/verify_cuda.py', '--output', "$run/headless", '--r
 Invoke-Checked $py @('scripts/verify_cuda_benchmarks.py', '--output', "$run/benchmarks.json")
 
 # Full measured Python suite + 33 instrumented production-linked state contracts.
-Invoke-Checked $py @('tools/function_coverage.py', 'check', '--output', 'docs/function-tests', '--base-ref', '0822db93cccb31bdf4dff04cf36ea62522ebc6f6')
-Invoke-Checked $py @('tools/function_coverage.py', 'run', '--output', "$run/function-gate", '--base-ref', '0822db93cccb31bdf4dff04cf36ea62522ebc6f6')
+Invoke-Checked $py @('tools/function_coverage.py', 'check', '--output', 'docs/function-tests', '--base-ref', 'd9cc3a72d5096b35f0fca920fe9a4357594c315c')
+Invoke-Checked $py @('tools/function_coverage.py', 'run', '--output', "$run/function-gate", '--base-ref', 'd9cc3a72d5096b35f0fca920fe9a4357594c315c')
 
 # Complete current compatibility inventory, including all available CUDA rows.
 Invoke-Checked $py @('scripts/run_compatibility_matrix.py', '--output', "$run/g6")

@@ -2,7 +2,7 @@
 
 **Execution plan — November 9, 2026.** The initial proposal is retained below;
 the current execution update records work now started. Ownership/status remains in
-[issues](../issues.md). All 38 active IDs are routed below; HAWA-047 is closed in feature history. The mapping is based
+[issues](../issues.md). All 42 active IDs are routed below; HAWA-047 is closed in feature history. The mapping is based
 on repository source and evidence, with the subsequent startup audit noted above. New
 reproductions can change a row’s surface. Broad research items have provisional
 surfaces because their designs do not yet exist.
@@ -16,15 +16,130 @@ The [repair follow-up](review-cuda-blocker-fixes.md) resolves these locally;
 `codex/cuda-review-integration` in the separate checkout. No remote PR merge or push.
 The first feature increment is [atomic raw-result export](review-export-atomicity.md)
 under HAWA-033 (HAWA-047 repaired); the broad export and baking features remain open.
-Docker CLI is installed but its daemon was unavailable; no container was built.
+Docker Desktop subsequently became available; all three Python packages ran
+constrained Linux CPU checks. See the current [sandbox record](python-sandbox-launch-plan.md#published-batch-and-review-follow-up).
 Rhino MCP initially reported no running slots. A separate empty session subsequently
 confirmed default block creation on panel open ([audit](review-native-intake.md));
 no simulation or plugin installation occurred, and the session was quit normally.
 
-## Resumed issue work — current order
+## Python-first parallel launch — current priority
+
+The user has superseded the earlier host-first order. Three isolated agent studies
+have completed studies and implementations from checkpoint `a26924c`.
+PRs #3/#4/#5 merged into the shared study base after review fixes and
+combined-source verification. The narrow PR #2 MPS assertion fix merged into
+remote main; broader CUDA acceptance-runner repairs remain separate.
+HAWA-021/022 numerical qualification remains open. Follow the [sandbox launch plan](python-sandbox-launch-plan.md)
+for file ownership, budgets, individual PR boundaries and serialized verification.
+C# implementation and Rhino work wait until the Python batch; existing headless
+state-contract checks still apply. No production coding or remote PR was launched
+in the study phase. The list now has 40 active items because two distinct Python
+bugs were reproduced, not because existing issues were split arbitrarily.
+
+## Next ten Python issues — proposed scope for review
+
+November 9, 2026. Coordinator: Codex primary agent. This is a scoped proposal,
+not a new implementation launch or a claim that ten broad issues can close in
+CPU containers. The previous C#/Rhino deferral remains in force. Priority weighs
+incorrect results and unsafe inputs first, then usable output and confidence in
+changes. Run order also accounts for dependencies and exclusive file ownership.
+
+### Gate zero: one integrated base before parallel edits
+
+Verified remote heads: `main` at `65e220e` (PR #2) and the study base at `d9cc3a7`
+(PRs #3/#4/#5). Prepare a separate integration checkout; preserve the dirty main
+working tree. Combine those histories and the still-separate HAWA-044/045 CUDA
+runner repairs from candidate `46fe0a6`, reviewing only the missing changes.
+Do not replay the already-merged MPS assertion or replace newer code with the old
+candidate. Carry forward current issue/feature records deliberately. Regenerate
+coverage from the combined source; rerun focused checks, the full measured gate,
+applicable G6 and build/package checks. Open one ready-for-review integration PR
+to `main`. This prerequisite is not one of the ten issue deliverables.
+
+Windows acceptance remains pending until that exact final source is run on the
+Windows CUDA machine; this does not prevent clearly CPU/MPS-scoped Python work.
+After the integration PR merges, pin the ten branches to its actual commit.
+If it remains open, subsequent PRs may explicitly stack on it, but must not
+silently target an obsolete checkpoint. Reconcile HAWA-046/048/049/050/051 by
+actual scope and remaining integration/hardware evidence, not by PR count alone.
+
+### Ranked issue contracts
+
+| Priority | Issue / why now | First PR-sized deliverable and likely ownership | Acceptance / stopping boundary |
+| --- | --- | --- | --- |
+| 1 | **HAWA-001: CPU/MPS PorousMedium disagreement** — backend choice changes results | Reproduce after integration; separate collision precision, forcing and boundary effects with matching initial tensors and staged observables. Own scoped collision code/tests; vendor edits only after upstream comparison. Fix only a demonstrated cause. | Original 50-step population/velocity/pressure criteria, conservation and unaffected CPU controls; actual MPS required. CUDA is separately unverified. If the cause remains unknown, publish a diagnostic-test/evidence PR and keep the defect open. |
+| 2 | **HAWA-021: parent-to-child transfer error** — use the replay harness to resolve the existing failure | Freeze a qualifying parent, isolate 1:1 mapping/time/interpolation/stress transfer before 2:1 discretization; own boundary_series and dedicated transfer experiments. Preserve source hashes and equal physical time. | Mean <=5%, RMS <=10%, Cp RMSE <=0.1, reference stationarity <=5%, unchanged health checks. A diagnostic-only or partial-ratio run cannot establish full qualification. No turbulence closure claim from a short smoke. |
+| 3 | **HAWA-022: open-face/ground-edge stability** — prevent late failures missed by short tests | Same numerical owner as 021; isolate an actually failing face/edge topology, compare controlled inflow and ground cases, and fix boundary composition only if reproduced. Own neutral_external/neutral boundary implementation after 021 handoff. | Preserve repaired stress reconstruction; check mass budget, finite/positive states, original quality guards and the failure-producing duration. Recheck affected transfer metrics; no viscosity increase or shortened acceptance window. Broader turbulence qualification may stay open. |
+| 4 | **HAWA-004: open-boundary accuracy** — finite flow can still contain reflected disturbances | Bounded outgoing-pulse/vortex and enlarged-domain comparison with matching interior samples; then a boundary repair if supported by the measurements. Own boundary benchmark fixtures first, production boundary files only after 021/022. | Declare observable, reference domain, tolerances and grid/time sensitivity before runs; retain reversal/edge/corner cases. Scope qualification to tested topologies; no universal nonreflecting-boundary claim. |
+| 5 | **HAWA-028: domain relationship validation** — reject unsupported coupling before computation | Test containment, disjoint, touching, duplicate, rotated, translated and partial overlap for independent cases, coupled refinement and view composition separately. Own refinement preflight/tests; collection/transfer production edits require handoff. | Valid controls stay valid; unsupported coupling fails before Session/job creation with offending inputs identified. Preserve HAWA-049. If current rules are correct, ship contract tests and a documented policy, not invented rejection. Host preflight remains open. |
+| 6 | **HAWA-035: compatible solver choices** — avoid silent unsupported configurations | Audit existing check_case, boundary_contracts and G6 oracle; add missing rejection/diagnostic behavior and a machine-readable supported-choice contract only where needed. Own these validators; no panel changes. | Independent expected combinations; invalid requests fail before allocation; legacy inputs retain meaning; no silent fallback or unsupported fast/accurate labels. G6 required for changed support contracts; UI filtering remains deferred. |
+| 7 | **HAWA-038: trustworthy probes and load coefficients** — measurements must have defined meaning | Audit existing sampling, optimization/motion loads and polar/LLT paths. Deliver one Python measurement contract for axes/signs, pressure reference, density/speed/area, averaging and result identity; fix or extend missing calculation paths only. | Analytic/manufactured sign, units, translation/rotation and reference-quantity cases; reject invalid references and stale identity. Keep supplied polars distinct from CFD forces. Engineering validation stays HAWA-005; plotting/host UI is deferred. |
+| 8 | **HAWA-033: usable numerical export** — make verified results inspectable outside Rhino | Bounded CSV export of explicit probes/selected samples using the 038 identity/units contract. Prefer a dedicated writer module; any fields/plugin dispatch changes owned exclusively. Retain NPZ behavior. | Document columns, units, coordinates, validity, time and reference metadata; round-trip precision, atomic publication, cancellation, long filenames and partial-write tests. Avoid full-grid materialization by default; no bake/UI/new public node. |
+| 9 | **HAWA-007: useful vector slices** — improve the existing result workflow | Pure Python sampling contract for full 3D versus in-plane vectors, density/scale, solid/invalid masking and fixed scalar ranges, using immutable snapshots. Reuse existing operations before adding any. Own fields/field_collection only after export handoff. | Manufactured directional/rotated-plane and mask cases, stable output budget, unchanged source snapshot and solver iteration. This completes a Python increment only; movable native/GH controls need the later host phase. |
+| 10 | **HAWA-026: measured coverage with meaningful assertions** — make regressions harder to miss | First independent tranche: audit/test airfoils.dispatch_airfoil, listed uncovered in the final PR #5 matrix, covering existing operation routing and invalid inputs with numerical/data assertions. Recheck the integrated matrix before choosing final gaps. Own airfoils tests; do not refactor merely to raise a number. | Tests detect seeded wrong-routing/units failures and execute the claimed functions; promote only measured covered baseline entries. This retires a named tranche, not all Python/C# coverage debt. New-code coverage remains mandatory for every other PR. |
+
+The numerical entries deliberately distinguish an implemented repair, a verified
+contract, and an unresolved experiment. Ten issue IDs are not a promise of ten
+closed issues or ten arbitrary production patches. Each gets a separate scoped
+PR when there is a reviewable contribution; an unreproduced hypothesis gets an
+evidence/test outcome rather than a fabricated fix. Split further only when
+independent changes genuinely require it.
+
+### Three-agent execution sequence
+
+Use three separate clones/branches and environments, with the coordinator owning
+integration and records. Suggested branch names are `codex/issue-001-parity`,
+`codex/issue-028-domains`, etc. Do not start ten concurrent agents.
+
+| Stage | Agent A: result/data work | Agent B: contracts | Agent C: numerical work |
+| --- | --- | --- | --- |
+| First launch | 026: airfoil dispatch coverage | 028: domain relationships | 001: parity reproduction and cause isolation |
+| Following handoff | 038: measurement contract | 035: capability validation, after 028 | 021: controlled transfer, after parity baseline |
+| Next | 033: bounded CSV, after 038 | 007: design/tests read-only while export owns fields; implementation after 033 | 022: stability isolation after 021, or earlier if 021 localizes that cause |
+| Final numerical tranche | Review/combined verification | Review/combined verification | 004: boundary accuracy after boundary ownership is released |
+
+Only one worker edits a production file at a time. The shared plugin dispatcher
+and field modules require explicit coordinator handoff; reviewers can inspect
+read-only. A proved numerical dependency may change the order, with evidence
+recorded before reassignment. Research ideas, general refinement expansion,
+thermal/free-surface/second-solver work and new public nodes are excluded.
+HAWA-003/011 are affected umbrella qualification work, not extra concurrent owners.
+HAWA-027/029 remain important but need the deferred C#/Rhino lane; they are not
+being downgraded because CPU work is easier.
+
+### Sandbox, evidence and PR finish line
+
+- Reuse the verified Python 3.9 / torch 2.8.0 / NumPy 2.0.2 Docker CPU image by
+  immutable ID from the [launch record](python-sandbox-launch-plan.md); 1 CPU /
+  2 GiB, no network or Docker socket, read-only source/root and dedicated output.
+  Reassess memory before a larger numerical case rather than pretending it fits.
+- Each native environment imports its own checkout. Give each run a unique
+  output directory and sandbox-specific TMPDIR; the previous shared pytest tmp
+  retention cleanup demonstrated why this matters.
+- Parallelize small CPU tests. Serialize native full gates, MPS studies and long
+  simulations; CUDA runs use the Windows queue. The Docker image has no .NET;
+  native function gates provide state-contract evidence. Record actual devices.
+- First collect the reproducer/control and acceptance criteria, then implement,
+  test the failure paths, run relevant tests and the complete function gate,
+  regenerate matrices against the actual PR base, and run applicable G3/G6 and
+  build/package checks. Changed schemas/capabilities need compatibility evidence.
+- Publish **ready-for-review PRs, never drafts**, one bounded issue increment per
+  PR. Explain unresolved scope and link evidence. Address review findings and
+  check the pushed head's CI before proceeding; a green bot status alone is not
+  proof that its comments were fixed.
+- Integrate serially. Refresh shared matrices from the actual combined source;
+  do not resolve generated evidence conflicts by choosing one branch's matrix.
+  Close only the verified issue scope and move its outcome to features history.
+
+The user authorized integration followed by agents 026/028/001. The integration
+candidate is now locally verified ([review](review-python-integration.md)); issue
+workers start from its committed head after its PR is opened. Later stages remain
+queued. Prior test counts remain historical evidence for their original source.
+
+## Earlier resumed issue order — superseded by Python-first launch
 
 The CUDA candidate waits for Windows acceptance; it does not block these tasks.
-Work proceeds one bounded change at a time. The 38 active entries remain open
+Work proceeds one bounded change at a time. The active entries remain open
 until their own completion criteria are satisfied.
 
 | Order | Issue | Next concrete deliverable | Verification surface |
@@ -171,6 +286,12 @@ RAM and time budget. It does not mean unlimited workers on one machine.
 | HAWA-044 | P: fix CUDA runner inventory/selection checks with adversarial subprocess/JUnit tests | D: repeat full CUDA execution after repair | Local repair measured; Windows acceptance then integration; shared owner with 045 |
 | HAWA-045 | P: enforce unchanged complete source/config provenance across stages | D: fresh CUDA suite/benchmarks on final revision | Local repair measured; immutable Windows evidence required; coordinate 044 |
 | HAWA-046 | P/D: carry local actual-device comparison fix into candidate tests | D: verify MPS and declared CUDA cases | Fresh 700-pass suite and function gate pass; Windows/integration pending |
+| HAWA-048 | P: atomic immutable-frame save regression and repair | Host export UX remains separate | First sandbox repair; owns fields.py, no overlap with session-export changes |
+| HAWA-049 | P: translation-independent refinement preflight | D/G6 after core repair; host input UX later | Second sandbox repair; owns refinement.py, no blanket view-overlap rejection |
+
+| HAWA-050 | CI: pinned Python 3.9 runner and dependency provisioning repair | Hosted checks on actual PR heads; main integration | Implemented on shared study base; initial three PR gates passed |
+
+| HAWA-051 | P: bounded temporary prefixes in both NPZ writers, long-name regressions | Normal local filesystem checks; Windows unverified | Review repair in PR #3; no host UI change |
 
 ## Proposed sandbox and PR contract
 

@@ -5,7 +5,6 @@ This exercises Hawa's portable PyTorch CUDA backend, not Lettuce's optional
 generated native CUDA extension or the live Rhino/Grasshopper UI.
 """
 import argparse
-import hashlib
 from datetime import datetime, timezone
 import json
 import os
@@ -15,6 +14,7 @@ import subprocess
 import sys
 import time
 import xml.etree.ElementTree as ET
+from verification_evidence import snapshot, clean_environment, validate_pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -52,17 +52,19 @@ def main():
                             capability=torch.cuda.get_device_capability(0), backend=backend.info()),
         'source_audit': audit(), 'stages': [], 'passed': False,
     }
-    files = subprocess.check_output(['git', 'ls-files', '--cached', '--others', '--exclude-standard'],
-                                    cwd=ROOT, text=True).splitlines()
-    report['source_sha256'] = {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
-                              for name in files if Path(name).suffix in ('.py', '.cs', '.csproj', '.toml')}
-    (output / 'source.diff').write_bytes(subprocess.check_output(['git', 'diff'], cwd=ROOT))
-    env = dict(os.environ, PYTHONUTF8='1', MPLBACKEND='Agg')
+    before = snapshot(ROOT)
+    report['source_before'] = before
+    report['requested_stages'] = args.stages
+    report['full_scope'] = set(args.stages) == {'suite', 'upstream', 'parity', 'examples'}
+    report['full_passed'] = False
+    (output / 'source.diff').write_bytes(subprocess.check_output(['git', 'diff', 'HEAD', '--binary'], cwd=ROOT))
+    (output / 'index.diff').write_bytes(subprocess.check_output(['git', 'diff', '--cached', '--binary'], cwd=ROOT))
+    env = clean_environment()
 
     def save():
         (output / 'report.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
 
-    def run(name, arguments, xml=None):
+    def run(name, arguments, xml=None, expected=None):
         command = [sys.executable, *map(str, arguments)]
         start = time.monotonic()
         print('Running ' + name, flush=True)
@@ -71,32 +73,38 @@ def main():
         entry = dict(name=name, command=command, exit_code=result.returncode,
                      seconds=time.monotonic()-start, passed=result.returncode == 0)
         if xml is not None:
-            if not xml.exists():
-                entry.update(passed=False, error='Missing JUnit evidence')
-            else:
-                cases = list(ET.parse(xml).iter('testcase'))
-                cuda = [c for c in cases if 'cuda' in c.attrib['name'].partition('[')[2].lower()]
-                entry['counts'] = dict(total=len(cases), skipped=sum(c.find('skipped') is not None for c in cases),
-                                       failures=sum(c.find('failure') is not None or c.find('error') is not None for c in cases),
-                                       cuda_named=len(cuda), cuda_skipped=sum(c.find('skipped') is not None for c in cuda))
-                if name.startswith('hawa') and (not cuda or entry['counts']['cuda_skipped']):
-                    entry.update(passed=False, error='Missing or skipped CUDA cases')
+            try:
+                entry['counts'] = validate_pytest(expected, output / (name + '.json'), xml,
+                                                  require_cuda=name.startswith('hawa'))
+            except (OSError, ValueError, KeyError, TypeError, ET.ParseError) as exc:
+                entry.update(passed=False, error='Invalid pytest evidence: ' + str(exc))
+        after = snapshot(ROOT)
+        entry['source_unchanged'] = after == before
+        if not entry['source_unchanged']:
+            entry.update(passed=False, error='Source/index changed during verification')
+        report['source_after'] = after
         report['stages'].append(entry)
         save()
         print('{}: {}'.format(name, 'PASS' if entry['passed'] else 'FAIL'), flush=True)
         return entry['passed']
 
+    def pytest_stage(name, arguments):
+        expected = output / (name + '-collection.json')
+        common = ['-m', 'pytest', *arguments, '-o', 'addopts=', '-p', 'scripts.pytest_evidence']
+        if not run(name + '-collection', [*common, '--collect-only', '-q',
+                                         '--verification-evidence=' + str(expected)]):
+            return
+        xml = output / (name + '.xml')
+        run(name, [*common, '-q', '-ra', '--junitxml=' + str(xml),
+                   '--verification-evidence=' + str(output / (name + '.json'))], xml, expected)
+
     save()
     if 'suite' in args.stages:
         for repeat in range(1, args.repeats+1):
-            name = 'hawa-{}'.format(repeat)
-            xml = output / (name + '.xml')
-            run(name, ['-m', 'pytest', 'tests', '--require-cuda', '-q', '-ra', '--junitxml=' + str(xml)], xml)
+            pytest_stage('hawa-{}'.format(repeat), ['tests', '--require-cuda'])
     if 'upstream' in args.stages:
-        xml = output / 'upstream-portable.xml'
-        run('upstream-portable', ['-m', 'pytest', 'vendor/lettuce/tests',
-            '-p', 'scripts.pytest_portable',
-            '--ignore=vendor/lettuce/tests/native', '-k', 'not Native', '-q', '-ra', '--junitxml=' + str(xml)], xml)
+        pytest_stage('upstream-portable', ['vendor/lettuce/tests', '-p', 'scripts.pytest_portable',
+                     '--ignore=vendor/lettuce/tests/native', '-k', 'not Native'])
     if 'parity' in args.stages:
         run('core-parity', ['scripts/compare_engines.py', '--output', output / 'parity'])
     if 'examples' in args.stages:
@@ -107,6 +115,7 @@ def main():
         run('example-parity', ['scripts/compare_examples.py', '--cpu-dir', examples / 'backport-cpu',
                               '--gpu-dir', examples / 'backport-cuda-0', '--output', examples / 'parity.json'])
     report['passed'] = bool(report['stages']) and all(s['passed'] for s in report['stages'])
+    report['full_passed'] = report['passed'] and report['full_scope']
     report['finished_utc'] = datetime.now(timezone.utc).isoformat()
     save()
     print('Evidence: ' + str(output), flush=True)

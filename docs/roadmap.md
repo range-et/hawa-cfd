@@ -231,6 +231,8 @@ properties. Hawa is worth building if it demonstrably reduces repeated setup and
 allows better-supported design decisions. A larger component count or another
 attractive flow render would not establish that value.
 
+The next implementation proposal is the [ten-issue Python queue](issue-execution-plan.md#next-ten-python-issues--proposed-scope-for-review): integrate the completed branches first, then prioritize numerical correctness, input contracts and usable results. C#/Rhino work remains a separate later phase; individual PR completion does not qualify an entire physical model.
+
 ## Delivery sequence
 
 Only 0.5 has an existing release scope. Later milestones are working groups of
