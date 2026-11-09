@@ -76,6 +76,14 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 9 2026 HAWA-001 diagnostic increment
+
+Added a bounded repeated-cell KBC diagnostic with exact FP32 inputs, actual
+device/stage/stabilizer evidence and unchanged population criteria. Original
+512-square/50-step CPU/MPS parity still fails; an improved but still-failing
+scratch candidate was rejected. No production or vendor repair is claimed.
+[Diagnosis and limits](docs/review-porous-kbc-diagnostic.md). HAWA-001 remains open.
+
 ### November 9 2026 HAWA-021/022 diagnostic harness (C1)
 
 Added frozen-reference preparation/replay, strict source/frame/configuration
