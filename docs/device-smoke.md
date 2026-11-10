@@ -129,15 +129,15 @@ guard handling, manifest fields, provenance, and reduced real runs of every buil
 on the CPU. `scripts/device_smoke.py` has 100% line and branch coverage.
 
 Targeted mutmut 2.4.5 covered only the lines this gate added, from
-`git diff 8eec667` passed to `--use-patch-file`:
+`git diff 8daf810` passed to `--use-patch-file`:
 
 ```sh
-bash tools/mutation/run_device_smoke.sh results/device-smoke-mutation-NEW 8eec667
+bash tools/mutation/run_device_smoke.sh results/device-smoke-mutation-NEW 8daf810
 .venv/bin/python tools/mutation/check_results.py results/device-smoke-mutation-NEW --policy tools/mutation/device-smoke-policy.json
 ```
 
-Of 453 mutants, 445 were killed. The remaining 8 are reviewed in
+Of 494 mutants, 485 were killed. The remaining 9 are reviewed in
 [the policy](../tools/mutation/device-smoke-policy.json): 3 equivalent placeholder or
-role arguments, 1 timeout constant, 1 already-sorted key order and 3 console flush
+role arguments, 1 timeout constant, 1 already-sorted key order and 4 console flush
 flags. This is a PR-scoped record, not whole-module or CI mutation coverage. CPU
 runs are not CUDA or MPS evidence.

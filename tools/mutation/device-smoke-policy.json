@@ -1,50 +1,54 @@
 {
   "tool": "mutmut==2.4.5",
-  "mutants": 453,
+  "mutants": 494,
   "control_test_file": "tests/test_device_smoke.py",
-  "base_revision": "8eec6675152531ea57f9ae3ccd35a0d2b0a9f556",
-  "scope": "Lines added by the device smoke gate PR only (git diff against the base revision, mutmut --use-patch-file): scripts/device_smoke.py, the dtype argument in scripts/benchmark_curved_walls.py and the case filter in scripts/parity_worker.py; not whole-module or whole-codebase mutation coverage",
+  "base_revision": "8daf810e0abd75cd417e16bab19fa59a330985e4",
+  "scope": "Lines added by the device smoke gate PR only (git diff against the base revision, mutmut --use-patch-file): scripts/device_smoke.py including the loaded-module provenance check, the dtype argument in scripts/benchmark_curved_walls.py and the case filter in scripts/parity_worker.py; not whole-module or whole-codebase mutation coverage",
   "sources": {
-    "scripts/device_smoke.py": "b59ce8e4fac9b0cb9d308a31c627903fbb8bf7c479667cee184316ba3393a9ee",
+    "scripts/device_smoke.py": "1af89d076fe7b662be5f4035df91981b2e446a413c2d7e957b71aa40c79bd445",
     "scripts/benchmark_curved_walls.py": "018b520b53def8f665597f04c88dc80f2e11578070ac855fea038b2a402589c8",
     "scripts/parity_worker.py": "c21c4eeb9ee4770dd860c9e78547c549463f03274ced89bd8d66198887d1eaeb",
     "scripts/device_smoke_policy.json": "cc3cd8ebfea4e0a4fe970f61522f94d784c7388f3d9f1eaa48f43af09d3ef5ed",
-    "tests/test_device_smoke.py": "e1c37ab9c0ab0e3537b31b55027f5485d481b79dd3cf0487c2e27a5a248387d8",
+    "tests/test_device_smoke.py": "c982d6dbed40238eb78cdd0d3a1a90bdf5dbdf40fb41b848766771bedc519552",
     "tests/test_neutral.py": "287434b4c666f289a99635f216ef47b8c491ed1867c1bc52a8197969bc857bfa",
     "tests/test_motion.py": "2739488d273a643b607a46d86c2676c9e1e4265e1a9da0504546c4fac5ea16d3",
     "tests/test_kbc_precision.py": "79b606b90aa23fe5142882f3e56cf9fc85a3d74636bc845bd4c1a3554ba839f6"
   },
   "reviewed_survivors": {
-    "Mutant #22": {
-      "diff_sha256": "421254aab924c702e1e8170f746fe62900b280eee5d2172ad8ab8601bdebe710",
+    "Mutant #27": {
+      "diff_sha256": "6cc94c5f8deb73b0678031c814ac9a6e8142ecb5aace80ac8c9de7bd6726db9b",
       "reason": "Equivalent: parity_worker.run treats every role other than 'upstream' as the backport role, so a misspelled backport role runs the same compatibility-engine checks."
     },
-    "Mutant #44": {
-      "diff_sha256": "a100ed662274da3e3b14f3c67c3872e35f3f1d560dc233c6dc3dbe7cae95233d",
+    "Mutant #49": {
+      "diff_sha256": "2a73d68583c1de576e2cb52a93899d1841e5907864dc43c8687b7f987d333eb2",
       "reason": "Equivalent: the TaylorGreenVortex Reynolds number is a placeholder; the builder replaces flow.units and flow.f before the collision, as in tests/test_kbc_precision.py."
     },
-    "Mutant #45": {
-      "diff_sha256": "d06de906814ff79eeeff4f63186c4040cfaee6d0c6d0d0dbbbbac3c632d9143b",
+    "Mutant #50": {
+      "diff_sha256": "d51e9510a3eff70671bbb36bc0be6bbb7499869b241013040a96ed6e2ce0f876",
       "reason": "Equivalent: the TaylorGreenVortex Mach number is a placeholder; the builder replaces flow.units and flow.f before the collision, as in tests/test_kbc_precision.py."
     },
-    "Mutant #288": {
-      "diff_sha256": "4e5e54345856fec98d7928234c3aa954d4040b7d76e2bd5451ead81ac3179633",
+    "Mutant #293": {
+      "diff_sha256": "c54c4d6b03f9b8e5a4869ce23c784381ed82f08581dbbf6190cf3bdf6f47316f",
       "reason": "Equivalent for the contract: a 31 s instead of 30 s limit on an optional host-description command changes no recorded value."
     },
-    "Mutant #333": {
-      "diff_sha256": "5d8e70ef3627001127125c76aeda6dedb613cb6463a3e332110a1a95c64d823f",
+    "Mutant #338": {
+      "diff_sha256": "9fd8a00852b098a053136f289e3328443e244169f1bf109601e84b7da10fcf0b",
       "reason": "Equivalent: scripts/verification_evidence.snapshot builds the file map in sorted path order, so the JSON is already key-sorted."
     },
-    "Mutant #401": {
-      "diff_sha256": "6c26c366f5d422439507b8fd3088e030b8eff3aae7e1c72a56284d7186356d59",
+    "Mutant #424": {
+      "diff_sha256": "f70e1fa2409d4830fd09d33e4cb0d401206075bf6ad001854ea81ce3d6d38225",
+      "reason": "Console flush only: the module-check failure line text is asserted; flushing affects interleaving with other output, not content or results."
+    },
+    "Mutant #437": {
+      "diff_sha256": "9ca7778015235e2e133f4f8434d379e863d569b32b9c23da2b9c55fb1345590e",
       "reason": "Console flush only: the progress line text is asserted; flushing affects interleaving with other output, not content or results."
     },
-    "Mutant #411": {
-      "diff_sha256": "f748a834676b38911b63c6022e177c65b70ac8b36a4c6066348a7796de6b77e8",
+    "Mutant #447": {
+      "diff_sha256": "5cfda7395ae8b7439702b2a45a0f093a008790b763ec067d4e093b1e11ac71b9",
       "reason": "Console flush only: the per-case result line text is asserted; flushing affects interleaving with other output, not content or results."
     },
-    "Mutant #442": {
-      "diff_sha256": "676c3fc24fd95ff513cb5f45c89d66fe32747ef8f54cfa7e55e25e1e244cc361",
+    "Mutant #483": {
+      "diff_sha256": "4824ed60440194742127ebbaa48966b1795677f9b176dcb6f0c7b6e5756d455c",
       "reason": "Console flush only: the final result line text is asserted; flushing affects interleaving with other output, not content or results."
     }
   }
