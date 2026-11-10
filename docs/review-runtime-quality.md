@@ -8,13 +8,21 @@ source, coverage exclusion or comparison tolerance was changed.
 ## Line coverage
 
 The 2026-11-09 runtime-focused run passed 221 cases on Python 3.9.25 and CPU.
-Together with the parent integration run (`expanded-gate/python.json`, 921
-passed and 82 skipped), `coverage-complete.json` covers all 2,798 executable
-lines outside `src/hawa/plugin.py`. Plugin coverage is handled by the parallel
-integration tests. The same union covers 1,133 of 1,296 branch arcs outside
-plugin: **line coverage is not complete branch coverage**. These are union
-measurements of unchanged production sources, not a replacement for the final
-integrated gate. The final matrix is authoritative.
+The subsequent fresh parent `integrated-audit/python.json` measures **3,355 of
+3,356 executable lines** across `src/hawa`; its only missing line is the invalid
+step rejection at `plugin.py:318`. Six completion cases separately exercise
+that guard and assert unchanged populations, statistics and quality. The fresh
+integrated gate after including those cases remains authoritative; a union of
+separate runs is not a substitute for that gate.
+
+An earlier union audit overstated the denominator as 3,391 by counting
+`executed_lines | missing_lines`. Coverage.py's raw `executed_lines` includes
+35 module/class docstring locations that are not executable statements in its
+line-coverage denominator. Comparing those locations with `Coverage.analysis2`
+confirmed 28 module and seven class docstrings, not source edits or coverage
+exclusions. Use coverage.py's statement totals and missing statements for line
+claims. Earlier non-plugin line totals derived by that union method are retired.
+Line coverage is also not complete branch coverage.
 
 New tests include a real one-voxel exterior pore which cannot satisfy independent
 mass/momentum constraints; this verifies rejection of a singular boundary
