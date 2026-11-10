@@ -1,0 +1,47 @@
+name: Python mutation pilot
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  cli-mutations:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.9.25'
+      - name: Install pinned developer dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install --upgrade pip==25.3
+          .venv/bin/python -m pip install torch==2.8.0+cpu --index-url https://download.pytorch.org/whl/cpu --no-deps
+          .venv/bin/python -m pip install -e vendor/lettuce -e '.[test]' -r tools/mutation/requirements.txt
+      - name: Measure mutations in a fresh disposable copy
+        run: |
+          mkdir -p results
+          set +e
+          bash tools/mutation/run_cli.sh results/cli-mutation
+          mutation_status=$?
+          set -e
+          if [[ "$mutation_status" != 0 && "$mutation_status" != 2 ]]; then
+            exit "$mutation_status"
+          fi
+          .venv/bin/python tools/mutation/check_results.py results/cli-mutation
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cli-mutation-evidence
+          path: |
+            results/cli-mutation/*.txt
+            results/cli-mutation/*.log
+            results/cli-mutation/*.xml
+            results/cli-mutation/*.diff
+            results/cli-mutation/*.sha256

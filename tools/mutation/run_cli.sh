@@ -20,6 +20,7 @@ export PYTHONPATH="$output_dir/src:$repo_dir/vendor/lettuce"
 export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1
 unset PYTEST_ADDOPTS
 "$python_bin" -c 'import hawa.cli; from pathlib import Path; assert Path(hawa.cli.__file__).resolve() == Path("src/hawa/cli.py").resolve(); print(hawa.cli.__file__)' > imported-source.txt
+"$python_bin" -m pytest tests/test_cli.py --collect-only -q > collected.txt
 "$python_bin" -m pytest tests/test_cli.py -q --junitxml=control.xml > control.log 2>&1
 set +e
 "$mutmut_bin" run --paths-to-mutate src/hawa/cli.py --tests-dir tests/ --runner "\"$python_bin\" -m pytest tests/test_cli.py -q -x" --no-progress > mutation.log 2>&1
