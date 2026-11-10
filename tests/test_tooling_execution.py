@@ -161,3 +161,40 @@ def test_neutral_analytic_and_pulse_controls_use_finite_real_cpu_fields():
     fields,budget=m.pulse(32)
     assert fields.shape==(3,32,8,8) and np.isfinite(fields).all()
     assert abs(budget['mass_budget_residual_lu'])<1e-8
+
+
+@pytest.mark.parametrize('rejected',[False,True])
+def test_aij_reporting_preserves_rejection_and_fixed_averaging_criteria(tmp_path,monkeypatch,rejected):
+    m=load('verify_atmospheric_reference')
+    observations=np.array([[.1,0,.2,1.,0,0,.01],[0,0,.05,0,0,0,.01]])
+    monkeypatch.setattr(m,'measurements',lambda:(np.array([[.1,1.]]),observations))
+    calls=[]
+    class Session:
+        def __init__(self,spec,device):
+            self.flow=SimpleNamespace(i=0,units=SimpleNamespace(convert_time_to_pu=lambda n:n*.01),f=torch.ones((1,)))
+            self.quality=dict(status='rejected' if rejected else 'within-tested-envelope',max_lattice_mach=.02,max_density_deviation=.001)
+            self.solver=SimpleNamespace(external_links=SimpleNamespace(report=dict(mass_budget_residual_lu=0.)))
+            self.shape=spec['shape']
+        def advance(self,n):self.flow.i+=n;calls.append(n)
+        def fields(self):return dict(velocity=np.ones((3,)+tuple(self.shape)),density=np.ones(self.shape),pressure=np.zeros(self.shape),solid=np.zeros(self.shape,bool))
+    monkeypatch.setattr(m,'Session',Session)
+    def sample(fields,spec,points,mask):
+        assert points.tolist()==[[.1,0,.2]] and not mask.any()
+        return np.array([[1.,0,0]]),np.zeros(1),dict(fixture=True)
+    monkeypatch.setattr(m,'sample_parent',sample)
+    out=tmp_path/'aij'
+    monkeypatch.setattr(sys,'argv',['reference','--cells','1','--steps','1000','--inflow','log','--top','slip','--output',str(out)])
+    assert m.main()==int(rejected)
+    report=json.loads((out/'result.json').read_text())
+    assert report['passed'] is not rejected
+    if rejected:
+        assert report['steps']==100 and len(calls)==1
+        assert (out/'latest-state.npz').exists()
+        assert report['reason']=='Numerical envelope failed before sufficient averaging'
+    else:
+        assert report['steps']==1000 and len(calls)==10
+        assert report['excluded_inside_model']==1 and report['points']==1
+        assert report['thresholds']==dict(streamwise_hit_rate_min=.66,relative_error_or_absolute=[.25,.085],stationarity_max=.05)
+        assert report['sampling']==dict(fixture=True)
+        assert (out/'samples.npz').exists() and (out/'progress.json').exists()
+        assert report['stationarity_change']==0 and report['hit_rate_components']==[1.,1.,1.]

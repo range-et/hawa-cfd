@@ -203,3 +203,49 @@ def test_runtime_verifier_serializes_all_device_rows_and_rejects_failed_fixture_
         assert all(r['fixture'] and r['steps']==200 for r in report['reports'].values())
         assert all(value==0 for value in report['max_population_difference_from_cpu'].values())
         assert calls==[(device,steps) for device in ('cpu','mps','cuda:0','auto') for steps in (75,125)]
+
+
+@pytest.mark.parametrize('scenario',['pass','numeric','rejected','late-rejection','resume'])
+def test_stationarity_runner_reports_rejections_and_resumed_history_without_relaxing_targets(scenario,tmp_path,monkeypatch):
+    from types import SimpleNamespace
+    import hawa.plugin
+    from hawa.atmosphere import neutral_profile
+    target=1.225*(.41*5/np.log1p(6/.01))**2
+    profile=neutral_profile(np.arange(12)+.5,[5.,0,0],6.,.01).T
+    if scenario=='numeric':profile*=2
+    class Session:
+        flow=SimpleNamespace(i=0,units=SimpleNamespace(convert_time_to_pu=lambda n:n*.01))
+        quality=dict(status='rejected' if scenario=='rejected' else 'within-tested-envelope')
+        solver=SimpleNamespace(rough_floor=SimpleNamespace(report=dict(mean_traction_on_fluid_pa=[-target,0,0])))
+        def advance(self,n):
+            self.flow.i+=n
+            if scenario=='late-rejection' and self.flow.i>20000:self.quality['status']='rejected'
+        def fields(self):return dict(velocity=np.broadcast_to(profile[:,None,None,:],(3,2,2,12)))
+    session=Session();calls=[]
+    out=tmp_path/'stationary.json'
+    def dispatch(request):
+        calls.append(request)
+        if request['op']=='create':return dict(session='fixture')
+        if request['op']=='load':session.flow.i=10000
+    monkeypatch.setattr(hawa.plugin,'dispatch',dispatch)
+    monkeypatch.setattr(hawa.plugin,'SESSIONS',{'fixture':session})
+    args=['stationary','--steps','20500' if scenario=='late-rejection' else '20000','--device','cpu','--output',str(out)]
+    if scenario=='resume':
+        old=[dict(step=i*500,time=i*5.,profile=profile.tolist(),uw=[0]*12,drag=target,quality='within-tested-envelope') for i in range(1,21)]
+        old.append(dict(step=999999,invalid=True))
+        out.write_text(json.dumps(dict(samples=old)));args.append('--resume')
+    monkeypatch.setattr(sys,'argv',args)
+    if scenario in ('numeric','rejected','late-rejection'):
+        with pytest.raises(SystemExit) as stop:execute_fixture('verify_neutral_stationary',tmp_path)
+        assert stop.value.code==1
+    else:execute_fixture('verify_neutral_stationary',tmp_path)
+    result=json.loads(out.read_text())
+    assert result['passed'] is (scenario in ('pass','resume'))
+    assert result['targets']==dict(stationarity=.02,drag=.05,profile=.05)
+    assert result['physical_validation'] is False
+    assert result['steps']==(500 if scenario=='rejected' else 20500 if scenario=='late-rejection' else 20000)
+    assert len(result['samples'])==(1 if scenario=='rejected' else 41 if scenario=='late-rejection' else 40)
+    assert calls[-1]==dict(op='close',session='fixture')
+    assert any(c['op']=='save' for c in calls)
+    if scenario=='numeric':assert result['log_profile_relative_l2']==pytest.approx(1.)
+    if scenario=='rejected':assert result['samples'][0]['quality']=='rejected'
