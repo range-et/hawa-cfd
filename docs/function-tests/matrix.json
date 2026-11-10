@@ -52,6 +52,7 @@
     "scripts/compare_engines.py": "f16f5a79c9991db76ad49cd20e7d46f8fa001bd8087cfbbac7b0b57603f5d4d9",
     "scripts/compare_examples.py": "8016670dea6795459d561991db2d2186dd6600873f32fc79c2fda636f9942c2a",
     "scripts/create_native_icons.py": "dbde98471f9723874522330e43479a2251d18a1110ccc74df9f8ca337d46f461",
+    "scripts/diagnose_kbc_parity.py": "89e15b8e2709142aa799703a3682dd14c6b93998f04ab25b5b04d06e6bf216b0",
     "scripts/example_inventory.py": "38c9a97c9ceb5cbb99c73d9cd1d62a3985c6fd7a79c0747a3a0db6202f768dca",
     "scripts/example_worker.py": "09063bcb809effa08e09c0b2a5b0bd3b235868b016172da5ee9bfa3b40f21601",
     "scripts/grasshopper_component.py": "39cab382dfc13ad3dacdde1c56aab55ddf449109f5b3d583b60e044cfba4a404",
@@ -147,6 +148,7 @@
     "tests/test_general_boundaries.py": "807142676376da912ada3ff19804461ec164dfac38a98328d0267732f3c852a2",
     "tests/test_integration_review.py": "eb48348ebe55f5c72dfa739859afbcb3215e53b505234f51190539ff3130851c",
     "tests/test_jobs.py": "f486631f137ee82be7334e02dfe19859551688a46d54a6dfa75bd8a6934fe93b",
+    "tests/test_kbc_parity_diagnostic.py": "cc92a2173497667cd9606d63cf3e7446011b32fee4a480a0ba66f0509f1be88a",
     "tests/test_kbc_precision.py": "ac44e983cd8d0a1ad19438f9918c4a4ae6d352b526ac43e2b2f073a408f12067",
     "tests/test_lbm.py": "47308abf2c82d70a0674b41ce48a9c86fff7ef346bea96b5312cacbd818ced4b",
     "tests/test_motion.py": "2739488d273a643b607a46d86c2676c9e1e4265e1a9da0504546c4fac5ea16d3",
@@ -739,6 +741,31 @@
       "tests/test_jobs.py::test_closing_creation_job_stops_running_solver[cuda:0]",
       "tests/test_jobs.py::test_closing_creation_job_stops_running_solver[mps]",
       "tests/test_jobs.py::test_close_missing_job_is_idempotent",
+      "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[0]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[-1]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[513]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[1.5]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[True]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[auto-sizes0]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes1]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes2]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes3]",
+      "tests/test_kbc_parity_diagnostic.py::test_comparison_preserves_original_population_threshold_and_nonfinite_failure",
+      "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[numeric]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[exception]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+      "tests/test_kbc_parity_diagnostic.py::test_accelerator_shape_control_reports_actual_device_and_observed_failure[mps]",
+      "tests/test_kbc_parity_diagnostic.py::test_accelerator_shape_control_reports_actual_device_and_observed_failure[cuda:0]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[package]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[submodule]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[missing_file]",
+      "tests/test_kbc_parity_diagnostic.py::test_loaded_module_validator_requires_package",
+      "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
       "tests/test_kbc_precision.py::test_kbc_near_equilibrium_matches_double_collision[cpu-1]",
       "tests/test_kbc_precision.py::test_kbc_near_equilibrium_matches_double_collision[cpu-8]",
       "tests/test_kbc_precision.py::test_kbc_near_equilibrium_matches_double_collision[cuda:0-1]",
@@ -1664,6 +1691,30 @@
       "tests/test_jobs.py::test_quick_pause_resume_does_not_lose_run[cpu]",
       "tests/test_jobs.py::test_quick_pause_resume_does_not_lose_run[mps]",
       "tests/test_jobs.py::test_wall_interpolation_does_not_mix_solid",
+      "tests/test_kbc_parity_diagnostic.py::test_accelerator_shape_control_reports_actual_device_and_observed_failure[mps]",
+      "tests/test_kbc_parity_diagnostic.py::test_comparison_preserves_original_population_threshold_and_nonfinite_failure",
+      "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[-1]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[0]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[1.5]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[513]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[True]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[auto-sizes0]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes1]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes2]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes3]",
+      "tests/test_kbc_parity_diagnostic.py::test_loaded_module_validator_requires_package",
+      "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[missing_file]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[package]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[submodule]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[exception]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[numeric]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]",
       "tests/test_kbc_precision.py::test_kbc_equilibrium_is_fixed_and_preserves_storage[cpu-D2Q9]",
       "tests/test_kbc_precision.py::test_kbc_equilibrium_is_fixed_and_preserves_storage[cpu-D3Q27]",
       "tests/test_kbc_precision.py::test_kbc_equilibrium_is_fixed_and_preserves_storage[mps-D2Q9]",
@@ -9859,6 +9910,356 @@
         ]
       ],
       "tests/test_jobs.py::test_close_missing_job_is_idempotent": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[-1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[513]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[1.5]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[True]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[auto-sizes0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes2]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes3]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_comparison_preserves_original_population_threshold_and_nonfinite_failure": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[numeric]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[exception]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_accelerator_shape_control_reports_actual_device_and_observed_failure[mps]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_accelerator_shape_control_reports_actual_device_and_observed_failure[cuda:0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "skipped"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[package]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[submodule]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[missing_file]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_loaded_module_validator_requires_package": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths": [
         [
           "setup",
           "passed"
@@ -32207,6 +32608,343 @@
       "status": "covered"
     },
     {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "source_hashes",
+      "signature": "source_hashes() -> unannotated",
+      "kind": "FunctionDef",
+      "line": 28,
+      "end_line": 33,
+      "first_line": 28,
+      "code_name": "source_hashes",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "09f49ffaeb9d9955ddedc0be94b1ec0a4d986c44294bdffd99180129944bd3ea",
+      "id": "scripts/diagnose_kbc_parity.py::source_hashes",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[missing_file]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[package]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[submodule]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[exception]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[numeric]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]"
+      ],
+      "lines": {
+        "hit": 3,
+        "total": 3
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "loaded_module_paths",
+      "signature": "loaded_module_paths() -> unannotated",
+      "kind": "FunctionDef",
+      "line": 37,
+      "end_line": 40,
+      "first_line": 37,
+      "code_name": "loaded_module_paths",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "d410bb23b72b371356c739e8baf2f456b608990d8311c508a48fe7049fea871a",
+      "id": "scripts/diagnose_kbc_parity.py::loaded_module_paths",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[missing_file]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[package]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[submodule]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[exception]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[numeric]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "validate_loaded_modules",
+      "signature": "validate_loaded_modules(paths) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 43,
+      "end_line": 49,
+      "first_line": 43,
+      "code_name": "validate_loaded_modules",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "84cb692e3f4ec52b6298d8959cbb37f0331a1d42f8ece0021a7d2ceae1ea8bc4",
+      "id": "scripts/diagnose_kbc_parity.py::validate_loaded_modules",
+      "branches": {
+        "hit": 6,
+        "total": 6
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_loaded_module_validator_requires_package",
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[missing_file]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[package]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[submodule]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[exception]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[numeric]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]"
+      ],
+      "lines": {
+        "hit": 6,
+        "total": 6
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "make_flow",
+      "signature": "make_flow(device, size, dtype=torch.float32) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 51,
+      "end_line": 60,
+      "first_line": 51,
+      "code_name": "make_flow",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "0d5366db8a1f4d16ff732fd8f389d95b3509e0a6057ef55b2c05d960d5c277a6",
+      "id": "scripts/diagnose_kbc_parity.py::make_flow",
+      "branches": {
+        "hit": 2,
+        "total": 2
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_accelerator_shape_control_reports_actual_device_and_observed_failure[mps]",
+        "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[-1]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[0]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[1.5]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[513]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[True]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]"
+      ],
+      "lines": {
+        "hit": 7,
+        "total": 7
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "inspect_collision",
+      "signature": "inspect_collision(flow) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 63,
+      "end_line": 87,
+      "first_line": 63,
+      "code_name": "inspect_collision",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Read the existing raw kernel's stages; no replacement collision is used.",
+      "fingerprint": "9d86a641c32b417e3fe0dfd32639495ceb6cb848fda8983c1a1bd10087a323d9",
+      "id": "scripts/diagnose_kbc_parity.py::inspect_collision",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_accelerator_shape_control_reports_actual_device_and_observed_failure[mps]",
+        "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control",
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]"
+      ],
+      "lines": {
+        "hit": 19,
+        "total": 19
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "compare",
+      "signature": "compare(reference, candidate) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 90,
+      "end_line": 99,
+      "first_line": 90,
+      "code_name": "compare",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "86c96131c976ea8690f11de28a81f6815fdc38ef4cb2b2c39cb21c481ffbb95f",
+      "id": "scripts/diagnose_kbc_parity.py::compare",
+      "branches": {
+        "hit": 2,
+        "total": 2
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_accelerator_shape_control_reports_actual_device_and_observed_failure[mps]",
+        "tests/test_kbc_parity_diagnostic.py::test_comparison_preserves_original_population_threshold_and_nonfinite_failure",
+        "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control",
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]"
+      ],
+      "lines": {
+        "hit": 7,
+        "total": 7
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "summarize",
+      "signature": "summarize(stages) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 102,
+      "end_line": 112,
+      "first_line": 102,
+      "code_name": "summarize",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "e41b5ee9e47874df493d6f0c070ad3acf255f986431a1ad49607515760c7f9f4",
+      "id": "scripts/diagnose_kbc_parity.py::summarize",
+      "branches": {
+        "hit": 6,
+        "total": 6
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_accelerator_shape_control_reports_actual_device_and_observed_failure[mps]",
+        "tests/test_kbc_parity_diagnostic.py::test_comparison_preserves_original_population_threshold_and_nonfinite_failure",
+        "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control",
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]"
+      ],
+      "lines": {
+        "hit": 9,
+        "total": 9
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "study",
+      "signature": "study(device, sizes, evidence=None) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 115,
+      "end_line": 146,
+      "first_line": 115,
+      "code_name": "study",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "3da4ad71c4bbe5c8745ee99278cc5383d955ffdfea5960ca11eb9f03329b07c4",
+      "id": "scripts/diagnose_kbc_parity.py::study",
+      "branches": {
+        "hit": 6,
+        "total": 6
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_accelerator_shape_control_reports_actual_device_and_observed_failure[mps]",
+        "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[auto-sizes0]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes1]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes2]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes3]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]"
+      ],
+      "lines": {
+        "hit": 22,
+        "total": 22
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "main",
+      "signature": "main(argv=None) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 149,
+      "end_line": 182,
+      "first_line": 149,
+      "code_name": "main",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "9d8abc3fd6d61be188c2cdc00e1667537bca1b5323f9d8fba517109995a0f757",
+      "id": "scripts/diagnose_kbc_parity.py::main",
+      "branches": {
+        "hit": 4,
+        "total": 4
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[missing_file]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[package]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[submodule]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[exception]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[numeric]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]"
+      ],
+      "lines": {
+        "hit": 26,
+        "total": 26
+      },
+      "status": "covered"
+    },
+    {
       "path": "scripts/example_inventory.py",
       "language": "Python",
       "name": "entrypoints",
@@ -51281,6 +52019,30 @@
         "tests/test_jobs.py::test_quick_pause_resume_does_not_lose_run[cpu]",
         "tests/test_jobs.py::test_quick_pause_resume_does_not_lose_run[mps]",
         "tests/test_jobs.py::test_wall_interpolation_does_not_mix_solid",
+        "tests/test_kbc_parity_diagnostic.py::test_accelerator_shape_control_reports_actual_device_and_observed_failure[mps]",
+        "tests/test_kbc_parity_diagnostic.py::test_comparison_preserves_original_population_threshold_and_nonfinite_failure",
+        "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[-1]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[0]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[1.5]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[513]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[True]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[auto-sizes0]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes1]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes2]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes3]",
+        "tests/test_kbc_parity_diagnostic.py::test_loaded_module_validator_requires_package",
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[missing_file]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[package]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[submodule]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[exception]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[numeric]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]",
         "tests/test_kbc_precision.py::test_kbc_equilibrium_is_fixed_and_preserves_storage[cpu-D2Q9]",
         "tests/test_kbc_precision.py::test_kbc_equilibrium_is_fixed_and_preserves_storage[cpu-D3Q27]",
         "tests/test_kbc_precision.py::test_kbc_equilibrium_is_fixed_and_preserves_storage[mps-D2Q9]",
