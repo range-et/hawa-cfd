@@ -171,7 +171,7 @@ feature records, example inclusion and legacy-09 exclusion were checked. It is
 installed locally; no commit, push or public release was made.
 
 Known PorousMedium CPU/MPS parity, atmospheric qualification, boundary-series v2
-and broader refinement remain in [issues.md](../issues.md). G6 does not waive them.
+and broader refinement remain in [GitHub Issues](https://github.com/range-et/hawa-cfd/issues). G6 does not waive them.
 
 ## Public node-to-example map
 
