@@ -99,6 +99,16 @@ development packaging passes. HAWA-028 stays open for host/pre-Job workflow and
 HAWA-052 remains an integration candidate.
 [Contract inventory and evidence](docs/review-domain-relationships.md).
 
+### November 9 2026 airfoil dispatcher coverage (HAWA-026 tranche)
+
+Added 23 public airfoil-dispatch cases with independent routing, invalid-input,
+metadata, degree-unit and length-scaling assertions. Native/Linux focused suites
+pass 29 cases; seven seeded faults are detected. After rebasing onto integration `588bffd`, the combined gate passes 899 tests,
+with 83 hardware skips, 33 state contracts and zero ratchet failures. Promoted only
+the freshly measured dispatcher baseline entry; no production behavior changed.
+HAWA-026 remains open for other coverage debt; this is not physical validation or
+a release. [Review and limits](docs/review-airfoil-dispatch-coverage.md).
+
 ### November 9 2026 HAWA-021/022 diagnostic harness (C1)
 
 Added frozen-reference preparation/replay, strict source/frame/configuration
