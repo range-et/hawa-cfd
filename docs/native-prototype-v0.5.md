@@ -45,6 +45,51 @@ Windows docking, CUDA execution and a clean-machine dependency download require 
 
 See `verification-native-v0.5.json` for measured checks and `closeout-v0.4.md` for the frozen 0.4 release.
 
+## Future idea: additional solver methods (outside 0.5)
+
+Recorded November 8, 2026. This is a research backlog note, with no implementation
+or architecture changes required for 0.5 and no committed release date.
+The [project roadmap](roadmap.md) develops the shared-case direction and links
+the [existing and proposed example catalogue](example-roadmap.md).
+
+Explore a fast particle-based fluid solver inspired by
+[Sebastian Lague's Fluid-Sim](https://github.com/SebLague/Fluid-Sim), considering
+the physics independently of its rendering. The reference is a Unity project
+whose simulation references include SPH literature. A PyTorch implementation
+inside Hawa is a candidate to investigate, not an established performance win.
+
+The longer-term direction is a choice of numerical methods: the existing LBM
+solver, a possible interactive particle method, and a conventional finite-volume
+Navier–Stokes solver along the lines of ANSYS Fluent. The latter is the intended
+longer-term engineering CFD direction: assess body-fitted meshes, boundary-layer
+resolution, turbulence models (for example RANS), convergence diagnostics and
+validated pressure/force predictions. Building a solver versus integrating an
+existing engine remains an open scoping decision.
+
+The goal is greater engineering capability and demonstrated accuracy than the
+current experimental Hawa implementation. Finite volume is not inherently more
+accurate than LBM; accuracy depends on the case, mesh, physical models, boundary
+conditions and convergence. See the
+[Fluent solver overview](https://ansyshelp.ansys.com/public/Views/Secured/corp/v252/en/flu_th/flu_th_SolveOverview.html)
+for its finite-volume approach. Keep numerical method separate from execution
+device (CPU, MPS, CUDA) and state the supported physics and validation level for
+each method.
+
+Before promoting an idea into development, scope a bounded feasibility study:
+
+- Identify the intended task: liquid/free-surface exploration, external airflow,
+  or another specific use case. Suitability for one does not establish the others.
+- Define one benchmark, geometry/boundary support, required outputs, and explicit
+  exclusions. Separate qualitative flow exploration from validated body loads.
+- Set target interaction time, problem size, memory budget, device and numerical
+  acceptance criteria before comparing with LBM where the physics overlaps.
+- Check neighbour-search cost, stability, conservation, boundary treatment and
+  Python 3.9/pinned-PyTorch feasibility; do not assume a Unity GPU implementation
+  transfers its speed to PyTorch.
+- Time-box the prototype and record a go/no-go decision with measured results.
+  Assess reuse of case ownership, background jobs, pause/cancel and result views
+  after the numerical experiment, without expanding the 0.5 shared-case API now.
+
 ## Local verification
 
 140 Python tests passed; 29 were skipped. Eleven existing GH definitions passed in Rhino. Native tests covered CPU startup without GH, MPS, three-way parameter binding, normal Rhino undo/redo, cooperative pause/resume/cancel, stale results, shared fields, document persistence/isolation, duplicate writers, computed-input ownership, invalid slider ranges, saved-definition rebinding and case cleanup. Pause/cancel submission took 17/34 ms in the recorded run. These are interaction timings, not solver performance benchmarks.

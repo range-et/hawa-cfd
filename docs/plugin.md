@@ -65,6 +65,15 @@ Plane Field supports an arbitrary rectangle and contour levels. Isosurface extra
 
 Recording stores velocity, pressure, density, solid masks, iteration and physical time in local NPZ files. Playback selects a frame. Limits are 1,000 frames and 2 GiB per recording. Partial recordings retain their completion state; do not treat a cancelled run as completed.
 
+## Parent and child domains
+
+A parent can supply recorded boundary data to a separately run child. That
+**offline one-way transfer**, **coupled refinement**, and **composed field views**
+are different operations. The [parent/child guide](parent-child-domains.md)
+explains resolution, time and data ownership, and maps example 33's existing
+city/neighbourhood/pond labels to outer/local/finer domains. Atmospheric and
+nested statistical qualification remain open.
+
 ## Refinement and numerical scope
 
 Refinement Patch snaps a rectangular region to the parent grid. Voxelize the original geometry on both domains. Use the same physical settings and BGK collision in both cases. Refined Solve advances the fine grid twice per coarse step and returns separate frames. The coarse frame masks the covered interior.

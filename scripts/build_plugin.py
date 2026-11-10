@@ -15,8 +15,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--install", type=Path, help="Optional Grasshopper Libraries destination")
     parser.add_argument("--package-only", action="store_true", help="Refresh the bundle using existing tested Release assemblies; do not compile")
+    parser.add_argument("--output", type=Path, default=ROOT / "dist/Hawa", help="Staging bundle directory")
+    parser.add_argument("--archive", type=Path, default=ROOT / "dist/Hawa-0.5.0-rh8.zip", help="ZIP output; use a new name for development builds")
     args = parser.parse_args()
-    output = ROOT / "dist/Hawa"
+    if args.install and args.install.name.lower() == 'hawa':
+        parser.error('--install must name the Grasshopper Libraries directory, not its Hawa subdirectory')
+    output = args.output.resolve()
     if not args.package_only:
         subprocess.run(["dotnet", "build", str(ROOT / "plugin/Hawa.Grasshopper"), "-c", "Release",
                         "--nologo", "-v", "quiet"], check=True)
@@ -33,7 +37,7 @@ def main():
         if destination.exists():
             shutil.rmtree(destination)
         shutil.copytree(source, destination, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
-    for name in ("LICENSE", "THIRD_PARTY_NOTICES.md"):
+    for name in ("LICENSE", "THIRD_PARTY_NOTICES.md", "features.md", "issues.md"):
         if (ROOT / name).exists():
             shutil.copy2(ROOT / name, output)
     notices = output / "licenses/lettuce"
@@ -59,7 +63,9 @@ def main():
         for document in (ROOT / "docs").glob(pattern):
             shutil.copy2(document, docs_output / document.name)
     shutil.copytree(ROOT / "docs/agents", docs_output / "agents", dirs_exist_ok=True)
-    shutil.copytree(ROOT / "docs/captures/v05", docs_output / "captures/v05", dirs_exist_ok=True)
+    for capture_set in ("v05", "boundary-transfer", "general-boundaries", "neutral-precursor", "neutral-coupling", "compatibility", "atmosphere-nesting"):
+        if (ROOT / "docs/captures" / capture_set).exists():
+            shutil.copytree(ROOT / "docs/captures" / capture_set, docs_output / "captures" / capture_set, dirs_exist_ok=True)
     for guide in (*list((output / "examples").glob("*.md")), *list(docs_output.glob("*.md")), *list((docs_output / "agents").glob("*.md"))):
         content = guide.read_text()
         if guide.parent.name == "examples":
@@ -70,16 +76,16 @@ def main():
     # Include corresponding build source with GPL binary distributions.
     source_root = output / "source"
     if source_root.exists(): shutil.rmtree(source_root)
-    for folder in ("plugin", "src", "scripts", "requirements", "tests", "vendor/lettuce"):
+    for folder in ("plugin", "src", "scripts", "requirements", "tests", "tools", ".config", "docs", "examples", "vendor/lettuce"):
         shutil.copytree(ROOT / folder, source_root / folder, dirs_exist_ok=True,
-                        ignore=shutil.ignore_patterns("bin", "obj", "__pycache__", "*.pyc", ".pytest_cache"))
-    for name in ("pyproject.toml", "uv.lock", "LICENSE", "THIRD_PARTY_NOTICES.md", "README.md", "AGENTS.md"):
+                        ignore=shutil.ignore_patterns("bin", "obj", "__pycache__", "*.pyc", ".pytest_cache", "09-parametric-hull-galapagos.gh"))
+    for name in ("pyproject.toml", "uv.lock", "LICENSE", "THIRD_PARTY_NOTICES.md", "README.md", "AGENTS.md", "features.md", "issues.md"):
         shutil.copy2(ROOT / name, source_root / name)
-    archive = ROOT / "dist/Hawa-0.5.0-rh8.zip"
+    archive = args.archive
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as bundle:
         for file in output.rglob("*"):
             if file.is_file():
-                bundle.write(file, file.relative_to(ROOT / "dist"))
+                bundle.write(file, Path("Hawa") / file.relative_to(output))
     if args.install:
         destination = args.install / "Hawa"
         for file in output.rglob("*"):

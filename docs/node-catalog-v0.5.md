@@ -56,3 +56,58 @@ ordinary GH assembly for example-specific geometry or orchestration. Preserve
 existing archives through explicit migration and compatibility readers. Verify
 both the catalogue and the actual shipped definitions; hiding an icon alone does
 not remove an example's dependency on a component.
+
+## Post-0.5 development additions
+
+Boundary Capture and Boundary Data are reusable offline data-transfer operations;
+Result Quality exposes the worker's numerical-envelope report. All three have
+dedicated icons. See [scope and contracts](boundary-transfer.md). Their example
+uses ordinary GH block/domain geometry. These additions are not part of the frozen
+0.5 package or an atmospheric capability claim.
+
+## Boundary foundation development additions
+
+`Boundary Patch` describes a reusable physical face condition. `Boundary Set`
+compiles six patches onto a case in a worker. Both have toolbar icons. They are
+solver/data operations, not application-specific geometry generators. Existing
+`Boundaries` keeps its legacy archive contract. Physics accepts the explicit
+`smagorinsky-v1` model; `smagorinsky` retains upstream behavior.
+See [the boundary guide](general-boundaries.md) for exact supported combinations.
+
+### Experimental neutral precursor (development only)
+
+Hawa Neutral Precursor is a reusable periodic-channel numerical service under
+Physics. It accepts a physical Case, reference height, aerodynamic roughness, Cs
+and initial disturbance. It requires explicit experimental opt-in and excludes
+obstacles/open boundaries/refinement. Quality blocks transfer until atmospheric
+qualification. Examples 28–29 assemble existing Domain, Physics, Case, Solve and
+visualisation nodes. See [verification and limits](neutral-precursor-review.md).
+
+Neutral development update: **Hawa Neutral Flow** retains the Neutral Precursor
+GUID and old ports. New optional inputs specify a wall sampling plane, filter time
+and six external patches. Empty patches retain precursor mode. External mode
+accepts halo-classified stationary buildings and uniform/neutral face profiles.
+See [the coupling contract](neutral-coupling-review.md). This is a reusable model
+operation; example 30's buildings are ordinary Grasshopper geometry.
+
+
+### Atmospheric transfer and shared views (development)
+
+The current public inventory is 54 reusable operations. Wall Roughness attaches
+bounded spatial roughness regions to a physical case. Flow Statistics evaluates
+recorded probe histories with means, covariance, spectra and sampling diagnostics.
+They are used in annotated example 33; city, neighbourhood and pond are tutorial
+stages, not public component types.
+
+Boundary Capture appends start/end physical-time inputs. Boundary Patch appends
+an explicit backflow mode; old archives keep velocity mode. BoundarySeries v2
+carries velocity, pressure, strain and initial state on all active exterior faces.
+Neutral external mode can consume it with explicit experimental opt-in. Precursor
+mode and unsupported compositions still reject. Numerical qualification remains open.
+
+Plane Field, Flow Display, Isosurface and Surface Field retain their GUIDs and
+change Frame to a list input. Existing single-frame wires remain valid. They use
+same-time immutable frames, finest-domain priority and physical transforms. Slice
+triangles are clipped at halfway solid boundaries; derivative fields and curved
+links retain conservative validity. The legacy live Slice/Streamlines components
+retain their session contracts. No case-combiner recipe node was introduced.

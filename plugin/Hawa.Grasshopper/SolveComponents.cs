@@ -17,13 +17,13 @@ public sealed class RuntimeComponent : HawaComponent
     }
 }
 
-public sealed class CheckComponent : HawaComponent
+public sealed class CheckComponent : HawaQueryComponent
 {
     public CheckComponent() : base("Hawa Check Case", "Check", "Validate physical scaling, boundary pairs and estimated GPU memory before allocating a solver", "04 Case") { }
     public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077108");
     protected override void RegisterInputParams(GH_InputParamManager p) { p.AddGenericParameter("Case", "C", "Hawa Case", GH_ParamAccess.item); }
     protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddBooleanParameter("Valid", "V", "Case preflight passed", GH_ParamAccess.item); p.AddTextParameter("Report", "R", "Scaling and allocation estimate", GH_ParamAccess.item); }
-    protected override void SolveHawa(IGH_DataAccess da) { var r = EmbeddedRuntime.Call(new JsonObject { ["op"] = "check", ["case"] = ReadObject(da, 0) }); da.SetData(0, true); da.SetData(1, r.ToJsonString()); }
+    protected override void SolveHawa(IGH_DataAccess da) { var r = View(new JsonObject { ["op"] = "check", ["case"] = ReadObject(da, 0) }); if(r==null)return; da.SetData(0, true); da.SetData(1, r.ToJsonString()); }
 }
 
 public sealed class SolveComponent : HawaComponent
@@ -60,7 +60,7 @@ public sealed class SolveComponent : HawaComponent
             if(phase=="failed")throw new Exception(ready["error"]!.GetValue<string>());
             if(phase!="completed"){
                 Message="preparing";da.SetData(1,"preparing");string expected=creation!;
-                OnPingDocument()?.ScheduleSolution(100,_=>{if(!Locked&&creation==expected)ExpireSolution(false);});return;
+                HawaPollScheduler.Request(this,()=>creation==expected);return;
             }
             session=ready["result"]!["status"]!["session"]!.GetValue<string>();
         }
@@ -69,18 +69,18 @@ public sealed class SolveComponent : HawaComponent
         if (!run && previousRun) EmbeddedRuntime.Call(Request("pause_async", session));
         var status = EmbeddedRuntime.Call(Request("status", session));
         previousRun = run; previousReset = reset;
-        var state = status["state"]!.GetValue<string>(); Message = state;
+        var state = status["state"]!.GetValue<string>(); Message = state + " / " + status["quality"]?["status"]?.GetValue<string>();
         var solution = new JsonObject { ["kind"] = "Solution", ["label"] = $"Hawa {state}: {status["steps"]} steps", ["session"] = session, ["revision"]=status["steps"]!.DeepClone(), ["case"] = spec.DeepClone() };
         da.SetData(0, new HawaGoo(solution)); da.SetData(1, state); da.SetData(2, status["steps"]!.GetValue<int>()); var backend = status["backend"]!["selected"]!.GetValue<string>();
         var grid = string.Join(" × ", status["resolution"]!.AsArray().Select(v => v!.ToString()));
         var time = status["physical_time"]!.GetValue<double>();
         var mass = status["relative_mass_change"]!.GetValue<double>();
-        da.SetData(3, $"Backend: {backend.ToUpperInvariant()}\nGrid: {grid}\nIterations: {status["steps"]} / {status["target"]}\nState: {state}\nSimulation time: {time:g5}\nRelative mass change: {mass:g3}\nMean samples: {status["averaging_samples"]}");
+        da.SetData(3, $"Backend: {backend.ToUpperInvariant()}\nGrid: {grid}\nIterations: {status["steps"]} / {status["target"]}\nState: {state}\nSimulation time: {time:g5}\nRelative mass change: {mass:g3}\nMean samples: {status["averaging_samples"]}\nQuality: {status["quality"]?.ToJsonString()}");
         if (status["error"] != null) AddRuntimeMessage(GH_RuntimeMessageLevel.Error, status["error"]!.GetValue<string>());
         if ((state == "running" || state == "pausing" || state == "resetting") && !scheduled)
         {
             scheduled = true;
-            OnPingDocument()?.ScheduleSolution(200, _ => { if (!Locked) ExpireSolution(false); });
+            string expectedSession=session;HawaPollScheduler.Request(this,()=>session==expectedSession,200);
         }
     }
     protected override void InputsMissing(){CloseSession();}

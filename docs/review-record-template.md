@@ -21,6 +21,7 @@ Copy this template; do not mark checks passed before running them.
 | G3 numerical physics | unassigned | BLOCKED | |
 | G4 UI/UX and examples | unassigned | BLOCKED | |
 | G5 release/integration | unassigned | BLOCKED | |
+| G6 compatibility/example inventory | unassigned | BLOCKED | |
 
 ## Reproduction and combination coverage
 
@@ -35,7 +36,7 @@ Copy this template; do not mark checks passed before running them.
 | | | | NOT RUN | |
 
 List dimensions and relevant pairs/triples covered, unsupported combinations,
-missing hardware and budgeted omissions. Do not claim exhaustive coverage.
+missing hardware and budgeted omissions. State the finite exhaustive products and their counts; do not claim exhaustive arbitrary graphs or continuous inputs.
 
 ## Results and disposition
 

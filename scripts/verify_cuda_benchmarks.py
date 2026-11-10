@@ -6,13 +6,13 @@ observables at the existing accelerator tolerance (3e-4 relative, 2e-6 absolute)
 Analytic error and grid trends are reported, not promoted to physical validation.
 """
 import argparse
-import hashlib
 import json
 from pathlib import Path
 import sys
 
 import numpy as np
 import torch
+from verification_evidence import snapshot
 from hawa.backends import select_backend
 from benchmark_motion import comoving
 from benchmark_refinement import benchmark as refinement
@@ -33,9 +33,9 @@ def main():
     report = dict(passed=False, rtol=3e-4, atol=2e-6, results=rows,
                   torch=torch.__version__, python=sys.version,
                   gpu=torch.cuda.get_device_name(0))
-    root = Path(__file__).resolve().parent
-    report['script_sha256'] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
-                              for p in [Path(__file__), *root.glob('benchmark_*.py')]}
+    root = Path(__file__).resolve().parents[1]
+    before = snapshot(root)
+    report['source_before'] = before
 
     def save():
         args.output.write_text(json.dumps(report, indent=2), encoding='utf-8')
@@ -71,7 +71,9 @@ def main():
         except Exception as exc:
             row['error'] = '{}: {}'.format(type(exc).__name__, exc)
         save()
-    report['passed'] = all(row['passed'] for row in rows)
+    report['source_after'] = snapshot(root)
+    report['source_unchanged'] = report['source_after'] == before
+    report['passed'] = bool(rows) and all(row['passed'] for row in rows) and report['source_unchanged']
     save()
     print('Passed {}/{} benchmark configurations'.format(sum(r['passed'] for r in rows), len(rows)), flush=True)
     return 0 if report['passed'] else 1

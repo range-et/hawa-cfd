@@ -95,7 +95,7 @@ public sealed class HawaPanel : Panel
             }
             // Ownership changes do not require a settings version change.
             foreach(var p in CaseHub.Parameters)numbers[p.Key].Enabled=!c.Driven.Contains(p.Key)&&(!c.SelectedGeometry||p.Key!="width");
-            state.Text=$"{c.State.ToUpperInvariant()} · {c.Steps:N0} / {c.Target:N0} steps";progress.Value=(int)Math.Clamp(100d*c.Steps/c.Target,0,100);
+            state.Text=$"{c.State.ToUpperInvariant()} · {c.Steps:N0} / {c.Target:N0} steps\nQuality: {c.Status?["quality"]?["status"]?.GetValue<string>() ?? "unchecked"}";progress.Value=(int)Math.Clamp(100d*c.Steps/c.Target,0,100);
             geometry.Text=c.SelectedGeometry?$"{c.Setup["objects"]!.AsArray().Count} referenced Rhino bodies · coordinates in metres":"Block starter · 8 × 6 × 4 m · demonstration viscosity";
             var shape=CaseGeometry.GridShape(c);long cells=(long)shape[0]*shape[1]*shape[2];grid.Text=$"{shape[0]} × {shape[1]} × {shape[2]} · {cells:N0} cells\nD3Q19 FP32 populations alone: {cells*19*4/1048576d:F1} MiB; solver needs additional memory.";
             link.Text=c.BindingOwner==null?"Grasshopper: unlinked":c.Driven.Count==0?"Grasshopper: linked sliders":"Grasshopper drives: "+string.Join(", ",c.Driven);
