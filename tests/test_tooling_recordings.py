@@ -16,8 +16,9 @@ def load(name):
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
 
 
+@pytest.mark.parametrize('entrypoint',[False,True])
 @pytest.mark.parametrize('name,steps,stride', [('record_vortex_demo',300,10),('record_cylinder_demo',8000,100),('record_motion_demo',1000,10)])
-def test_recording_recipe_steps_initialization_and_progress(tmp_path,monkeypatch,capsys,name,steps,stride):
+def test_recording_recipe_steps_initialization_and_progress(tmp_path,monkeypatch,capsys,name,steps,stride,entrypoint):
     m=load(name);seen=[]
     def record(session,n,every,folder,checkpoint):
         assert n==steps and every==stride and session.backend.device.type=='cpu'
@@ -30,13 +31,26 @@ def test_recording_recipe_steps_initialization_and_progress(tmp_path,monkeypatch
             assert np.max(np.abs(fields['velocity'][1]))>0
         seen.append((n,every,folder));return dict(manifest=str(folder/'manifest.json'))
     monkeypatch.setattr(m,'record',record);out=tmp_path/'recording'
-    m.main(output=out,device='cpu')
+    if entrypoint:
+        import hawa.plugin
+        import importlib
+        from test_tooling_entrypoints import execute_fixture
+        original=hawa.plugin.Session
+        def cpu_fixture(spec,device):
+            assert device=='mps'
+            return original(spec,'cpu')
+        monkeypatch.setattr(hawa.plugin,'Session',cpu_fixture)
+        monkeypatch.setattr(importlib.import_module('hawa.recording'),'record',record)
+        relative={'record_vortex_demo':'results/v04/vortex-recording-v2','record_cylinder_demo':'results/v04/cylinder-recording-outflow','record_motion_demo':'results/motion/cylinder-recording-refill'}[name]
+        out=tmp_path/relative
+        execute_fixture(name,tmp_path)
+    else:m.main(output=out,device='cpu')
     assert seen==[(steps,stride,out)]
     text=capsys.readouterr().out;assert '500' in text
     if name=='record_motion_demo':
-        summary=json.loads((tmp_path/'cylinder-summary.json').read_text())
+        summary=json.loads((out.parent/'cylinder-summary.json').read_text())
         assert summary['manifest']==str(out/'manifest.json')
-        assert json.loads((tmp_path/'cylinder-loads.json').read_text())==[]
+        assert json.loads((out.parent/'cylinder-loads.json').read_text())==[]
 
 
 def test_boundary_transfer_script_retains_same_time_and_cpu_scope(tmp_path,monkeypatch):
@@ -98,3 +112,19 @@ def test_rhino_preview_preserves_unowned_geometry_and_validates_document(tmp_pat
     assert report['host']=='rhino-embedded' and report['rhino']=='fixture' and len(report['preview_object_ids'])==65
     rhino.RhinoDoc.ActiveDoc=None
     with pytest.raises(RuntimeError,match='No Rhino document'):m.create_preview()
+
+
+def test_rhino_entrypoint_persists_failed_diagnostics_before_preview(tmp_path,monkeypatch):
+    import hawa.lbm
+    from test_tooling_entrypoints import execute_fixture
+    monkeypatch.setattr(sys,'path',list(sys.path))
+    monkeypatch.setattr(hawa.lbm.VortexSimulation,'diagnostics',lambda self:dict(passed=False,fixture=True))
+    monkeypatch.setitem(sys.modules,'Rhino',SimpleNamespace(RhinoApp=SimpleNamespace(Version='fixture')))
+    drawing=SimpleNamespace()
+    monkeypatch.setitem(sys.modules,'System',SimpleNamespace(Drawing=drawing))
+    monkeypatch.setitem(sys.modules,'System.Drawing',drawing)
+    with pytest.raises(RuntimeError,match='LBM verification failed'):
+        execute_fixture('rhino_vortex',tmp_path,dict(HAWA_DEVICE='cpu',HAWA_SIZE=16,HAWA_STEPS=0,HAWA_ROOT=str(tmp_path)))
+    report=json.loads((tmp_path/'results/rhino-cpu/report.json').read_text())
+    assert report['passed'] is False and report['fixture']
+    assert 'preview_object_ids' not in report

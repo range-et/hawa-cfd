@@ -153,3 +153,103 @@ def test_motion_media_entrypoint_renders_fixture_and_checks_encoder(modules,tmp_
     assert commands[0][-1]==str(tmp_path/'dist/videos-v04/hawa-moving-surfaces.mp4')
     with Image.open(tmp_path/'docs/captures/motion/moving-cylinder-000.png') as picture:
         assert_image(picture)
+
+
+def test_v05_entrypoint_builds_chapters_hashes_captions_and_decode_manifest(modules,tmp_path,monkeypatch):
+    import hashlib
+    from test_tooling_entrypoints import execute_fixture
+    m=modules('make_v05_demo')
+    palette=tmp_path/'vendor/monad_system';palette.mkdir(parents=True)
+    (palette/'colors.json').write_bytes((ROOT/'vendor/monad_system/colors.json').read_bytes())
+    (tmp_path/'docs/media/v05').mkdir(parents=True)
+    for scene in m.scenes:
+        if not scene['source']:continue
+        path=tmp_path/scene['source'] if scene['kind']=='clip' else tmp_path/'docs/captures'/scene['source']
+        path.parent.mkdir(parents=True,exist_ok=True)
+        if scene['kind']=='clip':path.write_bytes(b'fixture-source-video')
+        else:Image.new('RGB',(3000,1700),'teal').save(path)
+    Image.new('RGB',(3000,1700),'red').save(tmp_path/'docs/captures/v05/curved-slice-before.png')
+    commands=[]
+    def encode(args,**kwargs):
+        assert kwargs==dict(check=True)
+        commands.append(args);path=Path(args[-1])
+        if path.suffix=='.jpg':Image.new('RGB',(160,90),'teal').save(path)
+        else:path.write_bytes(b'fixture-encoded-video')
+    monkeypatch.setattr(subprocess,'run',encode)
+    execute_fixture('make_v05_demo',tmp_path)
+    out=tmp_path/'dist/videos-v05'
+    report=json.loads((out/'provenance.json').read_text())
+    assert report['duration_seconds']==sum(s['seconds'] for s in m.scenes)
+    assert len(report['chapters'])==len(m.scenes)
+    assert report['video_sha256']==hashlib.sha256(b'fixture-encoded-video').hexdigest()
+    for name,digest in report['sources'].items():assert digest==hashlib.sha256((tmp_path/name).read_bytes()).hexdigest()
+    assert (out/'hawa-0.5-build-log.vtt').read_text().startswith('WEBVTT\n')
+    assert len(list((out/'decoded').glob('*.jpg')))==2*len(m.scenes)
+    assert len(list(out.glob('contact-*.jpg')))==(len(m.scenes)+7)//8
+    assert len(commands)==3*len(m.scenes)+1
+    assert json.loads((tmp_path/'docs/media/v05/storyboard.json').read_text())==report
+
+
+def test_walkthrough_entrypoint_preserves_other_metadata_and_packages_licenses(modules,tmp_path,monkeypatch):
+    import zipfile
+    from test_tooling_entrypoints import execute_fixture
+    m=modules('make_walkthroughs');video=m.VIDEOS[0]
+    for name in ['vendor/monad_system/colors.json','vendor/monad_system/upstream.json','LICENSE','vendor/lettuce/LICENSE','vendor/monad_system/LICENSE']:
+        path=tmp_path/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes((ROOT/name).read_bytes())
+    (tmp_path/'site/assets').mkdir(parents=True)
+    media=tmp_path/'docs/media';media.mkdir(parents=True)
+    (media/'README.md').write_text('Fixture upload notes');(media/'description.txt').write_text('Fixture description')
+    cap=tmp_path/'docs/captures';cap.mkdir()
+    for scene in video['scenes']:
+        if scene[2]:Image.new('RGB',(3000,1700),'teal').save(cap/scene[2])
+    out=tmp_path/'dist/videos-monad';out.mkdir(parents=True)
+    (out/'metadata.json').write_text(json.dumps([dict(slug='unselected',fixture=True),dict(slug=video['slug'],old=True)]))
+    durations=[]
+    def encode(args,**kw):
+        assert kw==dict(check=True)
+        durations.append(float(args[args.index('-t')+1]));Path(args[-1]).write_bytes(b'fixture-video')
+    monkeypatch.setattr(subprocess,'run',encode)
+    monkeypatch.setattr(subprocess,'check_output',lambda args:str(durations[-1]).encode())
+    monkeypatch.setattr(sys,'argv',['walkthrough','--only',video['slug']])
+    execute_fixture('make_walkthroughs',tmp_path)
+    reports=json.loads((out/'metadata.json').read_text())
+    assert reports[0]==dict(slug='unselected',fixture=True)
+    assert len(reports)==2 and 'old' not in reports[1]
+    assert reports[1]['duration_seconds']==sum(s[4] for s in video['scenes'])
+    assert reports[1]['theme_commit']==m.REVISION
+    assert len(reports[1]['captions'])==len(video['scenes'])
+    assert (tmp_path/'site/assets/first-look-poster.jpg').exists()
+    with zipfile.ZipFile(tmp_path/'dist/Hawa-YouTube-upload-kit.zip') as kit:
+        assert {'licenses/Hawa-LICENSE','licenses/Lettuce-LICENSE','licenses/Monad-LICENSE','README.md','description.txt',video['slug']+'.mp4'}<=set(kit.namelist())
+        assert kit.read('licenses/Hawa-LICENSE')==(ROOT/'LICENSE').read_bytes()
+
+
+def test_v04_and_wake_entrypoints_hash_fixture_manifests(modules,tmp_path,monkeypatch):
+    import hashlib
+    from types import SimpleNamespace
+    from test_tooling_entrypoints import execute_fixture
+    for name in ['vendor/monad_system/colors.json','examples/grasshopper/data/naca0012.dat']:
+        path=tmp_path/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes((ROOT/name).read_bytes())
+    source=tmp_path/'results/v04';source.mkdir(parents=True)
+    fixture_recording(source/'vortex-recording-v2');fixture_recording(source/'cylinder-recording-outflow')
+    cap=tmp_path/'docs/captures/v04';cap.mkdir(parents=True)
+    for name in ('block-flow.png','search-completed.png','sphere-pressure.png','refinement.png'):
+        Image.new('RGB',(40,30),'teal').save(cap/name)
+    sinks=[]
+    class Sink:
+        closed=False;frames=0
+        def write(self,data):assert len(data)==1920*1080*3;self.frames+=1
+        def close(self):self.closed=True
+    def encoder(command,**kwargs):
+        sink=Sink();sinks.append(sink);Path(command[-1]).write_bytes(b'fixture-video')
+        return SimpleNamespace(stdin=sink,wait=lambda:0)
+    monkeypatch.setattr(subprocess,'Popen',encoder)
+    scope=execute_fixture('make_v04_demo',tmp_path)
+    monkeypatch.setitem(sys.modules,'make_v04_demo',SimpleNamespace(**scope))
+    execute_fixture('make_wake_demo',tmp_path)
+    out=tmp_path/'dist/videos-v04'
+    a=json.loads((out/'provenance.json').read_text());b=json.loads((out/'wake-provenance.json').read_text())
+    assert a['source_sha256']==hashlib.sha256((source/'vortex-recording-v2/manifest.json').read_bytes()).hexdigest()
+    assert b['sha256']==hashlib.sha256((source/'cylinder-recording-outflow/manifest.json').read_bytes()).hexdigest()
+    assert a['audio'] is b['audio'] is False
+    assert len(sinks)==2 and all(s.closed and s.frames>0 for s in sinks)

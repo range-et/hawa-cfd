@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
     'build_site', 'compare_engines', 'compare_examples', 'example_worker',
     'parity_worker', 'preview_site', 'run_examples', 'run_compatibility_matrix',
     'verify_atmospheric_reference', 'verify_general_boundaries',
-    'verify_neutral_coupling',
+    'verify_neutral_coupling', 'verify_boundary_transfer',
 ])
 def test_cli_help_exits_successfully_without_creating_outputs(name, tmp_path, monkeypatch, capsys):
     monkeypatch.chdir(tmp_path)
@@ -310,3 +310,20 @@ def test_rhino_lettuce_script_checks_dependencies_and_writes_failed_diagnostics(
         assert report['passed'] is (scenario!='failed') and report['fixture']
         assert report['strict_dependency_versions'] is (scenario!='override')
         with np.load(out/'fields.npz') as archive:np.testing.assert_array_equal(archive['f'],np.ones((2,2)))
+
+
+def test_native_glyph_generation_produces_svg_png_and_multisize_icon(tmp_path):
+    import xml.etree.ElementTree as ET
+    from PIL import Image
+    (tmp_path/'plugin/Hawa.Rhino').mkdir(parents=True)
+    scope=execute_fixture('create_native_icons',tmp_path)
+    out=tmp_path/'plugin/Hawa.Rhino/Assets'
+    assert len(list(out.glob('*.png')))==len(scope['glyphs'])==11
+    for name,paths in scope['glyphs'].items():
+        with Image.open(out/(name+'.png')) as im:
+            assert im.size==(24,24) and im.mode=='RGBA'
+            assert np.asarray(im)[...,3].max()==255
+        svg=ET.fromstring((out/(name+'.svg')).read_text())
+        assert len(svg.findall('{http://www.w3.org/2000/svg}polyline'))==len(paths)
+    with Image.open(out/'hawa.ico') as icon:
+        assert icon.ico.sizes()=={(16,16),(24,24),(32,32),(48,48),(64,64)}
