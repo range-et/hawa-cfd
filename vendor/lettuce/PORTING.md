@@ -21,8 +21,11 @@ the same CPU/CUDA device, then rounds the result to FP32. Storage and streaming
 remain FP32, and the existing near-zero stabilizer guard still uses storage
 precision. This avoids amplification of moment cancellation in PorousMedium;
 it costs additional temporary memory and execution time. FP64 input retains its
-existing path. MPS retains its FP32 path, without a CPU fallback; historical
-CPU/MPS PorousMedium parity remains unresolved. See the
+existing path. MPS has no FP64 and no CPU fallback: for FP32 storage with Lettuce's quadratic
+equilibrium it evaluates the same KBC decomposition with FP32 hi/lo
+(TwoSum/TwoProduct) intermediates, an exact raw-moment split and one final
+rounding. On identical inputs this reproduces the rounded CPU result; see the
+[HAWA-001 repair record](../../docs/review-porous-kbc-repair.md). See the
 [repair verification record](../../docs/verification-windows-cuda-fixes-2026-11-09.md)
 for measurements, regressions and limits. Original upstream tests and examples
 are unchanged.

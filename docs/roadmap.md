@@ -125,7 +125,7 @@ schema are future work; existing GH functionality is broader than the panel.
 The [0.4 closeout](closeout-v0.4.md),
 [release limits](release-notes-v0.4.0.md) and
 [0.5 verification](verification-native-v0.5.json) establish the present evidence.
-PorousMedium CPU/MPS parity is unresolved. Windows, CUDA and clean-machine setup
+PorousMedium CPU/MPS parity has a candidate KBC repair under review ([record](review-porous-kbc-repair.md)); it is not merged or released. Windows, CUDA and clean-machine setup
 still need their documented checks. Native demonstrations and valid field meshes
 do not establish engineering accuracy.
 
