@@ -92,7 +92,7 @@ def test_refresh_build_bundle_and_temporary_install(package_tree, monkeypatch, t
         for source in output.rglob("*"):
             if source.is_file():
                 relative = source.relative_to(output)
-                assert bundle.read(str(Path("Hawa") / relative)) == source.read_bytes()
+                assert bundle.read((Path("Hawa") / relative).as_posix()) == source.read_bytes()
                 assert (libraries / "Hawa" / relative).read_bytes() == source.read_bytes()
     assert not list(libraries.rglob("*.new"))
     assert not (output / "issues.md").exists() and not (libraries / "Hawa/issues.md").exists()

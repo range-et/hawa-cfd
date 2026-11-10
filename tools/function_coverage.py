@@ -173,6 +173,13 @@ def measure_python(root, output):
     return code
 
 
+def python_lines(path):
+    """coverage.py keys files with OS separators (backslashes on Windows); the inventory uses POSIX paths."""
+    data = json.loads(path.read_text())
+    data["files"] = {name.replace("\\", "/"): file for name, file in data["files"].items()}
+    return data
+
+
 def csharp_lines(data, root):
     result = defaultdict(dict)
     for files in data.values():
@@ -361,7 +368,7 @@ def run(root, output):
             raise ValueError("Empty C# instrumentation; cannot claim state coverage")
     if before != snapshot(root):
         raise ValueError("Inputs changed during measurement; discard and rerun")
-    rows = annotate(rows, json.loads((output / "python.json").read_text()), calls, cs)
+    rows = annotate(rows, python_lines(output / "python.json"), calls, cs)
     report = dict(schema=SCHEMA, snapshot=before, python_exit=calls["exit_code"],
                   environment=dict(python=sys.version.split()[0], platform=platform.platform()),
                   tests={k: calls[k] for k in ("collected", "passed", "outcomes")}, functions=rows)
@@ -399,7 +406,7 @@ def main(argv=None):
         baseline = json.loads((root / args.baseline).read_text())
     failures = gate(report["functions"], baseline)
     if args.strict:
-        python = json.loads((output / "python.json").read_text())
+        python = python_lines(output / "python.json")
         state = json.loads((output / "state.json").read_text())
         failures.extend(strict_gate(root, report, python, csharp_lines(state, root), args.coverage_scope))
     print(json.dumps(dict(scope=args.coverage_scope if args.strict else "baseline ratchet", functions=dict(Counter(r["status"] for r in report["functions"])), unmeasured_host_functions=sum(r["language"] == "C#" and r["status"] == "unmeasured" for r in report["functions"]), failures=failures), indent=2))
