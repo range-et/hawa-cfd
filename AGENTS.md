@@ -77,6 +77,31 @@ older user definitions. See [the node audit](docs/node-catalog-v0.5.md).
 
 ## Developer checks
 
+### Required tests for Python and C# functions
+
+Every new or changed first-party Python/C# executable function, method, property,
+local function or callback must have meaningful automated tests in the same PR.
+Exercise its intended result and relevant invalid-input/failure behavior; imports,
+construction-only smoke checks and test names are not sufficient evidence.
+Run the measured function gate against the PR base and refresh the committed
+matrix. Do not weaken assertions, move code outside the inventory, or add coverage
+exclusions to obtain a passing percentage. Promote retired baseline gaps only
+after fresh measured execution with asserting tests. Keep existing debt visible.
+
+For headless logic, use Python tests or linked C# contracts. For Rhino/GH behavior,
+add the appropriate live-host checks and retain unmeasured status until actual
+instrumented evidence exists. Test doubles do not establish host scheduling,
+archive or device correctness. Mutation testing must distinguish assertion kills,
+collection/tool errors, timeouts, equivalent changes and unresolved survivors;
+never claim 100% assurance from execution coverage or a mutation score alone.
+
+The target is 100% measured executable-function coverage across first-party Hawa
+Python and C#, with meaningful assertions. Line/branch and mutation results are
+separate evidence. Vendored upstream code is validated separately under the
+existing policy; do not shrink first-party scope. Track progress and remaining
+host/tooling gaps in GitHub issues #28 and #45, not an active Markdown backlog.
+
+
 For code changes, run the [function coverage gate](docs/function-testing.md) and
 refresh its committed matrix. New functions and changes to uncovered functions
 need measured tests; imports and a named test alone do not count. Keep historical

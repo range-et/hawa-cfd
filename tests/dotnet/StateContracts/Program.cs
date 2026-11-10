@@ -55,6 +55,36 @@ Test("read-only outward state and detached JSON", () => {
     var settings = c.Settings(); settings["speed"] = 2; Assert(c.Speed == 1, "Settings alias");
     Start(c); Field(c); var result = c.Slice!; result["values"]![0] = 900; Assert(c.Slice!["values"]![0]!.GetValue<double>() != 900, "Field alias");
 });
+Test("public state views are detached and retain result identity", () => {
+    var c = Fresh();
+    Assert(c.ResultRevision == -1 && !c.HasInterpolatedWalls && c.Spec == null && c.Status == null && c.ResultSpec == null, "Empty state invented results");
+    c.SpecData = new JsonObject { ["shape"] = new JsonArray(8, 8, 8) };
+    c.StatusData = new JsonObject { ["steps"] = 7 };
+    c.ResultSpecData = new JsonObject { ["wall_links"] = new JsonArray(new JsonArray(1, 2, .5)) };
+    c.Result = new ResultStamp(c.Id, 4, 5, "recorded-session", "speed", 7, .25);
+    c.DrivenKeys.Add("speed");
+    var spec = c.Spec!; var status = c.Status!; var result = c.ResultSpec!; var driven = c.Driven;
+    spec["shape"]![0] = 99; status["steps"] = 99; result["wall_links"]!.AsArray().Clear();
+    c.DrivenKeys.Add("cell");
+    Assert(c.Spec!["shape"]![0]!.GetValue<int>() == 8 && c.Status!["steps"]!.GetValue<int>() == 7 && c.HasInterpolatedWalls, "Public JSON aliases live state");
+    Assert(driven.Count == 1 && c.Driven.Count == 2 && c.ResultRevision == 4, "Detached ownership or result revision incorrect");
+    Assert(c.Value("speed") == c.Speed && c.Value("cell") == c.Cell && c.Value("width") == c.Width, "Wrong parameter lookup");
+    Reject(() => c.Value("unknown"));
+    var description = c.Describe();
+    Assert(description["result_steps"]!.GetValue<int>() == 7 && description["result_time_seconds"]!.GetValue<double>() == .25 && description["outdated"]!.GetValue<bool>(), "Result identity lost in description");
+    description["settings"]!["speed"] = 99;
+    Assert(c.Speed == 1, "Description aliases settings");
+});
+Test("cancel and reset release ownership while retaining physical settings", () => {
+    var c = Fresh(); Edit(c, new() { ["speed"] = 1.2 }); Start(c); Field(c);
+    var setup = c.Settings().ToJsonString();
+    CaseHub.Cancel(1);
+    Assert(c.State == "cancelled" && c.Session == null && c.Job == null && c.Query == null, "Cancel retained owned work");
+    c.Error = "old"; c.ViewError = "old view"; c.Fault = new CaseFault("test", "old", true);
+    CaseHub.Reset(1);
+    Assert(c.State == "idle" && c.Steps == 0 && c.Spec == null && c.Slice == null && c.ResultRevision == -1 && c.RunRevision == -1, "Reset retained stale result");
+    Assert(c.Error == "" && c.ViewError == "" && c.Fault == null && c.Settings().ToJsonString() == setup, "Reset changed settings or retained failure");
+});
 Test("all edits use version, physical revision stays separate", () => {
     var c = Fresh(); long version = c.Version; Edit(c, new() { ["field"] = "pressure" });
     Assert(c.Version == version + 1 && c.Revision == 0, "Wrong version domain");
