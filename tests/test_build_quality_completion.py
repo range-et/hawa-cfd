@@ -43,7 +43,7 @@ def package_tree(tmp_path, monkeypatch):
         "AGENTS.md": "[examples](examples/grasshopper/README.md)",
     }
     for name in ("pyproject.toml", "uv.lock", "LICENSE", "THIRD_PARTY_NOTICES.md",
-                 "README.md", "features.md", "issues.md"):
+                 "README.md", "features.md"):
         files[name] = name
     for name in ("LICENSE", "AUTHORS.rst", "PORTING.md", "upstream.json"):
         files["vendor/lettuce/" + name] = name
@@ -64,6 +64,9 @@ def test_refresh_build_bundle_and_temporary_install(package_tree, monkeypatch, t
         stale.parent.mkdir(parents=True)
         stale.write_text("stale")
     libraries = tmp_path / "synthetic-Libraries"
+    for retired in (output / "issues.md", libraries / "Hawa/issues.md"):
+        retired.parent.mkdir(parents=True, exist_ok=True)
+        retired.write_text("retired register")
     sys.argv += ["--install", str(libraries)]
     commands = []
     monkeypatch.setattr(build_plugin.subprocess, "run", lambda command, **kwargs: commands.append((command, kwargs)))
@@ -92,6 +95,7 @@ def test_refresh_build_bundle_and_temporary_install(package_tree, monkeypatch, t
                 assert bundle.read(str(Path("Hawa") / relative)) == source.read_bytes()
                 assert (libraries / "Hawa" / relative).read_bytes() == source.read_bytes()
     assert not list(libraries.rglob("*.new"))
+    assert not (output / "issues.md").exists() and not (libraries / "Hawa/issues.md").exists()
     assert "Installed: " in capsys.readouterr().out
 
 

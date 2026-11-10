@@ -7,7 +7,7 @@ Hawa is an experimental embedded CFD plugin for Rhino 8 and Grasshopper.
 - Read [features.md](features.md) and the relevant [GitHub issues](https://github.com/range-et/hawa-cfd/issues)
   before planning work, alongside the quality gates below. GitHub Issues is the
   source of truth for bugs, verification gaps, features, build/CI work and research.
-  `issues.md` is a retired migration pointer; never add active entries there.
+  There is no Markdown backlog; do not create one.
 - Keep [the roadmap](docs/roadmap.md) for direction and
   [the example catalogue](docs/example-roadmap.md) for reference candidates.
   Track actionable work, priorities, owners and status in GitHub issues. Link to
