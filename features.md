@@ -1,7 +1,7 @@
 # Hawa built features and history
 
 This is the running inventory of implemented capabilities and completed work.
-Open bugs, remaining work and ideas live in [issues.md](issues.md); future
+Open bugs, remaining work and ideas live in [GitHub Issues](https://github.com/range-et/hawa-cfd/issues); future
 direction lives in the [roadmap](docs/roadmap.md). Maintainers, agents and the user
 can edit this file. Add evidence and limits when updating a capability.
 
@@ -30,7 +30,7 @@ example checks.
 | Prescribed rigid motion and cycle objectives | Translation/rotation/oscillation, raw loads and complete-cycle search. No force-driven body response, free surface, buoyancy or validated propeller prediction. | [Motion guide](docs/moving-surfaces-v0.4.md), [motion evidence](docs/verification-motion-v0.4.json) |
 | Result quality and offline inlet transfer | Bounded Mach/density/finite-state quality policy and v1 mapped X− velocity series, with source identity and coverage checks. Not convergence or atmospheric validation. | [Transfer guide](docs/boundary-transfer.md), [gate record](docs/boundary-transfer-review.md) |
 | Shared boundary foundation | Physical patch schema plus bounded LBM NEE wall/slip/velocity/open reconstruction; corrected closure is explicitly versioned. Full reversing/cropped/atmospheric capability is not established. | [Boundary guide](docs/general-boundaries.md), [gate record](docs/general-boundaries-review.md) |
-| Experimental neutral flow | Shifted-population regularized SGS, molecular-air scaling, sampled/filtered planar rough-floor stress and restart state. External mode adds halo-classified cropped buildings, side/top velocity or open faces, pressure reference and measured link mass budget. Analytic wall, convected-disturbance, stationary-channel and scoped CPU/MPS/Rhino checks pass. Full atmospheric accuracy and nesting qualification remain open. | [Coupling review](docs/neutral-coupling-review.md), [verification](docs/verification-neutral-coupling.json); HAWA-003/004/011 in [issues](issues.md) |
+| Experimental neutral flow | Shifted-population regularized SGS, molecular-air scaling, sampled/filtered planar rough-floor stress and restart state. External mode adds halo-classified cropped buildings, side/top velocity or open faces, pressure reference and measured link mass budget. Analytic wall, convected-disturbance, stationary-channel and scoped CPU/MPS/Rhino checks pass. Full atmospheric accuracy and nesting qualification remain open. | [Coupling review](docs/neutral-coupling-review.md), [verification](docs/verification-neutral-coupling.json); HAWA-003/004/011 in [GitHub Issues](https://github.com/range-et/hawa-cfd/issues) |
 | Compatibility and example coverage gate | G6 enumerates 102,459 finite contract rows, detects incomplete/stale evidence and audits all public nodes against annotated GH workflows. CPU/MPS local checks pass; CUDA is blocked. Arbitrary graphs and continuous inputs are not exhaustively enumerated. | [G6 guide](docs/compatibility-matrix.md), [machine report](docs/verification-compatibility.json) |
 
 ## Atmospheric transfer development (November 9, 2026)
@@ -75,6 +75,16 @@ Evidence: [transfer review](docs/neutral-transfer-review.md),
 qualification failures remain open in HAWA-021/022; these repairs do not close them.
 
 ## History
+
+### November 10, 2026 — GitHub backlog migration
+
+Migrated all 38 active HAWA entries to GitHub Issues with evidence, acceptance
+criteria, execution surfaces and dependencies. Existing IDs are preserved;
+new work uses GitHub issue numbers. Retired the Markdown backlog, updated agent
+instructions and added intake/PR templates. Published titles, bodies and labels
+were checked against the migration payloads with no missing or duplicate entries.
+This closes no product issues and adds no solver capability.
+[Migration crosswalk and verification](docs/github-issue-migration.md).
 
 ### November 9, 2026 — merged Python issue closeout
 
@@ -316,7 +326,8 @@ ones. Add dated history for meaningful completions, preserving the `HAWA-NNN` ID
 when closing an issue. Include what changed, affected scope/version, actual
 checks/device, omissions, remaining limits and a link to the review or report.
 Distinguish implemented, locally verified, packaged and publicly released states.
-Use the next unique ID for newly discovered follow-up work in `issues.md`.
+Create newly discovered follow-up work in GitHub Issues and reference its GitHub
+number. Preserve legacy HAWA IDs; do not allocate new ones.
 
 
 ### November 9 2026 combined Python / CUDA integration candidate

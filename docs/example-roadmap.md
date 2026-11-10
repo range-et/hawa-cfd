@@ -1,5 +1,10 @@
 # Hawa example catalogue and future examples
 
+> Direction and reference material; actionable feature, build and example work is
+> tracked in [GitHub Issues](https://github.com/range-et/hawa-cfd/issues).
+> Create or update a linked issue for new work instead of adding a parallel task list.
+
+
 This catalogue separates existing editable definitions from proposed examples.
 It supports the [project roadmap](roadmap.md). Future entries are candidates,
 not implemented capabilities or a release commitment. New examples are outside
