@@ -18,7 +18,7 @@ example checks.
 | Capability | Current scope and important limits | Guide and evidence |
 | --- | --- | --- |
 | Function inventory and coverage ratchet | Syntax inventory of first-party Python and plugin C#, actual Python function-entry evidence, and instrumented .NET state contracts. Rejects new/changed untested functions, lost coverage and stale reports. Historical and host-only gaps remain HAWA-026; execution does not establish assertion quality. | [Function policy](docs/function-testing.md), [matrix](docs/function-test-matrix.md) |
-| Embedded Python/PyTorch LBM | Runs inside Rhino's Python 3.9 environment with pinned dependencies. CPU/MPS evidence exists; CUDA and Windows qualification remain open in HAWA-002. | [Native guide](docs/native-v0.5.md), [backport](docs/backport.md) |
+| Embedded Python/PyTorch LBM | Runs inside Rhino's Python 3.9 environment with pinned dependencies. CPU/MPS evidence exists. Headless Windows CUDA acceptance passes on merged main (#46/#47/#12); clean Windows Rhino installation and lifecycle with CUDA remain open in #61. | [Native guide](docs/native-v0.5.md), [backport](docs/backport.md) |
 | Native geometry and case setup | Selected closed meshes/solid Breps, editable physical domain/fluid settings and one shared case per document. | [Native guide](docs/native-v0.5.md), [full review](docs/review-full-v0.5.md) |
 | Native panel and GH live binding | Shared settings, direct/computed input ownership, revisions, stale-result handling, undo and saved idle cases. Public operations support agent workflows. | [Architecture](docs/architecture-v0.5.md), [agent operations](docs/agents/native-prototype.md), [state coverage](examples/grasshopper/VERIFICATION.md) |
 | Background work and cooperative lifecycle | Preparation, solve/query jobs, pause/resume/cancel and cleanup; legacy failed-close retry has a scoped follow-up record. | [Cleanup review](docs/review-cleanup-v0.5.md), [architecture](docs/architecture-v0.5.md) |
@@ -31,7 +31,7 @@ example checks.
 | Result quality and offline inlet transfer | Bounded Mach/density/finite-state quality policy and v1 mapped X− velocity series, with source identity and coverage checks. Not convergence or atmospheric validation. | [Transfer guide](docs/boundary-transfer.md), [gate record](docs/boundary-transfer-review.md) |
 | Shared boundary foundation | Physical patch schema plus bounded LBM NEE wall/slip/velocity/open reconstruction; corrected closure is explicitly versioned. Full reversing/cropped/atmospheric capability is not established. | [Boundary guide](docs/general-boundaries.md), [gate record](docs/general-boundaries-review.md) |
 | Experimental neutral flow | Shifted-population regularized SGS with molecular-air input viscosity (FP32 storage does not represent molecular dissipation at 0.1–10 m; runtime `dissipation_storage` diagnostic, [#13](https://github.com/range-et/hawa-cfd/issues/13)), sampled/filtered planar rough-floor stress and restart state. External mode adds halo-classified cropped buildings, side/top velocity or open faces, pressure reference and measured link mass budget. Analytic wall, convected-disturbance, stationary-channel and scoped CPU/MPS/Rhino checks pass. Full atmospheric accuracy and nesting qualification remain open. | [Coupling review](docs/neutral-coupling-review.md), [verification](docs/verification-neutral-coupling.json); HAWA-003/004/011 in [GitHub Issues](https://github.com/range-et/hawa-cfd/issues) |
-| Compatibility and example coverage gate | G6 enumerates 102,459 finite contract rows, detects incomplete/stale evidence and audits all public nodes against annotated GH workflows. CPU/MPS local checks pass; CUDA is blocked. Arbitrary graphs and continuous inputs are not exhaustively enumerated. | [G6 guide](docs/compatibility-matrix.md), [machine report](docs/verification-compatibility.json) |
+| Compatibility and example coverage gate | G6 enumerates 102,459 finite contract rows, detects incomplete/stale evidence and audits all public nodes against annotated GH workflows. CPU/MPS local checks pass; on Windows CUDA (merged main `285d961`) all `cuda:0` rows pass with MPS rows blocked. Arbitrary graphs and continuous inputs are not exhaustively enumerated. | [G6 guide](docs/compatibility-matrix.md), [machine report](docs/verification-compatibility.json) |
 
 ## Headless testing expansion (November 9, 2026)
 
@@ -90,6 +90,26 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 10, 2026 — headless Windows CUDA acceptance on merged main
+
+[PR #56](https://github.com/range-et/hawa-cfd/pull/56) fixed Windows path separators in
+the function gate, the G6 example contract and three test assertions. The full
+[Windows CUDA acceptance runbook](docs/windows-cuda-merge-checks.md) then passed on
+merged main `285d961` (Windows 11, RTX 5070 Ti, driver 621.14, torch 2.8.0+cu128,
+Python 3.9.25):
+- Suite: 1419 passed, 0 failed in each of three runs, with all 86 CUDA cases executed.
+- Upstream: 750 passed.
+- CPU/CPU64/CUDA core parity passed; examples 16/16; benchmarks 13/13.
+- Function gate and 67 state contracts passed.
+- G6: 100,010 passed, 0 failed, with 2,449 MPS rows blocked.
+
+This closed HAWA-044/045 (#46/#47). HAWA-002 (#12) was re-scoped and closed, and
+clean Windows Rhino installation (including embedded CUDA PyTorch), native UI and
+docking, and lifecycle moved to #61. HAWA-001's KBC repair (#11) also passed its
+CUDA regression on branch `b66cb59`; its MPS qualification is pending in #53.
+This is headless development evidence, not an installed or released claim.
+[Manifest and results](https://github.com/range-et/hawa-cfd/issues/46#issuecomment-6780599636).
+
 ### November 10, 2026 — HAWA-001 KBC repair candidate (#11)
 
 Devices without FP64 (MPS) now evaluate KBC with FP32 hi/lo intermediates
@@ -99,8 +119,8 @@ original 512-square/50-step PorousMedium CPU/MPS comparison passes on one M3 Max
 (f 3.3e-7, u 1.3e-5, p 1.4e-4) and all 16 upstream examples keep CPU/MPS parity.
 The MPS collision costs about 7x plain FP32. A CUDA regression run (#52, one
 RTX 5070 Ti) passed the same criteria with output unchanged from main.
-Candidate, not merged or released; #11 stays open for the batched MPS round
-(#53) on the merged commit.
+Merged to main through [PR #63](https://github.com/range-et/hawa-cfd/pull/63) (`8eec667`),
+not released; #11 stays open for the batched MPS round (#53) on the merged commit.
 [Repair record](docs/review-porous-kbc-repair.md).
 
 ### November 10, 2026 — GitHub backlog migration
