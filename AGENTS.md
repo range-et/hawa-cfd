@@ -17,11 +17,13 @@ Hawa is an experimental embedded CFD plugin for Rhino 8 and Grasshopper.
   Search for duplicates first. Preserve existing HAWA IDs on migrated issues;
   new work uses GitHub issue numbers, not newly allocated HAWA IDs.
 - Update the linked issue and applicable feature/review records in the same work.
-  Close an issue only when its declared acceptance criteria are met. A partial PR
+  Close an issue only when its declared acceptance criteria are met, or after an
+  approved re-scope that moves failed items to a linked follow-up. A partial PR
   must use a reference (not an automatic closing keyword) and leave remaining scope
   open. Record the outcome, evidence, device/host omissions and release status;
   link completed capabilities from features history. Record rejected decisions
-  without calling them built features. See [the workflow](docs/github-issues.md).
+  without calling them built features. See [the workflow](docs/github-issues.md),
+  including the device qualification protocol for CUDA/MPS work.
 - Keep feature claims bounded by actual implementation and review evidence.
   Separate built, verified, packaged and released; record devices, omissions and
   limits. Historical tests are not fresh passes. Read newer follow-ups before
@@ -29,6 +31,9 @@ Hawa is an experimental embedded CFD plugin for Rhino 8 and Grasshopper.
 - Preserve existing user edits and unrelated active work. Keep these registers
   concise, update entries in place, and check local links after documentation
   changes. Do not copy session transcripts or large logs into the registers.
+
+[CONTRIBUTING.md](CONTRIBUTING.md) summarises these rules for all contributors,
+including agents; [SECURITY.md](SECURITY.md) covers private vulnerability reports.
 
 Before changing or reviewing Hawa, read [docs/quality-gates.md](docs/quality-gates.md).
 Assess research, architecture, software reliability, numerical physics and UI/UX
