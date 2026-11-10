@@ -126,9 +126,10 @@ def test_general_boundary_driver_retains_failed_cases(tmp_path,monkeypatch,passe
     assert all(r['passed'] is passes for r in report['cases'])
 
 
-def test_general_boundary_run_keeps_declared_error_criteria():
-    r=load('verify_general_boundaries').run(5,'couette','cpu')
-    assert r['kind']=='couette' and r['n']==5 and r['steps']>0
+@pytest.mark.parametrize('kind', ['couette','poiseuille'])
+def test_general_boundary_run_keeps_declared_error_criteria(kind):
+    r=load('verify_general_boundaries').run(5,kind,'cpu')
+    assert r['kind']==kind and r['n']==5 and r['steps']>0
     assert r['passed']==(r['relative_l2']<.04 and r['wall_error_m_s']<5e-6 and r['relative_mass_change']<.02)
     assert np.isfinite(r['relative_l2']) and r['wall_error_m_s']<5e-6
 

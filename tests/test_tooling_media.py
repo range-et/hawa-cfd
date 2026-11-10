@@ -118,3 +118,38 @@ def test_walkthrough_layout_wraps_text_and_preserves_source_bounds(modules,tmp_p
     assert_image(m.frame(('Title','Caption',None,None,1)))
     Image.new('RGB',(200,100),'red').save(tmp_path/'fixture.png')
     assert_image(m.frame(('Title','Caption','fixture.png',(0,0,100,100),1)))
+
+
+@pytest.mark.parametrize('failed',[False,True])
+def test_motion_media_entrypoint_renders_fixture_and_checks_encoder(modules,tmp_path,monkeypatch,failed):
+    # This tests media/provenance mechanics, not MPS or the caption's physics.
+    source=tmp_path/'results/motion/cylinder-recording-refill';source.mkdir(parents=True)
+    palette=tmp_path/'vendor/monad_system';palette.mkdir(parents=True)
+    (palette/'colors.json').write_bytes((ROOT/'vendor/monad_system/colors.json').read_bytes())
+    shape=(8,8,12);velocity=np.ones((3,)+shape);solid=np.zeros(shape,bool);solid[3:5,3:5,:]=True
+    metadata=dict(motion=dict(poses=[dict(pivot=[1.,1.,1.])]))
+    np.savez(source/'frame.npz',velocity=velocity,solid=solid,metadata=json.dumps(metadata))
+    (source/'manifest.json').write_text(json.dumps(dict(case=dict(dx=.25),frames=[dict(file='frame.npz',time=1.,iteration=10)])))
+    (source.parent/'cylinder-loads.json').write_text(json.dumps([dict(time=t,loads=[dict(force=[t,2*t,0])]) for t in (0.,1.)]))
+    class Sink:
+        count=0;closed=False
+        def write(self,data):
+            assert len(data)==1920*1080*3
+            self.count+=1
+        def close(self):self.closed=True
+    sink=Sink();commands=[]
+    def popen(command,**kw):
+        commands.append(command)
+        return type('Encoder',(),dict(stdin=sink,wait=lambda self:int(failed)))()
+    monkeypatch.setattr(subprocess,'Popen',popen)
+    script=ROOT/'scripts/make_motion_demo.py'
+    scope={'__name__':'__main__','__file__':str(script)}
+    original_resolve=Path.resolve
+    monkeypatch.setattr(Path,'resolve',lambda path,*a,**kw:tmp_path/'scripts'/script.name if path==script else original_resolve(path,*a,**kw))
+    if failed:
+        with pytest.raises(RuntimeError,match='encoding failed'):exec(compile(script.read_text(),str(script),'exec'),scope)
+    else:exec(compile(script.read_text(),str(script),'exec'),scope)
+    assert sink.closed and sink.count==60
+    assert commands[0][-1]==str(tmp_path/'dist/videos-v04/hawa-moving-surfaces.mp4')
+    with Image.open(tmp_path/'docs/captures/motion/moving-cylinder-000.png') as picture:
+        assert_image(picture)
