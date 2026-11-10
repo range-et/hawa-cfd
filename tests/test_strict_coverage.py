@@ -67,3 +67,13 @@ def test_headless_scope_keeps_python_strict_but_does_not_claim_host_coverage(mea
     assert fc.strict_gate(root,report,python,cs,scope='all')
     report['functions'][0]['status']='uncovered'
     assert fc.strict_gate(root,report,python,cs,scope='headless')
+
+
+def test_docstring_trace_locations_do_not_inflate_statement_denominator(measured):
+    root, report, python, cs = measured
+    (root/'src/hawa/unit.py').write_text('"""Module documentation."""\ndef f():\n    return 1\n')
+    row = python['files']['src/hawa/unit.py']
+    row.update(executed_lines=[1, 2, 3], summary=dict(num_statements=2))
+    assert fc.strict_gate(root, report, python, cs) == []
+    row['executed_lines'] = [1, 2, 99]
+    assert any('Inconsistent' in failure for failure in fc.strict_gate(root, report, python, cs))

@@ -222,6 +222,8 @@ def annotate(rows, python, calls, cs):
 
 def strict_gate(root, report, python, cs, scope="all"):
     """Require every executable function and measured source line; no debt allowance."""
+    import coverage
+    source_analysis = coverage.Coverage(config_file=False)
     failures = []
     for row in report['functions']:
         if scope == 'headless' and row['language'] == 'C#' and row['path'] not in cs:
@@ -243,7 +245,12 @@ def strict_gate(root, report, python, cs, scope="all"):
             executed = set(evidence['executed_lines'])
             missing = evidence['missing_lines']
             excluded = evidence['excluded_lines']
-            if executed.intersection(missing) or evidence['summary'].get('num_statements') != len(executed | set(missing)):
+            # Raw executed locations may include module/class docstrings, which
+            # are not executable statements in coverage.py's denominator.
+            statements = set(source_analysis.analysis2(str(root / path))[1])
+            if (executed.intersection(missing) or set(missing) - statements
+                    or (executed & statements) | set(missing) != statements
+                    or evidence['summary'].get('num_statements') != len(statements)):
                 failures.append('Inconsistent Python line evidence: ' + path)
             if missing:
                 failures.append('Python lines not covered: ' + path + ': ' + str(missing))

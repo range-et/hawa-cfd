@@ -79,7 +79,7 @@ Pull-request CI reads the baseline from the base commit using `--base-ref`, so a
 PR cannot exempt its new functions by editing its own baseline. The initial
 adoption run uses the introduced baseline only when the base has none; that initial
 debt must be reviewed. CI also checks that the committed matrix matches the source.
-The workflow is added locally; a GitHub-hosted run still requires pushing it.
+GitHub runs the gate for pull requests and pushes to `main`.
 
 G2 requires this function gate for code changes. G6 still checks supported node
 combinations and examples. CUDA/MPS skips on CPU CI remain unverified hardware,
@@ -106,3 +106,46 @@ Host example attestation does not count as instrumented function/line coverage,
 and headless doubles do not establish native scheduling or geometry correctness.
 Unmeasured host code stays visible. Numerical sanity and rendered fields also do
 not replace the independent physical-qualification gates.
+
+## Strict headless line and function check
+
+The target is **100% executable functions and 100% executable lines** across
+first-party Hawa Python and C#. CI enforces that threshold for all first-party
+Python and the instrumented headless C# files, in addition to the base-commit
+ratchet. It rejects missing line evidence and Python line exclusions. It does
+not claim complete branch coverage or instrumented Rhino-host coverage.
+
+```sh
+.venv/bin/python tools/function_coverage.py check --output results/function-coverage-NEW --strict --coverage-scope headless
+```
+
+Omit `--coverage-scope headless` to audit the entire inventory: unmeasured
+Rhino-dependent C# remains a reported failure of the global 100% target. The
+local example acceptance review above supplies separate host evidence; it does
+not convert those rows into measured passes. Making GitHub checks required for
+merging is a repository branch-protection/ruleset decision owned by maintainers.
+
+## Mutation checks
+
+The Python mutation workflow runs on PRs and pushes to `main`. It currently
+covers the CLI and runtime admission (`backends`, `cases`, `boundary_contracts`)
+with pinned mutmut 2.4.5 in fresh copied source trees. This is four-module scope,
+not whole-codebase mutation coverage. Install the isolated developer dependencies:
+
+```sh
+.venv/bin/python -m pip install -r tools/mutation/requirements.txt
+bash tools/mutation/run_cli.sh results/cli-mutation-NEW
+.venv/bin/python tools/mutation/check_results.py results/cli-mutation-NEW
+bash tools/mutation/run_runtime_admission.sh results/admission-mutation-NEW
+.venv/bin/python tools/mutation/check_results.py results/admission-mutation-NEW --policy tools/mutation/runtime-admission-policy.json
+```
+
+The helpers preserve mutmut's raw exit (2 when mutants survive); run the policy
+checker afterward. Acceptance requires the exact reviewed source/test hashes,
+all collected controls passing, a complete mutation inventory, no timeout/error/
+skip, and the exact reviewed survivor diffs. Unexpected survivors fail; reviewed
+equivalents and diagnostic decorations are reported separately, never as kills.
+Source or test edits require a fresh run and review, not blind policy regeneration.
+See the [CLI record](verification-cli-mutation.json),
+[runtime study](review-runtime-quality.md) and
+[mutmut 2.4.5 package](https://pypi.org/project/mutmut/2.4.5/).
