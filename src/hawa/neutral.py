@@ -10,6 +10,8 @@ import lettuce as lt
 from .atmosphere import neutral_profile, scaling_report, _positive
 
 MODEL = 'shifted-regularized-sgs-v1'
+# Dissipative update / storage rounding needed for a cell to count as resolved.
+STORAGE_RATIO = 10.
 
 
 def validate(spec):
@@ -77,7 +79,7 @@ class ShiftedRegularizedSGS(lt.Collision):
         self.acceleration = acceleration
         self.Q = None
 
-    def __call__(self, flow):
+    def _relaxation_state(self, flow):
         rho=flow.rho(); u=flow.u(); eq=flow.equilibrium(flow, u=u)
         pi=flow.shear_tensor(flow.f-eq)
         magnitude=torch.sqrt(2*(pi*pi).sum((0,1)))/(2*rho[0]*flow.stencil.cs**2)
@@ -85,17 +87,54 @@ class ShiftedRegularizedSGS(lt.Collision):
         tau0=.5+self.margin
         b=12*self.cs**2*magnitude
         delta=self.margin+.5*b/(torch.sqrt(tau0*tau0+b)+tau0)
-        self.relaxation_margin=delta
         if self.Q is None:
             e=flow.torch_stencil.e
             self.Q=torch.einsum('qa,qb->qab', e,e)-torch.eye(3,device=e.device,dtype=e.dtype)[None]/3
         neq=torch.einsum('q,qab,ab...->q...', flow.torch_stencil.w,self.Q,pi)*4.5
+        return u,eq,pi,delta,neq
+
+    def __call__(self, flow):
+        u,eq,pi,delta,neq=self._relaxation_state(flow)
+        self.relaxation_margin=delta
         # 1-1/tau = -1 + 4*delta/(1+2*delta). Keep small term separate.
         result=(eq-neq)+(4*delta/(1+2*delta))*neq
         a=flow.context.convert_to_tensor(self.acceleration)[:,None,None,None]
         # Exact-difference forcing, using the same density deviation in both eqs.
         result += flow.equilibrium(flow,u=u+a)-eq
         return result
+
+    def storage_resolution(self, flow, fluid=None):
+        """Share of the intended collision dissipation that survives storage rounding.
+
+        Per cell, R = (4 delta/(1+2 delta)) max|neq| / (u max|eq-neq|), with u the
+        storage unit roundoff: the dissipative update relative to the rounding of
+        the stored post-collision population. Shares are weighted by the local
+        dissipation delta*Pi_neq:Pi_neq. A share >= 0.5 (dissipation-weighted
+        median R >= 10) is 'resolved'; the ratio was calibrated against FP64
+        shear-wave decay (HAWA-003). This is a storage-representation check, not
+        accuracy, convergence or atmospheric validation.
+        """
+        with torch.no_grad():
+            _,eq,pi,delta,neq=self._relaxation_state(flow)
+            info=torch.finfo(flow.f.dtype)
+            update=neq.abs().amax(0)
+            floor=(eq-neq).abs().amax(0)*(info.eps/2)
+            scale=torch.where(update>0,update/floor.clamp_min(info.tiny),torch.zeros_like(update))
+            stress=(pi*pi).sum((0,1))
+            if fluid is not None: stress=stress*fluid
+            def share(weight,increment):
+                total=float(weight.sum().cpu())
+                if not total>0: return None
+                resolved=(4*increment/(1+2*increment))*scale>=STORAGE_RATIO
+                return float((weight*resolved).sum().cpu())/total
+            model=share(delta*stress,delta)
+            molecular=share(self.margin*stress,torch.full_like(delta,self.margin))
+            status=lambda s:'no-strain' if s is None else 'resolved' if s>=.5 else 'below-storage-precision'
+            return {'policy':'hawa-storage-dissipation-v1','storage_dtype':str(flow.f.dtype).replace('torch.',''),
+                    'unit_roundoff':info.eps/2,'ratio_threshold':STORAGE_RATIO,
+                    'model_resolved_share':model,'model_status':status(model),
+                    'molecular_resolved_share':molecular,'molecular_status':status(molecular),
+                    'scope':'Storage representation of collision dissipation only; not accuracy or atmospheric validation'}
 
     def native_available(self): return False
     def native_generator(self, index): raise NotImplementedError

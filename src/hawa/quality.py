@@ -81,6 +81,7 @@ def assess(session):
                 'finite': finite, 'positive_density': positive, 'boundary_flux': flux, 'backflow': backflow,
                 'physical_model_status': ('unvalidated-neutral-external' if session.spec['neutral_precursor'].get('mode')=='external' else 'unvalidated-neutral-precursor') if session.spec.get('neutral_precursor') else 'not-assessed',
                 'wall_diagnostics': dict(session.solver.rough_floor.report) if hasattr(session.solver, 'rough_floor') else None,
+                'dissipation_storage': session.solver.collision.storage_resolution(flow, fluid) if valid and hasattr(session.solver.collision, 'storage_resolution') else None,
                 'cadence_steps': 5, 'transfer_eligible': bool(worst == 'within-tested-envelope'),
                 'transfer_scope': 'experimental-neutral-nesting' if session.spec.get('neutral_precursor') else 'numerical-envelope',
                 'absolute_time_seconds': float(session.spec.get('time_origin_seconds',0.))+float(flow.units.convert_time_to_pu(flow.i)), 

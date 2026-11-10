@@ -30,7 +30,7 @@ City or Pond components. Preserve old archives and their numerical methods.
 
 | Order | Deliverable | Required completion evidence | Current status |
 | --- | --- | --- | --- |
-| 1 | Molecular-air numerical treatment on coarse grids | Collision/precision strategy, weak-strain and zero-SGS cases, decay/stress tests, CPU64 reference and CPU/MPS comparison at equal physical times. Keep molecular viscosity unchanged. | Experimental shifted solver preserves small relaxation increments; CPU64/CPU/MPS checks pass. General high-Re accuracy envelope remains open. |
+| 1 | Molecular-air numerical treatment on coarse grids | Collision/precision strategy, weak-strain and zero-SGS cases, decay/stress tests, CPU64 reference and CPU/MPS comparison at equal physical times. Keep molecular viscosity unchanged. | Strategy selected (November 10): unchanged shifted regularized SGS collision, FP32 storage, SGS-dominated LES with a runtime storage-dissipation diagnostic. FP32 storage does **not** represent molecular air dissipation at 0.1/1/10 m; see the precision experiment below. MPS run pending; double-float storage is [#51](https://github.com/range-et/hawa-cfd/issues/51). |
 | 2 | Neutral mean profile and roughness contract | SI units, tangential vectors, height/roughness conventions, rotation, zero speed, reversal, invalid input and matching friction velocity | Implemented SI profile and matching integrated rough-floor relation; explicit experimental contract. |
 | 3 | Planar modelled wall operator | Impermeability, discrete wall impulse and mass balance, shear sign, smooth/rough applicability, sample-height and grid sensitivity. Rough-wall channel reference and total-stress budget. | Sample/filter/checkpoint state, exact impulse/mass tests and analytic channel checks pass. Atmospheric sampling/grid qualification remains open. |
 | 4 | Empty-domain neutral turbulent flow | Compatible wall/inflow/top/forcing. Precursor or verified turbulence generation. Mean-profile preservation, Reynolds stresses, spectrum and averaging uncertainty over stated flow-through times. | Open; see the current review for bounded implementation |
@@ -94,6 +94,76 @@ Reproduce:
 The scaling harness intentionally exits **2**, with `passed: false`, because the
 requested inventory includes unsupported grids. It does not run a flow simulation.
 Detailed evidence is in `results/atmosphere-development/` (local development logs).
+
+## Physical-viscosity precision experiment (HAWA-003, November 10, 2026)
+
+Codex, self-review; [#13](https://github.com/range-et/hawa-cfd/issues/13). Linux x64 orb,
+CPU only, Python 3.9.25, PyTorch 2.8.0+cpu. **No MPS or CUDA run yet.**
+
+`scripts/verify_atmospheric_precision.py` runs a periodic D3Q19 transverse shear
+wave on a uniform perpendicular mean flow (stored populations then carry a realistic
+mean-flow magnitude). It uses the production shifted storage and
+`shifted-regularized-sgs-v1` collision at Uref=5 m/s, nu=1.5e-5 m²/s, Ma_ref=0.05.
+The effective relaxation increment comes from the decay of the mode over the last
+90% of the run. FP32 and CPU FP64 cases run the same steps, so they cover equal
+physical times. The criteria are in the script docstring; the 5% tolerance is the
+existing atmospheric target.
+
+| Case (N=32 unless stated) | FP64 / molecular | FP32 vs FP64 | Storage diagnostic (model share) |
+| --- | --- | --- | --- |
+| Cs=0, weak strain, dx 0.1 / 1 / 10 m | 1.0033 / 1.0042 / 1.0135 | −100% / −144% / −603% (wave not damped, or grows) | 0 / 0 / 0, below storage precision |
+| Cs=.17, wave 0.1 Uref, dx 0.1 / 1 / 10 m | SGS-dominated | −3.9% / −3.7% / −3.0% | 0.82, resolved |
+| Cs=.17, wave 0.01 Uref, dx 0.1 / 1 / 10 m | SGS-dominated | −97% / −99% / −101% | 0, below |
+| Synthetic margin 1e-5 / 1e-4 / 1e-3 / 1e-2 (Cs=0, dx 1 m; calibration) | 1.003 | −94% / −24% / +0.17% / −0.03% | 0 / 0 / 0.99 / 1.00 |
+
+Held-out validation was declared before it was measured. Cs=.17 at wave 0.03 Uref,
+at N=64, and Cs=.3 at weak strain all fail in FP32 (−57%, −53%, −86%), and the
+diagnostic reports each as below storage precision. N=16 at 10 m and wave 0.3 Uref
+pass (−0.3%, −1.1%), and the diagnostic reports each as resolved. Margin 3e-3
+passes. Margin 3e-4 is within 3.3% of FP64, but the diagnostic reports it as
+below: a conservative miss. Criterion 3 (agreement in every case) therefore
+**fails on 1 of 20 cases**, and the harness exits 2. The threshold was not
+changed. No case was falsely reported as resolved.
+[Tracked summary](verification-atmospheric-precision.json).
+
+Decision for this round:
+
+- **Collision:** keep `shifted-regularized-sgs-v1`. In FP64 it reproduces the molecular
+  decay within 0.1–1.4% for increments down to 2.6e-8 (N=16–64).
+- **Precision:** keep FP32 storage everywhere (`make_solver` is unchanged). MPS has no
+  float64. FP32 storage cannot represent molecular air dissipation at 0.1, 1 or 10 m.
+  Shifted storage already removes `w`, but the mean-flow part of the stored population
+  still sets the rounding floor. A hi/lo FP32 storage prototype with FP32 collision
+  arithmetic recovered only 0.43–8.9× of the molecular decay. Double-float storage
+  with double-float collision arithmetic is [#51](https://github.com/range-et/hawa-cfd/issues/51),
+  an unassigned follow-up.
+- **Model:** at these spacings the solver is an SGS-dominated LES. The input molecular
+  viscosity is unchanged, but storage cannot represent it. FP32 represents the SGS
+  dissipation only where strain is strong enough. Quality reports now include
+  `dissipation_storage`: the dissipation-weighted share of cells whose dissipative
+  update is at least 10× the FP32 storage rounding, for the model total and the
+  molecular part. The 10× ratio was calibrated on the cases above (error ≈ 0.3–0.7/R).
+  The diagnostic does not change populations, status, transfer eligibility or guards.
+  In a 48×48×24 CPU precursor it added 3–10% to step time.
+
+Existing guards and tolerances are unchanged. Zero-SGS neutral cases are still accepted,
+but they now report `molecular_status: below-storage-precision`. Rejecting them would
+be a new contract decision and was not made here. This result does not qualify
+atmospheric LES, wall models or turbulence. MPS behaviour must be measured on a Mac.
+
+| Gate | Decision | Evidence / limit |
+| --- | --- | --- |
+| G0 | PASS, bounded | Shear-wave analytic decay; Lehmann et al. and Latt–Chopard references above; no copied code |
+| G1 | PASS | Additive quality field; collision numerics, storage, checkpoints and `make_solver` unchanged; shared-file split agreed with #11 |
+| G2 | See the function gate and suite results on #13 | New tests in `test_neutral.py` and `test_atmospheric_precision.py` |
+| G3 | PASS for FP64 collision representation; **FAIL** for FP32 molecular representation and for complete diagnostic agreement (1/20) | Tracked summary; CPU only |
+| G4 | NOT APPLICABLE | No GH or native change; the new quality field is not yet shown in the host |
+| G5/G6 | BLOCKED | MPS pending a Mac run; CUDA unavailable; no package |
+
+```sh
+.venv/bin/python scripts/verify_atmospheric_precision.py --output results/hawa-003/precision-cpu.json
+.venv/bin/python scripts/verify_atmospheric_precision.py --device mps --output results/hawa-003/precision-mps.json   # Mac
+```
 
 ## Acceptance definitions for subsequent implementation
 
