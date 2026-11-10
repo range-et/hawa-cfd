@@ -22,7 +22,7 @@ def verify(directory, policy, root=ROOT):
         raise ValueError('Working source changed during mutation run')
     control = list(ET.parse(directory/'control.xml').getroot().iter('testcase'))
     expected = Counter(line.split('::', 1)[1] for line in (directory/'collected.txt').read_text().splitlines()
-                       if line.startswith('tests/test_cli.py::'))
+                       if '::' in line and Path(line.split('::', 1)[0]).parts[-2:] == ('tests', 'test_cli.py'))
     if not expected or Counter(c.get('name') for c in control) != expected:
         raise ValueError('Missing, duplicated or filtered control tests')
     if any(c.find(tag) is not None for c in control for tag in ('failure','error','skipped')):

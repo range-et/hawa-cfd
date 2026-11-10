@@ -80,3 +80,10 @@ def test_reviewed_all_killed_inventory_requires_zero_exit(evidence):
     policy['reviewed_survivors']={};(output/'mutation-exit.txt').write_text('0')
     result=policy_tool.verify(output,policy,root)
     assert result['killed']==2 and result['reviewed_survivors']==0
+
+
+@pytest.mark.parametrize('prefix', ['', 'results/cli-mutation/', '/tmp/study/'])
+def test_collection_paths_are_relative_to_pytest_root(evidence,prefix):
+    root,output,policy=evidence
+    (output/'collected.txt').write_text(prefix+'tests/test_cli.py::test_one\n')
+    assert policy_tool.verify(output,policy,root)['control_tests']==1

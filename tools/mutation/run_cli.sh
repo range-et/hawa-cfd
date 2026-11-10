@@ -16,6 +16,7 @@ cp "$repo_dir/tests/test_cli.py" "$output_dir/tests/"
 cd "$repo_dir"
 shasum -a 256 src/hawa/cli.py tests/test_cli.py > "$output_dir/working-source-before.sha256"
 cd "$output_dir"
+printf '[pytest]\n' > pytest.ini
 export PYTHONPATH="$output_dir/src:$repo_dir/vendor/lettuce"
 export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1
 unset PYTEST_ADDOPTS
