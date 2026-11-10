@@ -43,7 +43,7 @@ def package_tree(tmp_path, monkeypatch):
         "AGENTS.md": "[examples](examples/grasshopper/README.md)",
     }
     for name in ("pyproject.toml", "uv.lock", "LICENSE", "THIRD_PARTY_NOTICES.md",
-                 "README.md", "features.md", "issues.md"):
+                 "README.md", "features.md"):
         files[name] = name
     for name in ("LICENSE", "AUTHORS.rst", "PORTING.md", "upstream.json"):
         files["vendor/lettuce/" + name] = name

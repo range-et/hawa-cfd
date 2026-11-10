@@ -37,7 +37,7 @@ def main():
         if destination.exists():
             shutil.rmtree(destination)
         shutil.copytree(source, destination, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
-    for name in ("LICENSE", "THIRD_PARTY_NOTICES.md", "features.md", "issues.md"):
+    for name in ("LICENSE", "THIRD_PARTY_NOTICES.md", "features.md"):
         if (ROOT / name).exists():
             shutil.copy2(ROOT / name, output)
     notices = output / "licenses/lettuce"
@@ -79,7 +79,7 @@ def main():
     for folder in ("plugin", "src", "scripts", "requirements", "tests", "tools", ".config", "docs", "examples", "vendor/lettuce", "vendor/monad_system"):
         shutil.copytree(ROOT / folder, source_root / folder, dirs_exist_ok=True,
                         ignore=shutil.ignore_patterns("bin", "obj", "__pycache__", "*.pyc", ".pytest_cache", "09-parametric-hull-galapagos.gh"))
-    for name in ("pyproject.toml", "uv.lock", "LICENSE", "THIRD_PARTY_NOTICES.md", "README.md", "AGENTS.md", "features.md", "issues.md"):
+    for name in ("pyproject.toml", "uv.lock", "LICENSE", "THIRD_PARTY_NOTICES.md", "README.md", "AGENTS.md", "features.md"):
         shutil.copy2(ROOT / name, source_root / name)
     archive = args.archive
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as bundle:

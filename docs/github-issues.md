@@ -2,7 +2,7 @@
 
 [Open issues](https://github.com/range-et/hawa-cfd/issues) are the development
 backlog for bugs, verification, features, build/CI, documentation and research.
-`issues.md` is retired. Specifications, review evidence, feature history and
+There is no Markdown backlog. Specifications, review evidence, feature history and
 roadmap direction remain versioned in the repository; task status lives on GitHub.
 
 ## Intake and planning
