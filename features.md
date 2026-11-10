@@ -85,7 +85,7 @@ in development, not claimed installed or released:
 - **HAWA-048 / HAWA-051 closed:** atomic immutable-field NPZ writes preserve old
   output on failure; both writers support long valid destination filenames.
   Fault-injection/round-trip controls and 35 focused native/Docker checks passed.
-  [Export review](docs/review-export-atomicity.md).
+  [Export review](docs/review-field-export-atomicity.md).
 - **HAWA-049 / HAWA-052 closed:** refinement alignment is independent of world
   origin and invalid patch topology fails before solver allocation. Combined
   gate: 852 passed, 82 hardware skips, 33 contracts; CPU G6: 97,561 passed,
