@@ -154,3 +154,31 @@ def test_main_rejects_changed_loaded_module_paths(tmp_path,monkeypatch):
     result=json.loads((output/'result.json').read_text())
     assert 'provenance changed' in result['error'] and not result['completed']
     assert len(result['rows'])==1
+
+
+@pytest.mark.parametrize('offset',['ulp','criterion'])
+def test_study_fails_when_only_the_double_float_kernel_disagrees(monkeypatch,offset):
+    # The CPU public collision still matches the reference; the MPS kernel row
+    # must independently fail the original criterion and clear exactness.
+    original=lt.KBCCollision._collide_compensated
+    def shifted(self,flow,epsilon):
+        out=original(self,flow,epsilon)
+        return torch.nextafter(out,torch.full_like(out,2.)) if offset=='ulp' else out+2e-3
+    monkeypatch.setattr(lt.KBCCollision,'_collide_compensated',shifted)
+    result=study.study('cpu',[1])
+    row=result['rows'][0]
+    assert row['public_vs_reference']['passed'] and row['public_vs_reference']['max_abs']==0
+    assert not row['compensated_exact'] and row['compensated_vs_reference']['max_abs']>0
+    assert row['compensated_vs_reference']['passed']==(offset=='ulp')
+    assert result['passed']==(offset=='ulp')
+
+
+def test_script_entrypoint_exits_with_report_status(tmp_path,monkeypatch,capsys):
+    import runpy,sys
+    output=tmp_path/'entrypoint'
+    monkeypatch.setattr(sys,'argv',['diagnose_kbc_parity.py','--device','cpu','--sizes','1','--output',str(output)])
+    with pytest.raises(SystemExit) as stop:
+        runpy.run_path(str(ROOT/'scripts/diagnose_kbc_parity.py'),run_name='__main__')
+    assert stop.value.code==0
+    assert json.loads(capsys.readouterr().out)=={'completed':True,'passed':True,'scope':'repeated-single-cell KBC diagnostic'}
+    assert json.loads((output/'result.json').read_text())['rows'][0]['compensated_exact']

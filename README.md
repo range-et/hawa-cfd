@@ -75,7 +75,7 @@ The video renderer needs macOS Helvetica Neue and Menlo, Pillow, ffmpeg, and ffp
 
 The current Hawa suite passes **140 tests**, with 29 skipped and four inherited warnings. The earlier vendored upstream run passed 419 tests with 884 skipped. The Lettuce compatibility engine remains unchanged by the new Hawa outlet and refinement modules.
 
-The core CPU comparison matched the upstream oracle bitwise; MPS passed declared tolerances. All 16 upstream executable entrypoints completed bounded runs. These are separate from the Grasshopper gallery. PorousMedium retains a known pointwise CPU/MPS discrepancy.
+The core CPU comparison matched the upstream oracle bitwise; MPS passed declared tolerances. All 16 upstream executable entrypoints completed bounded runs. These are separate from the Grasshopper gallery. PorousMedium's pointwise CPU/MPS discrepancy has a candidate KBC repair under review (HAWA-001, [#11](https://github.com/range-et/hawa-cfd/issues/11)); it passed the original criteria on one Apple M3 Max and remains open until merged.
 
 Native MPS checks exercise saved definitions, valid field meshes, recording, a repeated hull search, and the fixed refinement patch. See the [release notes](docs/release-notes-v0.4.0.md) for exact evidence and limits.
 

@@ -1,0 +1,150 @@
+# HAWA-001: KBC repair for devices without FP64
+
+November 10, 2026. Author: Amp agent working on issue #11, branch
+`codex/issue-011-kbc-conditioning`. Self-reviewed. The native Mac runs were done
+by a separate coordinating agent on the user's Mac. This is a candidate repair
+for [#11](https://github.com/range-et/hawa-cfd/issues/11), not a release. It
+builds on the [bounded diagnosis](review-porous-kbc-diagnostic.md) and the
+existing CPU/CUDA precision repair, which this change leaves untouched.
+
+## Question, criteria and scope
+
+The question: why does PorousMedium (512×512, 50 steps, FP32 storage) disagree
+between CPU and MPS, and can the collision be repaired without widening
+tolerances?
+
+The criteria are unchanged and were fixed before measurement. Populations,
+density, physical velocity and physical pressure use `rtol=1e-3` and
+`atol=1e-5`, with atol scaled by the velocity (34.64) or pressure (400)
+conversion factor. In the repeated-cell diagnostic, identical inputs must give
+identical outputs at every array shape.
+
+Changed production code: only `vendor/lettuce/lettuce/ext/_collision/kbc_collision.py`.
+- FP32 storage on a device without FP64 (MPS) with Lettuce's quadratic
+  equilibrium now uses `_collide_compensated`.
+- CPU and CUDA keep their FP64-intermediate path.
+- FP64 storage and any other equilibrium keep the original kernel.
+
+Excluded: Hawa solver contexts and storage (owned by #13), every other
+collision, MLX, and any CPU fallback. Physical validation and convergence over
+the full duration are also out of scope.
+
+## Root cause
+
+All CPU tests here ran in a Linux x64 orb with Python 3.9.25, PyTorch
+2.8.0+cpu and NumPy 2.0.2. Calling the KBC kernel directly in FP32 on CPU (the
+same arithmetic MPS runs) reproduces the original 50-step comparison against
+the default CPU path. The result is f 7.73e-4, ρ 6.06e-4, u 0.0272 and p 0.242,
+against 7.72e-4, 6.06e-4, 0.0272 and 0.242 on real CPU/MPS. The disagreement
+is FP32 collision arithmetic. Streaming and boundaries do not contribute.
+
+KBC computes γ = 1/β − (2 − 1/β)·⟨Δs,Δh⟩/⟨Δh,Δh⟩. With τ = 0.50098 that is
+about 1 − r, where the ratio r is close to 1, so γ needs r to about 1e-5. In
+plain FP32 three errors exceed that:
+- The equilibrium is rounded to ulp(feq) ≈ 1e-8, while the higher-order residual
+  Δh is only 1e-5 to 1e-4.
+- Δs subtracts two shear estimates of about 0.33 each.
+- Δh = fneq − Δs also absorbs FP32 noise in the residual's conserved moments,
+  which are zero in exact arithmetic.
+
+In the frozen cell, γ is +0.0016 in FP64 and +0.0053 in plain FP32. On the
+step-50 field, plain FP32 differs from the correctly rounded FP64-intermediate
+output in 83% of populations, by up to about 150 ulp. It also biases mass by
++1.2e-8 per cell per step. Reduction order on MPS then pushes the frozen cell
+below zero at 512×512, where the inherited reset sets γ = 2.
+
+## Candidates and why bit-level agreement is required
+
+This trajectory amplifies tiny differences. Adding unbiased ±1-ulp noise to
+the reference collision output gave these results:
+- 50% of populations perturbed each step: 3 of 4 seeds failed the original criteria.
+- 0.2% of populations: 4 of 6 seeds failed.
+- 0.001% of populations: 4 of 4 seeds passed.
+
+Full FP64 storage on CPU also fails against the FP32 CPU reference (u 8.0e-4,
+p 0.0124). The failures come from a few cells near γ = 0 whose reset depends on
+a 1-ulp input difference.
+
+A conditioning change that only "improves" FP32 therefore still fails. MPS has
+to reproduce the CPU's correctly rounded FP32 output in almost every
+population. Scratch candidates on the CPU proxy:
+
+| Candidate (scratch) | Populations ≠ FP64-rounded | Proxy f / u / p | Criteria |
+| --- | ---: | --- | --- |
+| Plain FP32 (current MPS) | 83.4% | 7.73e-4 / 0.0272 / 0.242 | FAIL |
+| A: moment-space Δs/Δh from FP32 fneq | 81.8% | 5.24e-4 / 0.0101 / 0.218 | FAIL |
+| B: + compensated linear equilibrium | 1.71% | 1.01e-4 / 0.0035 / 0.040 | FAIL |
+| C: + compensated quadratic equilibrium | 0.62% | 1.01e-4 / 0.0035 / 0.040 | FAIL |
+| D: + double-float Δs/Δh and update | 0.17% | 6.2e-6 / 1.6e-4 / 5.4e-3 | pass (seed-like) |
+| **Adopted: D + double-float stabilizer** | **0.0000%** | **1.8e-7 / 6.7e-6 / 9.5e-5** | **PASS** |
+
+## Adopted method
+
+`_collide_compensated` evaluates the same KBC decomposition in unevaluated FP32
+pairs (hi + lo). It uses Knuth's TwoSum and Dekker's TwoProduct, with splitter
+2¹²+1, and derives div and sum from those.
+- ρ and j are compensated sums of the stored FP32 populations.
+- feq = w(ρ + e·j/cs² + ((e·j)²/(2cs⁴) − j·j/(2cs²))/ρ) is computed in pairs.
+  The weights and the constants derived from cs are pairs of the FP64 values.
+- An exact separable raw-moment transform on the 3^d velocity grid splits the
+  residual into second-order moments (Δs) and third/fourth-order moments (Δh).
+  The inverse uses only ±1 and ½ coefficients.
+- The sums, the ratio, γ and the update are computed in pairs and rounded to
+  FP32 once.
+- The near-zero guard, the non-finite handling and the inherited negative reset
+  are unchanged.
+
+Δs and Δh carry no mass or momentum by construction, and no tolerance or
+threshold changed. The method needs IEEE-rounded FP32 operations without FMA
+contraction. On MPS this was measured, not assumed (see below).
+
+## Verification
+
+Linux CPU (orb):
+- On random near-equilibrium D2Q9 32² and D3Q27 8³ fields, the compensated
+  kernel is bitwise equal to the rounded FP64-intermediate kernel. Plain FP32
+  differs in more than half of the values.
+- The frozen cell is bitwise equal at sizes 1, 8 and 64.
+- On the step-50 field, 0.0000% of populations differ. The CPU proxy at the
+  original criteria passes with f 1.8e-7, u 6.7e-6, p 9.5e-5.
+- Vendored upstream KBC tests: 12 passed, 78 skipped (CUDA or unsupported
+  stencils), 406 deselected.
+
+Native Mac (agent-run): MacBook Pro Mac15,8, M3 Max, macOS 27.0.1, Python
+3.9.25, PyTorch 2.8.0, MPS. Candidate commit `71bb6fc`, fresh worktree and venv.
+- Focused tests: 40 passed, 6 CUDA skips. The passes include TwoSum/TwoProduct
+  exactness on MPS and MPS == CPU bitwise at 1, 8, 32 and 512.
+- Diagnostic: CPU and MPS both `completed=true, passed=true`. At every size the
+  MPS public output exactly matches the FP64 reference. The raw FP32 stages
+  still show the historical 512² reset in all 262,144 cells.
+- **Original PorousMedium CPU/MPS, 50 steps: PASS**, with f 3.28e-7, ρ 3.58e-7,
+  u 1.32e-5 and p 1.43e-4.
+- All 16 upstream example entrypoints pass on both devices, and parity is
+  16/16. The other seven KBC examples are included.
+
+Cost: one 512² D2Q9 collision on MPS takes about 49 ms, against 6.8–7.7 ms for
+plain FP32 (about 7×). The whole 50-step PorousMedium worker took 4.8 s on MPS
+and 5.4 s on CPU. On the 2-core Linux CPU, the CPU FP64-intermediate path costs
+86 ms per collision and the compensated kernel (only exercised in tests there)
+about 0.9 s. Temporary memory is several pair tensors of size q×grid. Hawa's own
+solvers do not use KBC; this affects Lettuce KBC examples on MPS.
+
+Tests, function gate and mutation results are listed in [the evidence summary](#gates-and-evidence).
+
+## Gates and evidence
+
+| Gate | Reviewer | Decision | Evidence and limits |
+| --- | --- | --- | --- |
+| G0 | Amp agent, self-review | PASS | Diagnosis, Lettuce KBC source at 88a6559, standard TwoSum/TwoProduct; criteria unchanged |
+| G1 | Amp agent, self-review | PASS | Dispatch contract tested; CPU/CUDA/FP64/non-quadratic paths unchanged; no Hawa state change |
+| G2 | Amp agent, self-review | PASS locally | See the function-gate and mutation results below |
+| G3 | Amp agent; Mac run by coordinator | PASS for original CPU/MPS criteria on one Mac | Single machine/OS; a bounded 50-step comparison, not convergence or physical validation |
+| G4 | — | NOT APPLICABLE | No UI, node or host change |
+| G5 | — | BLOCKED | Not merged, packaged or installed |
+| G6 | — | NOT APPLICABLE | No node, field format or shared-state change |
+
+CUDA was not tested in this round. It is deferred to a separate CUDA
+environment that the user will provide; the CPU/CUDA FP64-intermediate path is
+unchanged by this diff. Remaining before #11 closes: maintainer review and merge
+of this candidate, and a fresh Mac run on the final commit if the source changes
+after the recorded run. Other Apple GPUs and macOS versions are not covered.

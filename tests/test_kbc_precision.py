@@ -1,4 +1,6 @@
 """Near-equilibrium KBC must not amplify FP32 cancellation into a load change."""
+from types import SimpleNamespace
+
 import numpy as np
 import pytest
 import torch
@@ -146,3 +148,125 @@ def test_mps_kbc_matches_cpu_collision_on_identical_input(size):
         flow.f=torch.tensor(cell,device=device)[:,None,None].expand(-1,size,size).clone()
         outputs.append(lt.KBCCollision()(flow).cpu().numpy())
     np.testing.assert_array_equal(outputs[1],outputs[0])
+
+
+class _AcceleratorTensor:
+    """Stands in for FP32 storage on a device this host cannot allocate."""
+    dtype=torch.float32
+    def __init__(self,device):self.device=torch.device(device)
+    def to(self,dtype):return torch.zeros(9,2,2,dtype=dtype)
+
+
+def _spy_collisions(monkeypatch):
+    calls=[]
+    monkeypatch.setattr(lt.KBCCollision,'_collide_compensated',
+                        lambda self,flow,eps:calls.append(('compensated',flow,eps)) or flow.f)
+    monkeypatch.setattr(lt.KBCCollision,'_collide',lambda self,flow,eps:calls.append(('plain',flow,eps)) or flow.f)
+    return calls
+
+
+@pytest.mark.parametrize('equilibrium,path',[(lt.QuadraticEquilibrium,'compensated'),
+                                             (lt.QuadraticEquilibriumLessMemory,'compensated'),
+                                             (lt.IncompressibleQuadraticEquilibrium,'plain')])
+def test_fp32_storage_without_fp64_uses_double_float_only_for_quadratic_equilibrium(monkeypatch,equilibrium,path):
+    calls=_spy_collisions(monkeypatch)
+    for device in ('mps','meta'):
+        flow=SimpleNamespace(f=_AcceleratorTensor(device),equilibrium=equilibrium())
+        assert lt.KBCCollision()(flow) is flow.f
+        assert calls.pop()==(path,flow,torch.finfo(torch.float32).eps)
+    assert not calls
+
+
+def test_fp64_storage_without_fp64_intermediate_promotion_uses_plain_kernel(monkeypatch):
+    calls=_spy_collisions(monkeypatch)
+    flow=SimpleNamespace(f=torch.empty(9,2,2,dtype=torch.float64,device='meta'),equilibrium=lt.QuadraticEquilibrium())
+    assert lt.KBCCollision()(flow) is flow.f
+    assert calls==[('plain',flow,torch.finfo(torch.float64).eps)]
+
+
+@pytest.mark.parametrize('device',['cpu','cuda'],ids=['host','nvidia'])
+def test_fp32_storage_on_fp64_capable_devices_keeps_fp64_intermediates(monkeypatch,device):
+    calls=_spy_collisions(monkeypatch)
+    flow=lt.TaylorGreenVortex(lt.Context('cpu',torch.float32,use_native=False),[2,2],10,.05)
+    flow.f=_AcceleratorTensor(device)
+    collision=lt.KBCCollision()
+    output=collision(flow)
+    assert len(calls)==1 and calls[0][0]=='plain' and calls[0][2]==torch.finfo(torch.float32).eps
+    working=calls[0][1]
+    assert working is not flow and working.f.dtype==torch.float64 and output.dtype==torch.float32
+    assert working.context.dtype==torch.float64 and flow.context.dtype==torch.float32
+    # The promoted context and stencil are built once and reused.
+    context=collision._compute_context
+    collision(flow)
+    assert calls[1][1].context is context and calls[1][1].torch_stencil is working.torch_stencil
+
+
+def test_kbc_rejects_unsupported_stencils_and_keeps_deprecated_aliases():
+    import re
+    units=SimpleNamespace(relaxation_parameter_lu=.6)
+    for stencil,error,message in ((lt.D1Q3(),NotImplementedError,'KBC Collision is only implemented for 2d and 3d!'),
+                                  (lt.D3Q19(),AssertionError,'KBC Collision is only implemented for D3Q27!'),
+                                  (SimpleNamespace(d=2),AssertionError,'KBC Collision is only implemented for D2Q9!')):
+        with pytest.raises(error,match='^'+re.escape(message)+'$'):
+            lt.KBCCollision()._initialize(SimpleNamespace(units=units,stencil=stencil))
+    for alias in (lt.KBCCollision2D,lt.KBCCollision3D):
+        # Upstream's message names KBCCollision2D for both aliases.
+        with pytest.warns(UserWarning,match='^'+re.escape('KBCCollision2D is is deprecated! Use KBCCollision instead!')+'$'):
+            collision=alias()
+        assert isinstance(collision,lt.KBCCollision) and not collision.native_available()
+        assert collision.native_generator(0) is None
+
+
+def test_initialization_binds_dimension_specific_moment_kernels():
+    collision=lt.KBCCollision(tau=.7)
+    # Construction is lazy: the flow's relaxation parameter replaces tau later.
+    assert collision.tau==.7 and collision.beta is None and collision.M is None
+    assert collision._compute_context is None and collision._compute_stencil is None
+    f=torch.ones(9,1,1)
+    # Unbound class placeholders do nothing until a flow selects the dimension.
+    assert collision.kbc_moment_transform(f) is None and collision.compute_s_seq_from_m(f,f) is None
+    flow=lt.TaylorGreenVortex(lt.Context('cpu',torch.float64,use_native=False),[2,2],10,.05)
+    collision._initialize(flow)
+    assert collision.kbc_moment_transform.__func__ is lt.KBCCollision.kbc_moment_transform_2d
+    assert collision.compute_s_seq_from_m.__func__ is lt.KBCCollision.compute_s_seq_from_m_2d
+    assert collision.tau==flow.units.relaxation_parameter_lu!=.7
+    assert collision.beta==pytest.approx(1/(2*flow.units.relaxation_parameter_lu))
+    assert collision.M.shape==(3,3,9) and collision.M[2,1].tolist()==[0,0,0,0,0,1,1,-1,-1]
+    collision=lt.KBCCollision()
+    collision._initialize(lt.TaylorGreenVortex(lt.Context('cpu',torch.float64,use_native=False),[2,2,2],10,.05,stencil=lt.D3Q27()))
+    assert collision.kbc_moment_transform.__func__ is lt.KBCCollision.kbc_moment_transform_3d
+    assert collision.compute_s_seq_from_m.__func__ is lt.KBCCollision.compute_s_seq_from_m_3d
+    e=torch.tensor(lt.D3Q27().e,dtype=torch.float64)
+    assert collision.M.shape==(3,3,3,27)
+    torch.testing.assert_close(collision.M[2,1,1],e[:,0]**2*e[:,1]*e[:,2],rtol=0,atol=0)
+
+
+def test_storage_precision_guard_scales_with_density_in_both_kernels():
+    # rho = 1/4 puts this residual between the guard threshold (q eps)^2 rho
+    # and the wrong-way scaling (q eps)^2 / rho; the guard must stay off in
+    # both kernels, so the double-float result still equals the FP64 one.
+    flow=_near_equilibrium_flow(lt.D2Q9(),'cpu',torch.float32,[1,1])
+    reference=lt.TaylorGreenVortex(lt.Context('cpu',torch.float64,use_native=False),[1,1],10,.05)
+    rho=.25
+    feq=reference.equilibrium(reference,torch.full((1,1,1),rho,dtype=torch.float64),
+                              torch.tensor([.02,-.01],dtype=torch.float64).view(2,1,1))
+    higher=torch.tensor([1,-.5,-.5,-.5,-.5,.25,.25,.25,.25],dtype=torch.float64).view(9,1,1)  # m22 basis
+    shear=torch.tensor([0,0,0,0,0,.25,-.25,.25,-.25],dtype=torch.float64).view(9,1,1)       # m11 basis
+    threshold=(9*torch.finfo(torch.float32).eps)**2
+    flow.f=(feq+1e-4*shear+(threshold*rho/20.25)**.5*higher).float()
+    eps=torch.finfo(torch.float32).eps
+    # Precondition, measured with the reference kernel's own decomposition.
+    double=lt.TaylorGreenVortex(lt.Context('cpu',torch.float64,use_native=False),[1,1],10,.05)
+    double.units=flow.units;double.f=flow.f.double()
+    collision=lt.KBCCollision();collision._initialize(double)
+    fneq=double.f-double.equilibrium(double)
+    delta_s=collision.compute_s_seq_from_m(double.f,collision.kbc_moment_transform(double.f))
+    delta_s-=collision.compute_s_seq_from_m(double.f,collision.kbc_moment_transform(double.equilibrium(double)))
+    sum_h=double.rho((fneq-delta_s)**2/double.equilibrium(double)).item()
+    assert threshold*rho*2<sum_h<threshold/rho/2
+    public=lt.KBCCollision()(flow)
+    compensated=lt.KBCCollision()._collide_compensated(flow,eps)
+    np.testing.assert_array_equal(compensated.numpy(),public.numpy())
+    # With the guard on, the stabilizer would be 2 instead of about 1.
+    guarded=(double.f-collision.beta*(2*delta_s+2*(fneq-delta_s))).float()
+    assert (public-guarded).abs().max()>3*torch.finfo(torch.float32).eps*public.abs().max()

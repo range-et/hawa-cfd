@@ -90,6 +90,17 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 10, 2026 — HAWA-001 KBC repair candidate (#11)
+
+Devices without FP64 (MPS) now evaluate KBC with FP32 hi/lo intermediates
+(TwoSum/TwoProduct, exact moment split, one rounding); CPU/CUDA keep their FP64
+path. On identical inputs MPS reproduces the rounded CPU output bitwise. The
+original 512-square/50-step PorousMedium CPU/MPS comparison passes on one M3 Max
+(f 3.3e-7, u 1.3e-5, p 1.4e-4) and all 16 upstream examples keep CPU/MPS parity.
+The MPS collision costs about 7x plain FP32. CUDA was not tested in this round.
+Candidate, not merged or released; #11 remains open until review.
+[Repair record](docs/review-porous-kbc-repair.md).
+
 ### November 10, 2026 — GitHub backlog migration
 
 Migrated all 38 active HAWA entries to GitHub Issues with evidence, acceptance

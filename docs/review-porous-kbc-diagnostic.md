@@ -1,5 +1,10 @@
 # HAWA-001 — bounded CPU/MPS KBC diagnosis
 
+> **Follow-up (November 10, 2026):** the root cause is repaired by a candidate
+> double-float KBC path for devices without FP64; see the
+> [repair record](review-porous-kbc-repair.md). The text below is the earlier
+> diagnosis, retained as historical evidence.
+
 November 9, 2026. Author/reviewer: parity-study agent, self-review with primary
 agent coordination. Diagnostic increment only; no production or vendor changes.
 Initial numerical experiments used integrated base `abe7545`. The [compact

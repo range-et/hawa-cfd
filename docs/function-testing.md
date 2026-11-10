@@ -140,6 +140,21 @@ bash tools/mutation/run_runtime_admission.sh results/admission-mutation-NEW
 .venv/bin/python tools/mutation/check_results.py results/admission-mutation-NEW --policy tools/mutation/runtime-admission-policy.json
 ```
 
+The HAWA-001 KBC studies are run locally, not yet in the workflow. They mutate
+the whole vendored KBC module and the diagnostic lines changed since the
+integration base (patch mode needs `whatthepatch` and full Git history). CUDA/MPS
+hardware cases are deselected by name, and actual device runs are separate evidence:
+
+```sh
+bash tools/mutation/run_kbc.sh collision results/kbc-collision-mutation-NEW
+.venv/bin/python tools/mutation/check_results.py results/kbc-collision-mutation-NEW --policy tools/mutation/kbc-collision-policy.json
+bash tools/mutation/run_kbc.sh diagnostic results/kbc-diagnostic-mutation-NEW
+.venv/bin/python tools/mutation/check_results.py results/kbc-diagnostic-mutation-NEW --policy tools/mutation/kbc-diagnostic-policy.json
+```
+
+Do not run `mutmut results` inside a study directory while it is still mutating:
+it reads the temporarily mutated source and corrupts the run's cache.
+
 The helpers preserve mutmut's raw exit (2 when mutants survive); run the policy
 checker afterward. Acceptance requires the exact reviewed source/test hashes,
 all collected controls passing, a complete mutation inventory, no timeout/error/

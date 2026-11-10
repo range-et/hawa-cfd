@@ -1,3 +1,4 @@
+import itertools
 import warnings
 from copy import copy
 
@@ -54,14 +55,13 @@ def _df_div(a, b):
 
 
 def _df_sum(x, low=None):
-    """Sum FP32 pairs (x, low) over dimension 0, retaining every addition error."""
-    low = torch.zeros_like(x[0]) if low is None else low.sum(0)
-    while x.shape[0] > 1:
-        half = x.shape[0] // 2
-        s, e = _two_sum(x[:half], x[half:2 * half])
-        low = low + e.sum(0)
-        x = torch.cat([s, x[2 * half:]])
-    return _two_sum(x[0], low)
+    """Sum FP32 terms (and optional low parts) over dimension 0, keeping every error."""
+    high = x[0]
+    low = torch.zeros_like(high) if low is None else low.sum(0)
+    for term in x[1:]:
+        high, error = _two_sum(high, term)
+        low = low + error
+    return _two_sum(high, low)
 
 
 def _df_constant(value, like):
@@ -249,11 +249,14 @@ class KBCCollision(Collision):
         moments = _df_sum(torch.cat([f[:, None], e * f[:, None]], dim=1))
         rho = (moments[0][0].expand_as(f), moments[1][0].expand_as(f))
         e_dot_j = (zero, zero)
-        j_squared = (zero[0], zero[0])
+        squares = []
         for axis in range(d):
             j_axis = (moments[0][1 + axis], moments[1][1 + axis])
             e_dot_j = _df_add(e_dot_j, (e[:, axis] * j_axis[0], e[:, axis] * j_axis[1]))
-            j_squared = _df_add(j_squared, _df_mul(j_axis, j_axis))
+            squares.append(_df_mul(j_axis, j_axis))
+        j_squared = squares[0]
+        for square in squares[1:]:
+            j_squared = _df_add(j_squared, square)
         # feq = w (rho + e.j / cs^2 + ((e.j)^2 / (2 cs^4) - j.j / (2 cs^2)) / rho)
         inverse_cs2 = 1. / flow.stencil.cs ** 2
         quadratic = _df_sub(_df_mul(_df_constant(0.5 * inverse_cs2 ** 2, f), _df_mul(e_dot_j, e_dot_j)),
@@ -270,14 +273,12 @@ class KBCCollision(Collision):
 
         # Arrange populations on a 3^d velocity grid for separable transforms.
         grid = [sum((int(c) + 1) * 3 ** (d - 1 - a) for a, c in enumerate(v)) for v in flow.stencil.e]
-        population_at = [0] * q
-        for population, position in enumerate(grid):
-            population_at[position] = population
+        population_at = sorted(range(q), key=grid.__getitem__)
         m = tuple(part[population_at].reshape(*([3] * d), *spatial) for part in fneq)
         for axis in range(d):
             m = _moment_axis(m, axis, inverse=False)
-        order = sum(torch.arange(3, device=f.device).view(*([1] * a), 3, *([1] * (d - 1 - a)))
-                    for a in range(d)).view(*([3] * d), *([1] * len(spatial)))
+        order = torch.tensor([sum(index) for index in itertools.product(range(3), repeat=d)],
+                             device=f.device).view(*([3] * d), *([1] * len(spatial)))
 
         def reconstruct(selected):
             r = tuple(torch.where(selected, part, torch.zeros_like(part)) for part in m)
@@ -293,13 +294,11 @@ class KBCCollision(Collision):
         sum_h = _df_sum(*_df_div(_df_mul(delta_h, delta_h), feq))
         # Same storage-precision guard and inherited reset as `_collide`.
         near_zero = sum_h[0] <= (flow.stencil.q * epsilon) ** 2 * flow.rho()[0]
-        denominator = (torch.where(near_zero, torch.ones_like(sum_h[0]), sum_h[0]),
-                       torch.where(near_zero, torch.zeros_like(sum_h[1]), sum_h[1]))
+        denominator = (torch.where(near_zero, 1.0, sum_h[0]), torch.where(near_zero, 0.0, sum_h[1]))
         gamma_stab = _df_sub(_df_constant(1. / self.beta, f),
                              _df_mul(_df_constant(2 - 1. / self.beta, f), _df_div(sum_s, denominator)))
         reset = near_zero | ~torch.isfinite(gamma_stab[0]) | (gamma_stab[0] < 1E-15)
-        gamma_stab = (torch.where(reset, torch.full_like(gamma_stab[0], 2.0), gamma_stab[0]),
-                      torch.where(reset, torch.zeros_like(gamma_stab[1]), gamma_stab[1]))
+        gamma_stab = (torch.where(reset, 2.0, gamma_stab[0]), torch.where(reset, 0.0, gamma_stab[1]))
         correction = _df_add(_df_mul(_df_constant(2 * self.beta, f), delta_s),
                              _df_mul(_df_constant(self.beta, f), _df_mul(gamma_stab, delta_h)))
         return _df_sub((f, zero), correction)[0]
