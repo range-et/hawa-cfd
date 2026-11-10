@@ -241,3 +241,89 @@ def test_g6_orchestrator_records_each_operator_failure_without_losing_rows(tmp_p
     assert report['counts']['failed']==(0 if failure in ('none','nesting-reject') else 1)
     if report['failures']:assert 'fixture' in report['failures'][0]['error']
     assert report['local_pass'] is (failure in ('none','nesting-reject'))
+
+
+@pytest.mark.parametrize('scenario',['full','error','nonfinite','expected-nonfinite','budget','subclass'])
+def test_original_example_worker_reports_budget_and_failure_semantics(tmp_path,monkeypatch,scenario):
+    m=load('example_worker')
+    from matplotlib import pyplot as plt
+    source=tmp_path/'source';source.mkdir()
+    name='FailingTGV.py' if scenario=='expected-nonfinite' else 'tiny.py'
+    code='''import numpy as np
+import torch
+import lettuce as lt
+np.random.seed()
+flow=lt.TaylorGreenVortex(lt.Context(),resolution=[8,8],reynolds_number=100,mach_number=.05)
+flow.mask=torch.zeros((8,8),dtype=torch.bool)
+'''
+    if scenario=='error':code='raise ValueError("fixture execution failure")'
+    else:
+        if scenario=='subclass':
+            code+='''class OwnSimulation(lt.Simulation):
+    def __call__(self,n):return super().__call__(n)
+sim=OwnSimulation(flow,lt.BGKCollision(flow.units.relaxation_parameter_lu),[])
+'''
+        else:code+='sim=lt.Simulation(flow,lt.BGKCollision(flow.units.relaxation_parameter_lu),[])\n'
+        if scenario in ('nonfinite','expected-nonfinite'):code+='flow.f.fill_(float("nan"))\n'
+        elif scenario=='budget':code+='sim(50)\nsim(1)\n'
+        else:code+='sim(2)\n'
+    (source/name).write_text(code);out=tmp_path/'out'
+    argv=['worker',name,'--source-root',str(source),'--output',str(out)]
+    if scenario=='full':argv.append('--full')
+    monkeypatch.chdir(tmp_path);monkeypatch.setattr(sys,'path',list(sys.path));monkeypatch.setattr(sys,'argv',argv)
+    for obj,attr in [(np.random,'seed'),(lt.Context,'__init__'),(lt.Simulation,'__init__'),(lt.Simulation,'__call__'),(lt.BreakableSimulation,'__call__'),(plt,'show'),(plt,'savefig')]:monkeypatch.setattr(obj,attr,getattr(obj,attr))
+    assert m.main()==int(scenario in ('error','nonfinite'))
+    report=json.loads((out/'report.json').read_text())
+    if scenario=='error':
+        assert report['status']=='failed' and 'fixture execution failure' in report['error']
+        assert 'ValueError' in report['traceback'] and report['simulations']==[]
+    else:
+        observed=report['simulations'][0]
+        assert observed['finite'] is (scenario not in ('nonfinite','expected-nonfinite'))
+        assert observed['failure_detection_example'] is (scenario=='expected-nonfinite')
+        assert (out/'mask_0.npy').exists() and (out/'fields_0.npz').exists()
+        if scenario=='nonfinite':assert report['error']=='Nonfinite populations'
+        if scenario=='budget':assert observed['iterations']==50 and report['budget_reached']
+        if scenario=='full':assert report['profile']=='full' and observed['iterations']==2
+        if scenario=='subclass':assert observed['iterations']==2
+
+
+@pytest.mark.parametrize('scenario',['upstream','commit','fork','source','backport-source','python','fallback','known-error','unexpected-error','nonfinite','density'])
+def test_parity_worker_enforces_source_runtime_and_numerical_evidence(tmp_path,monkeypatch,scenario):
+    import hawa.cases
+    monkeypatch.syspath_prepend(str(ROOT/'scripts'))
+    m=load('parity_worker')
+    vendor=tmp_path/'vendor/lettuce';(vendor/'lettuce').mkdir(parents=True)
+    original=b'# exact fixture source\n';(vendor/'lettuce/__init__.py').write_bytes(original)
+    manifest=dict(commit='pinned-fixture',source_sha256={'lettuce/__init__.py':hashlib.sha256(original).hexdigest()})
+    (vendor/'upstream.json').write_text(json.dumps(manifest))
+    external=tmp_path/'oracle/lettuce';external.mkdir(parents=True)
+    (external/'__init__.py').write_bytes(b'# modified\n' if scenario in ('source','backport-source') else original)
+    monkeypatch.setattr(m,'ROOT',tmp_path)
+    monkeypatch.setattr(lt,'__file__',str((vendor/'lettuce' if scenario=='fork' else external)/'__init__.py'))
+    direct=json.dumps(dict(vcs_info=dict(commit_id='wrong' if scenario=='commit' else 'pinned-fixture')))
+    monkeypatch.setattr(m,'distribution',lambda name:SimpleNamespace(read_text=lambda file:direct,metadata={'Name':name},version='fixture'))
+    if scenario=='python':monkeypatch.setattr(m,'sys',SimpleNamespace(version_info=(3,10)))
+    monkeypatch.setenv('PYTORCH_ENABLE_MPS_FALLBACK','1' if scenario=='fallback' else '0')
+    name='cavity2d-bgk' if scenario=='known-error' else 'fixture'
+    monkeypatch.setattr(hawa.cases,'CASES',{name:None})
+    def make_case(name,context):
+        if scenario=='known-error':raise TypeError("missing 1 required positional argument: 'velocity'")
+        if scenario=='unexpected-error':raise TypeError('unexpected fixture signature')
+        flow=lt.TaylorGreenVortex(context,[8,8],100,.05)
+        if scenario=='nonfinite':flow.f.fill_(float('nan'))
+        if scenario=='density':flow.f.fill_(-1.)
+        return flow,lt.Simulation(flow,lt.BGKCollision(flow.units.relaxation_parameter_lu),[])
+    monkeypatch.setattr(hawa.cases,'make_case',make_case)
+    role='backport' if scenario in ('backport-source','python','fallback') else 'upstream'
+    out=tmp_path/'out'
+    if scenario not in ('upstream','known-error'):
+        with pytest.raises((RuntimeError,TypeError)):m.run(role,'mps' if scenario=='fallback' else 'cpu',out)
+        assert not (out/'metadata.json').exists()
+    else:
+        result=m.run(role,'cpu',out)
+        assert result['passed'] and result['upstream_commit']=='pinned-fixture'
+        if scenario=='known-error':assert result['cases'][name]['status']=='known-upstream-error'
+        else:
+            assert result['cases'][name]['steps']==50
+            with np.load(out/(name+'.npz')) as fields:assert set(fields.files)=={str(step)+'_'+field for step in (0,1,10,50) for field in ('f','rho','u','p')}
