@@ -338,8 +338,12 @@ def test_fp32_physical_air_loses_molecular_dissipation():
                            conservative_misses=0, passed=True)
 
 
-def test_script_entry_point_runs_main():
-    import subprocess
+def test_script_entry_point_runs_main(monkeypatch, capsys):
+    import runpy
     script=Path(__file__).resolve().parents[1]/'scripts'/'verify_atmospheric_precision.py'
-    done=subprocess.run([sys.executable,str(script),'--help'],capture_output=True,text=True,timeout=120)
-    assert done.returncode==0 and 'usage:' in done.stdout and '--output' in done.stdout
+    monkeypatch.setattr(sys,'argv',[str(script),'--help'])
+    with pytest.raises(SystemExit) as exit_info:
+        runpy.run_path(str(script),run_name='__main__')
+    assert exit_info.value.code==0
+    out=capsys.readouterr().out
+    assert out.startswith('usage:') and '--output' in out

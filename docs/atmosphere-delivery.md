@@ -98,7 +98,8 @@ Detailed evidence is in `results/atmosphere-development/` (local development log
 ## Physical-viscosity precision experiment (HAWA-003, November 10, 2026)
 
 Codex, self-review; [#13](https://github.com/range-et/hawa-cfd/issues/13). CPU table: Linux x64
-orb, Python 3.9.25, PyTorch 2.8.0+cpu, commit `1d50235`. MPS: M3 Max, macOS 27.0.1,
+orb, Python 3.9.25, PyTorch 2.8.0+cpu, commit `1d50235`. The final head reproduces these CPU
+numbers bit for bit. MPS: M3 Max, macOS 27.0.1,
 PyTorch 2.8.0, same commit (below). **CUDA was not tested in this round**; it is
 deferred to a separate CUDA environment ([#52](https://github.com/range-et/hawa-cfd/issues/52)).
 
@@ -174,7 +175,7 @@ atmospheric LES, wall models or turbulence. "Resolved" is qualified on CPU only.
 | --- | --- | --- |
 | G0 | PASS, bounded | Shear-wave analytic decay; Lehmann et al. and Latt–Chopard references above; no copied code |
 | G1 | PASS | Additive quality field; collision numerics, storage, checkpoints and `make_solver` unchanged; shared-file split agreed with #11 |
-| G2 | See the strict function/line gate and mutmut results on #13 | `test_atmospheric_precision.py`; mutation scope `tools/mutation/run_atmospheric_precision.sh` |
+| G2 | PASS for the declared scope | Strict headless function and line gate on the final head; targeted mutmut of this PR's lines: 440 mutants, 430 killed, 0 timeouts. The 10 survivors are reviewed in `atmospheric-precision-policy.json`: 4 equivalent, 3 decoration, 3 import or collection errors (counted as errors, not kills). |
 | G3 | PASS for FP64 collision representation; **FAIL** for FP32 molecular representation and for complete diagnostic agreement (1/20 conservative on CPU) | Tracked summary; the MPS false-resolved defect is fixed by v2 and awaits the batched MPS rerun |
 | G4 | NOT APPLICABLE | No GH or native change; the new quality field is not yet shown in the host |
 | G5/G6 | BLOCKED | v2 MPS rerun batched in #53; no package. CUDA not tested in this round (deferred, #52) |

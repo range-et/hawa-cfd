@@ -52,6 +52,7 @@
     "scripts/compare_engines.py": "f16f5a79c9991db76ad49cd20e7d46f8fa001bd8087cfbbac7b0b57603f5d4d9",
     "scripts/compare_examples.py": "8016670dea6795459d561991db2d2186dd6600873f32fc79c2fda636f9942c2a",
     "scripts/create_native_icons.py": "dbde98471f9723874522330e43479a2251d18a1110ccc74df9f8ca337d46f461",
+    "scripts/diagnose_kbc_parity.py": "89e15b8e2709142aa799703a3682dd14c6b93998f04ab25b5b04d06e6bf216b0",
     "scripts/example_inventory.py": "38c9a97c9ceb5cbb99c73d9cd1d62a3985c6fd7a79c0747a3a0db6202f768dca",
     "scripts/example_worker.py": "09063bcb809effa08e09c0b2a5b0bd3b235868b016172da5ee9bfa3b40f21601",
     "scripts/grasshopper_component.py": "39cab382dfc13ad3dacdde1c56aab55ddf449109f5b3d583b60e044cfba4a404",
@@ -75,6 +76,7 @@
     "scripts/summarize_motion_verification.py": "0b674ffeae4b76999bd050e03dcfd386387fe64cd8c88871ce1deccb921699ca",
     "scripts/sync_design_tokens.py": "91c62d17e79089d7a1c3d8919723737ae41efb12fab5a97ff9aeec2c6d2140a7",
     "scripts/verification_evidence.py": "d11c9d2460b71fafafa566e317e87be75b1694c26590fdb8ad594bd44ac2d28d",
+    "scripts/verify_atmospheric_precision.py": "55ba5bf1e99efc84953d64722aade1b2621a4a3c97a1a8599e288c908c4e55f0",
     "scripts/verify_atmospheric_reference.py": "0d7db29fddcec0f08ad363232e5f2e0d02ad1d04549286a7d0d6ee495d93dbb0",
     "scripts/verify_atmospheric_scaling.py": "439ec5dd755b803a0bac43538ac91437bd21968227932d10849c630a087e356f",
     "scripts/verify_boundary_transfer.py": "7b1030495c8e21930b67c05024dce8bd69b56bb85e5cd7720e316e72871982cc",
@@ -107,11 +109,11 @@
     "src/hawa/lbm.py": "058cacba479e8acdd283340c22581eac8ccee15bd92eedbdfd7474b8817df942",
     "src/hawa/motion.py": "128a3133372b43c36ffb3f0ef2b8cbb0ec96164d75d674a0f599834e2e4c63cf",
     "src/hawa/moving_boundaries.py": "43d185c55a4368a7bcba7ded08f47f1763926054dec576d151c8b309e88b618a",
-    "src/hawa/neutral.py": "27cbf822215ead155e8a046e19a364d02265a45aa0b98a18dfb6ccaa9cd727e9",
+    "src/hawa/neutral.py": "a409f22e162a9bb726cc4f947d4aaabf4223042c6f640ac11b330e03741039bd",
     "src/hawa/neutral_external.py": "5e1cbd8fdbcf63222212dd2723002c4fa728be5e012595cd31886dcd9283a592",
     "src/hawa/optimization.py": "a7a7f910da56c1de3ad80867f36d8f37480ba7948fb144d1b8bf2de022dac3d9",
     "src/hawa/plugin.py": "84a2214bf7f790169d7f205025e74cc0ba5bb75af1fcb227066228e2ee70d465",
-    "src/hawa/quality.py": "b53d23b7249e0c1fef1adc0256cac4f7dd36616d3fe018d329a645c7e3bb8873",
+    "src/hawa/quality.py": "1abbb759cf19cbba8644e85c2e1adfc43fea0ceaf0a6bf4d2998ceb6d19023f0",
     "src/hawa/recording.py": "9faaa69489ffc9d673844644755cb3c3936bf5899caed8d5d1255691fa656edd",
     "src/hawa/refinement.py": "fff9b919114b6bd83e33d878b200a3dcdf0e2cbb7db28850ee91b31c08287c8f",
     "src/hawa/roughness.py": "fbebbd3fd84f2d0db139afca3c18e4f4faa7802d26848df47b77605002e2b48f",
@@ -132,6 +134,7 @@
     "tests/test_airfoil_dispatch.py": "f1a5a19b4ef3e4046009a332e23800686eb4706ef36c7d93a01a410e9af0c2c0",
     "tests/test_airfoils.py": "289172bb568c7932ec15b0d760ab39896eb8b76f80d1d846a0f8f89a585d7895",
     "tests/test_atmosphere.py": "a058d0502e1cf55bfa4e3c3841211f762726d34f3dee0a6aec96630bba6a3a99",
+    "tests/test_atmospheric_precision.py": "9a12a00e3c90978a40d6608f3dcdbaf00c17226947fa4f2466268ba15196bce6",
     "tests/test_backport_audit.py": "01802ceafaa8aa7d945b4fbcecaf654067f586c27d3d9245cd82af372894111d",
     "tests/test_boundary_data.py": "c02370f353f88eb4751db6e9bfb347be306168e7ea19966b1bd1cc9917e639a4",
     "tests/test_boundary_series.py": "5bf4cc43a974f32f74d3e702ab02aab911d20de37d8e085541310c1492d0fb41",
@@ -152,6 +155,7 @@
     "tests/test_general_boundaries.py": "807142676376da912ada3ff19804461ec164dfac38a98328d0267732f3c852a2",
     "tests/test_integration_review.py": "1c2ade9b7f0de48c226715ced29dc28c8058ed54cda46db99d1444e0aca6bf05",
     "tests/test_jobs.py": "f486631f137ee82be7334e02dfe19859551688a46d54a6dfa75bd8a6934fe93b",
+    "tests/test_kbc_parity_diagnostic.py": "cc92a2173497667cd9606d63cf3e7446011b32fee4a480a0ba66f0509f1be88a",
     "tests/test_kbc_precision.py": "ac44e983cd8d0a1ad19438f9918c4a4ae6d352b526ac43e2b2f073a408f12067",
     "tests/test_lbm.py": "47308abf2c82d70a0674b41ce48a9c86fff7ef346bea96b5312cacbd818ced4b",
     "tests/test_motion.py": "2739488d273a643b607a46d86c2676c9e1e4265e1a9da0504546c4fac5ea16d3",
@@ -241,6 +245,28 @@
       "tests/test_atmosphere.py::test_actual_air_scaling_and_production_rejection",
       "tests/test_atmosphere.py::test_preflight_reports_scaling_without_changing_legacy_case",
       "tests/test_atmosphere.py::test_numerical_range_is_explicit",
+      "tests/test_atmospheric_precision.py::test_storage_status_boundaries_and_device_qualification",
+      "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+      "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+      "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+      "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+      "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
+      "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+      "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+      "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+      "tests/test_atmospheric_precision.py::test_shear_wave_initial_state_is_analytic",
+      "tests/test_atmospheric_precision.py::test_amplitude_projects_only_the_sine_mode",
+      "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+      "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+      "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[0.0]",
+      "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[nan]",
+      "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[inf]",
+      "tests/test_atmospheric_precision.py::test_compare_applies_five_percent_tolerance_and_flags_disagreement",
+      "tests/test_atmospheric_precision.py::test_declared_inventory_is_frozen",
+      "tests/test_atmospheric_precision.py::test_run_acceptance_logic",
+      "tests/test_atmospheric_precision.py::test_main_writes_report_and_exit_code",
+      "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+      "tests/test_atmospheric_precision.py::test_script_entry_point_runs_main",
       "tests/test_backport_audit.py::test_crlf_checkout_passes_but_source_and_test_changes_fail",
       "tests/test_boundary_data.py::test_uniform_regression_and_time_profile",
       "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
@@ -811,6 +837,31 @@
       "tests/test_jobs.py::test_closing_creation_job_stops_running_solver[cuda:0]",
       "tests/test_jobs.py::test_closing_creation_job_stops_running_solver[mps]",
       "tests/test_jobs.py::test_close_missing_job_is_idempotent",
+      "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[0]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[-1]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[513]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[1.5]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[True]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[auto-sizes0]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes1]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes2]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes3]",
+      "tests/test_kbc_parity_diagnostic.py::test_comparison_preserves_original_population_threshold_and_nonfinite_failure",
+      "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[numeric]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[exception]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+      "tests/test_kbc_parity_diagnostic.py::test_accelerator_shape_control_reports_actual_device_and_observed_failure[mps]",
+      "tests/test_kbc_parity_diagnostic.py::test_accelerator_shape_control_reports_actual_device_and_observed_failure[cuda:0]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[package]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[submodule]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[missing_file]",
+      "tests/test_kbc_parity_diagnostic.py::test_loaded_module_validator_requires_package",
+      "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
       "tests/test_kbc_precision.py::test_kbc_near_equilibrium_matches_double_collision[cpu-1]",
       "tests/test_kbc_precision.py::test_kbc_near_equilibrium_matches_double_collision[cpu-8]",
       "tests/test_kbc_precision.py::test_kbc_near_equilibrium_matches_double_collision[cuda:0-1]",
@@ -1744,6 +1795,28 @@
       "tests/test_atmosphere.py::test_preflight_reports_scaling_without_changing_legacy_case",
       "tests/test_atmosphere.py::test_profile_and_wall_law_consistency",
       "tests/test_atmosphere.py::test_stress_reversal_rotation_and_no_work_in_normal_direction",
+      "tests/test_atmospheric_precision.py::test_amplitude_projects_only_the_sine_mode",
+      "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+      "tests/test_atmospheric_precision.py::test_compare_applies_five_percent_tolerance_and_flags_disagreement",
+      "tests/test_atmospheric_precision.py::test_declared_inventory_is_frozen",
+      "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+      "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+      "tests/test_atmospheric_precision.py::test_main_writes_report_and_exit_code",
+      "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+      "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+      "tests/test_atmospheric_precision.py::test_run_acceptance_logic",
+      "tests/test_atmospheric_precision.py::test_script_entry_point_runs_main",
+      "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+      "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+      "tests/test_atmospheric_precision.py::test_shear_wave_initial_state_is_analytic",
+      "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+      "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+      "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+      "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
+      "tests/test_atmospheric_precision.py::test_storage_status_boundaries_and_device_qualification",
+      "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[0.0]",
+      "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[inf]",
+      "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[nan]",
       "tests/test_backport_audit.py::test_crlf_checkout_passes_but_source_and_test_changes_fail",
       "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
       "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
@@ -2291,6 +2364,29 @@
       "tests/test_jobs.py::test_queued_pause_and_cancel_are_nonblocking[cpu]",
       "tests/test_jobs.py::test_quick_pause_resume_does_not_lose_run[cpu]",
       "tests/test_jobs.py::test_wall_interpolation_does_not_mix_solid",
+      "tests/test_kbc_parity_diagnostic.py::test_comparison_preserves_original_population_threshold_and_nonfinite_failure",
+      "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[-1]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[0]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[1.5]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[513]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[True]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[auto-sizes0]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes1]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes2]",
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes3]",
+      "tests/test_kbc_parity_diagnostic.py::test_loaded_module_validator_requires_package",
+      "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[missing_file]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[package]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[submodule]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[exception]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[numeric]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]",
       "tests/test_kbc_precision.py::test_kbc_equilibrium_is_fixed_and_preserves_storage[cpu-D2Q9]",
       "tests/test_kbc_precision.py::test_kbc_equilibrium_is_fixed_and_preserves_storage[cpu-D3Q27]",
       "tests/test_kbc_precision.py::test_kbc_near_equilibrium_matches_double_collision[cpu-1]",
@@ -3605,6 +3701,314 @@
         ]
       ],
       "tests/test_atmosphere.py::test_numerical_range_is_explicit": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_storage_status_boundaries_and_device_qualification": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_shear_wave_initial_state_is_analytic": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_amplitude_projects_only_the_sine_mode": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[0.0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[nan]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[inf]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_compare_applies_five_percent_tolerance_and_flags_disagreement": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_declared_inventory_is_frozen": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_run_acceptance_logic": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_main_writes_report_and_exit_code": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_atmospheric_precision.py::test_script_entry_point_runs_main": [
         [
           "setup",
           "passed"
@@ -11529,6 +11933,356 @@
         ]
       ],
       "tests/test_jobs.py::test_close_missing_job_is_idempotent": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[-1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[513]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[1.5]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[True]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[auto-sizes0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes2]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes3]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_comparison_preserves_original_population_threshold_and_nonfinite_failure": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[numeric]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[exception]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_accelerator_shape_control_reports_actual_device_and_observed_failure[mps]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "skipped"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_accelerator_shape_control_reports_actual_device_and_observed_failure[cuda:0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "skipped"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[package]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[submodule]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[missing_file]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_loaded_module_validator_requires_package": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths": [
         [
           "setup",
           "passed"
@@ -41273,6 +42027,338 @@
       "status": "covered"
     },
     {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "source_hashes",
+      "signature": "source_hashes() -> unannotated",
+      "kind": "FunctionDef",
+      "line": 28,
+      "end_line": 33,
+      "first_line": 28,
+      "code_name": "source_hashes",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "09f49ffaeb9d9955ddedc0be94b1ec0a4d986c44294bdffd99180129944bd3ea",
+      "id": "scripts/diagnose_kbc_parity.py::source_hashes",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[missing_file]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[package]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[submodule]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[exception]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[numeric]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]"
+      ],
+      "lines": {
+        "hit": 3,
+        "total": 3
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "loaded_module_paths",
+      "signature": "loaded_module_paths() -> unannotated",
+      "kind": "FunctionDef",
+      "line": 37,
+      "end_line": 40,
+      "first_line": 37,
+      "code_name": "loaded_module_paths",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "d410bb23b72b371356c739e8baf2f456b608990d8311c508a48fe7049fea871a",
+      "id": "scripts/diagnose_kbc_parity.py::loaded_module_paths",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[missing_file]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[package]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[submodule]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[exception]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[numeric]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "validate_loaded_modules",
+      "signature": "validate_loaded_modules(paths) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 43,
+      "end_line": 49,
+      "first_line": 43,
+      "code_name": "validate_loaded_modules",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "84cb692e3f4ec52b6298d8959cbb37f0331a1d42f8ece0021a7d2ceae1ea8bc4",
+      "id": "scripts/diagnose_kbc_parity.py::validate_loaded_modules",
+      "branches": {
+        "hit": 6,
+        "total": 6
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_loaded_module_validator_requires_package",
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[missing_file]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[package]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[submodule]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[exception]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[numeric]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]"
+      ],
+      "lines": {
+        "hit": 6,
+        "total": 6
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "make_flow",
+      "signature": "make_flow(device, size, dtype=torch.float32) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 51,
+      "end_line": 60,
+      "first_line": 51,
+      "code_name": "make_flow",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "0d5366db8a1f4d16ff732fd8f389d95b3509e0a6057ef55b2c05d960d5c277a6",
+      "id": "scripts/diagnose_kbc_parity.py::make_flow",
+      "branches": {
+        "hit": 2,
+        "total": 2
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[-1]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[0]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[1.5]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[513]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[True]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]"
+      ],
+      "lines": {
+        "hit": 7,
+        "total": 7
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "inspect_collision",
+      "signature": "inspect_collision(flow) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 63,
+      "end_line": 87,
+      "first_line": 63,
+      "code_name": "inspect_collision",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Read the existing raw kernel's stages; no replacement collision is used.",
+      "fingerprint": "9d86a641c32b417e3fe0dfd32639495ceb6cb848fda8983c1a1bd10087a323d9",
+      "id": "scripts/diagnose_kbc_parity.py::inspect_collision",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control",
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]"
+      ],
+      "lines": {
+        "hit": 19,
+        "total": 19
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "compare",
+      "signature": "compare(reference, candidate) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 90,
+      "end_line": 99,
+      "first_line": 90,
+      "code_name": "compare",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "86c96131c976ea8690f11de28a81f6815fdc38ef4cb2b2c39cb21c481ffbb95f",
+      "id": "scripts/diagnose_kbc_parity.py::compare",
+      "branches": {
+        "hit": 2,
+        "total": 2
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_comparison_preserves_original_population_threshold_and_nonfinite_failure",
+        "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control",
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]"
+      ],
+      "lines": {
+        "hit": 7,
+        "total": 7
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "summarize",
+      "signature": "summarize(stages) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 102,
+      "end_line": 112,
+      "first_line": 102,
+      "code_name": "summarize",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "e41b5ee9e47874df493d6f0c070ad3acf255f986431a1ad49607515760c7f9f4",
+      "id": "scripts/diagnose_kbc_parity.py::summarize",
+      "branches": {
+        "hit": 6,
+        "total": 6
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_comparison_preserves_original_population_threshold_and_nonfinite_failure",
+        "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control",
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]"
+      ],
+      "lines": {
+        "hit": 9,
+        "total": 9
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "study",
+      "signature": "study(device, sizes, evidence=None) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 115,
+      "end_line": 146,
+      "first_line": 115,
+      "code_name": "study",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "3da4ad71c4bbe5c8745ee99278cc5383d955ffdfea5960ca11eb9f03329b07c4",
+      "id": "scripts/diagnose_kbc_parity.py::study",
+      "branches": {
+        "hit": 6,
+        "total": 6
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[auto-sizes0]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes1]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes2]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes3]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]"
+      ],
+      "lines": {
+        "hit": 22,
+        "total": 22
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/diagnose_kbc_parity.py",
+      "language": "Python",
+      "name": "main",
+      "signature": "main(argv=None) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 149,
+      "end_line": 182,
+      "first_line": 149,
+      "code_name": "main",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "9d8abc3fd6d61be188c2cdc00e1667537bca1b5323f9d8fba517109995a0f757",
+      "id": "scripts/diagnose_kbc_parity.py::main",
+      "branches": {
+        "hit": 4,
+        "total": 4
+      },
+      "tests": [
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[missing_file]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[package]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[submodule]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[exception]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[numeric]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]"
+      ],
+      "lines": {
+        "hit": 26,
+        "total": 26
+      },
+      "status": "covered"
+    },
+    {
       "path": "scripts/example_inventory.py",
       "language": "Python",
       "name": "entrypoints",
@@ -43336,6 +44422,325 @@
       "status": "covered"
     },
     {
+      "path": "scripts/verify_atmospheric_precision.py",
+      "language": "Python",
+      "name": "ShearWave.__init__",
+      "signature": "__init__(self, context, n, amplitude, margin) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 47,
+      "end_line": 50,
+      "first_line": 47,
+      "code_name": "__init__",
+      "declaration": false,
+      "visibility": "private",
+      "summary": "",
+      "fingerprint": "2962a10a1770695a81c4ae81733cd52ea84653b2f8e976e39d02a5f9ce0fb2fa",
+      "id": "scripts/verify_atmospheric_precision.py::ShearWave.__init__",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_atmospheric_precision.py::test_amplitude_projects_only_the_sine_mode",
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+        "tests/test_atmospheric_precision.py::test_shear_wave_initial_state_is_analytic",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[0.0]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[inf]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[nan]"
+      ],
+      "lines": {
+        "hit": 2,
+        "total": 2
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/verify_atmospheric_precision.py",
+      "language": "Python",
+      "name": "ShearWave.rho",
+      "signature": "rho(self, f=None) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 52,
+      "end_line": 53,
+      "first_line": 52,
+      "code_name": "rho",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "45f20f01a7fdaffcdaaf2a8e11b8210c83a53639d8703d92fb6e26c52673e3a1",
+      "id": "scripts/verify_atmospheric_precision.py::ShearWave.rho",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_atmospheric_precision.py::test_amplitude_projects_only_the_sine_mode",
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+        "tests/test_atmospheric_precision.py::test_shear_wave_initial_state_is_analytic",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[0.0]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[inf]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[nan]"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/verify_atmospheric_precision.py",
+      "language": "Python",
+      "name": "ShearWave.initial_pu",
+      "signature": "initial_pu(self) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 55,
+      "end_line": 56,
+      "first_line": 55,
+      "code_name": "initial_pu",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "67d4f95623bad67e8ae58302908f76baebd63a7713260d7e88b0679798252aee",
+      "id": "scripts/verify_atmospheric_precision.py::ShearWave.initial_pu",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_atmospheric_precision.py::test_shear_wave_initial_state_is_analytic"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/verify_atmospheric_precision.py",
+      "language": "Python",
+      "name": "ShearWave.initialize",
+      "signature": "initialize(self) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 58,
+      "end_line": 74,
+      "first_line": 58,
+      "code_name": "initialize",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "3edf5f7695a963997f1996b4cd31f099f19fb6968f357e3863c97d0a6d3f9527",
+      "id": "scripts/verify_atmospheric_precision.py::ShearWave.initialize",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_atmospheric_precision.py::test_amplitude_projects_only_the_sine_mode",
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+        "tests/test_atmospheric_precision.py::test_shear_wave_initial_state_is_analytic",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[0.0]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[inf]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[nan]"
+      ],
+      "lines": {
+        "hit": 15,
+        "total": 15
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/verify_atmospheric_precision.py",
+      "language": "Python",
+      "name": "ShearWave.post_boundaries",
+      "signature": "@property post_boundaries(self) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 77,
+      "end_line": 78,
+      "first_line": 76,
+      "code_name": "post_boundaries",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "fc15f3d36a2bd764279e2b733f7ca8169845acc4dadb30f7e03eb9c6b3317573",
+      "id": "scripts/verify_atmospheric_precision.py::ShearWave.post_boundaries",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+        "tests/test_atmospheric_precision.py::test_shear_wave_initial_state_is_analytic",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[0.0]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[inf]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[nan]"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/verify_atmospheric_precision.py",
+      "language": "Python",
+      "name": "amplitude",
+      "signature": "amplitude(flow) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 81,
+      "end_line": 85,
+      "first_line": 81,
+      "code_name": "amplitude",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Lattice amplitude of the sin(kx) mode of u_y.",
+      "fingerprint": "457d3cd40f949a7b44df9ee464a67da6b5df50fa84c8c65de2e40b530587331f",
+      "id": "scripts/verify_atmospheric_precision.py::amplitude",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_atmospheric_precision.py::test_amplitude_projects_only_the_sine_mode",
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_shear_wave_initial_state_is_analytic"
+      ],
+      "lines": {
+        "hit": 3,
+        "total": 3
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/verify_atmospheric_precision.py",
+      "language": "Python",
+      "name": "measure",
+      "signature": "measure(dx, cs, wave, device='cpu', dtype=torch.float32, n=32, steps=4000, sample=100, margin=None) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 88,
+      "end_line": 112,
+      "first_line": 88,
+      "code_name": "measure",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Run one shear-wave decay and return delta_eff plus the storage diagnostic.",
+      "fingerprint": "6d46385cf7d063332cd423369b0d3f40cc8f1a79ea5823cd81ce167f48dcdfed",
+      "id": "scripts/verify_atmospheric_precision.py::measure",
+      "branches": {
+        "hit": 6,
+        "total": 6
+      },
+      "tests": [
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[0.0]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[inf]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[nan]"
+      ],
+      "lines": {
+        "hit": 19,
+        "total": 19
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/verify_atmospheric_precision.py",
+      "language": "Python",
+      "name": "compare",
+      "signature": "compare(reference, candidate) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 126,
+      "end_line": 132,
+      "first_line": 126,
+      "code_name": "compare",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Criterion 2 and 3 for one FP32 case against its FP64 reference.",
+      "fingerprint": "3922dd2c6a7ae4fa471c43f3f832952cf04f553ba54fcea548375d946e1ce80e",
+      "id": "scripts/verify_atmospheric_precision.py::compare",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_atmospheric_precision.py::test_compare_applies_five_percent_tolerance_and_flags_disagreement",
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_run_acceptance_logic"
+      ],
+      "lines": {
+        "hit": 4,
+        "total": 4
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/verify_atmospheric_precision.py",
+      "language": "Python",
+      "name": "run",
+      "signature": "run(devices, cases=None) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 135,
+      "end_line": 159,
+      "first_line": 135,
+      "code_name": "run",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Measure every declared case; return rows and the acceptance summary.",
+      "fingerprint": "a33a61175ba7108859480b4a7be573e68976a77e275aa15d0a36ed71d9b1bd46",
+      "id": "scripts/verify_atmospheric_precision.py::run",
+      "branches": {
+        "hit": 6,
+        "total": 6
+      },
+      "tests": [
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_run_acceptance_logic"
+      ],
+      "lines": {
+        "hit": 17,
+        "total": 17
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/verify_atmospheric_precision.py",
+      "language": "Python",
+      "name": "main",
+      "signature": "main(argv=None) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 162,
+      "end_line": 178,
+      "first_line": 162,
+      "code_name": "main",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "d105e544649c95e630d31e1287027dc0c98e36c9def678a96df89b937451b40c",
+      "id": "scripts/verify_atmospheric_precision.py::main",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_atmospheric_precision.py::test_main_writes_report_and_exit_code",
+        "tests/test_atmospheric_precision.py::test_script_entry_point_runs_main"
+      ],
+      "lines": {
+        "hit": 11,
+        "total": 11
+      },
+      "status": "covered"
+    },
+    {
       "path": "scripts/verify_atmospheric_reference.py",
       "language": "Python",
       "name": "measurements",
@@ -45061,6 +46466,20 @@
         "tests/test_atmosphere.py::test_preflight_reports_scaling_without_changing_legacy_case",
         "tests/test_atmosphere.py::test_profile_and_wall_law_consistency",
         "tests/test_atmosphere.py::test_stress_reversal_rotation_and_no_work_in_normal_direction",
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[0.0]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[inf]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[nan]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_invalid_files_changed_grid_and_changed_file",
@@ -45342,6 +46761,14 @@
         "tests/test_atmosphere.py::test_numerical_range_is_explicit",
         "tests/test_atmosphere.py::test_profile_and_wall_law_consistency",
         "tests/test_atmosphere.py::test_stress_reversal_rotation_and_no_work_in_normal_direction",
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -45461,6 +46888,14 @@
         "tests/test_atmosphere.py::test_invalid_parameters[nan]",
         "tests/test_atmosphere.py::test_numerical_range_is_explicit",
         "tests/test_atmosphere.py::test_profile_and_wall_law_consistency",
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -45576,6 +47011,14 @@
         "tests/test_atmosphere.py::test_numerical_range_is_explicit",
         "tests/test_atmosphere.py::test_profile_and_wall_law_consistency",
         "tests/test_atmosphere.py::test_stress_reversal_rotation_and_no_work_in_normal_direction",
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -45740,6 +47183,20 @@
         "tests/test_atmosphere.py::test_invalid_parameters[nan]",
         "tests/test_atmosphere.py::test_numerical_range_is_explicit",
         "tests/test_atmosphere.py::test_preflight_reports_scaling_without_changing_legacy_case",
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[0.0]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[inf]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[nan]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_invalid_files_changed_grid_and_changed_file",
@@ -45983,6 +47440,9 @@
         "total": 4
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_invalid_files_changed_grid_and_changed_file",
@@ -46269,6 +47729,9 @@
         "total": 2
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_invalid_files_changed_grid_and_changed_file",
@@ -46476,6 +47939,9 @@
         "total": 12
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_invalid_files_changed_grid_and_changed_file",
@@ -54569,9 +56035,9 @@
       "name": "validate",
       "signature": "validate(spec) -> unannotated",
       "kind": "FunctionDef",
-      "line": 15,
-      "end_line": 56,
-      "first_line": 15,
+      "line": 17,
+      "end_line": 58,
+      "first_line": 17,
       "code_name": "validate",
       "declaration": false,
       "visibility": "public/conventional",
@@ -54583,6 +56049,14 @@
         "total": 28
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -54656,12 +56130,152 @@
     {
       "path": "src/hawa/neutral.py",
       "language": "Python",
+      "name": "_relaxed_fraction",
+      "signature": "_relaxed_fraction(delta) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 61,
+      "end_line": 63,
+      "first_line": 61,
+      "code_name": "_relaxed_fraction",
+      "declaration": false,
+      "visibility": "private",
+      "summary": "4 delta/(1+2 delta) = 2-1/tau: the dissipative part of the regularized update.",
+      "fingerprint": "816c4ebb31b7f9e5936a7fc261d63e0120704562ec42b4333bb9aaafa52f6638",
+      "id": "src/hawa/neutral.py::_relaxed_fraction",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[0.0]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[inf]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[nan]",
+        "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
+        "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
+        "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
+        "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
+        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
+        "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
+        "tests/test_neutral.py::test_filter_checkpoint_continuation",
+        "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[0.1]",
+        "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[1.0]",
+        "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[10.0]",
+        "tests/test_neutral.py::test_reversal_and_checkpoint_reset",
+        "tests/test_neutral.py::test_shifted_regularization_matches_absolute_reference",
+        "tests/test_neutral.py::test_wall_mass_and_impulse_budget",
+        "tests/test_neutral_external.py::test_adjacent_inflow_and_reverse_axis",
+        "tests/test_neutral_external.py::test_body_coupling[False]",
+        "tests/test_neutral_external.py::test_body_coupling[True]",
+        "tests/test_neutral_external.py::test_external_physical_mass_budget",
+        "tests/test_neutral_external.py::test_fd_regularization_preserves_wall_and_body_link_ownership",
+        "tests/test_neutral_external.py::test_open_pressure_and_incoming_top",
+        "tests/test_neutral_external.py::test_pressure_backflow_uses_interior_normal_speed_and_gauge_pressure",
+        "tests/test_neutral_external.py::test_shifted_mass_diagnostic_does_not_cancel_absolute_masses",
+        "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
+        "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
+        "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
+        "tests/test_plugin_quality_edges.py::test_filtered_wall_checkpoint_rejects_invalid_or_missing_history",
+        "tests/test_python_core_contracts.py::test_external_reset_discards_runtime_report_without_aliasing_plan",
+        "tests/test_quality_tools.py::test_precursor_harness_zero_step_control_preserves_limits",
+        "tests/test_runtime_numerical_edges.py::test_legacy_v2_without_strain_reconstructs_density_and_velocity",
+        "tests/test_runtime_rejection_edges.py::test_nonfinite_or_empty_fluid_is_rejected",
+        "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
+        "tests/test_tooling_execution.py::test_neutral_analytic_and_pulse_controls_use_finite_real_cpu_fields"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "src/hawa/neutral.py",
+      "language": "Python",
+      "name": "_storage_status",
+      "signature": "_storage_status(share, qualified) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 66,
+      "end_line": 75,
+      "first_line": 66,
+      "code_name": "_storage_status",
+      "declaration": false,
+      "visibility": "private",
+      "summary": "Classify a dissipation-weighted resolved share; None means no strain.",
+      "fingerprint": "a904bf285003271bd4f96b53fba90cecff4444b15ecc380a03cb7da65a456fd1",
+      "id": "src/hawa/neutral.py::_storage_status",
+      "branches": {
+        "hit": 4,
+        "total": 4
+      },
+      "tests": [
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
+        "tests/test_atmospheric_precision.py::test_storage_status_boundaries_and_device_qualification",
+        "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
+        "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
+        "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
+        "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
+        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
+        "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
+        "tests/test_neutral.py::test_filter_checkpoint_continuation",
+        "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[0.1]",
+        "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[1.0]",
+        "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[10.0]",
+        "tests/test_neutral.py::test_reversal_and_checkpoint_reset",
+        "tests/test_neutral_external.py::test_adjacent_inflow_and_reverse_axis",
+        "tests/test_neutral_external.py::test_body_coupling[False]",
+        "tests/test_neutral_external.py::test_body_coupling[True]",
+        "tests/test_neutral_external.py::test_shifted_mass_diagnostic_does_not_cancel_absolute_masses",
+        "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
+        "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
+        "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
+        "tests/test_plugin_quality_edges.py::test_filtered_wall_checkpoint_rejects_invalid_or_missing_history",
+        "tests/test_python_core_contracts.py::test_external_reset_discards_runtime_report_without_aliasing_plan",
+        "tests/test_quality_tools.py::test_precursor_harness_zero_step_control_preserves_limits",
+        "tests/test_runtime_numerical_edges.py::test_legacy_v2_without_strain_reconstructs_density_and_velocity",
+        "tests/test_runtime_rejection_edges.py::test_nonfinite_or_empty_fluid_is_rejected",
+        "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass"
+      ],
+      "lines": {
+        "hit": 3,
+        "total": 3
+      },
+      "status": "covered"
+    },
+    {
+      "path": "src/hawa/neutral.py",
+      "language": "Python",
       "name": "ShiftedEquilibrium.__call__",
       "signature": "__call__(self, flow, rho=None, u=None, delta=None) -> unannotated",
       "kind": "FunctionDef",
-      "line": 60,
-      "end_line": 67,
-      "first_line": 60,
+      "line": 79,
+      "end_line": 86,
+      "first_line": 79,
       "code_name": "__call__",
       "declaration": false,
       "visibility": "private",
@@ -54673,6 +56287,20 @@
         "total": 0
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[0.0]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[inf]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[nan]",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -54722,9 +56350,9 @@
       "name": "ShiftedEquilibrium.native_available",
       "signature": "native_available(self) -> unannotated",
       "kind": "FunctionDef",
-      "line": 68,
-      "end_line": 68,
-      "first_line": 68,
+      "line": 87,
+      "end_line": 87,
+      "first_line": 87,
       "code_name": "native_available",
       "declaration": false,
       "visibility": "public/conventional",
@@ -54750,9 +56378,9 @@
       "name": "ShiftedEquilibrium.native_generator",
       "signature": "native_generator(self, index) -> unannotated",
       "kind": "FunctionDef",
-      "line": 69,
-      "end_line": 69,
-      "first_line": 69,
+      "line": 88,
+      "end_line": 88,
+      "first_line": 88,
       "code_name": "native_generator",
       "declaration": false,
       "visibility": "public/conventional",
@@ -54778,9 +56406,9 @@
       "name": "ShiftedRegularizedSGS.__init__",
       "signature": "__init__(self, margin, cs=0.17, acceleration=(0.0, 0.0, 0.0)) -> unannotated",
       "kind": "FunctionDef",
-      "line": 73,
-      "end_line": 78,
-      "first_line": 73,
+      "line": 92,
+      "end_line": 97,
+      "first_line": 92,
       "code_name": "__init__",
       "declaration": false,
       "visibility": "private",
@@ -54792,6 +56420,20 @@
         "total": 2
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[0.0]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[inf]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[nan]",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -54838,23 +56480,107 @@
     {
       "path": "src/hawa/neutral.py",
       "language": "Python",
-      "name": "ShiftedRegularizedSGS.__call__",
-      "signature": "__call__(self, flow) -> unannotated",
+      "name": "ShiftedRegularizedSGS._relaxation_state",
+      "signature": "_relaxation_state(self, flow) -> unannotated",
       "kind": "FunctionDef",
-      "line": 80,
-      "end_line": 98,
-      "first_line": 80,
-      "code_name": "__call__",
+      "line": 99,
+      "end_line": 111,
+      "first_line": 99,
+      "code_name": "_relaxation_state",
       "declaration": false,
       "visibility": "private",
       "summary": "",
-      "fingerprint": "2d0f8ad38153742f3ed44cb2d0a08f9bbde277062095efdf7733b0d76c9cac0b",
-      "id": "src/hawa/neutral.py::ShiftedRegularizedSGS.__call__",
+      "fingerprint": "de3c64e2817746c6b45e0f9e41c1687b510234ed4a437e207ae62556b53f1599",
+      "id": "src/hawa/neutral.py::ShiftedRegularizedSGS._relaxation_state",
       "branches": {
         "hit": 2,
         "total": 2
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[0.0]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[inf]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[nan]",
+        "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
+        "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
+        "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
+        "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
+        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
+        "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
+        "tests/test_neutral.py::test_filter_checkpoint_continuation",
+        "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[0.1]",
+        "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[1.0]",
+        "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[10.0]",
+        "tests/test_neutral.py::test_reversal_and_checkpoint_reset",
+        "tests/test_neutral.py::test_shifted_regularization_matches_absolute_reference",
+        "tests/test_neutral.py::test_wall_mass_and_impulse_budget",
+        "tests/test_neutral_external.py::test_adjacent_inflow_and_reverse_axis",
+        "tests/test_neutral_external.py::test_body_coupling[False]",
+        "tests/test_neutral_external.py::test_body_coupling[True]",
+        "tests/test_neutral_external.py::test_external_physical_mass_budget",
+        "tests/test_neutral_external.py::test_fd_regularization_preserves_wall_and_body_link_ownership",
+        "tests/test_neutral_external.py::test_open_pressure_and_incoming_top",
+        "tests/test_neutral_external.py::test_pressure_backflow_uses_interior_normal_speed_and_gauge_pressure",
+        "tests/test_neutral_external.py::test_shifted_mass_diagnostic_does_not_cancel_absolute_masses",
+        "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
+        "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
+        "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
+        "tests/test_plugin_quality_edges.py::test_filtered_wall_checkpoint_rejects_invalid_or_missing_history",
+        "tests/test_python_core_contracts.py::test_external_reset_discards_runtime_report_without_aliasing_plan",
+        "tests/test_quality_tools.py::test_precursor_harness_zero_step_control_preserves_limits",
+        "tests/test_runtime_numerical_edges.py::test_legacy_v2_without_strain_reconstructs_density_and_velocity",
+        "tests/test_runtime_rejection_edges.py::test_nonfinite_or_empty_fluid_is_rejected",
+        "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
+        "tests/test_tooling_execution.py::test_neutral_analytic_and_pulse_controls_use_finite_real_cpu_fields"
+      ],
+      "lines": {
+        "hit": 11,
+        "total": 11
+      },
+      "status": "covered"
+    },
+    {
+      "path": "src/hawa/neutral.py",
+      "language": "Python",
+      "name": "ShiftedRegularizedSGS.__call__",
+      "signature": "__call__(self, flow) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 113,
+      "end_line": 121,
+      "first_line": 113,
+      "code_name": "__call__",
+      "declaration": false,
+      "visibility": "private",
+      "summary": "",
+      "fingerprint": "3ffa68d557f30bd28cf73f7cf2a844648f259607862cab515a06221cf2865770",
+      "id": "src/hawa/neutral.py::ShiftedRegularizedSGS.__call__",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[0.0]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[inf]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[nan]",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -54887,8 +56613,136 @@
         "tests/test_tooling_execution.py::test_neutral_analytic_and_pulse_controls_use_finite_real_cpu_fields"
       ],
       "lines": {
-        "hit": 15,
-        "total": 15
+        "hit": 6,
+        "total": 6
+      },
+      "status": "covered"
+    },
+    {
+      "path": "src/hawa/neutral.py",
+      "language": "Python",
+      "name": "ShiftedRegularizedSGS.storage_resolution",
+      "signature": "storage_resolution(self, flow, fluid=None) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 123,
+      "end_line": 157,
+      "first_line": 123,
+      "code_name": "storage_resolution",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Share of the intended collision dissipation that survives storage rounding.",
+      "fingerprint": "b1842d10ffba6d68ffc05b008cf10a216cf26895ddae756acadbf5d3622cace7",
+      "id": "src/hawa/neutral.py::ShiftedRegularizedSGS.storage_resolution",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
+        "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
+        "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
+        "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
+        "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
+        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
+        "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
+        "tests/test_neutral.py::test_filter_checkpoint_continuation",
+        "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[0.1]",
+        "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[1.0]",
+        "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[10.0]",
+        "tests/test_neutral.py::test_reversal_and_checkpoint_reset",
+        "tests/test_neutral_external.py::test_adjacent_inflow_and_reverse_axis",
+        "tests/test_neutral_external.py::test_body_coupling[False]",
+        "tests/test_neutral_external.py::test_body_coupling[True]",
+        "tests/test_neutral_external.py::test_shifted_mass_diagnostic_does_not_cancel_absolute_masses",
+        "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
+        "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
+        "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
+        "tests/test_plugin_quality_edges.py::test_filtered_wall_checkpoint_rejects_invalid_or_missing_history",
+        "tests/test_python_core_contracts.py::test_external_reset_discards_runtime_report_without_aliasing_plan",
+        "tests/test_quality_tools.py::test_precursor_harness_zero_step_control_preserves_limits",
+        "tests/test_runtime_numerical_edges.py::test_legacy_v2_without_strain_reconstructs_density_and_velocity",
+        "tests/test_runtime_rejection_edges.py::test_nonfinite_or_empty_fluid_is_rejected",
+        "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass"
+      ],
+      "lines": {
+        "hit": 12,
+        "total": 12
+      },
+      "status": "covered"
+    },
+    {
+      "path": "src/hawa/neutral.py",
+      "language": "Python",
+      "name": "ShiftedRegularizedSGS.storage_resolution.share",
+      "signature": "share(weight, increment) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 144,
+      "end_line": 148,
+      "first_line": 144,
+      "code_name": "share",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "6cb97c29c43e08a2b72800c4494be9df5800d95455d7f2b297737af9cf1c0e49",
+      "id": "src/hawa/neutral.py::ShiftedRegularizedSGS.storage_resolution.share",
+      "branches": {
+        "hit": 2,
+        "total": 2
+      },
+      "tests": [
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
+        "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
+        "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
+        "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
+        "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
+        "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
+        "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
+        "tests/test_neutral.py::test_filter_checkpoint_continuation",
+        "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[0.1]",
+        "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[1.0]",
+        "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[10.0]",
+        "tests/test_neutral.py::test_reversal_and_checkpoint_reset",
+        "tests/test_neutral_external.py::test_adjacent_inflow_and_reverse_axis",
+        "tests/test_neutral_external.py::test_body_coupling[False]",
+        "tests/test_neutral_external.py::test_body_coupling[True]",
+        "tests/test_neutral_external.py::test_shifted_mass_diagnostic_does_not_cancel_absolute_masses",
+        "tests/test_neutral_external.py::test_small_shifted_exterior_pressure_survives_fp32",
+        "tests/test_neutral_external.py::test_top_input_and_pressure_reference",
+        "tests/test_neutral_external.py::test_uniform_unknown_link_reconstruction",
+        "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
+        "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
+        "tests/test_plugin_quality_edges.py::test_filtered_wall_checkpoint_rejects_invalid_or_missing_history",
+        "tests/test_python_core_contracts.py::test_external_reset_discards_runtime_report_without_aliasing_plan",
+        "tests/test_quality_tools.py::test_precursor_harness_zero_step_control_preserves_limits",
+        "tests/test_runtime_numerical_edges.py::test_legacy_v2_without_strain_reconstructs_density_and_velocity",
+        "tests/test_runtime_rejection_edges.py::test_nonfinite_or_empty_fluid_is_rejected",
+        "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass"
+      ],
+      "lines": {
+        "hit": 4,
+        "total": 4
       },
       "status": "covered"
     },
@@ -54898,9 +56752,9 @@
       "name": "ShiftedRegularizedSGS.native_available",
       "signature": "native_available(self) -> unannotated",
       "kind": "FunctionDef",
-      "line": 100,
-      "end_line": 100,
-      "first_line": 100,
+      "line": 159,
+      "end_line": 159,
+      "first_line": 159,
       "code_name": "native_available",
       "declaration": false,
       "visibility": "public/conventional",
@@ -54926,9 +56780,9 @@
       "name": "ShiftedRegularizedSGS.native_generator",
       "signature": "native_generator(self, index) -> unannotated",
       "kind": "FunctionDef",
-      "line": 101,
-      "end_line": 101,
-      "first_line": 101,
+      "line": 160,
+      "end_line": 160,
+      "first_line": 160,
       "code_name": "native_generator",
       "declaration": false,
       "visibility": "public/conventional",
@@ -54954,9 +56808,9 @@
       "name": "make",
       "signature": "make(spec, context) -> unannotated",
       "kind": "FunctionDef",
-      "line": 104,
-      "end_line": 191,
-      "first_line": 104,
+      "line": 163,
+      "end_line": 250,
+      "first_line": 163,
       "code_name": "make",
       "declaration": false,
       "visibility": "public/conventional",
@@ -54968,6 +56822,14 @@
         "total": 10
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -55018,9 +56880,9 @@
       "name": "make.NeutralFlow.__init__",
       "signature": "__init__(self) -> unannotated",
       "kind": "FunctionDef",
-      "line": 118,
-      "end_line": 123,
-      "first_line": 118,
+      "line": 177,
+      "end_line": 182,
+      "first_line": 177,
       "code_name": "__init__",
       "declaration": false,
       "visibility": "private",
@@ -55032,6 +56894,14 @@
         "total": 0
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -55081,9 +56951,9 @@
       "name": "make.NeutralFlow.rho",
       "signature": "rho(self, f=None) -> unannotated",
       "kind": "FunctionDef",
-      "line": 124,
-      "end_line": 125,
-      "first_line": 124,
+      "line": 183,
+      "end_line": 184,
+      "first_line": 183,
       "code_name": "rho",
       "declaration": false,
       "visibility": "public/conventional",
@@ -55095,6 +56965,14 @@
         "total": 0
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -55143,9 +57021,9 @@
       "name": "make.NeutralFlow.p_pu",
       "signature": "@property p_pu(self) -> unannotated",
       "kind": "FunctionDef",
-      "line": 127,
-      "end_line": 130,
-      "first_line": 126,
+      "line": 186,
+      "end_line": 189,
+      "first_line": 185,
       "code_name": "p_pu",
       "declaration": false,
       "visibility": "public/conventional",
@@ -55157,6 +57035,8 @@
         "total": 0
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -55195,9 +57075,9 @@
       "name": "make.NeutralFlow.u_pu",
       "signature": "@property u_pu(self) -> unannotated",
       "kind": "FunctionDef",
-      "line": 132,
-      "end_line": 134,
-      "first_line": 131,
+      "line": 191,
+      "end_line": 193,
+      "first_line": 190,
       "code_name": "u_pu",
       "declaration": false,
       "visibility": "public/conventional",
@@ -55209,6 +57089,9 @@
         "total": 0
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -55256,9 +57139,9 @@
       "name": "make.NeutralFlow.initial_pu",
       "signature": "initial_pu(self) -> unannotated",
       "kind": "FunctionDef",
-      "line": 135,
-      "end_line": 151,
-      "first_line": 135,
+      "line": 194,
+      "end_line": 210,
+      "first_line": 194,
       "code_name": "initial_pu",
       "declaration": false,
       "visibility": "public/conventional",
@@ -55270,6 +57153,14 @@
         "total": 2
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -55319,9 +57210,9 @@
       "name": "make.NeutralFlow.post_boundaries",
       "signature": "@property post_boundaries(self) -> unannotated",
       "kind": "FunctionDef",
-      "line": 153,
-      "end_line": 153,
-      "first_line": 152,
+      "line": 212,
+      "end_line": 212,
+      "first_line": 211,
       "code_name": "post_boundaries",
       "declaration": false,
       "visibility": "public/conventional",
@@ -55333,6 +57224,14 @@
         "total": 2
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -55382,9 +57281,9 @@
       "name": "RoughFloor.__init__",
       "signature": "__init__(self, solver, z0) -> unannotated",
       "kind": "FunctionDef",
-      "line": 201,
-      "end_line": 210,
-      "first_line": 201,
+      "line": 260,
+      "end_line": 269,
+      "first_line": 260,
       "code_name": "__init__",
       "declaration": false,
       "visibility": "private",
@@ -55396,6 +57295,14 @@
         "total": 0
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -55445,9 +57352,9 @@
       "name": "RoughFloor.capture",
       "signature": "capture(self) -> unannotated",
       "kind": "FunctionDef",
-      "line": 211,
-      "end_line": 219,
-      "first_line": 211,
+      "line": 270,
+      "end_line": 278,
+      "first_line": 270,
       "code_name": "capture",
       "declaration": false,
       "visibility": "public/conventional",
@@ -55459,6 +57366,8 @@
         "total": 2
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -55501,9 +57410,9 @@
       "name": "RoughFloor.apply",
       "signature": "apply(self) -> unannotated",
       "kind": "FunctionDef",
-      "line": 220,
-      "end_line": 266,
-      "first_line": 220,
+      "line": 279,
+      "end_line": 325,
+      "first_line": 279,
       "code_name": "apply",
       "declaration": false,
       "visibility": "public/conventional",
@@ -55515,6 +57424,8 @@
         "total": 22
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -55557,9 +57468,9 @@
       "name": "RoughFloor.reset",
       "signature": "reset(self) -> unannotated",
       "kind": "FunctionDef",
-      "line": 267,
-      "end_line": 269,
-      "first_line": 267,
+      "line": 326,
+      "end_line": 328,
+      "first_line": 326,
       "code_name": "reset",
       "declaration": false,
       "visibility": "public/conventional",
@@ -56008,6 +57919,9 @@
       },
       "tests": [
         "tests/test_atmosphere.py::test_preflight_reports_scaling_without_changing_legacy_case",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_invalid_files_changed_grid_and_changed_file",
@@ -56280,6 +58194,9 @@
       },
       "tests": [
         "tests/test_atmosphere.py::test_preflight_reports_scaling_without_changing_legacy_case",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_invalid_files_changed_grid_and_changed_file",
@@ -56553,6 +58470,9 @@
       "tests": [
         "tests/test_atmosphere.py::test_actual_air_scaling_and_production_rejection",
         "tests/test_atmosphere.py::test_preflight_reports_scaling_without_changing_legacy_case",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_invalid_files_changed_grid_and_changed_file",
@@ -56835,6 +58755,8 @@
         "total": 0
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_jobs.py::test_job_controls_and_completed_identity[cpu]",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
@@ -56952,6 +58874,8 @@
         "total": 0
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_jobs.py::test_job_controls_and_completed_identity[cpu]",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
@@ -57022,6 +58946,8 @@
         "total": 0
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_jobs.py::test_job_controls_and_completed_identity[cpu]",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
@@ -57148,6 +59074,8 @@
         "total": 0
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_nonuniform_device_parity[cpu]",
@@ -57318,6 +59246,8 @@
         "total": 2
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_nonuniform_device_parity[cpu]",
@@ -57419,6 +59349,8 @@
         "total": 2
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_nonuniform_device_parity[cpu]",
@@ -57576,6 +59508,14 @@
         "total": 2
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_invalid_files_changed_grid_and_changed_file",
@@ -57733,6 +59673,9 @@
         "total": 0
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_invalid_files_changed_grid_and_changed_file",
@@ -57904,6 +59847,8 @@
         "total": 14
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_invalid_files_changed_grid_and_changed_file",
@@ -58023,6 +59968,9 @@
         "total": 14
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_invalid_files_changed_grid_and_changed_file",
@@ -58247,6 +60195,9 @@
         "total": 0
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_invalid_files_changed_grid_and_changed_file",
@@ -58439,6 +60390,8 @@
         "total": 14
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_nonuniform_device_parity[cpu]",
         "tests/test_boundary_data.py::test_quality_finite_high_mach_sticky_and_source_rejection",
@@ -59318,19 +61271,22 @@
       "signature": "assess(session) -> unannotated",
       "kind": "FunctionDef",
       "line": 8,
-      "end_line": 87,
+      "end_line": 88,
       "first_line": 8,
       "code_name": "assess",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "48633eafbe00d77aa53168725808fa0ab4bde76d9fa2fa8fe12398e26d1c18fd",
+      "fingerprint": "5e86d8da2bc79f59b323cba1c8bee06bc103eeb81fa49a8c68065fd23d18f048",
       "id": "src/hawa/quality.py::assess",
       "branches": {
         "hit": 22,
         "total": 22
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
         "tests/test_boundary_data.py::test_nonuniform_device_parity[cpu]",
@@ -60417,6 +62373,14 @@
         "total": 6
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
         "tests/test_boundary_series.py::test_cropped_solid_masks_and_partial_stencils",
         "tests/test_boundary_series.py::test_mapped_neutral_backend_parity[cpu]",
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
@@ -60534,6 +62498,14 @@
         "total": 0
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_nonuniform_device_parity[cpu]",
         "tests/test_boundary_data.py::test_uniform_regression_and_time_profile",
@@ -60628,6 +62600,14 @@
         "total": 6
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_nonuniform_device_parity[cpu]",
         "tests/test_boundary_data.py::test_uniform_regression_and_time_profile",
@@ -60722,6 +62702,8 @@
         "total": 6
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_nonuniform_device_parity[cpu]",
         "tests/test_boundary_data.py::test_uniform_regression_and_time_profile",
@@ -60846,6 +62828,14 @@
         "total": 2
       },
       "tests": [
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_nonuniform_device_parity[cpu]",
         "tests/test_boundary_data.py::test_uniform_regression_and_time_profile",
@@ -61456,6 +63446,28 @@
         "tests/test_atmosphere.py::test_preflight_reports_scaling_without_changing_legacy_case",
         "tests/test_atmosphere.py::test_profile_and_wall_law_consistency",
         "tests/test_atmosphere.py::test_stress_reversal_rotation_and_no_work_in_normal_direction",
+        "tests/test_atmospheric_precision.py::test_amplitude_projects_only_the_sine_mode",
+        "tests/test_atmospheric_precision.py::test_collision_relaxation_matches_absolute_regularized_reference",
+        "tests/test_atmospheric_precision.py::test_compare_applies_five_percent_tolerance_and_flags_disagreement",
+        "tests/test_atmospheric_precision.py::test_declared_inventory_is_frozen",
+        "tests/test_atmospheric_precision.py::test_fp32_physical_air_loses_molecular_dissipation",
+        "tests/test_atmospheric_precision.py::test_invalid_neutral_state_reports_no_storage_diagnostic",
+        "tests/test_atmospheric_precision.py::test_main_writes_report_and_exit_code",
+        "tests/test_atmospheric_precision.py::test_measure_contract_and_analytic_fp64_decay",
+        "tests/test_atmospheric_precision.py::test_measure_fits_log_amplitude_over_last_ninety_percent",
+        "tests/test_atmospheric_precision.py::test_run_acceptance_logic",
+        "tests/test_atmospheric_precision.py::test_script_entry_point_runs_main",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
+        "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_atmospheric_precision.py::test_shear_wave_initial_state_is_analytic",
+        "tests/test_atmospheric_precision.py::test_storage_floor_uses_post_collision_population",
+        "tests/test_atmospheric_precision.py::test_storage_ratio_boundary_counts_as_resolved",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_threshold_tracks_fp32_roundoff",
+        "tests/test_atmospheric_precision.py::test_storage_resolution_weights_dissipation_and_fluid_mask",
+        "tests/test_atmospheric_precision.py::test_storage_status_boundaries_and_device_qualification",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[0.0]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[inf]",
+        "tests/test_atmospheric_precision.py::test_vanished_or_nonfinite_amplitude_is_an_error_not_a_fit[nan]",
         "tests/test_backport_audit.py::test_crlf_checkout_passes_but_source_and_test_changes_fail",
         "tests/test_boundary_data.py::test_capture_parent_child_units_and_coverage",
         "tests/test_boundary_data.py::test_checkpoint_keeps_rejected_history",
@@ -62003,6 +64015,29 @@
         "tests/test_jobs.py::test_queued_pause_and_cancel_are_nonblocking[cpu]",
         "tests/test_jobs.py::test_quick_pause_resume_does_not_lose_run[cpu]",
         "tests/test_jobs.py::test_wall_interpolation_does_not_mix_solid",
+        "tests/test_kbc_parity_diagnostic.py::test_comparison_preserves_original_population_threshold_and_nonfinite_failure",
+        "tests/test_kbc_parity_diagnostic.py::test_frozen_cell_reference_and_raw_cpu_control",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[-1]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[0]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[1.5]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[513]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_size_is_rejected_before_flow_allocation[True]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[auto-sizes0]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes1]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes2]",
+        "tests/test_kbc_parity_diagnostic.py::test_invalid_study_scope[cpu-sizes3]",
+        "tests/test_kbc_parity_diagnostic.py::test_loaded_module_validator_requires_package",
+        "tests/test_kbc_parity_diagnostic.py::test_main_cpu_reports_exact_scope_and_provenance",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_changed_loaded_module_paths",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[missing_file]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[package]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_rejects_wrong_loaded_sources_before_measurement[submodule]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[device]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_retains_completed_rows_when_later_size_fails[nonfinite]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[exception]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[numeric]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[size]",
+        "tests/test_kbc_parity_diagnostic.py::test_main_saves_failed_evidence[source_drift]",
         "tests/test_kbc_precision.py::test_kbc_equilibrium_is_fixed_and_preserves_storage[cpu-D2Q9]",
         "tests/test_kbc_precision.py::test_kbc_equilibrium_is_fixed_and_preserves_storage[cpu-D3Q27]",
         "tests/test_kbc_precision.py::test_kbc_near_equilibrium_matches_double_collision[cpu-1]",
