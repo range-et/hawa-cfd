@@ -48,7 +48,9 @@ def test_declarations_are_not_executable_but_new_unmeasured_python_is(measured):
 def test_strict_cli_uses_raw_line_evidence_and_returns_failure(measured,monkeypatch,capsys):
     root,report,python,cs=measured
     output=root/'evidence';output.mkdir()
-    (output/'matrix.json').write_text(json.dumps(report));(output/'python.json').write_text(json.dumps(python))
+    # coverage.py writes Windows separators on Windows; the gate must still find the source.
+    windows=dict(files={'src\\hawa\\unit.py':python['files']['src/hawa/unit.py']})
+    (output/'matrix.json').write_text(json.dumps(report));(output/'python.json').write_text(json.dumps(windows))
     (output/'state.json').write_text('{}');(root/'baseline.json').write_text('{}')
     monkeypatch.setattr(fc,'validate_report',lambda *args:None)
     monkeypatch.setattr(fc,'gate',lambda *args:[])

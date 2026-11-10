@@ -115,7 +115,7 @@ def test_upstream_runner_isolates_reference_and_preserves_exit_status(tmp_path,m
     command,options=observed[0]
     assert command[1:3]==['-m','pytest'] and options['cwd']==tmp_path and options['env']['MPLBACKEND']=='Agg'
     if reference:
-        assert '.venv-reference' in command[0] and '.reference/upstream-tests/tests' in command[3]
+        assert '.venv-reference' in command[0] and command[3]==str(tmp_path/'.reference/upstream-tests/tests')
         assert (tmp_path/'.reference/upstream-tests/tests/test_original.py').read_text()=='assert True\n'
         assert (tmp_path/'.reference/upstream-tests/docs/modules.rst').read_text()=='original documentation'
     else:assert command[0]==sys.executable and command[3]==str(vendor/'tests')
