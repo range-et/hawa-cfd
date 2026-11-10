@@ -11,7 +11,6 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'dist/videos-monad'
-OUT.mkdir(parents=True, exist_ok=True)
 CAP = ROOT / 'docs/captures'
 PALETTE = json.loads((ROOT / 'vendor/monad_system/colors.json').read_text())
 UI = PALETTE['Default_Colors']['General_UI_Colors']
@@ -66,11 +65,6 @@ VIDEOS.append(dict(slug='hawa-hull-galapagos', version='v0.3.0',
         ('Single phase flow', 'The hull is fully submerged in a viscous demonstration fluid. The model excludes waves, buoyancy, and boat motion.', None, None, 9),
         ('Hawa', 'Open example 09. Change the shape. Evaluate. Search with Galapagos.', None, None, 7),
     ]))
-parser = argparse.ArgumentParser()
-parser.add_argument('--only', choices=[v['slug'] for v in VIDEOS])
-args = parser.parse_args()
-if args.only:
-    VIDEOS = [v for v in VIDEOS if v['slug'] == args.only]
 
 def font(size, medium=False, mono=False):
     return ImageFont.truetype(MENLO if mono else HELVETICA, size, index=0 if mono else 10 if medium else 0)
@@ -117,65 +111,72 @@ def frame(scene, version="v0.2.0"):
     draw.text((1720, 1040), version, font=font(18, mono=True), fill=DISABLED)
     return result
 
-metadata_path = OUT / "metadata.json"
-selected = {v["slug"] for v in VIDEOS}
-metadata = [m for m in json.loads(metadata_path.read_text()) if m["slug"] not in selected] if metadata_path.exists() else []
-for video in VIDEOS:
-    folder = OUT / video['slug']
-    folder.mkdir(exist_ok=True)
-    concat, chapters, elapsed = [], [], 0
-    for number, scene in enumerate(video['scenes'], 1):
-        path = folder / f'{number:02}.png'
-        frame(scene, video.get("version", "v0.2.0")).save(path)
-        concat.extend([f"file '{path}'", f'duration {scene[4]}'])
-        chapters.append({'seconds': elapsed, 'title': scene[0]})
-        elapsed += scene[4]
-    concat.append(f"file '{path}'")
-    listing = folder / 'frames.txt'
-    listing.write_text('\n'.join(concat) + '\n')
-    output = OUT / (video['slug'] + '.mp4')
-    subprocess.run([
-        'ffmpeg', '-hide_banner', '-loglevel', 'error', '-y',
-        '-f', 'concat', '-safe', '0', '-i', str(listing),
-        '-t', str(elapsed), '-vf', 'fps=30,format=yuv420p',
-        '-c:v', 'libx264', '-preset', 'fast', '-crf', '20',
-        '-movflags', '+faststart', '-an', str(output)
-    ], check=True)
-    actual = float(subprocess.check_output([
-        'ffprobe', '-v', 'error', '-show_entries', 'format=duration',
-        '-of', 'default=nw=1:nk=1', str(output)
-    ]))
-    assert abs(actual - elapsed) < .1
-    metadata.append({
-        'slug': video['slug'], 'title': video['title'],
-        'duration_seconds': actual, 'chapters': chapters,
-        'file': output.name, 'theme': 'Monad System', 'theme_commit': REVISION,
-        'format': '1920x1080 H.264, captioned screenshots, no audio',
-        'captions': [{'title': s[0], 'text': s[1]} for s in video['scenes']]
-    })
-    print(output, flush=True)
-(OUT / 'metadata.json').write_text(json.dumps(metadata, indent=2) + '\n')
+if __name__ == '__main__':
+    OUT.mkdir(parents=True, exist_ok=True)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--only', choices=[v['slug'] for v in VIDEOS])
+    args = parser.parse_args()
+    if args.only:
+        VIDEOS = [v for v in VIDEOS if v['slug'] == args.only]
+    metadata_path = OUT / "metadata.json"
+    selected = {v["slug"] for v in VIDEOS}
+    metadata = [m for m in json.loads(metadata_path.read_text()) if m["slug"] not in selected] if metadata_path.exists() else []
+    for video in VIDEOS:
+        folder = OUT / video['slug']
+        folder.mkdir(exist_ok=True)
+        concat, chapters, elapsed = [], [], 0
+        for number, scene in enumerate(video['scenes'], 1):
+            path = folder / f'{number:02}.png'
+            frame(scene, video.get("version", "v0.2.0")).save(path)
+            concat.extend([f"file '{path}'", f'duration {scene[4]}'])
+            chapters.append({'seconds': elapsed, 'title': scene[0]})
+            elapsed += scene[4]
+        concat.append(f"file '{path}'")
+        listing = folder / 'frames.txt'
+        listing.write_text('\n'.join(concat) + '\n')
+        output = OUT / (video['slug'] + '.mp4')
+        subprocess.run([
+            'ffmpeg', '-hide_banner', '-loglevel', 'error', '-y',
+            '-f', 'concat', '-safe', '0', '-i', str(listing),
+            '-t', str(elapsed), '-vf', 'fps=30,format=yuv420p',
+            '-c:v', 'libx264', '-preset', 'fast', '-crf', '20',
+            '-movflags', '+faststart', '-an', str(output)
+        ], check=True)
+        actual = float(subprocess.check_output([
+            'ffprobe', '-v', 'error', '-show_entries', 'format=duration',
+            '-of', 'default=nw=1:nk=1', str(output)
+        ]))
+        assert abs(actual - elapsed) < .1
+        metadata.append({
+            'slug': video['slug'], 'title': video['title'],
+            'duration_seconds': actual, 'chapters': chapters,
+            'file': output.name, 'theme': 'Monad System', 'theme_commit': REVISION,
+            'format': '1920x1080 H.264, captioned screenshots, no audio',
+            'captions': [{'title': s[0], 'text': s[1]} for s in video['scenes']]
+        })
+        print(output, flush=True)
+    (OUT / 'metadata.json').write_text(json.dumps(metadata, indent=2) + '\n')
 
-# Export the web posters and the files for the YouTube upload.
-import zipfile
-for video in VIDEOS:
-    slug = video['slug']
-    with Image.open(OUT / slug / '01.png') as thumbnail:
-        thumbnail.resize((1280, 720), Image.Resampling.LANCZOS).save(
-            OUT / (slug + '-thumbnail.jpg'), quality=95)
-    scene = '04.png' if slug == 'hawa-first-look' else '05.png'
-    name = {'hawa-first-look':'first-look-poster.jpg','hawa-block-workflow':'block-workflow-poster.jpg','hawa-hull-galapagos':'hull-workflow-poster.jpg'}[slug]
-    with Image.open(OUT / slug / scene) as poster:
-        poster.resize((1280, 720), Image.Resampling.LANCZOS).save(
-            ROOT / 'site/assets' / name, quality=92)
-with zipfile.ZipFile(ROOT / 'dist/Hawa-YouTube-upload-kit.zip', 'w', zipfile.ZIP_DEFLATED) as kit:
-    for path in sorted(OUT.glob('*.mp4')):
-        kit.write(path, path.name)
-    for path in sorted(OUT.glob('*-thumbnail.jpg')):
-        kit.write(path, path.name)
-    for path in sorted((ROOT / 'docs/media').glob('*.txt')):
-        kit.write(path, path.name)
-    kit.write(ROOT / 'docs/media/README.md', 'README.md')
-    kit.write(ROOT / 'LICENSE', 'licenses/Hawa-LICENSE')
-    kit.write(ROOT / 'vendor/lettuce/LICENSE', 'licenses/Lettuce-LICENSE')
-    kit.write(ROOT / 'vendor/monad_system/LICENSE', 'licenses/Monad-LICENSE')
+    # Export the web posters and the files for the YouTube upload.
+    import zipfile
+    for video in VIDEOS:
+        slug = video['slug']
+        with Image.open(OUT / slug / '01.png') as thumbnail:
+            thumbnail.resize((1280, 720), Image.Resampling.LANCZOS).save(
+                OUT / (slug + '-thumbnail.jpg'), quality=95)
+        scene = '04.png' if slug == 'hawa-first-look' else '05.png'
+        name = {'hawa-first-look':'first-look-poster.jpg','hawa-block-workflow':'block-workflow-poster.jpg','hawa-hull-galapagos':'hull-workflow-poster.jpg'}[slug]
+        with Image.open(OUT / slug / scene) as poster:
+            poster.resize((1280, 720), Image.Resampling.LANCZOS).save(
+                ROOT / 'site/assets' / name, quality=92)
+    with zipfile.ZipFile(ROOT / 'dist/Hawa-YouTube-upload-kit.zip', 'w', zipfile.ZIP_DEFLATED) as kit:
+        for path in sorted(OUT.glob('*.mp4')):
+            kit.write(path, path.name)
+        for path in sorted(OUT.glob('*-thumbnail.jpg')):
+            kit.write(path, path.name)
+        for path in sorted((ROOT / 'docs/media').glob('*.txt')):
+            kit.write(path, path.name)
+        kit.write(ROOT / 'docs/media/README.md', 'README.md')
+        kit.write(ROOT / 'LICENSE', 'licenses/Hawa-LICENSE')
+        kit.write(ROOT / 'vendor/lettuce/LICENSE', 'licenses/Lettuce-LICENSE')
+        kit.write(ROOT / 'vendor/monad_system/LICENSE', 'licenses/Monad-LICENSE')

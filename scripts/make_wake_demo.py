@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 from PIL import Image
 from make_v04_demo import ROOT,OUT,CAP,BG,FG,SUB,CMAP,card,write_video
 SOURCE=ROOT/'results/v04/cylinder-recording-outflow'
-data=json.loads((SOURCE/'manifest.json').read_text())
 
 def picture(entry,closing=False):
     with np.load(SOURCE/entry['file']) as a:
@@ -27,6 +26,7 @@ def picture(entry,closing=False):
     return card('Follow the cylinder wake',f"MPS / iteration {entry['iteration']:04d} / simulation time {entry['time']:.2f} s",result,'Re = 100 / 161 × 81 × 4 lattice / periodic transverse faces / fixed color limits')
 
 def frames():
+    data=json.loads((SOURCE/'manifest.json').read_text())
     yield picture(data['frames'][0]),90
     for i,e in enumerate(data['frames']):
         im=picture(e)
@@ -35,5 +35,6 @@ def frames():
     yield picture(data['frames'][-1],closing=True),150
 
 if __name__=='__main__':
+    OUT.mkdir(parents=True,exist_ok=True);CAP.mkdir(parents=True,exist_ok=True)
     path=OUT/'hawa-cylinder-wake.mp4';write_video(path,frames())
     (OUT/'wake-provenance.json').write_text(json.dumps({'video':path.name,'manifest':str(SOURCE/'manifest.json'),'sha256':hashlib.sha256((SOURCE/'manifest.json').read_bytes()).hexdigest(),'iterations':8000,'frames':81,'render':'scripts/make_wake_demo.py','audio':False,'revision':'visuals-on-all-cards'},indent=2))
