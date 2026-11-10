@@ -65,7 +65,7 @@ def test_source_bundle_contains_verification_inputs(tmp_path, monkeypatch):
         p=root/'plugin/Hawa.Rhino/bin/Release/net7.0'/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b'test assembly')
     p=root/'plugin/Hawa.Grasshopper/bin/Release/net7.0/Hawa.Grasshopper.gha';p.parent.mkdir(parents=True);p.write_bytes(b'test assembly')
     files=['plugin/Bootstrap.py','pyproject.toml','uv.lock','LICENSE','THIRD_PARTY_NOTICES.md',
-           'README.md','AGENTS.md','features.md','issues.md','tools/function_coverage.py',
+           'README.md','AGENTS.md','features.md','tools/function_coverage.py',
            '.config/dotnet-tools.json','docs/function-tests/matrix.json','examples/grasshopper/01-test.gh',
            'examples/grasshopper/09-parametric-hull-galapagos.gh']
     for name in ('LICENSE','AUTHORS.rst','PORTING.md','upstream.json'):files.append('vendor/lettuce/'+name)
