@@ -33,6 +33,7 @@ POLICY = ROOT / 'scripts/device_smoke_policy.json'
 DEVICES = {'cpu': 'cpu', 'cuda': 'cuda:0', 'mps': 'mps'}
 CLASSES = ('bitwise', 'bounded')
 STATUSES = ('pass', 'fail', 'unsupported-guarded')
+PACKAGES = {'hawa': 'src/hawa', 'lettuce': 'vendor/lettuce/lettuce'}
 SEED = 0
 
 
@@ -257,6 +258,23 @@ def provenance(root=ROOT):
                 source_sha256=hashlib.sha256(json.dumps(state['files'], sort_keys=True).encode()).hexdigest())
 
 
+def loaded_module_paths():
+    """File of every loaded hawa/lettuce module, as in scripts/diagnose_kbc_parity.py."""
+    return {name: str(Path(module.__file__).resolve()) if getattr(module, '__file__', None) else None
+            for name, module in sorted(tuple(sys.modules.items())) if name.split('.')[0] in PACKAGES}
+
+
+def validate_loaded_modules(paths, root=ROOT):
+    """Every loaded hawa/lettuce module must be a file from this checkout, not an installed copy."""
+    for package in PACKAGES:
+        if package not in paths:
+            raise ValueError('Loaded package provenance is missing: ' + package)
+    for name, location in paths.items():
+        source = (root / PACKAGES[name.split('.')[0]]).resolve()
+        if location is None or source not in Path(location).parents or not Path(location).is_file():
+            raise ValueError('Loaded module is outside this checkout: {} ({})'.format(name, location))
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--device', choices=sorted(DEVICES), required=True)
@@ -273,6 +291,7 @@ def main(argv=None):
         policy = load_policy(args.policy)
     except (OSError, ValueError, KeyError, re.error) as exc:
         parser.error('Invalid policy: {}'.format(exc))
+    import lettuce  # noqa: F401  Loaded before any case so its source is validated.
     from hawa.backends import select_backend
     device = DEVICES[args.device]
     backend = select_backend(device)  # Executes a real operation; never falls back.
@@ -286,22 +305,34 @@ def main(argv=None):
                     candidate_dtype='float32', seeds=dict(torch=SEED, numpy=SEED),
                     overlapping_jobs=args.overlapping_jobs,
                     policy=dict(path=str(args.policy), sha256=hashlib.sha256(args.policy.read_bytes()).hexdigest()),
-                    source_before=provenance(), environment=environment(device), cases=[])
+                    source_before=provenance(), environment=environment(device),
+                    loaded_modules_before=loaded_module_paths(), module_errors=[], cases=[])
+
+    def check_modules(stage):
+        try:
+            validate_loaded_modules(manifest['loaded_modules_' + stage])
+        except ValueError as exc:
+            manifest['module_errors'].append('{}: {}'.format(stage, exc))
+            print('Module check failed ' + manifest['module_errors'][-1], flush=True)
 
     def save():
         (output / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
 
+    check_modules('before')
     save()
-    for name, case in policy['cases'].items():
+    for name, case in policy['cases'].items() if not manifest['module_errors'] else ():
         print(name + ': running', flush=True)
         record = run_case(name, case, device, output / 'cases' / name)
         manifest['cases'].append(record)
         save()
         print('{}: {} {}'.format(name, record['status'], record.get('error', '')), flush=True)
+    manifest['loaded_modules_after'] = loaded_module_paths()
+    check_modules('after')
     manifest['source_after'] = provenance()
     manifest['source_unchanged'] = manifest['source_after'] == manifest['source_before']
     manifest['counts'] = {s: sum(r['status'] == s for r in manifest['cases']) for s in STATUSES}
-    manifest['result'] = 'pass' if not manifest['counts']['fail'] and manifest['source_unchanged'] else 'fail'
+    manifest['result'] = 'pass' if (not manifest['counts']['fail'] and manifest['source_unchanged']
+                                    and not manifest['module_errors']) else 'fail'
     manifest['seconds'] = time.perf_counter() - started
     manifest['finished_utc'] = datetime.now(timezone.utc).isoformat()
     save()

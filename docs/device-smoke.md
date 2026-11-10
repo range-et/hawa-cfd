@@ -61,7 +61,8 @@ Each case is `pass`, `fail` or `unsupported-guarded`.
   that is declared unsupported but runs is a failure. An undeclared exception is a
   failure. The current policy declares no unsupported devices, because no runtime
   guard refuses any of these cases.
-- The run passes only when no case fails and the source snapshot is unchanged.
+- The run passes only when no case fails, the source snapshot is unchanged and every
+  loaded `hawa`/`lettuce` module comes from this checkout.
   Guarded cases are counted separately, never as passes.
 
 Before #11 (PR #63), MPS ran the plain FP32 KBC collision. A CPU emulation of that
@@ -77,6 +78,11 @@ It records:
 - the commit, dirty flag and `git status`, and a SHA-256 over every tracked or
   nonignored file, taken before and after the run with the provenance helper
   from `scripts/verification_evidence.py`;
+- the file of every loaded `hawa` and `lettuce` module, before the first case and
+  after the last. Each must be a file under this checkout's `src/hawa` or
+  `vendor/lettuce/lettuce`. A module from an installed copy or another checkout
+  fails the run (`module_errors`), and a mismatch before the cases skips them, so a
+  pass always names the source that was tested;
 - the device, backend probe, OS, Python, PyTorch, NumPy and thread settings. On CUDA
   it also records the GPU, capability, CUDA runtime and driver. On MPS it records the
   Mac model, chip and macOS version;

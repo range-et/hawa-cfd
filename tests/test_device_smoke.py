@@ -12,6 +12,7 @@ import runpy
 import subprocess
 import sys
 import time
+from types import SimpleNamespace
 
 import numpy as np
 import pytest
@@ -328,6 +329,12 @@ def test_main_writes_manifest_without_counting_guarded_cases_as_passes(fake_run,
     assert manifest['schema'] == 1 and manifest['tool'] == 'scripts/device_smoke.py'
     assert 0 <= manifest['seconds'] <= elapsed
     assert manifest['started_utc'] <= manifest['finished_utc'] and torch.get_num_threads() == 1
+    hawa_init = str((ROOT / 'src/hawa/__init__.py').resolve())
+    lettuce_init = str((ROOT / 'vendor/lettuce/lettuce/__init__.py').resolve())
+    for stage in ('before', 'after'):
+        assert manifest['loaded_modules_' + stage]['hawa'] == hawa_init
+        assert manifest['loaded_modules_' + stage]['lettuce'] == lettuce_init
+    assert manifest['module_errors'] == []
     with np.load(output / 'cases/first/candidate.npz') as saved:
         np.testing.assert_array_equal(saved['x/values'], [1., 2.])
     lines = capsys.readouterr().out.splitlines()
@@ -352,6 +359,65 @@ def test_main_fails_on_source_drift_or_failed_case(fake_run, tmp_path, monkeypat
     manifest = json.loads((tmp_path / 'failed/manifest.json').read_text())
     assert manifest['result'] == 'fail' and manifest['counts']['fail'] == 1 and manifest['source_unchanged']
     assert 'first: fail RuntimeError: device fixture failure' in capsys.readouterr().out.splitlines()
+
+
+def test_loaded_module_paths_must_be_files_from_this_checkout(tmp_path):
+    paths = smoke.loaded_module_paths()
+    assert {'hawa', 'hawa.backends', 'lettuce'} <= set(paths)
+    assert all(name.split('.')[0] in ('hawa', 'lettuce') for name in paths)
+    smoke.validate_loaded_modules(paths)
+    hawa_root = (ROOT / 'src/hawa').resolve()
+    for name, location, message in (
+            ('hawa.backends', '/opt/site-packages/hawa/backends.py', 'outside this checkout: hawa.backends'),
+            ('lettuce', str(hawa_root / '__init__.py'), 'outside this checkout: lettuce'),
+            ('hawa.namespace', None, r'outside this checkout: hawa.namespace \(None\)'),
+            ('hawa.missing', str(hawa_root / 'missing.py'), 'outside this checkout: hawa.missing')):
+        with pytest.raises(ValueError, match='^Loaded module is ' + message):
+            smoke.validate_loaded_modules(dict(paths, **{name: location}))
+    for package in ('hawa', 'lettuce'):
+        with pytest.raises(ValueError, match='^Loaded package provenance is missing: {}$'.format(package)):
+            smoke.validate_loaded_modules({k: v for k, v in paths.items() if k != package})
+    # Another checkout's identical layout is still foreign.
+    other = tmp_path / 'src/hawa'
+    other.mkdir(parents=True)
+    (other / '__init__.py').write_text('')
+    with pytest.raises(ValueError, match='^Loaded module is outside this checkout: hawa '):
+        smoke.validate_loaded_modules(dict(paths, hawa=str(other / '__init__.py')))
+
+
+def test_foreign_hawa_before_cases_fails_without_running_them(fake_run, tmp_path, monkeypatch, capsys):
+    path, _ = fake_run
+    foreign = '/opt/old-env/site-packages/hawa/backends_v04.py'
+    monkeypatch.setitem(sys.modules, 'hawa.backends_v04', SimpleNamespace(__file__=foreign))
+    output = tmp_path / 'run'
+    assert smoke.main(['--device', 'cpu', '--output', str(output), '--overlapping-jobs', 'none',
+                       '--policy', str(path)]) == 1
+    manifest = json.loads((output / 'manifest.json').read_text())
+    assert manifest['result'] == 'fail' and manifest['cases'] == [] and smoke.BUILDERS['fake'].calls == []
+    assert manifest['loaded_modules_before']['hawa.backends_v04'] == foreign
+    assert manifest['module_errors'] == [
+        'before: Loaded module is outside this checkout: hawa.backends_v04 ({})'.format(foreign),
+        'after: Loaded module is outside this checkout: hawa.backends_v04 ({})'.format(foreign)]
+    assert 'Module check failed before: Loaded module is outside this checkout: hawa.backends_v04 ({})'.format(
+        foreign) in capsys.readouterr().out.splitlines()
+
+
+def test_module_loaded_from_elsewhere_during_cases_fails_the_run(fake_run, tmp_path, monkeypatch):
+    path, _ = fake_run
+    foreign = '/opt/old-env/site-packages/lettuce/late.py'
+    builder = smoke.BUILDERS['fake']
+    def loads_foreign_module(*arguments):
+        monkeypatch.setitem(sys.modules, 'lettuce.late', SimpleNamespace(__file__=foreign))
+        return builder(*arguments)
+    monkeypatch.setitem(smoke.BUILDERS, 'fake', loads_foreign_module)
+    output = tmp_path / 'run'
+    assert smoke.main(['--device', 'cpu', '--output', str(output), '--overlapping-jobs', 'none',
+                       '--policy', str(path)]) == 1
+    manifest = json.loads((output / 'manifest.json').read_text())
+    assert manifest['result'] == 'fail' and manifest['counts']['fail'] == 0 and manifest['source_unchanged']
+    assert 'lettuce.late' not in manifest['loaded_modules_before']
+    assert manifest['loaded_modules_after']['lettuce.late'] == foreign
+    assert manifest['module_errors'] == ['after: Loaded module is outside this checkout: lettuce.late ({})'.format(foreign)]
 
 
 def test_interrupted_run_leaves_an_incomplete_manifest(fake_run, tmp_path, monkeypatch):
