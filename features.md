@@ -35,9 +35,9 @@ example checks.
 
 ## Headless testing expansion (November 10, 2026 UTC)
 
-First-party Python now has measured 365/365 functions and 6,146/6,146 executable
+First-party Python now has measured 365/365 functions and 6,157/6,157 executable
 lines covered; linked C# contracts cover 152/152 functions and 1,618/1,618 lines.
-The fresh native suite passed 1,396 Python tests (82 skipped) and 67 C# contracts.
+The fresh native suite passed 1,411 Python tests (82 skipped) and 67 C# contracts.
 CI adds strict headless coverage and four-module mutation checks (358/398 killed,
 40 explicitly reviewed survivors). Stationarity rejection reporting and source
 palette packaging were repaired. [Review and limits](docs/review-headless-quality.md).

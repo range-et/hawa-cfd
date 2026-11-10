@@ -86,7 +86,7 @@
     "scripts/verify_neutral_coupling.py": "f76d34dc4485bc43fb3eae00171d006f7873e9ef899684e3d37ad2a1d1330136",
     "scripts/verify_neutral_nesting.py": "44135f45a7606fce8cee3ca6d47ed3a126b5643e921301777295436c9faf5e44",
     "scripts/verify_neutral_precursor.py": "df5cb8532165c7880ce80954191d115f6d23980ee0bec83809231bf6e44a10b0",
-    "scripts/verify_neutral_stationary.py": "75768450ee2d49e2c11ad6b80382f12e4cde9379e0aab01f86394fc24ca14f41",
+    "scripts/verify_neutral_stationary.py": "82b6b0c59bde6ca4111db1306f19be8e60b9c826c9839c95f7ff2cf63b4b23a6",
     "scripts/verify_runtime.py": "4738cf7f41ef7e4402dda8e24a306e5bd0aeeb302e7287eaad8702c91a042b90",
     "src/hawa/__init__.py": "3484c4615e9a7d8c6f9421b9233b0cf8ba70e9a20a554246a80904b9641a40c6",
     "src/hawa/airfoils.py": "4117731d899c5641817ac7b3145850595b01e4dafa5899489b49ebbb6431af39",
@@ -180,8 +180,9 @@
     "tests/test_runtime_numerical_edges.py": "e82e195496e924332a7ca87d1bb4170dccef9add3ee4000124081f7a4e324f09",
     "tests/test_runtime_rejection_edges.py": "f37b9a4b7db3a17473f15b709c66d8cdc214cd3d5926d4501812a495c0ff8740",
     "tests/test_runtime_transfer_failures.py": "55948384f8448fcb307f20e5af389f6b0ce089f2a8a86ba69a54671688af1317",
+    "tests/test_stationary_failure_reporting.py": "aadc242130cbb267c4970c7e375d878ec410cd5a8c3c8eb02894931046be8232",
     "tests/test_strict_coverage.py": "2482da84b7280701841e21e80a254d638280f13875d5ed4f32f664fbc6e0d26b",
-    "tests/test_tooling_entrypoints.py": "027be1ba5cbad4c27ec65daee20b76a8e459959dc79582fb6d3396c69af38d85",
+    "tests/test_tooling_entrypoints.py": "6eb4efc89a22f8024fe19e12ceb3fbd1157a010b561e8815590c21622db38094",
     "tests/test_tooling_execution.py": "563128113e1deb0e4336e5e65c3a0d0ecca6795c972827d3013f2b4b653d6260",
     "tests/test_tooling_failure_paths.py": "8bd9ccec90cc3dc7c620cf61436008671838712faaba3a11142258d4259bee8a",
     "tests/test_tooling_media.py": "5f6207f112655b255e3fb7db8a88e434bcd32404b8a40844611f20ef3c096e18",
@@ -1507,6 +1508,21 @@
       "tests/test_runtime_transfer_failures.py::test_v1_capture_frame_count_and_provenance",
       "tests/test_runtime_transfer_failures.py::test_v2_requires_external_active_faces[spec0]",
       "tests/test_runtime_transfer_failures.py::test_v2_requires_external_active_faces[spec1]",
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-first-False]",
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-first-True]",
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-after-pass-False]",
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-after-pass-True]",
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-first-False]",
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-first-True]",
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-after-pass-False]",
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-after-pass-True]",
+      "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[zero]",
+      "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[resumed-complete]",
+      "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[load-error]",
+      "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[save-error]",
+      "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[close-error]",
+      "tests/test_stationary_failure_reporting.py::test_session_startup_failure_replaces_stale_success_without_closing_unknown_session[create]",
+      "tests/test_stationary_failure_reporting.py::test_session_startup_failure_replaces_stale_success_without_closing_unknown_session[session-lookup]",
       "tests/test_strict_coverage.py::test_complete_firstparty_functions_and_lines_pass",
       "tests/test_strict_coverage.py::test_any_debt_or_missing_evidence_fails_strict_gate[function]",
       "tests/test_strict_coverage.py::test_any_debt_or_missing_evidence_fails_strict_gate[host]",
@@ -2907,6 +2923,21 @@
       "tests/test_runtime_transfer_failures.py::test_v1_requires_velocity_xminus_attachment",
       "tests/test_runtime_transfer_failures.py::test_v2_requires_external_active_faces[spec0]",
       "tests/test_runtime_transfer_failures.py::test_v2_requires_external_active_faces[spec1]",
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-after-pass-False]",
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-after-pass-True]",
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-first-False]",
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-first-True]",
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-after-pass-False]",
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-after-pass-True]",
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-first-False]",
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-first-True]",
+      "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[close-error]",
+      "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[load-error]",
+      "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[resumed-complete]",
+      "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[save-error]",
+      "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[zero]",
+      "tests/test_stationary_failure_reporting.py::test_session_startup_failure_replaces_stale_success_without_closing_unknown_session[create]",
+      "tests/test_stationary_failure_reporting.py::test_session_startup_failure_replaces_stale_success_without_closing_unknown_session[session-lookup]",
       "tests/test_strict_coverage.py::test_any_debt_or_missing_evidence_fails_strict_gate[csharp_lines]",
       "tests/test_strict_coverage.py::test_any_debt_or_missing_evidence_fails_strict_gate[excluded]",
       "tests/test_strict_coverage.py::test_any_debt_or_missing_evidence_fails_strict_gate[function]",
@@ -21092,6 +21123,216 @@
         ]
       ],
       "tests/test_runtime_transfer_failures.py::test_v2_requires_external_active_faces[spec1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-first-False]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-first-True]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-after-pass-False]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-after-pass-True]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-first-False]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-first-True]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-after-pass-False]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-after-pass-True]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[zero]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[resumed-complete]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[load-error]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[save-error]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[close-error]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_session_startup_failure_replaces_stale_success_without_closing_unknown_session[create]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_session_startup_failure_replaces_stale_success_without_closing_unknown_session[session-lookup]": [
         [
           "setup",
           "passed"
@@ -45314,6 +45555,14 @@
         "tests/test_runtime_transfer_failures.py::test_transfer_failure_removes_partial_output[write-1]",
         "tests/test_runtime_transfer_failures.py::test_transfer_failure_removes_partial_output[write-2]",
         "tests/test_runtime_transfer_failures.py::test_v1_capture_frame_count_and_provenance",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-after-pass-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-after-pass-True]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-first-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-first-True]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-after-pass-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-after-pass-True]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-first-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-first-True]",
         "tests/test_tooling_entrypoints.py::test_stationarity_runner_reports_rejections_and_resumed_history_without_relaxing_targets[late-rejection]",
         "tests/test_tooling_entrypoints.py::test_stationarity_runner_reports_rejections_and_resumed_history_without_relaxing_targets[numeric]",
         "tests/test_tooling_entrypoints.py::test_stationarity_runner_reports_rejections_and_resumed_history_without_relaxing_targets[pass]",
@@ -45436,6 +45685,14 @@
         "tests/test_runtime_rejection_edges.py::test_profile_rejects_reference_and_result_overflow",
         "tests/test_runtime_transfer_failures.py::test_transfer_failure_removes_partial_output[attachment-2]",
         "tests/test_runtime_transfer_failures.py::test_transfer_failure_removes_partial_output[write-2]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-after-pass-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-after-pass-True]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-first-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-first-True]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-after-pass-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-after-pass-True]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-first-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-first-True]",
         "tests/test_tooling_entrypoints.py::test_stationarity_runner_reports_rejections_and_resumed_history_without_relaxing_targets[late-rejection]",
         "tests/test_tooling_entrypoints.py::test_stationarity_runner_reports_rejections_and_resumed_history_without_relaxing_targets[numeric]",
         "tests/test_tooling_entrypoints.py::test_stationarity_runner_reports_rejections_and_resumed_history_without_relaxing_targets[pass]",
@@ -45551,6 +45808,14 @@
         "tests/test_runtime_rejection_edges.py::test_profile_rejects_reference_and_result_overflow",
         "tests/test_runtime_transfer_failures.py::test_transfer_failure_removes_partial_output[attachment-2]",
         "tests/test_runtime_transfer_failures.py::test_transfer_failure_removes_partial_output[write-2]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-after-pass-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-after-pass-True]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-first-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-first-True]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-after-pass-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-after-pass-True]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-first-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-first-True]",
         "tests/test_tooling_entrypoints.py::test_stationarity_runner_reports_rejections_and_resumed_history_without_relaxing_targets[late-rejection]",
         "tests/test_tooling_entrypoints.py::test_stationarity_runner_reports_rejections_and_resumed_history_without_relaxing_targets[numeric]",
         "tests/test_tooling_entrypoints.py::test_stationarity_runner_reports_rejections_and_resumed_history_without_relaxing_targets[pass]",
@@ -45662,6 +45927,14 @@
         "tests/test_runtime_rejection_edges.py::test_profile_rejects_reference_and_result_overflow",
         "tests/test_runtime_transfer_failures.py::test_transfer_failure_removes_partial_output[attachment-2]",
         "tests/test_runtime_transfer_failures.py::test_transfer_failure_removes_partial_output[write-2]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-after-pass-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-after-pass-True]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-first-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-first-True]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-after-pass-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-after-pass-True]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-first-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-first-True]",
         "tests/test_tooling_entrypoints.py::test_stationarity_runner_reports_rejections_and_resumed_history_without_relaxing_targets[late-rejection]",
         "tests/test_tooling_entrypoints.py::test_stationarity_runner_reports_rejections_and_resumed_history_without_relaxing_targets[numeric]",
         "tests/test_tooling_entrypoints.py::test_stationarity_runner_reports_rejections_and_resumed_history_without_relaxing_targets[pass]",
@@ -63796,6 +64069,21 @@
         "tests/test_runtime_transfer_failures.py::test_v1_requires_velocity_xminus_attachment",
         "tests/test_runtime_transfer_failures.py::test_v2_requires_external_active_faces[spec0]",
         "tests/test_runtime_transfer_failures.py::test_v2_requires_external_active_faces[spec1]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-after-pass-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-after-pass-True]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-first-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[RuntimeError-first-True]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-after-pass-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-after-pass-True]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-first-False]",
+        "tests/test_stationary_failure_reporting.py::test_advance_exception_invalidates_success_and_closes_session[ValueError-first-True]",
+        "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[close-error]",
+        "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[load-error]",
+        "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[resumed-complete]",
+        "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[save-error]",
+        "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[zero]",
+        "tests/test_stationary_failure_reporting.py::test_session_startup_failure_replaces_stale_success_without_closing_unknown_session[create]",
+        "tests/test_stationary_failure_reporting.py::test_session_startup_failure_replaces_stale_success_without_closing_unknown_session[session-lookup]",
         "tests/test_strict_coverage.py::test_any_debt_or_missing_evidence_fails_strict_gate[csharp_lines]",
         "tests/test_strict_coverage.py::test_any_debt_or_missing_evidence_fails_strict_gate[excluded]",
         "tests/test_strict_coverage.py::test_any_debt_or_missing_evidence_fails_strict_gate[function]",

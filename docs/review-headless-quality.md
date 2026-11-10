@@ -9,9 +9,9 @@ or Rhino acceptance sign-offs.
 ## Result and scope
 
 The fresh native integrated gate covers **365/365 first-party Python functions**
-and **6,146/6,146 executable Python lines**, with zero missing/excluded lines.
-Runtime `src/hawa` contributes 3,356 lines, developer scripts 2,396, tools 372,
-and embedded Python bootstrap 22. Python branch arcs are 2,236/2,426; no complete
+and **6,157/6,157 executable Python lines**, with zero missing/excluded lines.
+Runtime `src/hawa` contributes 3,356 lines, developer scripts 2,407, tools 372,
+and embedded Python bootstrap 22. Python branch arcs are 2,238/2,428; no complete
 branch-coverage claim is made.
 
 The 11 linked first-party C# files cover **152/152 executable functions** and
@@ -40,9 +40,12 @@ docstrings and must not inflate line denominators.
   direct execution retains defaults. Four benchmark entrypoints expose `main`
   while preserving the original benchmark settings and assertions.
 - A rejected stationarity sample previously bypassed report creation or retained
-  an earlier successful report. It now writes a failed report and checkpoint
-  before stopping. Tests reproduce both first-sample and later rejection;
-  stationarity/drag/profile limits and `physical_validation=False` remain intact.
+  an earlier successful report. It now writes a failed report for rejection,
+  startup or advancement exceptions, always attempts cleanup for created sessions,
+  records cleanup errors separately, and never checkpoints rejected populations.
+  Tests cover first-sample/later failures, zero progress and session-creation
+  failures; a real unavailable-device startup also invalidated stale success.
+  Stationarity/drag/profile limits and `physical_validation=False` remain intact.
 - The source bundle now includes the pinned palette and its provenance/license,
   needed by the media tooling and its tests. Real plugin compilation/package
   creation passed; the ZIP contains the assemblies, sources and palette, and
@@ -54,12 +57,22 @@ docstrings and must not inflate line denominators.
   callbacks, scheduling, display and geometry kernels through explicit doubles.
 
 Native environment: macOS 27.0.1 arm64, Python 3.9.25, PyTorch 2.8.0, NumPy 2.0.2,
-.NET 10 contract host. Full run: **1,396 passed, 82 skipped, 213 warnings** in
-179.69 seconds. Skips retain unavailable-device/optional qualification scope;
+.NET 10 contract host. Full run: **1,411 passed, 82 skipped, 213 warnings** in
+411.76 seconds. Skips retain unavailable-device/optional qualification scope;
 warnings include dependency deprecations and an intentional extreme-input
-numerical rejection. Fresh artifacts are under `results/quality-pilot/final-gate`;
+numerical rejection. Fresh artifacts are under `results/quality-pilot/complete-final-gate`;
 the source/test fingerprints and per-function evidence are committed in
 `docs/function-tests/matrix.json`.
+
+An independent network-disabled Docker run on Debian 12 arm64, Python 3.9.25,
+PyTorch 2.8.0+cpu and .NET SDK 10.0.403 passed **1,331 tests**, with 162 skips
+exclusively for unavailable MPS/CUDA hardware, plus **67 C# contracts**. Its
+strict headless gate reports the same function/line totals and its entire
+source/test snapshot matches this checkout. Evidence lives in
+`results/quality-pilot/linux-complete-final`. The developer image includes Git,
+.NET and installed editable package metadata; initial setup failures were
+retained and resolved before this fresh full run. A real unavailable-MPS startup
+also replaced seeded stale success with a failed report.
 
 ```sh
 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python tools/function_coverage.py run --output results/quality-NEW --base-ref origin/main
