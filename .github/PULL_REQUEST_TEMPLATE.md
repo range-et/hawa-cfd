@@ -32,4 +32,4 @@ explain why live execution is not applicable rather than claiming a pass.
 
 State whether this completes or partially advances the linked issues. Use
 `Closes #` only for full acceptance. Record remaining scope in GitHub Issues;
-update applicable feature/review records and never add entries to `issues.md`.
+update applicable feature/review records; do not create a Markdown backlog.
