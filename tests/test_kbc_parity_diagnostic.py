@@ -151,3 +151,15 @@ def test_main_rejects_changed_loaded_module_paths(tmp_path,monkeypatch):
     result=json.loads((output/'result.json').read_text())
     assert 'provenance changed' in result['error'] and not result['completed']
     assert len(result['rows'])==1
+
+
+def test_script_entrypoint_exits_with_report_status(tmp_path,monkeypatch,capsys):
+    import runpy,sys
+    output=tmp_path/'entrypoint'
+    monkeypatch.setattr(sys,'argv',['diagnose_kbc_parity.py','--device','cpu','--sizes','1','--output',str(output)])
+    with pytest.raises(SystemExit) as stop:
+        runpy.run_path(str(ROOT/'scripts/diagnose_kbc_parity.py'),run_name='__main__')
+    printed=json.loads(capsys.readouterr().out)
+    result=json.loads((output/'result.json').read_text())
+    assert printed=={'completed':True,'passed':result['passed'],'scope':'repeated-single-cell KBC diagnostic'}
+    assert stop.value.code==int(not result['passed'])
