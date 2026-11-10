@@ -223,7 +223,7 @@ def annotate(rows, python, calls, cs):
 def strict_gate(root, report, python, cs, scope="all"):
     """Require every executable function and measured source line; no debt allowance."""
     import coverage
-    source_analysis = coverage.Coverage(config_file=False)
+    source_analysis = coverage.Coverage(data_file=None, config_file=False)
     failures = []
     for row in report['functions']:
         if scope == 'headless' and row['language'] == 'C#' and row['path'] not in cs:
