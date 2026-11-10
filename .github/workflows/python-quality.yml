@@ -8,6 +8,7 @@ permissions:
   contents: read
 jobs:
   mutations:
+    name: ${{ matrix.study }} mutations
     strategy:
       fail-fast: false
       matrix:

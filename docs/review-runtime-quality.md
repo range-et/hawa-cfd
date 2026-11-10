@@ -8,12 +8,11 @@ source, coverage exclusion or comparison tolerance was changed.
 ## Line coverage
 
 The 2026-11-09 runtime-focused run passed 221 cases on Python 3.9.25 and CPU.
-The subsequent fresh parent `integrated-audit/python.json` measures **3,355 of
-3,356 executable lines** across `src/hawa`; its only missing line is the invalid
-step rejection at `plugin.py:318`. Six completion cases separately exercise
-that guard and assert unchanged populations, statistics and quality. The fresh
-integrated gate after including those cases remains authoritative; a union of
-separate runs is not a substitute for that gate.
+The final integrated gate (`final-gate/python.json`) measures **3,356/3,356
+executable lines** across `src/hawa`, including the invalid-step rejection guard
+and its no-mutation assertions. All 1,396 Python cases passed, with 82 explicit
+skips. This fresh complete run supersedes the earlier focused unions; see the
+[combined review](review-headless-quality.md) for scope and limitations.
 
 An earlier union audit overstated the denominator as 3,391 by counting
 `executed_lines | missing_lines`. Coverage.py's raw `executed_lines` includes
