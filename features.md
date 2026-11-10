@@ -76,6 +76,42 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 9, 2026 — merged Python issue closeout
+
+[PR #6](https://github.com/range-et/hawa-cfd/pull/6) merged into main at
+`bd8e624`, including refinement PR #7. The following scoped defects are closed
+in development, not claimed installed or released:
+
+- **HAWA-048 / HAWA-051 closed:** atomic immutable-field NPZ writes preserve old
+  output on failure; both writers support long valid destination filenames.
+  Fault-injection/round-trip controls and 35 focused native/Docker checks passed.
+  [Export review](docs/review-export-atomicity.md).
+- **HAWA-049 / HAWA-052 closed:** refinement alignment is independent of world
+  origin and invalid patch topology fails before solver allocation. Combined
+  gate: 852 passed, 82 hardware skips, 33 contracts; CPU G6: 97,561 passed,
+  4,898 device-blocked. Host/pre-Job validation remains HAWA-028.
+  [Domain review](docs/review-domain-relationships.md).
+- **HAWA-050 closed:** pinned Python 3.9 CI provisioning and synchronized test
+  dependency lock pass hosted checks and locked-sync verification.
+  [CI review](docs/review-python-ci-runner.md).
+- **HAWA-053 closed:** imported rough-wall filter history survives reset;
+  repeated CPU replays match exactly.
+- **HAWA-054 closed:** exterior-boundary workspace is included before allocation;
+  large-case rejection and valid controls pass. The conservative estimate is not
+  an OS memory limit.
+- **HAWA-055 closed:** corresponding source includes verification inputs; exact
+  package checks pass and packaged source collects 892 tests. Legacy example 09
+  remains excluded. The last three repairs share the [integration review](docs/review-python-integration.md#pr-6-review-follow-up):
+  810 passed, 82 hardware skips, 33 contracts before the refinement merge.
+
+These are recorded checks, not new test runs during this documentation closeout.
+HAWA-001 numerical parity, broader HAWA-026 coverage, HAWA-028 host validation,
+and Windows CUDA acceptance under HAWA-002/044–046 remain open. PR #8 is still
+open; PR #9 merged into the study integration branch after #6 and is not yet in
+main. Neither is counted as closing its umbrella issue.
+
+
+
 ### November 9 2026 domain relationship contracts (HAWA-028 partial / HAWA-052 candidate)
 
 Independent Python state and intentional view overlap now have explicit relation
@@ -300,5 +336,5 @@ matrix/link preparation in the conservative preflight budget; HAWA-055 includes
 verification tools/configuration/docs/examples in the source bundle. The coverage
 test dependency is now in uv.lock. Fresh combined gate: 810 passes/82 skips,
 33 contracts, no ratchet failures; actual bundled source collects all 892 tests.
-These candidates remain pending integration and do not establish Windows/host
+These repairs are merged into main through PR #6; they do not establish Windows/host
 qualification. [Evidence](docs/review-python-integration.md#pr-6-review-follow-up).
