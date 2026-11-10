@@ -46,7 +46,7 @@
     "scripts/benchmark_refinement.py": "3ebe57a02b12dcb36034e48144ae1afc3ce592de7595d358020246d389eda777",
     "scripts/benchmark_rotating_sphere.py": "ecac956d50709ae015a0c22c1168c80f4ac1f89210a62cd46f2059ec73d6cf6d",
     "scripts/bootstrap_reference.py": "c2940355ce9ab74d5ee0525fca67f711f8e3441f5afbaa11006ba603ecf824b7",
-    "scripts/build_plugin.py": "a3de4e7028b8cf7aef0352b8d2d897511314c980ecdd40165d0dea8f3d907f51",
+    "scripts/build_plugin.py": "3c8799112827b9b3c2279c69d4627cf3dc168d20ff2bf68ec9678d8275a54dcb",
     "scripts/build_site.py": "63f48383600c98026aeb21d4318b4d38b561c7fae74eeb0818bd22c429c8f52a",
     "scripts/check_compatibility_evidence.py": "ef2c7669e5d8c9f49b3e1659d48103a03f621771a9cae254157f7f5c1975f790",
     "scripts/compare_engines.py": "f16f5a79c9991db76ad49cd20e7d46f8fa001bd8087cfbbac7b0b57603f5d4d9",
@@ -135,7 +135,7 @@
     "tests/test_backport_audit.py": "01802ceafaa8aa7d945b4fbcecaf654067f586c27d3d9245cd82af372894111d",
     "tests/test_boundary_data.py": "c02370f353f88eb4751db6e9bfb347be306168e7ea19966b1bd1cc9917e639a4",
     "tests/test_boundary_series.py": "5bf4cc43a974f32f74d3e702ab02aab911d20de37d8e085541310c1492d0fb41",
-    "tests/test_build_quality_completion.py": "79508b72c2cb50d603f205c75caf47428d61d38fec0e96da9893ab27aae7af11",
+    "tests/test_build_quality_completion.py": "6f6c4c611e05f4619641cfb5db286bd6f7eb2a776545ea6daf2adfb068fb89b4",
     "tests/test_cli.py": "54302618c780b8cc6fd81604d2f83880188f3bc91dc3f08ff176a1f572135e43",
     "tests/test_compatibility_matrix.py": "ee5bdedccf9125277ef708cac15a5d9870c81fdea014c2c1b3cc5eb2d48fa62d",
     "tests/test_cuda_tooling.py": "ef1b5f48742d24c17940fad65561553bc355def9e5105ab311d3b8eae4e8cf03",
@@ -41145,13 +41145,13 @@
       "signature": "main() -> unannotated",
       "kind": "FunctionDef",
       "line": 14,
-      "end_line": 99,
+      "end_line": 101,
       "first_line": 14,
       "code_name": "main",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "ab35b258b7e24d1815e78cd44e58f0735187962053a2abc58fd50cb10d9c146b",
+      "fingerprint": "36e8cdd9f03ba31abc2bbf4742eae854a17bebecfdee34566a74726ec9dfd557",
       "id": "scripts/build_plugin.py::main",
       "branches": {
         "hit": 46,
@@ -41167,8 +41167,8 @@
         "tests/test_tooling_entrypoints.py::test_cli_help_exits_successfully_without_creating_outputs[build_plugin]"
       ],
       "lines": {
-        "hit": 79,
-        "total": 79
+        "hit": 81,
+        "total": 81
       },
       "status": "covered"
     },

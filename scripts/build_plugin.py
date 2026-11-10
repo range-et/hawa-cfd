@@ -40,6 +40,7 @@ def main():
     for name in ("LICENSE", "THIRD_PARTY_NOTICES.md", "features.md"):
         if (ROOT / name).exists():
             shutil.copy2(ROOT / name, output)
+    (output / "issues.md").unlink(missing_ok=True)  # retired; drop copies left by earlier builds
     notices = output / "licenses/lettuce"
     notices.mkdir(parents=True, exist_ok=True)
     for name in ("LICENSE", "AUTHORS.rst", "PORTING.md", "upstream.json"):
@@ -95,6 +96,7 @@ def main():
                 temporary = target.with_name(target.name + ".new")
                 shutil.copy2(file, temporary)
                 os.replace(temporary, target)
+        (destination / "issues.md").unlink(missing_ok=True)
         print("Installed: " + str(destination))
     print("Built: " + str(archive))
 
