@@ -140,10 +140,13 @@ bash tools/mutation/run_runtime_admission.sh results/admission-mutation-NEW
 .venv/bin/python tools/mutation/check_results.py results/admission-mutation-NEW --policy tools/mutation/runtime-admission-policy.json
 ```
 
-The HAWA-001 KBC studies are run locally, not in the workflow. They mutate only
-the lines of `kbc_collision.py` and `diagnose_kbc_parity.py` changed since the PR
-base (mutmut patch mode needs `whatthepatch` and full Git history). CUDA/MPS
-hardware cases are deselected by name, and actual device runs are separate evidence:
+The HAWA-001 KBC studies are run locally, not in the workflow. The collision
+study mutates only the lines of vendored `kbc_collision.py` changed since the PR
+base (mutmut patch mode needs `whatthepatch` and full Git history). The diagnostic
+study mutates the whole of `scripts/diagnose_kbc_parity.py`, which is new to main
+with that PR. CUDA/MPS hardware cases are deselected by name (so CPU-run tests
+must not carry `cuda` or `mps` in their ids), and actual device runs are separate
+evidence:
 
 ```sh
 bash tools/mutation/run_kbc.sh collision results/kbc-collision-mutation-NEW
@@ -154,6 +157,11 @@ bash tools/mutation/run_kbc.sh diagnostic results/kbc-diagnostic-mutation-NEW
 
 Do not run `mutmut results` inside a study directory while it is still mutating:
 it reads the temporarily mutated source and corrupts the run's cache.
+
+mutmut 2.4.5 marks a mutant killed only when the test command exits with 1. A
+mutant that breaks import makes pytest stop at collection (exit 2), which mutmut
+reports as survived. Review such survivors as collection errors: they are
+detected, but they are neither assertion kills nor equivalents.
 
 The helpers preserve mutmut's raw exit (2 when mutants survive); run the policy
 checker afterward. Acceptance requires the exact reviewed source/test hashes,

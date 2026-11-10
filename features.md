@@ -97,8 +97,10 @@ Devices without FP64 (MPS) now evaluate KBC with FP32 hi/lo intermediates
 path. On identical inputs MPS reproduces the rounded CPU output bitwise. The
 original 512-square/50-step PorousMedium CPU/MPS comparison passes on one M3 Max
 (f 3.3e-7, u 1.3e-5, p 1.4e-4) and all 16 upstream examples keep CPU/MPS parity.
-The MPS collision costs about 7x plain FP32. CUDA was not tested in this round.
-Candidate, not merged or released; #11 remains open until review.
+The MPS collision costs about 7x plain FP32. A CUDA regression run (#52, one
+RTX 5070 Ti) passed the same criteria with output unchanged from main.
+Candidate, not merged or released; #11 stays open for the batched MPS round
+(#53) on the merged commit.
 [Repair record](docs/review-porous-kbc-repair.md).
 
 ### November 10, 2026 — GitHub backlog migration

@@ -153,19 +153,35 @@ cover:
 The diagnostic adds a `compensated_vs_reference` row. It fails independently
 when only the double-float kernel disagrees, and its entry point is tested.
 
-Mutation testing used mutmut 2.4.5 in patch mode over the lines this PR changes
-relative to base `f9a3a13`, via `tools/mutation/run_kbc.sh`. CUDA/MPS cases are
-deselected by name. Results:
-- `kbc_collision.py`: **211 mutants, 206 killed, 5 reviewed survivors, 0
+Mutation testing used mutmut 2.4.5 through `tools/mutation/run_kbc.sh`, with
+CUDA/MPS cases deselected by name. Results:
+- `kbc_collision.py`, patch mode over the lines this PR changes relative to base
+  `f9a3a13`: **211 mutants, 206 killed, 5 reviewed survivors, 0
   timeouts/errors/suspicious**. The survivors are an equivalent Dekker splitter
   (4098), an equivalent isfinite(low part) check, and three exact-boundary or
   unreachable-window threshold comparisons inherited from Lettuce. Diffs and
   reasons are in `tools/mutation/kbc-collision-policy.json`.
-- Diagnostic: **10 mutants, 10 killed**.
+- `scripts/diagnose_kbc_parity.py`, the whole script (it is new to main with
+  this PR): **306 mutants, 298 killed, 8 reviewed survivors, 0
+  timeouts/suspicious**. Five are equivalent: the Taylor-Green constructor
+  arguments that `make_flow` overwrites (4), and `gamma <= 1e-15`, which can
+  never equal 1e-15 because a stabilizer near zero is a multiple of 2⁻⁵² (FP64)
+  or 2⁻²³ (FP32). One is equivalent content: JSON indentation. Two are
+  **collection errors**, not kills and not equivalents: they break the import,
+  and mutmut 2.4.5 counts only pytest exit 1 as killed. Diffs and reasons are in
+  `tools/mutation/kbc-diagnostic-policy.json`.
 
-Exploratory runs found loop-timeout mutants in a pairwise sum and equivalent
-index mutants. The source was restructured to remove them, and the final runs
-are fresh. Whole-module mutation was stopped as out of scope.
+The first whole-script run (PR #59's study on main found 82 of 300 surviving)
+led to new contract tests. They cover the criterion constants and size bounds,
+the exact near-zero guard equality and the reachable reset window
+[1e-15, 2e-15) on FP64 cells, unchanged-input checks in the inspection and in the
+study, fail-closed evidence and reports, argument parsing and exact messages.
+CPU-run tests no longer carry `cuda`/`mps` in their ids, which had made the
+mutation selector skip them.
+
+Exploratory collision runs found loop-timeout mutants in a pairwise sum and
+equivalent index mutants. The source was restructured to remove them, and the
+final runs are fresh. Whole-module mutation of the vendored file is out of scope.
 
 
 ## Gates and evidence
@@ -180,8 +196,16 @@ are fresh. Whole-module mutation was stopped as out of scope.
 | G5 | — | BLOCKED | Not merged, packaged or installed |
 | G6 | — | NOT APPLICABLE | No node, field format or shared-state change |
 
-CUDA was not tested in this round. It is deferred to a separate CUDA
-environment that the user will provide; the CPU/CUDA FP64-intermediate path is
-unchanged by this diff. Remaining before #11 closes: maintainer review and merge
-of this candidate, and a fresh Mac run on the final commit if the source changes
-after the recorded run. Other Apple GPUs and macOS versions are not covered.
+CUDA: the CPU/CUDA FP64-intermediate path is unchanged by this diff. A CUDA
+regression run on `b66cb59` (Windows 11, RTX 5070 Ti, PyTorch 2.8.0+cu128,
+[#52](https://github.com/range-et/hawa-cfd/issues/52), results on
+[#11](https://github.com/range-et/hawa-cfd/issues/11)) passed: focused tests
+50 passed with 0 CUDA skips, the diagnostic passed, PorousMedium CPU/CUDA at the
+original criteria passed (f 1.79e-7, ρ 4.77e-7, u 1.05e-5, p 1.93e-4), and
+16/16 example parity passed. CUDA output for PorousMedium was bitwise equal to
+main's. Later commits do not change `vendor/`, `src/` or the diagnostic script;
+they add tests, mutation tooling, docs and merges of main.
+
+Remaining before #11 closes: maintainer review and merge, then the batched MPS
+round on the merged commit ([#53](https://github.com/range-et/hawa-cfd/issues/53)).
+Other Apple GPUs and macOS versions are not covered.

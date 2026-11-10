@@ -1,11 +1,52 @@
 {
   "tool": "mutmut==2.4.5",
-  "mutants": 10,
+  "mutants": 306,
   "control_test_file": "tests/test_kbc_parity_diagnostic.py",
-  "scope": "HAWA-001 PR lines of scripts/diagnose_kbc_parity.py changed since f9a3a13 (patch mode); CPU cases only; not whole-script mutation coverage",
+  "scope": "HAWA-001 whole of scripts/diagnose_kbc_parity.py (new to main with this PR); CPU cases only",
   "sources": {
     "scripts/diagnose_kbc_parity.py": "e346178ea3e12e770b76e915f132e2c6d549b80f9e92d4704f54350b2acd4e6b",
-    "tests/test_kbc_parity_diagnostic.py": "4efaf99e04b8d08412dbec29469239cbe5dcf6d2bbf0f02559c371f8ca3f1003"
+    "tests/test_kbc_parity_diagnostic.py": "9f4bf8f0ced94f52be33d02ba112baa03400f36429e90816e8ed7b9a160fb27b"
   },
-  "reviewed_survivors": {}
+  "reviewed_survivors": {
+    "Mutant #15": {
+      "diff_sha256": "32add29b7a0c410bb889808ad90b8f22822c1ec9fd5c96f8ca28f748cfef63b2",
+      "classification": "collection error",
+      "reason": "Not equivalent, not an assertion kill. RTOL, ATOL = None raises TypeError when the test module imports the script, so pytest stops at collection with exit 2. mutmut 2.4.5 counts only exit 1 as killed, so it reports this as survived. The criteria values are asserted by test_comparison_reports_exact_statistics_at_the_criterion_boundary."
+    },
+    "Mutant #55": {
+      "diff_sha256": "5184592b6f597867aeeca7a1671ebded55458072623c6f6cea7a73c5b924296f",
+      "classification": "equivalent",
+      "reason": "Equivalent: make_flow replaces the Taylor-Green units and populations right after construction. The constructor resolution then only sizes Lettuce's lazy f_next streaming buffer and grid, which the diagnostic never uses."
+    },
+    "Mutant #56": {
+      "diff_sha256": "6506567dde3b9374c7730b0bf292b62b9706a70e9439006ae2871c2f7f97c846",
+      "classification": "equivalent",
+      "reason": "Equivalent for the same reason as #55 (second resolution component)."
+    },
+    "Mutant #57": {
+      "diff_sha256": "e3f2dc527c368784b5b87b290807bd7f37d14d9343d568d45c79e4e62c9a725b",
+      "classification": "equivalent",
+      "reason": "Equivalent: the constructor Reynolds number only builds units and an initial field that make_flow overwrites with the notebook conversion and the frozen populations. The resulting tau is asserted by test_frozen_cell_inputs_and_size_bounds."
+    },
+    "Mutant #58": {
+      "diff_sha256": "734d9ceb56edb230fc377f3b3bbdb41364cec897f060610dfa10750c9415bd7d",
+      "classification": "equivalent",
+      "reason": "Equivalent for the same reason as #57 (constructor Mach number; Lettuce does not validate it)."
+    },
+    "Mutant #112": {
+      "diff_sha256": "6d05125d2d45dd5ba2c0b460a26bfd13b091220f8b46a5bc2a2a05f2059987b9",
+      "classification": "equivalent",
+      "reason": "Equivalent for every flow the script builds: < and <= differ only at gamma == 1e-15. make_flow fixes 1/beta = 1.001953125. A positive gamma near zero is 1/beta - c with c in [1, 2), which Sterbenz makes exact, so gamma is a multiple of 2**-52 in FP64 (2**-23 in FP32). 1e-15 is 4.5036 * 2**-52, so it is never reached. The adjacent window [1e-15, 2e-15) is reachable and its 2e-15 mutant is killed by test_inspection_keeps_a_positive_stabilizer_just_above_the_reset_threshold."
+    },
+    "Mutant #296": {
+      "diff_sha256": "56022c30f2bed1ee5ad6fe4ef1946d9d95b0a2096ec7c5f66223920a63eb97f8",
+      "classification": "equivalent",
+      "reason": "Equivalent content: indent 3 instead of 2 changes only whitespace in result.json; the parsed report is identical. Tests deliberately do not pin incidental formatting."
+    },
+    "Mutant #305": {
+      "diff_sha256": "43c1492d76f5f9053f252122d999669afeb91058ba0f7f8435dbd06fb4d749db",
+      "classification": "collection error",
+      "reason": "Not equivalent, not an assertion kill. With != the script runs main() when the test module imports it; argparse rejects pytest's argv with SystemExit(2) and pytest exits 3 (internal error) before running tests. mutmut 2.4.5 counts only exit 1 as killed. The entry point is also asserted by test_script_entrypoint_exits_with_report_status."
+    }
+  }
 }

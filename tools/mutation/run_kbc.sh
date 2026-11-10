@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-# HAWA-001 KBC mutation studies in a disposable, cache-free source copy. Each
-# study mutates only the lines this PR changes relative to its base (patch mode):
-#   collision:  vendored kbc_collision.py against tests/test_kbc_precision.py
-#   diagnostic: scripts/diagnose_kbc_parity.py against tests/test_kbc_parity_diagnostic.py
+# HAWA-001 KBC mutation studies in a disposable, cache-free source copy:
+#   collision:  only the lines of vendored kbc_collision.py this PR changes
+#               relative to its base (patch mode), against tests/test_kbc_precision.py
+#   diagnostic: the whole of scripts/diagnose_kbc_parity.py (new to main with
+#               this PR), against tests/test_kbc_parity_diagnostic.py
 # CUDA/MPS hardware cases are deselected by name for this CPU study; actual
 # accelerator runs are separate device evidence, never mutation kills.
 set -euo pipefail
@@ -16,8 +17,9 @@ mutmut_bin="$repo_dir/.venv/bin/mutmut"
 study="${1:?Usage: bash tools/mutation/run_kbc.sh collision|diagnostic NEW_OUTPUT_DIRECTORY}"
 output_dir="${2:?Usage: bash tools/mutation/run_kbc.sh collision|diagnostic NEW_OUTPUT_DIRECTORY}"
 case "$study" in
-  collision) target=vendor/lettuce/lettuce/ext/_collision/kbc_collision.py; tests=tests/test_kbc_precision.py ;;
-  diagnostic) target=scripts/diagnose_kbc_parity.py; tests=tests/test_kbc_parity_diagnostic.py ;;
+  collision) target=vendor/lettuce/lettuce/ext/_collision/kbc_collision.py; tests=tests/test_kbc_precision.py
+             scope=(--use-patch-file changed-lines.patch) ;;
+  diagnostic) target=scripts/diagnose_kbc_parity.py; tests=tests/test_kbc_parity_diagnostic.py; scope=() ;;
   *) echo "Unknown study: $study" >&2; exit 64 ;;
 esac
 "$python_bin" -c 'import importlib.metadata as m; assert m.version("mutmut") == "2.4.5", "Install tools/mutation/requirements.txt"'
@@ -45,7 +47,7 @@ export PYTEST_DISABLE_PLUGIN_AUTOLOAD=1
 "$python_bin" -m pytest "$tests" -k "$selection" --collect-only -q > collected.txt 2>&1
 "$python_bin" -m pytest "$tests" -k "$selection" -q --junitxml=control.xml > control.log 2>&1
 set +e
-"$mutmut_bin" run --paths-to-mutate "$target" --tests-dir tests/ --runner "\"$python_bin\" -m pytest $tests -q -x -k '$selection'" --no-progress --use-patch-file changed-lines.patch > mutation.log 2>&1
+"$mutmut_bin" run --paths-to-mutate "$target" --tests-dir tests/ --runner "\"$python_bin\" -m pytest $tests -q -x -k '$selection'" --no-progress ${scope[@]+"${scope[@]}"} > mutation.log 2>&1
 mutation_exit=$?
 set -e
 printf '%s\n' "$mutation_exit" > mutation-exit.txt
