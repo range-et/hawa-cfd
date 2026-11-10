@@ -1,0 +1,32 @@
+{
+  "tool": "mutmut==2.4.5",
+  "mutants": 211,
+  "control_test_file": "tests/test_kbc_precision.py",
+  "scope": "HAWA-001 PR lines of vendored kbc_collision.py changed since f9a3a13 (patch mode); CPU cases only; not whole-module mutation coverage",
+  "sources": {
+    "vendor/lettuce/lettuce/ext/_collision/kbc_collision.py": "9722ee7daa68d378e47b4323ee281db1ef6a580c892e67bec1a6215904e115d4",
+    "tests/test_kbc_precision.py": "79b606b90aa23fe5142882f3e56cf9fc85a3d74636bc845bd4c1a3554ba839f6"
+  },
+  "reviewed_survivors": {
+    "Mutant #1": {
+      "diff_sha256": "7e4392281fd0782bc3a481c5a7f8ffcef56cdac673027d7d2d066b5ce738600c",
+      "reason": "Equivalent in FP32: Dekker splitting with 4098 instead of 4097 still gave exact TwoProduct for all 1,711,276,032 pairs of every [1,2) significand with 204 multipliers, and for 10^7 random pairs with exponents in [-20,20]. Splitters 2049 and 65537 fail that random probe, so the probe can detect a bad split."
+    },
+    "Mutant #181": {
+      "diff_sha256": "260ba761f82a65d92536ceac0fb912018731a5a6e644ddd6f86b4288a5003a52",
+      "reason": "Boundary only: < and <= differ only when the double-float sum_h equals (q eps)^2 rho bit for bit; no FP32 input was constructed to hit equality. Density scaling of the same guard is killed by test_storage_precision_guard_scales_with_density_in_both_kernels."
+    },
+    "Mutant #197": {
+      "diff_sha256": "4a38951b0d238f8cb2dba4bfbf0ed582e695c55ac18e9e34a6f26e09108327d5",
+      "reason": "Equivalent on reachable inputs: TwoSum makes the low part NaN whenever the high part is infinite or NaN, so isfinite(lo) and isfinite(hi) agree. They could only differ if a split overflowed with |gamma| > 8e34, but guarded inputs bound |sum_s/sum_h| by |delta_s|/|delta_h|, many orders below that."
+    },
+    "Mutant #200": {
+      "diff_sha256": "e3995b1d6ec1613d4bd3de530c0909ca7b4763faefacb09ab28c4aa429a630dc",
+      "reason": "Boundary only: < and <= differ only for a stabilizer exactly equal to 1e-15, the inherited Lettuce reset threshold; FP32-stored inputs cannot be tuned to hit that value."
+    },
+    "Mutant #201": {
+      "diff_sha256": "3ef84e45b823b60aa0e1dd404ee5f413c516c7639c2a4801321362ae77ef084c",
+      "reason": "Boundary only: differs only for a stabilizer in [1e-15, 2e-15). In the observed sensitive cell a one-ulp FP32 input change moved the stabilizer by about 1e-3, so FP32 input quantization makes that window unreachable when constructing tests. Not proven equivalent; reviewed as unreachable."
+    }
+  }
+}

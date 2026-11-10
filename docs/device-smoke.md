@@ -64,11 +64,10 @@ Each case is `pass`, `fail` or `unsupported-guarded`.
 - The run passes only when no case fails and the source snapshot is unchanged.
   Guarded cases are counted separately, never as passes.
 
-On `main` at `f29fe01`, MPS still uses the plain FP32 KBC collision. A CPU emulation
-of that path gives 9/9 and 576/576 mismatched populations in `kbc-near-equilibrium`,
-so MPS is expected to fail that case until the double-float KBC work in
-[#11](https://github.com/range-et/hawa-cfd/issues/11) lands. That is an unguarded
-known discrepancy, and the gate records it as a failure.
+Before #11 (PR #63), MPS ran the plain FP32 KBC collision. A CPU emulation of that
+path gave 9/9 and 576/576 mismatched populations in `kbc-near-equilibrium`, so the
+case detects it. Since #63, MPS uses compensated FP32 hi/lo intermediates. A CPU
+emulation of that path gives 0 mismatches, but only an MPS run is MPS evidence.
 
 ## Manifest
 
@@ -124,10 +123,10 @@ guard handling, manifest fields, provenance, and reduced real runs of every buil
 on the CPU. `scripts/device_smoke.py` has 100% line and branch coverage.
 
 Targeted mutmut 2.4.5 covered only the lines this gate added, from
-`git diff c6e57ad` passed to `--use-patch-file`:
+`git diff 8eec667` passed to `--use-patch-file`:
 
 ```sh
-bash tools/mutation/run_device_smoke.sh results/device-smoke-mutation-NEW c6e57ad
+bash tools/mutation/run_device_smoke.sh results/device-smoke-mutation-NEW 8eec667
 .venv/bin/python tools/mutation/check_results.py results/device-smoke-mutation-NEW --policy tools/mutation/device-smoke-policy.json
 ```
 

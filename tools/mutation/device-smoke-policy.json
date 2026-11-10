@@ -2,7 +2,7 @@
   "tool": "mutmut==2.4.5",
   "mutants": 453,
   "control_test_file": "tests/test_device_smoke.py",
-  "base_revision": "c6e57ad2feb9389fc6c9b687911dc4295ad7613d",
+  "base_revision": "8eec6675152531ea57f9ae3ccd35a0d2b0a9f556",
   "scope": "Lines added by the device smoke gate PR only (git diff against the base revision, mutmut --use-patch-file): scripts/device_smoke.py, the dtype argument in scripts/benchmark_curved_walls.py and the case filter in scripts/parity_worker.py; not whole-module or whole-codebase mutation coverage",
   "sources": {
     "scripts/device_smoke.py": "b59ce8e4fac9b0cb9d308a31c627903fbb8bf7c479667cee184316ba3393a9ee",
@@ -12,7 +12,7 @@
     "tests/test_device_smoke.py": "e1c37ab9c0ab0e3537b31b55027f5485d481b79dd3cf0487c2e27a5a248387d8",
     "tests/test_neutral.py": "287434b4c666f289a99635f216ef47b8c491ed1867c1bc52a8197969bc857bfa",
     "tests/test_motion.py": "2739488d273a643b607a46d86c2676c9e1e4265e1a9da0504546c4fac5ea16d3",
-    "tests/test_kbc_precision.py": "ac44e983cd8d0a1ad19438f9918c4a4ae6d352b526ac43e2b2f073a408f12067"
+    "tests/test_kbc_precision.py": "79b606b90aa23fe5142882f3e56cf9fc85a3d74636bc845bd4c1a3554ba839f6"
   },
   "reviewed_survivors": {
     "Mutant #22": {

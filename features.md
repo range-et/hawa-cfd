@@ -31,7 +31,7 @@ example checks.
 | Result quality and offline inlet transfer | Bounded Mach/density/finite-state quality policy and v1 mapped X− velocity series, with source identity and coverage checks. Not convergence or atmospheric validation. | [Transfer guide](docs/boundary-transfer.md), [gate record](docs/boundary-transfer-review.md) |
 | Shared boundary foundation | Physical patch schema plus bounded LBM NEE wall/slip/velocity/open reconstruction; corrected closure is explicitly versioned. Full reversing/cropped/atmospheric capability is not established. | [Boundary guide](docs/general-boundaries.md), [gate record](docs/general-boundaries-review.md) |
 | Experimental neutral flow | Shifted-population regularized SGS, molecular-air scaling, sampled/filtered planar rough-floor stress and restart state. External mode adds halo-classified cropped buildings, side/top velocity or open faces, pressure reference and measured link mass budget. Analytic wall, convected-disturbance, stationary-channel and scoped CPU/MPS/Rhino checks pass. Full atmospheric accuracy and nesting qualification remain open. | [Coupling review](docs/neutral-coupling-review.md), [verification](docs/verification-neutral-coupling.json); HAWA-003/004/011 in [GitHub Issues](https://github.com/range-et/hawa-cfd/issues) |
-| Device smoke gate | Five short existing cases (compatibility engine, KBC collision, neutral precursor, moving sphere, curved-wall channel) compared with a CPU FP64 reference under a committed bitwise/bounded policy, with a per-run manifest. The CPU mode runs in CI. CUDA and MPS modes are built but have not yet passed a device round; MPS is expected to fail the KBC case until #11 lands. | [Gate guide](docs/device-smoke.md), [#57](https://github.com/range-et/hawa-cfd/issues/57) |
+| Device smoke gate | Five short existing cases (compatibility engine, KBC collision, neutral precursor, moving sphere, curved-wall channel) compared with a CPU FP64 reference under a committed bitwise/bounded policy, with a per-run manifest. The CPU mode runs in CI. CUDA and MPS modes are built but have not yet passed a device round. | [Gate guide](docs/device-smoke.md), [#57](https://github.com/range-et/hawa-cfd/issues/57) |
 | Compatibility and example coverage gate | G6 enumerates 102,459 finite contract rows, detects incomplete/stale evidence and audits all public nodes against annotated GH workflows. CPU/MPS local checks pass; CUDA is blocked. Arbitrary graphs and continuous inputs are not exhaustively enumerated. | [G6 guide](docs/compatibility-matrix.md), [machine report](docs/verification-compatibility.json) |
 
 ## Headless testing expansion (November 9, 2026)
@@ -91,6 +91,19 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 10, 2026 — HAWA-001 KBC repair candidate (#11)
+
+Devices without FP64 (MPS) now evaluate KBC with FP32 hi/lo intermediates
+(TwoSum/TwoProduct, exact moment split, one rounding); CPU/CUDA keep their FP64
+path. On identical inputs MPS reproduces the rounded CPU output bitwise. The
+original 512-square/50-step PorousMedium CPU/MPS comparison passes on one M3 Max
+(f 3.3e-7, u 1.3e-5, p 1.4e-4) and all 16 upstream examples keep CPU/MPS parity.
+The MPS collision costs about 7x plain FP32. A CUDA regression run (#52, one
+RTX 5070 Ti) passed the same criteria with output unchanged from main.
+Candidate, not merged or released; #11 stays open for the batched MPS round
+(#53) on the merged commit.
+[Repair record](docs/review-porous-kbc-repair.md).
+
 ### November 10, 2026 — GitHub backlog migration
 
 Migrated all 38 active HAWA entries to GitHub Issues with evidence, acceptance
@@ -135,7 +148,15 @@ and Windows CUDA acceptance under HAWA-002/044–046 remain open. PR #8 is still
 open; PR #9 merged into the study integration branch after #6 and is not yet in
 main. Neither is counted as closing its umbrella issue.
 
+### November 9 2026 HAWA-001 diagnostic increment
 
+Added a bounded repeated-cell KBC diagnostic with exact FP32 inputs, actual
+device/stage/stabilizer evidence and unchanged population criteria. Original
+512-square/50-step CPU/MPS parity still fails; an improved but still-failing
+scratch candidate was rejected. No production or vendor repair is claimed.
+[Diagnosis and limits](docs/review-porous-kbc-diagnostic.md). Review follow-up
+HAWA-056/057 adds actual loaded-source validation and partial failure evidence.
+HAWA-001 remains open.
 
 ### November 9 2026 domain relationship contracts (HAWA-028 partial / HAWA-052 candidate)
 
@@ -149,6 +170,16 @@ CPU G6 and its combined checker pass with 4,898 MPS/CUDA rows explicitly blocked
 development packaging passes. HAWA-028 stays open for host/pre-Job workflow and
 HAWA-052 remains an integration candidate.
 [Contract inventory and evidence](docs/review-domain-relationships.md).
+
+### November 9 2026 airfoil dispatcher coverage (HAWA-026 tranche)
+
+Added 23 public airfoil-dispatch cases with independent routing, invalid-input,
+metadata, degree-unit and length-scaling assertions. Native/Linux focused suites
+pass 29 cases; seven seeded faults are detected. After rebasing onto integration `588bffd`, the combined gate passes 899 tests,
+with 83 hardware skips, 33 state contracts and zero ratchet failures. Promoted only
+the freshly measured dispatcher baseline entry; no production behavior changed.
+HAWA-026 remains open for other coverage debt; this is not physical validation or
+a release. [Review and limits](docs/review-airfoil-dispatch-coverage.md).
 
 ### November 9 2026 HAWA-021/022 diagnostic harness (C1)
 
