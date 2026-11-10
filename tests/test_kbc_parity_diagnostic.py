@@ -27,6 +27,7 @@ def test_frozen_cell_reference_and_raw_cpu_control():
     for row in raw['rows']:
         assert row['device']=='cpu' and row['dtype']=='torch.float32'
         assert row['public_vs_reference']['max_abs']==0
+        assert row['compensated_exact'] and row['compensated_vs_reference']['max_abs']==0
         assert row['mass_error']['passed'] and row['momentum_error']['passed']
 
 
@@ -86,14 +87,16 @@ def test_accelerator_shape_control_reports_actual_device_and_observed_failure(de
     if device=='cuda:0' and not torch.cuda.is_available():pytest.skip('CUDA unavailable')
     result=study.study(device,[1,512])
     assert all(torch.device(row['device']).type==torch.device(device).type and row['dtype']=='torch.float32' and row['initial_identical'] for row in result['rows'])
-    assert result['passed']==all(row['public_vs_reference']['passed'] for row in result['rows'])
+    assert result['passed']==all(row['public_vs_reference']['passed'] and row['compensated_vs_reference']['passed']
+                                 for row in result['rows'])
     # The harness observes the current solver. It must not require the defect forever.
     # When the original population criterion fails, evidence keeps that failure visible.
     for row in result['rows']:
         comparison=row['public_vs_reference']
         assert comparison['passed']==(comparison['failed_values']==0)
         assert comparison['rtol']==1e-3 and comparison['atol']==1e-5
-        if device=='mps':assert row['public_vs_raw']['max_abs']==0
+        # MPS has no FP64: its public collision is the double-float FP32 kernel.
+        if device=='mps':assert comparison==row['compensated_vs_reference']
     assert not result['reference']['negative_reset']['count']
 
 
