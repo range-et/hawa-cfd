@@ -1,6 +1,6 @@
 # Headless coverage and mutation review
 
-Date: 2026-11-10 UTC (November 9 local). Refs GitHub [#28](https://github.com/range-et/hawa-cfd/issues/28)
+Date: November 9, 2026 (America/Toronto). Refs GitHub [#28](https://github.com/range-et/hawa-cfd/issues/28)
 and [#45](https://github.com/range-et/hawa-cfd/issues/45); both remain open for their
 remaining scope. Reviewers: Codex integration agent, runtime test agent, tooling
 test agent and C# contract agent. These are agent reviews, not human scientific
@@ -9,9 +9,9 @@ or Rhino acceptance sign-offs.
 ## Result and scope
 
 The fresh native integrated gate covers **365/365 first-party Python functions**
-and **6,157/6,157 executable Python lines**, with zero missing/excluded lines.
-Runtime `src/hawa` contributes 3,356 lines, developer scripts 2,407, tools 372,
-and embedded Python bootstrap 22. Python branch arcs are 2,238/2,428; no complete
+and **6,164/6,164 executable Python lines**, with zero missing/excluded lines.
+Runtime `src/hawa` contributes 3,356 lines, developer scripts 2,414, tools 372,
+and embedded Python bootstrap 22. Python branch arcs are 2,240/2,430; no complete
 branch-coverage claim is made.
 
 The 11 linked first-party C# files cover **152/152 executable functions** and
@@ -45,6 +45,10 @@ docstrings and must not inflate line denominators.
   records cleanup errors separately, and never checkpoints rejected populations.
   Tests cover first-sample/later failures, zero progress and session-creation
   failures; a real unavailable-device startup also invalidated stale success.
+  Resumed runs preserve a unique byte-for-byte backup before startup/load and
+  retain earlier samples when either fails. Malformed original reports are also
+  preserved; repeated attempts never overwrite previous backups. Failure to
+  create the backup aborts before modifying the original report.
   Stationarity/drag/profile limits and `physical_validation=False` remain intact.
 - The source bundle now includes the pinned palette and its provenance/license,
   needed by the media tooling and its tests. Real plugin compilation/package
@@ -57,22 +61,27 @@ docstrings and must not inflate line denominators.
   callbacks, scheduling, display and geometry kernels through explicit doubles.
 
 Native environment: macOS 27.0.1 arm64, Python 3.9.25, PyTorch 2.8.0, NumPy 2.0.2,
-.NET 10 contract host. Full run: **1,411 passed, 82 skipped, 213 warnings** in
-411.76 seconds. Skips retain unavailable-device/optional qualification scope;
+.NET 10 contract host. Full run: **1,415 passed, 82 skipped, 213 warnings** in
+182.30 seconds. Skips retain unavailable-device/optional qualification scope;
 warnings include dependency deprecations and an intentional extreme-input
-numerical rejection. Fresh artifacts are under `results/quality-pilot/complete-final-gate`;
+numerical rejection. Fresh artifacts are under `results/quality-pilot/resume-review-gate`;
 the source/test fingerprints and per-function evidence are committed in
 `docs/function-tests/matrix.json`.
 
-An independent network-disabled Docker run on Debian 12 arm64, Python 3.9.25,
-PyTorch 2.8.0+cpu and .NET SDK 10.0.403 passed **1,331 tests**, with 162 skips
-exclusively for unavailable MPS/CUDA hardware, plus **67 C# contracts**. Its
-strict headless gate reports the same function/line totals and its entire
-source/test snapshot matches this checkout. Evidence lives in
+Before the resume-history follow-up, an independent network-disabled Docker run
+on Debian 12 arm64, Python 3.9.25, PyTorch 2.8.0+cpu and .NET SDK 10.0.403 passed
+**1,331 tests**, with 162 unavailable-GPU skips, plus **67 C# contracts**. That
+revision measured 6,157/6,157 Python lines and its source snapshot matched the
+then-current checkout (`78fe0b5`); artifacts remain in
 `results/quality-pilot/linux-complete-final`. The developer image includes Git,
-.NET and installed editable package metadata; initial setup failures were
-retained and resolved before this fresh full run. A real unavailable-MPS startup
+.NET and installed editable package metadata. A real unavailable-MPS startup
 also replaced seeded stale success with a failed report.
+
+The resume-history follow-up passed **78 focused tests on both macOS and Docker
+Linux**, including byte-exact backup preservation, repeated attempts, malformed
+reports, and create/load failures. Its complete native gate is the current
+measurement above; GitHub runs the full Linux gate on the final PR revision.
+Focused Linux evidence is in `results/quality-pilot/resume-linux-focused`.
 
 ```sh
 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python tools/function_coverage.py run --output results/quality-NEW --base-ref origin/main

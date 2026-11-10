@@ -119,3 +119,44 @@ def test_session_startup_failure_replaces_stale_success_without_closing_unknown_
     else:
         assert report['error']=="KeyError: 'created-but-unavailable'"
         assert calls[-1]==dict(op='close',session='created-but-unavailable')
+
+
+@pytest.mark.parametrize('failure',['create','load','malformed','none'])
+def test_resume_preserves_complete_history_before_startup_or_load(tmp_path,monkeypatch,failure):
+    import hawa.plugin
+    from pathlib import Path
+    out=tmp_path/'stationary.json'
+    samples=[dict(step=500,profile=[1,2,3],drag=4),dict(step=1000,profile=[5,6,7],drag=8)]
+    original=(json.dumps(dict(passed=True,samples=samples,provenance='original'))+'\n').encode()
+    if failure=='malformed':original=b'{invalid but irreplaceable study text'
+    out.write_bytes(original)
+    calls=[]
+    session=SimpleNamespace(flow=SimpleNamespace(i=0),quality=dict(status='within-tested-envelope'))
+    def dispatch(request):
+        calls.append(request['op'])
+        if request['op']=='create':
+            if failure=='create':raise RuntimeError('device unavailable')
+            return dict(session='fixture')
+        if request['op']=='load':
+            if failure=='load':raise ValueError('checkpoint mismatch')
+            session.flow.i=500
+    monkeypatch.setattr(hawa.plugin,'dispatch',dispatch)
+    monkeypatch.setattr(hawa.plugin,'SESSIONS',{'fixture':session})
+    monkeypatch.setattr(sys,'argv',['stationary','--resume','--steps','500','--output',str(out)])
+    # A second attempt must never replace the first preserved report.
+    backups=[]
+    for _ in range(2):
+        out.write_bytes(original)
+        with pytest.raises(SystemExit) as stop:execute_fixture('verify_neutral_stationary',tmp_path)
+        assert stop.value.code==1
+        result=json.loads(out.read_text())
+        assert result['passed'] is False
+        backup=Path(result['resume_backup'])
+        assert backup.read_bytes()==original and backup not in backups
+        backups.append(backup)
+        if failure in ('create','load'):assert result['samples']==samples
+        elif failure=='none':assert result['samples']==samples[:1]
+        else:assert result['samples']==[] and 'JSONDecodeError' in result['error']
+        assert all(p.read_bytes()==original for p in backups)
+    if failure in ('create','malformed'):assert 'close' not in calls
+    else:assert calls[-1]=='close'

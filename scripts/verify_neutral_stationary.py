@@ -4,7 +4,7 @@ Targets set before execution: last two 10000-step mean profiles differ <=2%;
 mean wall drag within 5% of drive; profile versus neutral log-law <=5% L2 over
 0.1H..0.25H, excluding wall-model sampling plane. No experimental validation claim.
 """
-import argparse,json,time
+import argparse,json,time,uuid
 from pathlib import Path
 import numpy as np
 from hawa.plugin import dispatch, SESSIONS
@@ -12,13 +12,21 @@ from hawa.neutral import MODEL
 from hawa.atmosphere import neutral_profile
 p=argparse.ArgumentParser();p.add_argument('--steps',type=int,default=100000);p.add_argument('--device',default='mps');p.add_argument('--resume',action='store_true');p.add_argument('--sample',type=int,default=1);p.add_argument('--filter',type=float,default=3.);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
 spec=dict(shape=[72,36,12],dx=1.,speed=5.,viscosity=1.5e-5,density=1.225,mach=.05,collision=MODEL,boundaries=['periodic']*4+['wall','slip'],neutral_precursor=dict(schema=1,experimental=True,reference_height_m=6.,roughness_length_m=.01,perturbation_fraction=.05,wall_sample_index=a.sample,wall_filter_seconds=a.filter))
+# Preserve the complete prior report before any resumed operation can fail.
+# Exclusive, unique backups also retain samples newer than the checkpoint.
+resume_bytes=None;resume_backup=None
+if a.resume:
+ resume_bytes=a.output.read_bytes()
+ resume_backup=a.output.with_name(a.output.name+'.resume-'+uuid.uuid4().hex+'.bak')
+ with resume_backup.open('xb') as backup:backup.write(resume_bytes)
 sid=None;s=None;start=time.monotonic();rows=[]
 checkpoint=str(a.output.with_suffix('.npz').resolve())
 report=dict(spec=spec,device=a.device,steps=0,wall_seconds=0.,stationarity_change=None,drag_relative_error=None,log_profile_relative_l2=None,targets=dict(stationarity=.02,drag=.05,profile=.05),passed=False,physical_validation=False,samples=rows,reason='No samples advanced in this invocation')
 try:
+ if a.resume:rows=json.loads(resume_bytes)['samples']
  sid=dispatch({'op':'create','case':spec,'device':a.device})['session'];s=SESSIONS[sid]
  if a.resume:
-  dispatch({'op':'load','session':sid,'path':checkpoint});old=json.loads(a.output.read_text());rows=[r for r in old['samples'] if r['step']<=s.flow.i]
+  dispatch({'op':'load','session':sid,'path':checkpoint});rows=[r for r in rows if r['step']<=s.flow.i]
  for step in range(s.flow.i,a.steps,500):
   s.advance(min(500,a.steps-step));u=s.fields()['velocity'];profile=u.mean((1,2));fluct=u-profile[:,None,None,:]
   rows.append(dict(step=s.flow.i,time=float(s.flow.units.convert_time_to_pu(s.flow.i)),profile=profile.tolist(),uw=(fluct[0]*fluct[2]).mean((0,1)).tolist(),drag=-s.solver.rough_floor.report['mean_traction_on_fluid_pa'][0],quality=s.quality['status']))
@@ -48,6 +56,7 @@ finally:
  except Exception as exc:
   report.update(passed=False,cleanup_error=type(exc).__name__+': '+str(exc))
  report.update(steps=s.flow.i if s is not None else 0,wall_seconds=time.monotonic()-start,samples=rows)
+ if resume_backup is not None:report['resume_backup']=str(resume_backup.resolve())
  a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(report,indent=2)+'\n')
 print({k:v for k,v in report.items() if k not in ('spec','samples')})
 if not report['passed']:raise SystemExit(1)
