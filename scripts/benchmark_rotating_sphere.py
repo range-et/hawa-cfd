@@ -27,7 +27,7 @@ def benchmark(dx,device='cpu'):
     return r
 
 
-if __name__ == '__main__':
+def main():
     import argparse
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--device', default='cpu')
@@ -39,3 +39,7 @@ if __name__ == '__main__':
         r=benchmark(dx,args.device)
         reports.append(r);print(r,flush=True)
         args.output.write_text(json.dumps(reports,indent=2))
+
+
+if __name__ == "__main__":
+    main()

@@ -55,6 +55,41 @@ Test("read-only outward state and detached JSON", () => {
     var settings = c.Settings(); settings["speed"] = 2; Assert(c.Speed == 1, "Settings alias");
     Start(c); Field(c); var result = c.Slice!; result["values"]![0] = 900; Assert(c.Slice!["values"]![0]!.GetValue<double>() != 900, "Field alias");
 });
+Test("public state views are detached and retain result identity", () => {
+    var c = Fresh();
+    Assert(c.ResultRevision == -1 && !c.HasInterpolatedWalls && c.Spec == null && c.Status == null && c.ResultSpec == null, "Empty state invented results");
+    c.SpecData = new JsonObject { ["shape"] = new JsonArray(8, 8, 8) };
+    c.StatusData = new JsonObject { ["steps"] = 7 };
+    c.ResultSpecData = new JsonObject { ["wall_links"] = new JsonArray(new JsonArray(1, 2, .5)) };
+    c.Result = new ResultStamp(c.Id, 4, 5, "recorded-session", "speed", 7, .25);
+    c.DrivenKeys.Add("speed");
+    var spec = c.Spec!; var status = c.Status!; var result = c.ResultSpec!; var driven = c.Driven;
+    spec["shape"]![0] = 99; status["steps"] = 99; result["wall_links"]!.AsArray().Clear();
+    c.DrivenKeys.Add("cell");
+    Assert(c.Spec!["shape"]![0]!.GetValue<int>() == 8 && c.Status!["steps"]!.GetValue<int>() == 7 && c.HasInterpolatedWalls, "Public JSON aliases live state");
+    Assert(driven.Count == 1 && c.Driven.Count == 2 && c.ResultRevision == 4, "Detached ownership or result revision incorrect");
+    Assert(c.Value("speed") == c.Speed && c.Value("cell") == c.Cell && c.Value("width") == c.Width, "Wrong parameter lookup");
+    Reject(() => c.Value("unknown"));
+    var description = c.Describe();
+    Assert(description["result_steps"]!.GetValue<int>() == 7 && description["result_time_seconds"]!.GetValue<double>() == .25 && description["outdated"]!.GetValue<bool>(), "Result identity lost in description");
+    description["settings"]!["speed"] = 99;
+    Assert(c.Speed == 1, "Description aliases settings");
+});
+Test("cancel and reset release ownership while retaining physical settings", () => {
+    var c = Fresh(); Edit(c, new() { ["speed"] = 1.2 }); Start(c); Field(c);
+    var setup = c.Settings().ToJsonString();
+    CaseHub.Cancel(1);
+    Assert(c.State == "cancelled" && c.Session == null && c.Job == null && c.Query == null, "Cancel retained owned work");
+    c.Error = "old"; c.ViewError = "old view"; c.Fault = new CaseFault("test", "old", true);
+    CaseHub.Reset(1);
+    Assert(c.State == "idle" && c.Steps == 0 && c.Spec == null && c.Slice == null && c.ResultRevision == -1 && c.RunRevision == -1, "Reset retained stale result");
+    Assert(c.Error == "" && c.ViewError == "" && c.Fault == null && c.Settings().ToJsonString() == setup, "Reset changed settings or retained failure");
+});
+Test("undo restores the same live case and creates a redo snapshot", () => {
+    var c=Fresh();var identity=c.Id;Edit(c,new(){["speed"]=1.25});var revision=c.Revision;var records=doc.UndoEvents.Count;
+    doc.Undo();Assert(c.Id==identity && c.Speed==1 && c.Revision>revision && doc.UndoEvents.Count==records,"Undo failed to restore state or retain inverse action");
+    doc.Undo();Assert(c.Speed==1.25 && c.Id==identity,"Redo snapshot lost original edit");
+});
 Test("all edits use version, physical revision stays separate", () => {
     var c = Fresh(); long version = c.Version; Edit(c, new() { ["field"] = "pressure" });
     Assert(c.Version == version + 1 && c.Revision == 0, "Wrong version domain");
@@ -215,7 +250,90 @@ Test("exact wall endpoints do not create duplicate polygon corners",()=>{
 });
 var benchmarkCase = Fresh();
 for (int i = 0; i < 1000; i++) { var sw = Stopwatch.StartNew(); CaseHub.Edit(1, new() { ["target"] = 200 + i % 2 }, benchmarkCase.Version, "panel", false); timings.Add(sw.Elapsed.TotalMilliseconds); }
-CaseHub.Close(1); timings.Sort();
+CaseHub.Close(1); Test("binding and schema guards reject invalid commands without mutation", () => {
+    var c=Fresh(); var owner=Guid.NewGuid();
+    Reject(()=>CaseHub.Get(999999)); Reject(()=>CaseHub.Bind(c,Guid.Empty,Array.Empty<string>()));
+    Reject(()=>CaseHub.Bind(c,owner,new[]{"unknown"}));
+    var lease=CaseHub.Bind(c,owner,new[]{"speed"});
+    Reject(()=>CaseHub.Bind(c,Guid.NewGuid(),Array.Empty<string>()));
+    Reject(()=>CaseHub.ConfigureBinding(c,owner,Guid.NewGuid(),new Dictionary<string,int>()));
+    Reject(()=>CaseHub.ConfigureBinding(c,owner,lease,new Dictionary<string,int>{{"speed",13}}));
+    Reject(()=>CaseHub.Edit(1,new(),c.Version,"gh"));Reject(()=>Edit(c,new(){["unknown"]=1}));
+    foreach(var patch in new JsonObject[]{new(){["schema"]=99},new(){["speed"]=-1d},new(){["target"]=0},new(){["device"]="unknown"},new(){["field"]="unknown"}}) {
+        var settings=c.Settings();foreach(var p in patch)settings[p.Key]=p.Value?.DeepClone();Reject(()=>CaseHub.Validate(settings));
+    }
+    Assert(c.Version==0 && c.Speed==1,"Rejected command mutated state");
+    CaseHub.Close(1);Reject(()=>CaseHub.Bind(c,owner,Array.Empty<string>()));
+});
+Test("run resumes sessions and does not duplicate pending preparation", () => {
+    var c=Fresh();CaseHub.Run(1);var job=c.Job;CaseHub.Run(1);Assert(c.Job==job && c.StartWhenReady,"Pending job replaced");
+    Tick();CaseHub.Pause(1);Assert(c.State=="pausing"&&fake.State=="paused","Pause not dispatched");
+    CaseHub.Run(1);Assert(c.State=="running" && c.Job==job,"Resume recreated session");
+    var transport=CaseHub.Transport;
+    try {CaseHub.Transport=request=>request["op"]!.GetValue<string>()=="pause_async"?throw new Exception("pause failed"):transport(request);
+        CaseHub.Pause(1);Assert(c.State=="failed"&&c.Fault?.Area=="control"&&c.Session==null,"Pause failure retained ownership");
+    } finally {CaseHub.Transport=transport;}
+});
+Test("preparation pending cancelled faulted and unavailable states remain explicit", () => {
+    var c=Fresh();var pending=new TaskCompletionSource<JsonObject>();c.Preparation=pending.Task;
+    CaseHub.Run(1);Tick();Assert(c.Preparation==pending.Task&&c.StartWhenReady,"Pending preparation lost");
+    pending.SetCanceled();Tick();Assert(c.State=="cancelled"&&c.Preparation==null,"Cancelled preparation published");
+    c.Preparation=Task.FromException<JsonObject>(new Exception("geometry failed"));Tick();
+    Assert(c.State=="failed"&&c.Error=="geometry failed","Geometry fault hidden");
+    var selected=NativeSettings.DefaultSetup();selected["mode"]="selected";Edit(c,new(){["setup"]=selected});
+    var prepare=CaseHub.PrepareGeometry;try {CaseHub.PrepareGeometry=null;CaseHub.Run(1);Assert(c.State=="failed"&&c.Error.Contains("unavailable"),"Unavailable service not reported");}finally{CaseHub.PrepareGeometry=prepare;}
+});
+Test("runtime pending and failed jobs release resources and report status errors", () => {
+    var transport=CaseHub.Transport;var c=Fresh();CaseHub.Run(1);string state="running";
+    try {CaseHub.Transport=request=>request["op"]!.GetValue<string>()=="evaluate_poll"?new(){["state"]=state,["error"]="creation failed"}:transport(request);
+        Tick();Assert(c.State=="preparing"&&c.Session==null,"Pending job published");state="failed";Tick();Assert(c.State=="failed"&&c.Error=="creation failed"&&c.Job==null,"Failed job retained");
+    } finally {CaseHub.Transport=transport;}
+    c=Fresh();Start(c);
+    try {CaseHub.Transport=request=>request["op"]!.GetValue<string>()=="status"?new(){["steps"]=0,["state"]="failed",["error"]="solver failed"}:transport(request);
+        Tick();Assert(c.State=="failed"&&c.Error=="solver failed"&&c.Session==null,"Solver error hidden");
+    } finally {CaseHub.Transport=transport;}
+});
+Test("malformed field snapshots preserve the last good result", () => {
+    foreach(var patch in new JsonObject[]{new(){["shape"]=new JsonArray(3,2)},new(){["coordinates"]=new JsonArray(new JsonArray(0,0),new JsonArray(0,1,0),new JsonArray(1,0,0),new JsonArray(1,1,0))},new(){["session"]="wrong"},new(){["steps"]=-1},new(){["physical_time"]=-.1}}) {
+        var c=Fresh();Start(c);Field(c);var previous=c.Slice!.ToJsonString();var transport=CaseHub.Transport;
+        try {CaseHub.Transport=request=>{var response=transport(request);if(response["result"] is JsonObject result && result["values"]!=null)foreach(var p in patch)result[p.Key]=p.Value?.DeepClone();return response;};
+            Field(c);Assert(c.ViewFailures>0&&c.ViewError.Length>0&&c.Slice!.ToJsonString()==previous&&c.Session!=null,"Bad field replaced result or stopped solver");
+        } finally {CaseHub.Transport=transport;}
+    }
+});
+Test("polling tolerates reentrancy and closes missing documents", () => {
+    var c=Fresh();Start(c);var transport=CaseHub.Transport;
+    try {CaseHub.Transport=request=>{CaseHub.Tick();return transport(request);};Tick();Assert(c.Session!=null,"Reentrant poll damaged session");}finally{CaseHub.Transport=transport;}
+    var temporary=new RhinoDoc(909);var orphan=CaseHub.Get(909);RhinoDoc.Remove(909);Tick();Assert(CaseHub.Find(909)==null,"Closed document retained case");
+    CaseHub.GeometryChanged(909,Guid.NewGuid());CaseHub.GeometryChanged(1,Guid.NewGuid());
+});
+
+Test("nested commands are rejected while polling skips busy ownership",()=>{
+    var c=Fresh();var transport=CaseHub.Transport;bool checkedBusy=false;
+    try{CaseHub.Transport=request=>{if(request["op"]!.GetValue<string>()=="check"){Reject(()=>CaseHub.Pause(1));CaseHub.Tick();checkedBusy=true;}return transport(request);};CaseHub.Run(1);Assert(checkedBusy&&c.State=="preparing","Reentrant command corrupted preparation");}finally{CaseHub.Transport=transport;}
+    Tick();c.Job=null;CaseHub.Cancel(1);Assert(c.Session==null&&CaseHub.PendingCleanupCount==0,"Session-only ownership leaked");
+    var owner=Guid.NewGuid();var lease=CaseHub.Bind(c,owner,Array.Empty<string>());CaseHub.ConfigureBinding(c,owner,lease,new Dictionary<string,int>{{"speed",2}});Edit(c,new(){["target"]=201});Assert(c.Target==201,"Representable linked precision rejected");
+    c.Cell=1.7;c.Width=.01;CaseHub.Run(1);Assert(c.State=="failed"&&c.Error.Contains("unresolved"),"Empty voxel block accepted");
+});
+Test("stale field identity and unit-change close callbacks cannot publish",()=>{
+    var c=Fresh();Start(c);Field(c);var old=c.Result;
+    fake.OnQuery=()=>c.Generation++;
+    try{Field(c);Assert(c.Result==old,"Stale query published");}finally{fake.OnQuery=null;}
+    Action<CaseState,string> close=(state,reason)=>{if(state==c&&reason=="units")CaseHub.Close(1);};
+    CaseHub.Changed+=close;try{doc.ModelUnitSystem=UnitSystem.Millimeters;Tick();Assert(CaseHub.Find(1)==null,"Unit callback close ignored");}finally{CaseHub.Changed-=close;doc.ModelUnitSystem=UnitSystem.Meters;}
+});
+Test("cut cells omit unresolved crossings and deduplicate a shared solid corner",()=>{
+    var links=new JsonArray(new JsonArray(1,0,.5));
+    foreach(var spec in new[]{(plane,new[]{2,2}), (new[]{new[]{.1,0d,0d},plane[1],plane[2],plane[3]},new[]{2,2,1}), (new[]{plane[0],plane[1],new[]{2d,0d,0d},plane[3]},new[]{2,2,1})})
+        Assert(!SliceCutCells.Polygons(spec.Item1,new double[4],new[]{true,true,false,false},2,2,spec.Item2,links,"speed").Any(),"Unresolved crossing drawn");
+    Assert(!SliceCutCells.Polygons(plane,new double[4],new[]{true,true,false,false},2,2,new[]{2,2,1},new JsonArray(new JsonArray(1,0,0d)),"speed").Any(),"Invalid fraction drawn");
+    var corners=new JsonArray(new JsonArray(2,2,1d),new JsonArray(4,1,1d));
+    var polygon=SliceCutCells.Polygons(plane,new double[4],new[]{false,true,true,true},2,2,new[]{2,2,1},corners,"speed").Single();
+    Assert(polygon.Length==4&&Area(polygon)==1,"Coincident solid corner duplicated or area lost");
+});
+
+QualityContracts.Run(Test, Assert);
+timings.Sort();
 Console.WriteLine(new JsonObject { ["passed"] = passed, ["host"] = "Rhino/transport doubles; production CaseHub source", ["edit_p50_ms"] = timings[500], ["edit_p95_ms"] = timings[950], ["edit_max_ms"] = timings[^1] }.ToJsonString());
 
 sealed class FakeRuntime

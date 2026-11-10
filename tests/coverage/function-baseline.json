@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "scope": "Initial reviewed coverage debt. New or changed untested functions fail. Coverage is execution evidence, not assertion or physics validation.",
+  "scope": "Reviewed coverage debt with freshly measured headless gaps promoted on 2026-11-10 UTC. New/changed untested functions fail; unmeasured Rhino host code remains explicit.",
   "functions": {
     "plugin/Hawa.Grasshopper/AirfoilComponents.cs::Hawa.Grasshopper.AirfoilComponent.public AirfoilComponent():base(\"Hawa Airfoil\",\"Airfoil\",\"Generate NACA four-digit coordinates or read a local Selig/Lednicer file. No downloads.\",\"09 Airfoils\")": {
       "status": "unmeasured",
@@ -887,23 +887,23 @@
       "fingerprint": "692a1f96ad59931dac1ca139f970b08ebce2491ad42ed5ddc12cbd51c8c6a7b8"
     },
     "plugin/Hawa.Grasshopper/PollScheduler.cs::Hawa.Grasshopper.HawaPollScheduler.public static int PendingCount": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "f4aa091c6dbd958d925c399ccf6b66c097046863018d768dbee37f21282829d9"
     },
     "plugin/Hawa.Grasshopper/PollScheduler.cs::Hawa.Grasshopper.HawaPollScheduler.public static void Request(GH_Component component, Func<bool> current, int delay = 100)": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "14455543136e1d801ce36f51956143bf506af557f36850a69190aded1d17b4a2"
     },
     "plugin/Hawa.Grasshopper/PollScheduler.cs::Hawa.Grasshopper.HawaPollScheduler.public static void Cancel(GH_Component component)": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "9cd51bcb7af984c4373e015430d5ae9a8d138697a9a4e6d80c8d4824b896ca6e"
     },
     "plugin/Hawa.Grasshopper/PollScheduler.cs::Hawa.Grasshopper.HawaPollScheduler.private static void UnsubscribeIfEmpty()": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "323afb8a34d0c4dfdad090aa4aa0caf044a32a08e4a0f47aaa839b741b19e18d"
     },
     "plugin/Hawa.Grasshopper/PollScheduler.cs::Hawa.Grasshopper.HawaPollScheduler.private static void Drain(object? sender, EventArgs args)": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "0f2a37815072d0cba41a40bd2d8204f93213bcdb58239149d175003c2ef88c9a"
     },
     "plugin/Hawa.Grasshopper/PollScheduler.cs::Hawa.Grasshopper.HawaPollScheduler.Drain(object? sender, EventArgs args).lambda#0 d=>": {
@@ -2371,39 +2371,39 @@
       "fingerprint": "26a567ae6caf413e206b97ec7f520ea0d0667b4e5b12cc18771acba9e617e6fe"
     },
     "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.public static JsonObject? SpecInModelUnits(CaseState c)": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "beac4dbacaa2d990a3157e5b76589a5b2ba968ff2efca452decebca8673def9c"
     },
     "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.SpecInModelUnits(CaseState c).lambda#0 v =>": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "ad2cac116ebf3049a50fe40a84a324946b192c6086c5811963c2768bad63d53e"
     },
     "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.GridShape(CaseState c).lambda#0 v =>": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "8fb0ab2e9ea8cd0c7bd83131399904efbddd2f69c87c37ba9654272b7e5e9f92"
     },
     "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.public static int[] GridShape(CaseState c)": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "5aa0aa659a04b0a968b7a126a3ff088ce66e35ea54d18ddea1044be9189ed8b4"
     },
     "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.public static BoundingBox Bounds(CaseState c, bool result = false)": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "6c42317d0abb577fc280708b847cc0c3a59a68f3471ef9cf002f8ff17da49af5"
     },
     "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.Bounds(CaseState c, bool result = false).lambda#0 v =>": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "8052eb68305d95e35c4f1a6612f1b8da253313ec3e5cd484b2a20bb5c5446aa7"
     },
     "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.Bounds(CaseState c, bool result = false).lambda#1 v =>": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "6d8b0315b2028d3378efe6c76af443c09d0ce5e949a5c61b89cd78039861ab24"
     },
     "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.public static string FieldUnits(string field)": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "a434443c19e4d168a6adc208c904dd5599e2897bb0074e82a459bcf240eaddb5"
     },
     "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.public static (double Min, double Max) Range(CaseState c)": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "dd355e4bd7d4fef25ae1c45d490741b189ed3e4d917f5997e601102595e4f167"
     },
     "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.Range(CaseState c).lambda#0 (_,i) =>": {
@@ -2411,19 +2411,19 @@
       "fingerprint": "df1224db36bf2a3e8f9d11fc504671798fe57f7c7d62e0f7e7512d58af3b6fd6"
     },
     "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.Range(CaseState c).lambda#1 v =>": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "6d8b0315b2028d3378efe6c76af443c09d0ce5e949a5c61b89cd78039861ab24"
     },
     "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.public static Color ColorAt(double t, string palette)": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "ea287dcc7bc9d6ba8f421764b910762d86bbab18d21809dab87b1a05cb7f4117"
     },
     "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.public static Mesh? ResultMesh(CaseState c)": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "74f39e0c549548e3f0504edeb17c72bf3194a38fbee172ca71ca2d5302e1d07d"
     },
     "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.ResultMesh(CaseState c).lambda#0 v =>": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "77283e3ca6f393fadd91f4f6e934d98d288eea7f08d473c619a1c72c751ed2d6"
     },
     "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.ResultMesh(CaseState c).lambda#1 p=>": {
@@ -2479,7 +2479,7 @@
       "fingerprint": "36f47f687a970178168eda0edf98be101b65c0da675f2aa356b7bb0cebf30bd5"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.Drain(CaseState c).lambda#0 v =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "113078b96d9474c85e2d83a11d2dea56af09a1317df552235eb345e272b532b2"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.private static void Notify(CaseState c, string origin)": {
@@ -2495,11 +2495,11 @@
       "fingerprint": "44053fdd42dce746cb48699e6f10759c7f1508af97ac5dce9fe1935ce9c950d1"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.Bind(CaseState c, Guid owner, IEnumerable<string> driven).lambda#1 k =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "131271cddca2fb17021c487abdc752966a02b90deaf34e487c4e7b6b446c7823"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.Bind(CaseState c, Guid owner, IEnumerable<string> driven).lambda#2 p =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "db240b27952902f670a7f136f2c82602c3804dc7ca698b25aa7aff47d91c491c"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.public static void ConfigureBinding(CaseState c, Guid owner, Guid lease, IReadOnlyDictionary<string, int> precision)": {
@@ -2511,19 +2511,19 @@
       "fingerprint": "7c3ae640902d30aff191980f1f1ad29f381875325f205e989c7c20df6c047adc"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.ConfigureBinding(CaseState c, Guid owner, Guid lease, IReadOnlyDictionary<string, int> precision).lambda#1 p =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "d9697c458dd9baab6fb0fc11a4c814a3b0d0dc16b2d1f3c6fb15d729bfded9e2"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.ConfigureBinding(CaseState c, Guid owner, Guid lease, IReadOnlyDictionary<string, int> precision).lambda#2 k =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "40c5c5deeff7f9cbefa9b6f24f2ce2acb1b1e82087ad4fc376e3865d6d760b8f"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.ConfigureBinding(CaseState c, Guid owner, Guid lease, IReadOnlyDictionary<string, int> precision).lambda#3 p =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "a497a87b95921e29ee8d38e94e49d2814e3053f2e89610ac6c4b580586f738c8"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.ConfigureBinding(CaseState c, Guid owner, Guid lease, IReadOnlyDictionary<string, int> precision).lambda#4 p =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "9a6dd4488317e9f45ee383c785f3c027f167dc15d85a82efa9ae6be089af1b8c"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.public static void Unbind(CaseState c, Guid owner, Guid lease)": {
@@ -2531,7 +2531,7 @@
       "fingerprint": "b89b2c636e939b0f6528b2193033e80dc433f55b720a09376e7723f45628b86c"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.Unbind(CaseState c, Guid owner, Guid lease).lambda#0 () =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "2947478b61c4f194865b45d18c1ecfcad404575bd61fab9ea844bfcea0305118"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.public static void Edit(uint document, JsonObject values, long expectedVersion, string origin = \"panel\", bool undo = true)": {
@@ -2559,7 +2559,7 @@
       "fingerprint": "a538518573c51cf1301e6deb7d2befc78a6665884662b6179fc59702eb3d4c0c"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.RegisterUndo(RhinoDoc doc, CaseState expected, string settings).lambda#1 () =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "27e3b23e03d15c27d0406c19f743560025896a5bc5c4688ae68b595cdd61fd9c"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.public static void Validate(JsonObject settings)": {
@@ -2591,15 +2591,15 @@
       "fingerprint": "d19c97acab2fc8f63319b9bcf21d1a27d79e5381ba7168b0a30ef82657dbd637"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.BuildSpec(CaseState c).lambda#0 v =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "8052eb68305d95e35c4f1a6612f1b8da253313ec3e5cd484b2a20bb5c5446aa7"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.BuildSpec(CaseState c).lambda#1 v =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "e5b89d9ca9aa27933581b17f1ddf78983b87787c4766f77f22eea6f99b3ca375"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.BuildSpec(CaseState c).lambda#2 x =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "983ff6526aadb5277924ba24b7a152cb25626f2163abba2ac138a8f905ad7a4f"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.private static JsonObject Request(string op, string session)": {
@@ -2627,19 +2627,19 @@
       "fingerprint": "8010cc98b077f81627bbc5e32d4010457aed7c9c442679064ef66b5d1fe3903a"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.Cancel(uint doc).lambda#0 () =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "21daa123c420026e5e3ab79609cd09796bb34530dbcd472616b6ca7661116169"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.public static void Cancel(uint doc)": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "ead20c4a176c3dfdddf797e6acb9628ef8d984a3a2cec7ffd7d40e5aad5c2c2c"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.public static void Reset(uint doc)": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "48c4834389cd7ff82c96a6ae288de93b17f923071b5fa6e6cbedfb3a36da4f39"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.Reset(uint doc).lambda#0 () =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "c1d1a9766de6553c30bb58a58d4fc6a87b34fc610eb0cabbefba437e4937080f"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.public static void RefreshView(uint doc)": {
@@ -2647,7 +2647,7 @@
       "fingerprint": "c7d561f23a3fc585e9f1c5968c8d3c398563334ad6f5564159008edf3b31bc77"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.RefreshView(uint doc).lambda#0 () =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "3fcf8e033ed096e5831ed216f495990e4e9d3459e183d779a2c23b3399a72e5f"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.public static void ReleaseJob(string? job)": {
@@ -2687,7 +2687,7 @@
       "fingerprint": "62bf0b54063a90e5feab8cf18aba3d4f2b8b4b8c46de80f2abc560231fcb9a8c"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.Stop(CaseState c).lambda#0 t =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "02beec51b327bf2643e4e92482318cd09765316d66a23f32b779f1e2f79b106f"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.public static void GeometryChanged(uint doc, Guid objectId)": {
@@ -2695,11 +2695,11 @@
       "fingerprint": "f4911e6944cea10fcc5e3e82b9236dfdd85373269b3608d69793f9104fb90376"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.GeometryChanged(uint doc, Guid objectId).lambda#0 v =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "8185c1dd7a6cf50462a8286b511a4ba6feaa417abee5bfc7f76550e027e9867c"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.GeometryChanged(uint doc, Guid objectId).lambda#1 () =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "36a103a8a90dc56d29d5dc0696ccf828ee6518a27ba17ab3f3557494783dce59"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.public static void Close(uint doc)": {
@@ -2707,7 +2707,7 @@
       "fingerprint": "6b87f93d21e5eacd69049a5926467befa2e508d99a7ccad9ddb8cd07ff2f9e22"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.Close(uint doc).lambda#0 () =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "62e3c894655a16f3bf2d8823c701e84b2d91877b8a8316ff6229a3f3a712b60d"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.public static void RetryCleanup()": {
@@ -2723,7 +2723,7 @@
       "fingerprint": "54bffd42c7fc7445ec94b24af43e326076384a93b8d5723a943969c71ffd43ac"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.ValidateSlice(JsonObject result).lambda#0 v =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "e46f3f74929f675955f5fad87d9eddfa5b68a93cc09b17fd4b8d9a43e6add7e9"
     },
     "plugin/Hawa.Shared/CaseHub.cs::Hawa.Shared.CaseHub.private static void PollView(CaseState c)": {
@@ -2843,7 +2843,7 @@
       "fingerprint": "1b00b522f1a370ab66d933f8e6a80c7064ecd44f354cc9cab34c3df349646a69"
     },
     "plugin/Hawa.Shared/CaseState.cs::Hawa.Shared.CaseState.public bool HasInterpolatedWalls": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "1b96c78d57a2424bb1d69f5f6539b1e58185836ec1abf948e5b462200aa13c0b"
     },
     "plugin/Hawa.Shared/CaseState.cs::Hawa.Shared.CaseState.public bool SelectedGeometry": {
@@ -2931,7 +2931,7 @@
       "fingerprint": "7abd0461423edef41a4767c23d90e5c95426b80d9f6f7b884b521c7ecb0aea04"
     },
     "plugin/Hawa.Shared/CaseState.cs::Hawa.Shared.CaseState.public long ResultRevision": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "47462ca0aec7be5397eea3795608d8f3e11bedfff459ad4e286bc8f23fb2b903"
     },
     "plugin/Hawa.Shared/CaseState.cs::Hawa.Shared.CaseState.Result.get": {
@@ -2959,7 +2959,7 @@
       "fingerprint": "7abd0461423edef41a4767c23d90e5c95426b80d9f6f7b884b521c7ecb0aea04"
     },
     "plugin/Hawa.Shared/CaseState.cs::Hawa.Shared.CaseState.public JsonObject? Spec": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "72ed0cea4105bcf648e815c35eb82a6191d6573b2dbe7b078b065a4b3dd52af7"
     },
     "plugin/Hawa.Shared/CaseState.cs::Hawa.Shared.CaseState.public JsonObject? Slice": {
@@ -2967,15 +2967,15 @@
       "fingerprint": "4c1dc36efb71f2d6b8b8b62042fc68a04324ff85edfbc0d550ca60772d130607"
     },
     "plugin/Hawa.Shared/CaseState.cs::Hawa.Shared.CaseState.public JsonObject? Status": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "28702d17c88d0e626cd96cd1afaa3ab36e43c5820bc71ef3bdd236a068f2034a"
     },
     "plugin/Hawa.Shared/CaseState.cs::Hawa.Shared.CaseState.public JsonObject? ResultSpec": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "c622947b5b5d5e4483616d5485ad40db619750fc40be5651d68148e2ef30a257"
     },
     "plugin/Hawa.Shared/CaseState.cs::Hawa.Shared.CaseState.public IReadOnlyCollection<string> Driven": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "dd47f3ff9ebde195ffe739af03844ac4e161dfd113b440a7368d2e939776ef16"
     },
     "plugin/Hawa.Shared/CaseState.cs::Hawa.Shared.CaseState.BindingOwner.get": {
@@ -3003,7 +3003,7 @@
       "fingerprint": "5b50c5cf4f48cb4bc73deeaddba5cf097e97e3715e61139189188414dce5a6fb"
     },
     "plugin/Hawa.Shared/CaseState.cs::Hawa.Shared.CaseState.public double Value(string key)": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "16dd0a35144a9370fbb9bf30ddaa30d4a9bc6a8b3406a53d9ef937b5a8cc3e7a"
     },
     "plugin/Hawa.Shared/CaseState.cs::Hawa.Shared.CaseState.public JsonObject Settings()": {
@@ -3011,7 +3011,7 @@
       "fingerprint": "a326c25e8a3520c5033c118065952e26e90d0a30d2a5bdf64ed60dd72e6fd309"
     },
     "plugin/Hawa.Shared/CaseState.cs::Hawa.Shared.CaseState.public JsonObject Describe()": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "6afd41c89a221138dc74cc63c4912b49381d46ad751dee4c418367f3113150b7"
     },
     "plugin/Hawa.Shared/EmbeddedRuntime.cs::Hawa.Shared.EmbeddedRuntime.public static string Root": {
@@ -3039,7 +3039,7 @@
       "fingerprint": "e72c6272ff560f8eb729b5134754af2e861fda13508fff66edb3aa2256daec16"
     },
     "plugin/Hawa.Shared/JsonCompatibility.cs::Hawa.Shared.JsonCompatibility.internal static JsonNode DeepClone(this JsonNode node)": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "d8ded95aaa7a00cde2c7e1711178549bd485af8f700924a7b65ceb56dd9524a7"
     },
     "plugin/Hawa.Shared/MeshContainment.cs::Hawa.Shared.MeshContainment.public static bool Contains(Mesh mesh,BoundingBox bounds,Point3d point,double tolerance)": {
@@ -3071,11 +3071,11 @@
       "fingerprint": "af2961ef8be142ca25b1d6f16c272c3dc02b42397c60b5563eb34224a0424175"
     },
     "plugin/Hawa.Shared/NativeSettings.cs::Hawa.Shared.NativeSettings.Shape(JsonObject setup, double cell).lambda#0 v =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "b62acb7abf2e1c7f9d964ca23e0a2d3e05a5cfe719bed7f5203813f0dc80fe91"
     },
     "plugin/Hawa.Shared/NativeSettings.cs::Hawa.Shared.NativeSettings.Shape(JsonObject setup, double cell).lambda#1 v =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "e246f0af146728731cbd0c646e94b7f6e479614abc6ed5c35243a1a45c0e722d"
     },
     "plugin/Hawa.Shared/NativeSettings.cs::Hawa.Shared.NativeSettings.Shape(JsonObject setup, double cell).lambda#2 (a,b) =>": {
@@ -3083,7 +3083,7 @@
       "fingerprint": "af943be889f09adf11be24b462a5b8e9fb89aadd36d6df99e1cec42e68bfa151"
     },
     "plugin/Hawa.Shared/NativeSettings.cs::Hawa.Shared.NativeSettings.Shape(JsonObject setup, double cell).lambda#3 v =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "86b0ce65d9841e4ada23affb96a57b652e7e602b697ddb9791e65acd8f1f01be"
     },
     "plugin/Hawa.Shared/NativeSettings.cs::Hawa.Shared.NativeSettings.public static void Validate(JsonObject setup, JsonObject view, double cell)": {
@@ -3091,27 +3091,27 @@
       "fingerprint": "debfaabd0bdc03a3249635823ae0093692e6e2e7cfcf333ec19a703dd821227b"
     },
     "plugin/Hawa.Shared/NativeSettings.cs::Hawa.Shared.NativeSettings.Validate(JsonObject setup, JsonObject view, double cell).lambda#0 v =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "02afa34c32d2db967ab884f32b0d65005170e183bc3b73f29b2a6398388f7225"
     },
     "plugin/Hawa.Shared/NativeSettings.cs::Hawa.Shared.NativeSettings.Validate(JsonObject setup, JsonObject view, double cell).lambda#1 v =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "395731fb0355cebb2f141c600414edcccfd8ccd04595271b621328cfbc1cb278"
     },
     "plugin/Hawa.Shared/NativeSettings.cs::Hawa.Shared.NativeSettings.Validate(JsonObject setup, JsonObject view, double cell).lambda#2 v =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "ff5fd254352df6e53af4526b693e58b9ef97cc31d63fa9a409e8c25b12910f63"
     },
     "plugin/Hawa.Shared/NativeSettings.cs::Hawa.Shared.NativeSettings.Validate(JsonObject setup, JsonObject view, double cell).lambda#3 v =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "ae80e49c338ff0c13fbb754fd379f2196d9245df25311360b198551cb1edea6d"
     },
     "plugin/Hawa.Shared/NativeSettings.cs::Hawa.Shared.NativeSettings.Validate(JsonObject setup, JsonObject view, double cell).lambda#4 v =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "85ecbab51ca01eb703b20125fe55dd51ea5e023ccf5d4766bca2a6b6be56f0f3"
     },
     "plugin/Hawa.Shared/NativeSettings.cs::Hawa.Shared.NativeSettings.Validate(JsonObject setup, JsonObject view, double cell).lambda#5 v =>": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "395731fb0355cebb2f141c600414edcccfd8ccd04595271b621328cfbc1cb278"
     },
     "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.public static IEnumerable<Vertex[]> Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field)": {
@@ -3175,15 +3175,15 @@
       "fingerprint": "c5013c916fb4b607e2752efafdfef6ba23eb20185b72b46a98f09aa48cea9362"
     },
     "plugin/Hawa.Shared/SurfaceMeshing.cs::Hawa.Shared.SurfaceMeshing.public static Mesh Create(Brep brep, double cell)": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "6a9b73d0afdd4f820d6ccec120ec44831c1851e38873fbbe46a9fdc456f7191b"
     },
     "plugin/Hawa.Shared/WallLinks.cs::Hawa.Shared.WallLinks.public static double Fraction(Mesh mesh, Point3d start, Vector3d segment)": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "4116a00e00818f84daba2aafdf846fbd8a6ea5b395847d0648c55ea6e5171d85"
     },
     "plugin/Hawa.Shared/WallLinks.cs::Hawa.Shared.WallLinks.private static double TriangleFraction(Mesh mesh, Point3d origin, Vector3d segment)": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "6369d65fa9e96a5ef46a15abb0f94a238a8cabcae26380f8c256b08593247080"
     },
     "plugin/Hawa.Shared/WallLinks.cs::Hawa.Shared.WallLinks.TriangleFraction(Mesh mesh, Point3d origin, Vector3d segment).void Test(Point3d a,Point3d b,Point3d c)": {
@@ -3191,7 +3191,7 @@
       "fingerprint": "e689878f94ef9c4736270441f0eb40ee1fb3e7540266bf7e85476c0d0b1c3f9d"
     },
     "plugin/Hawa.Shared/WallLinks.cs::Hawa.Shared.WallLinks.public static JsonArray Build(IReadOnlyList<Mesh> meshes, int[] n, IEnumerable<int> solid, Point3d origin, Vector3d ax, Vector3d ay, Vector3d az, CancellationToken token)": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "16d51487828e671c8d19dd61cec05dad0159a6d3cd93042ac26545c2e50a1914"
     },
     "plugin/Hawa.Shared/WallLinks.cs::Hawa.Shared.WallLinks.Build(IReadOnlyList<Mesh> meshes, int[] n, IEnumerable<int> solid,\n        Point3d origin, Vector3d ax, Vector3d ay, Vector3d az, CancellationToken token).lambda#0 v =>": {
@@ -3203,27 +3203,27 @@
       "fingerprint": "20cbcc0cb66f96ed4ab48c17dc564e44e7b4f9b9eb4dafd1611a7718ae4977b1"
     },
     "scripts/audit_backport.py::audit": {
-      "status": "uncovered",
-      "fingerprint": "4e2df5d503f19505deb3324236e960908e4acc5c222695865b5e5256b984678c"
+      "status": "covered",
+      "fingerprint": "d4a353bd4acb20688d64af626a1bdd63c400178ec098d577a54dc5162ba649c1"
     },
     "scripts/benchmark_curved_walls.py::run": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "4cc0584021816b18584f11c1d476fc3c69f12c9f91a057c904a2f60353d93218"
     },
     "scripts/benchmark_curved_walls.py::run.Channel.__init__": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "eccfb14cf3646aabf4d620c34d6d858becfbe016860a982083920198f39fc609"
     },
     "scripts/benchmark_curved_walls.py::run.Channel.grid": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "a5184e86d622e13132cc602420a929bb82bef6ae758f859ace669be04bf161c5"
     },
     "scripts/benchmark_curved_walls.py::run.Channel.initial_pu": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "ebd4fd3f6b0b446295451ad04a128568fb4485bfe9ef3bd5fb6afd6afd7b8bad"
     },
     "scripts/benchmark_curved_walls.py::run.Channel.post_boundaries": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "9a30aae764b22785d25ec66ebe00555488c7c2bfb35313e393d88246b627a282"
     },
     "scripts/benchmark_motion.py::spec": {
@@ -3239,15 +3239,15 @@
       "fingerprint": "9a30aae764b22785d25ec66ebe00555488c7c2bfb35313e393d88246b627a282"
     },
     "scripts/benchmark_refinement.py::benchmark": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "076143dfa54eb86141f02cccbf35351b23a18533c5e74de41fcf2c3f833d9f06"
     },
     "scripts/benchmark_refinement.py::benchmark.simulation": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "f9a7eb57808fb6b5fe78efb2dda492788dd9df2e00e8afc0559baedb3a4aff7e"
     },
     "scripts/benchmark_refinement.py::benchmark.<lambda>#1": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "79c2546d1ba95ea42a91149e977d74ba85e409616162d2ce80b6e7edc340aa94"
     },
     "scripts/benchmark_rotating_sphere.py::Periodic.post_boundaries": {
@@ -3255,20 +3255,20 @@
       "fingerprint": "9a30aae764b22785d25ec66ebe00555488c7c2bfb35313e393d88246b627a282"
     },
     "scripts/build_plugin.py::main": {
-      "status": "uncovered",
-      "fingerprint": "53aa3861ad10e05e51e896189e15996166b4d7e36a95b5ab08b22889783a0bd0"
+      "status": "covered",
+      "fingerprint": "d6185aed0d2b9ccbc3a725a92651a4b1abde030d9048aaa3cdfaa56e93e2a3ca"
     },
     "scripts/check_compatibility_evidence.py::main": {
-      "status": "uncovered",
-      "fingerprint": "f83d0cf5df55ac311c3d96d54312b3b3e0ebf6337eb84fec717528b9d370a4fe"
+      "status": "covered",
+      "fingerprint": "4d9c324d17566999c608b7c125080a0b1ca827fab64d312239f3d08615223477"
     },
     "scripts/compare_engines.py::compare": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "78d1a2a484aff9c80a83d7422efa67cc87690231f22e4a7d9f73da1ba1775682"
     },
     "scripts/compare_engines.py::main": {
-      "status": "uncovered",
-      "fingerprint": "f71f32f383c901aa9fb7905dfbb9c43a06376b7782359e9b68627f71fd94b6dc"
+      "status": "covered",
+      "fingerprint": "807ae527db9acb16a8d2a6ef9e147d81ec082c5fd90cf5d8eaa8def3b58d504a"
     },
     "scripts/example_inventory.py::entrypoints": {
       "status": "covered",
@@ -3279,127 +3279,127 @@
       "fingerprint": "d9171b25300f69eb2ab8d5b36fe1dd086a31fe6124f8878239e3434afa128b63"
     },
     "scripts/example_worker.py::main": {
-      "status": "uncovered",
-      "fingerprint": "1a31f8b7b2afe390e13ffdb759b4cf0b124a6352f7952059e829d72ceac705fc"
+      "status": "covered",
+      "fingerprint": "da566d2d31f1090fa86de4901fc5bda40c8704e9fdf233eab71a0b43b905eb2b"
     },
     "scripts/example_worker.py::main.<lambda>#1": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "ca463a48372b77c918852cb102d526beb5b470e1f7f0a599e2e869e356b8b381"
     },
     "scripts/example_worker.py::main.translate": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "2d28d4017b749ae394541abf5b596ae0f35c6b8803e831ae8e7a38dbdc37f763"
     },
     "scripts/example_worker.py::main.context": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "63ca130704eadab9600fe72c71fbc7b3fc42e199455ef39dc17517ae8d3bfa0b"
     },
     "scripts/example_worker.py::main.wrap_steps": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "06e8b467bd0b041c80693b6120384e9cdc0a38590b956507c9c85960a9dd006a"
     },
     "scripts/example_worker.py::main.wrap_steps.bounded": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "f53ee18ff7147d09f7af9a5ce8f9e08d2afdd75e46f10aa6d7d7391f8fd1cd1f"
     },
     "scripts/example_worker.py::main.simulation_init": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "54036e5b3d9369c2ee470d507a93d12838f3050fde3284f95f492e21a80fe456"
     },
     "scripts/example_worker.py::main.<lambda>#2": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "31baa2236188b5c7131866a4dd22a80d54839778d87f08590fd62809321b77a0"
     },
     "scripts/example_worker.py::main.<lambda>#3": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "324a2dd4d40b5e0e31fefb2f9f310e48aca6b41b33bfb4f374f610bba38cb3f0"
     },
     "scripts/example_worker.py::main.run_driver": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "8bf70bf9758e5d7b46f2343e5fcc6363e1768148dae89e3df472f1b2d9b56332"
     },
     "scripts/make_v04_demo.py::card": {
-      "status": "uncovered",
-      "fingerprint": "48ca9b23ed422fc6a6811fc1f9816399b0302c7126348db18d50c7a13c326861"
+      "status": "covered",
+      "fingerprint": "dee03caf06efa72855bc730a097f756e40fc84da1cf7b2b2e6d78db65dfaa6e4"
     },
     "scripts/make_v04_demo.py::evolving": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "a756cf772399070ed3eb1619ea317d83a9346f1befbe70bdca0128f2bcbfe1f1"
     },
     "scripts/make_v04_demo.py::write_video": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "24c5ac30bc2c29bffe745080aa496fb9bd862574dba5bb17dce9eafc3e7915f1"
     },
     "scripts/make_v04_demo.py::airfoil_picture": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "953942010cabb880b8271aac05272e2efc05d44d095dea4fd079380cb88d585e"
     },
     "scripts/make_v04_demo.py::frames": {
-      "status": "uncovered",
-      "fingerprint": "9a9ce33d7c2988be5975513990f9eea117d2fa4c2175e5e1e8b9eba35cd110cf"
+      "status": "covered",
+      "fingerprint": "16eb5f36a11cb28bb09a6be5d94fa4570a7d93f21be690a54237730ff52598f4"
     },
     "scripts/make_v05_demo.py::font": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "04d9b590ea98a73df5322c9fe981c7b112eba7daf48ece8a6422d10c4d1bf714"
     },
     "scripts/make_v05_demo.py::text": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "fb3d192d6f3c455a6e183eeadec2675aee12c220133fddf1d28350483e4ad64c"
     },
     "scripts/make_v05_demo.py::scene": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "4b1ce215a19dd1e427dee3032517e73e5fd3eeaca6ec06d7b248a87b88d8ccca"
     },
     "scripts/make_v05_demo.py::paste_fit": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "7a3a425929b93c43df65f9ed731f2caf39f3978a581da459d67c785bbe58ae8f"
     },
     "scripts/make_v05_demo.py::draw_scene": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "b01c8d680e1f8d1638523793f09165b39b70c7156e5dae319f0e1e4d24300098"
     },
     "scripts/make_v05_demo.py::run": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "a519c43d38392e9225abe08dd7fe000c119d6a3b08b667f050847a17f6e5b33b"
     },
     "scripts/make_v05_demo.py::timestamp": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "43423079922b05d147d3f3461b3f16d1b9030ea28544e973b00a05a138fbce9a"
     },
     "scripts/make_wake_demo.py::picture": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "8b625eae3e7f39791da2a81d5d01affc3a8c8756e9132beef10763d1abd20613"
     },
     "scripts/make_wake_demo.py::frames": {
-      "status": "uncovered",
-      "fingerprint": "8e43eb69815d11f844582202afb066e8cf4cc7b1a0369163e3f280c388cc596f"
+      "status": "covered",
+      "fingerprint": "3514e7388008e173eeeda27b0f2d3f8a0a1c253d011156e3198a218d902311f8"
     },
     "scripts/make_walkthroughs.py::font": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "c6b66b452c76fb954e55dc1cd1d403863b831d68c888aa0f0b56997a715980bd"
     },
     "scripts/make_walkthroughs.py::draw_text": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "f0c32ff68445c5584dee7c739522aefd62b1765b24ee922e3f909cef0ea9db8f"
     },
     "scripts/make_walkthroughs.py::frame": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "a475cbefa0a509585c7b87b2f5284c7407afa73b37ecd45f6b6b165e67b4ada8"
     },
     "scripts/parity_worker.py::run": {
-      "status": "uncovered",
-      "fingerprint": "aab01d33e82be9132b78b7cb3598d57735feacc2b9146050616a218bed68e0f0"
+      "status": "covered",
+      "fingerprint": "0561feaf200fec9c0ebabe88af2f6d01422dbb38360edc6401bbd57a4a5f180e"
     },
     "scripts/preview_site.py::PreviewHandler.send_head": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "e329beea986e1994d0a3e11e14876e970947ed7a1886e0c12d910a03aa589324"
     },
     "scripts/preview_site.py::PreviewHandler.end_headers": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "d16524caabf3d06ffc81c975eeaf1e8a60a97242778106109027a2a49616d3ac"
     },
     "scripts/preview_site.py::PreviewHandler.copyfile": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "d5911736f213399f93373185bb0142ff54a039292d89cc771ae5d20029f3da0e"
     },
     "scripts/record_cylinder_demo.py::<lambda>#1": {
@@ -3415,71 +3415,71 @@
       "fingerprint": "d47deac872bcd47721cd2583eafc5e2e8c0b404c877b9a993662bafc7dca556d"
     },
     "scripts/rhino_vortex.py::create_preview": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "ef1c17b310f62ac5ffbad55ea77f2d58cd1ccd24159bc0ba6d1fb07c3718c4f5"
     },
     "scripts/run_compatibility_matrix.py::available": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "b66a6d9ab49097d5b1ed66872888d71852cfe6f64faf3b8be251d6de17e2163a"
     },
     "scripts/run_compatibility_matrix.py::run": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "31fe827139bb98856c28edccd8bf55d4727365e4946055d06dce12e576e88b7a"
     },
     "scripts/run_compatibility_matrix.py::run.save": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "4ac4656bfb6666a1320cec0cf4c5f3b0079aad153a84dd35d5e99362fb26fc6b"
     },
     "scripts/run_compatibility_matrix.py::run.record": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "d2891ff3621ef05696d2ef0d64dc90a084d2b3d025d4f85a26a340a2eb3883f1"
     },
     "scripts/run_compatibility_matrix.py::run.<lambda>#1": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "88bbf15cda2ee105c5af0a2756e7e0a9c7609f7af55c01c7d3309b62224853f5"
     },
     "scripts/run_examples.py::main": {
-      "status": "uncovered",
-      "fingerprint": "c7560020da77fb90cba02bf03dc2607f2c96513e52fb836ff2f8298db910d0b7"
+      "status": "covered",
+      "fingerprint": "d777635471dbd879887481e65ed136d45cc03cf870697c658f6ed0a20303d849"
     },
     "scripts/run_examples.py::main.run": {
-      "status": "uncovered",
-      "fingerprint": "3c8ce7e8ddfd669316ca42340c50e183e6a64ea2b985182848d505cc4219cac9"
+      "status": "covered",
+      "fingerprint": "1e1b3cc6dcee8b5c7dc00e2790a8a42cf74f0826d535925b1758ba63244ab188"
     },
     "scripts/run_upstream_tests.py::main": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "61011e3db338d0a2fd6f0495a7b58b3647eb43fa4e42adc39cc520c192f65c34"
     },
     "scripts/summarize_motion_verification.py::read": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "f2cb8957fac090971ca044ec83e170785ca7341cda54880001aa0ff1d1c60b8e"
     },
     "scripts/summarize_motion_verification.py::main": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "e931afad33fabdf578d318d3b546350e53221e0db326b27713754c05bc71ae61"
     },
     "scripts/verify_atmospheric_reference.py::measurements": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "527ce92790f8981f3c4dd01ba04a7e3727946df1daa98c24fd9e2a455bb3af95"
     },
     "scripts/verify_atmospheric_reference.py::measurements.rows": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "03945a0fc90dc4636c4fba1deacaee3c4f2fb67cec1da8a7fc19d07b010c948e"
     },
     "scripts/verify_atmospheric_reference.py::case": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "f43fe2b10f8765f1bf63888f1273822901cff5732942e71246f131421c3fac1b"
     },
     "scripts/verify_atmospheric_reference.py::main": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "351db773bfded4fd4e04f17a2d21fd90b527369df4540454ab73726f4c821ee7"
     },
     "scripts/verify_atmospheric_reference.py::main.measured": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "57377a4015dd01a3d7058dde8fa265f8f5c2c6839a82ddcb3ead32db0e14e0c8"
     },
     "scripts/verify_atmospheric_scaling.py::main": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "f218199053a302a78ef887f83ae4ff46f5b98bfae0caaafa419c70d68fa0ecad"
     },
     "scripts/verify_boundary_transfer.py::<lambda>#1": {
@@ -3487,40 +3487,40 @@
       "fingerprint": "88bbf15cda2ee105c5af0a2756e7e0a9c7609f7af55c01c7d3309b62224853f5"
     },
     "scripts/verify_general_boundaries.py::run": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "09b7328f0ea829d984cbd71107df8a36d61363cbd4432cc2be60f97bd93b50f0"
     },
     "scripts/verify_general_boundaries.py::main": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "6deec0384dea7bdf8e4010f00091685bcda8917f4a47b5e0dcf29986e9f5897d"
     },
     "scripts/verify_neutral_coupling.py::base": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "31de9a7ceefed866653f896ac1172a0e466cc79cc9dba8037962cc6c4dce0172"
     },
     "scripts/verify_neutral_coupling.py::analytic": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "6c9e2a59df2e50641e92b08d2ddd312c8fb140f86c13d33ddc21a0d84873953d"
     },
     "scripts/verify_neutral_coupling.py::pulse": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "3041c28204f3a086da3dc059cb379291d9e4ca5fac2aef6775c188fba9c40df1"
     },
     "scripts/verify_neutral_coupling.py::main": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "079e57313b88e29943465fed3db16e16b8eaf2d0a40861842ffd0e16029fd74c"
     },
     "scripts/verify_neutral_nesting.py::case": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "68b788f35a52788f9d7e5d7be8528cf7195fedd80e773ace67e256e6bf9f1a33"
     },
     "scripts/verify_neutral_nesting.py::series": {
-      "status": "uncovered",
-      "fingerprint": "a933548461f9bc5b16c87c2f95cafadbe212d8b718716e390d9555e9a9449812"
+      "status": "covered",
+      "fingerprint": "6e1b8043874aabf59342272efa0ffacb829372edccf17136954fc26e054a5e8d"
     },
     "scripts/verify_neutral_nesting.py::main": {
-      "status": "uncovered",
-      "fingerprint": "302b09e0664c6955ae9a5fbc143bb7b22723258bf2f557c452ae49370ab0d858"
+      "status": "covered",
+      "fingerprint": "c4a004809b4a4baca84ed5199bfab2e616d422b7eda1c9e7a33feca35409ddb5"
     },
     "scripts/verify_neutral_nesting.py::main.<lambda>#1": {
       "status": "uncovered",
@@ -3535,7 +3535,7 @@
       "fingerprint": "88bbf15cda2ee105c5af0a2756e7e0a9c7609f7af55c01c7d3309b62224853f5"
     },
     "scripts/verify_neutral_precursor.py::main": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "b7dc50a6473e7949d9f29804cdff93dd0241c36072afd55ee1ed347fa72fabae"
     },
     "src/hawa/airfoils.py::naca": {
@@ -3675,7 +3675,7 @@
       "fingerprint": "9903ae383029a75ccbf26f26ac1465da093f978df02e76d00864a0717e4570ac"
     },
     "src/hawa/boundary_data.py::FieldInlet.native_available": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "2504ba642f332fd32707cb6947706c5e219c18015e7f41db524b45d441222f45"
     },
     "src/hawa/boundary_series.py::solid_mask": {
@@ -3715,7 +3715,7 @@
       "fingerprint": "70677833929df385032c8b621e143324ded9e000d10d18cccb34cdb2ed02fb4a"
     },
     "src/hawa/boundary_series.py::sample_parent.<lambda>#1": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "88bbf15cda2ee105c5af0a2756e7e0a9c7609f7af55c01c7d3309b62224853f5"
     },
     "src/hawa/boundary_series.py::capture": {
@@ -3723,7 +3723,7 @@
       "fingerprint": "20421dbd96d029186f9599fd9813001a82235fb4bcc40ff690971190df4cdee8"
     },
     "src/hawa/boundary_series.py::capture.<lambda>#1": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "88bbf15cda2ee105c5af0a2756e7e0a9c7609f7af55c01c7d3309b62224853f5"
     },
     "src/hawa/boundary_series.py::sample_wall_history": {
@@ -3731,7 +3731,7 @@
       "fingerprint": "291334539b2038e7548ccb8ddab1899bc21cb7893f4e2d7f7c1b06ce19220982"
     },
     "src/hawa/boundary_series.py::sample_wall_history.<lambda>#1": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "88bbf15cda2ee105c5af0a2756e7e0a9c7609f7af55c01c7d3309b62224853f5"
     },
     "src/hawa/boundary_series.py::BoundarySeries.__init__": {
@@ -3755,7 +3755,7 @@
       "fingerprint": "e276409f1d398a723a729841ffe48664995e909320d8d642b761a2b38c05b8d2"
     },
     "src/hawa/cli.py::main": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "fbcb76347b2d38b60ae14a68670d8264e84bd7aa3c98e9aeff4640dc6102f6a4"
     },
     "src/hawa/collision.py::SmagorinskyV1.__init__": {
@@ -3767,11 +3767,11 @@
       "fingerprint": "0472b4d54ba56ff308b5c223d271b63741ff7e8f0b94fc97a02c8b7518982008"
     },
     "src/hawa/collision.py::SmagorinskyV1.native_available": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "2504ba642f332fd32707cb6947706c5e219c18015e7f41db524b45d441222f45"
     },
     "src/hawa/collision.py::SmagorinskyV1.native_generator": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "8b4ae1bca18da8ffc68877e48d7486bd17c37e8055190595067577395f44dd1e"
     },
     "src/hawa/engine.py::LettuceSimulation.__init__": {
@@ -3799,7 +3799,7 @@
       "fingerprint": "67b264d8fb28da422eedec7940f21ca7a4b163090de058756bbc48462e52af0d"
     },
     "src/hawa/field_collection.py::FieldCollection.__init__.<lambda>#1": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "88bbf15cda2ee105c5af0a2756e7e0a9c7609f7af55c01c7d3309b62224853f5"
     },
     "src/hawa/field_collection.py::FieldCollection.__init__.<lambda>#2": {
@@ -3839,7 +3839,7 @@
       "fingerprint": "6f02c8bad3b948676151166a236c5789f235a1fe0ba3c43c67e5e7c89ce04a4d"
     },
     "src/hawa/field_collection.py::dispatch_collection.<lambda>#1": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "88bbf15cda2ee105c5af0a2756e7e0a9c7609f7af55c01c7d3309b62224853f5"
     },
     "src/hawa/fields.py::capture": {
@@ -3895,7 +3895,7 @@
       "fingerprint": "e2a80a91486b6489e17d9e67fc252633c145a00e827759be238cb6a3a7d5567a"
     },
     "src/hawa/fields.py::trace.<lambda>#1": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "88bbf15cda2ee105c5af0a2756e7e0a9c7609f7af55c01c7d3309b62224853f5"
     },
     "src/hawa/fields.py::trace.tangent": {
@@ -3904,7 +3904,7 @@
     },
     "src/hawa/fields.py::dispatch_field": {
       "status": "covered",
-      "fingerprint": "aeef486f5eeffec3ee2997afd2129eb800a9e897f378736a455c40235543cb80"
+      "fingerprint": "85102ba79dd6301dab5f193ef28937560cec6a38e223d9af9452a9bd1f98d5be"
     },
     "src/hawa/fields.py::dispatch_field.<lambda>#1": {
       "status": "covered",
@@ -3971,7 +3971,7 @@
       "fingerprint": "46adcd57f7276daec2fdcc8a33dbf3f6f448d34f90ce18af3db067f642a499d5"
     },
     "src/hawa/lbm.py::VortexSimulation.snapshot": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "04672de5c3e2b6b3be6d727c853a7f3a473d89240727ce3288ce21dc881c16c9"
     },
     "src/hawa/motion.py::vector": {
@@ -4012,7 +4012,7 @@
     },
     "src/hawa/moving_boundaries.py::MovingBoundaries.distance": {
       "status": "covered",
-      "fingerprint": "22b4a483418e2dfdcbb1b3da7c048132ee2d4eceb2c8ba2e9d5a4bc96903144f"
+      "fingerprint": "944b4629edc44d77626f536603aa61bebcef2a78dbcdc33b3ef99328ef21dc30"
     },
     "src/hawa/moving_boundaries.py::MovingBoundaries.velocity": {
       "status": "covered",
@@ -4043,11 +4043,11 @@
       "fingerprint": "c4816db79cf9c3e404c07e8b1bea2b4412c400b41d6a2ff2e1cd3fe31d37e128"
     },
     "src/hawa/neutral.py::ShiftedEquilibrium.native_available": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "2504ba642f332fd32707cb6947706c5e219c18015e7f41db524b45d441222f45"
     },
     "src/hawa/neutral.py::ShiftedEquilibrium.native_generator": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "0ce297db33dda87dabfdb66235337b525131c5de9d01e9a1c5e038f387ef8df4"
     },
     "src/hawa/neutral.py::ShiftedRegularizedSGS.__init__": {
@@ -4059,11 +4059,11 @@
       "fingerprint": "2d0f8ad38153742f3ed44cb2d0a08f9bbde277062095efdf7733b0d76c9cac0b"
     },
     "src/hawa/neutral.py::ShiftedRegularizedSGS.native_available": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "2504ba642f332fd32707cb6947706c5e219c18015e7f41db524b45d441222f45"
     },
     "src/hawa/neutral.py::ShiftedRegularizedSGS.native_generator": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "0ce297db33dda87dabfdb66235337b525131c5de9d01e9a1c5e038f387ef8df4"
     },
     "src/hawa/neutral.py::make": {
@@ -4131,7 +4131,7 @@
       "fingerprint": "9ac7bebfc89457fdeb38102a2263242279ab04b1efa54fd4de65cf3d9b6db18d"
     },
     "src/hawa/neutral_external.py::ExternalLinks.reset": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "bf1c6afa5e4525decc1dea70c0e0c097b2b3f33ebcf5bb89059f2f0164e76103"
     },
     "src/hawa/optimization.py::MeasuredBounceBack.__init__": {
@@ -4156,7 +4156,7 @@
     },
     "src/hawa/plugin.py::check_case": {
       "status": "covered",
-      "fingerprint": "2adf80f33f617f147cad7f1da21b21f36c5672a48c8c7a904e97f0fee6ffd1aa"
+      "fingerprint": "7224675b1f29767cf889a6e6cc92d95be7f3904e5621dfe3d8a244499a0d7362"
     },
     "src/hawa/plugin.py::SlipBoundary.__init__": {
       "status": "covered",
@@ -4175,11 +4175,11 @@
       "fingerprint": "0788c64269c0130b0c6988171a0721a708d7539242e0da216ff6e851dace5064"
     },
     "src/hawa/plugin.py::SlipBoundary.native_available": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "2504ba642f332fd32707cb6947706c5e219c18015e7f41db524b45d441222f45"
     },
     "src/hawa/plugin.py::SlipBoundary.native_generator": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "8b4ae1bca18da8ffc68877e48d7486bd17c37e8055190595067577395f44dd1e"
     },
     "src/hawa/plugin.py::ExtrapolationOutlet.__init__": {
@@ -4199,11 +4199,11 @@
       "fingerprint": "0788c64269c0130b0c6988171a0721a708d7539242e0da216ff6e851dace5064"
     },
     "src/hawa/plugin.py::ExtrapolationOutlet.native_available": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "2504ba642f332fd32707cb6947706c5e219c18015e7f41db524b45d441222f45"
     },
     "src/hawa/plugin.py::ExtrapolationOutlet.native_generator": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "8b4ae1bca18da8ffc68877e48d7486bd17c37e8055190595067577395f44dd1e"
     },
     "src/hawa/plugin.py::WindFlow.__init__": {
@@ -4232,7 +4232,7 @@
     },
     "src/hawa/plugin.py::Session.__init__": {
       "status": "covered",
-      "fingerprint": "de5a03df889a8506b878a867dfc707467b7707cf2ef49aba44513350f0246663"
+      "fingerprint": "7b1b70be3150fac60b05c6b659f9767d8c4c48f876ab46c25675b16159bc0143"
     },
     "src/hawa/plugin.py::Session.advance": {
       "status": "covered",
@@ -4264,10 +4264,10 @@
     },
     "src/hawa/plugin.py::dispatch": {
       "status": "covered",
-      "fingerprint": "fe214f03a372f9609a7ed9f2ec6317d9cb07def25859994c08355e1e418d5851"
+      "fingerprint": "e19a2ee9f481933e895dafb992a80c0bd4f3bdd3c89b23a257e70b005dc9be1c"
     },
     "src/hawa/plugin.py::dispatch.finish": {
-      "status": "uncovered",
+      "status": "covered",
       "fingerprint": "3000a5ea3e4e8abc426df61e67e2769ce03a638d785e0a1f54a66f648cbc5a5f"
     },
     "src/hawa/plugin.py::dispatch_json": {
@@ -4308,7 +4308,7 @@
     },
     "src/hawa/refinement.py::RefinedStepper.__init__": {
       "status": "covered",
-      "fingerprint": "5a91beb963eafecf7d929093dda405a606df63d6a731776c37b6909a1cae2e70"
+      "fingerprint": "2abdc1d0fe63a30f828f7dc3b872235a9a9eecd9c87f774372c6eabf73e0e7c0"
     },
     "src/hawa/refinement.py::RefinedStepper.interpolate": {
       "status": "covered",
@@ -4344,7 +4344,7 @@
     },
     "src/hawa/refinement.py::run_refined": {
       "status": "covered",
-      "fingerprint": "7326acf7bdd76c1024a711a3b90c94e53428c62e80611e385e1a2dd424acda81"
+      "fingerprint": "23e9f73ae0187cd53db001bdb42707eb929040487968556017c59aeec5243e7c"
     },
     "src/hawa/refinement.py::run_refined.PatchFlow.post_boundaries": {
       "status": "covered",
@@ -4472,7 +4472,331 @@
     },
     "tools/function_coverage.py::main": {
       "status": "covered",
-      "fingerprint": "574fa507e66996c8b77f83fec5510d1105d10dc21a27ed1f7bbc74afd97ab716"
+      "fingerprint": "03051b484fa942a1d17d94d9791504faa1099bc3ef0ea5f845ecea47a32b0203"
+    },
+    "plugin/Hawa.Grasshopper/PollScheduler.cs::Hawa.Grasshopper.HawaPollScheduler.Drain(object? sender, EventArgs args).lambda#0 d =>": {
+      "status": "covered",
+      "fingerprint": "e81e3018407aa812ab3e1468db392dd7146a6acc5c41f3798d8f101a1b67a1c4"
+    },
+    "plugin/Hawa.Grasshopper/PollScheduler.cs::Hawa.Grasshopper.HawaPollScheduler.Drain(object? sender, EventArgs args).lambda#1 x =>": {
+      "status": "covered",
+      "fingerprint": "f6bd2186d26c6d88f10a696778c3021b8adea2506605e4e7bf42cb3a00c57caa"
+    },
+    "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.Range(CaseState c).lambda#0 (_, i) =>": {
+      "status": "covered",
+      "fingerprint": "df1224db36bf2a3e8f9d11fc504671798fe57f7c7d62e0f7e7512d58af3b6fd6"
+    },
+    "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.ResultMesh(CaseState c).lambda#1 p =>": {
+      "status": "covered",
+      "fingerprint": "91189b8c6a75777fd77160fc416d90ef82b7c83235e33e1e4872fd8a3608f72b"
+    },
+    "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.ResultMesh(CaseState c).lambda#2 v =>": {
+      "status": "covered",
+      "fingerprint": "a7593414589f1a56300911eb80130b207391687597067c11715bdf3edbbec9f1"
+    },
+    "plugin/Hawa.Shared/MeshContainment.cs::Hawa.Shared.MeshContainment.public static bool Contains(Mesh mesh, BoundingBox bounds, Point3d point, double tolerance)": {
+      "status": "covered",
+      "fingerprint": "33325688fdbe73abf7793b8a7ced6760693a61a7f0788fd102fe7730425a437a"
+    },
+    "plugin/Hawa.Shared/MeshContainment.cs::Hawa.Shared.MeshContainment.Contains(Mesh mesh, BoundingBox bounds, Point3d point, double tolerance).lambda#0 p =>": {
+      "status": "covered",
+      "fingerprint": "a5d13bc83882dcecf4694d7ca7bb5fc28502d70a08302fc47cda7bd9f39603dc"
+    },
+    "plugin/Hawa.Shared/MeshContainment.cs::Hawa.Shared.MeshContainment.Contains(Mesh mesh, BoundingBox bounds, Point3d point, double tolerance).lambda#1 x =>": {
+      "status": "covered",
+      "fingerprint": "3f2fa3854980640c03422c1a4c02b1a1de520dac0bb26c0485fc94cf484756bc"
+    },
+    "plugin/Hawa.Shared/NativeSettings.cs::Hawa.Shared.NativeSettings.Shape(JsonObject setup, double cell).lambda#2 (a, b) =>": {
+      "status": "covered",
+      "fingerprint": "af943be889f09adf11be24b462a5b8e9fb89aadd36d6df99e1cec42e68bfa151"
+    },
+    "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Vertex Site(int i)": {
+      "status": "covered",
+      "fingerprint": "3cbea1f9299f0dab315efebb9bf9a6053708e04f91374d8be295d26375e765f3"
+    },
+    "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Vertex? Crossing(int fluid, int solid)": {
+      "status": "covered",
+      "fingerprint": "53a32c310c7f973dc7edbfb8912c47cc67b232936e23195e94b0e467a24b9c8d"
+    },
+    "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#0 v =>": {
+      "status": "covered",
+      "fingerprint": "88ebadddad6fe696123a135fbecf2d5eefec67c735d4aa31b9999b5f86d189c0"
+    },
+    "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#1 a =>": {
+      "status": "covered",
+      "fingerprint": "46dc45235ec7fbd55e50fde10744f71e0df1a11d9adecb517a4b56436cb5eaa7"
+    },
+    "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#2 v =>": {
+      "status": "covered",
+      "fingerprint": "d13f0784f0dce751870a07d4768cbf39dd3356b69f79af1bca120f4270f56d50"
+    },
+    "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#3 v =>": {
+      "status": "covered",
+      "fingerprint": "c5ef1665503822c2e68c75be7208f588e39ed797a96374b77be6d2cec15d6ed8"
+    },
+    "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#4 a =>": {
+      "status": "covered",
+      "fingerprint": "af0d073ad7ba51f77d8386eb82b53a067a1a27f4dbbe56be05bb1be0794b224a"
+    },
+    "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).lambda#0 i =>": {
+      "status": "covered",
+      "fingerprint": "4b1ceef764c9cc98a4f417700a875e8a2266d94d7e4200c2934c191b5af4fbe4"
+    },
+    "plugin/Hawa.Shared/SliceDisplay.cs::Hawa.Shared.SliceDisplay.public static Mesh Build(JsonObject data, JsonObject spec, string field, Func<double[], Point3d> world, Func<double, Color> color)": {
+      "status": "covered",
+      "fingerprint": "1e4bd17f13b1b009707cfe5d054cdd003ac52434dbe4e5ee925db16c3c880748"
+    },
+    "plugin/Hawa.Shared/SliceDisplay.cs::Hawa.Shared.SliceDisplay.Build(JsonObject data, JsonObject spec, string field, Func<double[], Point3d> world, Func<double, Color> color).lambda#0 p =>": {
+      "status": "covered",
+      "fingerprint": "daeadb59742ea0f2233aee90a1a3b7d72339b907bfe657b511056878a9eb416c"
+    },
+    "plugin/Hawa.Shared/SliceDisplay.cs::Hawa.Shared.SliceDisplay.Build(JsonObject data, JsonObject spec, string field, Func<double[], Point3d> world, Func<double, Color> color).lambda#1 v =>": {
+      "status": "covered",
+      "fingerprint": "6d8b0315b2028d3378efe6c76af443c09d0ce5e949a5c61b89cd78039861ab24"
+    },
+    "plugin/Hawa.Shared/SliceDisplay.cs::Hawa.Shared.SliceDisplay.Build(JsonObject data, JsonObject spec, string field, Func<double[], Point3d> world, Func<double, Color> color).lambda#2 v =>": {
+      "status": "covered",
+      "fingerprint": "6d8b0315b2028d3378efe6c76af443c09d0ce5e949a5c61b89cd78039861ab24"
+    },
+    "plugin/Hawa.Shared/SliceDisplay.cs::Hawa.Shared.SliceDisplay.Build(JsonObject data, JsonObject spec, string field, Func<double[], Point3d> world, Func<double, Color> color).lambda#3 v =>": {
+      "status": "covered",
+      "fingerprint": "27df020fdb87462eba70253d4f81c096f41bc74b10f98be36e23b34f4496731a"
+    },
+    "plugin/Hawa.Shared/SliceDisplay.cs::Hawa.Shared.SliceDisplay.Build(JsonObject data, JsonObject spec, string field, Func<double[], Point3d> world, Func<double, Color> color).lambda#4 v =>": {
+      "status": "covered",
+      "fingerprint": "c5013c916fb4b607e2752efafdfef6ba23eb20185b72b46a98f09aa48cea9362"
+    },
+    "plugin/Hawa.Shared/WallLinks.cs::Hawa.Shared.WallLinks.TriangleFraction(Mesh mesh, Point3d origin, Vector3d segment).void Test(Point3d a, Point3d b, Point3d c)": {
+      "status": "covered",
+      "fingerprint": "e689878f94ef9c4736270441f0eb40ee1fb3e7540266bf7e85476c0d0b1c3f9d"
+    },
+    "plugin/Hawa.Shared/WallLinks.cs::Hawa.Shared.WallLinks.Build(IReadOnlyList<Mesh> meshes, int[] n, IEnumerable<int> solid, Point3d origin, Vector3d ax, Vector3d ay, Vector3d az, CancellationToken token).lambda#0 v =>": {
+      "status": "covered",
+      "fingerprint": "087a89983aff314e82af18657e9941fb33dce542070ce8b8a969c192c5f96625"
+    },
+    "plugin/Hawa.Shared/WallLinks.cs::Hawa.Shared.WallLinks.Build(IReadOnlyList<Mesh> meshes, int[] n, IEnumerable<int> solid, Point3d origin, Vector3d ax, Vector3d ay, Vector3d az, CancellationToken token).lambda#1 a =>": {
+      "status": "covered",
+      "fingerprint": "20cbcc0cb66f96ed4ab48c17dc564e44e7b4f9b9eb4dafd1611a7718ae4977b1"
+    },
+    "scripts/audit_backport.py::source_digest": {
+      "status": "covered",
+      "fingerprint": "dc7c2be23a6f62795efd14712e2a8f5992c90eb18f2bc103338af377cbc2edd9"
+    },
+    "scripts/benchmark_curved_walls.py::main": {
+      "status": "covered",
+      "fingerprint": "a32384016a2e15b61ed5b4c863ec37ab55f6167f3cf2d4696e59687f5a073425"
+    },
+    "scripts/benchmark_motion.py::main": {
+      "status": "covered",
+      "fingerprint": "e6613cb6e48c5bf287ffed71d00a5247ad727535e6954bac851acd55fa776b57"
+    },
+    "scripts/benchmark_refinement.py::main": {
+      "status": "covered",
+      "fingerprint": "5326efa96182622620ecb927760e095741d5ff0b27e7b5eeb281c947b20f451a"
+    },
+    "scripts/benchmark_rotating_sphere.py::benchmark": {
+      "status": "covered",
+      "fingerprint": "c46dde1aea2f6664c12d9ba9b383811a84aaa5ca65e277e0bf135e04a4c7404b"
+    },
+    "scripts/benchmark_rotating_sphere.py::benchmark.Periodic.post_boundaries": {
+      "status": "covered",
+      "fingerprint": "9a30aae764b22785d25ec66ebe00555488c7c2bfb35313e393d88246b627a282"
+    },
+    "scripts/benchmark_rotating_sphere.py::main": {
+      "status": "covered",
+      "fingerprint": "475eb00665726a63dc6f1269040deda70c8bb542256ab69596efeee388c1db54"
+    },
+    "scripts/example_worker.py::windows_resource_adapter": {
+      "status": "covered",
+      "fingerprint": "4d078bb584c9532312584e2319bdefedee722e235a82ecfefaf3ac44f317e86e"
+    },
+    "scripts/example_worker.py::windows_resource_adapter.getrusage": {
+      "status": "covered",
+      "fingerprint": "58f98320adcefe837aead054a3374c6f17613e75b1c8bdd710cc898b753359b1"
+    },
+    "scripts/pytest_evidence.py::pytest_addoption": {
+      "status": "covered",
+      "fingerprint": "9d7843637321030053152695dd12f4a4711f110a62a35364c2747ff8538b0cd8"
+    },
+    "scripts/pytest_evidence.py::pytest_configure": {
+      "status": "covered",
+      "fingerprint": "9d272b3ab4593c27c55336ccd6025f10a1d2bb195d555e68764d0fac5d1541fd"
+    },
+    "scripts/pytest_evidence.py::pytest_collection_finish": {
+      "status": "covered",
+      "fingerprint": "11814249b18f7286c3c5f327a796c0509d69195e28eb8021f7cbc4be5e1b424e"
+    },
+    "scripts/pytest_evidence.py::pytest_runtest_logreport": {
+      "status": "covered",
+      "fingerprint": "8fad05687a38b1e92c2f54cf213e023ddf74248198d3cd8f911ad9fe51a165ca"
+    },
+    "scripts/pytest_evidence.py::pytest_sessionstart": {
+      "status": "covered",
+      "fingerprint": "95f38ebf8092d24136bd853f67a3e019ea81718ae1d23e0d6c40647eb391a9a1"
+    },
+    "scripts/pytest_evidence.py::pytest_sessionfinish": {
+      "status": "covered",
+      "fingerprint": "bd5de613e074c6b54d86eb53e58df9bd39e1a53cf34944aa94a30bccba281482"
+    },
+    "scripts/pytest_portable.py::pytest_configure": {
+      "status": "covered",
+      "fingerprint": "29d10b527838e4dc8cf1cc8f94a9a91ea8393e453429b015946b4255bc5363ac"
+    },
+    "scripts/pytest_portable.py::pytest_configure.portable": {
+      "status": "covered",
+      "fingerprint": "3034972a3f32cf66796cf4e2ab9d480a8cb8d91c288ae888bf1e314a49a13233"
+    },
+    "scripts/pytest_portable.py::pytest_unconfigure": {
+      "status": "covered",
+      "fingerprint": "da1194aca3020966dca0cc1a09cfd27cd760627d49a84231db887a0eafd80ca3"
+    },
+    "scripts/record_cylinder_demo.py::main": {
+      "status": "covered",
+      "fingerprint": "d3f509a564a901bd4a541ead6106c118da3ac828414a35dd885e1e10de0d8cc5"
+    },
+    "scripts/record_cylinder_demo.py::main.<lambda>#1": {
+      "status": "covered",
+      "fingerprint": "51085c580a94b74614d991d2589d7bb90a00bfa9842ce583234cbe2c3621c333"
+    },
+    "scripts/record_motion_demo.py::main": {
+      "status": "covered",
+      "fingerprint": "808d5b22197a2bd461cf45e8aa79a2dc1a880afe4a90635eceab416a85282f37"
+    },
+    "scripts/record_motion_demo.py::main.checkpoint": {
+      "status": "covered",
+      "fingerprint": "844f0845aee68be547eac88110543e650c770ecfc93714619edb96a17d630277"
+    },
+    "scripts/record_vortex_demo.py::main": {
+      "status": "covered",
+      "fingerprint": "ede1d9e319a80a79e93ff7ac1d5bba5a4edd14f1edba37e4204b9aa8699d9f98"
+    },
+    "scripts/record_vortex_demo.py::main.<lambda>#1": {
+      "status": "covered",
+      "fingerprint": "d47deac872bcd47721cd2583eafc5e2e8c0b404c877b9a993662bafc7dca556d"
+    },
+    "scripts/rhino_vortex.py::main": {
+      "status": "covered",
+      "fingerprint": "0ddacafd476937287e99e2b955febb7f04827e1bc07b20bc60e8c01726f695bf"
+    },
+    "scripts/verification_evidence.py::snapshot": {
+      "status": "covered",
+      "fingerprint": "3d33c726871a3a07401a1e8fedaf0000f8679443c4028a3cf4a9e568c7fadf7e"
+    },
+    "scripts/verification_evidence.py::clean_environment": {
+      "status": "covered",
+      "fingerprint": "86fef7834d5c2774a0d423ec37c43beb5820581021ffc2558e909646c4d85f04"
+    },
+    "scripts/verification_evidence.py::validate_pytest": {
+      "status": "covered",
+      "fingerprint": "9a47e66a14b621c64fdefcdca4c5260d999918dda37c52a9af545fc7d187fa8b"
+    },
+    "scripts/verify_boundary_transfer.py::main": {
+      "status": "covered",
+      "fingerprint": "7ee3cb45e88b289da8ba36dd669c31f1ea0dde9002a2384f35be2a43c81da810"
+    },
+    "scripts/verify_boundary_transfer.py::main.<lambda>#1": {
+      "status": "covered",
+      "fingerprint": "88bbf15cda2ee105c5af0a2756e7e0a9c7609f7af55c01c7d3309b62224853f5"
+    },
+    "scripts/verify_cuda.py::main": {
+      "status": "covered",
+      "fingerprint": "5dfab1ff6c5217612328549e28a3c5e70c8f73f1c9dc806146d3dcde83ec0b27"
+    },
+    "scripts/verify_cuda.py::main.save": {
+      "status": "covered",
+      "fingerprint": "2bf49d15752c043fb3f32e8fbc2cdc8a7403fe169bb05f30f499f293b9e491e5"
+    },
+    "scripts/verify_cuda.py::main.run": {
+      "status": "covered",
+      "fingerprint": "71c102832b32428b7912f3f5fb4357eacb601912c10543619b3304029d27b626"
+    },
+    "scripts/verify_cuda.py::main.pytest_stage": {
+      "status": "covered",
+      "fingerprint": "81abab9f4e649d621ba60d4f5e89630f139b8b79e4c6c73b5061929507cb371e"
+    },
+    "scripts/verify_cuda_benchmarks.py::main": {
+      "status": "covered",
+      "fingerprint": "f2249d2a835486da7c73b1d0b3f0f493563504d0bd716d5a6dbcab88536faf00"
+    },
+    "scripts/verify_cuda_benchmarks.py::main.save": {
+      "status": "covered",
+      "fingerprint": "31a87ebf6a6f4a6d474bac8601f389d2671331fabd305ba80f1aaba37654bdc4"
+    },
+    "scripts/verify_neutral_nesting.py::runtime": {
+      "status": "covered",
+      "fingerprint": "30fdcb350358b1924e28fccbb55318a16bb0e7d15ff1a94d884be16feb8d08ed"
+    },
+    "scripts/verify_neutral_nesting.py::reference_case": {
+      "status": "covered",
+      "fingerprint": "1a959ed5906abe51e6fc0a3538b88281380ee03ff9b1f28e8e16db3245e9cb30"
+    },
+    "scripts/verify_neutral_nesting.py::digest": {
+      "status": "covered",
+      "fingerprint": "1f11e7f042a0e1f3e97091de90104aff47793adb4667f3b412d0623048b6066d"
+    },
+    "scripts/verify_neutral_nesting.py::sources": {
+      "status": "covered",
+      "fingerprint": "82bbf9b9fe9bca41b8a2d693ebae574926c48876a9adb9c0117b82c8eed9ceb8"
+    },
+    "scripts/verify_neutral_nesting.py::recording_identity": {
+      "status": "covered",
+      "fingerprint": "1f05813f340845d78041c4159064094fbe605ee70844bcab2eb1e803a876ede0"
+    },
+    "scripts/verify_neutral_nesting.py::window_indices": {
+      "status": "covered",
+      "fingerprint": "aa50fcc220e0b34bf8c1b612e76ca183723f9c0d6baccdf2beef7a2b53d316b3"
+    },
+    "scripts/verify_neutral_nesting.py::metrics": {
+      "status": "covered",
+      "fingerprint": "d260f40291826964dbab427d191f22cc6013db619f0ea9148eadf11449b17734"
+    },
+    "scripts/verify_neutral_nesting.py::checkpoint": {
+      "status": "covered",
+      "fingerprint": "b9d0d3a7ed0b74b04f6baacb47ed37252c4a22241a1c2e5d8511b01435feeaae"
+    },
+    "scripts/verify_neutral_nesting.py::create_recording": {
+      "status": "covered",
+      "fingerprint": "91a929ece977deec09c4f4244690dbf1dda9d7874ec775fd4dd46c0c30d0ae42"
+    },
+    "scripts/verify_neutral_nesting.py::prepare_reference": {
+      "status": "covered",
+      "fingerprint": "4e43496827439ac844b1459ecbdc600c9fbee6bf42a58e13aa716e3deac8361a"
+    },
+    "scripts/verify_neutral_nesting.py::load_reference": {
+      "status": "covered",
+      "fingerprint": "567a104120bdb94acf5763e8533a09ef94f6a555c3fe832a9adb52d07aad1e5e"
+    },
+    "scripts/verify_neutral_nesting.py::validate_config": {
+      "status": "covered",
+      "fingerprint": "0a070be255f25ed10bb8041574a044f86401bd8a193c92490a7db368b9c10d33"
+    },
+    "src/hawa/moving_boundaries.py::_rotate": {
+      "status": "covered",
+      "fingerprint": "e2d4bd942ae5668446b092dfcc67adebc5db9eaff8158b47a3100c7432083a2a"
+    },
+    "src/hawa/moving_boundaries.py::_radial_distance": {
+      "status": "covered",
+      "fingerprint": "cb1e6a9fd128793c33517a0fc4cd01b2dcde89999443f73034dbc2fa126f43ba"
+    },
+    "src/hawa/refinement.py::_validate_patch_bounds": {
+      "status": "covered",
+      "fingerprint": "34ce37d72715f1e2f6d489d0a2e107d4cb8d39c20bca22ec8df9e487510a65d2"
+    },
+    "tools/function_coverage.py::strict_gate": {
+      "status": "covered",
+      "fingerprint": "6676f5e2f91aa65b9a21fe8b97e02bb26448c1b9160fc2859731ebce40d78ecf"
+    },
+    "tools/mutation/check_results.py::digest": {
+      "status": "covered",
+      "fingerprint": "1f11e7f042a0e1f3e97091de90104aff47793adb4667f3b412d0623048b6066d"
+    },
+    "tools/mutation/check_results.py::verify": {
+      "status": "covered",
+      "fingerprint": "4bfdeb5dcc62502f6cc61848112ceb342c257531061414e33e82797dadb95384"
+    },
+    "tools/mutation/check_results.py::main": {
+      "status": "covered",
+      "fingerprint": "d836b2423de5b936eff032dacb5af818ec0a11c248fead3b25e8c5a2dd143b2a"
     }
   }
 }
