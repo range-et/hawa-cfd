@@ -27,9 +27,13 @@ def comoving(device='cpu',steps=100):
                 max_force_newtons=max(float(np.linalg.norm(h['loads'][0]['force'])) for h in wall.history),
                 transition_mass_lu=wall.transition_mass)
 
-if __name__=='__main__':
+def main():
     out=ROOT/'results/motion';out.mkdir(parents=True,exist_ok=True)
     reports=[comoving(d) for d in ['cpu']+(['mps'] if torch.backends.mps.is_available() else [])]
     (out/'comoving.json').write_text(json.dumps(reports,indent=2))
     print(json.dumps(reports,indent=2))
     assert all(r['max_fluid_population_error']<3e-6 and r['max_force_newtons']<.002 for r in reports)
+
+
+if __name__ == "__main__":
+    main()

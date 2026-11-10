@@ -62,7 +62,9 @@ The [function coverage gate](function-testing.md) inventories first-party Python
 and plugin C# surfaces. Require a fresh complete run, current committed matrix,
 coverage for every new function, and no lost coverage relative to the trusted
 baseline. Existing unchanged gaps remain explicit debt; changed gaps require
-tests. This execution gate supplements assertion review and numerical/host gates.
+tests. CI also requires 100% functions and executable lines in the declared
+headless scope and runs the reviewed mutation inventories. Unmeasured host code
+stays explicit; these checks supplement assertion review and numerical/host gates.
 
 Review the diff for invalid inputs, missing/list data, non-finite values, partial
 mutation, exception isolation, idempotence, thread safety, bounded allocations,
@@ -113,6 +115,12 @@ coupling. A coarse RC example does not resolve its boundary layer. A good render
 and a completed run cannot establish convergence or an optimum.
 
 ## G4 — UI/UX reviewer and example operator
+
+For code PRs, follow the [local Rhino acceptance review](local-rhino-acceptance.md):
+open all supported examples, run/render them, and inspect numbers and images.
+The creator records evidence and omissions; the maintainer owns the merge
+decision. This important soft gate does not require a self-hosted CI runner and
+does not count as measured host code coverage. Preserve modified legacy 09.
 
 Run the annotated definition as a new user would, then repeat through supported
 Rhino MCP operations. Do not rely on hidden state or knowledge of the generator.

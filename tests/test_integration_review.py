@@ -57,7 +57,7 @@ def test_external_memory_rejected_before_link_allocation(monkeypatch):
 def test_source_bundle_contains_verification_inputs(tmp_path, monkeypatch):
     from scripts import build_plugin
     root = tmp_path/'repo'
-    folders = ['src/hawa', 'vendor/lettuce/lettuce', 'scripts', 'requirements',
+    folders = ['src/hawa', 'vendor/lettuce/lettuce', 'vendor/monad_system', 'scripts', 'requirements',
                'tests', 'tools', '.config', 'docs/agents', 'docs/function-tests',
                'examples/grasshopper', 'examples/native-prototype']
     for folder in folders: (root/folder).mkdir(parents=True)
@@ -69,15 +69,18 @@ def test_source_bundle_contains_verification_inputs(tmp_path, monkeypatch):
            '.config/dotnet-tools.json','docs/function-tests/matrix.json','examples/grasshopper/01-test.gh',
            'examples/grasshopper/09-parametric-hull-galapagos.gh']
     for name in ('LICENSE','AUTHORS.rst','PORTING.md','upstream.json'):files.append('vendor/lettuce/'+name)
+    for name in ('LICENSE','colors.json','upstream.json'):files.append('vendor/monad_system/'+name)
     for name in files:(root/name).write_text('fixture '+name)
     monkeypatch.setattr(build_plugin,'ROOT',root)
     output=tmp_path/'bundle';archive=tmp_path/'bundle.zip'
     monkeypatch.setattr(sys,'argv',['build_plugin','--package-only','--output',str(output),'--archive',str(archive)])
     build_plugin.main()
-    for name in ['tools/function_coverage.py','.config/dotnet-tools.json','docs/function-tests/matrix.json','examples/grasshopper/01-test.gh']:
+    for name in ['tools/function_coverage.py','.config/dotnet-tools.json','docs/function-tests/matrix.json','examples/grasshopper/01-test.gh','vendor/monad_system/colors.json','vendor/monad_system/upstream.json','vendor/monad_system/LICENSE']:
         assert (output/'source'/name).read_bytes()==(root/name).read_bytes()
     with zipfile.ZipFile(archive) as bundle:
         assert bundle.testzip() is None
+        for name in ('colors.json','upstream.json','LICENSE'):
+            assert bundle.read('Hawa/source/vendor/monad_system/'+name)==(root/'vendor/monad_system'/name).read_bytes()
         assert not any(Path(n).name.startswith('09-') for n in bundle.namelist())
 
 

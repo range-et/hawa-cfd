@@ -4,19 +4,24 @@ Hawa is an experimental embedded CFD plugin for Rhino 8 and Grasshopper.
 
 ## Project records and document hygiene
 
-- Read [features.md](features.md) and [issues.md](issues.md) before planning work,
-  alongside the quality gates below. Features records what exists and completed
-  work; issues records open bugs, verification gaps, improvements and ideas.
-- Keep [the roadmap](docs/roadmap.md) for direction and sequencing, and
-  [the example backlog](docs/example-roadmap.md) for tutorial candidates. Link to
-  detailed specifications and gate records instead of duplicating them.
-- Update the applicable records in the same change as the work. Add newly found
-  bugs or hypotheses to issues with stable `HAWA-NNN` IDs, evidence/repro, scope,
-  status, owner (or unassigned), next action and completion criteria. Never reuse
-  IDs or present a hypothesis as a reproduced defect.
-- When closing an item, move its outcome and evidence to features history with
-  its ID and date; remove the closed active entry from issues. Keep any remaining
-  scope open. Record rejected decisions without calling them built features.
+- Read [features.md](features.md) and the relevant [GitHub issues](https://github.com/range-et/hawa-cfd/issues)
+  before planning work, alongside the quality gates below. GitHub Issues is the
+  source of truth for bugs, verification gaps, features, build/CI work and research.
+  `issues.md` is a retired migration pointer; never add active entries there.
+- Keep [the roadmap](docs/roadmap.md) for direction and
+  [the example catalogue](docs/example-roadmap.md) for reference candidates.
+  Track actionable work, priorities, owners and status in GitHub issues. Link to
+  detailed specifications and gate records instead of maintaining duplicate backlogs.
+- Create newly found bugs or hypotheses in GitHub with evidence/repro, scope,
+  execution surface, owner (or unassigned), next action and completion criteria.
+  Search for duplicates first. Preserve existing HAWA IDs on migrated issues;
+  new work uses GitHub issue numbers, not newly allocated HAWA IDs.
+- Update the linked issue and applicable feature/review records in the same work.
+  Close an issue only when its declared acceptance criteria are met. A partial PR
+  must use a reference (not an automatic closing keyword) and leave remaining scope
+  open. Record the outcome, evidence, device/host omissions and release status;
+  link completed capabilities from features history. Record rejected decisions
+  without calling them built features. See [the workflow](docs/github-issues.md).
 - Keep feature claims bounded by actual implementation and review evidence.
   Separate built, verified, packaged and released; record devices, omissions and
   limits. Historical tests are not fresh passes. Read newer follow-ups before
@@ -76,6 +81,41 @@ is example 10, not a Hawa tool. Its hidden archive reader exists only to preserv
 older user definitions. See [the node audit](docs/node-catalog-v0.5.md).
 
 ## Developer checks
+
+### Required tests for Python and C# functions
+
+Every new or changed first-party Python/C# executable function, method, property,
+local function or callback must have meaningful automated tests in the same PR.
+Exercise its intended result and relevant invalid-input/failure behavior; imports,
+construction-only smoke checks and test names are not sufficient evidence.
+Run the measured function gate against the PR base and refresh the committed
+matrix. Do not weaken assertions, move code outside the inventory, or add coverage
+exclusions to obtain a passing percentage. Promote retired baseline gaps only
+after fresh measured execution with asserting tests. Keep existing debt visible.
+
+For headless logic, use Python tests or linked C# contracts. For Rhino/GH behavior,
+add the appropriate live-host checks and retain unmeasured status until actual
+instrumented evidence exists. Test doubles do not establish host scheduling,
+archive or device correctness. Mutation testing must distinguish assertion kills,
+collection/tool errors, timeouts, equivalent changes and unresolved survivors;
+never claim 100% assurance from execution coverage or a mutation score alone.
+
+The target is 100% measured executable-function **and line coverage** across
+first-party Hawa Python and C#, with meaningful assertions. Branch coverage and
+mutation results are separate evidence. Vendored upstream code is validated separately under the
+existing policy; do not shrink first-party scope. Track progress and remaining
+host/tooling gaps in GitHub issues #28 and #45, not an active Markdown backlog.
+
+GitHub enforces the automated headless scope with `--strict --coverage-scope
+headless`; the whole-inventory strict check retains unmeasured host gaps rather
+than crediting them as covered. For code PRs, perform the important soft
+[local Rhino acceptance gate](docs/local-rhino-acceptance.md): open all supported
+examples, execute/render, inspect numbers and images, and record build/environment,
+device, steps/time, evidence, failures and omissions. The creator supplies this
+local evidence and the maintainer owns the merge decision. No self-hosted CI
+runner is required. Local host acceptance remains separate from measured coverage
+and physical qualification; host methods stay unmeasured until instrumented.
+
 
 For code changes, run the [function coverage gate](docs/function-testing.md) and
 refresh its committed matrix. New functions and changes to uncovered functions

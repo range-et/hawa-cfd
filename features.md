@@ -1,7 +1,7 @@
 # Hawa built features and history
 
 This is the running inventory of implemented capabilities and completed work.
-Open bugs, remaining work and ideas live in [issues.md](issues.md); future
+Open bugs, remaining work and ideas live in [GitHub Issues](https://github.com/range-et/hawa-cfd/issues); future
 direction lives in the [roadmap](docs/roadmap.md). Maintainers, agents and the user
 can edit this file. Add evidence and limits when updating a capability.
 
@@ -30,8 +30,22 @@ example checks.
 | Prescribed rigid motion and cycle objectives | Translation/rotation/oscillation, raw loads and complete-cycle search. No force-driven body response, free surface, buoyancy or validated propeller prediction. | [Motion guide](docs/moving-surfaces-v0.4.md), [motion evidence](docs/verification-motion-v0.4.json) |
 | Result quality and offline inlet transfer | Bounded Mach/density/finite-state quality policy and v1 mapped X− velocity series, with source identity and coverage checks. Not convergence or atmospheric validation. | [Transfer guide](docs/boundary-transfer.md), [gate record](docs/boundary-transfer-review.md) |
 | Shared boundary foundation | Physical patch schema plus bounded LBM NEE wall/slip/velocity/open reconstruction; corrected closure is explicitly versioned. Full reversing/cropped/atmospheric capability is not established. | [Boundary guide](docs/general-boundaries.md), [gate record](docs/general-boundaries-review.md) |
-| Experimental neutral flow | Shifted-population regularized SGS, molecular-air scaling, sampled/filtered planar rough-floor stress and restart state. External mode adds halo-classified cropped buildings, side/top velocity or open faces, pressure reference and measured link mass budget. Analytic wall, convected-disturbance, stationary-channel and scoped CPU/MPS/Rhino checks pass. Full atmospheric accuracy and nesting qualification remain open. | [Coupling review](docs/neutral-coupling-review.md), [verification](docs/verification-neutral-coupling.json); HAWA-003/004/011 in [issues](issues.md) |
+| Experimental neutral flow | Shifted-population regularized SGS, molecular-air scaling, sampled/filtered planar rough-floor stress and restart state. External mode adds halo-classified cropped buildings, side/top velocity or open faces, pressure reference and measured link mass budget. Analytic wall, convected-disturbance, stationary-channel and scoped CPU/MPS/Rhino checks pass. Full atmospheric accuracy and nesting qualification remain open. | [Coupling review](docs/neutral-coupling-review.md), [verification](docs/verification-neutral-coupling.json); HAWA-003/004/011 in [GitHub Issues](https://github.com/range-et/hawa-cfd/issues) |
 | Compatibility and example coverage gate | G6 enumerates 102,459 finite contract rows, detects incomplete/stale evidence and audits all public nodes against annotated GH workflows. CPU/MPS local checks pass; CUDA is blocked. Arbitrary graphs and continuous inputs are not exhaustively enumerated. | [G6 guide](docs/compatibility-matrix.md), [machine report](docs/verification-compatibility.json) |
+
+## Headless testing expansion (November 9, 2026)
+
+First-party Python now has measured 365/365 functions and 6,164/6,164 executable
+lines covered; linked C# contracts cover 152/152 functions and 1,618/1,618 lines.
+The fresh native suite passed 1,419 Python tests (82 skipped) and 67 C# contracts.
+CI adds strict headless coverage and four-module mutation checks (358/398 killed,
+40 explicitly reviewed survivors). Stationarity failure reporting, failed-resume history preservation and source
+palette packaging were repaired. [Review and limits](docs/review-headless-quality.md).
+
+GitHub #28 and #45 remain open: 590 host-dependent C# functions are unmeasured,
+mutation scope is bounded, and no fresh Rhino acceptance or physical qualification
+is claimed. The [local example review](docs/local-rhino-acceptance.md) records all
+supported workflows, numbers and images for maintainer acceptance.
 
 ## Atmospheric transfer development (November 9, 2026)
 
@@ -75,6 +89,50 @@ Evidence: [transfer review](docs/neutral-transfer-review.md),
 qualification failures remain open in HAWA-021/022; these repairs do not close them.
 
 ## History
+
+### November 10, 2026 — GitHub backlog migration
+
+Migrated all 38 active HAWA entries to GitHub Issues with evidence, acceptance
+criteria, execution surfaces and dependencies. Existing IDs are preserved;
+new work uses GitHub issue numbers. Retired the Markdown backlog, updated agent
+instructions and added intake/PR templates. Published titles, bodies and labels
+were checked against the migration payloads with no missing or duplicate entries.
+This closes no product issues and adds no solver capability.
+[Migration crosswalk and verification](docs/github-issue-migration.md).
+
+### November 9, 2026 — merged Python issue closeout
+
+[PR #6](https://github.com/range-et/hawa-cfd/pull/6) merged into main at
+`bd8e624`, including refinement PR #7. The following scoped defects are closed
+in development, not claimed installed or released:
+
+- **HAWA-048 / HAWA-051 closed:** atomic immutable-field NPZ writes preserve old
+  output on failure; both writers support long valid destination filenames.
+  Fault-injection/round-trip controls and 35 focused native/Docker checks passed.
+  [Export review](docs/review-field-export-atomicity.md).
+- **HAWA-049 / HAWA-052 closed:** refinement alignment is independent of world
+  origin and invalid patch topology fails before solver allocation. Combined
+  gate: 852 passed, 82 hardware skips, 33 contracts; CPU G6: 97,561 passed,
+  4,898 device-blocked. Host/pre-Job validation remains HAWA-028.
+  [Domain review](docs/review-domain-relationships.md).
+- **HAWA-050 closed:** pinned Python 3.9 CI provisioning and synchronized test
+  dependency lock pass hosted checks and locked-sync verification.
+  [CI review](docs/review-python-ci-runner.md).
+- **HAWA-053 closed:** imported rough-wall filter history survives reset;
+  repeated CPU replays match exactly.
+- **HAWA-054 closed:** exterior-boundary workspace is included before allocation;
+  large-case rejection and valid controls pass. The conservative estimate is not
+  an OS memory limit.
+- **HAWA-055 closed:** corresponding source includes verification inputs; exact
+  package checks pass and packaged source collects 892 tests. Legacy example 09
+  remains excluded. The last three repairs share the [integration review](docs/review-python-integration.md#pr-6-review-follow-up):
+  810 passed, 82 hardware skips, 33 contracts before the refinement merge.
+
+These are recorded checks, not new test runs during this documentation closeout.
+HAWA-001 numerical parity, broader HAWA-026 coverage, HAWA-028 host validation,
+and Windows CUDA acceptance under HAWA-002/044–046 remain open. PR #8 is still
+open; PR #9 merged into the study integration branch after #6 and is not yet in
+main. Neither is counted as closing its umbrella issue.
 
 ### November 9 2026 HAWA-001 diagnostic increment
 
@@ -300,7 +358,8 @@ ones. Add dated history for meaningful completions, preserving the `HAWA-NNN` ID
 when closing an issue. Include what changed, affected scope/version, actual
 checks/device, omissions, remaining limits and a link to the review or report.
 Distinguish implemented, locally verified, packaged and publicly released states.
-Use the next unique ID for newly discovered follow-up work in `issues.md`.
+Create newly discovered follow-up work in GitHub Issues and reference its GitHub
+number. Preserve legacy HAWA IDs; do not allocate new ones.
 
 
 ### November 9 2026 combined Python / CUDA integration candidate
@@ -320,5 +379,5 @@ matrix/link preparation in the conservative preflight budget; HAWA-055 includes
 verification tools/configuration/docs/examples in the source bundle. The coverage
 test dependency is now in uv.lock. Fresh combined gate: 810 passes/82 skips,
 33 contracts, no ratchet failures; actual bundled source collects all 892 tests.
-These candidates remain pending integration and do not establish Windows/host
+These repairs are merged into main through PR #6; they do not establish Windows/host
 qualification. [Evidence](docs/review-python-integration.md#pr-6-review-follow-up).
