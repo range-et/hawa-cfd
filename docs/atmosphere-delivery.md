@@ -175,7 +175,7 @@ atmospheric LES, wall models or turbulence. "Resolved" is qualified on CPU only.
 | --- | --- | --- |
 | G0 | PASS, bounded | Shear-wave analytic decay; Lehmann et al. and Latt–Chopard references above; no copied code |
 | G1 | PASS | Additive quality field; collision numerics, storage, checkpoints and `make_solver` unchanged; shared-file split agreed with #11 |
-| G2 | PASS for the declared scope | Strict headless function and line gate on the final head; targeted mutmut of this PR's lines: 440 mutants, 430 killed, 0 timeouts. The 10 survivors are reviewed in `atmospheric-precision-policy.json`: 4 equivalent, 3 decoration, 3 import or collection errors (counted as errors, not kills). |
+| G2 | PASS for this PR's lines | Strict headless gate: every line this PR adds or changes is covered. The only remaining failure, `scripts/diagnose_kbc_parity.py:186`, came in through integration and is covered by #11. Targeted mutmut of this PR's lines: 440 mutants, 430 killed, 0 timeouts. The 10 survivors are reviewed in `atmospheric-precision-policy.json`: 4 equivalent, 3 decoration, 3 import or collection errors (counted as errors, not kills). |
 | G3 | PASS for FP64 collision representation; **FAIL** for FP32 molecular representation and for complete diagnostic agreement (1/20 conservative on CPU) | Tracked summary; the MPS false-resolved defect is fixed by v2 and awaits the batched MPS rerun |
 | G4 | NOT APPLICABLE | No GH or native change; the new quality field is not yet shown in the host |
 | G5/G6 | BLOCKED | v2 MPS rerun batched in #53; no package. CUDA not tested in this round (deferred, #52) |
