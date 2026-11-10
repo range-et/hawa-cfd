@@ -8,7 +8,7 @@ This branch contains **Hawa 0.5**, with selected Rhino geometry, editable domain
 
 [Plugin guide](docs/plugin.md) · [Rhino MCP agent guide](docs/agents/rhino-mcp.md) · [Editable definitions](examples/grasshopper) · [License](LICENSE)
 
-Project records: [built features and history](features.md) · [open issues and ideas](issues.md) · [project roadmap](docs/roadmap.md) · [existing and proposed examples](docs/example-roadmap.md). Future solver work is outside the bounded 0.5 prototype.
+Project records: [built features and history](features.md) · [GitHub issues and planned work](https://github.com/range-et/hawa-cfd/issues) · [project roadmap](docs/roadmap.md) · [existing and proposed examples](docs/example-roadmap.md). Future solver work is outside the bounded 0.5 prototype.
 
 ## New workflows
 

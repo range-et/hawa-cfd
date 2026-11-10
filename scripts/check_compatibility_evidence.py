@@ -22,7 +22,7 @@ def main():
     if not expected or expected!=observed:raise ValueError('Unit inventory missing, duplicated or stale')
     lines=Path(a.state_log).read_text().splitlines()
     state=json.loads(next(line for line in reversed(lines) if line.startswith('{')))
-    if state['passed']!=33 or any(line.startswith('FAIL') for line in lines):raise ValueError('State contract failure or inventory drift')
+    if state['passed']!=67 or any(line.startswith('FAIL') for line in lines):raise ValueError('State contract failure or inventory drift')
     skipped=sum(c.find('skipped') is not None for c in cases)
     report=dict(matrix=matrix['counts'],examples=examples,unit_tests=dict(passed=len(cases)-skipped,skipped=skipped),state_contracts=state['passed'],
                 local_pass=True,release_pass=matrix['release_pass'] and skipped==0,

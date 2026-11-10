@@ -11,17 +11,16 @@ from matplotlib.colors import LinearSegmentedColormap,Normalize
 from PIL import Image,ImageDraw,ImageFont,ImageOps
 
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT/'dist/videos-v04';OUT.mkdir(parents=True,exist_ok=True)
-CAP=ROOT/'docs/captures/v04';CAP.mkdir(parents=True,exist_ok=True)
+OUT=ROOT/'dist/videos-v04'
+CAP=ROOT/'docs/captures/v04'
 SOURCE=ROOT/'results/v04/vortex-recording-v2'
-DATA=json.loads((SOURCE/'manifest.json').read_text())
 UI=json.loads((ROOT/'vendor/monad_system/colors.json').read_text())['Default_Colors']['General_UI_Colors']
 BG=UI['Background']['hex'];FG=UI['Primary_Text']['hex'];SUB=UI['Secondary_Text']['hex']
 FONT='/System/Library/Fonts/HelveticaNeue.ttc'
-TITLE=ImageFont.truetype(FONT,54,index=10);BODY=ImageFont.truetype(FONT,28);SMALL=ImageFont.truetype(FONT,22)
 CMAP=LinearSegmentedColormap.from_list('hawa',['#08306b','#00a0b4','#96eb8c'])
 
 def card(title,caption,picture,footer='Hawa 0.4 / development preview'):
+    TITLE=ImageFont.truetype(FONT,54,index=10);BODY=ImageFont.truetype(FONT,28);SMALL=ImageFont.truetype(FONT,22)
     im=Image.new('RGB',(1920,1080),BG);d=ImageDraw.Draw(im)
     d.text((90,50),title,font=TITLE,fill=FG)
     d.text((90,125),caption,font=BODY,fill=SUB)
@@ -83,6 +82,7 @@ def airfoil_picture():
     return result
 
 def frames():
+    DATA=json.loads((SOURCE/'manifest.json').read_text())
     yield card('Hawa / flow tools','Open the definition. Run the case. Inspect the fields.',Image.open(CAP/'block-flow.png')),90
     yield card('Inspect the domain in Rhino','3D flow tubes, a domain wireframe, and a blue-green speed plane.',Image.open(CAP/'block-flow.png')),180
     for i,entry in enumerate(DATA['frames']):
@@ -97,6 +97,7 @@ def frames():
     yield card('Check the model limits','Experimental refinement. Single-phase flow. Validate each case.',Image.open(CAP/'refinement.png')),120
 
 if __name__=='__main__':
+    OUT.mkdir(parents=True,exist_ok=True);CAP.mkdir(parents=True,exist_ok=True)
     output=OUT/'hawa-flow-tools.mp4';write_video(output,frames())
     (OUT/'provenance.json').write_text(json.dumps({'video':output.name,'source_manifest':str(SOURCE/'manifest.json'),'source_sha256':hashlib.sha256((SOURCE/'manifest.json').read_bytes()).hexdigest(),'frames':31,'device':'mps','rhino_captures':['block-flow.png','search-completed.png','sphere-pressure.png','refinement.png'],'render':'scripts/make_v04_demo.py','audio':False,'airfoil_coordinates':'examples/grasshopper/data/naca0012.dat','revision':'visuals-on-all-cards'},indent=2))
     print(output)

@@ -5,5 +5,12 @@
     <Compile Include="../../../plugin/Hawa.Shared/NativeSettings.cs" Link="Production/NativeSettings.cs" />
     <Compile Include="../../../plugin/Hawa.Shared/CaseState.cs" Link="Production/CaseState.cs" />
     <Compile Include="../../../plugin/Hawa.Shared/CaseHub.cs" Link="Production/CaseHub.cs" />
+    <Compile Include="../../../plugin/Hawa.Shared/JsonCompatibility.cs" Link="Production/JsonCompatibility.cs" />
+    <Compile Include="../../../plugin/Hawa.Shared/CaseGeometry.cs" Link="Production/CaseGeometry.cs" />
+    <Compile Include="../../../plugin/Hawa.Shared/SliceDisplay.cs" Link="Production/SliceDisplay.cs" />
+    <Compile Include="../../../plugin/Hawa.Grasshopper/PollScheduler.cs" Link="Production/PollScheduler.cs" />
+    <Compile Include="../../../plugin/Hawa.Shared/MeshContainment.cs" Link="Production/MeshContainment.cs" />
+    <Compile Include="../../../plugin/Hawa.Shared/WallLinks.cs" Link="Production/WallLinks.cs" />
+    <Compile Include="../../../plugin/Hawa.Shared/SurfaceMeshing.cs" Link="Production/SurfaceMeshing.cs" />
   </ItemGroup>
 </Project>

@@ -14,23 +14,6 @@ for path in (ROOT / "src", ROOT / ".runtime" / "rhino-py39"):
 from hawa.backends import select_backend
 from hawa.lbm import VortexConfig, VortexSimulation
 
-import Rhino
-import System.Drawing as Drawing
-
-DEVICE = globals().get("HAWA_DEVICE", "mps")
-SIZE = globals().get("HAWA_SIZE", 64)
-STEPS = globals().get("HAWA_STEPS", 200)
-sim = VortexSimulation(select_backend(DEVICE), VortexConfig(size=SIZE))
-sim.advance(STEPS)
-report = sim.diagnostics()
-report.update({"python": sys.version, "architecture": platform.machine(),
-               "host": "rhino-embedded", "rhino": str(Rhino.RhinoApp.Version)})
-output = ROOT / "results" / ("rhino-" + str(sim.backend.device).replace(":", "-"))
-output.mkdir(parents=True, exist_ok=True)
-(output / "report.json").write_text(json.dumps(report, indent=2) + "\n")
-print(json.dumps(report, indent=2))
-if not report["passed"]:
-    raise RuntimeError("LBM verification failed; see report.json")
 
 def create_preview():
     # The offset keeps this lattice-units illustration clear of existing geometry.
@@ -81,5 +64,28 @@ def create_preview():
     print("Hawa preview created: {} objects on Hawa Feasibility".format(len(object_ids)))
 
 
-if globals().get("HAWA_PREVIEW", True):
-    create_preview()
+def main():
+    global Rhino, Drawing, DEVICE, SIZE, STEPS, sim, report, output
+    import Rhino
+    import System.Drawing as Drawing
+
+    DEVICE = globals().get("HAWA_DEVICE", "mps")
+    SIZE = globals().get("HAWA_SIZE", 64)
+    STEPS = globals().get("HAWA_STEPS", 200)
+    sim = VortexSimulation(select_backend(DEVICE), VortexConfig(size=SIZE))
+    sim.advance(STEPS)
+    report = sim.diagnostics()
+    report.update({"python": sys.version, "architecture": platform.machine(),
+                   "host": "rhino-embedded", "rhino": str(Rhino.RhinoApp.Version)})
+    output = ROOT / "results" / ("rhino-" + str(sim.backend.device).replace(":", "-"))
+    output.mkdir(parents=True, exist_ok=True)
+    (output / "report.json").write_text(json.dumps(report, indent=2) + "\n")
+    print(json.dumps(report, indent=2))
+    if not report["passed"]:
+        raise RuntimeError("LBM verification failed; see report.json")
+    if globals().get("HAWA_PREVIEW", True):
+        create_preview()
+
+
+if __name__ in ("__main__", "<run_path>"):
+    main()
