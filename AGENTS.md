@@ -100,11 +100,21 @@ archive or device correctness. Mutation testing must distinguish assertion kills
 collection/tool errors, timeouts, equivalent changes and unresolved survivors;
 never claim 100% assurance from execution coverage or a mutation score alone.
 
-The target is 100% measured executable-function coverage across first-party Hawa
-Python and C#, with meaningful assertions. Line/branch and mutation results are
-separate evidence. Vendored upstream code is validated separately under the
+The target is 100% measured executable-function **and line coverage** across
+first-party Hawa Python and C#, with meaningful assertions. Branch coverage and
+mutation results are separate evidence. Vendored upstream code is validated separately under the
 existing policy; do not shrink first-party scope. Track progress and remaining
 host/tooling gaps in GitHub issues #28 and #45, not an active Markdown backlog.
+
+GitHub enforces the automated headless scope with `--strict --coverage-scope
+headless`; the whole-inventory strict check retains unmeasured host gaps rather
+than crediting them as covered. For code PRs, perform the important soft
+[local Rhino acceptance gate](docs/local-rhino-acceptance.md): open all supported
+examples, execute/render, inspect numbers and images, and record build/environment,
+device, steps/time, evidence, failures and omissions. The creator supplies this
+local evidence and the maintainer owns the merge decision. No self-hosted CI
+runner is required. Local host acceptance remains separate from measured coverage
+and physical qualification; host methods stay unmeasured until instrumented.
 
 
 For code changes, run the [function coverage gate](docs/function-testing.md) and
