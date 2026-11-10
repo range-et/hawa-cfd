@@ -37,7 +37,7 @@ example checks.
 
 First-party Python now has measured 365/365 functions and 6,164/6,164 executable
 lines covered; linked C# contracts cover 152/152 functions and 1,618/1,618 lines.
-The fresh native suite passed 1,415 Python tests (82 skipped) and 67 C# contracts.
+The fresh native suite passed 1,419 Python tests (82 skipped) and 67 C# contracts.
 CI adds strict headless coverage and four-module mutation checks (358/398 killed,
 40 explicitly reviewed survivors). Stationarity failure reporting, failed-resume history preservation and source
 palette packaging were repaired. [Review and limits](docs/review-headless-quality.md).

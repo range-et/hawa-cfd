@@ -86,7 +86,7 @@
     "scripts/verify_neutral_coupling.py": "f76d34dc4485bc43fb3eae00171d006f7873e9ef899684e3d37ad2a1d1330136",
     "scripts/verify_neutral_nesting.py": "44135f45a7606fce8cee3ca6d47ed3a126b5643e921301777295436c9faf5e44",
     "scripts/verify_neutral_precursor.py": "df5cb8532165c7880ce80954191d115f6d23980ee0bec83809231bf6e44a10b0",
-    "scripts/verify_neutral_stationary.py": "65e2e362348f03d9e008f972a2512bd056e5b846549a4aaffe7aef01e0ddc4fc",
+    "scripts/verify_neutral_stationary.py": "3a462bfe83c2e9df440b46a3cf097690c35cef32e1845e10eb385d34d65c7efe",
     "scripts/verify_runtime.py": "4738cf7f41ef7e4402dda8e24a306e5bd0aeeb302e7287eaad8702c91a042b90",
     "src/hawa/__init__.py": "3484c4615e9a7d8c6f9421b9233b0cf8ba70e9a20a554246a80904b9641a40c6",
     "src/hawa/airfoils.py": "4117731d899c5641817ac7b3145850595b01e4dafa5899489b49ebbb6431af39",
@@ -180,7 +180,7 @@
     "tests/test_runtime_numerical_edges.py": "e82e195496e924332a7ca87d1bb4170dccef9add3ee4000124081f7a4e324f09",
     "tests/test_runtime_rejection_edges.py": "f37b9a4b7db3a17473f15b709c66d8cdc214cd3d5926d4501812a495c0ff8740",
     "tests/test_runtime_transfer_failures.py": "55948384f8448fcb307f20e5af389f6b0ce089f2a8a86ba69a54671688af1317",
-    "tests/test_stationary_failure_reporting.py": "b87d5ea515eaa81e9264aebfe0a1afa69403478d229bd9785562531454816ffb",
+    "tests/test_stationary_failure_reporting.py": "d54a48b73e05656811238d1f2ef544cb3ff06f710b035d01b292115529e51d19",
     "tests/test_strict_coverage.py": "2482da84b7280701841e21e80a254d638280f13875d5ed4f32f664fbc6e0d26b",
     "tests/test_tooling_entrypoints.py": "6eb4efc89a22f8024fe19e12ceb3fbd1157a010b561e8815590c21622db38094",
     "tests/test_tooling_execution.py": "563128113e1deb0e4336e5e65c3a0d0ecca6795c972827d3013f2b4b653d6260",
@@ -1523,10 +1523,14 @@
       "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[close-error]",
       "tests/test_stationary_failure_reporting.py::test_session_startup_failure_replaces_stale_success_without_closing_unknown_session[create]",
       "tests/test_stationary_failure_reporting.py::test_session_startup_failure_replaces_stale_success_without_closing_unknown_session[session-lookup]",
-      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[create]",
-      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[load]",
-      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[malformed]",
-      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[none]",
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[create-stationary.json]",
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[create-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.json]",
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[load-stationary.json]",
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[load-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.json]",
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[malformed-stationary.json]",
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[malformed-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.json]",
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[none-stationary.json]",
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[none-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.json]",
       "tests/test_strict_coverage.py::test_complete_firstparty_functions_and_lines_pass",
       "tests/test_strict_coverage.py::test_any_debt_or_missing_evidence_fails_strict_gate[function]",
       "tests/test_strict_coverage.py::test_any_debt_or_missing_evidence_fails_strict_gate[host]",
@@ -2940,10 +2944,14 @@
       "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[resumed-complete]",
       "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[save-error]",
       "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[zero]",
-      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[create]",
-      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[load]",
-      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[malformed]",
-      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[none]",
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[create-stationary.json]",
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[create-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.json]",
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[load-stationary.json]",
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[load-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.json]",
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[malformed-stationary.json]",
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[malformed-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.json]",
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[none-stationary.json]",
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[none-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.json]",
       "tests/test_stationary_failure_reporting.py::test_session_startup_failure_replaces_stale_success_without_closing_unknown_session[create]",
       "tests/test_stationary_failure_reporting.py::test_session_startup_failure_replaces_stale_success_without_closing_unknown_session[session-lookup]",
       "tests/test_strict_coverage.py::test_any_debt_or_missing_evidence_fails_strict_gate[csharp_lines]",
@@ -21354,7 +21362,7 @@
           "passed"
         ]
       ],
-      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[create]": [
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[create-stationary.json]": [
         [
           "setup",
           "passed"
@@ -21368,7 +21376,7 @@
           "passed"
         ]
       ],
-      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[load]": [
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[create-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.json]": [
         [
           "setup",
           "passed"
@@ -21382,7 +21390,7 @@
           "passed"
         ]
       ],
-      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[malformed]": [
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[load-stationary.json]": [
         [
           "setup",
           "passed"
@@ -21396,7 +21404,63 @@
           "passed"
         ]
       ],
-      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[none]": [
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[load-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.json]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[malformed-stationary.json]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[malformed-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.json]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[none-stationary.json]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[none-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.json]": [
         [
           "setup",
           "passed"
@@ -64146,10 +64210,14 @@
         "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[resumed-complete]",
         "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[save-error]",
         "tests/test_stationary_failure_reporting.py::test_no_progress_or_lifecycle_failure_never_reuses_previous_pass[zero]",
-        "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[create]",
-        "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[load]",
-        "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[malformed]",
-        "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[none]",
+        "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[create-stationary.json]",
+        "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[create-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.json]",
+        "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[load-stationary.json]",
+        "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[load-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.json]",
+        "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[malformed-stationary.json]",
+        "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[malformed-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.json]",
+        "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[none-stationary.json]",
+        "tests/test_stationary_failure_reporting.py::test_resume_preserves_complete_history_before_startup_or_load[none-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.json]",
         "tests/test_stationary_failure_reporting.py::test_session_startup_failure_replaces_stale_success_without_closing_unknown_session[create]",
         "tests/test_stationary_failure_reporting.py::test_session_startup_failure_replaces_stale_success_without_closing_unknown_session[session-lookup]",
         "tests/test_strict_coverage.py::test_any_debt_or_missing_evidence_fails_strict_gate[csharp_lines]",

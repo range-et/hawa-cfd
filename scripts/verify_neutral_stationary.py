@@ -17,7 +17,7 @@ spec=dict(shape=[72,36,12],dx=1.,speed=5.,viscosity=1.5e-5,density=1.225,mach=.0
 resume_bytes=None;resume_backup=None
 if a.resume:
  resume_bytes=a.output.read_bytes()
- resume_backup=a.output.with_name(a.output.name+'.resume-'+uuid.uuid4().hex+'.bak')
+ resume_backup=a.output.with_name('hawa-resume-'+uuid.uuid4().hex+'.bak')
  with resume_backup.open('xb') as backup:backup.write(resume_bytes)
 sid=None;s=None;start=time.monotonic();rows=[]
 checkpoint=str(a.output.with_suffix('.npz').resolve())
@@ -56,7 +56,7 @@ finally:
  except Exception as exc:
   report.update(passed=False,cleanup_error=type(exc).__name__+': '+str(exc))
  report.update(steps=s.flow.i if s is not None else 0,wall_seconds=time.monotonic()-start,samples=rows)
- if resume_backup is not None:report['resume_backup']=str(resume_backup.resolve())
+ if resume_backup is not None:report.update(resume_backup=str(resume_backup.resolve()),resume_source_report=str(a.output.resolve()))
  a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(report,indent=2)+'\n')
 print({k:v for k,v in report.items() if k not in ('spec','samples')})
 if not report['passed']:raise SystemExit(1)

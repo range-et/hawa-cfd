@@ -47,7 +47,9 @@ docstrings and must not inflate line denominators.
   failures; a real unavailable-device startup also invalidated stale success.
   Resumed runs preserve a unique byte-for-byte backup before startup/load and
   retain earlier samples when either fails. Malformed original reports are also
-  preserved; repeated attempts never overwrite previous backups. Failure to
+  preserved; repeated attempts never overwrite previous backups. Backup names
+  use a short fixed prefix and preserve the original report path in metadata;
+  250-byte report filenames are covered by the resume regressions. Failure to
   create the backup aborts before modifying the original report.
   Stationarity/drag/profile limits and `physical_validation=False` remain intact.
 - The source bundle now includes the pinned palette and its provenance/license,
@@ -61,10 +63,10 @@ docstrings and must not inflate line denominators.
   callbacks, scheduling, display and geometry kernels through explicit doubles.
 
 Native environment: macOS 27.0.1 arm64, Python 3.9.25, PyTorch 2.8.0, NumPy 2.0.2,
-.NET 10 contract host. Full run: **1,415 passed, 82 skipped, 213 warnings** in
-182.30 seconds. Skips retain unavailable-device/optional qualification scope;
+.NET 10 contract host. Full run: **1,419 passed, 82 skipped, 213 warnings** in
+185.98 seconds. Skips retain unavailable-device/optional qualification scope;
 warnings include dependency deprecations and an intentional extreme-input
-numerical rejection. Fresh artifacts are under `results/quality-pilot/resume-review-gate`;
+numerical rejection. Fresh artifacts are under `results/quality-pilot/long-resume-gate`;
 the source/test fingerprints and per-function evidence are committed in
 `docs/function-tests/matrix.json`.
 
@@ -77,11 +79,11 @@ then-current checkout (`78fe0b5`); artifacts remain in
 .NET and installed editable package metadata. A real unavailable-MPS startup
 also replaced seeded stale success with a failed report.
 
-The resume-history follow-up passed **78 focused tests on both macOS and Docker
+The resume-history follow-up passed **82 focused tests on both macOS and Docker
 Linux**, including byte-exact backup preservation, repeated attempts, malformed
 reports, and create/load failures. Its complete native gate is the current
 measurement above; GitHub runs the full Linux gate on the final PR revision.
-Focused Linux evidence is in `results/quality-pilot/resume-linux-focused`.
+Focused Linux evidence is in `results/quality-pilot/long-resume-linux`.
 
 ```sh
 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python tools/function_coverage.py run --output results/quality-NEW --base-ref origin/main

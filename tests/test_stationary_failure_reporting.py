@@ -121,11 +121,12 @@ def test_session_startup_failure_replaces_stale_success_without_closing_unknown_
         assert calls[-1]==dict(op='close',session='created-but-unavailable')
 
 
+@pytest.mark.parametrize('filename',['stationary.json','x'*245+'.json'])
 @pytest.mark.parametrize('failure',['create','load','malformed','none'])
-def test_resume_preserves_complete_history_before_startup_or_load(tmp_path,monkeypatch,failure):
+def test_resume_preserves_complete_history_before_startup_or_load(tmp_path,monkeypatch,failure,filename):
     import hawa.plugin
     from pathlib import Path
-    out=tmp_path/'stationary.json'
+    out=tmp_path/filename
     samples=[dict(step=500,profile=[1,2,3],drag=4),dict(step=1000,profile=[5,6,7],drag=8)]
     original=(json.dumps(dict(passed=True,samples=samples,provenance='original'))+'\n').encode()
     if failure=='malformed':original=b'{invalid but irreplaceable study text'
@@ -152,6 +153,8 @@ def test_resume_preserves_complete_history_before_startup_or_load(tmp_path,monke
         result=json.loads(out.read_text())
         assert result['passed'] is False
         backup=Path(result['resume_backup'])
+        assert len(backup.name.encode())<64
+        assert result['resume_source_report']==str(out.resolve())
         assert backup.read_bytes()==original and backup not in backups
         backups.append(backup)
         if failure in ('create','load'):assert result['samples']==samples
