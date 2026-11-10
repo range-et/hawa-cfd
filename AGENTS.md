@@ -32,6 +32,9 @@ Hawa is an experimental embedded CFD plugin for Rhino 8 and Grasshopper.
   concise, update entries in place, and check local links after documentation
   changes. Do not copy session transcripts or large logs into the registers.
 
+[CONTRIBUTING.md](CONTRIBUTING.md) summarises these rules for all contributors,
+including agents; [SECURITY.md](SECURITY.md) covers private vulnerability reports.
+
 Before changing or reviewing Hawa, read [docs/quality-gates.md](docs/quality-gates.md).
 Assess research, architecture, software reliability, numerical physics and UI/UX
 as separate evidence gates. G6 also requires the versioned compatibility matrix and public-node/example coverage; see [docs/compatibility-matrix.md](docs/compatibility-matrix.md). Use [the review record](docs/review-record-template.md)
