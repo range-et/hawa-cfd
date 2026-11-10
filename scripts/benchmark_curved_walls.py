@@ -36,7 +36,11 @@ def run(n,q,device='cpu'):
     error=float(np.linalg.norm(actual-expected)/np.linalg.norm(expected))
     return {'n':n,'q':q,'relative_l2':error,'max_speed':float(actual.max()),'expected_max':float(expected.max())}
 
-if __name__=='__main__':
+def main():
     rows=[run(n,q) for q in (.25,.75) for n in (8,12,16)]
     print(json.dumps(rows,indent=2))
     out=Path(__file__).resolve().parents[1]/'results/v04/wall-benchmark.json';out.write_text(json.dumps(rows,indent=2))
+
+
+if __name__ == "__main__":
+    main()

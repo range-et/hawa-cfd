@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-10",
+  "scope": "hawa.cli isolated Python 3.9 mutmut pilot",
+  "tool": "mutmut==2.4.5",
+  "total": 42,
+  "killed": 38,
+  "reviewed_survivors": 4,
+  "timeouts": 0,
+  "skipped": 0,
+  "raw_exit": 2,
+  "policy_pass": true,
+  "sources": {
+    "src/hawa/cli.py": "ddf72cf58607aa78785997486623817aea62f5ccaa1cb766b60b1ba199b86fd6",
+    "tests/test_cli.py": "54302618c780b8cc6fd81604d2f83880188f3bc91dc3f08ff176a1f572135e43"
+  },
+  "notes": [
+    "No percentage threshold; exact inventory and reviewed survivor diffs checked.",
+    "Mutation kills include import/argument contract failures, not solely numerical assertion failures.",
+    "This is not whole-codebase mutation coverage."
+  ],
+  "survivors": {
+    "Mutant #1": {
+      "diff_sha256": "4e996c7fe951fd5a158a628e567e2de055129e0e985f5e489a951ca7bbe00a0b",
+      "reason": "Help-description decoration; help copy is not an exact-string CLI contract."
+    },
+    "Mutant #6": {
+      "diff_sha256": "469a53e855c359c4170339b2cdfc8dd702d26be7b3ada7491fb437d03d02d31c",
+      "reason": "Equivalent default: every non-smoke default selects Lettuce; explicit unknown engines remain rejected."
+    },
+    "Mutant #32": {
+      "diff_sha256": "dc976be83431da2d82e22c70572dc63a500f4428d80d4a7cde1f7649610a0435",
+      "reason": "Report JSON indentation 2 to 3 does not change parsed data."
+    },
+    "Mutant #37": {
+      "diff_sha256": "98b30eff182bb52f6390d81772e68e9a3439aedabd9d2cff711bcd7a9c359c68",
+      "reason": "Stdout JSON indentation 2 to 3 does not change parsed data."
+    }
+  }
+}

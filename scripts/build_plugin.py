@@ -76,7 +76,7 @@ def main():
     # Include corresponding build source with GPL binary distributions.
     source_root = output / "source"
     if source_root.exists(): shutil.rmtree(source_root)
-    for folder in ("plugin", "src", "scripts", "requirements", "tests", "tools", ".config", "docs", "examples", "vendor/lettuce"):
+    for folder in ("plugin", "src", "scripts", "requirements", "tests", "tools", ".config", "docs", "examples", "vendor/lettuce", "vendor/monad_system"):
         shutil.copytree(ROOT / folder, source_root / folder, dirs_exist_ok=True,
                         ignore=shutil.ignore_patterns("bin", "obj", "__pycache__", "*.pyc", ".pytest_cache", "09-parametric-hull-galapagos.gh"))
     for name in ("pyproject.toml", "uv.lock", "LICENSE", "THIRD_PARTY_NOTICES.md", "README.md", "AGENTS.md", "features.md", "issues.md"):

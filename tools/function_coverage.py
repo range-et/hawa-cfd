@@ -220,6 +220,55 @@ def annotate(rows, python, calls, cs):
     return result
 
 
+def strict_gate(root, report, python, cs, scope="all"):
+    """Require every executable function and measured source line; no debt allowance."""
+    import coverage
+    source_analysis = coverage.Coverage(data_file=None, config_file=False)
+    failures = []
+    for row in report['functions']:
+        if scope == 'headless' and row['language'] == 'C#' and row['path'] not in cs:
+            continue
+        if row['status'] not in ('covered', 'declaration'):
+            failures.append('Function not covered: ' + row['id'])
+    cs_paths = {r['path'] for r in report['functions']
+                if r['language'] == 'C#' and not r['declaration']}
+    for path in sources(root):
+        if path.endswith('.py'):
+            evidence = python.get('files', {}).get(path)
+            if evidence is None:
+                failures.append('Python source unmeasured: ' + path)
+                continue
+            required = {'executed_lines', 'missing_lines', 'excluded_lines', 'summary'}
+            if not required.issubset(evidence):
+                failures.append('Incomplete Python line evidence: ' + path)
+                continue
+            executed = set(evidence['executed_lines'])
+            missing = evidence['missing_lines']
+            excluded = evidence['excluded_lines']
+            # Raw executed locations may include module/class docstrings, which
+            # are not executable statements in coverage.py's denominator.
+            statements = set(source_analysis.analysis2(str(root / path))[1])
+            if (executed.intersection(missing) or set(missing) - statements
+                    or (executed & statements) | set(missing) != statements
+                    or evidence['summary'].get('num_statements') != len(statements)):
+                failures.append('Inconsistent Python line evidence: ' + path)
+            if missing:
+                failures.append('Python lines not covered: ' + path + ': ' + str(missing))
+            if excluded:
+                failures.append('Python line exclusions require removal: ' + path + ': ' + str(excluded))
+        elif path in cs_paths:
+            if scope == 'headless' and path not in cs:
+                continue
+            evidence = cs.get(path)
+            if not evidence:
+                failures.append('C# source unmeasured: ' + path)
+            else:
+                missing = sorted(n for n, hits in evidence.items() if hits <= 0)
+                if missing:
+                    failures.append('C# lines not covered: ' + path + ': ' + str(missing))
+    return failures
+
+
 def gate(rows, baseline):
     """Existing debt is allowed only while the exact function remains unchanged."""
     if baseline.get("schema") != SCHEMA or not isinstance(baseline.get("functions"), dict):
@@ -328,6 +377,8 @@ def main(argv=None):
     parser.add_argument("--output", type=Path, required=True, help="Fresh directory for run; existing run for check/render")
     parser.add_argument("--baseline", type=Path, default=Path(BASELINE))
     parser.add_argument("--base-ref", help="Read the baseline from a trusted Git base rather than this checkout")
+    parser.add_argument("--strict", action="store_true", help="Require 100% first-party executable functions and lines; no historical debt allowance")
+    parser.add_argument("--coverage-scope", choices=("all", "headless"), default="all", help="Headless scopes C# to instrumented source files; unmeasured host code remains reported")
     args = parser.parse_args(argv)
     root, output = args.root.resolve(), args.output.resolve()
     if args.command == "_measure":
@@ -347,7 +398,11 @@ def main(argv=None):
     else:
         baseline = json.loads((root / args.baseline).read_text())
     failures = gate(report["functions"], baseline)
-    print(json.dumps(dict(functions=dict(Counter(r["status"] for r in report["functions"])), failures=failures), indent=2))
+    if args.strict:
+        python = json.loads((output / "python.json").read_text())
+        state = json.loads((output / "state.json").read_text())
+        failures.extend(strict_gate(root, report, python, csharp_lines(state, root), args.coverage_scope))
+    print(json.dumps(dict(scope=args.coverage_scope if args.strict else "baseline ratchet", functions=dict(Counter(r["status"] for r in report["functions"])), unmeasured_host_functions=sum(r["language"] == "C#" and r["status"] == "unmeasured" for r in report["functions"]), failures=failures), indent=2))
     return int(bool(failures))
 
 

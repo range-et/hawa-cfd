@@ -33,6 +33,20 @@ example checks.
 | Experimental neutral flow | Shifted-population regularized SGS, molecular-air scaling, sampled/filtered planar rough-floor stress and restart state. External mode adds halo-classified cropped buildings, side/top velocity or open faces, pressure reference and measured link mass budget. Analytic wall, convected-disturbance, stationary-channel and scoped CPU/MPS/Rhino checks pass. Full atmospheric accuracy and nesting qualification remain open. | [Coupling review](docs/neutral-coupling-review.md), [verification](docs/verification-neutral-coupling.json); HAWA-003/004/011 in [GitHub Issues](https://github.com/range-et/hawa-cfd/issues) |
 | Compatibility and example coverage gate | G6 enumerates 102,459 finite contract rows, detects incomplete/stale evidence and audits all public nodes against annotated GH workflows. CPU/MPS local checks pass; CUDA is blocked. Arbitrary graphs and continuous inputs are not exhaustively enumerated. | [G6 guide](docs/compatibility-matrix.md), [machine report](docs/verification-compatibility.json) |
 
+## Headless testing expansion (November 9, 2026)
+
+First-party Python now has measured 365/365 functions and 6,164/6,164 executable
+lines covered; linked C# contracts cover 152/152 functions and 1,618/1,618 lines.
+The fresh native suite passed 1,419 Python tests (82 skipped) and 67 C# contracts.
+CI adds strict headless coverage and four-module mutation checks (358/398 killed,
+40 explicitly reviewed survivors). Stationarity failure reporting, failed-resume history preservation and source
+palette packaging were repaired. [Review and limits](docs/review-headless-quality.md).
+
+GitHub #28 and #45 remain open: 590 host-dependent C# functions are unmeasured,
+mutation scope is bounded, and no fresh Rhino acceptance or physical qualification
+is claimed. The [local example review](docs/local-rhino-acceptance.md) records all
+supported workflows, numbers and images for maintainer acceptance.
+
 ## Atmospheric transfer development (November 9, 2026)
 
 BoundarySeries v2 now carries timed multi-face velocity, gauge pressure, kinetic

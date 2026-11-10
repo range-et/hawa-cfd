@@ -1,0 +1,58 @@
+name: Python mutation checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mutations:
+    name: ${{ matrix.study }} mutations
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - study: cli
+            runner: run_cli.sh
+            policy: cli-policy.json
+          - study: runtime-admission
+            runner: run_runtime_admission.sh
+            policy: runtime-admission-policy.json
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.9.25'
+      - name: Install pinned developer dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install --upgrade pip==25.3
+          .venv/bin/python -m pip install torch==2.8.0+cpu --index-url https://download.pytorch.org/whl/cpu --no-deps
+          .venv/bin/python -m pip install -e vendor/lettuce -e '.[test]' -r tools/mutation/requirements.txt
+      - name: Measure mutations in a fresh disposable copy
+        run: |
+          mkdir -p results
+          set +e
+          bash tools/mutation/${{ matrix.runner }} results/${{ matrix.study }}-mutation
+          mutation_status=$?
+          set -e
+          if [[ "$mutation_status" != 0 && "$mutation_status" != 2 ]]; then
+            exit "$mutation_status"
+          fi
+          .venv/bin/python tools/mutation/check_results.py results/${{ matrix.study }}-mutation --policy tools/mutation/${{ matrix.policy }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ${{ matrix.study }}-mutation-evidence
+          path: |
+            results/${{ matrix.study }}-mutation/*.txt
+            results/${{ matrix.study }}-mutation/*.log
+            results/${{ matrix.study }}-mutation/*.xml
+            results/${{ matrix.study }}-mutation/*.diff
+            results/${{ matrix.study }}-mutation/*.sha256

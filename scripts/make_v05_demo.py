@@ -6,7 +6,7 @@ from pathlib import Path
 import json, subprocess, hashlib, shutil
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT/'dist/videos-v05'; OUT.mkdir(parents=True,exist_ok=True)
+OUT=ROOT/'dist/videos-v05'
 CAP=ROOT/'docs/captures'; W,H=1920,1080; FPS=24
 C=json.loads((ROOT/'vendor/monad_system/colors.json').read_text())['Default_Colors']['General_UI_Colors']
 BG=C['Background']['hex']; FG=C['Primary_Text']['hex']; SUB=C['Secondary_Text']['hex']; ACC='#71d7cb'
@@ -87,33 +87,36 @@ def draw_scene(s,i):
 def run(args):subprocess.run(args,check=True)
 def timestamp(t,sep='.'):
  h=int(t//3600);m=int(t%3600//60);s=t%60;return f'{h:02}:{m:02}:{s:06.3f}'.replace('.',sep)
-chapters=[];vtt=['WEBVTT',''];elapsed=0;parts=[]
-for i,s in enumerate(scenes):
- png=OUT/f'scene-{i+1:02}.png';draw_scene(s,i).save(png);part=OUT/f'part-{i+1:02}.mp4';parts.append(part)
- cmd=['ffmpeg','-y','-hide_banner','-loglevel','error','-loop','1','-framerate',str(FPS),'-i',str(png)]
- if s['kind']=='clip':
-  cmd+=['-ss',str(s['start']),'-i',str(ROOT/s['source']),'-filter_complex','[1:v]scale=1252:704[clip];[0:v][clip]overlay=64:242:shortest=1[v]','-map','[v]']
- cmd+=['-t',str(s['seconds']),'-r',str(FPS),'-an','-c:v','libx264','-preset','fast','-threads','2','-crf','20','-pix_fmt','yuv420p',str(part)]
- run(cmd);chapters.append(dict(start_seconds=elapsed,**s));vtt.extend([f'{timestamp(elapsed)} --> {timestamp(elapsed+s["seconds"])}',s['title']+'. '+s['caption'],'']);elapsed+=s['seconds'];print(f'{i+1}/{len(scenes)} {s["title"]}',flush=True)
-listing=OUT/'concat.txt';listing.write_text('\n'.join("file '"+str(p)+"'" for p in parts)+'\n')
-video=OUT/'hawa-0.5-build-log.mp4';run(['ffmpeg','-y','-v','error','-f','concat','-safe','0','-i',str(listing),'-c','copy','-movflags','+faststart',str(video)])
-(OUT/'hawa-0.5-build-log.vtt').write_text('\n'.join(vtt))
-metadata=dict(title='Hawa 0.5 / Native workspace and live sync',duration_seconds=elapsed,audio=False,style='Pinned Monad tokens; captions; no added title bars',chapters=chapters,video_sha256=hashlib.sha256(video.read_bytes()).hexdigest(),sources={})
-for s in scenes:
- if s['source']:
-  p=ROOT/s['source'] if s['kind']=='clip' else CAP/s['source'];metadata['sources'][str(p.relative_to(ROOT))]=hashlib.sha256(p.read_bytes()).hexdigest()
-(OUT/'provenance.json').write_text(json.dumps(metadata,indent=2)+'\n')
-(ROOT/'docs/media/v05/storyboard.json').write_text(json.dumps(metadata,indent=2)+'\n')
-# Decode the delivered MP4, including each scene's end and the last video frame.
-qa=OUT/'decoded';qa.mkdir(exist_ok=True)
-for i,s in enumerate(chapters):
- for label,t in [('middle',s['start_seconds']+s['seconds']/2),('end',s['start_seconds']+s['seconds']-0.15)]:
-  run(['ffmpeg','-y','-v','error','-ss',str(t),'-i',str(video),'-frames:v','1',str(qa/f'{i+1:02}-{label}.jpg')])
-for page in range((len(scenes)+7)//8):
- sheet=Image.new('RGB',(1600,960),BG);d=ImageDraw.Draw(sheet)
- for j in range(8):
-  n=page*8+j
-  if n>=len(scenes):break
-  p=qa/f'{n+1:02}-middle.jpg';paste_fit(sheet,p,((j%2)*800,(j//2)*240,800,220));d.text(((j%2)*800+10,(j//2)*240+220),f'{n+1:02} {scenes[n]["title"]}',font=font(15),fill=FG)
- sheet.save(OUT/f'contact-{page+1}.jpg')
-print(video,elapsed,flush=True)
+if __name__ == '__main__':
+ OUT.mkdir(parents=True,exist_ok=True)
+ chapters=[];vtt=['WEBVTT',''];elapsed=0;parts=[]
+
+ for i,s in enumerate(scenes):
+  png=OUT/f'scene-{i+1:02}.png';draw_scene(s,i).save(png);part=OUT/f'part-{i+1:02}.mp4';parts.append(part)
+  cmd=['ffmpeg','-y','-hide_banner','-loglevel','error','-loop','1','-framerate',str(FPS),'-i',str(png)]
+  if s['kind']=='clip':
+   cmd+=['-ss',str(s['start']),'-i',str(ROOT/s['source']),'-filter_complex','[1:v]scale=1252:704[clip];[0:v][clip]overlay=64:242:shortest=1[v]','-map','[v]']
+  cmd+=['-t',str(s['seconds']),'-r',str(FPS),'-an','-c:v','libx264','-preset','fast','-threads','2','-crf','20','-pix_fmt','yuv420p',str(part)]
+  run(cmd);chapters.append(dict(start_seconds=elapsed,**s));vtt.extend([f'{timestamp(elapsed)} --> {timestamp(elapsed+s["seconds"])}',s['title']+'. '+s['caption'],'']);elapsed+=s['seconds'];print(f'{i+1}/{len(scenes)} {s["title"]}',flush=True)
+ listing=OUT/'concat.txt';listing.write_text('\n'.join("file '"+str(p)+"'" for p in parts)+'\n')
+ video=OUT/'hawa-0.5-build-log.mp4';run(['ffmpeg','-y','-v','error','-f','concat','-safe','0','-i',str(listing),'-c','copy','-movflags','+faststart',str(video)])
+ (OUT/'hawa-0.5-build-log.vtt').write_text('\n'.join(vtt))
+ metadata=dict(title='Hawa 0.5 / Native workspace and live sync',duration_seconds=elapsed,audio=False,style='Pinned Monad tokens; captions; no added title bars',chapters=chapters,video_sha256=hashlib.sha256(video.read_bytes()).hexdigest(),sources={})
+ for s in scenes:
+  if s['source']:
+   p=ROOT/s['source'] if s['kind']=='clip' else CAP/s['source'];metadata['sources'][str(p.relative_to(ROOT))]=hashlib.sha256(p.read_bytes()).hexdigest()
+ (OUT/'provenance.json').write_text(json.dumps(metadata,indent=2)+'\n')
+ (ROOT/'docs/media/v05/storyboard.json').write_text(json.dumps(metadata,indent=2)+'\n')
+ # Decode the delivered MP4, including each scene's end and the last video frame.
+ qa=OUT/'decoded';qa.mkdir(exist_ok=True)
+ for i,s in enumerate(chapters):
+  for label,t in [('middle',s['start_seconds']+s['seconds']/2),('end',s['start_seconds']+s['seconds']-0.15)]:
+   run(['ffmpeg','-y','-v','error','-ss',str(t),'-i',str(video),'-frames:v','1',str(qa/f'{i+1:02}-{label}.jpg')])
+ for page in range((len(scenes)+7)//8):
+  sheet=Image.new('RGB',(1600,960),BG);d=ImageDraw.Draw(sheet)
+  for j in range(8):
+   n=page*8+j
+   if n>=len(scenes):break
+   p=qa/f'{n+1:02}-middle.jpg';paste_fit(sheet,p,((j%2)*800,(j//2)*240,800,220));d.text(((j%2)*800+10,(j//2)*240+220),f'{n+1:02} {scenes[n]["title"]}',font=font(15),fill=FG)
+  sheet.save(OUT/f'contact-{page+1}.jpg')
+ print(video,elapsed,flush=True)
