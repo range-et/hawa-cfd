@@ -65,7 +65,7 @@ def verify_evidence(directory, current_sources=True):
 
 def verify_examples(report):
     graph=json.loads(Path(report).read_text())
-    files={str(p.relative_to(ROOT)):p for p in (ROOT/'examples').rglob('*.gh') if not p.name.startswith('09-')}
+    files={p.relative_to(ROOT).as_posix():p for p in (ROOT/'examples').rglob('*.gh') if not p.name.startswith('09-')}
     if set(files)!=set(r['file'] for r in graph['examples']):raise ValueError('Example inventory drift')
     used=set()
     for example in graph['examples']:

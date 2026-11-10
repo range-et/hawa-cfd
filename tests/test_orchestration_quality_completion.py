@@ -102,7 +102,7 @@ def test_parity_orchestrator_reuses_cpu_oracle_for_accelerators(tmp_path, monkey
     assert set(report['results']) == {'cpu', 'cpu64', 'mps', 'cuda:0'}
     assert len(calls) == 6
     assert [c[c.index('--device') + 1] for c in calls if c[c.index('--role') + 1] == 'upstream'] == ['cpu', 'cpu64']
-    assert all(c[0] == '/fixture/oracle-python' for c in calls if c[c.index('--role') + 1] == 'upstream')
+    assert all(c[0] == str(Path('/fixture/oracle-python')) for c in calls if c[c.index('--role') + 1] == 'upstream')
 
 
 def test_parity_orchestrator_rejects_wrong_python_before_audit(tmp_path, monkeypatch):

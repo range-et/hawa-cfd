@@ -2,7 +2,9 @@
 
 The frozen FP32 cell comes from the CPU PorousMedium state before step 50 at
 (294, 125), original 512-square case. Repetition tests shape-dependent arithmetic,
-not a new flow initial condition or an engineering benchmark. No solver edits.
+not a new flow initial condition or an engineering benchmark. Rows report the
+public collision, the raw FP32 kernel stages and the FP32 double-float kernel
+that devices without FP64 (MPS) use, executed on the requested device.
 """
 import argparse
 import hashlib
@@ -129,6 +131,7 @@ def study(device, sizes, evidence=None):
         original = flow.f.clone()
         stages = inspect_collision(flow)
         public = lt.KBCCollision()(flow)
+        compensated = lt.KBCCollision()._collide_compensated(flow, EPSILON)
         target = reference_stages['output'].to(torch.float32).expand_as(public)
         torch.testing.assert_close(flow.f, original, rtol=0, atol=0)
         rows.append(dict(size=size, device=str(public.device), dtype=str(public.dtype),
@@ -138,11 +141,14 @@ def study(device, sizes, evidence=None):
                          public_vs_reference=compare(target, public),
                          raw_vs_reference=compare(target, stages['output']),
                          public_vs_raw=compare(stages['output'], public),
+                         compensated_vs_reference=compare(target, compensated),
+                         compensated_exact=bool(torch.equal(compensated.cpu(), target.cpu())),
                          mass_error=compare(flow.rho(original), flow.rho(public)),
                          momentum_error=compare(flow.j(original), flow.j(public))))
         evidence['completed_sizes'].append(size)
         evidence['failed_size'] = None
-    evidence['passed'] = all(row['public_vs_reference']['passed'] for row in rows)
+    evidence['passed'] = all(row['public_vs_reference']['passed'] and
+                             row['compensated_vs_reference']['passed'] for row in rows)
     return evidence
 
 
