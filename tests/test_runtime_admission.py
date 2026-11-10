@@ -258,3 +258,36 @@ def test_probe_does_not_accept_twice_the_declared_error(monkeypatch):
     with pytest.raises(RuntimeError,match='incorrect results'):backends._probe(torch.device('cpu'))
     monkeypatch.setattr(torch,'where',lambda *args:torch.tensor(60.+5e-6,dtype=torch.float32))
     backends._probe(torch.device('cpu'))
+
+
+@pytest.mark.parametrize('face', range(6))
+def test_open_normal_tolerance_and_parabolic_normal_rejection(face):
+    spec = boundary_spec(); c = spec['boundary_set']['patches'][face]['condition']
+    axis = face//2; outward = 1 if face%2 else -1
+    c.update(type='open', velocity=[0., 0., 0.])
+    c['velocity'][axis] = outward*1e-12
+    assert conditions(spec)[face]['velocity'][axis] == outward*1e-12
+    c['velocity'][axis] = outward*1.01e-12
+    with pytest.raises(ValueError, match='incoming or tangential'): conditions(spec)
+    c.update(backflow_mode='pressure'); c['velocity'][axis] = -outward*1e-12
+    assert conditions(spec)[face]['velocity'][axis] == -outward*1e-12
+    c['velocity'][axis] = -outward*1.01e-12
+    with pytest.raises(ValueError, match='derives normal'): conditions(spec)
+    c.update(type='velocity', backflow_mode='velocity', profile='parabolic', profile_axis=axis)
+    with pytest.raises(ValueError, match='tangential profile_axis'): conditions(spec)
+
+
+@pytest.mark.parametrize('kind', ['wall', 'slip', 'periodic', 'pressure'])
+@pytest.mark.parametrize('profile', ['mapped', 'neutral'])
+def test_neutral_contract_does_not_allow_profiles_on_closed_conditions(kind, profile):
+    spec = boundary_spec(); spec['neutral_precursor'] = {'schema': 1}
+    spec['boundary_field'] = {'schema': 'hawa-boundary-series-2', 'faces': list(FACES)}
+    spec['boundary_set']['patches'][0]['condition'].update(type=kind, profile=profile)
+    with pytest.raises(ValueError, match='Only velocity'): conditions(spec)
+
+
+def test_public_case_catalog_collision_names_are_stable():
+    assert {name: description[1] for name, description in cases.CASES.items()} == {
+        'tgv2d-bgk': 'bgk', 'tgv2d-trt': 'trt', 'tgv3d-smagorinsky': 'smagorinsky',
+        'tgv2d-smagorinsky': 'smagorinsky', 'tgv3d-bgk': 'bgk',
+        'cavity2d-bgk': 'bgk', 'poiseuille2d-guo': 'bgk'}
