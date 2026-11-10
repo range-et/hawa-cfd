@@ -327,3 +327,22 @@ def test_parity_worker_enforces_source_runtime_and_numerical_evidence(tmp_path,m
         else:
             assert result['cases'][name]['steps']==50
             with np.load(out/(name+'.npz')) as fields:assert set(fields.files)=={str(step)+'_'+field for step in (0,1,10,50) for field in ('f','rho','u','p')}
+
+
+def test_example_worker_installs_windows_memory_adapter_only_for_affected_project(tmp_path,monkeypatch):
+    import os
+    import psutil
+    from matplotlib import pyplot as plt
+    m=load('example_worker')
+    monkeypatch.setattr(m,'os',SimpleNamespace(name='nt',chdir=os.chdir))
+    monkeypatch.setattr(psutil,'Process',lambda:SimpleNamespace(memory_info=lambda:SimpleNamespace(peak_wset=4096)))
+    monkeypatch.setitem(sys.modules,'resource',sys.modules.get('resource',SimpleNamespace()))
+    source=tmp_path/'source';path=source/'advanced_projects/efficient_bounce_back_obstacle/driver.py';path.parent.mkdir(parents=True)
+    path.write_text('import resource\nassert resource.getrusage(resource.RUSAGE_SELF).ru_maxrss==4\n')
+    out=tmp_path/'out'
+    monkeypatch.chdir(tmp_path);monkeypatch.setattr(sys,'path',list(sys.path));monkeypatch.setattr(sys,'argv',['worker',path.relative_to(source).as_posix(),'--source-root',str(source),'--output',str(out)])
+    for obj,attr in [(np.random,'seed'),(lt.Context,'__init__'),(lt.Simulation,'__init__'),(lt.Simulation,'__call__'),(lt.BreakableSimulation,'__call__'),(plt,'show'),(plt,'savefig')]:monkeypatch.setattr(obj,attr,getattr(obj,attr))
+    assert m.main()==0
+    report=json.loads((out/'report.json').read_text())
+    assert report['status']=='launcher-only'
+    assert report['platform_adaptations']==['Unix resource peak RSS diagnostic supplied by Windows psutil peak_wset']

@@ -15,7 +15,8 @@ ROOT = Path(__file__).resolve().parents[1]
     'build_site', 'compare_engines', 'compare_examples', 'example_worker',
     'parity_worker', 'preview_site', 'run_examples', 'run_compatibility_matrix',
     'verify_atmospheric_reference', 'verify_general_boundaries',
-    'verify_neutral_coupling', 'verify_boundary_transfer',
+    'verify_neutral_coupling', 'verify_boundary_transfer', 'verify_cuda',
+    'verify_cuda_benchmarks', 'verify_atmospheric_scaling', 'run_upstream_tests',
 ])
 def test_cli_help_exits_successfully_without_creating_outputs(name, tmp_path, monkeypatch, capsys):
     monkeypatch.chdir(tmp_path)

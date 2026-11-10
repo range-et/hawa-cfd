@@ -25,7 +25,11 @@ def benchmark(n=16,steps=40,device='cpu'):
     error=lambda u:float(np.linalg.norm(u-truth)/np.linalg.norm(truth))
     return {'n':n,'steps':steps,'device':device,'refined_relative_l2':error(actual),'coarse_relative_l2':error(coarse_u[:,2:-2,2:-2].cpu().numpy()),'relative_mass_drift':float(coupled.composite_mass().cpu())/mass-1}
 
-if __name__=='__main__':
+def main():
     values=[benchmark(n,40) for n in (16,24,32)]
     if torch.backends.mps.is_available():values.append(benchmark(16,40,'mps'))
     print(json.dumps(values,indent=2));(Path(__file__).resolve().parents[1]/'results/v04/refinement-benchmark.json').write_text(json.dumps(values,indent=2))
+
+
+if __name__ == "__main__":
+    main()
