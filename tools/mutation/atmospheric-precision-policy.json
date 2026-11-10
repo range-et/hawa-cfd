@@ -1,0 +1,55 @@
+{
+  "tool": "mutmut==2.4.5",
+  "mutants": 440,
+  "control_test_file": "tests/test_atmospheric_precision.py",
+  "scope": "HAWA-003 PR lines only (atmospheric-precision.patch): storage_resolution and helpers, dissipation_storage quality field, verify_atmospheric_precision.py; not whole-module mutation coverage",
+  "sources": {
+    "src/hawa/neutral.py": "a409f22e162a9bb726cc4f947d4aaabf4223042c6f640ac11b330e03741039bd",
+    "src/hawa/quality.py": "1abbb759cf19cbba8644e85c2e1adfc43fea0ceaf0a6bf4d2998ceb6d19023f0",
+    "scripts/verify_atmospheric_precision.py": "55ba5bf1e99efc84953d64722aade1b2621a4a3c97a1a8599e288c908c4e55f0",
+    "tests/test_atmospheric_precision.py": "9a12a00e3c90978a40d6608f3dcdbaf00c17226947fa4f2466268ba15196bce6",
+    "tools/mutation/atmospheric-precision.patch": "a66d33899b96ed63d2ec13a398936586ee5b0759ffe9a30af70fcda4f47b8fca"
+  },
+  "reviewed_survivors": {
+    "Mutant #33": {
+      "diff_sha256": "f09eeb003521d5c21246f134b3d55e91699aebfdd1a37338fd1b2eed59a11a54",
+      "reason": "Equivalent: where update == 0 the quotient 0/clamp_min(floor, tiny) is already 0, so update>=0 selects the same value as the zeros branch."
+    },
+    "Mutant #83": {
+      "diff_sha256": "b078b468743448db5b7a3059e536e92d2e5f6747885c951ba121730b9d09a204",
+      "reason": "Collection error, not a kill: unpacking None raises TypeError at import, pytest exits 2 and mutmut 2.4.5 counts only exit 1 as killed. Verified by applying the mutant."
+    },
+    "Mutant #89": {
+      "diff_sha256": "a40530921e13730e95d308aae04ae9e678c0d0268cfdc69cfbc47bef5bd8b46b",
+      "reason": "Equivalent: the harness works only in lattice units and never converts through UnitConversion, so its Reynolds-number argument is unused."
+    },
+    "Mutant #249": {
+      "diff_sha256": "bbfb45826cc9dfe2cc5851f30f92e2f5d1f0cd98d6cd58550c6e597ef696cf02",
+      "reason": "Collection error, not a kill: list - list raises TypeError at import, pytest exits 2 and mutmut 2.4.5 counts only exit 1 as killed. Verified by applying the mutant."
+    },
+    "Mutant #331": {
+      "diff_sha256": "319a28349cee63e2db546092b23424a16c74e705ac407355d17fa06c5b3dcfdd",
+      "reason": "Equivalent: |cand/ref - 1| cannot equal the double 0.05 because 1 +/- fl(0.05) is not representable, so <= and < select the same cases."
+    },
+    "Mutant #372": {
+      "diff_sha256": "6faccf8aaaeb692ebb2c8649b88215ef26a81ededec5c98330cad509d717f7e4",
+      "reason": "Equivalent: |delta_ratio - 1| cannot equal the double 0.05 for the same representability reason, so <= and < select the same cases."
+    },
+    "Mutant #405": {
+      "diff_sha256": "3b736fb614fc672c01e990314c58aaa7a690ac29badfbe9b65b1fc388d93b4d4",
+      "reason": "Decoration: --device help copy is not part of the report or exit contract."
+    },
+    "Mutant #432": {
+      "diff_sha256": "ed7ca1427b9446dbfeb0bbcbc2fa438b1dd9080819a25eff0880846ce84e8210",
+      "reason": "Decoration: report JSON indentation 2 to 3 does not change parsed data."
+    },
+    "Mutant #435": {
+      "diff_sha256": "f1834697d936460877497f8d80b953260c8c5a97e2a3def051a5450ce0f81c60",
+      "reason": "Decoration: stdout JSON indentation 2 to 3 does not change parsed data."
+    },
+    "Mutant #439": {
+      "diff_sha256": "69296b300edb33ffb15c379daf06e4123817700ca387c5b1c7420b0383b8fbcb",
+      "reason": "Collection error, not a kill: __name__ != '__main__' runs main() at import with pytest's argv, argparse exits during collection (pytest exit 3). Verified by applying the mutant."
+    }
+  }
+}

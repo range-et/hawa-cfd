@@ -169,6 +169,19 @@ all collected controls passing, a complete mutation inventory, no timeout/error/
 skip, and the exact reviewed survivor diffs. Unexpected survivors fail; reviewed
 equivalents and diagnostic decorations are reported separately, never as kills.
 Source or test edits require a fresh run and review, not blind policy regeneration.
+
+The HAWA-003 scope (`run_atmospheric_precision.sh`, `atmospheric-precision-policy.json`)
+mutates only the lines in `tools/mutation/atmospheric-precision.patch`: the
+`storage_resolution` diagnostic and helpers in `neutral.py`, the `dissipation_storage`
+quality field and `scripts/verify_atmospheric_precision.py`. It uses mutmut's
+`--use-patch-file`, which needs `whatthepatch`. Regenerate the patch only together
+with a fresh run and review. Two mutmut 2.4.5 behaviours matter here:
+- mutmut counts any pytest exit other than 1 as survival. A mutant that breaks
+  import (pytest exit 2) is recorded in the policy as a collection error, not a kill.
+- Do not run `mutmut show` against a cache while a run is in progress. It rewrites
+  cached line records from the currently mutated file and crashes the run with
+  `Attribute Mutant.line is required`.
+
 See the [CLI record](verification-cli-mutation.json),
 [runtime study](review-runtime-quality.md) and
 [mutmut 2.4.5 package](https://pypi.org/project/mutmut/2.4.5/).
