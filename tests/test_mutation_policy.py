@@ -87,3 +87,13 @@ def test_collection_paths_are_relative_to_pytest_root(evidence,prefix):
     root,output,policy=evidence
     (output/'collected.txt').write_text(prefix+'tests/test_cli.py::test_one\n')
     assert policy_tool.verify(output,policy,root)['control_tests']==1
+
+
+def test_runtime_policy_checks_its_own_collected_inventory(evidence):
+    root, output, policy = evidence
+    policy.update(control_test_file='tests/test_runtime_admission.py', scope='Runtime admission')
+    (output/'collected.txt').write_text('/tmp/study/tests/test_runtime_admission.py::test_one\n')
+    assert policy_tool.verify(output, policy, root)['scope'] == 'Runtime admission'
+    (output/'collected.txt').write_text('tests/test_cli.py::test_one\n')
+    with pytest.raises(ValueError, match='control tests'):
+        policy_tool.verify(output, policy, root)

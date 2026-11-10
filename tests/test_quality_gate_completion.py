@@ -67,7 +67,7 @@ def test_run_orchestrates_state_instrumentation_and_rejects_incomplete_results(t
             (output/'state.json').write_text(json.dumps(state))
             if fault == 'changed_inputs': source.write_text('class Changed {}')
         return SimpleNamespace(returncode=0)
-    monkeypatch.setattr(fc.subprocess, 'run', process)
+    monkeypatch.setattr(fc, 'subprocess', SimpleNamespace(run=process, STDOUT=fc.subprocess.STDOUT))
     if fault == 'none':
         report = fc.run(root, output)
         assert report['python_exit'] == 0 and report['tests']['passed'] == ['case']

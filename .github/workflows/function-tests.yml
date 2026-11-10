@@ -36,6 +36,9 @@ jobs:
           fi
           .venv/bin/python tools/function_coverage.py run --output results/function-coverage-ci "${baseline_args[@]}"
           .venv/bin/python tools/function_coverage.py check --output docs/function-tests "${baseline_args[@]}"
+      - name: Require 100 percent headless functions and lines
+        if: always()
+        run: .venv/bin/python tools/function_coverage.py check --output results/function-coverage-ci --strict --coverage-scope headless
       - uses: actions/upload-artifact@v4
         if: always()
         with:

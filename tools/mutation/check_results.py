@@ -1,4 +1,4 @@
-"""Accept only the exact reviewed CLI mutation inventory, never a score threshold."""
+"""Accept only the exact reviewed mutation inventory, never a score threshold."""
 import argparse
 from collections import Counter
 import hashlib
@@ -21,8 +21,9 @@ def verify(directory, policy, root=ROOT):
     if (directory/'working-source-before.sha256').read_bytes() != (directory/'working-source-after.sha256').read_bytes():
         raise ValueError('Working source changed during mutation run')
     control = list(ET.parse(directory/'control.xml').getroot().iter('testcase'))
+    control_path = Path(policy.get('control_test_file', 'tests/test_cli.py')).parts
     expected = Counter(line.split('::', 1)[1] for line in (directory/'collected.txt').read_text().splitlines()
-                       if '::' in line and Path(line.split('::', 1)[0]).parts[-2:] == ('tests', 'test_cli.py'))
+                       if '::' in line and Path(line.split('::', 1)[0]).parts[-len(control_path):] == control_path)
     if not expected or Counter(c.get('name') for c in control) != expected:
         raise ValueError('Missing, duplicated or filtered control tests')
     if any(c.find(tag) is not None for c in control for tag in ('failure','error','skipped')):
@@ -49,7 +50,7 @@ def verify(directory, policy, root=ROOT):
     return dict(mutants=len(cases), killed=len(cases)-len(survivors),
                 reviewed_survivors=len(survivors), control_tests=len(control),
                 raw_mutmut_exit=raw_exit, policy_pass=True,
-                scope='Exact reviewed CLI pilot; not whole-codebase mutation coverage')
+                scope=policy.get('scope', 'Exact reviewed CLI pilot; not whole-codebase mutation coverage'))
 
 
 def main(argv=None):

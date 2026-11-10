@@ -87,7 +87,7 @@ def test_motion_summary_refuses_missing_or_failed_evidence(tmp_path, monkeypatch
     with pytest.raises(AssertionError): module.main()
 
 
-@pytest.mark.parametrize('count,release,expected', [(35,False,0),(35,True,1),(34,False,None)])
+@pytest.mark.parametrize('count,release,expected', [(67,False,0),(67,True,1),(66,False,None)])
 def test_combined_checker_requires_current_contract_inventory(tmp_path, monkeypatch, count, release, expected):
     from types import SimpleNamespace
     module=load('check_compatibility_evidence')

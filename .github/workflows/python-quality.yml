@@ -1,4 +1,4 @@
-name: Python mutation pilot
+name: Python mutation checks
 on:
   pull_request:
   push:
@@ -7,9 +7,19 @@ on:
 permissions:
   contents: read
 jobs:
-  cli-mutations:
+  mutations:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - study: cli
+            runner: run_cli.sh
+            policy: cli-policy.json
+          - study: runtime-admission
+            runner: run_runtime_admission.sh
+            policy: runtime-admission-policy.json
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 30
     env:
       OMP_NUM_THREADS: '1'
       MKL_NUM_THREADS: '1'
@@ -28,20 +38,20 @@ jobs:
         run: |
           mkdir -p results
           set +e
-          bash tools/mutation/run_cli.sh results/cli-mutation
+          bash tools/mutation/${{ matrix.runner }} results/${{ matrix.study }}-mutation
           mutation_status=$?
           set -e
           if [[ "$mutation_status" != 0 && "$mutation_status" != 2 ]]; then
             exit "$mutation_status"
           fi
-          .venv/bin/python tools/mutation/check_results.py results/cli-mutation
+          .venv/bin/python tools/mutation/check_results.py results/${{ matrix.study }}-mutation --policy tools/mutation/${{ matrix.policy }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cli-mutation-evidence
+          name: ${{ matrix.study }}-mutation-evidence
           path: |
-            results/cli-mutation/*.txt
-            results/cli-mutation/*.log
-            results/cli-mutation/*.xml
-            results/cli-mutation/*.diff
-            results/cli-mutation/*.sha256
+            results/${{ matrix.study }}-mutation/*.txt
+            results/${{ matrix.study }}-mutation/*.log
+            results/${{ matrix.study }}-mutation/*.xml
+            results/${{ matrix.study }}-mutation/*.diff
+            results/${{ matrix.study }}-mutation/*.sha256
