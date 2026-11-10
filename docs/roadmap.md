@@ -1,5 +1,10 @@
 # Hawa project roadmap
 
+> Direction and reference material; actionable feature, build and example work is
+> tracked in [GitHub Issues](https://github.com/range-et/hawa-cfd/issues).
+> Create or update a linked issue for new work instead of adding a parallel task list.
+
+
 Draft direction as of November 8, 2026. Hawa's primary audience is people designing
 RC drones, small boats and similar small vehicles and parts in Rhino. Hawa aims
 to make a physical flow case easy to create, editable through the native panel,

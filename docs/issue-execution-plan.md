@@ -1,8 +1,14 @@
 # Per-issue execution plan
 
+> Historical study and execution-plan snapshot. Current tasks, status, owners and
+> dependencies live in [GitHub Issues](https://github.com/range-et/hawa-cfd/issues).
+> The 38 per-issue routing assessments were copied into their migrated issues.
+> Do not maintain a second active backlog here; retain this document as provenance.
+
+
 **Execution plan — November 9, 2026.** The initial proposal is retained below;
 the current execution update records work now started. Ownership/status remains in
-[issues](../issues.md). All 38 active IDs are routed below; HAWA-047 is closed in feature history. The mapping is based
+[GitHub issues](https://github.com/range-et/hawa-cfd/issues). All 38 active IDs are routed below; HAWA-047 is closed in feature history. The mapping is based
 on repository source and evidence, with the subsequent startup audit noted above. New
 reproductions can change a row’s surface. Broad research items have provisional
 surfaces because their designs do not yet exist.
