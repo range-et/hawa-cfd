@@ -7,3 +7,4 @@ parso==0.8.7
 pony==0.7.19
 six==1.17.0
 toml==0.10.2
+whatthepatch==1.0.7

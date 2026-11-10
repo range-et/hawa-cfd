@@ -108,6 +108,11 @@ scripts. Inspect arguments and environment requirements before execution. Keep
 reference imports isolated from the fork. Distinguish the 16 upstream entrypoints
 from the editable GH gallery; a bounded 50-step run is not a full-duration study.
 
+Numerics-touching PRs must pass the [device smoke gate](device-smoke.md): it compares
+each device with a CPU FP64 reference under a committed policy. Its CPU mode runs in
+CI on every PR; its CUDA and MPS modes run in the batched device round on the merged
+commit. A CPU pass is not device evidence, and `unsupported-guarded` is not a pass.
+
 Never widen tolerances to hide disagreement. Keep PorousMedium CPU/MPS parity
 explicitly unresolved. Synthetic polar data tests parsing, not aerodynamics.
 A submerged hull does not model waves/buoyancy. Prescribed motion is not fluid/body

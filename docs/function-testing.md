@@ -149,3 +149,9 @@ Source or test edits require a fresh run and review, not blind policy regenerati
 See the [CLI record](verification-cli-mutation.json),
 [runtime study](review-runtime-quality.md) and
 [mutmut 2.4.5 package](https://pypi.org/project/mutmut/2.4.5/).
+
+For changed lines only, `tools/mutation/run_device_smoke.sh NEW_DIR BASE` passes
+`git diff BASE` to mutmut's `--use-patch-file` for the device smoke gate's added
+lines; check it with `--policy tools/mutation/device-smoke-policy.json` (453 mutants,
+445 killed, 8 reviewed). It needs `whatthepatch` from the same requirements file and
+is a local PR record, not a CI study.

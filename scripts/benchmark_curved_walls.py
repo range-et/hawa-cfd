@@ -7,8 +7,8 @@ import lettuce as lt
 from hawa.walls import install_interpolated_walls
 
 
-def run(n,q,device='cpu'):
-    ctx=lt.Context(torch.device(device),torch.float32,use_native=False)
+def run(n,q,device='cpu',dtype=torch.float32):
+    ctx=lt.Context(torch.device(device),dtype,use_native=False)
     class Channel(lt.Flow):
         def __init__(self):
             self.solid=ctx.zero_tensor([4,n,4],dtype=torch.bool);self.solid[:,0,:]=True;self.solid[:,-1,:]=True

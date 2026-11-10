@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "issue": "https://github.com/range-et/hawa-cfd/issues/57",
+  "comparison": "Every case runs once on the CPU in FP64 (reference) and once on the requested device in Hawa's FP32 production storage (candidate). Devices are never compared with each other. Tolerances are copied from the named existing criteria and are not widened.",
+  "classes": {
+    "bitwise": "Every element of the candidate has the same bits as the reference rounded to the candidate dtype.",
+    "bounded": "Every element satisfies |candidate - reference| <= atol x scale + rtol x |reference| (numpy.allclose with the reference as b).",
+    "statistical": "Not used: confidence-bounded means, RMS or spectra need long-window runs that do not fit a smoke gate."
+  },
+  "cases": {
+    "engine-2d": {
+      "builder": "engine",
+      "description": "Compatibility-engine cases from scripts/parity_worker.py: BGK, TRT and Smagorinsky Taylor-Green, BGK lid-driven cavity and Guo-forced Poiseuille, saved at iterations 0, 1, 10 and 50.",
+      "criterion_source": "scripts/compare_engines.py accelerator tolerance (rtol 3e-4, atol 2e-6; the pressure atol is multiplied by the case pressure conversion scale)",
+      "params": {
+        "cases": ["tgv2d-bgk", "tgv2d-trt", "tgv2d-smagorinsky", "cavity2d-bgk", "poiseuille2d-guo"]
+      },
+      "checks": [
+        {"name": "populations-density-velocity", "class": "bounded", "pattern": "_(f|rho|u)$", "rtol": 3e-4, "atol": 2e-6},
+        {"name": "pressure", "class": "bounded", "pattern": "_p$", "rtol": 3e-4, "atol": 2e-6, "atol_scale": "pressure_conversion_scale"}
+      ],
+      "unsupported": {}
+    },
+    "kbc-near-equilibrium": {
+      "builder": "kbc",
+      "description": "One KBC collision of the stored near-equilibrium cell from the 512-square PorousMedium run (HAWA-001), on 1x1 and 8x8 grids.",
+      "criterion_source": "tests/test_kbc_precision.py::test_kbc_near_equilibrium_matches_double_collision (FP32 output equals the FP64 collision rounded to FP32)",
+      "params": {
+        "sizes": [1, 8],
+        "populations": [0.46215876936912537, 0.12010455876588821, 0.11050435900688171,
+                        0.11057711392641068, 0.12013725191354752, 0.028833307325839996,
+                        0.026515554636716843, 0.02889091707766056, 0.03128119930624962]
+      },
+      "checks": [
+        {"name": "post-collision-populations", "class": "bitwise", "pattern": "/populations$"}
+      ],
+      "unsupported": {}
+    },
+    "neutral-shifted-regularized": {
+      "builder": "neutral",
+      "description": "Experimental neutral precursor with shifted-population regularized SGS collision and rough floor, 12x12x12 cells, dx 10 m, 100 steps.",
+      "criterion_source": "tests/test_neutral.py::test_cpu_mps_reference (velocity atol 3e-5, rtol 3e-4 against CPU FP64; |relative mass change| < 1e-6)",
+      "params": {
+        "steps": 100,
+        "spec": {
+          "shape": [12, 12, 12], "dx": 10.0, "speed": 5.0, "viscosity": 1.5e-05, "density": 1.225, "mach": 0.05,
+          "collision": "shifted-regularized-sgs-v1",
+          "boundaries": ["periodic", "periodic", "periodic", "periodic", "wall", "slip"],
+          "neutral_precursor": {"schema": 1, "experimental": true, "reference_height_m": 60.0,
+                                "roughness_length_m": 0.1, "perturbation_fraction": 0.0}
+        }
+      },
+      "checks": [
+        {"name": "velocity", "class": "bounded", "pattern": "^velocity$", "rtol": 3e-4, "atol": 3e-5},
+        {"name": "relative-mass-change", "class": "bounded", "pattern": "^relative_mass_change$", "rtol": 0.0, "atol": 1e-6}
+      ],
+      "unsupported": {}
+    },
+    "moving-sphere": {
+      "builder": "moving",
+      "description": "Prescribed oscillating sphere with interpolated moving bounce-back on a 20x16x12 BGK lattice, 12 steps.",
+      "criterion_source": "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads (populations rtol 3e-4, atol 3e-6) and the exact solid-mask equality required before comparing moving-body loads (docs/quality-gates.md)",
+      "params": {
+        "steps": 12,
+        "spec": {
+          "shape": [20, 16, 12], "dx": 0.25, "speed": 1.0, "viscosity": 0.05, "density": 1.0, "mach": 0.04,
+          "collision": "bgk",
+          "moving_bodies": [{"id": "body", "pivot": [2, 2, 1.5],
+                             "geometry": {"type": "sphere", "center": [2, 2, 1.5], "radius": 0.55},
+                             "motion": {"type": "oscillation", "axis": [0, 1, 0], "amplitude": 0.15, "frequency": 0.5}}]
+        }
+      },
+      "checks": [
+        {"name": "solid-mask", "class": "bitwise", "pattern": "^solid$"},
+        {"name": "populations", "class": "bounded", "pattern": "^populations$", "rtol": 3e-4, "atol": 3e-6}
+      ],
+      "unsupported": {}
+    },
+    "curved-wall-channel": {
+      "builder": "wall",
+      "description": "Guo-forced BGK D3Q19 channel with interpolated curved-wall links at q 0.25 and 0.75, n 8, run to its steady benchmark length.",
+      "criterion_source": "scripts/verify_cuda_benchmarks.py wall rows (max_speed rtol 3e-4, atol 2e-6)",
+      "params": {"n": 8, "q": [0.25, 0.75]},
+      "checks": [
+        {"name": "max-speed", "class": "bounded", "pattern": "/max_speed$", "rtol": 3e-4, "atol": 2e-6}
+      ],
+      "unsupported": {}
+    }
+  },
+  "excluded": [
+    {"candidate": "engine-2d: tgv3d-bgk and tgv3d-smagorinsky",
+     "reason": "The CPU FP32 path itself misses the CPU FP64 reference at this criterion, so the case cannot tell device error from storage precision.",
+     "measured": "Linux CPU, torch 2.8.0+cpu, f29fe01: iteration-50 pressure exceeds the limit by 3.8e-5 (BGK) and 1.6e-4 (Smagorinsky)."},
+    {"candidate": "PorousMedium.ipynb 50-step KBC fields (scripts/example_worker.py)",
+     "reason": "The existing criterion (rtol 1e-3, atol 1e-5 x scale) compares FP32 runs. FP32 storage differs from FP64 storage at a few near-equilibrium KBC cells, so CPU FP32 misses the FP64 reference. The KBC path is covered by kbc-near-equilibrium instead.",
+     "measured": "Linux CPU, torch 2.8.0+cpu, f29fe01: max |u| difference 8.0e-4 and max |p| difference 1.2e-2 (u limit about 3.5e-4); 99.9th-percentile |u| difference 2.5e-5."},
+    {"candidate": "Rotating and off-pivot sphere masks at dx 1/3 (tests/test_motion.py)",
+     "reason": "Lattice coordinates that are multiples of 1/3 round differently in FP32 and FP64, so on-surface sites classify differently and FP32 distances miss rtol 2e-6, atol 2e-7. The existing criteria compare FP32 devices with each other.",
+     "measured": "Linux CPU, torch 2.8.0+cpu, f29fe01: 24 mask cells differ at t=0; max distance difference 1.2e-6."}
+  ]
+}

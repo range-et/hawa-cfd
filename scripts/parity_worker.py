@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 
-def run(role, device, output):
+def run(role, device, output, cases=None):
     import lettuce as lt
     import numpy as np
     import torch
@@ -51,7 +51,7 @@ def run(role, device, output):
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     reports = {}
-    for name in CASES:
+    for name in CASES if cases is None else cases:
         try:
             flow, simulation = make_case(name, context)
         except TypeError as exc:
