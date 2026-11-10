@@ -248,7 +248,7 @@ def test_stationarity_runner_reports_rejections_and_resumed_history_without_rela
     assert result['steps']==(500 if scenario=='rejected' else 20500 if scenario=='late-rejection' else 20000)
     assert len(result['samples'])==(1 if scenario=='rejected' else 41 if scenario=='late-rejection' else 40)
     assert calls[-1]==dict(op='close',session='fixture')
-    assert any(c['op']=='save' for c in calls)
+    assert any(c['op']=='save' for c in calls) is (scenario!='rejected')
     if scenario=='numeric':assert result['log_profile_relative_l2']==pytest.approx(1.)
     if scenario=='rejected':assert result['samples'][0]['quality']=='rejected'
 
