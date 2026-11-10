@@ -198,3 +198,46 @@ def test_aij_reporting_preserves_rejection_and_fixed_averaging_criteria(tmp_path
         assert report['sampling']==dict(fixture=True)
         assert (out/'samples.npz').exists() and (out/'progress.json').exists()
         assert report['stationarity_change']==0 and report['hit_rate_components']==[1.,1.,1.]
+
+
+@pytest.mark.parametrize('failure',['none','topology','field','solver-reject','nesting-reject','nesting-error'])
+def test_g6_orchestrator_records_each_operator_failure_without_losing_rows(tmp_path,monkeypatch,failure):
+    m=load('run_compatibility_matrix')
+    monkeypatch.setattr(m,'DEVICES',['cpu','cuda:0'])
+    monkeypatch.setattr(m,'available',lambda device:device=='cpu')
+    monkeypatch.setattr(m,'topologies',lambda:iter([dict(id='faces/valid',expected=True)]))
+    monkeypatch.setattr(m,'combinations',lambda:iter([]));monkeypatch.setattr(m,'refinements',lambda:iter([]))
+    monkeypatch.setattr(m,'field_cases',lambda:iter([dict(id='field/valid',expected=True)]))
+    monkeypatch.setattr(m,'collection_cases',lambda:iter([dict(id='collection/valid',expected=True)]))
+    monkeypatch.setattr(m,'nesting_cases',lambda:iter([dict(id='nesting/valid',expected=failure!='nesting-reject')]))
+    monkeypatch.setattr(m,'make_topology',lambda row:row)
+    def check(spec):
+        if failure=='topology':raise RuntimeError('topology fixture error')
+    monkeypatch.setattr(m,'check_case',check)
+    class Session:
+        def __init__(self,*args):
+            if failure=='solver-reject':raise ValueError('solver fixture rejection')
+            self.flow=SimpleNamespace(i=0);self.quality=dict(finite=True,positive_density=True)
+        def advance(self,n):self.flow.i=n
+        def fields(self):return dict(velocity=np.zeros((3,1,1,1)))
+    monkeypatch.setattr(m,'Session',Session)
+    def field(*args):
+        if failure=='field':raise RuntimeError('field fixture error')
+    monkeypatch.setattr(m,'exercise_field',field)
+    monkeypatch.setattr(m,'exercise_collection',lambda *args:None)
+    def nesting(*args):
+        if failure=='nesting-reject':raise ValueError('nesting fixture rejection')
+        if failure=='nesting-error':raise RuntimeError('nesting fixture error')
+    monkeypatch.setattr(m,'exercise_nesting',nesting)
+    monkeypatch.setattr(m,'source_hashes',lambda:{'fixture':'stable'})
+    monkeypatch.setattr(m,'environment',lambda:{'fixture':True})
+    monkeypatch.setattr(m,'verify_examples',lambda path:{'fixture':True})
+    monkeypatch.setattr(m,'expected_rows',lambda:list(range(7)))
+    monkeypatch.setattr(m,'verify_evidence',lambda path:None)
+    out=tmp_path/'gate'
+    assert m.run(out,release=True)==1  # Unavailable accelerator always blocks release.
+    report=json.loads((out/'summary.json').read_text())
+    assert report['recorded_rows']==7 and report['counts']['blocked']==2
+    assert report['counts']['failed']==(0 if failure in ('none','nesting-reject') else 1)
+    if report['failures']:assert 'fixture' in report['failures'][0]['error']
+    assert report['local_pass'] is (failure in ('none','nesting-reject'))

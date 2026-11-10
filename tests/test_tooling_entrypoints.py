@@ -28,10 +28,11 @@ def test_cli_help_exits_successfully_without_creating_outputs(name, tmp_path, mo
     assert list(tmp_path.iterdir()) == []
 
 
-def execute_fixture(name, root):
+def execute_fixture(name, root, initial=None):
     """Keep real code filenames for traceback/coverage while isolating ROOT."""
     source = ROOT / 'scripts' / (name + '.py')
     namespace = {'__name__': '__main__', '__file__': str(source)}
+    namespace.update(initial or {})
     original_resolve = Path.resolve
     def fixture_resolve(path, *args, **kwargs):
         return root / 'scripts' / source.name if path == source else original_resolve(path, *args, **kwargs)
@@ -249,3 +250,63 @@ def test_stationarity_runner_reports_rejections_and_resumed_history_without_rela
     assert any(c['op']=='save' for c in calls)
     if scenario=='numeric':assert result['log_profile_relative_l2']==pytest.approx(1.)
     if scenario=='rejected':assert result['samples'][0]['quality']=='rejected'
+
+
+@pytest.mark.parametrize('existing',[False,True])
+def test_reference_environment_bootstrap_pins_oracle_requirements_without_launching_installers(existing,tmp_path,monkeypatch):
+    import subprocess
+    import os
+    interpreter=tmp_path/'.venv-reference'/('Scripts/python.exe' if os.name=='nt' else 'bin/python')
+    if existing:interpreter.parent.mkdir(parents=True);interpreter.touch()
+    calls=[]
+    monkeypatch.setattr(subprocess,'run',lambda command,**kwargs:calls.append((command,kwargs)))
+    execute_fixture('bootstrap_reference',tmp_path)
+    assert len(calls)==(1 if existing else 2)
+    if not existing:assert calls[0][0]==['uv','venv','--python','3.12',str(tmp_path/'.venv-reference')]
+    assert calls[-1][0]==['uv','pip','install','--python',str(interpreter),'-r',str(tmp_path/'requirements/reference-py312.txt')]
+    assert all(kw==dict(check=True,cwd=tmp_path) for _,kw in calls)
+
+
+def test_site_build_copies_nested_assets_and_generated_palette_svg(tmp_path,monkeypatch):
+    import xml.etree.ElementTree as ET
+    palette=tmp_path/'vendor/monad_system';palette.mkdir(parents=True)
+    (palette/'colors.json').write_bytes((ROOT/'vendor/monad_system/colors.json').read_bytes())
+    assets=tmp_path/'site/assets';assets.mkdir(parents=True)
+    (assets.parent/'index.html').write_text('<h1>Fixture</h1>')
+    execute_fixture('sync_design_tokens',tmp_path)
+    svg=ET.fromstring((assets/'hawa.svg').read_text())
+    ui=json.loads((palette/'colors.json').read_text())['Default_Colors']['General_UI_Colors']
+    assert svg.find('{http://www.w3.org/2000/svg}rect').attrib['fill']==ui['Background']['hex']
+    out=tmp_path/'published'
+    monkeypatch.setattr(sys,'argv',['site','--output',str(out)])
+    execute_fixture('build_site',tmp_path)
+    assert (out/'.nojekyll').is_file()
+    assert (out/'index.html').read_text()=='<h1>Fixture</h1>'
+    assert (out/'assets/hawa.svg').read_bytes()==(assets/'hawa.svg').read_bytes()
+
+
+@pytest.mark.parametrize('scenario',['pass','failed','numpy','override'])
+def test_rhino_lettuce_script_checks_dependencies_and_writes_failed_diagnostics(scenario,tmp_path,monkeypatch):
+    import hawa.engine
+    calls=[]
+    class Simulation:
+        def __init__(self,case,device):calls.append((case,device))
+        def advance(self,steps):calls.append(steps);return self
+        def diagnostics(self):return dict(passed=scenario!='failed',fixture=True)
+        def snapshot(self):return dict(f=np.ones((2,2)))
+    monkeypatch.setattr(hawa.engine,'LettuceSimulation',Simulation)
+    monkeypatch.setattr(sys,'path',list(sys.path))
+    monkeypatch.setattr(np,'__version__','1.0' if scenario in ('numpy','override') else '2.0.2')
+    initial=dict(HAWA_CASE='fixture-case',HAWA_DEVICE='cpu',HAWA_ALLOW_EXISTING_NUMPY=scenario=='override')
+    if scenario in ('failed','numpy'):
+        with pytest.raises(RuntimeError,match='failed|Restart Rhino'):execute_fixture('rhino_lettuce',tmp_path,initial)
+    else:execute_fixture('rhino_lettuce',tmp_path,initial)
+    out=tmp_path/'results/rhino-lettuce'
+    if scenario=='numpy':
+        assert not calls and not out.exists()
+    else:
+        assert calls==[('fixture-case','cpu'),10,40]
+        report=json.loads((out/'report.json').read_text())
+        assert report['passed'] is (scenario!='failed') and report['fixture']
+        assert report['strict_dependency_versions'] is (scenario!='override')
+        with np.load(out/'fields.npz') as archive:np.testing.assert_array_equal(archive['f'],np.ones((2,2)))
