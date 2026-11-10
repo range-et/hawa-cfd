@@ -140,9 +140,9 @@ bash tools/mutation/run_runtime_admission.sh results/admission-mutation-NEW
 .venv/bin/python tools/mutation/check_results.py results/admission-mutation-NEW --policy tools/mutation/runtime-admission-policy.json
 ```
 
-The HAWA-001 KBC studies are run locally, not yet in the workflow. They mutate
-the whole vendored KBC module and the diagnostic lines changed since the
-integration base (patch mode needs `whatthepatch` and full Git history). CUDA/MPS
+The HAWA-001 KBC studies are run locally, not in the workflow. They mutate only
+the lines of `kbc_collision.py` and `diagnose_kbc_parity.py` changed since the PR
+base (mutmut patch mode needs `whatthepatch` and full Git history). CUDA/MPS
 hardware cases are deselected by name, and actual device runs are separate evidence:
 
 ```sh

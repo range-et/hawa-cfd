@@ -2,10 +2,10 @@
   "tool": "mutmut==2.4.5",
   "mutants": 10,
   "control_test_file": "tests/test_kbc_parity_diagnostic.py",
-  "scope": "HAWA-001 diagnostic: lines of scripts/diagnose_kbc_parity.py changed since f9a3a13 (patch mode); CPU cases only; not whole-script mutation coverage",
+  "scope": "HAWA-001 PR lines of scripts/diagnose_kbc_parity.py changed since f9a3a13 (patch mode); CPU cases only; not whole-script mutation coverage",
   "sources": {
     "scripts/diagnose_kbc_parity.py": "e346178ea3e12e770b76e915f132e2c6d549b80f9e92d4704f54350b2acd4e6b",
-    "tests/test_kbc_parity_diagnostic.py": "ad4b92268a0fda26ba976de4e633bc9d3f4a43f4f849e8da911012ce82fbcc01"
+    "tests/test_kbc_parity_diagnostic.py": "4efaf99e04b8d08412dbec29469239cbe5dcf6d2bbf0f02559c371f8ca3f1003"
   },
   "reviewed_survivors": {}
 }

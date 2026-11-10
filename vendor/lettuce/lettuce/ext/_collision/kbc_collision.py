@@ -293,10 +293,10 @@ class KBCCollision(Collision):
         sum_s = _df_sum(*_df_div(_df_mul(delta_s, delta_h), feq))
         sum_h = _df_sum(*_df_div(_df_mul(delta_h, delta_h), feq))
         # Same storage-precision guard and inherited reset as `_collide`.
+        # Near-zero or non-finite ratios are discarded by the reset below.
         near_zero = sum_h[0] <= (flow.stencil.q * epsilon) ** 2 * flow.rho()[0]
-        denominator = (torch.where(near_zero, 1.0, sum_h[0]), torch.where(near_zero, 0.0, sum_h[1]))
         gamma_stab = _df_sub(_df_constant(1. / self.beta, f),
-                             _df_mul(_df_constant(2 - 1. / self.beta, f), _df_div(sum_s, denominator)))
+                             _df_mul(_df_constant(2 - 1. / self.beta, f), _df_div(sum_s, sum_h)))
         reset = near_zero | ~torch.isfinite(gamma_stab[0]) | (gamma_stab[0] < 1E-15)
         gamma_stab = (torch.where(reset, 2.0, gamma_stab[0]), torch.where(reset, 0.0, gamma_stab[1]))
         correction = _df_add(_df_mul(_df_constant(2 * self.beta, f), delta_s),

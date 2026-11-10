@@ -122,6 +122,13 @@ Native Mac (agent-run): MacBook Pro Mac15,8, M3 Max, macOS 27.0.1, Python
 - All 16 upstream example entrypoints pass on both devices, and parity is
   16/16. The other seven KBC examples are included.
 
+The Mac results above are for `71bb6fc`. Later commits only restructure the
+kernel and add tests: the compensated sums are now sequential and bounded,
+`torch.where` takes scalars, and the redundant placeholder denominator is gone.
+On CPU, final outputs are bitwise identical to `71bb6fc` on the step-50 field
+and in the proxy. A batched MPS rerun of the final head is queued in
+[#53](https://github.com/range-et/hawa-cfd/issues/53).
+
 Cost: one 512² D2Q9 collision on MPS takes about 49 ms, against 6.8–7.7 ms for
 plain FP32 (about 7×). The whole 50-step PorousMedium worker took 4.8 s on MPS
 and 5.4 s on CPU. On the 2-core Linux CPU, the CPU FP64-intermediate path costs
@@ -129,7 +136,37 @@ and 5.4 s on CPU. On the 2-core Linux CPU, the CPU FP64-intermediate path costs
 about 0.9 s. Temporary memory is several pair tensors of size q×grid. Hawa's own
 solvers do not use KBC; this affects Lettuce KBC examples on MPS.
 
-Tests, function gate and mutation results are listed in [the evidence summary](#gates-and-evidence).
+## Tests, coverage and mutation
+
+`tests/test_kbc_precision.py` alone gives 100% line and branch coverage of
+`kbc_collision.py` (236 statements, 34 branches; coverage.py, CPU). Vendor code
+is outside the first-party function gate, so this is a scoped run. The tests
+cover:
+- bitwise equality with the rounded FP64 kernel (D2Q9 and D3Q27, the frozen
+  cell at every shape, the degenerate guard and NaN isolation);
+- TwoSum/TwoProduct exactness;
+- the dispatch contract for MPS/meta/FP64/CPU/CUDA, using spies and stand-in
+  device tensors;
+- density scaling of the storage guard in both kernels;
+- initialization, unsupported stencils and exact messages.
+
+The diagnostic adds a `compensated_vs_reference` row. It fails independently
+when only the double-float kernel disagrees, and its entry point is tested.
+
+Mutation testing used mutmut 2.4.5 in patch mode over the lines this PR changes
+relative to base `f9a3a13`, via `tools/mutation/run_kbc.sh`. CUDA/MPS cases are
+deselected by name. Results:
+- `kbc_collision.py`: **211 mutants, 206 killed, 5 reviewed survivors, 0
+  timeouts/errors/suspicious**. The survivors are an equivalent Dekker splitter
+  (4098), an equivalent isfinite(low part) check, and three exact-boundary or
+  unreachable-window threshold comparisons inherited from Lettuce. Diffs and
+  reasons are in `tools/mutation/kbc-collision-policy.json`.
+- Diagnostic: **10 mutants, 10 killed**.
+
+Exploratory runs found loop-timeout mutants in a pairwise sum and equivalent
+index mutants. The source was restructured to remove them, and the final runs
+are fresh. Whole-module mutation was stopped as out of scope.
+
 
 ## Gates and evidence
 
@@ -137,7 +174,7 @@ Tests, function gate and mutation results are listed in [the evidence summary](#
 | --- | --- | --- | --- |
 | G0 | Amp agent, self-review | PASS | Diagnosis, Lettuce KBC source at 88a6559, standard TwoSum/TwoProduct; criteria unchanged |
 | G1 | Amp agent, self-review | PASS | Dispatch contract tested; CPU/CUDA/FP64/non-quadratic paths unchanged; no Hawa state change |
-| G2 | Amp agent, self-review | PASS locally | See the function-gate and mutation results below |
+| G2 | Amp agent, self-review | PASS locally | Function gate, strict headless check, scoped 100% kbc_collision.py coverage, targeted mutation policies |
 | G3 | Amp agent; Mac run by coordinator | PASS for original CPU/MPS criteria on one Mac | Single machine/OS; a bounded 50-step comparison, not convergence or physical validation |
 | G4 | — | NOT APPLICABLE | No UI, node or host change |
 | G5 | — | BLOCKED | Not merged, packaged or installed |
