@@ -56,15 +56,20 @@ before review.
    Whole-module mutation runs are not required.
 4. **The full suite passes.** Use the repository `.venv/bin/python`. Shared-state
    changes also run `dotnet run --project tests/dotnet/StateContracts`.
-5. **Device smoke gate.** PRs that touch numerics pass the device smoke gate
-   ([#57](https://github.com/range-et/hawa-cfd/issues/57)): CPU mode in CI, and
-   CUDA and MPS modes in the batched device round.
+5. **Device smoke gate, CPU mode.** PRs that touch numerics pass the CPU mode of
+   the device smoke gate ([#57](https://github.com/range-et/hawa-cfd/issues/57))
+   in CI.
 6. **Local Rhino acceptance.** For code changes, the PR creator supplies the
    [local Rhino acceptance](docs/local-rhino-acceptance.md) evidence, or states why
    it does not apply. A skipped check is not a pass.
 
 Report what you actually ran: commands, results, device, skips and omissions.
 Historical results are not fresh passes.
+
+**After merge (device qualification).** CUDA and MPS checks, including the CUDA
+and MPS modes of the smoke gate, run in the next batched device round on the
+merged `main` commit. Reviewers don't hold a PR for them. Their results decide
+whether the linked issue closes, is re-scoped, or gets a fix-up PR.
 
 ## Numerical and device rules
 
