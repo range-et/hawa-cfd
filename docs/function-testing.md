@@ -90,3 +90,19 @@ and passing this gate cannot close atmospheric numerical-validation failures.
 - [Python profiling interface](https://docs.python.org/3.9/library/sys.html#sys.setprofile)
 - [Coverage.py API](https://coverage.readthedocs.io/en/7.10.7/api_coverage.html)
 - [Coverlet console instrumentation](https://github.com/coverlet-coverage/coverlet/blob/master/Documentation/GlobalTool.md)
+
+## Local Rhino acceptance alongside automated coverage
+
+For code PRs, the creator also performs the
+[local Rhino acceptance review](local-rhino-acceptance.md): open all supported
+examples, execute and render each workflow, inspect its numbers and images, and
+record the actual build/environment/device, settings, steps/time, evidence,
+failures and omissions. Preserve user documents and modified legacy 09.
+
+This is an important soft gate reviewed by the maintainer, with explicit
+responsibility for the merge decision; it does not require a self-hosted CI
+runner. Automated GitHub tests and mutation/coverage checks remain independent.
+Host example attestation does not count as instrumented function/line coverage,
+and headless doubles do not establish native scheduling or geometry correctness.
+Unmeasured host code stays visible. Numerical sanity and rendered fields also do
+not replace the independent physical-qualification gates.
