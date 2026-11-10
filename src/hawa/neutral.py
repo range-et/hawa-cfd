@@ -58,6 +58,23 @@ def validate(spec):
                         if external else 'periodic horizontal precursor; planar rough floor and free-slip lid; no buildings or open boundaries'))
 
 
+def _relaxed_fraction(delta):
+    """4 delta/(1+2 delta) = 2-1/tau: the dissipative part of the regularized update."""
+    return 4*delta/(1+2*delta)
+
+
+def _storage_status(share, qualified):
+    """Classify a dissipation-weighted resolved share; None means no strain.
+
+    Storage rounding alone can show that dissipation is lost. 'resolved' also
+    needs collision arithmetic as accurate as the CPU FP32 calibration; MPS
+    (measured worse) and other unassessed devices report indeterminate instead.
+    """
+    if share is None: return 'no-strain'
+    if share<.5: return 'below-storage-precision'
+    return 'resolved' if qualified else 'indeterminate-device-arithmetic'
+
+
 class ShiftedEquilibrium(lt.Equilibrium):
     def __call__(self, flow, rho=None, u=None, delta=None):
         if delta is None:delta = flow.f.sum(0,keepdim=True) if rho is None else rho-1
@@ -97,7 +114,7 @@ class ShiftedRegularizedSGS(lt.Collision):
         u,eq,pi,delta,neq=self._relaxation_state(flow)
         self.relaxation_margin=delta
         # 1-1/tau = -1 + 4*delta/(1+2*delta). Keep small term separate.
-        result=(eq-neq)+(4*delta/(1+2*delta))*neq
+        result=(eq-neq)+_relaxed_fraction(delta)*neq
         a=flow.context.convert_to_tensor(self.acceleration)[:,None,None,None]
         # Exact-difference forcing, using the same density deviation in both eqs.
         result += flow.equilibrium(flow,u=u+a)-eq
@@ -110,9 +127,11 @@ class ShiftedRegularizedSGS(lt.Collision):
         storage unit roundoff: the dissipative update relative to the rounding of
         the stored post-collision population. Shares are weighted by the local
         dissipation delta*Pi_neq:Pi_neq. A share >= 0.5 (dissipation-weighted
-        median R >= 10) is 'resolved'; the ratio was calibrated against FP64
-        shear-wave decay (HAWA-003). This is a storage-representation check, not
-        accuracy, convergence or atmospheric validation.
+        median R >= 10) is 'resolved' on CPU; the ratio was calibrated against FP64
+        shear-wave decay with CPU FP32 arithmetic (HAWA-003). MPS FP32 arithmetic
+        lost more dissipation than CPU, so non-CPU devices can only report 'below'
+        or 'indeterminate-device-arithmetic'. This is a storage-representation
+        check, not accuracy, convergence or atmospheric validation.
         """
         with torch.no_grad():
             _,eq,pi,delta,neq=self._relaxation_state(flow)
@@ -125,15 +144,16 @@ class ShiftedRegularizedSGS(lt.Collision):
             def share(weight,increment):
                 total=float(weight.sum().cpu())
                 if not total>0: return None
-                resolved=(4*increment/(1+2*increment))*scale>=STORAGE_RATIO
+                resolved=_relaxed_fraction(increment)*scale>=STORAGE_RATIO
                 return float((weight*resolved).sum().cpu())/total
+            qualified=flow.f.device.type=='cpu'
             model=share(delta*stress,delta)
             molecular=share(self.margin*stress,torch.full_like(delta,self.margin))
-            status=lambda s:'no-strain' if s is None else 'resolved' if s>=.5 else 'below-storage-precision'
-            return {'policy':'hawa-storage-dissipation-v1','storage_dtype':str(flow.f.dtype).replace('torch.',''),
+            return {'policy':'hawa-storage-dissipation-v2','storage_dtype':str(flow.f.dtype).replace('torch.',''),
                     'unit_roundoff':info.eps/2,'ratio_threshold':STORAGE_RATIO,
-                    'model_resolved_share':model,'model_status':status(model),
-                    'molecular_resolved_share':molecular,'molecular_status':status(molecular),
+                    'device':flow.f.device.type,'arithmetic_qualified':qualified,
+                    'model_resolved_share':model,'model_status':_storage_status(model,qualified),
+                    'molecular_resolved_share':molecular,'molecular_status':_storage_status(molecular,qualified),
                     'scope':'Storage representation of collision dissipation only; not accuracy or atmospheric validation'}
 
     def native_available(self): return False

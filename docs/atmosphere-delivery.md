@@ -30,7 +30,7 @@ City or Pond components. Preserve old archives and their numerical methods.
 
 | Order | Deliverable | Required completion evidence | Current status |
 | --- | --- | --- | --- |
-| 1 | Molecular-air numerical treatment on coarse grids | Collision/precision strategy, weak-strain and zero-SGS cases, decay/stress tests, CPU64 reference and CPU/MPS comparison at equal physical times. Keep molecular viscosity unchanged. | Strategy selected (November 10): unchanged shifted regularized SGS collision, FP32 storage, SGS-dominated LES with a runtime storage-dissipation diagnostic. FP32 storage does **not** represent molecular air dissipation at 0.1/1/10 m; see the precision experiment below. MPS run pending; double-float storage is [#51](https://github.com/range-et/hawa-cfd/issues/51). |
+| 1 | Molecular-air numerical treatment on coarse grids | Collision/precision strategy, weak-strain and zero-SGS cases, decay/stress tests, CPU64 reference and CPU/MPS comparison at equal physical times. Keep molecular viscosity unchanged. | Strategy selected (November 10): unchanged shifted regularized SGS collision, FP32 storage, SGS-dominated LES with a runtime storage-dissipation diagnostic. FP32 storage does **not** represent molecular air dissipation at 0.1/1/10 m; see the precision experiment below. On MPS the diagnostic cannot claim "resolved" (indeterminate); MPS rerun is batched in [#53](https://github.com/range-et/hawa-cfd/issues/53). Double-float storage is [#51](https://github.com/range-et/hawa-cfd/issues/51). |
 | 2 | Neutral mean profile and roughness contract | SI units, tangential vectors, height/roughness conventions, rotation, zero speed, reversal, invalid input and matching friction velocity | Implemented SI profile and matching integrated rough-floor relation; explicit experimental contract. |
 | 3 | Planar modelled wall operator | Impermeability, discrete wall impulse and mass balance, shear sign, smooth/rough applicability, sample-height and grid sensitivity. Rough-wall channel reference and total-stress budget. | Sample/filter/checkpoint state, exact impulse/mass tests and analytic channel checks pass. Atmospheric sampling/grid qualification remains open. |
 | 4 | Empty-domain neutral turbulent flow | Compatible wall/inflow/top/forcing. Precursor or verified turbulence generation. Mean-profile preservation, Reynolds stresses, spectrum and averaging uncertainty over stated flow-through times. | Open; see the current review for bounded implementation |
@@ -97,8 +97,10 @@ Detailed evidence is in `results/atmosphere-development/` (local development log
 
 ## Physical-viscosity precision experiment (HAWA-003, November 10, 2026)
 
-Codex, self-review; [#13](https://github.com/range-et/hawa-cfd/issues/13). Linux x64 orb,
-CPU only, Python 3.9.25, PyTorch 2.8.0+cpu. **No MPS or CUDA run yet.**
+Codex, self-review; [#13](https://github.com/range-et/hawa-cfd/issues/13). CPU table: Linux x64
+orb, Python 3.9.25, PyTorch 2.8.0+cpu, commit `1d50235`. MPS: M3 Max, macOS 27.0.1,
+PyTorch 2.8.0, same commit (below). **CUDA was not tested in this round**; it is
+deferred to a separate CUDA environment ([#52](https://github.com/range-et/hawa-cfd/issues/52)).
 
 `scripts/verify_atmospheric_precision.py` runs a periodic D3Q19 transverse shear
 wave on a uniform perpendicular mean flow (stored populations then carry a realistic
@@ -123,8 +125,25 @@ pass (−0.3%, −1.1%), and the diagnostic reports each as resolved. Margin 3e-
 passes. Margin 3e-4 is within 3.3% of FP64, but the diagnostic reports it as
 below: a conservative miss. Criterion 3 (agreement in every case) therefore
 **fails on 1 of 20 cases**, and the harness exits 2. The threshold was not
-changed. No case was falsely reported as resolved.
+changed. No CPU case was falsely reported as resolved; Apple-silicon CPU FP32 on the
+Mac gave the same agreement pattern (same single conservative miss).
 [Tracked summary](verification-atmospheric-precision.json).
+
+**MPS defect and fix.** On MPS FP32 at `1d50235`, the collision lost more dissipation
+than CPU FP32 in the same cases. Two cases were falsely reported as resolved:
+dx=0.1 m (−5.1% on MPS vs −4.2% on CPU) and dx=10 m (−9.7% vs −3.5%), both at Cs=.17
+and wave 0.1 Uref. The margin-3e-4 conservative miss also appeared on MPS (−4.8%). The
+diagnostic models only storage rounding and was calibrated with CPU FP32 arithmetic,
+so it is not evidence of resolved dissipation on MPS. Policy
+`hawa-storage-dissipation-v2` therefore reports `device` and `arithmetic_qualified`.
+A share below 0.5 still reports `below-storage-precision` on any device, because
+storage alone already loses that dissipation. On MPS, a share of 0.5 or more reports
+`indeterminate-device-arithmetic` instead of `resolved`. The ratio, the 5% tolerance
+and the criteria are unchanged. The harness now counts `false_resolved_cases`
+separately from `conservative_misses`. The rule was not tuned to the two failed
+cases: every MPS case that would claim resolved becomes indeterminate. The MPS
+per-stage cause (which collision operation loses accuracy) is not yet isolated; a
+probe is queued in the batched Mac session [#53](https://github.com/range-et/hawa-cfd/issues/53).
 
 Decision for this round:
 
@@ -149,20 +168,20 @@ Decision for this round:
 Existing guards and tolerances are unchanged. Zero-SGS neutral cases are still accepted,
 but they now report `molecular_status: below-storage-precision`. Rejecting them would
 be a new contract decision and was not made here. This result does not qualify
-atmospheric LES, wall models or turbulence. MPS behaviour must be measured on a Mac.
+atmospheric LES, wall models or turbulence. "Resolved" is qualified on CPU only.
 
 | Gate | Decision | Evidence / limit |
 | --- | --- | --- |
 | G0 | PASS, bounded | Shear-wave analytic decay; Lehmann et al. and Latt–Chopard references above; no copied code |
 | G1 | PASS | Additive quality field; collision numerics, storage, checkpoints and `make_solver` unchanged; shared-file split agreed with #11 |
-| G2 | See the function gate and suite results on #13 | New tests in `test_neutral.py` and `test_atmospheric_precision.py` |
-| G3 | PASS for FP64 collision representation; **FAIL** for FP32 molecular representation and for complete diagnostic agreement (1/20) | Tracked summary; CPU only |
+| G2 | See the strict function/line gate and mutmut results on #13 | `test_atmospheric_precision.py`; mutation scope `tools/mutation/run_atmospheric_precision.sh` |
+| G3 | PASS for FP64 collision representation; **FAIL** for FP32 molecular representation and for complete diagnostic agreement (1/20 conservative on CPU) | Tracked summary; the MPS false-resolved defect is fixed by v2 and awaits the batched MPS rerun |
 | G4 | NOT APPLICABLE | No GH or native change; the new quality field is not yet shown in the host |
-| G5/G6 | BLOCKED | MPS pending a Mac run; CUDA unavailable; no package |
+| G5/G6 | BLOCKED | v2 MPS rerun batched in #53; no package. CUDA not tested in this round (deferred, #52) |
 
 ```sh
 .venv/bin/python scripts/verify_atmospheric_precision.py --output results/hawa-003/precision-cpu.json
-.venv/bin/python scripts/verify_atmospheric_precision.py --device mps --output results/hawa-003/precision-mps.json   # Mac
+.venv/bin/python scripts/verify_atmospheric_precision.py --device cpu --device mps --output results/hawa-003/precision-mac.json   # Mac (#53)
 ```
 
 ## Acceptance definitions for subsequent implementation

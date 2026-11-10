@@ -59,14 +59,15 @@ class ShearWave(lt.Flow):
         scale = MACH/math.sqrt(3)
         k = 2*math.pi/self.n
         x = torch.arange(self.n, dtype=torch.float64)
-        u = torch.zeros(3, self.n, 4, 4, dtype=torch.float64)
+        u = torch.zeros(3, *self.resolution, dtype=torch.float64)
         u[1] = (self.amplitude*scale*torch.sin(k*x))[:, None, None]
         u[2] = scale
-        strain = torch.zeros(3, 3, self.n, 4, 4, dtype=torch.float64)
+        strain = torch.zeros(3, 3, *self.resolution, dtype=torch.float64)
         strain[0, 1] = strain[1, 0] = (.5*self.amplitude*scale*k*torch.cos(k*x))[:, None, None]
         e = torch.tensor(np.asarray(self.stencil.e), dtype=torch.float64)
         w = torch.tensor(np.asarray(self.stencil.w), dtype=torch.float64)
-        q = torch.einsum('qa,qb->qab', e, e)-torch.eye(3, dtype=torch.float64)[None]/3
+        # The stress is pure xy (traceless), so Q = ee - I/3 reduces exactly to ee.
+        q = torch.einsum('qa,qb->qab', e, e)
         eu = torch.einsum('qd,d...->q...', e, u)
         equilibrium = w[:, None, None, None]*(3*eu+4.5*eu*eu-1.5*(u*u).sum(0))
         stress = -(2/3)*(.5+self.margin)*strain
@@ -93,19 +94,19 @@ def measure(dx, cs, wave, device='cpu', dtype=torch.float32, n=32, steps=4000, s
     flow = ShearWave(lt.Context(device, dtype, use_native=False), n, wave, margin)
     collision = ShiftedRegularizedSGS(margin, cs)
     simulation = lt.Simulation(flow, collision, [])
-    times, values = [0], [amplitude(flow)]
-    while times[-1] < steps:
+    count = steps//sample
+    values = [amplitude(flow)]
+    for _ in range(count):
         simulation(sample)
-        times.append(times[-1]+sample)
         values.append(amplitude(flow))
     if not all(math.isfinite(v) and v != 0 for v in values):
         raise RuntimeError('Shear-wave amplitude became nonfinite or vanished')
-    times = np.asarray(times)
+    times = sample*np.arange(count+1)
     keep = times >= .1*steps
     slope = np.polyfit(times[keep], np.log(np.abs(values))[keep], 1)[0]
     delta = float(-3*slope/(2*math.pi/n)**2)
     return dict(dx_m=dx, cs=cs, wave_fraction=wave, device=device,
-                dtype=str(dtype).replace('torch.', ''), n=n, steps=steps,
+                dtype=str(dtype).replace('torch.', ''), n=n, steps=steps, samples=len(values),
                 physical_time_s=steps*scaling['time_step_seconds'], margin=margin,
                 delta_effective=delta, delta_ratio=delta/margin,
                 storage=collision.storage_resolution(flow))
@@ -146,12 +147,15 @@ def run(devices, cases=None):
             rows.append(row)
     collision = [r for r in rows if r['group'] == 'physical' and r['reference_fp64']['cs'] == 0]
     collision_pass = bool(collision) and all(abs(r['reference_fp64']['delta_ratio']-1) <= TOLERANCE for r in collision)
-    agreement = all(c['diagnostic_agrees'] for r in rows for c in r['fp32'].values())
+    fp32 = [c for r in rows for c in r['fp32'].values()]
+    agreement = all(c['diagnostic_agrees'] for c in fp32)
     molecular = {'{}:{}'.format(device, r['reference_fp64']['dx_m']): r['fp32'][device]['represented']
                  for r in collision for device in devices}
     return rows, dict(collision_fp64_represents_molecular=collision_pass,
                       diagnostic_agrees_on_all_fp32_cases=agreement,
                       fp32_molecular_represented=molecular,
+                      false_resolved_cases=sum(c['diagnostic_predicted_resolved'] and not c['represented'] for c in fp32),
+                      conservative_misses=sum(c['represented'] and not c['diagnostic_predicted_resolved'] for c in fp32),
                       passed=collision_pass and agreement)
 
 
