@@ -92,3 +92,30 @@ def test_no_progress_or_lifecycle_failure_never_reuses_previous_pass(tmp_path,mo
     if scenario=='load-error':assert report['error']=='ValueError: checkpoint unreadable'
     if scenario=='save-error':assert report['error']=='OSError: checkpoint write failed'
     if scenario=='close-error':assert report['cleanup_error']=='RuntimeError: close failed'
+
+
+@pytest.mark.parametrize('failure',['create','session-lookup'])
+def test_session_startup_failure_replaces_stale_success_without_closing_unknown_session(tmp_path,monkeypatch,failure):
+    import hawa.plugin
+    out=tmp_path/'stationary.json';out.write_text(json.dumps(dict(passed=True,stale=True)))
+    calls=[]
+    def dispatch(request):
+        calls.append(request)
+        if request['op']=='create':
+            if failure=='create':raise ValueError('invalid wall sample or device')
+            return dict(session='created-but-unavailable')
+    monkeypatch.setattr(hawa.plugin,'dispatch',dispatch)
+    monkeypatch.setattr(hawa.plugin,'SESSIONS',{})
+    monkeypatch.setattr(sys,'argv',['stationary','--steps','500','--output',str(out)])
+    with pytest.raises(SystemExit) as stop:execute_fixture('verify_neutral_stationary',tmp_path)
+    assert stop.value.code==1
+    report=json.loads(out.read_text())
+    assert report['passed'] is False and 'stale' not in report
+    assert report['steps']==0 and report['samples']==[] and report['quality_status']=='unknown'
+    assert report['physical_validation'] is False
+    if failure=='create':
+        assert report['error']=='ValueError: invalid wall sample or device'
+        assert [r['op'] for r in calls]==['create']
+    else:
+        assert report['error']=="KeyError: 'created-but-unavailable'"
+        assert calls[-1]==dict(op='close',session='created-but-unavailable')
