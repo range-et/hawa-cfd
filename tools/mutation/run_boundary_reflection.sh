@@ -14,9 +14,11 @@ mutate=(src/hawa/neutral_external.py scripts/verify_boundary_reflection.py)
 tests=(tests/conftest.py tests/test_neutral.py tests/test_neutral_external.py tests/test_boundary_reflection.py)
 reviewed=("${mutate[@]}" "${tests[@]}")
 import_roots=(scripts)
-# The CPU/MPS comparison is device qualification (#53); it cannot run on CPU-only hosts.
+# The CPU/MPS comparison and the MPS mass-budget bound are device qualification
+# (#53); they cannot run on CPU-only hosts.
 test_args=(tests/test_neutral_external.py tests/test_boundary_reflection.py
-  --deselect tests/test_neutral_external.py::test_external_cpu_mps)
+  --deselect tests/test_neutral_external.py::test_external_cpu_mps
+  --deselect tests/test_boundary_reflection.py::test_uniform_corner_mps_mass_budget_within_device_bound)
 changed_lines() {
   local commit
   for commit in "$base" "$harness_base"; do
