@@ -113,4 +113,8 @@ mutmut 3 mutates only code inside functions. Field declarations and constraints 
 class bodies are outside its scope, so they are covered instead by one rejecting
 behaviour test per declared constraint through the public entry points
 (`tests/test_motion.py`, `tests/test_runtime_rejection_edges.py`) and by the schema
-snapshot, which detects any change but does not prove validation behaviour.
+snapshot, which detects any change but does not prove validation behaviour. The
+functions the migration changed (`check`, `geometry_type`, `require_pinned_pydantic`,
+`validate_bodies`, `evaluate_motion`) are mutated by the PR study
+`tools/mutation/run_motion_schema.sh` against its reviewed policy
+`tools/mutation/motion-schema-policy.json`.

@@ -248,6 +248,7 @@ need a fresh run and review, never blind regeneration.
 | `run_device_smoke.sh` | device smoke gate lines against `8daf810` | `test_device_smoke.py`, without `production_python` | local |
 | `run_mps_mass_budget.sh` | #73 node-first mass-budget lines of `neutral_external.py` against `cc407cc` | `test_neutral_external.py` (without the CPU/MPS device test) | local |
 | `run_mutation_tooling.sh` | #67 lines of `check_results.py` and `mutmut3.py` against `5f2c899` | `test_mutation_policy.py` | local |
+| `run_motion_schema.sh` | #68 lines of `src/hawa/motion.py` against `cc407cc` | `test_motion.py`, `test_payload_schemas.py`, two motion tests in `test_runtime_rejection_edges.py`; CPU cases | local |
 
 Commit before running a PR-scoped study: its patch is `git diff BASE` of the
 committed files. PR #66 was squash-merged, so run `git fetch origin refs/pull/66/head`

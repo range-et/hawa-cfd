@@ -13,7 +13,7 @@
     "scripts/device_smoke_policy.json": "cc3cd8ebfea4e0a4fe970f61522f94d784c7388f3d9f1eaa48f43af09d3ef5ed",
     "tests/test_device_smoke.py": "7773118a205d9033b4bae4b0c08942481d173d33ef04ab1b5ff042310e07160c",
     "tests/test_neutral.py": "287434b4c666f289a99635f216ef47b8c491ed1867c1bc52a8197969bc857bfa",
-    "tests/test_motion.py": "2739488d273a643b607a46d86c2676c9e1e4265e1a9da0504546c4fac5ea16d3",
+    "tests/test_motion.py": "7deee3b86f98d598ba63902e0e7b8d0966f04636c29cd3764b3c5413f3ede048",
     "tests/test_kbc_precision.py": "79b606b90aa23fe5142882f3e56cf9fc85a3d74636bc845bd4c1a3554ba839f6"
   },
   "reviewed_survivors": {
