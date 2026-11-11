@@ -241,11 +241,12 @@ need a fresh run and review, never blind regeneration.
 | --- | --- | --- | --- |
 | `run_cli.sh` | whole `src/hawa/cli.py` | `test_cli.py` | CI |
 | `run_runtime_admission.sh` | whole `backends`, `cases`, `boundary_contracts` | `test_runtime_admission.py` | CI |
-| `run_boundary_reflection.sh` | HAWA-004 lines: `neutral_external.py` against `f29fe01`, reflection-harness review-fix lines against `d0b54e2` | `test_neutral_external.py` (without the CPU/MPS device test), `test_boundary_reflection.py` | local |
+| `run_boundary_reflection.sh` | HAWA-004 lines: `neutral_external.py` against `f29fe01` (now including the #73 lines), reflection-harness review-fix lines against `d0b54e2` | `test_neutral_external.py` (without the CPU/MPS device test), `test_boundary_reflection.py` (without the MPS mass-budget test) | local |
 | `run_kbc.sh collision` | HAWA-001 lines of vendored `kbc_collision.py` against `f9a3a13` | `test_kbc_precision.py`, CPU cases | local |
 | `run_kbc.sh diagnostic` | whole `scripts/diagnose_kbc_parity.py` | `test_kbc_parity_diagnostic.py`, CPU cases | local |
 | `run_atmospheric_precision.sh` | HAWA-003 lines in `atmospheric-precision.patch` | `test_atmospheric_precision.py` | local |
 | `run_device_smoke.sh` | device smoke gate lines against `8daf810` | `test_device_smoke.py`, without `production_python` | local |
+| `run_mps_mass_budget.sh` | #73 node-first mass-budget lines of `neutral_external.py` against `cc407cc` | `test_neutral_external.py` (without the CPU/MPS device test) | local |
 | `run_mutation_tooling.sh` | #67 lines of `check_results.py` and `mutmut3.py` against `5f2c899` | `test_mutation_policy.py` | local |
 
 Commit before running a PR-scoped study: its patch is `git diff BASE` of the

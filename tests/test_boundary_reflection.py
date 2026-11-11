@@ -322,6 +322,13 @@ def test_uniform_oblique_corner_flow_is_preserved(dtype):
     assert r['finite'] is True
 
 
+def test_uniform_corner_mps_mass_budget_within_device_bound():
+    # Declared C1-S device criterion: mass residual <= 1e-6 lu (#60).
+    if not torch.backends.mps.is_available():pytest.skip('MPS unavailable')
+    r = v.uniform_corner(torch.float32, device='mps')
+    assert r['finite'] and r['max_mass_budget_residual_lu'] <= 1e-6, r
+
+
 def test_uniform_corner_failure_paths(monkeypatch):
     monkeypatch.setitem(v.CRITERIA, 'uniform_m_s', -1.)
     assert v.uniform_corner(steps=1)['passed'] is False

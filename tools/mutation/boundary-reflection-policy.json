@@ -1,19 +1,19 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 275,
-  "inventory_sha256": "3fc01868bff24d91923caccdf8c8bc7e1a61b434ee552c3b041978bf9fd11617",
-  "scope": "HAWA-004 PR study: lines PR #66 changed against origin/main f29fe01 in src/hawa/neutral_external.py, plus the scripts/verify_boundary_reflection.py lines changed by the PR #66 review fixes (against d0b54e2); the rest of the harness is new in that PR, line-covered but outside this mutation scope; check_results.py moved to the #67 mutation-tooling study after its rewrite; the CPU/MPS device test is deselected (#53)",
+  "mutants": 284,
+  "inventory_sha256": "5ff23ee35f55b5e0dd35087ca5c77450d27ef145db63e12afb1c1afe20a80ce9",
+  "scope": "HAWA-004 PR study: lines changed against origin/main f29fe01 in src/hawa/neutral_external.py (PR #66, plus the PR #73 node-first mass-budget sums, which run_mps_mass_budget.sh also covers on its own), plus the scripts/verify_boundary_reflection.py lines changed by the PR #66 review fixes (against d0b54e2); the rest of the harness is new in that PR, line-covered but outside this mutation scope; check_results.py moved to the #67 mutation-tooling study after its rewrite; the CPU/MPS device test and the MPS mass-budget bound are deselected (#53)",
   "control_test_files": [
     "tests/test_neutral_external.py",
     "tests/test_boundary_reflection.py"
   ],
   "sources": {
-    "src/hawa/neutral_external.py": "1e8efa899a399fe9fe5c023b7be68094b873ba403f660513d2c058f16964dcf4",
+    "src/hawa/neutral_external.py": "62c99b509d1a46daab83fa4980ece0bf5fd0715b4ee02c2138693065ea16f14c",
     "scripts/verify_boundary_reflection.py": "cccb53070cdf01b17db90a6d67c9b37c0f01c4a09edbfe86703169dbfb8ce154",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/test_neutral.py": "287434b4c666f289a99635f216ef47b8c491ed1867c1bc52a8197969bc857bfa",
-    "tests/test_neutral_external.py": "41ab18b4a61be3f83a2993a45ac43dc295baa20af4609b8bed601ab175a5d3c1",
-    "tests/test_boundary_reflection.py": "023de2f18188ac7f968eeba586a2f52f1554e3c922aadb28110be885dcbd1441"
+    "tests/test_neutral_external.py": "5f8085a365602667e8e01e81dfb9cec9e3ba9a58436c6913ba2e533fed1b29ed",
+    "tests/test_boundary_reflection.py": "55b789ac5c2415abed9ca31f550ef4893be997aa1655a700db89b1997a3a8934"
   },
   "reviewed_survivors": {
     "hawa.neutral_external.xǁExternalLinksǁ__init____mutmut_3": {

@@ -72,6 +72,21 @@ def test_external_physical_mass_budget():
             assert abs(r['mass_budget_residual_lu'])<1e-10,r
 
 
+def test_fp32_storage_budget_sums_each_node_first():
+    # Small per-node populations add up to O(1) plane totals that cancel only
+    # across q; a flat FP32 reduction then loses the budget (worst on MPS, #60).
+    import lettuce as lt
+    from hawa.neutral import make
+    for cropped in (False,True):
+        f,sim=make(building(external(),cropped),lt.Context('cpu',torch.float32,use_native=False))
+        fluid=~f.solid
+        f.f[1][fluid]+=5e-3;f.f[2][fluid]-=5e-3  # node densities unchanged
+        sim(1)
+        links=sim.external_links
+        exact=float(f.f[:,fluid].double().sum()-links.saved[:,fluid.reshape(-1)].double().sum())
+        assert abs(links.report['fluid_storage_change_lu']-exact)<1e-7,(cropped,links.report,exact)
+
+
 def test_adjacent_inflow_and_reverse_axis():
     spec=external();spec['neutral_precursor']['direction']=[.6,.8,0.]
     for face in (0,2):spec['boundary_set']['patches'][face]['condition']=dict(type='velocity',velocity=[3.,4.,0.],profile='neutral')

@@ -185,7 +185,10 @@ class ExternalLinks:
     def capture(self):
         # The fixed fluid-cell count cancels analytically. Summing g avoids
         # subtracting two large, nearly equal FP32 absolute fluid masses.
-        self.mass_before = self.f.f[:, ~self.f.solid].sum()
+        # Sum each node's populations first: single population planes reach
+        # O(1) totals that cancel only across q, so a flat FP32 reduction
+        # loses the budget's precision (worst on MPS).
+        self.mass_before = self.f.f[:, ~self.f.solid].sum(0).sum()
         self.saved = self.f.f.reshape(19, -1).clone()
 
     def apply(self):
@@ -292,7 +295,7 @@ class ExternalLinks:
         nodal_exchange = out[:, ni].sum()-before
         exchange = exchange+nodal_exchange
         f.f[:, f.solid] = 0
-        storage = f.f[:, ~f.solid].sum() - self.mass_before
+        storage = f.f[:, ~f.solid].sum(0).sum() - self.mass_before
         values = torch.stack((incoming, exchange, storage, storage-exchange)).detach().cpu().tolist()
         self.report.update(incoming_open_links=int(values[0]), external_mass_exchange_lu=values[1],
                            fluid_storage_change_lu=values[2], mass_budget_residual_lu=values[3],
