@@ -43,15 +43,18 @@ be fine for one operation and refused by another:
 | Placement of the second domain | Separate cases | Offline transfer (parent → child) | Coupled refinement (2:1 patch) | Composed views |
 | --- | --- | --- | --- | --- |
 | Fully inside | Allowed; no interaction | Allowed | Allowed: an aligned patch of at least four coarse intervals per axis, with stencil clearance inside the parent | Finest frame owns each sample it contains |
-| Touching a parent face from inside | Allowed | Allowed if every child fluid sample lies within the parent's samples (inclusive at the edge) | Refused before allocation: too little clearance | Allowed |
-| Partly outside ("hanging out") | Allowed | Refused at capture: "Child fluid has missing parent coverage; enlarge the parent domain" | Refused before allocation | Allowed; outside all frames there is no data |
+| Touching a parent face from inside | Allowed | Allowed if the covered region (below) lies within the parent's samples, inclusive at the edge | Refused before allocation: too little clearance | Allowed |
+| Partly outside ("hanging out") | Allowed | v2: refused at capture ("Child fluid has missing parent coverage; enlarge the parent domain"). v1: allowed while the X− inlet stays covered | Refused before allocation | Allowed; outside all frames there is no data |
 | Disjoint | Allowed | Refused: no coverage | Refused before allocation | Allowed; the gap stays empty |
 | Two children overlapping each other | Allowed | Each child is captured separately from the parent | One patch only | Equal spacing: input order decides the owner |
 | Crossing a solid obstacle | Allowed | Allowed; the child owns its solid classification and the transfer never samples through parent solids | Restricted combinations; see example 15 | The finer frame's solid mask is kept |
 
-Offline transfer checks coverage for the child's whole fluid volume, because the
-child's initial state is also sampled from the parent, not only its boundary
-faces. Coupled refinement additionally requires an aligned, integer-cornered
+The covered region depends on the transfer version. Neutral BoundarySeries v2
+(example 33) checks the child's whole fluid volume, because the child's initial
+state is also sampled from the parent, not only its boundary faces. The v1 X−
+velocity import (example 24) checks only the child's X− inlet plane, refusing
+with "Child inlet has missing or solid parent coverage", so a v1 child may extend
+past its parent elsewhere. Coupled refinement additionally requires an aligned, integer-cornered
 patch whose resolution is exactly `2*(upper-lower)+1`; it reports the parent and
 fine roles and the offending indices. These rules are covered by
 `tests/test_domain_relationships.py`, `tests/test_refinement_preflight.py` and the
@@ -71,9 +74,11 @@ Each case is checked before any solver memory is allocated:
   and solver working copies, a reserve for imported boundary series, and
   temporary arrays for external open-face links. It is a conservative model,
   not a measurement, and the operating system does not enforce it.
-- Recordings are limited to 1000 frames. A boundary series file is limited to
-  256 MiB, and its capture arrays to 128 MiB. A sampling request is limited to
+- Recordings are limited to 1000 frames. A sampling request is limited to
   10,000 points.
+- Boundary transfer files: a v2 boundary series is limited to 256 MiB, with its
+  capture arrays limited to 128 MiB. A v1 boundary file is limited to 64 MiB, with
+  2–1000 frames whose velocity arrays fit in 32 MiB.
 - Coupled refinement adds the parent and patch estimates against one budget.
 
 What the per-case estimate does not include:
