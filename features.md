@@ -31,7 +31,7 @@ example checks.
 | Result quality and offline inlet transfer | Bounded Mach/density/finite-state quality policy and v1 mapped X− velocity series, with source identity and coverage checks. Not convergence or atmospheric validation. | [Transfer guide](docs/boundary-transfer.md), [gate record](docs/boundary-transfer-review.md) |
 | Shared boundary foundation | Physical patch schema plus bounded LBM NEE wall/slip/velocity/open reconstruction; corrected closure is explicitly versioned. Full reversing/cropped/atmospheric capability is not established. | [Boundary guide](docs/general-boundaries.md), [gate record](docs/general-boundaries-review.md) |
 | Experimental neutral flow | Shifted-population regularized SGS with molecular-air input viscosity (FP32 storage does not represent molecular dissipation at 0.1–10 m; runtime `dissipation_storage` diagnostic, [#13](https://github.com/range-et/hawa-cfd/issues/13)), sampled/filtered planar rough-floor stress and restart state. External mode adds halo-classified cropped buildings, side/top velocity or open faces, pressure reference and measured link mass budget. Pressure-backflow open faces now pass a pressure-driven reversal test; open faces of both boundary methods reflect acoustic pulses and fail the declared vortex-exit criterion ([HAWA-004 record](docs/boundary-reflection-review.md)). Analytic wall, convected-disturbance, stationary-channel and scoped CPU/MPS/Rhino checks pass. Full atmospheric accuracy and nesting qualification remain open. | [Coupling review](docs/neutral-coupling-review.md), [verification](docs/verification-neutral-coupling.json); HAWA-003/004/011 in [GitHub Issues](https://github.com/range-et/hawa-cfd/issues) |
-| Device smoke gate | Five short existing cases (compatibility engine, KBC collision, neutral precursor, moving sphere, curved-wall channel) compared with a CPU FP64 reference under a committed bitwise/bounded policy, with a per-run manifest. The CPU mode runs in CI. CUDA and MPS modes are built but have not yet passed a device round. | [Gate guide](docs/device-smoke.md), [#57](https://github.com/range-et/hawa-cfd/issues/57) |
+| Device smoke gate | Five short existing cases (compatibility engine, KBC collision, neutral precursor, moving sphere, curved-wall channel) compared with a CPU FP64 reference under a committed bitwise/bounded policy, with a per-run manifest. The CPU mode runs in CI. CUDA (RTX 5070 Ti) and MPS (M3 Max) each passed 5/5 on merged main `71625aa`, so #57 is complete; other devices are not qualified. | [Gate guide](docs/device-smoke.md), [#57](https://github.com/range-et/hawa-cfd/issues/57) |
 | Compatibility and example coverage gate | G6 enumerates 102,459 finite contract rows, detects incomplete/stale evidence and audits all public nodes against annotated GH workflows. CPU/MPS local checks pass; on Windows CUDA (merged main `285d961`) all `cuda:0` rows pass with MPS rows blocked. Arbitrary graphs and continuous inputs are not exhaustively enumerated. | [G6 guide](docs/compatibility-matrix.md), [machine report](docs/verification-compatibility.json) |
 
 ## Headless testing expansion (November 9, 2026)
@@ -90,6 +90,30 @@ Evidence: [transfer review](docs/neutral-transfer-review.md),
 qualification failures remain open in HAWA-021/022; these repairs do not close them.
 
 ## History
+
+### November 11, 2026 — batched CUDA and MPS round on merged main `71625aa`
+
+One CUDA host (Windows 11, RTX 5070 Ti, driver 621.14, torch 2.8.0+cu128) and one
+MPS host (M3 Max, macOS 27.0.1, torch 2.8.0) ran the #52/#53 commands on merge
+commit `71625aa`, which contains #63 (#11), #65 (#13), #64 (#57) and #66 (#14).
+Fresh checkouts, no tolerance or policy edits; binaries stay on the hosts by SHA-256.
+- Device smoke gate (#57): 5/5 on CUDA and on MPS; the MPS KBC case is now bitwise.
+  #57 is complete.
+- HAWA-001 KBC repair (#11): the original 50-step PorousMedium criteria pass on CUDA
+  and MPS (MPS f 3.3e-7, u 1.3e-5, p 1.4e-4), with 16/16 examples on both. #11 is complete.
+- HAWA-046 actual-device assertions (#48): MPS cases pass on `71625aa`; the CUDA part
+  passed on merged `239d644`. #48 is complete.
+- HAWA-003 precision diagnostic (#13): no false "resolved" result on either device;
+  device rows report indeterminate arithmetic, as designed. #13 is closed as
+  re-scoped: FP32 molecular-viscosity neutral flow is not qualified, and
+  double-float storage moved to #51.
+- HAWA-004 boundary reflection (#14): CUDA matches every CPU FP64 decision within
+  bounds. On MPS all 9 decisions match, but the C1-S FP32 mass budget residual is
+  3.35e-6 lu against its declared 1e-6 lu bound (CPU FP32 6.3e-7), so C1-S is not
+  qualified on MPS. #14 is closed under its approved re-scope; the failing rows and
+  this MPS residual are in #60.
+[CUDA results](https://github.com/range-et/hawa-cfd/issues/57#issuecomment-6786203542),
+[MPS results](https://github.com/range-et/hawa-cfd/issues/14#issuecomment-6786793399).
 
 ### November 11, 2026 — Python 3.12 developer environment (Phase 0 for #67/#68)
 
