@@ -199,6 +199,7 @@ backend; it is not MLX. `auto` selection is not a performance benchmark.
 | “Rhino crashed” actually means missing MCP slot | Readopt with `list_slots` and inspect app/process state first. Save and Quit normally for assembly updates; never kill Rhino. |
 | “Saved file” is in the wrong folder | Use explicit save APIs/paths, verify the resulting file. macOS Save As can turn slash-containing names into colon-separated filenames. Keep temporary files out of example/package folders. |
 | Empty video slides or misleading screenshots | Inspect final rendered artifacts and captured UI, including final frames. Keep screenshot provenance with the run. |
+| Open pressure face stalls or sits half a cell outside its node | Do not convect a pressure face's normal speed at its own speed (it stalls at u_n=0), and use the donor's current speed, not a one-step-old snapshot: the FD stress reads the lag as strain. Keep `test_outgoing_open_normal_speed_follows_backflow_mode` and the R1 node-reference reversal in `test_boundary_reflection.py`. Judge against the declared reference; do not move it after a run. |
 
 Historical `scripts/verify_grasshopper_examples.cs` contains blocking polling and
 an obsolete runtime lookup. Do not run it as the current verification harness.

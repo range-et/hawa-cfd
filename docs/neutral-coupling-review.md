@@ -62,8 +62,13 @@ synchronization. It does not change the ownership or reconstruction equations.
 - A missing inward axial donor at a cut building uses the local fluid state;
   solid populations never supply exterior data. This local fallback needs further
   separated-flow accuracy assessment.
-- Open faces can reflect waves. The pulse test covers one smooth convected
-  disturbance, not a general nonreflection claim. Building walls are stationary
+- Open faces reflect waves. The pulse test covers one smooth convected
+  disturbance, not a general nonreflection claim. HAWA-004 measured order-one
+  acoustic reflection and a 22% all-node vortex-exit error; default faces cannot
+  pass local outflow through zero (#55), and a vortex leaving through an open/open
+  corner peaks at the corner node (1.24; #60). `backflow_mode: pressure` faces take
+  the donor normal speed in both directions and pass a pressure-driven reversal
+  test ([record](boundary-reflection-review.md)). Building walls are stationary
   voxel boundaries. Equilibrium rough-floor stress is not a validated model of
   separated near-building surface traction.
 - Imported boundary series, refinement, thermal stability and water motion are

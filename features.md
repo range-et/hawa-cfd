@@ -30,7 +30,7 @@ example checks.
 | Prescribed rigid motion and cycle objectives | Translation/rotation/oscillation, raw loads and complete-cycle search. No force-driven body response, free surface, buoyancy or validated propeller prediction. | [Motion guide](docs/moving-surfaces-v0.4.md), [motion evidence](docs/verification-motion-v0.4.json) |
 | Result quality and offline inlet transfer | Bounded Mach/density/finite-state quality policy and v1 mapped X− velocity series, with source identity and coverage checks. Not convergence or atmospheric validation. | [Transfer guide](docs/boundary-transfer.md), [gate record](docs/boundary-transfer-review.md) |
 | Shared boundary foundation | Physical patch schema plus bounded LBM NEE wall/slip/velocity/open reconstruction; corrected closure is explicitly versioned. Full reversing/cropped/atmospheric capability is not established. | [Boundary guide](docs/general-boundaries.md), [gate record](docs/general-boundaries-review.md) |
-| Experimental neutral flow | Shifted-population regularized SGS with molecular-air input viscosity (FP32 storage does not represent molecular dissipation at 0.1–10 m; runtime `dissipation_storage` diagnostic, [#13](https://github.com/range-et/hawa-cfd/issues/13)), sampled/filtered planar rough-floor stress and restart state. External mode adds halo-classified cropped buildings, side/top velocity or open faces, pressure reference and measured link mass budget. Analytic wall, convected-disturbance, stationary-channel and scoped CPU/MPS/Rhino checks pass. Full atmospheric accuracy and nesting qualification remain open. | [Coupling review](docs/neutral-coupling-review.md), [verification](docs/verification-neutral-coupling.json); HAWA-003/004/011 in [GitHub Issues](https://github.com/range-et/hawa-cfd/issues) |
+| Experimental neutral flow | Shifted-population regularized SGS with molecular-air input viscosity (FP32 storage does not represent molecular dissipation at 0.1–10 m; runtime `dissipation_storage` diagnostic, [#13](https://github.com/range-et/hawa-cfd/issues/13)), sampled/filtered planar rough-floor stress and restart state. External mode adds halo-classified cropped buildings, side/top velocity or open faces, pressure reference and measured link mass budget. Pressure-backflow open faces now pass a pressure-driven reversal test; open faces of both boundary methods reflect acoustic pulses and fail the declared vortex-exit criterion ([HAWA-004 record](docs/boundary-reflection-review.md)). Analytic wall, convected-disturbance, stationary-channel and scoped CPU/MPS/Rhino checks pass. Full atmospheric accuracy and nesting qualification remain open. | [Coupling review](docs/neutral-coupling-review.md), [verification](docs/verification-neutral-coupling.json); HAWA-003/004/011 in [GitHub Issues](https://github.com/range-et/hawa-cfd/issues) |
 | Device smoke gate | Five short existing cases (compatibility engine, KBC collision, neutral precursor, moving sphere, curved-wall channel) compared with a CPU FP64 reference under a committed bitwise/bounded policy, with a per-run manifest. The CPU mode runs in CI. CUDA and MPS modes are built but have not yet passed a device round. | [Gate guide](docs/device-smoke.md), [#57](https://github.com/range-et/hawa-cfd/issues/57) |
 | Compatibility and example coverage gate | G6 enumerates 102,459 finite contract rows, detects incomplete/stale evidence and audits all public nodes against annotated GH workflows. CPU/MPS local checks pass; on Windows CUDA (merged main `285d961`) all `cuda:0` rows pass with MPS rows blocked. Arbitrary graphs and continuous inputs are not exhaustively enumerated. | [G6 guide](docs/compatibility-matrix.md), [machine report](docs/verification-compatibility.json) |
 
@@ -90,6 +90,22 @@ Evidence: [transfer review](docs/neutral-transfer-review.md),
 qualification failures remain open in HAWA-021/022; these repairs do not close them.
 
 ## History
+
+### November 10, 2026 — HAWA-004 boundary reflection measurements (partial)
+
+Added an enlarged-domain/analytic harness with criteria committed before the
+first run: acoustic and vortex reflection, oblique corners, pressure-driven
+reversal and a cropped-body cut face, for shifted external and NEE open faces.
+Repaired pressure-backflow outgoing faces, which could not pass through zero
+normal speed (reversal error 3.07 → 0.0042 m/s). C1 corners, R1 reversal and the
+attached K1-S cut face pass on CPU. Acoustic reflection (≈1), vortex exit
+(0.22 / 0.53) and backflow vortices fail. The default-face reversal defect is
+[#55](https://github.com/range-et/hawa-cfd/issues/55); a vortex leaving through an open/open corner
+(C2, 1.24) and the other failing reflection rows are collected in
+[#60](https://github.com/range-et/hawa-cfd/issues/60). MPS FP32 rows are queued
+in #53; a pre-merge CUDA check on one RTX 5070 Ti was within all declared bounds. The approved re-scope moves the
+failing rows to #60; HAWA-004 closes after merge and qualifying device runs.
+[Criteria, results and limits](docs/boundary-reflection-review.md).
 
 ### November 10, 2026 — headless Windows CUDA acceptance on merged main
 
