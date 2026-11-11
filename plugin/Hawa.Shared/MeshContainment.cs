@@ -5,7 +5,11 @@ public static class MeshContainment
 {
     public static bool Contains(Mesh mesh, BoundingBox bounds, Point3d point, double tolerance)
     {
-        if (!bounds.Contains(point))
+        // Pad by the surface tolerance, so a node a few ULP outside a face that
+        // lies on a lattice plane still reaches the surface test below.
+        var padded = new BoundingBox(new Point3d(bounds.Min.X - tolerance, bounds.Min.Y - tolerance, bounds.Min.Z - tolerance),
+            new Point3d(bounds.Max.X + tolerance, bounds.Max.Y + tolerance, bounds.Max.Z + tolerance));
+        if (!padded.Contains(point))
             return false;
         var closest = mesh.ClosestMeshPoint(point, tolerance);
         if (closest != null && closest.Point.DistanceTo(point) <= tolerance)

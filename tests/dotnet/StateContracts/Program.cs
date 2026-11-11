@@ -175,6 +175,14 @@ Test("schema 1 settings migrate to explicit physical setup and view", () => {
     var c = Fresh(); var legacy = c.Settings(); legacy["schema"] = 1; legacy.Remove("setup"); legacy.Remove("view");
     CaseHub.Restore(1,legacy.ToJsonString()); Assert(!c.SelectedGeometry && c.Settings()["schema"]!.GetValue<int>() == 2 && c.Setup["viscosity"]!.GetValue<double>() == .1, "Migration failed");
 });
+Test("startup block keeps both face layers when faces lie on lattice planes", () => {
+    // 0.3 m cells, 1.2 m block at (3, 3, 2): faces at 2.4/3.6 m are nodes 8 and 12, which
+    // floating products land a few ULP either side of. Exact count: 5 x 5 x 4 (z 1.4..2.6 m).
+    var c = Fresh(); Edit(c, new() { ["cell"] = .3, ["width"] = 1.2 });
+    Assert(CaseHub.BuildSpec(c)["solid"]!.AsArray().Count == 100, "Block lost a face layer");
+    Edit(c, new() { ["cell"] = .4, ["width"] = .8 });
+    Assert(CaseHub.BuildSpec(c)["solid"]!.AsArray().Count == 2 * 2 * 3, "Block lost a face layer at 0.4 m"); // x,y 2.6..3.4 m: nodes 7, 8; z 1.6..2.4 m: nodes 4..6
+});
 Test("native setup validates cell budget, periodic pairs and finite domain", () => {
     var c = Fresh(); var setup = c.Setup; setup["mode"] = "selected";
     Edit(c,new(){["setup"]=setup,["cell"]=.1}); Assert(c.SelectedGeometry,"Selection mode missing");

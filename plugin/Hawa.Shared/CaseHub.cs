@@ -415,10 +415,12 @@ public static class CaseHub
             (int)Math.Floor(x / c.Cell) + 1
         ).ToArray();
         var solid = new JsonArray();
+        // Same surface tolerance as mesh voxelization: faces on lattice planes keep both layers.
+        double half = c.Width / 2 + c.Cell * 1e-5;
         for (int x = 0; x < n[0]; x++)
             for (int y = 0; y < n[1]; y++)
                 for (int z = 0; z < n[2]; z++)
-                    if (Math.Abs(x * c.Cell - 3) <= c.Width / 2 && Math.Abs(y * c.Cell - 3) <= c.Width / 2 && Math.Abs(z * c.Cell - 2) <= c.Width / 2)
+                    if (Math.Abs(x * c.Cell - 3) <= half && Math.Abs(y * c.Cell - 3) <= half && Math.Abs(z * c.Cell - 2) <= half)
                         solid.Add((x * n[1] + y) * n[2] + z);
         if (solid.Count == 0)
             throw new ArgumentException("The block is unresolved; reduce cell size or increase block width");
