@@ -1,0 +1,38 @@
+name: Device smoke gate
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  cpu:
+    name: CPU smoke against CPU FP64 reference
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.9.25'
+      - name: Install pinned dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install --upgrade pip==25.3
+          .venv/bin/python -m pip install torch==2.8.0+cpu --index-url https://download.pytorch.org/whl/cpu --no-deps
+          .venv/bin/python -m pip install -e vendor/lettuce -e '.[test]'
+      - name: Run the CPU mode of the device smoke gate
+        run: >
+          .venv/bin/python scripts/device_smoke.py --device cpu
+          --output results/device-smoke-cpu
+          --overlapping-jobs "none: dedicated GitHub-hosted runner job ${{ github.run_id }}-${{ github.run_attempt }}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: device-smoke-cpu-manifest
+          path: results/device-smoke-cpu/manifest.json

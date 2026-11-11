@@ -41,7 +41,7 @@
     "pyproject.toml": "85a71faa468ca71cf6c1ee9684d82a375daf61942509a1935e92f8a91d5bad6c",
     "scripts/analyze_neutral_stationary.py": "9b1ac533247ed4a19fb737785f4411630efdc790a13669e8b932d7ac607dfbbf",
     "scripts/audit_backport.py": "4cc6db5545b4d799b4a5730705f21db5156b4d6cb70f85618c4211fd6f0a4333",
-    "scripts/benchmark_curved_walls.py": "e22453d7214f3f009f716b930e93a149375fe38bf1d54a5bd90b0b3c9109deab",
+    "scripts/benchmark_curved_walls.py": "018b520b53def8f665597f04c88dc80f2e11578070ac855fea038b2a402589c8",
     "scripts/benchmark_motion.py": "9a432ef99fdafe5f6cdaf05419cd1a5c00506d5c9a1d91e60c435ee86527e7b4",
     "scripts/benchmark_refinement.py": "3ebe57a02b12dcb36034e48144ae1afc3ce592de7595d358020246d389eda777",
     "scripts/benchmark_rotating_sphere.py": "ecac956d50709ae015a0c22c1168c80f4ac1f89210a62cd46f2059ec73d6cf6d",
@@ -52,6 +52,7 @@
     "scripts/compare_engines.py": "f16f5a79c9991db76ad49cd20e7d46f8fa001bd8087cfbbac7b0b57603f5d4d9",
     "scripts/compare_examples.py": "8016670dea6795459d561991db2d2186dd6600873f32fc79c2fda636f9942c2a",
     "scripts/create_native_icons.py": "dbde98471f9723874522330e43479a2251d18a1110ccc74df9f8ca337d46f461",
+    "scripts/device_smoke.py": "1af89d076fe7b662be5f4035df91981b2e446a413c2d7e957b71aa40c79bd445",
     "scripts/diagnose_kbc_parity.py": "e346178ea3e12e770b76e915f132e2c6d549b80f9e92d4704f54350b2acd4e6b",
     "scripts/example_inventory.py": "38c9a97c9ceb5cbb99c73d9cd1d62a3985c6fd7a79c0747a3a0db6202f768dca",
     "scripts/example_worker.py": "09063bcb809effa08e09c0b2a5b0bd3b235868b016172da5ee9bfa3b40f21601",
@@ -61,7 +62,7 @@
     "scripts/make_v05_demo.py": "8771f430e8b1b081b5978c0e485098b534a4666d45ed2add9459f9a4bec83255",
     "scripts/make_wake_demo.py": "c26883dc432b7893f5c0396f204c8b8413dc928c9bf156a093b72c44d4ece1fd",
     "scripts/make_walkthroughs.py": "dcede39b29309ae0efdf8432d2fc4b948a2538c4e55bd6c2bd9dc2d30cea1a84",
-    "scripts/parity_worker.py": "a526d22f22c892eb1f98437158df827095ff2cb0b1fcf61569fa3951af6e044f",
+    "scripts/parity_worker.py": "c21c4eeb9ee4770dd860c9e78547c549463f03274ced89bd8d66198887d1eaeb",
     "scripts/preview_site.py": "97f8551d0706c0ee3bb87b5516a9ba081d2015df7e93b30d9c8b8d57db14795b",
     "scripts/pytest_evidence.py": "6a4bcf5f1f333ddbd901a95cb4f4f2552c6e2e779145490bc8195a18897a25b5",
     "scripts/pytest_portable.py": "765e8256dc313ff3bdfae6c99e4518f1e1d391fb55a7492c0006f9edfea8d550",
@@ -143,6 +144,7 @@
     "tests/test_compatibility_matrix.py": "ee5bdedccf9125277ef708cac15a5d9870c81fdea014c2c1b3cc5eb2d48fa62d",
     "tests/test_cuda_tooling.py": "ef1b5f48742d24c17940fad65561553bc355def9e5105ab311d3b8eae4e8cf03",
     "tests/test_cuda_verification.py": "76255f5f651715b1c289457759c8d0b17f531121f0677d374cbcf5b173208a66",
+    "tests/test_device_smoke.py": "c982d6dbed40238eb78cdd0d3a1a90bdf5dbdf40fb41b848766771bedc519552",
     "tests/test_domain_relationships.py": "95f7ef9953e4878711b7c76f740471578efc7b294016897fbbadad76ba3fd156",
     "tests/test_engine.py": "c7c0f3dd4058338788584e036dad0af68d3cf7884da3914962b5a2c3daff52b8",
     "tests/test_example_inventory.py": "04fdc3a5ddae56e610844b508adc55391f18dde39f2eb0178866caaa5883f338",
@@ -709,6 +711,50 @@
       "tests/test_cuda_verification.py::test_benchmark_orchestrator_retains_thresholds_and_hashes_engine[numeric]",
       "tests/test_cuda_verification.py::test_pytest_evidence_hooks_track_teardown_failures_and_duplicate_phases",
       "tests/test_cuda_verification.py::test_real_pytest_collection_execution_ignores_config_selectors",
+      "tests/test_device_smoke.py::test_committed_policy_declares_existing_inputs_and_unwidened_tolerances",
+      "tests/test_device_smoke.py::test_bitwise_compares_rounded_reference_bits",
+      "tests/test_device_smoke.py::test_bounded_uses_reference_magnitude_inclusive_limit_and_named_scale",
+      "tests/test_device_smoke.py::test_evaluate_requires_matching_inventory_and_one_owner_per_array",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^Policy requires schema 1 and at least one case$0]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^Policy requires schema 1 and at least one case$1]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: requires a known builder, checks and a criterion source$0]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: requires a known builder, checks and a criterion source$1]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: requires a known builder, checks and a criterion source$2]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: comparison class must be one of bitwise, bounded$]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$0]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$1]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$2]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$3]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bitwise checks take no tolerance$]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: an unsupported device needs its guard exception and message$0]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: an unsupported device needs its guard exception and message$1]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: an unsupported device needs its guard exception and message$2]",
+      "tests/test_device_smoke.py::test_policy_accepts_declared_guard_and_bitwise_check",
+      "tests/test_device_smoke.py::test_case_runs_cpu_fp64_reference_then_seeded_candidate",
+      "tests/test_device_smoke.py::test_case_fails_outside_tolerance_or_when_any_run_fails",
+      "tests/test_device_smoke.py::test_only_the_declared_runtime_guard_is_unsupported_guarded",
+      "tests/test_device_smoke.py::test_command_returns_output_or_none",
+      "tests/test_device_smoke.py::test_environment_describes_the_requested_device",
+      "tests/test_device_smoke.py::test_provenance_records_commit_dirty_state_and_source_digest",
+      "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+      "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+      "tests/test_device_smoke.py::test_loaded_module_paths_must_be_files_from_this_checkout",
+      "tests/test_device_smoke.py::test_foreign_hawa_before_cases_fails_without_running_them",
+      "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run",
+      "tests/test_device_smoke.py::test_interrupted_run_leaves_an_incomplete_manifest",
+      "tests/test_device_smoke.py::test_main_requires_device_output_and_overlapping_jobs_statement[--device]",
+      "tests/test_device_smoke.py::test_main_requires_device_output_and_overlapping_jobs_statement[--output]",
+      "tests/test_device_smoke.py::test_main_requires_device_output_and_overlapping_jobs_statement[--overlapping-jobs]",
+      "tests/test_device_smoke.py::test_main_rejects_unstated_jobs_mps_fallback_and_invalid_policy[arguments0-environment0-State the overlapping jobs, or \"none\"$]",
+      "tests/test_device_smoke.py::test_main_rejects_unstated_jobs_mps_fallback_and_invalid_policy[arguments1-environment1-Unset PYTORCH_ENABLE_MPS_FALLBACK; CPU fallback would hide MPS results$]",
+      "tests/test_device_smoke.py::test_main_rejects_unstated_jobs_mps_fallback_and_invalid_policy[arguments2-environment2-Invalid policy: \\\\[Errno 2\\\\] ]",
+      "tests/test_device_smoke.py::test_script_help_runs_without_creating_outputs",
+      "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[cpu-cpu]",
+      "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[cuda-cuda:0]",
+      "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[mps-mps]",
+      "tests/test_device_smoke.py::test_kbc_builder_reproduces_the_existing_precision_fixture",
+      "tests/test_device_smoke.py::test_neutral_reference_reports_relative_mass_change",
+      "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
       "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin0-0.5-point0-2.0]",
       "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin1-0.5-point1-None]",
       "tests/test_domain_relationships.py::test_view_relationships_keep_declared_sample_ownership[0.0-origin2-0.5-point2-2.0]",
@@ -2304,6 +2350,50 @@
       "tests/test_cuda_verification.py::test_snapshot_detects_source_inventory_lock_and_index_changes[edit]",
       "tests/test_cuda_verification.py::test_snapshot_detects_source_inventory_lock_and_index_changes[lock]",
       "tests/test_cuda_verification.py::test_snapshot_detects_source_inventory_lock_and_index_changes[stage]",
+      "tests/test_device_smoke.py::test_bitwise_compares_rounded_reference_bits",
+      "tests/test_device_smoke.py::test_bounded_uses_reference_magnitude_inclusive_limit_and_named_scale",
+      "tests/test_device_smoke.py::test_case_fails_outside_tolerance_or_when_any_run_fails",
+      "tests/test_device_smoke.py::test_case_runs_cpu_fp64_reference_then_seeded_candidate",
+      "tests/test_device_smoke.py::test_command_returns_output_or_none",
+      "tests/test_device_smoke.py::test_committed_policy_declares_existing_inputs_and_unwidened_tolerances",
+      "tests/test_device_smoke.py::test_environment_describes_the_requested_device",
+      "tests/test_device_smoke.py::test_evaluate_requires_matching_inventory_and_one_owner_per_array",
+      "tests/test_device_smoke.py::test_foreign_hawa_before_cases_fails_without_running_them",
+      "tests/test_device_smoke.py::test_interrupted_run_leaves_an_incomplete_manifest",
+      "tests/test_device_smoke.py::test_kbc_builder_reproduces_the_existing_precision_fixture",
+      "tests/test_device_smoke.py::test_loaded_module_paths_must_be_files_from_this_checkout",
+      "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+      "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[cpu-cpu]",
+      "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[cuda-cuda:0]",
+      "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[mps-mps]",
+      "tests/test_device_smoke.py::test_main_rejects_unstated_jobs_mps_fallback_and_invalid_policy[arguments0-environment0-State the overlapping jobs, or \"none\"$]",
+      "tests/test_device_smoke.py::test_main_rejects_unstated_jobs_mps_fallback_and_invalid_policy[arguments1-environment1-Unset PYTORCH_ENABLE_MPS_FALLBACK; CPU fallback would hide MPS results$]",
+      "tests/test_device_smoke.py::test_main_rejects_unstated_jobs_mps_fallback_and_invalid_policy[arguments2-environment2-Invalid policy: \\\\[Errno 2\\\\] ]",
+      "tests/test_device_smoke.py::test_main_requires_device_output_and_overlapping_jobs_statement[--device]",
+      "tests/test_device_smoke.py::test_main_requires_device_output_and_overlapping_jobs_statement[--output]",
+      "tests/test_device_smoke.py::test_main_requires_device_output_and_overlapping_jobs_statement[--overlapping-jobs]",
+      "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+      "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run",
+      "tests/test_device_smoke.py::test_neutral_reference_reports_relative_mass_change",
+      "tests/test_device_smoke.py::test_only_the_declared_runtime_guard_is_unsupported_guarded",
+      "tests/test_device_smoke.py::test_policy_accepts_declared_guard_and_bitwise_check",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^Policy requires schema 1 and at least one case$0]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^Policy requires schema 1 and at least one case$1]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: an unsupported device needs its guard exception and message$0]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: an unsupported device needs its guard exception and message$1]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: an unsupported device needs its guard exception and message$2]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bitwise checks take no tolerance$]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$0]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$1]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$2]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$3]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: comparison class must be one of bitwise, bounded$]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: requires a known builder, checks and a criterion source$0]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: requires a known builder, checks and a criterion source$1]",
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: requires a known builder, checks and a criterion source$2]",
+      "tests/test_device_smoke.py::test_provenance_records_commit_dirty_state_and_source_digest",
+      "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
+      "tests/test_device_smoke.py::test_script_help_runs_without_creating_outputs",
       "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
       "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
       "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -10289,6 +10379,622 @@
         ]
       ],
       "tests/test_cuda_verification.py::test_real_pytest_collection_execution_ignores_config_selectors": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_committed_policy_declares_existing_inputs_and_unwidened_tolerances": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_bitwise_compares_rounded_reference_bits": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_bounded_uses_reference_magnitude_inclusive_limit_and_named_scale": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_evaluate_requires_matching_inventory_and_one_owner_per_array": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^Policy requires schema 1 and at least one case$0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^Policy requires schema 1 and at least one case$1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: requires a known builder, checks and a criterion source$0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: requires a known builder, checks and a criterion source$1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: requires a known builder, checks and a criterion source$2]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: comparison class must be one of bitwise, bounded$]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$2]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$3]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bitwise checks take no tolerance$]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: an unsupported device needs its guard exception and message$0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: an unsupported device needs its guard exception and message$1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: an unsupported device needs its guard exception and message$2]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_policy_accepts_declared_guard_and_bitwise_check": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_case_runs_cpu_fp64_reference_then_seeded_candidate": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_case_fails_outside_tolerance_or_when_any_run_fails": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_only_the_declared_runtime_guard_is_unsupported_guarded": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_command_returns_output_or_none": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_environment_describes_the_requested_device": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_provenance_records_commit_dirty_state_and_source_digest": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_loaded_module_paths_must_be_files_from_this_checkout": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_foreign_hawa_before_cases_fails_without_running_them": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_interrupted_run_leaves_an_incomplete_manifest": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_main_requires_device_output_and_overlapping_jobs_statement[--device]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_main_requires_device_output_and_overlapping_jobs_statement[--output]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_main_requires_device_output_and_overlapping_jobs_statement[--overlapping-jobs]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_main_rejects_unstated_jobs_mps_fallback_and_invalid_policy[arguments0-environment0-State the overlapping jobs, or \"none\"$]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_main_rejects_unstated_jobs_mps_fallback_and_invalid_policy[arguments1-environment1-Unset PYTORCH_ENABLE_MPS_FALLBACK; CPU fallback would hide MPS results$]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_main_rejects_unstated_jobs_mps_fallback_and_invalid_policy[arguments2-environment2-Invalid policy: \\\\[Errno 2\\\\] ]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_script_help_runs_without_creating_outputs": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[cpu-cpu]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[cuda-cuda:0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[mps-mps]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_kbc_builder_reproduces_the_existing_precision_fixture": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_neutral_reference_reports_relative_mass_change": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy": [
         [
           "setup",
           "passed"
@@ -42185,7 +42891,7 @@
       "path": "scripts/benchmark_curved_walls.py",
       "language": "Python",
       "name": "run",
-      "signature": "run(n, q, device='cpu') -> unannotated",
+      "signature": "run(n, q, device='cpu', dtype=torch.float32) -> unannotated",
       "kind": "FunctionDef",
       "line": 10,
       "end_line": 37,
@@ -42194,13 +42900,14 @@
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "4cc0584021816b18584f11c1d476fc3c69f12c9f91a057c904a2f60353d93218",
+      "fingerprint": "6e55a2cf78974601ee2d09062455cab8354d9b57317c56da6efba8cb4ae78298",
       "id": "scripts/benchmark_curved_walls.py::run",
       "branches": {
         "hit": 4,
         "total": 4
       },
       "tests": [
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_quality_tools.py::test_curved_wall_benchmark_reports_small_channel_error",
         "tests/test_tooling_recordings.py::test_curved_benchmark_grid_property_matches_cartesian_resolution"
       ],
@@ -42230,6 +42937,7 @@
         "total": 0
       },
       "tests": [
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_quality_tools.py::test_curved_wall_benchmark_reports_small_channel_error",
         "tests/test_tooling_recordings.py::test_curved_benchmark_grid_property_matches_cartesian_resolution"
       ],
@@ -42287,6 +42995,7 @@
         "total": 2
       },
       "tests": [
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_quality_tools.py::test_curved_wall_benchmark_reports_small_channel_error",
         "tests/test_tooling_recordings.py::test_curved_benchmark_grid_property_matches_cartesian_resolution"
       ],
@@ -42316,6 +43025,7 @@
         "total": 2
       },
       "tests": [
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_quality_tools.py::test_curved_wall_benchmark_reports_small_channel_error",
         "tests/test_tooling_recordings.py::test_curved_benchmark_grid_property_matches_cartesian_resolution"
       ],
@@ -42793,6 +43503,596 @@
       "lines": {
         "hit": 30,
         "total": 30
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "engine",
+      "signature": "engine(device, reference, params, directory) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 40,
+      "end_line": 50,
+      "first_line": 40,
+      "code_name": "engine",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Run only the declared compatibility cases through parity_worker.",
+      "fingerprint": "7fa83b9df03c35f258269ff8b63dc396f9e292018189d4094102992235aa3bce",
+      "id": "scripts/device_smoke.py::engine",
+      "branches": {
+        "hit": 4,
+        "total": 4
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy"
+      ],
+      "lines": {
+        "hit": 9,
+        "total": 9
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "kbc",
+      "signature": "kbc(device, reference, params, directory) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 53,
+      "end_line": 66,
+      "first_line": 53,
+      "code_name": "kbc",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "One KBC collision of the stored PorousMedium cell, as in test_kbc_precision.",
+      "fingerprint": "8e0c90f173b38674b413eadb35df235bc9e441ba1000966aabef52fc61b7375d",
+      "id": "scripts/device_smoke.py::kbc",
+      "branches": {
+        "hit": 2,
+        "total": 2
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_kbc_builder_reproduces_the_existing_precision_fixture",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy"
+      ],
+      "lines": {
+        "hit": 10,
+        "total": 10
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "neutral",
+      "signature": "neutral(device, reference, params, directory) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 69,
+      "end_line": 83,
+      "first_line": 69,
+      "code_name": "neutral",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Neutral precursor: production Session candidate, FP64 make() reference.",
+      "fingerprint": "aafd7b40a787b3443718c07c57b35059eb3e2053732e4e7ae21abd3f6ef1735d",
+      "id": "scripts/device_smoke.py::neutral",
+      "branches": {
+        "hit": 2,
+        "total": 2
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_neutral_reference_reports_relative_mass_change",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy"
+      ],
+      "lines": {
+        "hit": 11,
+        "total": 11
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "moving",
+      "signature": "moving(device, reference, params, directory) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 86,
+      "end_line": 102,
+      "first_line": 86,
+      "code_name": "moving",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Moving sphere: production Session candidate, FP64 reference of the same assembly.",
+      "fingerprint": "9f425cccc7579745a0bd99250f45a4be6a53294eb4f3080cb3b6225f82e1aae1",
+      "id": "scripts/device_smoke.py::moving",
+      "branches": {
+        "hit": 2,
+        "total": 2
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy"
+      ],
+      "lines": {
+        "hit": 13,
+        "total": 13
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "wall",
+      "signature": "wall(device, reference, params, directory) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 105,
+      "end_line": 110,
+      "first_line": 105,
+      "code_name": "wall",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Fractional-wall channel benchmark maximum speed for each declared q.",
+      "fingerprint": "454acd779c467bef115133b721ddb976ea889dc624918ce27ad30de91d34b335",
+      "id": "scripts/device_smoke.py::wall",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy"
+      ],
+      "lines": {
+        "hit": 3,
+        "total": 3
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "load_policy",
+      "signature": "load_policy(path) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 116,
+      "end_line": 137,
+      "first_line": 116,
+      "code_name": "load_policy",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Reject a policy whose cases, classes, tolerances or guards are incomplete.",
+      "fingerprint": "3e2ddae4122bb17bb725c70e8e65907f295ba16bc70af17a3693ad704e38993d",
+      "id": "scripts/device_smoke.py::load_policy",
+      "branches": {
+        "hit": 18,
+        "total": 18
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_committed_policy_declares_existing_inputs_and_unwidened_tolerances",
+        "tests/test_device_smoke.py::test_foreign_hawa_before_cases_fails_without_running_them",
+        "tests/test_device_smoke.py::test_interrupted_run_leaves_an_incomplete_manifest",
+        "tests/test_device_smoke.py::test_kbc_builder_reproduces_the_existing_precision_fixture",
+        "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+        "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[cpu-cpu]",
+        "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[cuda-cuda:0]",
+        "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[mps-mps]",
+        "tests/test_device_smoke.py::test_main_rejects_unstated_jobs_mps_fallback_and_invalid_policy[arguments2-environment2-Invalid policy: \\\\[Errno 2\\\\] ]",
+        "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+        "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run",
+        "tests/test_device_smoke.py::test_policy_accepts_declared_guard_and_bitwise_check",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^Policy requires schema 1 and at least one case$0]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^Policy requires schema 1 and at least one case$1]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: an unsupported device needs its guard exception and message$0]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: an unsupported device needs its guard exception and message$1]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: an unsupported device needs its guard exception and message$2]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bitwise checks take no tolerance$]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$0]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$1]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$2]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$3]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: comparison class must be one of bitwise, bounded$]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: requires a known builder, checks and a criterion source$0]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: requires a known builder, checks and a criterion source$1]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: requires a known builder, checks and a criterion source$2]",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy"
+      ],
+      "lines": {
+        "hit": 19,
+        "total": 19
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "compare",
+      "signature": "compare(check, reference, candidate, config) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 140,
+      "end_line": 165,
+      "first_line": 140,
+      "code_name": "compare",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Apply one declared check to each selected array, without changing its tolerance.",
+      "fingerprint": "b511bd5997661976871c3fa33e9731a103e818d5a2662121a3604b82c698e93e",
+      "id": "scripts/device_smoke.py::compare",
+      "branches": {
+        "hit": 6,
+        "total": 6
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_bitwise_compares_rounded_reference_bits",
+        "tests/test_device_smoke.py::test_bounded_uses_reference_magnitude_inclusive_limit_and_named_scale",
+        "tests/test_device_smoke.py::test_case_fails_outside_tolerance_or_when_any_run_fails",
+        "tests/test_device_smoke.py::test_case_runs_cpu_fp64_reference_then_seeded_candidate",
+        "tests/test_device_smoke.py::test_evaluate_requires_matching_inventory_and_one_owner_per_array",
+        "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+        "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+        "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run",
+        "tests/test_device_smoke.py::test_only_the_declared_runtime_guard_is_unsupported_guarded",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy"
+      ],
+      "lines": {
+        "hit": 19,
+        "total": 19
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "evaluate",
+      "signature": "evaluate(checks, reference, candidate, reference_config, candidate_config) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 168,
+      "end_line": 186,
+      "first_line": 168,
+      "code_name": "evaluate",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Require identical inventories and exactly one declared check per array.",
+      "fingerprint": "515d0b2d9ece01397d3fcf5ba5e220a44ae0f12a9ca83c8562404dfc70b00d65",
+      "id": "scripts/device_smoke.py::evaluate",
+      "branches": {
+        "hit": 10,
+        "total": 10
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_case_fails_outside_tolerance_or_when_any_run_fails",
+        "tests/test_device_smoke.py::test_case_runs_cpu_fp64_reference_then_seeded_candidate",
+        "tests/test_device_smoke.py::test_evaluate_requires_matching_inventory_and_one_owner_per_array",
+        "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+        "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+        "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run",
+        "tests/test_device_smoke.py::test_only_the_declared_runtime_guard_is_unsupported_guarded",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy"
+      ],
+      "lines": {
+        "hit": 15,
+        "total": 15
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "seed",
+      "signature": "seed() -> unannotated",
+      "kind": "FunctionDef",
+      "line": 189,
+      "end_line": 191,
+      "first_line": 189,
+      "code_name": "seed",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "b170edd0270d33a87ddf4a2ee0e0c7dc8f9bf9948800ee4a7edd35dfa1a7b200",
+      "id": "scripts/device_smoke.py::seed",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_case_fails_outside_tolerance_or_when_any_run_fails",
+        "tests/test_device_smoke.py::test_case_runs_cpu_fp64_reference_then_seeded_candidate",
+        "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+        "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+        "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run",
+        "tests/test_device_smoke.py::test_only_the_declared_runtime_guard_is_unsupported_guarded"
+      ],
+      "lines": {
+        "hit": 2,
+        "total": 2
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "run_case",
+      "signature": "run_case(name, case, device, directory) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 194,
+      "end_line": 225,
+      "first_line": 194,
+      "code_name": "run_case",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Run the reference, then the candidate; record a guard refusal separately.",
+      "fingerprint": "98bd62ea096238e3ffc67e02aa45e376b43cbc6de91e99a9c4da1b4d57b3af25",
+      "id": "scripts/device_smoke.py::run_case",
+      "branches": {
+        "hit": 4,
+        "total": 4
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_case_fails_outside_tolerance_or_when_any_run_fails",
+        "tests/test_device_smoke.py::test_case_runs_cpu_fp64_reference_then_seeded_candidate",
+        "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+        "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+        "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run",
+        "tests/test_device_smoke.py::test_only_the_declared_runtime_guard_is_unsupported_guarded"
+      ],
+      "lines": {
+        "hit": 29,
+        "total": 29
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "command",
+      "signature": "command(arguments) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 228,
+      "end_line": 233,
+      "first_line": 228,
+      "code_name": "command",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Optional host description; an absent tool is recorded as None.",
+      "fingerprint": "f7c910fbde570232c67fc43491b4d0d229c57f02781dad9435727dcbff60e826",
+      "id": "scripts/device_smoke.py::command",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_command_returns_output_or_none"
+      ],
+      "lines": {
+        "hit": 4,
+        "total": 4
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "environment",
+      "signature": "environment(device) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 236,
+      "end_line": 249,
+      "first_line": 236,
+      "code_name": "environment",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "7d0bb176ac71df166a1c58e90ed97e13e17be0afc02465fd7ad1557bb91feb9d",
+      "id": "scripts/device_smoke.py::environment",
+      "branches": {
+        "hit": 4,
+        "total": 4
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_environment_describes_the_requested_device"
+      ],
+      "lines": {
+        "hit": 6,
+        "total": 6
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "provenance",
+      "signature": "provenance(root=ROOT) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 252,
+      "end_line": 258,
+      "first_line": 252,
+      "code_name": "provenance",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Commit, dirty flag and a digest of every tracked/nonignored file (scripts/verification_evidence.py).",
+      "fingerprint": "50022d721eaf89f5e1d755e21a381d40bb4f19021e53645b97da4f4767cf5455",
+      "id": "scripts/device_smoke.py::provenance",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_provenance_records_commit_dirty_state_and_source_digest"
+      ],
+      "lines": {
+        "hit": 3,
+        "total": 3
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "loaded_module_paths",
+      "signature": "loaded_module_paths() -> unannotated",
+      "kind": "FunctionDef",
+      "line": 261,
+      "end_line": 264,
+      "first_line": 261,
+      "code_name": "loaded_module_paths",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "File of every loaded hawa/lettuce module, as in scripts/diagnose_kbc_parity.py.",
+      "fingerprint": "0a48538894e413fe0f5aac4199b9888f618266f49a07b17db1bb7d3f4741eee7",
+      "id": "scripts/device_smoke.py::loaded_module_paths",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_foreign_hawa_before_cases_fails_without_running_them",
+        "tests/test_device_smoke.py::test_interrupted_run_leaves_an_incomplete_manifest",
+        "tests/test_device_smoke.py::test_loaded_module_paths_must_be_files_from_this_checkout",
+        "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+        "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+        "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "validate_loaded_modules",
+      "signature": "validate_loaded_modules(paths, root=ROOT) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 267,
+      "end_line": 275,
+      "first_line": 267,
+      "code_name": "validate_loaded_modules",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Every loaded hawa/lettuce module must be a file from this checkout, not an installed copy.",
+      "fingerprint": "2c3332ffdf9b53c318f5b04389a462950d5dba606be8c08189a968fcc0a01cd6",
+      "id": "scripts/device_smoke.py::validate_loaded_modules",
+      "branches": {
+        "hit": 8,
+        "total": 8
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_foreign_hawa_before_cases_fails_without_running_them",
+        "tests/test_device_smoke.py::test_interrupted_run_leaves_an_incomplete_manifest",
+        "tests/test_device_smoke.py::test_loaded_module_paths_must_be_files_from_this_checkout",
+        "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+        "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+        "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run"
+      ],
+      "lines": {
+        "hit": 7,
+        "total": 7
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "main",
+      "signature": "main(argv=None) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 278,
+      "end_line": 340,
+      "first_line": 278,
+      "code_name": "main",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "bc42b249c84d0fb29b1f44da5da602559a70afc55c9b81f490cdd2d8bf70ea81",
+      "id": "scripts/device_smoke.py::main",
+      "branches": {
+        "hit": 6,
+        "total": 6
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_foreign_hawa_before_cases_fails_without_running_them",
+        "tests/test_device_smoke.py::test_interrupted_run_leaves_an_incomplete_manifest",
+        "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+        "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[cpu-cpu]",
+        "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[cuda-cuda:0]",
+        "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[mps-mps]",
+        "tests/test_device_smoke.py::test_main_rejects_unstated_jobs_mps_fallback_and_invalid_policy[arguments0-environment0-State the overlapping jobs, or \"none\"$]",
+        "tests/test_device_smoke.py::test_main_rejects_unstated_jobs_mps_fallback_and_invalid_policy[arguments1-environment1-Unset PYTORCH_ENABLE_MPS_FALLBACK; CPU fallback would hide MPS results$]",
+        "tests/test_device_smoke.py::test_main_rejects_unstated_jobs_mps_fallback_and_invalid_policy[arguments2-environment2-Invalid policy: \\\\[Errno 2\\\\] ]",
+        "tests/test_device_smoke.py::test_main_requires_device_output_and_overlapping_jobs_statement[--device]",
+        "tests/test_device_smoke.py::test_main_requires_device_output_and_overlapping_jobs_statement[--output]",
+        "tests/test_device_smoke.py::test_main_requires_device_output_and_overlapping_jobs_statement[--overlapping-jobs]",
+        "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+        "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run",
+        "tests/test_device_smoke.py::test_script_help_runs_without_creating_outputs"
+      ],
+      "lines": {
+        "hit": 42,
+        "total": 42
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "main.check_modules",
+      "signature": "check_modules(stage) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 311,
+      "end_line": 316,
+      "first_line": 311,
+      "code_name": "check_modules",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "5ba4e030d4ecfc2ba36be780ae19f30ffabe913dbb76bfa127d1e7b60f838bf1",
+      "id": "scripts/device_smoke.py::main.check_modules",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_foreign_hawa_before_cases_fails_without_running_them",
+        "tests/test_device_smoke.py::test_interrupted_run_leaves_an_incomplete_manifest",
+        "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+        "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+        "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run"
+      ],
+      "lines": {
+        "hit": 5,
+        "total": 5
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/device_smoke.py",
+      "language": "Python",
+      "name": "main.save",
+      "signature": "save() -> unannotated",
+      "kind": "FunctionDef",
+      "line": 318,
+      "end_line": 319,
+      "first_line": 318,
+      "code_name": "save",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "8c75159e9a5852088aa6c8f52fb4e968f08cb15bda5b707dc1b49a4fcf7a337c",
+      "id": "scripts/device_smoke.py::main.save",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_device_smoke.py::test_foreign_hawa_before_cases_fails_without_running_them",
+        "tests/test_device_smoke.py::test_interrupted_run_leaves_an_incomplete_manifest",
+        "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+        "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+        "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
       },
       "status": "covered"
     },
@@ -44194,7 +45494,7 @@
       "path": "scripts/parity_worker.py",
       "language": "Python",
       "name": "run",
-      "signature": "run(role, device, output) -> unannotated",
+      "signature": "run(role, device, output, cases=None) -> unannotated",
       "kind": "FunctionDef",
       "line": 16,
       "end_line": 93,
@@ -44203,7 +45503,7 @@
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "0561feaf200fec9c0ebabe88af2f6d01422dbb38360edc6401bbd57a4a5f180e",
+      "fingerprint": "b8749435eb4d4e7d311c40965aec1d6b9f16d0f303f2f32c7e890b3dcda35d0e",
       "id": "scripts/parity_worker.py::run",
       "branches": {
         "hit": 30,
@@ -44211,6 +45511,7 @@
       },
       "tests": [
         "tests/test_cuda_tooling.py::test_parity_worker_captures_all_checkpoints_from_real_cpu_solver",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_orchestration_quality_completion.py::test_parity_cli_runs_real_small_cpu_case_and_publishes_metadata",
         "tests/test_tooling_execution.py::test_parity_worker_enforces_source_runtime_and_numerical_evidence[backport-source]",
         "tests/test_tooling_execution.py::test_parity_worker_enforces_source_runtime_and_numerical_evidence[commit]",
@@ -45184,6 +46485,7 @@
         "tests/test_cuda_verification.py::test_snapshot_detects_source_inventory_lock_and_index_changes[edit]",
         "tests/test_cuda_verification.py::test_snapshot_detects_source_inventory_lock_and_index_changes[lock]",
         "tests/test_cuda_verification.py::test_snapshot_detects_source_inventory_lock_and_index_changes[stage]",
+        "tests/test_device_smoke.py::test_provenance_records_commit_dirty_state_and_source_digest",
         "tests/test_tooling_failure_paths.py::test_cuda_runner_full_scope_keeps_all_stage_commands_and_evidence"
       ],
       "lines": {
@@ -47345,6 +48647,7 @@
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -47626,6 +48929,7 @@
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_boundary_memory_increases_with_exposed_faces_before_allocation",
         "tests/test_integration_review.py::test_external_memory_rejected_before_link_allocation",
@@ -47753,6 +49057,7 @@
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_boundary_memory_increases_with_exposed_faces_before_allocation",
         "tests/test_integration_review.py::test_external_memory_rejected_before_link_allocation",
@@ -47876,6 +49181,7 @@
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_boundary_memory_increases_with_exposed_faces_before_allocation",
         "tests/test_integration_review.py::test_external_memory_rejected_before_link_allocation",
@@ -48062,6 +49368,7 @@
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -48308,6 +49615,12 @@
         "tests/test_cli.py::test_smoke_snapshot_is_detached_from_live_state",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_device_smoke.py::test_foreign_hawa_before_cases_fails_without_running_them",
+        "tests/test_device_smoke.py::test_interrupted_run_leaves_an_incomplete_manifest",
+        "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+        "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+        "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -48500,6 +49813,11 @@
         "tests/test_cli.py::test_actual_cpu_smoke_exports_physical_arrays",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_device_smoke.py::test_foreign_hawa_before_cases_fails_without_running_them",
+        "tests/test_device_smoke.py::test_interrupted_run_leaves_an_incomplete_manifest",
+        "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+        "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+        "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run",
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[cpu]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
@@ -48597,6 +49915,12 @@
         "tests/test_cli.py::test_smoke_snapshot_is_detached_from_live_state",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_device_smoke.py::test_foreign_hawa_before_cases_fails_without_running_them",
+        "tests/test_device_smoke.py::test_interrupted_run_leaves_an_incomplete_manifest",
+        "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+        "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+        "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -48807,6 +50131,12 @@
         "tests/test_cli.py::test_smoke_snapshot_is_detached_from_live_state",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_device_smoke.py::test_foreign_hawa_before_cases_fails_without_running_them",
+        "tests/test_device_smoke.py::test_interrupted_run_leaves_an_incomplete_manifest",
+        "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+        "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+        "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -50682,6 +52012,7 @@
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
         "tests/test_cuda_tooling.py::test_parity_worker_captures_all_checkpoints_from_real_cpu_solver",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[cpu]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
@@ -50783,6 +52114,7 @@
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
         "tests/test_cuda_tooling.py::test_parity_worker_captures_all_checkpoints_from_real_cpu_solver",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_engine.py::test_actual_lettuce_engine_runs_3d_in_chunks[cpu]",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
@@ -56158,6 +57490,7 @@
         "total": 2
       },
       "tests": [
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
         "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads",
@@ -56206,6 +57539,7 @@
         "total": 10
       },
       "tests": [
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
         "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads",
@@ -56255,6 +57589,7 @@
       },
       "tests": [
         "tests/test_cuda_tooling.py::test_rotating_sphere_cpu_reports_finite_opposing_torque",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
         "tests/test_motion.py::test_motion_derivative_and_rotation",
@@ -56304,6 +57639,7 @@
         "total": 6
       },
       "tests": [
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
         "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads",
@@ -56352,6 +57688,7 @@
         "total": 4
       },
       "tests": [
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
         "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads",
@@ -56400,6 +57737,7 @@
         "total": 28
       },
       "tests": [
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
         "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads",
@@ -56484,6 +57822,7 @@
       },
       "tests": [
         "tests/test_cuda_tooling.py::test_rotating_sphere_cpu_reports_finite_opposing_torque",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
         "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads",
@@ -56533,6 +57872,7 @@
       },
       "tests": [
         "tests/test_cuda_tooling.py::test_rotating_sphere_cpu_reports_finite_opposing_torque",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
         "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads",
@@ -56583,6 +57923,7 @@
       },
       "tests": [
         "tests/test_cuda_tooling.py::test_rotating_sphere_cpu_reports_finite_opposing_torque",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_motion.py::test_couette_moving_reflection_matches_analytic_profile[cpu]",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads",
@@ -56620,6 +57961,7 @@
       },
       "tests": [
         "tests/test_cuda_tooling.py::test_rotating_sphere_cpu_reports_finite_opposing_torque",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
         "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads",
@@ -56669,6 +58011,7 @@
       },
       "tests": [
         "tests/test_cuda_tooling.py::test_rotating_sphere_cpu_reports_finite_opposing_torque",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
         "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads",
@@ -56718,6 +58061,7 @@
       },
       "tests": [
         "tests/test_cuda_tooling.py::test_rotating_sphere_cpu_reports_finite_opposing_torque",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads",
         "tests/test_motion.py::test_moving_restart_matches_continuous[cpu]",
@@ -56754,6 +58098,7 @@
       },
       "tests": [
         "tests/test_cuda_tooling.py::test_rotating_sphere_cpu_reports_finite_opposing_torque",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
         "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads",
@@ -56803,6 +58148,7 @@
       },
       "tests": [
         "tests/test_cuda_tooling.py::test_rotating_sphere_cpu_reports_finite_opposing_torque",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads",
         "tests/test_motion.py::test_moving_restart_matches_continuous[cpu]",
@@ -56914,6 +58260,7 @@
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_boundary_memory_increases_with_exposed_faces_before_allocation",
         "tests/test_integration_review.py::test_external_memory_rejected_before_link_allocation",
@@ -57013,6 +58360,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -57085,6 +58433,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -57153,6 +58502,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -57286,6 +58636,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -57363,6 +58714,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -57433,6 +58785,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -57500,6 +58853,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -57564,6 +58918,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -57683,6 +59038,7 @@
         "tests/test_boundary_series.py::test_v2_geometry_time_hash_and_quality_rejections",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -57754,6 +59110,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -57825,6 +59182,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -57889,6 +59247,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -57944,6 +59303,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -58013,6 +59373,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -58084,6 +59445,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -58155,6 +59517,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -58220,6 +59583,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -58278,6 +59642,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
@@ -58789,6 +60154,7 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -59064,6 +60430,7 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -59340,6 +60707,7 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -59604,6 +60972,7 @@
       "tests": [
         "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
         "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_jobs.py::test_job_controls_and_completed_identity[cpu]",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
@@ -59674,6 +61043,7 @@
         "total": 0
       },
       "tests": [
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_jobs.py::test_job_controls_and_completed_identity[cpu]",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads",
@@ -59723,6 +61093,7 @@
       "tests": [
         "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
         "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_jobs.py::test_job_controls_and_completed_identity[cpu]",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
@@ -59795,6 +61166,7 @@
       "tests": [
         "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[1.0]",
         "tests/test_atmospheric_precision.py::test_session_quality_reports_unresolved_molecular_dissipation[10.0]",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_jobs.py::test_job_controls_and_completed_identity[cpu]",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
@@ -59930,6 +61302,7 @@
         "tests/test_boundary_data.py::test_quality_flux_and_record_provenance",
         "tests/test_boundary_data.py::test_rotated_mapping_mask_rejection_and_cancel",
         "tests/test_boundary_data.py::test_uniform_regression_and_time_profile",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -60030,6 +61403,7 @@
         "tests/test_boundary_data.py::test_quality_flux_and_record_provenance",
         "tests/test_boundary_data.py::test_rotated_mapping_mask_rejection_and_cancel",
         "tests/test_boundary_data.py::test_uniform_regression_and_time_profile",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_general_boundaries.py::test_composition_mapped_curved_walls",
         "tests/test_jobs.py::test_job_controls_and_completed_identity[cpu]",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
@@ -60102,6 +61476,7 @@
         "tests/test_boundary_data.py::test_quality_flux_and_record_provenance",
         "tests/test_boundary_data.py::test_rotated_mapping_mask_rejection_and_cancel",
         "tests/test_boundary_data.py::test_uniform_regression_and_time_profile",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -60205,6 +61580,7 @@
         "tests/test_boundary_data.py::test_quality_flux_and_record_provenance",
         "tests/test_boundary_data.py::test_rotated_mapping_mask_rejection_and_cancel",
         "tests/test_boundary_data.py::test_uniform_regression_and_time_profile",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -60377,6 +61753,7 @@
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_cuda_tooling.py::test_rotating_sphere_cpu_reports_finite_opposing_torque",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -60532,6 +61909,7 @@
         "tests/test_boundary_data.py::test_rotated_mapping_mask_rejection_and_cancel",
         "tests/test_boundary_data.py::test_uniform_regression_and_time_profile",
         "tests/test_cuda_tooling.py::test_rotating_sphere_cpu_reports_finite_opposing_torque",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -60646,6 +62024,7 @@
       },
       "tests": [
         "tests/test_cuda_tooling.py::test_rotating_sphere_cpu_reports_finite_opposing_torque",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_motion.py::test_cycle_evaluation_returns_complete_window[cpu]",
         "tests/test_motion.py::test_cycle_objective_rejects_partial_cycles[cpu]",
         "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads",
@@ -60704,6 +62083,7 @@
         "tests/test_boundary_data.py::test_quality_flux_and_record_provenance",
         "tests/test_boundary_data.py::test_rotated_mapping_mask_rejection_and_cancel",
         "tests/test_boundary_data.py::test_uniform_regression_and_time_profile",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -60834,6 +62214,7 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -61061,6 +62442,7 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -61250,6 +62632,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
         "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
@@ -61564,6 +62947,7 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_export.py::test_export_metadata_describes_capture_before_later_steps",
         "tests/test_export.py::test_export_round_trip_keeps_raw_fields_and_capture_metadata",
         "tests/test_export.py::test_export_supports_long_valid_destination_name[False]",
@@ -62148,6 +63532,7 @@
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[2]",
         "tests/test_compatibility_matrix.py::test_legacy_2d_streamlines_accept_planar_seeds[3]",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",
@@ -63238,6 +64623,7 @@
         "tests/test_boundary_series.py::test_v2_rotated_world_velocity_and_millimetres",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_integration_review.py::test_boundary_memory_increases_with_exposed_faces_before_allocation",
         "tests/test_integration_review.py::test_external_memory_rejected_before_link_allocation",
@@ -63361,6 +64747,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_general_boundaries.py::test_boundary_neq_preserved_and_pressure_moment",
         "tests/test_general_boundaries.py::test_channel_prescribed_moments[0]",
@@ -63463,6 +64850,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_general_boundaries.py::test_boundary_neq_preserved_and_pressure_moment",
         "tests/test_general_boundaries.py::test_channel_prescribed_moments[0]",
@@ -63559,6 +64947,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_general_boundaries.py::test_channel_prescribed_moments[0]",
         "tests/test_general_boundaries.py::test_channel_prescribed_moments[1]",
@@ -63691,6 +65080,7 @@
         "tests/test_boundary_series.py::test_three_stage_recording_preserves_absolute_clock_and_kinetic_stress",
         "tests/test_boundary_series.py::test_v2_time_pressure_ground_initialization_and_live_step",
         "tests/test_boundary_series.py::test_wall_filter_memory_transfers_only_at_matching_physical_height",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_flow_statistics.py::test_spatial_roughness_impulse_and_no_mutation",
         "tests/test_general_boundaries.py::test_boundary_neq_preserved_and_pressure_moment",
         "tests/test_general_boundaries.py::test_channel_prescribed_moments[0]",
@@ -63777,6 +65167,7 @@
         "total": 14
       },
       "tests": [
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_general_boundaries.py::test_composition_mapped_curved_walls",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[mismatch]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
@@ -63816,6 +65207,7 @@
         "total": 0
       },
       "tests": [
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_general_boundaries.py::test_composition_mapped_curved_walls",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[mismatch]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
@@ -63853,6 +65245,7 @@
         "total": 0
       },
       "tests": [
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
         "tests/test_general_boundaries.py::test_composition_mapped_curved_walls",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[mismatch]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
@@ -64753,6 +66146,50 @@
         "tests/test_cuda_verification.py::test_snapshot_detects_source_inventory_lock_and_index_changes[edit]",
         "tests/test_cuda_verification.py::test_snapshot_detects_source_inventory_lock_and_index_changes[lock]",
         "tests/test_cuda_verification.py::test_snapshot_detects_source_inventory_lock_and_index_changes[stage]",
+        "tests/test_device_smoke.py::test_bitwise_compares_rounded_reference_bits",
+        "tests/test_device_smoke.py::test_bounded_uses_reference_magnitude_inclusive_limit_and_named_scale",
+        "tests/test_device_smoke.py::test_case_fails_outside_tolerance_or_when_any_run_fails",
+        "tests/test_device_smoke.py::test_case_runs_cpu_fp64_reference_then_seeded_candidate",
+        "tests/test_device_smoke.py::test_command_returns_output_or_none",
+        "tests/test_device_smoke.py::test_committed_policy_declares_existing_inputs_and_unwidened_tolerances",
+        "tests/test_device_smoke.py::test_environment_describes_the_requested_device",
+        "tests/test_device_smoke.py::test_evaluate_requires_matching_inventory_and_one_owner_per_array",
+        "tests/test_device_smoke.py::test_foreign_hawa_before_cases_fails_without_running_them",
+        "tests/test_device_smoke.py::test_interrupted_run_leaves_an_incomplete_manifest",
+        "tests/test_device_smoke.py::test_kbc_builder_reproduces_the_existing_precision_fixture",
+        "tests/test_device_smoke.py::test_loaded_module_paths_must_be_files_from_this_checkout",
+        "tests/test_device_smoke.py::test_main_fails_on_source_drift_or_failed_case",
+        "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[cpu-cpu]",
+        "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[cuda-cuda:0]",
+        "tests/test_device_smoke.py::test_main_probes_the_requested_torch_device_before_writing[mps-mps]",
+        "tests/test_device_smoke.py::test_main_rejects_unstated_jobs_mps_fallback_and_invalid_policy[arguments0-environment0-State the overlapping jobs, or \"none\"$]",
+        "tests/test_device_smoke.py::test_main_rejects_unstated_jobs_mps_fallback_and_invalid_policy[arguments1-environment1-Unset PYTORCH_ENABLE_MPS_FALLBACK; CPU fallback would hide MPS results$]",
+        "tests/test_device_smoke.py::test_main_rejects_unstated_jobs_mps_fallback_and_invalid_policy[arguments2-environment2-Invalid policy: \\\\[Errno 2\\\\] ]",
+        "tests/test_device_smoke.py::test_main_requires_device_output_and_overlapping_jobs_statement[--device]",
+        "tests/test_device_smoke.py::test_main_requires_device_output_and_overlapping_jobs_statement[--output]",
+        "tests/test_device_smoke.py::test_main_requires_device_output_and_overlapping_jobs_statement[--overlapping-jobs]",
+        "tests/test_device_smoke.py::test_main_writes_manifest_without_counting_guarded_cases_as_passes",
+        "tests/test_device_smoke.py::test_module_loaded_from_elsewhere_during_cases_fails_the_run",
+        "tests/test_device_smoke.py::test_neutral_reference_reports_relative_mass_change",
+        "tests/test_device_smoke.py::test_only_the_declared_runtime_guard_is_unsupported_guarded",
+        "tests/test_device_smoke.py::test_policy_accepts_declared_guard_and_bitwise_check",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^Policy requires schema 1 and at least one case$0]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^Policy requires schema 1 and at least one case$1]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: an unsupported device needs its guard exception and message$0]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: an unsupported device needs its guard exception and message$1]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: an unsupported device needs its guard exception and message$2]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bitwise checks take no tolerance$]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$0]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$1]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$2]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: bounded checks require finite nonnegative rtol and atol$3]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: comparison class must be one of bitwise, bounded$]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: requires a known builder, checks and a criterion source$0]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: requires a known builder, checks and a criterion source$1]",
+        "tests/test_device_smoke.py::test_policy_rejects_undeclared_classes_tolerances_and_guards[<lambda>-^c: requires a known builder, checks and a criterion source$2]",
+        "tests/test_device_smoke.py::test_provenance_records_commit_dirty_state_and_source_digest",
+        "tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy",
+        "tests/test_device_smoke.py::test_script_help_runs_without_creating_outputs",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin0-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin1-0.5]",
         "tests/test_domain_relationships.py::test_independent_sessions_do_not_reject_spatial_relationships[origin2-0.5]",

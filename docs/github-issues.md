@@ -66,7 +66,7 @@ after results are known. That is a separate method change, which needs its own a
    raw results. Exploratory device sessions are allowed while debugging, but only
    the merged commit's results count as qualification.
 5. **Device smoke gate.** Every PR that touches numerics passes the device smoke
-   gate ([#57](https://github.com/range-et/hawa-cfd/issues/57)): CPU mode in CI, and
+   gate ([guide](device-smoke.md), [#57](https://github.com/range-et/hawa-cfd/issues/57)): CPU mode in CI, and
    CUDA and MPS modes in the batched round. Re-run it after driver, macOS or PyTorch
    upgrades.
 6. **One owner reconciles.** The issue owner reads every device result against
