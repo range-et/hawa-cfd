@@ -18,6 +18,46 @@ static class GeometryKernelContracts
             mesh.Closest=(p,t)=>new MeshPoint(p);
             assert(MeshContainment.Contains(mesh,bounds,new(0,0,0),1e-6),"Surface point lost");
         });
+        // Analytic box: exact closest point and segment/box crossings, as Rhino reports them.
+        Mesh Box(Point3d lo,Point3d hi){
+            var mesh=new Mesh();double[] l={lo.X,lo.Y,lo.Z},h={hi.X,hi.Y,hi.Z};
+            mesh.Closest=(p,t)=>{double[] q={p.X,p.Y,p.Z},c=new double[3];bool inside=true;
+                for(int a=0;a<3;a++){c[a]=Math.Clamp(q[a],l[a],h[a]);inside&=q[a]>l[a]&&q[a]<h[a];}
+                if(inside){double gap=double.PositiveInfinity;for(int a=0;a<3;a++)foreach(double f in new[]{l[a],h[a]})if(Math.Abs(q[a]-f)<gap){gap=Math.Abs(q[a]-f);c=(double[])q.Clone();c[a]=f;}}
+                var near=new Point3d(c[0],c[1],c[2]);return near.DistanceTo(p)<=t?new MeshPoint(near):null;};
+            mesh.Hits=line=>{double[] o={line.From.X,line.From.Y,line.From.Z},d={line.To.X-o[0],line.To.Y-o[1],line.To.Z-o[2]};double t0=0,t1=1;
+                for(int a=0;a<3;a++){double u=(l[a]-o[a])/d[a],v=(h[a]-o[a])/d[a];t0=Math.Max(t0,Math.Min(u,v));t1=Math.Min(t1,Math.Max(u,v));}
+                if(t0>t1)return Array.Empty<Point3d>();
+                return new[]{t0,t1}.Where(t=>t>0&&t<1).Select(t=>new Point3d(o[0]+t*d[0],o[1]+t*d[1],o[2]+t*d[2])).ToArray();};
+            return mesh;}
+        test("containment keeps faces on lattice planes on both sides of an axis box",()=>{
+            int Count(double dx,double origin,int a,int b,double shift){
+                var lo=new Point3d(origin+a*dx+shift,origin+a*dx+shift,origin+a*dx+shift);var hi=new Point3d(origin+b*dx+shift,origin+b*dx+shift,origin+b*dx+shift);
+                var mesh=Box(lo,hi);var bounds=new BoundingBox(lo,hi);int n=0;
+                for(int i=a-2;i<=b+2;i++)for(int j=a-2;j<=b+2;j++)for(int k=a-2;k<=b+2;k++)
+                    if(MeshContainment.Contains(mesh,bounds,new Point3d(origin+i*dx,origin+j*dx,origin+k*dx),dx*1e-5))n++;
+                return n;}
+            // Faces on node planes: both face layers are solid (surface counts as inside) at every spacing,
+            // origin and sub-tolerance shift; 0.7 = 7*0.1 is one case the unpadded bounds lost.
+            foreach(double dx in new[]{.5,.25,.2,.1,.3})foreach(double origin in new[]{0,.1,1000.1})foreach(double shift in new[]{0,1e-6*dx,-1e-6*dx}){
+                int got=Count(dx,origin,3,7,shift);assert(got==125,$"dx {dx} origin {origin} shift {shift}: {got} of 125 nodes");}
+            // Literal CAD coordinates against computed node positions: 7*0.1 = 0.7000000000000001.
+            var cad=Box(new(.3,.3,.3),new(.7,.7,.7));int literal=0;
+            for(int i=1;i<=9;i++)for(int j=1;j<=9;j++)for(int k=1;k<=9;k++)
+                if(MeshContainment.Contains(cad,new BoundingBox(new(.3,.3,.3),new(.7,.7,.7)),new Point3d(i*.1,j*.1,k*.1),.1*1e-5))literal++;
+            assert(literal==125,$"Literal 0.3..0.7 cube at dx 0.1: {literal} of 125 nodes");
+            // Shifted beyond the tolerance, the high layer correctly leaves the box.
+            assert(Count(.5,0,3,7,-1e-3)==64,"A face beyond the tolerance stayed solid");
+        });
+        test("a node solid within the surface tolerance resolves its wall link",()=>{
+            // The node at 1.75 lies 2.5e-7 outside the face, inside containment's dx*1e-5.
+            double face=1.75-2.5e-7;var mesh=Box(new(1,1,1),new(face,face,face));var start=new Point3d(2,1.5,1.5);var segment=new Vector3d(-.25,0,0);
+            assert(MeshContainment.Contains(mesh,new BoundingBox(new(1,1,1),new(face,face,face)),start+segment,.25*1e-5),"Tolerance case is not solid");
+            assert(WallLinks.Fraction(mesh,start,segment)==1,"Solid node within the surface tolerance has no wall link");
+            // Beyond the tolerance the node is fluid and the link stays a miss.
+            mesh=Box(new(1,1,1),new(1.75-1e-3,1.75,1.75));
+            assert(double.IsPositiveInfinity(WallLinks.Fraction(mesh,start,segment)),"A face beyond the tolerance became a wall");
+        });
         test("wall fractions choose nearest valid intersection and preserve misses",()=>{
             var mesh=new Mesh();var start=new Point3d(0,0,0);var segment=new Vector3d(2,0,0);
             mesh.Hits=_=>new[]{new Point3d(1.5,0,0),new Point3d(.5,0,0),new Point3d(3,0,0),new Point3d(-1,0,0)};
