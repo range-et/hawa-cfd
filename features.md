@@ -104,11 +104,14 @@ Fresh checkouts, no tolerance or policy edits; binaries stay on the hosts by SHA
 - HAWA-046 actual-device assertions (#48): MPS cases pass on `71625aa`; the CUDA part
   passed on merged `239d644`. #48 is complete.
 - HAWA-003 precision diagnostic (#13): no false "resolved" result on either device;
-  device rows report indeterminate arithmetic, as designed.
+  device rows report indeterminate arithmetic, as designed. #13 is closed as
+  re-scoped: FP32 molecular-viscosity neutral flow is not qualified, and
+  double-float storage moved to #51.
 - HAWA-004 boundary reflection (#14): CUDA matches every CPU FP64 decision within
   bounds. On MPS all 9 decisions match, but the C1-S FP32 mass budget residual is
   3.35e-6 lu against its declared 1e-6 lu bound (CPU FP32 6.3e-7), so C1-S is not
-  qualified on MPS.
+  qualified on MPS. #14 is closed under its approved re-scope; the failing rows and
+  this MPS residual are in #60.
 [CUDA results](https://github.com/range-et/hawa-cfd/issues/57#issuecomment-6786203542),
 [MPS results](https://github.com/range-et/hawa-cfd/issues/14#issuecomment-6786793399).
 
