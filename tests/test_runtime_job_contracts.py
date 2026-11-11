@@ -50,17 +50,20 @@ def test_checkpoint_pauses_resumes_and_reports_cancellation(isolated_jobs, monke
 def test_job_waiting_for_the_device_reports_queued_until_cancelled(isolated_jobs):
     jobs.DEVICE_SLOT.acquire()
     job = jobs.Job(request(kind='create'))
+    # Record the state each slot-wait checkpoint leaves, so the check cannot pass on the constructor's 'queued'.
+    seen, waited, original = [], threading.Event(), job.checkpoint
+    def checkpoint(steps, *state):
+        original(steps, *state)
+        seen.append((job.state, job.steps, job.session))
+        if len(seen) == 2: waited.set()
+    job.checkpoint = checkpoint
     try:
         job.thread.start()
-        for _ in range(200):
-            if job.state == 'queued' and job.steps == 0: break
-            threading.Event().wait(.01)
-        threading.Event().wait(.12)  # several slot timeouts later it is still only queued
-        assert job.state == 'queued' and job.steps == 0 and job.session is None
-        job.control('cancel'); job.thread.join(5)
-        assert job.state == 'cancelled' and not job.thread.is_alive()
+        assert waited.wait(5) and seen[:2] == [('queued', 0, None)] * 2
     finally:
+        job.control('cancel'); job.thread.join(5)
         jobs.DEVICE_SLOT.release()
+    assert job.state == 'cancelled' and not job.thread.is_alive()
     job = jobs.Job(request()); job.checkpoint(2, 'queued')
     assert job.state == 'queued' and job.steps == 2
 
