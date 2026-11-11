@@ -1,6 +1,6 @@
 #! python 3
 # venv: hawa-py39
-# requirements: torch==2.8.0, numpy==2.0.2, click==8.1.8, h5py==3.14.0, matplotlib==3.9.4, mmh3==5.2.0, packaging==26.0, pyevtk==1.7.0, setuptools==82.0.1
+# requirements: torch==2.8.0, numpy==2.0.2, click==8.1.8, h5py==3.14.0, matplotlib==3.9.4, mmh3==5.2.0, packaging==26.0, pyevtk==1.7.0, setuptools==82.0.1, pydantic==2.13.5
 # hawa-bootstrap-root
 """Executed by Rhino's Python 3 engine; Rhino handles package installation."""
 
@@ -29,3 +29,4 @@ for name in ("hawa", "lettuce"):
                 del sys.modules[key]
 os.environ.setdefault("MPLBACKEND", "Agg")
 from hawa.plugin import dispatch_json
+import hawa.motion  # Rhino adds hawa-py39 to sys.path only while this script runs

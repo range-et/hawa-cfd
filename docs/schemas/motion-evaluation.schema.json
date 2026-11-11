@@ -1,0 +1,79 @@
+{
+  "additionalProperties": false,
+  "description": "Motion Evaluate job request; the job envelope keys are declared too.",
+  "properties": {
+    "kind": {
+      "const": "motion_evaluate",
+      "default": "motion_evaluate",
+      "title": "Kind",
+      "type": "string"
+    },
+    "case": {
+      "additionalProperties": true,
+      "description": "Case spec, validated by the session",
+      "title": "Case",
+      "type": "object"
+    },
+    "device": {
+      "default": "auto",
+      "title": "Device",
+      "type": "string"
+    },
+    "period": {
+      "default": 1.0,
+      "description": "Common motion period, s",
+      "exclusiveMinimum": 0,
+      "title": "Period",
+      "type": "number"
+    },
+    "settle_cycles": {
+      "default": 1,
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Settle Cycles",
+      "type": "integer"
+    },
+    "cycles": {
+      "default": 1,
+      "maximum": 20,
+      "minimum": 1,
+      "title": "Cycles",
+      "type": "integer"
+    },
+    "metric": {
+      "default": "input_power",
+      "enum": [
+        "force",
+        "torque",
+        "power",
+        "input_power"
+      ],
+      "title": "Metric",
+      "type": "string"
+    },
+    "axis": {
+      "default": 0,
+      "description": "Domain axis for force and torque",
+      "maximum": 2,
+      "minimum": 0,
+      "title": "Axis",
+      "type": "integer"
+    },
+    "body_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Default: the first moving body",
+      "title": "Body Id"
+    }
+  },
+  "title": "MotionEvaluation",
+  "type": "object"
+}

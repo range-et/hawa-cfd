@@ -1,0 +1,272 @@
+{
+  "$defs": {
+    "Cylinder": {
+      "additionalProperties": false,
+      "description": "Cylinder along the body's local z axis.",
+      "properties": {
+        "type": {
+          "const": "cylinder",
+          "title": "Type",
+          "type": "string"
+        },
+        "center": {
+          "description": "Centre, m",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Center",
+          "type": "array"
+        },
+        "radius": {
+          "description": "Radius, m",
+          "exclusiveMinimum": 0,
+          "title": "Radius",
+          "type": "number"
+        },
+        "length": {
+          "description": "Length, m",
+          "exclusiveMinimum": 0,
+          "title": "Length",
+          "type": "number"
+        }
+      },
+      "required": [
+        "type",
+        "center",
+        "radius",
+        "length"
+      ],
+      "title": "Cylinder",
+      "type": "object"
+    },
+    "Motion": {
+      "additionalProperties": false,
+      "description": "Prescribed rigid motion. Unused parameters for the chosen type are ignored.",
+      "properties": {
+        "kind": {
+          "const": "Motion",
+          "default": "Motion",
+          "description": "Grasshopper object tag",
+          "title": "Kind",
+          "type": "string"
+        },
+        "type": {
+          "default": "fixed",
+          "enum": [
+            "fixed",
+            "translation",
+            "rotation",
+            "oscillation"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "axis": {
+          "default": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "description": "Nonzero direction or rotation axis, domain-local",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Axis",
+          "type": "array"
+        },
+        "ramp": {
+          "default": 0.0,
+          "description": "Startup ramp, s",
+          "minimum": 0,
+          "title": "Ramp",
+          "type": "number"
+        },
+        "speed": {
+          "default": 0.0,
+          "description": "Translation speed, m/s",
+          "title": "Speed",
+          "type": "number"
+        },
+        "rpm": {
+          "default": 0.0,
+          "description": "Rotation rate, revolutions per minute",
+          "title": "Rpm",
+          "type": "number"
+        },
+        "amplitude": {
+          "default": 0.0,
+          "description": "Oscillation amplitude, m (translation) or rad (rotation)",
+          "title": "Amplitude",
+          "type": "number"
+        },
+        "frequency": {
+          "default": 0.0,
+          "description": "Oscillation frequency, Hz",
+          "minimum": 0,
+          "title": "Frequency",
+          "type": "number"
+        },
+        "phase": {
+          "default": 0.0,
+          "description": "Oscillation phase, rad",
+          "title": "Phase",
+          "type": "number"
+        },
+        "mode": {
+          "default": "translation",
+          "description": "Oscillation mode",
+          "enum": [
+            "translation",
+            "rotation"
+          ],
+          "title": "Mode",
+          "type": "string"
+        }
+      },
+      "title": "Motion",
+      "type": "object"
+    },
+    "Sdf": {
+      "additionalProperties": false,
+      "description": "Signed distances (negative inside) on a regular grid, C order (z fastest).",
+      "properties": {
+        "type": {
+          "const": "sdf",
+          "title": "Type",
+          "type": "string"
+        },
+        "origin": {
+          "description": "First sample position, m",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Origin",
+          "type": "array"
+        },
+        "shape": {
+          "items": {
+            "minimum": 3,
+            "type": "integer"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Shape",
+          "type": "array"
+        },
+        "spacing": {
+          "description": "Sample spacing, m",
+          "exclusiveMinimum": 0,
+          "title": "Spacing",
+          "type": "number"
+        },
+        "values": {
+          "description": "Signed distances, m",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 200000,
+          "title": "Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "origin",
+        "shape",
+        "spacing",
+        "values"
+      ],
+      "title": "Sdf",
+      "type": "object"
+    },
+    "Sphere": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "sphere",
+          "title": "Type",
+          "type": "string"
+        },
+        "center": {
+          "description": "Centre, m",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Center",
+          "type": "array"
+        },
+        "radius": {
+          "description": "Radius, m",
+          "exclusiveMinimum": 0,
+          "title": "Radius",
+          "type": "number"
+        }
+      },
+      "required": [
+        "type",
+        "center",
+        "radius"
+      ],
+      "title": "Sphere",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One prescribed-motion body; Motion Case removes Grasshopper's domain_key.",
+  "properties": {
+    "kind": {
+      "const": "Body",
+      "default": "Body",
+      "description": "Grasshopper object tag",
+      "title": "Kind",
+      "type": "string"
+    },
+    "id": {
+      "minLength": 1,
+      "title": "Id",
+      "type": "string"
+    },
+    "pivot": {
+      "description": "Rotation pivot at time zero, m",
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "title": "Pivot",
+      "type": "array"
+    },
+    "motion": {
+      "$ref": "#/$defs/Motion"
+    },
+    "geometry": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Sphere"
+        },
+        {
+          "$ref": "#/$defs/Cylinder"
+        },
+        {
+          "$ref": "#/$defs/Sdf"
+        }
+      ],
+      "title": "Geometry"
+    }
+  },
+  "required": [
+    "id",
+    "pivot",
+    "geometry"
+  ],
+  "title": "Body",
+  "type": "object"
+}

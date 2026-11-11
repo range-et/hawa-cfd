@@ -1,0 +1,26 @@
+{
+  "tool": "mutmut==3.7.0",
+  "mutants": 104,
+  "inventory_sha256": "1ed6da9be72fc7484bdf2fdbf43a5a3822bf5300139bdcf42044008a79e32130",
+  "scope": "#68 PR study: lines this PR changes against origin/main cc407cc in src/hawa/motion.py, against test_motion.py, test_payload_schemas.py and the two motion tests in test_runtime_rejection_edges.py; pydantic field constraints and model validators live in class bodies or decorated methods, outside mutmut 3, and have one rejecting behaviour test each",
+  "control_test_files": [
+    "tests/test_motion.py",
+    "tests/test_payload_schemas.py",
+    "tests/test_runtime_rejection_edges.py"
+  ],
+  "sources": {
+    "src/hawa/motion.py": "0ca424128cf35dc9707bffee7ef15b7606673aa9dff7926391d0a554d4ca4359",
+    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
+    "tests/test_motion.py": "7deee3b86f98d598ba63902e0e7b8d0966f04636c29cd3764b3c5413f3ede048",
+    "tests/test_payload_schemas.py": "e066691fe8742512f607ba81c58ae5f179770bc4085c4dec439e6573a1e86c73",
+    "tests/test_runtime_rejection_edges.py": "5e84d75b4fdb9dd562a6b0a2e0bb02094593c549e32d08b1ee636764197ac50a",
+    "tests/test_general_boundaries.py": "807142676376da912ada3ff19804461ec164dfac38a98328d0267732f3c852a2",
+    "tests/test_neutral.py": "287434b4c666f289a99635f216ef47b8c491ed1867c1bc52a8197969bc857bfa",
+    "tests/test_boundary_data.py": "c02370f353f88eb4751db6e9bfb347be306168e7ea19966b1bd1cc9917e639a4",
+    "tests/test_walls.py": "ccf7782a586b339b460e11d02dd0b0e61afc94a60b43d3d784d3679fd4077b78",
+    "tests/test_optimization.py": "c6b79f44a0b477584316355d6953f6de9ac967c5e456ba78a65202e1157a5a23",
+    "docs/schemas/moving-body.schema.json": "9b4c796e5b8673addbd154ae8f1704553aecada130a6bf1399245a3426727324",
+    "docs/schemas/motion-evaluation.schema.json": "cf3e1489c682e5bd6cfb9cda4daba956a8c504280317c80a2939c522db3da6b6"
+  },
+  "reviewed_survivors": {}
+}

@@ -1,3 +1,4 @@
+import copy
 import numpy as np
 import pytest
 import torch
@@ -111,11 +112,20 @@ def test_cycle_objective_rejects_partial_cycles(solver_device):
 def test_cycle_evaluation_returns_complete_window(solver_device):
     from hawa.motion import evaluate_motion
     c=moving_case();m=c['moving_bodies'][0]['motion'];m.update(amplitude=.01,frequency=5)
-    s=Session(c,solver_device);result=evaluate_motion(s,dict(period=.2,settle_cycles=1,cycles=1,metric='input_power'),lambda n:None)
+    # The full Motion Evaluate job request, as Grasshopper sends it (minus op).
+    request=dict(kind='motion_evaluate',case=copy.deepcopy(c),device=solver_device,period=.2,settle_cycles=1,cycles=1,
+                 metric='input_power',body_id='body',axis=0);sent=copy.deepcopy(request)
+    s=Session(c,solver_device);result=evaluate_motion(s,request,lambda n:None)
+    assert request==sent and result['body_id']=='body' and result['period']==.2
     assert result['samples']>=10 and np.isfinite(result['fitness'])
     assert s.flow.i==result['steps']
     samples=[h['loads'][0]['power'] for h in s.solver.moving.history if .2<h['time']<=.4]
     np.testing.assert_allclose(result['fitness'],-np.mean(samples))
+    again=evaluate_motion(s,dict(period=.2),lambda n:None)  # body_id defaults to the first body
+    assert again['body_id']=='body' and again['fitness']==result['fitness'] and s.flow.i==result['steps']
+    force=evaluate_motion(s,dict(period=.2,metric='force',axis=1),lambda n:None)  # the window is already complete
+    forces=[h['loads'][0]['force'][1] for h in s.solver.moving.history if .2<h['time']<=.4]
+    np.testing.assert_allclose(force['fitness'],np.mean(forces))
 
 
 def test_moving_recording_pathlines_and_pause_cancel(tmp_path, solver_device):
@@ -194,3 +204,189 @@ def test_rotated_off_pivot_body_geometry_device_parity(kind, solver_device):
         np.testing.assert_array_equal(candidate.flow.solid.cpu().numpy(),cpu.flow.solid.numpy())
         np.testing.assert_allclose(candidate.solver.moving.distances[0].cpu().numpy(),
                                    cpu.solver.moving.distances[0].numpy(),rtol=2e-6,atol=2e-7)
+
+
+# Payload validation (#68): every declared constraint is exercised through the
+# public entry points (validate_bodies, check_case/Session, evaluate_motion).
+DELETE=object()
+# A minimal valid SDF with exact literal samples, so hashes are platform-stable.
+SMALL_SDF=dict(type='sdf',origin=[1.5,1.5,1.],spacing=.5,shape=[3,3,3],values=[1.]*13+[-.5]+[1.]*13)
+
+
+def grasshopper_case(**motion):
+    """The shape Motion, Moving Body and Motion Case send: kind tags, label, sdf geometry."""
+    case=moving_case();case['label']='Hawa prescribed-motion case'
+    case['moving_bodies']=[dict(kind='Body',id='body',pivot=[2,2,1.5],geometry=copy.deepcopy(SMALL_SDF),
+                                motion=dict(kind='Motion',**motion))]
+    return case
+
+
+def python_case(geometry=None, motion=None):
+    case=moving_case();body=case['moving_bodies'][0]
+    if geometry is not None:body['geometry']=geometry
+    if motion is None:del body['motion']
+    else:body['motion']=motion
+    return case
+
+
+# Shapes of examples 17-20 and 32 (Grasshopper) and of the Python scripts. C# sends
+# whole-number doubles such as 0d as JSON integers. Hashes were recorded on main
+# at 3bfb1d3, before pydantic validation existed.
+LEGACY_PAYLOADS={
+    'example-17-oscillating-cylinder':(lambda:grasshopper_case(type='oscillation',axis=[0,1,0],ramp=.5,amplitude=.15,frequency=.5,phase=0,mode='translation'),
+        '75c7e61ea2db65f316e613cec7011ac476df1e28fc7139dcbb87ff59ca4fc489'),
+    'example-18-pitching-airfoil':(lambda:grasshopper_case(type='oscillation',axis=[0,0,1],ramp=0,amplitude=.2,frequency=.5,phase=0,mode='rotation'),
+        '9cb5e48344320389634f3ba4ca47dae8e264de0b4bb68ba875613d8ea805b954'),
+    'example-19-rotating-paddle':(lambda:grasshopper_case(type='rotation',axis=[0,0,1],ramp=1,rpm=20),
+        '9fb861e1df2c499229538e9e8d57a3de3210e8a2e8db77d341a724495b0c2574'),
+    'example-20-motion-cycle-search':(lambda:grasshopper_case(type='oscillation',axis=[0,1,0],ramp=0,amplitude=.1,frequency=1,phase=0,mode='translation'),
+        '1daaa5cf17faa6a1bd078db1ccb4300a45149c5df2cb07759619b0eed92870e1'),
+    'example-32-translation':(lambda:grasshopper_case(type='translation',axis=[1,0,0],ramp=.5,speed=.2),
+        '227b8227a1b130bccea3fd2272acd4c45177593454dc53bd8a7c317c53d07eb9'),
+    'python-oscillating-sphere':(moving_case,
+        '43d58a1c9c8efb901e08e37248eda265132330c61c631bbddbd7a06ca32ad95d'),
+    'python-cylinder':(lambda:python_case(dict(type='cylinder',center=[2,2,1.5],radius=.5,length=2.),
+                                          dict(type='oscillation',axis=[0,1,0],amplitude=.25,frequency=.5,ramp=.5)),
+        'f8c9d0431dafc0a682d3e2a9fb47f670dc909f017954e9cee4b98dfba63b4197'),
+    'python-fixed-without-motion':(python_case,
+        'bddbe78cef5dd865b1cfcc1c1293f98c3b99b7ed657b805ba2a4ca6772537bb1'),
+}
+
+
+def edit(case, path, value):
+    target=case
+    for key in path[:-1]:target=target[key]
+    if value is DELETE:del target[path[-1]]
+    else:target[path[-1]]=value
+    return case
+
+
+@pytest.mark.parametrize('name', sorted(LEGACY_PAYLOADS))
+def test_legacy_motion_payloads_validate_without_changing_case_hash(name):
+    from hawa.plugin import check_case
+    factory,expected_hash=LEGACY_PAYLOADS[name];spec=factory();before=copy.deepcopy(spec)
+    validate_bodies(spec)
+    assert check_case(spec)['case_hash']==expected_hash
+    assert spec==before  # validation never writes defaults back into the spec
+
+
+def test_grasshopper_shaped_sdf_case_runs(solver_device):
+    c=moving_case();b=c['moving_bodies'][0];h=.125;lo=np.array([1.25,1.25,.75]);shape=[13]*3
+    xyz=np.stack(np.meshgrid(*[lo[i]+np.arange(shape[i])*h for i in range(3)],indexing='ij'),-1)
+    c['label']='Hawa prescribed-motion case';b['kind']='Body'
+    b['motion']=dict(kind='Motion',type='oscillation',axis=[0,1,0],ramp=0,amplitude=.15,frequency=.5,phase=0,mode='translation')
+    b['geometry']=dict(type='sdf',origin=lo.tolist(),shape=shape,spacing=h,values=(np.linalg.norm(xyz-np.array([2,2,1.5]),axis=-1)-.55).reshape(-1).tolist())
+    s=Session(c,solver_device);s.advance(2)
+    assert s.flow.i==2 and np.isfinite(s.solver.moving.history[-1]['loads'][0]['force']).all()
+
+
+BODY=('moving_bodies',0)
+MOTION=BODY+('motion',)
+GEOMETRY=BODY+('geometry',)
+CYLINDER=dict(type='cylinder',center=[2,2,1.5],radius=.5,length=2.)
+BODY_REJECTIONS=[
+    # motion: enum, kind, unknown key, finiteness, type, range, axis
+    (moving_case,MOTION+('type',),'spin',"motion.type: Input should be 'fixed', 'translation', 'rotation' or 'oscillation'"),
+    (moving_case,MOTION+('mode',),'pitch',"motion.mode: Input should be 'translation' or 'rotation'"),
+    (moving_case,MOTION+('kind',),'Body',"motion.kind: Input should be 'Motion'"),
+    (moving_case,MOTION+('velocity',),1.,'motion.velocity: Extra inputs are not permitted'),
+    *[(moving_case,MOTION+(key,),bad,'motion.'+key+': Input should be a finite number')
+      for key,bad in (('speed',float('nan')),('rpm',float('inf')),('amplitude',float('nan')),
+                      ('frequency',float('inf')),('phase',float('-inf')),('ramp',float('nan')))],
+    (moving_case,MOTION+('speed',),'fast','motion.speed: Input should be a valid number'),
+    (moving_case,MOTION+('speed',),'0.5','motion.speed: Input should be a valid number'),  # numeric string
+    (moving_case,MOTION+('amplitude',),True,'motion.amplitude: Input should be a valid number'),  # bool
+    (moving_case,GEOMETRY+('radius',),'0.55','geometry.sphere.radius: Input should be a valid number'),
+    (moving_case,GEOMETRY+('center',),[2,True,1.5],'geometry.sphere.center.1: Input should be a valid number'),
+    (moving_case,MOTION+('rpm',),None,'motion.rpm: Input should be a valid number'),
+    (moving_case,MOTION+('ramp',),-.1,'motion.ramp: Input should be greater than or equal to 0'),
+    (moving_case,MOTION+('frequency',),-1,'motion.frequency: Input should be greater than or equal to 0'),
+    (moving_case,MOTION+('axis',),[0,1],'motion.axis: List should have at least 3 items after validation, not 2'),
+    (moving_case,MOTION+('axis',),[0,1,0,0],'motion.axis: List should have at most 3 items after validation, not 4'),
+    (moving_case,MOTION+('axis',),[0,float('nan'),0],'motion.axis.1: Input should be a finite number'),
+    (moving_case,MOTION+('axis',),[0,0,0],'motion: Motion axis cannot be zero'),
+    (moving_case,MOTION+('axis',),[1e-13,0,0],'motion: Motion axis cannot be zero'),
+    (moving_case,MOTION,'oscillation','motion: Input should be a valid dictionary or instance of Motion'),
+    # body: kind, unknown key, id, pivot, geometry tag
+    (moving_case,BODY,'body','Moving body 1: Input should be a valid dictionary or instance of Body'),
+    (moving_case,BODY+('kind',),'Motion',"kind: Input should be 'Body'"),
+    (moving_case,BODY+('domain_key',),'{}','domain_key: Extra inputs are not permitted'),
+    (moving_case,BODY+('id',),DELETE,'id: Field required'),
+    (moving_case,BODY+('id',),'','id: String should have at least 1 character'),
+    (moving_case,BODY+('id',),7,'id: Input should be a valid string'),
+    (moving_case,BODY+('pivot',),DELETE,'pivot: Field required'),
+    (moving_case,BODY+('pivot',),[2,2],'pivot: List should have at least 3 items after validation, not 2'),
+    (moving_case,BODY+('pivot',),[2,float('inf'),1.5],'pivot.1: Input should be a finite number'),
+    (moving_case,GEOMETRY,DELETE,'geometry: Field required'),
+    (moving_case,GEOMETRY+('type',),'cone','geometry: use type sphere, cylinder or sdf'),
+    (moving_case,GEOMETRY+('type',),DELETE,'geometry: use type sphere, cylinder or sdf'),
+    # sphere and cylinder
+    (moving_case,GEOMETRY+('radius',),0,'geometry.sphere.radius: Input should be greater than 0'),
+    (moving_case,GEOMETRY+('radius',),float('nan'),'geometry.sphere.radius: Input should be a finite number'),
+    (moving_case,GEOMETRY+('center',),DELETE,'geometry.sphere.center: Field required'),
+    (moving_case,GEOMETRY+('length',),2.,'geometry.sphere.length: Extra inputs are not permitted'),
+    (lambda:python_case(dict(CYLINDER),{}),GEOMETRY+('length',),0.,'geometry.cylinder.length: Input should be greater than 0'),
+    (lambda:python_case(dict(CYLINDER),{}),GEOMETRY+('length',),DELETE,'geometry.cylinder.length: Field required'),
+    # sdf: StrictInt shape, sample budget, values, spacing, origin, unknown key
+    (grasshopper_case,GEOMETRY+('shape',),[3,3],'geometry.sdf.shape: List should have at least 3 items after validation, not 2'),
+    (grasshopper_case,GEOMETRY+('shape',),[3,3,3.],'geometry.sdf.shape.2: Input should be a valid integer'),
+    (grasshopper_case,GEOMETRY+('shape',),[3,True,3],'geometry.sdf.shape.1: Input should be a valid integer'),
+    (grasshopper_case,GEOMETRY+('shape',),[3,3,2],'geometry.sdf.shape.2: Input should be greater than or equal to 3'),
+    (grasshopper_case,GEOMETRY+('shape',),[100,100,21],'geometry.sdf: SDF shape exceeds 200000 samples'),
+    (grasshopper_case,GEOMETRY+('values',),[1.]*26,'geometry.sdf: SDF values must match its shape'),
+    (grasshopper_case,GEOMETRY+('values',),[1.]*200001,'geometry.sdf.values: List should have at most 200000 items after validation, not 200001'),
+    (grasshopper_case,GEOMETRY+('values',),[float('nan')]+[1.]*12+[-.5]+[1.]*13,'geometry.sdf.values.0: Input should be a finite number'),
+    (grasshopper_case,GEOMETRY+('spacing',),0,'geometry.sdf.spacing: Input should be greater than 0'),
+    (grasshopper_case,GEOMETRY+('origin',),[1.5,1.5],'geometry.sdf.origin: List should have at least 3 items after validation, not 2'),
+    (grasshopper_case,GEOMETRY+('center',),[2,2,1.5],'geometry.sdf.center: Extra inputs are not permitted'),
+]
+
+
+@pytest.mark.parametrize('case,path,value,message', BODY_REJECTIONS)
+def test_moving_body_constraints_rejected(case, path, value, message):
+    spec=edit(case(),path,value)
+    expected=message if message.startswith('Moving body') else 'Moving body 1 '+message
+    with pytest.raises(ValueError) as error:validate_bodies(spec)
+    assert str(error.value)==expected
+
+
+@pytest.mark.parametrize('path,value,message', [
+    (GEOMETRY+('values',),[1.]*27,'^SDF requires a resolved interior$'),
+    (GEOMETRY+('values',),[1.]*13+[0.]+[1.]*13,'^SDF requires a resolved interior$'),  # zero is the surface, not inside
+    (GEOMETRY+('values',),[0.]+[1.]*12+[-.5]+[1.]*13,'^SDF needs a positive exterior padding layer$'),
+    (('moving_bodies',),[],'Use one to four moving bodies'),
+    (('moving_bodies',),{'id':'body'},'Use one to four moving bodies'),
+    (('wall_links',),[[0,1]],'uniform BGK'),
+    (('refinement_lower',),[0,0,0],'uniform BGK'),
+    (('shape',),[60,50,51],'limited to 150000 cells'),
+    (MOTION+('speed',),3.,'lattice Mach 0.15'),
+])
+def test_case_level_and_sample_checks_rejected(path, value, message):
+    spec=edit(grasshopper_case(type='translation',axis=[1,0,0],ramp=0,speed=.2),path,value)
+    with pytest.raises(ValueError,match=message):validate_bodies(spec)
+
+
+def test_body_errors_name_the_body_and_ids_stay_unique():
+    from hawa.plugin import check_case
+    spec=moving_case();spec['moving_bodies'].append(copy.deepcopy(spec['moving_bodies'][0]))
+    with pytest.raises(ValueError,match='^Body IDs must be unique$'):validate_bodies(spec)
+    spec['moving_bodies'][1].update(id='second',pivot=[2,2])
+    with pytest.raises(ValueError,match='^Moving body 2 pivot: List should have at least 3 items'):check_case(spec)
+    spec['moving_bodies']*=3
+    with pytest.raises(ValueError,match='^Use one to four moving bodies$'):Session(spec,'cpu')
+
+
+@pytest.mark.parametrize('path,value', [
+    (MOTION+('ramp',),0),(MOTION+('frequency',),0),(MOTION+('phase',),0),  # C# 0d arrives as int
+    (MOTION+('axis',),[0,1,0]),(MOTION+('axis',),[1e-11,0,0]),            # just above the zero-axis limit
+    (GEOMETRY+('spacing',),1),(BODY+('pivot',),[2,2,1]),
+])
+def test_integer_and_boundary_values_accepted(path, value):
+    validate_bodies(edit(grasshopper_case(type='oscillation',axis=[0,1,0],ramp=.5,amplitude=.1,frequency=.5,phase=.1,mode='translation'),path,value))
+
+
+def test_sdf_at_the_sample_budget_is_accepted():
+    shape=[100,100,20];values=np.ones(shape);values[50,50,10]=-1.
+    spec=grasshopper_case(type='fixed')
+    spec['moving_bodies'][0]['geometry'].update(origin=[1.95,1.95,1.49],spacing=.001,shape=shape,values=values.reshape(-1).tolist())
+    validate_bodies(spec)

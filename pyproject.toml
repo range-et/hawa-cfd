@@ -9,7 +9,7 @@ description = "Embedded Python 3.9 LBM engine and Grasshopper plugin"
 license = "GPL-3.0-only"
 license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
 requires-python = ">=3.9,<3.13"
-dependencies = ["torch==2.8.0", "numpy==2.0.2", "hawa-lettuce==0.3.0.post1"]
+dependencies = ["torch==2.8.0", "numpy==2.0.2", "hawa-lettuce==0.3.0.post1", "pydantic==2.13.5"]
 
 [project.optional-dependencies]
 test = ["pytest>=8,<9", "psutil==7.2.2", "scipy==1.13.1", "coverage==7.10.7"]
