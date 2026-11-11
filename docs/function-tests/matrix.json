@@ -185,7 +185,7 @@
     "tests/test_runtime_admission.py": "2afd8a5d3223bf54379db441157cb0618602321805fc0807ce5904eadad87f0d",
     "tests/test_runtime_field_rejections.py": "75d01be4166528a5c994718e621ff5c7b3e185fef87df8d3767c83162818f97d",
     "tests/test_runtime_invariants.py": "280f2ed4bcb903bb3c9147eb132163785a1a530f61a14088f54a13d57850e265",
-    "tests/test_runtime_job_contracts.py": "d76f7f8125e1173011b90ccb90466c3c5c98fdf63fce0063321507eff2f2e244",
+    "tests/test_runtime_job_contracts.py": "2d85aee9e92778712f267f8eeab3df6e8a61c0ad84bb49fbb20455afe9028ef1",
     "tests/test_runtime_numerical_edges.py": "e82e195496e924332a7ca87d1bb4170dccef9add3ee4000124081f7a4e324f09",
     "tests/test_runtime_rejection_edges.py": "5e84d75b4fdb9dd562a6b0a2e0bb02094593c549e32d08b1ee636764197ac50a",
     "tests/test_runtime_transfer_failures.py": "55948384f8448fcb307f20e5af389f6b0ce089f2a8a86ba69a54671688af1317",
