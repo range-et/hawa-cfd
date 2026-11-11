@@ -34,6 +34,62 @@ The diagram shows offline transfer, not simultaneous refinement. Start with the
 [example 33 instructions](../examples/grasshopper/README.md#33--three-stage-neutral-boundary-transfer-development)
 for the current three-stage atmospheric demonstration.
 
+## How domains may overlap
+
+Placing one domain inside another is supported. Each operation applies its own
+rule to how a second domain sits relative to the first, so the same placement can
+be fine for one operation and refused by another:
+
+| Placement of the second domain | Separate cases | Offline transfer (parent → child) | Coupled refinement (2:1 patch) | Composed views |
+| --- | --- | --- | --- | --- |
+| Fully inside | Allowed; no interaction | Allowed | Allowed: an aligned patch of at least four coarse intervals per axis, with stencil clearance inside the parent | Finest frame owns each sample it contains |
+| Touching a parent face from inside | Allowed | Allowed if every child fluid sample lies within the parent's samples (inclusive at the edge) | Refused before allocation: too little clearance | Allowed |
+| Partly outside ("hanging out") | Allowed | Refused at capture: "Child fluid has missing parent coverage; enlarge the parent domain" | Refused before allocation | Allowed; outside all frames there is no data |
+| Disjoint | Allowed | Refused: no coverage | Refused before allocation | Allowed; the gap stays empty |
+| Two children overlapping each other | Allowed | Each child is captured separately from the parent | One patch only | Equal spacing: input order decides the owner |
+| Crossing a solid obstacle | Allowed | Allowed; the child owns its solid classification and the transfer never samples through parent solids | Restricted combinations; see example 15 | The finer frame's solid mask is kept |
+
+Offline transfer checks coverage for the child's whole fluid volume, because the
+child's initial state is also sampled from the parent, not only its boundary
+faces. Coupled refinement additionally requires an aligned, integer-cornered
+patch whose resolution is exactly `2*(upper-lower)+1`; it reports the parent and
+fine roles and the offending indices. These rules are covered by
+`tests/test_domain_relationships.py`, `tests/test_refinement_preflight.py` and the
+transfer tests; see the [domain relationship review](review-domain-relationships.md).
+
+Nothing merges overlapping domains into one grid. If a child extends past its
+parent, enlarge or move the parent, or shrink the child, then capture again.
+Hawa does not automatically form a union or regrid to the finest spacing.
+
+## Estimate resources before you run
+
+Each case is checked before any solver memory is allocated:
+
+- A dense grid may have at most two million cells.
+- **Hawa Check Case** reports `estimated_peak_mb`. Creating the solver refuses a
+  case whose estimate exceeds its budget, 1024 MiB by default. The estimate counts the populations
+  and solver working copies, a reserve for imported boundary series, and
+  temporary arrays for external open-face links. It is a conservative model,
+  not a measurement, and the operating system does not enforce it.
+- Recordings are limited to 1000 frames. A boundary series file is limited to
+  256 MiB, and its capture arrays to 128 MiB. A sampling request is limited to
+  10,000 points.
+- Coupled refinement adds the parent and patch estimates against one budget.
+
+What the per-case estimate does not include:
+
+- **Several cases at once.** Each open case or document is checked on its own,
+  and nothing adds their estimates together.
+- **Display copies** of fields, meshes and streamlines in Rhino.
+- **Your machine's actual memory.** The budget is fixed; it is not compared
+  with installed RAM or GPU memory.
+
+So the safety margin is yours to choose. Leave headroom above the sum of the
+estimates for everything you run at the same time. Run nested stages one after
+another; a child needs its parent's finished recording anyway. Close or cancel
+finished cases you no longer need. On Apple silicon, the CPU and GPU share one
+memory pool, so Rhino's own usage counts against the same total.
+
 ## Read example 33 without the geographic names
 
 The existing archive and its canvas retain their original labels. Use this map
