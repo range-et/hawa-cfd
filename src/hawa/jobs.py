@@ -27,7 +27,7 @@ class Job:
         self.key = case_key(request)
         self.thread = threading.Thread(target=self.work, name='Hawa evaluation '+self.id[:8], daemon=True)
 
-    def checkpoint(self, steps):
+    def checkpoint(self, steps, state='running'):
         with self.condition:
             self.steps = steps
             while self.paused and not self.cancelled:
@@ -35,7 +35,7 @@ class Job:
                 self.condition.wait()
             if self.cancelled:
                 raise Cancelled('Evaluation cancelled')
-            self.state = 'running'
+            self.state = state
 
     def work(self):
         try:
@@ -63,9 +63,10 @@ class Job:
                     self.result = value
                     self.state = 'completed'
                 return
-            # One candidate at a time bounds GPU allocation. Waiting is cancellable.
+            # One candidate at a time bounds GPU allocation. Waiting is cancellable
+            # and reports 'queued', not 'running', until the device slot is free.
             while not DEVICE_SLOT.acquire(timeout=.05):
-                self.checkpoint(self.steps)
+                self.checkpoint(self.steps, 'queued')
             try:
                 self.checkpoint(0)
                 if self.request.get('kind') == 'refine':
