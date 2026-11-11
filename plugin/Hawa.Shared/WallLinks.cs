@@ -139,12 +139,14 @@ public static class WallLinks
                 nearest = Math.Min(nearest, Math.Clamp(q, 0, 1));
         }
 
-        // An endpoint exactly on a face can be omitted by segment intersection.
+        // An endpoint on a face can be omitted by segment intersection. Use the
+        // containment surface tolerance (spacing * 1e-5), so a node that counted
+        // as solid because it lies within it of a face also resolves its link.
         if (!double.IsFinite(nearest))
         {
             var endpoint = start + segment;
-            var point = mesh.ClosestMeshPoint(endpoint, segment.Length * 1e-8);
-            if (point != null && point.Point.DistanceTo(endpoint) <= segment.Length * 1e-8)
+            var point = mesh.ClosestMeshPoint(endpoint, segment.Length * 1e-5);
+            if (point != null && point.Point.DistanceTo(endpoint) <= segment.Length * 1e-5)
                 nearest = 1;
         }
 
