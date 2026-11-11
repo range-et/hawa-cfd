@@ -191,3 +191,15 @@ For changed lines only, `tools/mutation/run_device_smoke.sh NEW_DIR BASE` passes
 lines; check it with `--policy tools/mutation/device-smoke-policy.json` (494 mutants,
 485 killed, 9 reviewed). It needs `whatthepatch` from the same requirements file and
 is a local PR record, not a CI study.
+
+The HAWA-004 boundary study is a separate local run. It mutates only lines
+changed since `f9a3a13` in the shifted open-face operator and the reflection
+harness (`--use-patch-file`, with whatthepatch 1.0.7):
+
+```sh
+bash tools/mutation/run_boundary_reflection.sh results/boundary-mutation-NEW
+.venv/bin/python tools/mutation/check_results.py results/boundary-mutation-NEW --policy tools/mutation/boundary-reflection-policy.json
+```
+
+It takes hours on one CPU, so it is not in the 30-minute CI matrix. A policy may
+list several `control_test_files`. See the [HAWA-004 record](boundary-reflection-review.md).

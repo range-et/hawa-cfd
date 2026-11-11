@@ -1,0 +1,23 @@
+{
+  "tool": "mutmut==2.4.5 with whatthepatch==1.0.7",
+  "mutants": 34,
+  "control_test_files": [
+    "tests/test_mutation_policy.py",
+    "tests/test_neutral_external.py"
+  ],
+  "scope": "HAWA-004 PR study: lines changed against origin/main f29fe01 in src/hawa/neutral_external.py and tools/mutation/check_results.py; the reflection harness is line-covered but outside this mutation scope; the CPU/MPS device test is deselected (#53)",
+  "sources": {
+    "src/hawa/neutral_external.py": "1e8efa899a399fe9fe5c023b7be68094b873ba403f660513d2c058f16964dcf4",
+    "tools/mutation/check_results.py": "24f4a9f5d2b0d41b026adce5aed1777ea9230bf60bfc01c7f17f446c25cc1431",
+    "tests/test_neutral_external.py": "41ab18b4a61be3f83a2993a45ac43dc295baa20af4609b8bed601ab175a5d3c1",
+    "tests/test_mutation_policy.py": "22fbbaebe52e9a1fd01cb06d6ee46b5c89a5959c79975975cf792f624b9c2744",
+    "tests/test_neutral.py": "287434b4c666f289a99635f216ef47b8c491ed1867c1bc52a8197969bc857bfa",
+    "tests/conftest.py": "d7e574ab188de8992116a4f9cac2e251d732e3fa1e8b8f5a98f38dd96dd4393c"
+  },
+  "reviewed_survivors": {
+    "Mutant #29": {
+      "diff_sha256": "bcf0d00025860a0c9d3b974064b2c275cf94acff6ad77ca00af9a72c167e1374",
+      "reason": "Equivalent: split('::', 2)[0] and split('::', 1)[0] return the same first field (the test path) for every line; the maxsplit limit only changes later fields, which this expression does not read."
+    }
+  }
+}

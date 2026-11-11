@@ -150,7 +150,10 @@ Manufactured reversal tests run 80 steps in each direction in the same solver;
 the second interval starts from an explicitly reset uniform reversed state. They
 verify both branches and time integration, not response to a physical reversing
 pressure history. Cropped-window comparison checks an interior section before
-cut-boundary disturbances can reach it. Full cut-face validation, vortex reflection,
+cut-boundary disturbances can reach it. HAWA-004 measured the NEE open face
+against enlarged domains: acoustic reflection 1.23 and vortex-exit error 0.53
+(criteria 0.10), and its cut-face case did not settle
+([record](boundary-reflection-review.md)). Full cut-face validation, vortex reflection,
 rough-wall atmosphere and general multi-face nesting remain unqualified.
 
 Primary references, checked November 8–9, 2026:

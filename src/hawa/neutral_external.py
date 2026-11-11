@@ -170,6 +170,8 @@ class ExternalLinks:
         metric=(nullspace*weights[:,None,:])@nullspace.transpose(0,2,1)
         stress_projection=metric@second.T@np.linalg.pinv(second[None]@metric@second.T,rcond=1e-12)
         self.fd_nodes = torch.tensor(nodes, device=device)
+        # A donor on another exterior face lacks this step's missing links.
+        self.donor_complete = torch.tensor(~np.isin(donor_indices, nodes), device=device)
         self.fd_columns = torch.tensor(first, device=device)
         self.protected = torch.tensor(protected, device=device)
         self.projection = f.context.convert_to_tensor(projection)
@@ -199,6 +201,7 @@ class ExternalLinks:
         delta = source.sum(0, keepdim=True)
         rho = 1 + delta
         u = torch.einsum('qd,qn->dn', f.torch_stencil.e, source)/rho
+        follow = []
         # First-order one-sided convective update of outgoing characteristics.
         # A static copy/NEE outlet retains tangential disturbances at high Re.
         # The transport speed is the measured outward lattice velocity.
@@ -211,9 +214,23 @@ class ExternalLinks:
             speed = normal[outgoing].clamp(0, 1)
             source[:, outgoing] = (self.saved[:, self.ix[outgoing]] +
                 speed[None]*source[:, outgoing])/(1+speed[None])
+            if condition.get('backflow_mode') == 'pressure' and self.mapped is None:
+                follow.append((face//2, mask))
+        snapshot_normal = u
         delta = source.sum(0, keepdim=True)
         rho = 1 + delta
         u = torch.einsum('qd,qn->dn', f.torch_stencil.e, source)/rho
+        # A pressure face's normal speed follows the fluid in both directions.
+        # Convecting it at its own speed stalls at u_n=0 and blocks reversal.
+        # Use the donor's current (post-stream) speed: the one-step-old
+        # snapshot lags an accelerating flow, and the FD stress then reads
+        # that lag as strain, shifting the pressure face by tau*a (dx/2 at tau=1/2).
+        if follow:
+            current = out[:, self.donor]
+            current = torch.einsum('qd,qn->dn', f.torch_stencil.e, current)/(1+current.sum(0))
+            current = torch.where(self.donor_complete[None], current, snapshot_normal)
+        for axis, mask in follow:
+            u[axis, mask] = current[axis, mask]
         target_u = u.clone()
         target_delta = delta.clone()
         incoming = f.context.zero_tensor([])

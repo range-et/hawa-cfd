@@ -21,9 +21,11 @@ def verify(directory, policy, root=ROOT):
     if (directory/'working-source-before.sha256').read_bytes() != (directory/'working-source-after.sha256').read_bytes():
         raise ValueError('Working source changed during mutation run')
     control = list(ET.parse(directory/'control.xml').getroot().iter('testcase'))
-    control_path = Path(policy.get('control_test_file', 'tests/test_cli.py')).parts
+    files = policy.get('control_test_files', [policy.get('control_test_file', 'tests/test_cli.py')])
+    control_paths = [Path(name).parts for name in files]
     expected = Counter(line.split('::', 1)[1] for line in (directory/'collected.txt').read_text().splitlines()
-                       if '::' in line and Path(line.split('::', 1)[0]).parts[-len(control_path):] == control_path)
+                       if '::' in line and any(Path(line.split('::', 1)[0]).parts[-len(path):] == path
+                                               for path in control_paths))
     if not expected or Counter(c.get('name') for c in control) != expected:
         raise ValueError('Missing, duplicated or filtered control tests')
     if any(c.find(tag) is not None for c in control for tag in ('failure','error','skipped')):

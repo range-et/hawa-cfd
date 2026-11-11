@@ -159,3 +159,57 @@ def test_pressure_backflow_uses_interior_normal_speed_and_gauge_pressure():
     np.testing.assert_allclose(f.p_pu[0,-1,2:-2,2:-2].numpy(),.01,rtol=0,atol=1e-9)
     condition['velocity'][0]=-.2
     with pytest.raises(ValueError,match='derives normal'):check_case(spec)
+
+
+@pytest.mark.parametrize('outlet',[1,2])
+@pytest.mark.parametrize('mode',['velocity','pressure'])
+def test_outgoing_open_normal_speed_follows_backflow_mode(mode,outlet):
+    import lettuce as lt
+    from hawa.neutral import make
+    spec=external();patches=spec['boundary_set']['patches']
+    for face in range(4):patches[face]['condition']=dict(type='periodic')
+    axis,sign=outlet//2,(1 if outlet%2 else -1)
+    inflow=[0.,0.,0.];inflow[axis]=5.*sign
+    patches[outlet^1]['condition']=dict(type='velocity',velocity=inflow)
+    patches[outlet]['condition']=dict(type='open',velocity=[0.,0.,0.],backflow_mode=mode)
+    f,sim=make(spec,lt.Context('cpu',torch.float64,use_native=False));sim.rough_floor.factor=0.
+    # k counts cells from the inflow face, so the outlet node is k=11.
+    k=torch.arange(12,dtype=torch.float64)
+    if sign<0:k=k.flip(0)
+    k=k[:,None,None] if axis==0 else k[None,:,None]
+    u=torch.zeros_like(f.u());u[axis]=sign*(.02+5e-4*k);u[1-axis]=1e-3*k
+    f.f=f.equilibrium(f,u=u);sim(1)
+    end=-1 if sign>0 else 0
+    actual=(f.u()[:,end] if axis==0 else f.u()[:,:,end])[:,4:8,4:8]
+    # Collision keeps each node's momentum; the outlet blends its own and the
+    # donor's previous state at the donor's outward speed s.
+    s=.02+5e-4*10
+    blend=lambda b,d:(b+s*d)/(1+s)
+    if mode=='pressure':
+        # Normal speed is the donor's current (post-stream) speed, not its
+        # one-step-old snapshot; a lag reads as strain in the FD stress.
+        donor=(f.u()[:,end-sign] if axis==0 else f.u()[:,:,end-sign])[axis,4:8,4:8]
+        torch.testing.assert_close(actual[axis],donor,rtol=0,atol=1e-15)
+        assert not torch.allclose(donor,torch.full_like(donor,sign*s),rtol=0,atol=1e-9)
+    else:
+        torch.testing.assert_close(actual[axis],torch.full_like(actual[axis],sign*blend(.02+5e-4*11,s)),rtol=0,atol=1e-12)
+    torch.testing.assert_close(actual[1-axis],torch.full_like(actual[0],blend(11e-3,10e-3)),rtol=0,atol=1e-12)
+
+
+def test_pressure_face_corner_donors_use_complete_snapshot():
+    import lettuce as lt
+    from hawa.neutral import make
+    spec=external();patches=spec['boundary_set']['patches']
+    patches[0]['condition']=dict(type='velocity',velocity=[3.,4.,0.])
+    patches[2]['condition']=dict(type='velocity',velocity=[3.,4.,0.])
+    for face in (1,3):patches[face]['condition']=dict(type='open',velocity=[0.,0.,0.],backflow_mode='pressure')
+    f,sim=make(spec,lt.Context('cpu',torch.float64,use_native=False));sim.rough_floor.factor=0.
+    y=torch.arange(12,dtype=torch.float64)[None,:,None]
+    u=torch.zeros_like(f.u());u[0]=.02+1e-3*y;u[1]=.02+5e-4*y
+    f.f=f.equilibrium(f,u=u);before=f.u().clone();sim(1);after=f.u()
+    # X+ donor (10,11) lies on the Y+ face, whose missing links are not yet
+    # rebuilt after streaming: use its complete pre-stream snapshot there.
+    torch.testing.assert_close(after[0,11,11,4:8],before[0,10,11,4:8],rtol=0,atol=1e-15)
+    # Away from the corner the donor is complete: use its current speed.
+    torch.testing.assert_close(after[0,11,5,4:8],after[0,10,5,4:8],rtol=0,atol=1e-15)
+    assert not torch.allclose(after[0,10,5,4:8],before[0,10,5,4:8],rtol=0,atol=1e-9)
