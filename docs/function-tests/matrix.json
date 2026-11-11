@@ -107,7 +107,7 @@
     "src/hawa/field_collection.py": "f4e40783ca94ef0e93d4897c72bb2bbc36284033250663fd057566474a4c83b1",
     "src/hawa/fields.py": "6f686949e70cdd4cfd41674c77dbea9f289b2d8857a5ba164a8c74afbc9e3f78",
     "src/hawa/flow_statistics.py": "260ae8055bcc6bea81ac445f304054b6b800cfb79ae281d116e89c79d4654f4e",
-    "src/hawa/jobs.py": "c96b509c28b5755e61c40d8ee1dec5c679c1a31d88711fff981fbf1e9ece4488",
+    "src/hawa/jobs.py": "61497d4b55a3b050fe7563fefe20e4066695c9474f42518c3cb1a3b2ec23e166",
     "src/hawa/lbm.py": "058cacba479e8acdd283340c22581eac8ccee15bd92eedbdfd7474b8817df942",
     "src/hawa/motion.py": "0ca424128cf35dc9707bffee7ef15b7606673aa9dff7926391d0a554d4ca4359",
     "src/hawa/moving_boundaries.py": "43d185c55a4368a7bcba7ded08f47f1763926054dec576d151c8b309e88b618a",
@@ -185,7 +185,7 @@
     "tests/test_runtime_admission.py": "2afd8a5d3223bf54379db441157cb0618602321805fc0807ce5904eadad87f0d",
     "tests/test_runtime_field_rejections.py": "75d01be4166528a5c994718e621ff5c7b3e185fef87df8d3767c83162818f97d",
     "tests/test_runtime_invariants.py": "280f2ed4bcb903bb3c9147eb132163785a1a530f61a14088f54a13d57850e265",
-    "tests/test_runtime_job_contracts.py": "9c54ec93a8decc094938d5aedf368d85721fcae91d399fa9a4519f2dc2754d4d",
+    "tests/test_runtime_job_contracts.py": "d76f7f8125e1173011b90ccb90466c3c5c98fdf63fce0063321507eff2f2e244",
     "tests/test_runtime_numerical_edges.py": "e82e195496e924332a7ca87d1bb4170dccef9add3ee4000124081f7a4e324f09",
     "tests/test_runtime_rejection_edges.py": "5e84d75b4fdb9dd562a6b0a2e0bb02094593c549e32d08b1ee636764197ac50a",
     "tests/test_runtime_transfer_failures.py": "55948384f8448fcb307f20e5af389f6b0ce089f2a8a86ba69a54671688af1317",
@@ -1208,6 +1208,7 @@
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mps-mass-budget-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mutation-tooling-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[runtime-admission-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[status-truth-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[validity-foundation-policy.json]",
       "tests/test_mutation_policy.py::test_changed_lines_are_the_added_new_side_lines_only",
       "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1,2 +1,2 @@\\n context\\n-ends inside a hunk]",
@@ -1768,6 +1769,7 @@
       "tests/test_runtime_invariants.py::test_step_coordinator_orders_callbacks_and_accounts_each_stage",
       "tests/test_runtime_job_contracts.py::test_request_and_snapshot_own_nested_data",
       "tests/test_runtime_job_contracts.py::test_checkpoint_pauses_resumes_and_reports_cancellation",
+      "tests/test_runtime_job_contracts.py::test_job_waiting_for_the_device_reports_queued_until_cancelled",
       "tests/test_runtime_job_contracts.py::test_terminal_jobs_ignore_control_but_close_disposes_result[completed]",
       "tests/test_runtime_job_contracts.py::test_terminal_jobs_ignore_control_but_close_disposes_result[cancelled]",
       "tests/test_runtime_job_contracts.py::test_terminal_jobs_ignore_control_but_close_disposes_result[failed]",
@@ -2954,6 +2956,7 @@
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mps-mass-budget-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mutation-tooling-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[runtime-admission-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[status-truth-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[validity-foundation-policy.json]",
       "tests/test_mutation_policy.py::test_draft_keeps_reasons_only_for_unchanged_survivor_diffs",
       "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-11]",
@@ -3454,6 +3457,7 @@
       "tests/test_runtime_invariants.py::test_traction_zero_and_overflow_are_explicit",
       "tests/test_runtime_job_contracts.py::test_checkpoint_pauses_resumes_and_reports_cancellation",
       "tests/test_runtime_job_contracts.py::test_dispatch_enforces_capacity_unknown_operations_and_idempotent_close",
+      "tests/test_runtime_job_contracts.py::test_job_waiting_for_the_device_reports_queued_until_cancelled",
       "tests/test_runtime_job_contracts.py::test_late_query_cancellation_discards_result",
       "tests/test_runtime_job_contracts.py::test_query_routes_arguments_and_copies_result[boundary]",
       "tests/test_runtime_job_contracts.py::test_query_routes_arguments_and_copies_result[field]",
@@ -17498,6 +17502,20 @@
           "passed"
         ]
       ],
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[status-truth-policy.json]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[validity-foundation-policy.json]": [
         [
           "setup",
@@ -24957,6 +24975,20 @@
         ]
       ],
       "tests/test_runtime_job_contracts.py::test_checkpoint_pauses_resumes_and_reports_cancellation": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_runtime_job_contracts.py::test_job_waiting_for_the_device_reports_queued_until_cancelled": [
         [
           "setup",
           "passed"
@@ -62739,6 +62771,7 @@
         "tests/test_motion.py::test_moving_recording_pathlines_and_pause_cancel[cpu]",
         "tests/test_runtime_job_contracts.py::test_checkpoint_pauses_resumes_and_reports_cancellation",
         "tests/test_runtime_job_contracts.py::test_dispatch_enforces_capacity_unknown_operations_and_idempotent_close",
+        "tests/test_runtime_job_contracts.py::test_job_waiting_for_the_device_reports_queued_until_cancelled",
         "tests/test_runtime_job_contracts.py::test_late_query_cancellation_discards_result",
         "tests/test_runtime_job_contracts.py::test_query_routes_arguments_and_copies_result[boundary]",
         "tests/test_runtime_job_contracts.py::test_query_routes_arguments_and_copies_result[field]",
@@ -62768,7 +62801,7 @@
       "path": "src/hawa/jobs.py",
       "language": "Python",
       "name": "Job.checkpoint",
-      "signature": "checkpoint(self, steps) -> unannotated",
+      "signature": "checkpoint(self, steps, state='running') -> unannotated",
       "kind": "FunctionDef",
       "line": 30,
       "end_line": 38,
@@ -62777,7 +62810,7 @@
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "a9363234e978224f31863d8f013b1e23c25986b750806f2a0485bc6e6b01a750",
+      "fingerprint": "f225eab329ba5bc95ac3ebdcb346951591dd13defcb89aaf5f206f30f825394b",
       "id": "src/hawa/jobs.py::Job.checkpoint",
       "branches": {
         "hit": 4,
@@ -62792,6 +62825,7 @@
         "tests/test_jobs.py::test_queued_pause_and_cancel_are_nonblocking[cpu]",
         "tests/test_motion.py::test_moving_recording_pathlines_and_pause_cancel[cpu]",
         "tests/test_runtime_job_contracts.py::test_checkpoint_pauses_resumes_and_reports_cancellation",
+        "tests/test_runtime_job_contracts.py::test_job_waiting_for_the_device_reports_queued_until_cancelled",
         "tests/test_runtime_job_contracts.py::test_late_query_cancellation_discards_result",
         "tests/test_runtime_job_contracts.py::test_query_routes_arguments_and_copies_result[boundary]",
         "tests/test_runtime_job_contracts.py::test_query_routes_arguments_and_copies_result[field]",
@@ -62820,13 +62854,13 @@
       "signature": "work(self) -> unannotated",
       "kind": "FunctionDef",
       "line": 40,
-      "end_line": 118,
+      "end_line": 119,
       "first_line": 40,
       "code_name": "work",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "bdbb60de99ba85c00383f180532588d2f707643bd38b51a78fe4132ba1b33272",
+      "fingerprint": "94596d3c17aa936fed5a1e2dc2e495e0ac4f691287310ab26be403a0a54ee15f",
       "id": "src/hawa/jobs.py::Job.work",
       "branches": {
         "hit": 28,
@@ -62840,6 +62874,7 @@
         "tests/test_jobs.py::test_query_failure_preserves_diagnostic",
         "tests/test_jobs.py::test_queued_pause_and_cancel_are_nonblocking[cpu]",
         "tests/test_motion.py::test_moving_recording_pathlines_and_pause_cancel[cpu]",
+        "tests/test_runtime_job_contracts.py::test_job_waiting_for_the_device_reports_queued_until_cancelled",
         "tests/test_runtime_job_contracts.py::test_late_query_cancellation_discards_result",
         "tests/test_runtime_job_contracts.py::test_query_routes_arguments_and_copies_result[boundary]",
         "tests/test_runtime_job_contracts.py::test_query_routes_arguments_and_copies_result[field]",
@@ -62867,9 +62902,9 @@
       "name": "Job.snapshot",
       "signature": "snapshot(self) -> unannotated",
       "kind": "FunctionDef",
-      "line": 120,
-      "end_line": 124,
-      "first_line": 120,
+      "line": 121,
+      "end_line": 125,
+      "first_line": 121,
       "code_name": "snapshot",
       "declaration": false,
       "visibility": "public/conventional",
@@ -62903,9 +62938,9 @@
       "name": "Job.control",
       "signature": "control(self, action) -> unannotated",
       "kind": "FunctionDef",
-      "line": 126,
-      "end_line": 154,
-      "first_line": 126,
+      "line": 127,
+      "end_line": 155,
+      "first_line": 127,
       "code_name": "control",
       "declaration": false,
       "visibility": "public/conventional",
@@ -62926,6 +62961,7 @@
         "tests/test_motion.py::test_moving_recording_pathlines_and_pause_cancel[cpu]",
         "tests/test_runtime_job_contracts.py::test_checkpoint_pauses_resumes_and_reports_cancellation",
         "tests/test_runtime_job_contracts.py::test_dispatch_enforces_capacity_unknown_operations_and_idempotent_close",
+        "tests/test_runtime_job_contracts.py::test_job_waiting_for_the_device_reports_queued_until_cancelled",
         "tests/test_runtime_job_contracts.py::test_successful_job_routes_options_and_registers_own_session[create]",
         "tests/test_runtime_job_contracts.py::test_successful_job_routes_options_and_registers_own_session[evaluate]",
         "tests/test_runtime_job_contracts.py::test_successful_job_routes_options_and_registers_own_session[motion_evaluate]",
@@ -62947,9 +62983,9 @@
       "name": "dispatch_job",
       "signature": "dispatch_job(request) -> unannotated",
       "kind": "FunctionDef",
-      "line": 162,
-      "end_line": 183,
-      "first_line": 162,
+      "line": 163,
+      "end_line": 184,
+      "first_line": 163,
       "code_name": "dispatch_job",
       "declaration": false,
       "visibility": "public/conventional",
@@ -67331,6 +67367,7 @@
         "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower8-upper8-shape8-dimension]",
         "tests/test_runtime_job_contracts.py::test_checkpoint_pauses_resumes_and_reports_cancellation",
         "tests/test_runtime_job_contracts.py::test_dispatch_enforces_capacity_unknown_operations_and_idempotent_close",
+        "tests/test_runtime_job_contracts.py::test_job_waiting_for_the_device_reports_queued_until_cancelled",
         "tests/test_runtime_job_contracts.py::test_late_query_cancellation_discards_result",
         "tests/test_runtime_job_contracts.py::test_query_routes_arguments_and_copies_result[boundary]",
         "tests/test_runtime_job_contracts.py::test_query_routes_arguments_and_copies_result[field]",
@@ -67664,6 +67701,7 @@
         "tests/test_refinement_preflight.py::test_unsupported_patch_topology_rejects_before_allocation[1000000.0-lower8-upper8-shape8-dimension]",
         "tests/test_runtime_job_contracts.py::test_checkpoint_pauses_resumes_and_reports_cancellation",
         "tests/test_runtime_job_contracts.py::test_dispatch_enforces_capacity_unknown_operations_and_idempotent_close",
+        "tests/test_runtime_job_contracts.py::test_job_waiting_for_the_device_reports_queued_until_cancelled",
         "tests/test_runtime_job_contracts.py::test_late_query_cancellation_discards_result",
         "tests/test_runtime_job_contracts.py::test_query_routes_arguments_and_copies_result[boundary]",
         "tests/test_runtime_job_contracts.py::test_query_routes_arguments_and_copies_result[field]",
@@ -74286,6 +74324,7 @@
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mps-mass-budget-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mutation-tooling-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[runtime-admission-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[status-truth-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[validity-foundation-policy.json]",
         "tests/test_mutation_policy.py::test_draft_keeps_reasons_only_for_unchanged_survivor_diffs",
         "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-11]",
@@ -74786,6 +74825,7 @@
         "tests/test_runtime_invariants.py::test_traction_zero_and_overflow_are_explicit",
         "tests/test_runtime_job_contracts.py::test_checkpoint_pauses_resumes_and_reports_cancellation",
         "tests/test_runtime_job_contracts.py::test_dispatch_enforces_capacity_unknown_operations_and_idempotent_close",
+        "tests/test_runtime_job_contracts.py::test_job_waiting_for_the_device_reports_queued_until_cancelled",
         "tests/test_runtime_job_contracts.py::test_late_query_cancellation_discards_result",
         "tests/test_runtime_job_contracts.py::test_query_routes_arguments_and_copies_result[boundary]",
         "tests/test_runtime_job_contracts.py::test_query_routes_arguments_and_copies_result[field]",
@@ -75465,6 +75505,7 @@
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mps-mass-budget-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mutation-tooling-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[runtime-admission-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[status-truth-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[validity-foundation-policy.json]",
         "tests/test_mutation_policy.py::test_draft_keeps_reasons_only_for_unchanged_survivor_diffs",
         "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-11]",
