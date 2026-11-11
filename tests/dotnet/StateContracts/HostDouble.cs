@@ -20,12 +20,26 @@ namespace Rhino {
     }
 }
 namespace Rhino.Commands { public sealed class CustomUndoEventArgs(Rhino.RhinoDoc document) : EventArgs { public Rhino.RhinoDoc Document { get; } = document; } }
-namespace Hawa.Shared { public static class EmbeddedRuntime { public static JsonObject Call(JsonObject request) => throw new Exception("Test transport not configured"); } }
+namespace Hawa.Shared {
+    // Components reach the bridge through Hawa.Grasshopper.EmbeddedRuntime; tests script it per case.
+    public static class EmbeddedRuntime {
+        public static Func<JsonObject, JsonObject>? Handler;
+        public static string Root => "/hawa-test-root";
+        public static JsonObject Call(JsonObject request) => (Handler ?? throw new Exception("Test transport not configured"))(request);
+    }
+}
 // Storage and scheduling doubles only: no claim about Rhino mesh kernels,
 // viewport rendering, Eto event-loop timing or real GH solution ordering.
 namespace Rhino.Geometry {
     public record struct Vector3d(double X, double Y, double Z) {
-        public bool IsValid => double.IsFinite(X)&&double.IsFinite(Y)&&double.IsFinite(Z);
+        // RhinoCommon's unset sentinel (RhinoMath.UnsetValue) is finite but invalid.
+        public const double UnsetValue = -1.23432101234321e+308;
+        public static Vector3d XAxis => new(1,0,0);
+        public static Vector3d YAxis => new(0,1,0);
+        public static Vector3d ZAxis => new(0,0,1);
+        public static Vector3d Unset => new(UnsetValue,UnsetValue,UnsetValue);
+        public bool IsValid => double.IsFinite(X)&&double.IsFinite(Y)&&double.IsFinite(Z)&&X!=UnsetValue&&Y!=UnsetValue&&Z!=UnsetValue;
+        public static Vector3d operator *(Vector3d v,double n)=>n*v;
         public double SquareLength => X*X+Y*Y+Z*Z;
         public double Length => Math.Sqrt(SquareLength);
         public static Vector3d operator *(double n,Vector3d v)=>new(n*v.X,n*v.Y,n*v.Z);
@@ -45,6 +59,8 @@ namespace Rhino.Geometry {
         public bool Contains(Point3d p)=>p.X>=Min.X&&p.X<=Max.X&&p.Y>=Min.Y&&p.Y<=Max.Y&&p.Z>=Min.Z&&p.Z<=Max.Z;
     }
     public readonly record struct Line(Point3d From,Point3d To);
+    public abstract class Curve { }
+    public sealed class PolylineCurve(IEnumerable<Point3d> points) : Curve { public List<Point3d> Points { get; } = points.ToList(); }
     public readonly record struct MeshFace(int A,int B,int C,int D=-1) { public bool IsQuad=>D>=0; }
     public sealed record MeshPoint(Point3d Point);
     public sealed class Brep {
@@ -96,29 +112,5 @@ namespace Eto.Forms {
         public void Stop() => Active.Remove(this);
         public void Dispose() { Disposed=true;Active.Remove(this); }
         public void Pulse() => Elapsed?.Invoke(this,EventArgs.Empty);
-    }
-}
-namespace Grasshopper {
-    public static class Instances { public static List<Kernel.GH_Document> DocumentServer = new(); }
-}
-namespace Grasshopper.Kernel {
-    public enum GH_RuntimeMessageLevel { Error }
-    public sealed class GH_Document {
-        public static bool EnableSolutions = true;
-        public bool Enabled = true;
-        public int SolutionDepth, Solutions;
-        public Action? DuringSolution;
-        public void NewSolution(bool expireAll) { Solutions++;DuringSolution?.Invoke(); }
-    }
-    public class GH_Component {
-        public GH_Document? Document;
-        public bool Locked;
-        public string Message = "";
-        public int Expirations;
-        public Action? DuringExpire;
-        public List<string> Errors = new();
-        public GH_Document? OnPingDocument() => Document;
-        public void ExpireSolution(bool recompute) { Expirations++;DuringExpire?.Invoke(); }
-        public void AddRuntimeMessage(GH_RuntimeMessageLevel level,string message) => Errors.Add(message);
     }
 }

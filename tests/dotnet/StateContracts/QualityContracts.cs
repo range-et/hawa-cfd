@@ -51,7 +51,7 @@ static class QualityContracts
         });
         test("JSON compatibility clone is structurally equal and independent", () => {
             JsonNode source=JsonNode.Parse("{\"values\":[1,{\"x\":2}]}")!;
-            var clone=JsonCompatibility.DeepClone(source);
+            var clone=Hawa.Shared.JsonCompatibility.DeepClone(source);
             assert(clone.ToJsonString()==source.ToJsonString(),"Clone changed content");
             clone["values"]![1]!["x"]=9;
             assert(source["values"]![1]!["x"]!.GetValue<int>()==2,"Clone shares child nodes");

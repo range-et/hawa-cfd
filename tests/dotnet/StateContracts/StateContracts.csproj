@@ -9,6 +9,12 @@
     <Compile Include="../../../plugin/Hawa.Shared/CaseGeometry.cs" Link="Production/CaseGeometry.cs" />
     <Compile Include="../../../plugin/Hawa.Shared/SliceDisplay.cs" Link="Production/SliceDisplay.cs" />
     <Compile Include="../../../plugin/Hawa.Grasshopper/PollScheduler.cs" Link="Production/PollScheduler.cs" />
+    <Compile Include="../../../plugin/Hawa.Grasshopper/Runtime.cs" Link="Production/Runtime.cs" />
+    <Compile Include="../../../plugin/Hawa.Grasshopper/FieldTools.cs" Link="Production/FieldTools.cs" />
+    <Compile Include="../../../plugin/Hawa.Grasshopper/ResultsComponents.cs" Link="Production/ResultsComponents.cs" />
+    <Compile Include="../../../plugin/Hawa.Grasshopper/SolveComponents.cs" Link="Production/SolveComponents.cs" />
+    <Compile Include="../../../plugin/Hawa.Grasshopper/AnimationComponents.cs" Link="Production/AnimationComponents.cs" />
+    <Compile Include="../../../plugin/Hawa.Shared/LifecycleText.cs" Link="Production/LifecycleText.cs" />
     <Compile Include="../../../plugin/Hawa.Shared/MeshContainment.cs" Link="Production/MeshContainment.cs" />
     <Compile Include="../../../plugin/Hawa.Shared/WallLinks.cs" Link="Production/WallLinks.cs" />
     <Compile Include="../../../plugin/Hawa.Shared/SurfaceMeshing.cs" Link="Production/SurfaceMeshing.cs" />
