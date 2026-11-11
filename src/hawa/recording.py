@@ -135,4 +135,5 @@ def pathlines(manifest,seeds,last=None,checkpoint=lambda n:None):
                 if total>=MAX_PATH_POINTS:raise ValueError('Pathlines exceed 100000 point budget; reduce seeds or frame range')
                 points[i]=q;paths[i].append(q.tolist());total+=1
         before=after
-    return {'paths':paths,'time':frames[last]['time'],'case':data['case']}
+    # A particle that left the flow keeps its path but is not alive at the end.
+    return {'paths':paths,'alive':alive.tolist(),'time':frames[last]['time'],'case':data['case']}

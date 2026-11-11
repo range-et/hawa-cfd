@@ -338,34 +338,58 @@ def contours(points, values, valid, shape, levels, checkpoint=lambda n:None):
 
 
 def trace(fields, seeds, steps=200, step=.4, direction=1, name='speed', spec=None, checkpoint=lambda n:None):
+    """RK4 streamlines, one entry per seed, with a termination reason each.
+
+    The tangent follows the simulated velocity alone, so every colour field
+    gives the same paths. Colours are sampled with that field's own validity;
+    ``valid`` marks the samples it can show. A path that runs all ``steps``
+    ends on its final point; one that leaves the simulated flow or stalls
+    ends on its last valid point.
+    """
     from .plugin import sample_arrays
     if len(seeds)>2000 or not 1<=steps<=2000 or not .01<=step<=1 or direction not in (-1,1):
         raise ValueError('Trace limits: 2000 seeds/steps, step .01..1, direction -1 or 1')
-    paths=[];colors=[];total=0
-    proxy={**fields,"pressure":scalar(fields,name,spec or {})}
+    proxy={**fields,'pressure':scalar(fields,name,spec or {}),'solid':validity_mask(fields,name)}
     def tangent(p):
         r=sample_arrays(fields,[p])[0]
-        if r is None or r['speed']<1e-10:return None
+        if r is None:return 'left_flow'
+        if r['speed']<1e-10:return 'stalled'
         return np.asarray(r['velocity'])[:len(p)]*direction/r['speed']
+    def colour(path):
+        return [(r['pressure'],True) if r else (0.,False) for r in sample_arrays(proxy,path)]
+    return trace_result(seeds,lambda p:trace_seed(np.asarray(p,float),steps,step,tangent,checkpoint),colour)
+
+
+def trace_seed(p, steps, step, tangent, checkpoint):
+    """Integrate one seed. ``tangent`` returns a unit vector or a reason string."""
+    path=[]
+    for iteration in range(steps+1):
+        if iteration%16==0:checkpoint(iteration)
+        k1=tangent(p)
+        if isinstance(k1,str):
+            # A stalled point is still simulated flow; it ends the path.
+            if k1=='stalled':path.append(p.tolist())
+            return path,k1 if path else 'invalid_seed'
+        path.append(p.tolist())
+        if iteration==steps:return path,'completed'
+        k2=tangent(p+step*k1/2)
+        if isinstance(k2,str):return path,k2
+        k3=tangent(p+step*k2/2)
+        if isinstance(k3,str):return path,k3
+        k4=tangent(p+step*k3)
+        if isinstance(k4,str):return path,k4
+        p=p+step*(k1+2*k2+2*k3+k4)/6
+
+
+def trace_result(seeds, follow, colour):
+    paths=[];values=[];valid=[];reasons=[];total=0
     for seed in seeds:
-        p=np.asarray(seed,float);path=[]
-        for iteration in range(steps):
-            if iteration%16==0:checkpoint(iteration)
-            k1=tangent(p)
-            if k1 is None:break
-            total+=1
-            if total>100000:raise ValueError('Flow display exceeds 100000 points. Reduce seeds or steps.')
-            path.append(p.tolist())
-            k2=tangent(p+step*k1/2)
-            if k2 is None:break
-            k3=tangent(p+step*k2/2)
-            if k3 is None:break
-            k4=tangent(p+step*k3)
-            if k4 is None:break
-            p=p+step*(k1+2*k2+2*k3+k4)/6
-        if len(path)>1:
-            paths.append(path);colors.append([r['pressure'] if r else 0. for r in sample_arrays(proxy,path)])
-    return {'paths':paths,'values':colors}
+        path,reason=follow(seed);total+=len(path)
+        if total>100000:raise ValueError('Flow display exceeds 100000 points. Reduce seeds or steps.')
+        samples=colour(path) if path else []
+        paths.append(path);reasons.append(reason)
+        values.append([float(v) for v,ok in samples]);valid.append([bool(ok) for v,ok in samples])
+    return {'paths':paths,'values':values,'valid':valid,'reasons':reasons}
 
 
 def dispatch_field(request, session=None, checkpoint=lambda n:None):

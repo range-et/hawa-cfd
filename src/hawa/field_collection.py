@@ -64,7 +64,9 @@ class FieldCollection:
         view.meta=dict(meta,collection=dict(domains=1,selection='one frame in lattice coordinates'))
         return view
 
-    def sample(self, points):
+    def sample(self, points, mask='invalid'):
+        """Sample the view; ``mask`` names the row mask that decides validity
+        (``invalid`` for the colour field, ``display`` for the velocity alone)."""
         points=np.asarray(points,float)
         if points.ndim!=2 or points.shape[1]!=3 or len(points)>10000 or not np.isfinite(points).all():
             raise ValueError('Use at most 10000 finite three-coordinate samples')
@@ -77,7 +79,7 @@ class FieldCollection:
             ids=np.flatnonzero(inside)
             if not len(ids):continue
             owner[ids]=row['order'];p=np.clip(p[ids],0,n-1)
-            corners,weights,ok=lattice_weights(row['invalid'],p)
+            corners,weights,ok=lattice_weights(row[mask],p)
             u=np.zeros((len(ids),3));v=np.zeros(len(ids))
             for c in range(weights.shape[1]):
                 ix=corners[c];index=tuple(ix.T)
@@ -87,32 +89,20 @@ class FieldCollection:
         return values,valid,velocity,owner
 
     def trace(self,seeds,steps=200,step=.4,direction=1):
+        """Streamlines with the same contract as ``fields.trace``. The tangent
+        uses display solids only; colours use the field's own validity."""
+        from .fields import trace_result, trace_seed
         if len(seeds)>2000 or type(steps) is not int or not 1<=steps<=2000 or not .01<=step<=1 or direction not in (-1,1):
             raise ValueError('Trace limits: 2000 seeds/steps, step .01..1, direction -1 or 1')
         # Resolve the finest grid when crossing a child; avoid jumping a thin body.
         h=step*min(row['dx'] for row in self.rows)/self.dx
-        paths=[];colors=[];total=0
         def tangent(p):
-            _,valid,u,_=self.sample([p]);speed=np.linalg.norm(u[0])
-            return direction*u[0]/speed if valid[0] and speed>1e-10 else None
-        for seed in seeds:
-            p=np.asarray(seed,float);path=[]
-            for iteration in range(steps):
-                if iteration%16==0:self.checkpoint(iteration)
-                k1=tangent(p)
-                if k1 is None:break
-                path.append(p.tolist());total+=1
-                if total>100000:raise ValueError('Flow display exceeds 100000 points; reduce seeds or steps')
-                k2=tangent(p+h*k1/2)
-                if k2 is None:break
-                k3=tangent(p+h*k2/2)
-                if k3 is None:break
-                k4=tangent(p+h*k3)
-                if k4 is None:break
-                p=p+h*(k1+2*k2+2*k3+k4)/6
-            if len(path)>1:
-                paths.append(path);colors.append(self.sample(path)[0].tolist())
-        return dict(paths=paths,values=colors)
+            _,valid,u,_=self.sample([p],'display');speed=np.linalg.norm(u[0])
+            if not valid[0]:return 'left_flow'
+            return direction*u[0]/speed if speed>1e-10 else 'stalled'
+        def colour(path):
+            values,valid,_,_=self.sample(path);return list(zip(values.tolist(),valid.tolist()))
+        return trace_result(seeds,lambda p:trace_seed(np.asarray(p,float),steps,h,tangent,self.checkpoint),colour)
 
     def plane(self,points,shape,levels):
         """Partition plane triangles into fluid, solid, invalid and no-data pieces.

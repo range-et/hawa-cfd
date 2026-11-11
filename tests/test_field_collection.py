@@ -49,6 +49,18 @@ def test_streamline_crosses_parent_child_and_isosurface_is_continuous():
     p=np.array(r['paths'][0]);assert p[0,0]==1 and p[-1,0]>4
     np.testing.assert_allclose(p[:,1:],[[2,2]]*len(p))
     assert min(r['values'][0])==1 and max(r['values'][0])==2
+    # The tangent ignores the colour field's derivative mask; colours carry it.
+    key=frame(solid=True);seeds=[[.2,1.2,2.],[2.5,2.5,2.5],[.2,5.,5.]]
+    speed=dispatch_field(dict(action='trace',frames=[key],field='speed',seeds=seeds,steps=20,step=.4))
+    vort=dispatch_field(dict(action='trace',frames=[key],field='vorticity',seeds=seeds,steps=20,step=.4))
+    assert speed['paths']==vort['paths'] and speed['reasons']==vort['reasons']==['left_flow','invalid_seed','left_flow']
+    assert np.array(speed['paths'][0])[-1,0]>5.6 and speed['paths'][1]==[]
+    assert all(speed['valid'][0]) and not all(vort['valid'][0]) and any(vort['valid'][0])
+    # Unit steps whatever the speed; a still frame stalls on its seed.
+    fast=dispatch_field(dict(action='trace',frames=[frame(speed=3.)],seeds=[[1,2,2]],steps=5,step=.4))
+    np.testing.assert_allclose(np.diff(np.array(fast['paths'][0])[:,0]),.4)
+    still=dispatch_field(dict(action='trace',frames=[frame(speed=0.)],seeds=[[1,2,2]],steps=5,step=.4))
+    assert still['paths']==[[[1.,2.,2.]]] and still['reasons']==['stalled']
     iso=dispatch_field(dict(action='isosurface',frames=[a,b],field='pressure',level=3.25,stride=1))
     assert iso['faces'];np.testing.assert_allclose(np.array(iso['vertices'])[:,0],3.25)
 

@@ -58,8 +58,9 @@ def test_trace_without_callback_follows_uniform_field():
     velocity = np.zeros((3, 6, 6, 6)); velocity[0] = 1.
     result = trace(dict(velocity=velocity, pressure=np.zeros((6, 6, 6)),
                         density=np.ones((6, 6, 6))), [[1., 2., 2.]], steps=4, step=.5)
-    np.testing.assert_allclose(result['paths'], [[[1., 2., 2.], [1.5, 2., 2.], [2., 2., 2.], [2.5, 2., 2.]]])
-    np.testing.assert_array_equal(result['values'], [[1., 1., 1., 1.]])
+    np.testing.assert_allclose(result['paths'], [[[1., 2., 2.], [1.5, 2., 2.], [2., 2., 2.], [2.5, 2., 2.], [3., 2., 2.]]])
+    np.testing.assert_array_equal(result['values'], [[1., 1., 1., 1., 1.]])
+    assert result['reasons'] == ['completed'] and result['valid'] == [[True] * 5]
 
 
 def test_boundary_series_default_callbacks_roundtrip_and_wall_history(tmp_path):

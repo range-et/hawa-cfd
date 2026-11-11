@@ -249,3 +249,47 @@ def test_read_frame_keeps_every_stored_array(tmp_path):
     np.savez_compressed(tmp_path/'frame.npz',metadata=np.array(json.dumps({'case':{}})),**arrays)
     got,_=read_frame(tmp_path/'frame.npz')
     assert sorted(got)==sorted(arrays) and all(np.array_equal(got[k],arrays[k]) for k in arrays)
+
+
+def test_trace_keeps_every_seed_the_final_step_and_masks_colours_only():
+    from hawa.fields import trace
+    shape=(14,8,8);velocity=np.zeros((3,)+shape);velocity[0]=1.;velocity[:,:,6:]=0.
+    solid=np.zeros(shape,bool);solid[11:,:4]=True;solid[:,0]=True
+    fields=dict(velocity=velocity,pressure=np.zeros(shape),density=np.ones(shape),solid=solid)
+    # Open flow, into the wall, inside the wall, stalled, and 0.6 above the y=0 wall.
+    seeds=[[1.,5.,4.],[6.,2.,4.],[12.,1.,4.],[3.,7.,4.],[1.,.6,4.]]
+    speed=trace(fields,seeds,steps=20,step=.4)
+    vorticity=trace(fields,seeds,steps=20,step=.4,name='vorticity')
+    assert speed['paths']==vorticity['paths'] and len(speed['paths'])==len(seeds)
+    assert speed['reasons']==['completed','left_flow','invalid_seed','stalled','completed']
+    open_flow=np.array(speed['paths'][0])
+    assert len(open_flow)==21 and np.sum(np.linalg.norm(np.diff(open_flow,axis=0),axis=1))==pytest.approx(8.)
+    wall=np.array(speed['paths'][1]);assert wall[-1,0]<=10.5 and wall[-1,0]>10.5-.4
+    assert speed['paths'][2]==[] and speed['values'][2]==[] and speed['paths'][3]==[[3.,7.,4.]]
+    assert all(all(v) for v in speed['valid']) and set(speed['values'][0])=={1.}
+    # Vorticity has no stencil next to a solid or on the domain edge: masked, not coloured.
+    beside_wall=vorticity['valid'][4]
+    assert not any(beside_wall) and set(vorticity['values'][4])=={0.}
+    assert any(vorticity['valid'][0]) and not vorticity['valid'][3][0]
+
+
+def test_trace_is_fourth_order_on_a_rotating_flow():
+    from hawa.fields import trace
+    # Solid-body rotation is linear, so sampling is exact and only RK4's error remains.
+    shape=(13,13,5);g=np.indices(shape).astype(float);velocity=np.zeros((3,)+shape)
+    velocity[0]=-(g[1]-6);velocity[1]=g[0]-6
+    fields=dict(velocity=velocity,pressure=np.zeros(shape),density=np.ones(shape),solid=np.zeros(shape,bool))
+    path=np.array(trace(fields,[[10.,6.,2.]],steps=20,step=.4)['paths'][0])
+    assert len(path)==21 and np.abs(np.linalg.norm(path[:,:2]-6,axis=1)-4).max()<1e-5
+    def stop(n):raise RuntimeError('cancelled')
+    with pytest.raises(RuntimeError,match='cancelled'):trace(fields,[[10.,6.,2.]],steps=20,step=.4,checkpoint=stop)
+
+
+def test_trace_result_keeps_the_point_budget_across_seeds():
+    from hawa.fields import trace_result
+    def run(lengths):
+        return trace_result(lengths,lambda n:([[0.,0.,0.]]*n,'completed'),lambda path:[(0.,True)]*len(path))
+    assert run([50000,50000])['reasons']==['completed']*2
+    message='^Flow display exceeds 100000 points. Reduce seeds or steps.$'
+    for lengths in ([50000,50001],[40000,40000,40000]):
+        with pytest.raises(ValueError,match=message):run(lengths)
