@@ -25,32 +25,34 @@ jobs:
             runner: run_runtime_admission.sh
             policy: runtime-admission-policy.json
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 15
     env:
       OMP_NUM_THREADS: '1'
       MKL_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v6
+      # mutmut 3.7.0 needs Python 3.10+, so the studies run in the Python 3.12
+      # .venv-dev. The same tests must pass on 3.9, which the other workflows check.
       - uses: actions/setup-python@v6
         with:
-          python-version: '3.9.25'
-      - name: Install pinned developer dependencies
+          python-version: '3.12.14'
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: '0.13.7'
+      - name: Export uv.lock as pip constraints
+        run: uv export --locked --no-hashes --no-header --no-emit-project --no-emit-package hawa-lettuce --extra test --group tools --output-file "$RUNNER_TEMP/constraints.txt"
+      # The CPU torch wheel keeps CUDA out of the forked mutation workers.
+      - name: Install .venv-dev from the locked versions
         run: |
-          python -m venv .venv
-          .venv/bin/python -m pip install --upgrade pip==25.3
-          .venv/bin/python -m pip install torch==2.8.0+cpu --index-url https://download.pytorch.org/whl/cpu --no-deps
-          .venv/bin/python -m pip install -e vendor/lettuce -e '.[test]' -r tools/mutation/requirements.txt
+          python -m venv .venv-dev
+          .venv-dev/bin/python -m pip install --upgrade pip==25.3
+          .venv-dev/bin/python -m pip install torch==2.8.0+cpu --index-url https://download.pytorch.org/whl/cpu --no-deps
+          .venv-dev/bin/python -m pip install -e vendor/lettuce -e '.[test]' --group tools -c "$RUNNER_TEMP/constraints.txt"
       - name: Measure mutations in a fresh disposable copy
         run: |
           mkdir -p results
-          set +e
           bash tools/mutation/${{ matrix.runner }} results/${{ matrix.study }}-mutation
-          mutation_status=$?
-          set -e
-          if [[ "$mutation_status" != 0 && "$mutation_status" != 2 ]]; then
-            exit "$mutation_status"
-          fi
-          .venv/bin/python tools/mutation/check_results.py results/${{ matrix.study }}-mutation --policy tools/mutation/${{ matrix.policy }}
+          .venv-dev/bin/python tools/mutation/check_results.py results/${{ matrix.study }}-mutation --policy tools/mutation/${{ matrix.policy }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -59,5 +61,7 @@ jobs:
             results/${{ matrix.study }}-mutation/*.txt
             results/${{ matrix.study }}-mutation/*.log
             results/${{ matrix.study }}-mutation/*.xml
+            results/${{ matrix.study }}-mutation/*.json
             results/${{ matrix.study }}-mutation/*.diff
             results/${{ matrix.study }}-mutation/*.sha256
+            results/${{ matrix.study }}-mutation/*.cfg

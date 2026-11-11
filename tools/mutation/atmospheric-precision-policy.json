@@ -1,8 +1,11 @@
 {
-  "tool": "mutmut==2.4.5",
-  "mutants": 440,
-  "control_test_file": "tests/test_atmospheric_precision.py",
+  "tool": "mutmut==3.7.0",
+  "mutants": 760,
+  "inventory_sha256": "e84708e6c6520127b70f7e8144748ccbb78b96a5a085fd698e60f233eae02b9c",
   "scope": "HAWA-003 PR lines only (atmospheric-precision.patch): storage_resolution and helpers, dissipation_storage quality field, verify_atmospheric_precision.py; not whole-module mutation coverage",
+  "control_test_files": [
+    "tests/test_atmospheric_precision.py"
+  ],
   "sources": {
     "src/hawa/neutral.py": "a409f22e162a9bb726cc4f947d4aaabf4223042c6f640ac11b330e03741039bd",
     "src/hawa/quality.py": "1abbb759cf19cbba8644e85c2e1adfc43fea0ceaf0a6bf4d2998ceb6d19023f0",
@@ -11,45 +14,225 @@
     "tools/mutation/atmospheric-precision.patch": "a66d33899b96ed63d2ec13a398936586ee5b0759ffe9a30af70fcda4f47b8fca"
   },
   "reviewed_survivors": {
-    "Mutant #33": {
-      "diff_sha256": "f09eeb003521d5c21246f134b3d55e91699aebfdd1a37338fd1b2eed59a11a54",
+    "hawa.neutral.xǁShiftedRegularizedSGSǁstorage_resolution__mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "dbecf792c8ee1f1c3b3cc97a414208a2e72069843285995629a5ba197e253fa1",
+      "reason": "Unresolved (test gap): the rounding floor becomes one global maximum instead of a per-cell maximum, which lowers R in cells with smaller populations; the tested shear-wave fields stay on the same side of every threshold. Not equivalent."
+    },
+    "hawa.neutral.xǁShiftedRegularizedSGSǁstorage_resolution__mutmut_22": {
+      "status": "survived",
+      "diff_sha256": "e4e9049bbdd393e55d9d8eef5cd41e19eff5a15080af4248448a9f195971e86c",
       "reason": "Equivalent: where update == 0 the quotient 0/clamp_min(floor, tiny) is already 0, so update>=0 selects the same value as the zeros branch."
     },
-    "Mutant #83": {
-      "diff_sha256": "b078b468743448db5b7a3059e536e92d2e5f6747885c951ba121730b9d09a204",
-      "reason": "Collection error, not a kill: unpacking None raises TypeError at import, pytest exits 2 and mutmut 2.4.5 counts only exit 1 as killed. Verified by applying the mutant."
+    "hawa.quality.x_assess__mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "bb2eed0b67ff58a3bc5a88539105808522cb5e5c22aac784a5adf546f726de27",
+      "reason": "Unresolved (test gap): without the fluid mask, solid cells also weight the dissipation shares; the quality tests have no solid cells with stress, so they cannot see it. Not equivalent with solids."
     },
-    "Mutant #89": {
-      "diff_sha256": "a40530921e13730e95d308aae04ae9e678c0d0268cfdc69cfbc47bef5bd8b46b",
-      "reason": "Equivalent: the harness works only in lattice units and never converts through UnitConversion, so its Reynolds-number argument is unused."
+    "hawa.quality.x_assess__mutmut_6": {
+      "status": "survived",
+      "diff_sha256": "d637b52f4c227ccc73c316b7bd2dc71dd514a999ebf40bc89f7d2b63ed0c6f6e",
+      "reason": "Unresolved (test gap): without the fluid mask, solid cells also weight the dissipation shares; the quality tests have no solid cells with stress, so they cannot see it. Not equivalent with solids."
     },
-    "Mutant #249": {
-      "diff_sha256": "bbfb45826cc9dfe2cc5851f30f92e2f5d1f0cd98d6cd58550c6e597ef696cf02",
-      "reason": "Collection error, not a kill: list - list raises TypeError at import, pytest exits 2 and mutmut 2.4.5 counts only exit 1 as killed. Verified by applying the mutant."
-    },
-    "Mutant #331": {
-      "diff_sha256": "319a28349cee63e2db546092b23424a16c74e705ac407355d17fa06c5b3dcfdd",
+    "verify_atmospheric_precision.x_compare__mutmut_12": {
+      "status": "survived",
+      "diff_sha256": "1bdb8c5f3a57d29bb02bf375fdafa984260d027c9cbfff46e1366a7ed9db5255",
       "reason": "Equivalent: |cand/ref - 1| cannot equal the double 0.05 because 1 +/- fl(0.05) is not representable, so <= and < select the same cases."
     },
-    "Mutant #372": {
-      "diff_sha256": "6faccf8aaaeb692ebb2c8649b88215ef26a81ededec5c98330cad509d717f7e4",
+    "verify_atmospheric_precision.x_main__mutmut_100": {
+      "status": "survived",
+      "diff_sha256": "99c7452ba2dd467b932e812061ce019772cbf41eaede840b85f5910139e18ba5",
+      "reason": "Decoration: report JSON indentation does not change parsed data."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_101": {
+      "status": "survived",
+      "diff_sha256": "feb17a9b88b2dd5934d1fcf1004d8bf1fcf4668484828906ae0726112de00204",
+      "reason": "Decoration: report JSON indentation does not change parsed data."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_103": {
+      "status": "survived",
+      "diff_sha256": "5211601d485a9df90ff0940ac5b1661ddea9f743b0e9a70ef4b9aec8c75ac309",
+      "reason": "Unresolved (test gap): the stdout summary is not asserted; the report file it summarises is. Not equivalent for someone reading stdout."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_104": {
+      "status": "survived",
+      "diff_sha256": "4731411ad1119b22d71894c394981eb6d368f6d13c00757f343472714112c8c7",
+      "reason": "Unresolved (test gap): the stdout summary is not asserted; the report file it summarises is. Not equivalent for someone reading stdout."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_105": {
+      "status": "survived",
+      "diff_sha256": "b7a38a611dc1262e04722e75d785087c2ae187b4c86e490d1c8f9de3f98e07fa",
+      "reason": "Decoration: stdout JSON indentation does not change parsed data."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_107": {
+      "status": "survived",
+      "diff_sha256": "5dc782346fba8e0f4337c14e9843ce4b0d42a184982f41f37124ec425e2e7810",
+      "reason": "Decoration: stdout JSON indentation does not change parsed data."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_108": {
+      "status": "survived",
+      "diff_sha256": "d8fd0ffb4b19ce155fdb01905f9c4d1e510670b3178b951f8e99637cb6ae5c99",
+      "reason": "Decoration: stdout JSON indentation does not change parsed data."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_17": {
+      "status": "survived",
+      "diff_sha256": "d4fbcbffc67021f0d7b207cff06817ba7df81846bcc3737b7cae7a0e2500c2ab",
+      "reason": "Decoration: argparse help and description copy is not part of the report or exit contract."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_2": {
+      "status": "survived",
+      "diff_sha256": "f27b91e52bb8ad247919438bf51897e6e3dd37dc14fcacc8e267c722221a52de",
+      "reason": "Decoration: argparse help and description copy is not part of the report or exit contract."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_20": {
+      "status": "survived",
+      "diff_sha256": "5f8044aa9dfa5f390546a96602fa5d871fc8fad8ebb123716a980d2149564634",
+      "reason": "Decoration: argparse help and description copy is not part of the report or exit contract."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_25": {
+      "status": "survived",
+      "diff_sha256": "d3951010baee557fb57ef0f0b6cf21bfbd03637126356e6d5383bbf78726b5cf",
+      "reason": "Decoration: argparse help and description copy is not part of the report or exit contract."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_26": {
+      "status": "survived",
+      "diff_sha256": "b18a04fd27074676d1ad583ab93cc96be402f3d381207b901fb85033ab1ca04a",
+      "reason": "Decoration: argparse help and description copy is not part of the report or exit contract."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_27": {
+      "status": "survived",
+      "diff_sha256": "198299704e75f2890ef6f3e55a2e2c34726dc28bed55447ab606d412e74e2cf2",
+      "reason": "Decoration: argparse help and description copy is not part of the report or exit contract."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "ebb5388344330fd8a17d577ac820b3b83e8beb12f0a38e1076a8433ddafb86ef",
+      "reason": "Decoration: argparse help and description copy is not part of the report or exit contract."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_5": {
+      "status": "survived",
+      "diff_sha256": "03d28071e56d168c80d8eb323a4b480f2eeec9a0992e29db682e4aa3702dd659",
+      "reason": "Decoration: argparse help and description copy is not part of the report or exit contract."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_70": {
+      "status": "survived",
+      "diff_sha256": "cc575842a4c8dc299560c6475b107246a6a2b49fb8415713bd0aab22f9d4f575",
+      "reason": "Unresolved (test gap): the report environment provenance fields are not asserted. Not equivalent for provenance."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_71": {
+      "status": "survived",
+      "diff_sha256": "e622312ce3f2b0394f175354bab2386bb963941fbb6366af5a30d3d0cf696972",
+      "reason": "Unresolved (test gap): the report environment provenance fields are not asserted. Not equivalent for provenance."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_72": {
+      "status": "survived",
+      "diff_sha256": "4af5a02483f753a87ee5150a0d010735f602ecfbfb5e373eb61cff2f294e304b",
+      "reason": "Unresolved (test gap): the report environment provenance fields are not asserted. Not equivalent for provenance."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_73": {
+      "status": "survived",
+      "diff_sha256": "b8f713e6acad3ec59b9c4b8abb8e964ee62a19ddcf67d0a47ce37b72838215b0",
+      "reason": "Unresolved (test gap): the report environment provenance fields are not asserted. Not equivalent for provenance."
+    },
+    "verify_atmospheric_precision.x_main__mutmut_98": {
+      "status": "survived",
+      "diff_sha256": "c5bb01df862ed23ddb5a810c6a2cc78671b47dc9d41582a55b54ed58337f0e4a",
+      "reason": "Decoration: report JSON indentation does not change parsed data."
+    },
+    "verify_atmospheric_precision.x_measure__mutmut_23": {
+      "status": "survived",
+      "diff_sha256": "b91d221b304e6e6202f4bf0a25617fcdc0f620933ee354224ea2af8bab43ea8f",
+      "reason": "Equivalent: scaling_report defaults mach to 0.05, which is MACH."
+    },
+    "verify_atmospheric_precision.x_measure__mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "786f6b87f3d1573473ee461d771e1a8dfc4001b5b4d214d1509ebf38403deac4",
+      "reason": "Unresolved (untested production default): measure() keeps this default for the published HAWA-003 run, but the tests always pass shorter explicit values because the full run is too slow for the suite. Not equivalent."
+    },
+    "verify_atmospheric_precision.x_measure__mutmut_37": {
+      "status": "survived",
+      "diff_sha256": "02f4bdd20bd547b56c10b2fcb2cc40ea133f8044c8a4738c89e780a5e76671b9",
+      "reason": "Equivalent in this CPU-only study: a Context without a device picks the CPU when CUDA is unavailable. Device choice on accelerators is device evidence, not a CPU mutation kill."
+    },
+    "verify_atmospheric_precision.x_measure__mutmut_39": {
+      "status": "survived",
+      "diff_sha256": "b64b98a6c13080a669361d94dcce1b275f23c5a96db0410c1698ef68395fb881",
+      "reason": "Equivalent on the CPU: Context resolves use_native=None to False off CUDA. On CUDA it would enable the native kernels; that is device evidence, not a CPU mutation kill."
+    },
+    "verify_atmospheric_precision.x_measure__mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "141e064346874d74a51452e19b109556c7afc8c98d86997978ba60b285fc9952",
+      "reason": "Unresolved (untested production default): measure() keeps this default for the published HAWA-003 run, but the tests always pass shorter explicit values because the full run is too slow for the suite. Not equivalent."
+    },
+    "verify_atmospheric_precision.x_measure__mutmut_42": {
+      "status": "survived",
+      "diff_sha256": "0a062fb8cc992382a7b567c57a0d94b6d3ff0eb93ef6624f80cc3a948ec6fc99",
+      "reason": "Equivalent on the CPU: Context resolves an omitted use_native to False off CUDA. On CUDA it would enable the native kernels; that is device evidence, not a CPU mutation kill."
+    },
+    "verify_atmospheric_precision.x_measure__mutmut_5": {
+      "status": "survived",
+      "diff_sha256": "c0b95e82a2edf5a7a453108d52d05aad4700e3d5e72e9a0168d8fefb2848b148",
+      "reason": "Unresolved (untested production default): measure() keeps this default for the published HAWA-003 run, but the tests always pass shorter explicit values because the full run is too slow for the suite. Not equivalent."
+    },
+    "verify_atmospheric_precision.x_run__mutmut_49": {
+      "status": "survived",
+      "diff_sha256": "256ed5138c1c1e876c08ac740f56f13bfd2e989e42df8d9c0c38e19f27a29457",
+      "reason": "Equivalent: measure() defaults to dtype=torch.float32, the value this call passes."
+    },
+    "verify_atmospheric_precision.x_run__mutmut_86": {
+      "status": "survived",
+      "diff_sha256": "550bd34c023252647344c47985eaedb7170eb97a02e83e49023b50db7e9165e6",
       "reason": "Equivalent: |delta_ratio - 1| cannot equal the double 0.05 for the same representability reason, so <= and < select the same cases."
     },
-    "Mutant #405": {
-      "diff_sha256": "3b736fb614fc672c01e990314c58aaa7a690ac29badfbe9b65b1fc388d93b4d4",
-      "reason": "Decoration: --device help copy is not part of the report or exit contract."
+    "verify_atmospheric_precision.xǁShearWaveǁ__init____mutmut_14": {
+      "status": "survived",
+      "diff_sha256": "8c0d5534490ad99ef12f7d780e1dda5e46e6f0c05d980f784a0abde28aad90d4",
+      "reason": "Equivalent: the harness works only in lattice units and never converts through UnitConversion, so its arguments are unused."
     },
-    "Mutant #432": {
-      "diff_sha256": "ed7ca1427b9446dbfeb0bbcbc2fa438b1dd9080819a25eff0880846ce84e8210",
-      "reason": "Decoration: report JSON indentation 2 to 3 does not change parsed data."
+    "verify_atmospheric_precision.xǁShearWaveǁ__init____mutmut_15": {
+      "status": "survived",
+      "diff_sha256": "78748b7e938bac0936baf8bd373236d612c91ffe9ff4d149b6a16ea7df08dffa",
+      "reason": "Equivalent: the harness works only in lattice units and never converts through UnitConversion, so its arguments are unused."
     },
-    "Mutant #435": {
-      "diff_sha256": "f1834697d936460877497f8d80b953260c8c5a97e2a3def051a5450ce0f81c60",
-      "reason": "Decoration: stdout JSON indentation 2 to 3 does not change parsed data."
+    "verify_atmospheric_precision.xǁShearWaveǁ__init____mutmut_17": {
+      "status": "survived",
+      "diff_sha256": "654dda65ac1e8e2f1627cbae4bef16abde0d3bf891e709aeba28be8a8c80a1f3",
+      "reason": "Equivalent: the harness works only in lattice units and never converts through UnitConversion, so its arguments are unused."
     },
-    "Mutant #439": {
-      "diff_sha256": "69296b300edb33ffb15c379daf06e4123817700ca387c5b1c7420b0383b8fbcb",
-      "reason": "Collection error, not a kill: __name__ != '__main__' runs main() at import with pytest's argv, argparse exits during collection (pytest exit 3). Verified by applying the mutant."
+    "verify_atmospheric_precision.xǁShearWaveǁ__init____mutmut_18": {
+      "status": "survived",
+      "diff_sha256": "df1b488d0b8dcd0be0c1cdfa625db9bd8092de7a983b98e92b085fed477120e7",
+      "reason": "Equivalent: the harness works only in lattice units and never converts through UnitConversion, so its arguments are unused."
+    },
+    "verify_atmospheric_precision.xǁShearWaveǁ__init____mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "9bcce2b67832c09e0839350eaeedff17799c42fd9baeaf0745356bf05d7b6c6b",
+      "reason": "Equivalent: the harness works only in lattice units and never converts through UnitConversion, so its arguments are unused."
+    },
+    "verify_atmospheric_precision.xǁShearWaveǁinitialize__mutmut_118": {
+      "status": "survived",
+      "diff_sha256": "a03b167b9e50b7edf339ed8110b6ae150972838b222f8dae5940fb96d3eec107",
+      "reason": "Equivalent: einsum labels are renamed consistently (lower to upper case), which is the same contraction."
+    },
+    "verify_atmospheric_precision.xǁShearWaveǁinitialize__mutmut_59": {
+      "status": "survived",
+      "diff_sha256": "8520844329d04550db7ec8f27752f4cc9b3ee797f98750e7aa4d5f1c05bd746b",
+      "reason": "Equivalent: np.asarray of the stencil weights is already FP64, so torch.tensor keeps FP64 without an explicit dtype."
+    },
+    "verify_atmospheric_precision.xǁShearWaveǁinitialize__mutmut_61": {
+      "status": "survived",
+      "diff_sha256": "0092aa46183ac0ded1e3ce80352b9c5a53dc7cb9032ed72df633f533b639af3c",
+      "reason": "Equivalent: np.asarray of the stencil weights is already FP64, so torch.tensor keeps FP64 without an explicit dtype."
+    },
+    "verify_atmospheric_precision.xǁShearWaveǁinitialize__mutmut_71": {
+      "status": "survived",
+      "diff_sha256": "3b660c8e871fee24233a41f4ea3a968511ae983218ceeeccbb2045a9f3674996",
+      "reason": "Equivalent: einsum labels are renamed consistently (lower to upper case), which is the same contraction."
+    },
+    "verify_atmospheric_precision.xǁShearWaveǁinitialize__mutmut_80": {
+      "status": "survived",
+      "diff_sha256": "748612b1af8b3f4937cebb65ff4ae7d8992ca6d3a1838750883eb3cf6692bcda",
+      "reason": "Equivalent: einsum labels are renamed consistently (lower to upper case), which is the same contraction."
     }
   }
 }

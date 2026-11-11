@@ -27,6 +27,12 @@ def test_boundary_order_defaults_and_input_are_independent():
     assert spec == before
 
 
+def test_integer_velocity_components_are_returned_as_floats():
+    spec = boundary_spec('open')
+    spec['boundary_set']['patches'][0]['condition']['velocity'] = [0, 1, 0]
+    assert [type(component) for component in conditions(spec)[0]['velocity']] == [float]*3
+
+
 @pytest.mark.parametrize('data,message', [
     (None, 'schema'), ([], 'schema'), ({'schema': 2}, 'schema'),
     ({'schema': 1, 'patches': {}}, 'six faces'),
@@ -103,6 +109,8 @@ def test_profile_and_pressure_backflow_contracts():
         spec['boundary_field'] = {'schema': 'hawa-boundary-series-2', 'faces': ['x-']}
         assert conditions(spec)[0]['profile'] == profile
     spec['boundary_field']['faces'] = ['x+']
+    with pytest.raises(ValueError, match='not present'): conditions(spec)
+    del spec['boundary_field']['faces']
     with pytest.raises(ValueError, match='not present'): conditions(spec)
     spec['boundary_field'] = {'schema': 1}
     spec['boundary_set']['patches'][0]['condition'] = {'type': 'velocity', 'profile': 'mapped'}

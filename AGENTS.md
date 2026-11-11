@@ -135,12 +135,12 @@ scripts must be adjusted for a different checkout.
 Two project environments, both from `uv.lock`:
 
 - `.venv`, Python 3.9 (`uv sync --extra test`): production parity with Rhino 8's
-  embedded CPython 3.9. Every existing gate, script and doc command uses it,
-  including the function coverage gate and the mutmut 2.4.5 studies. Its CI jobs
-  are authoritative.
+  embedded CPython 3.9. Every gate, script and doc command uses it, including
+  the function coverage gate, except the mutation studies. Its CI jobs are
+  authoritative.
 - `.venv-dev`, Python 3.12 (`UV_PROJECT_ENVIRONMENT=.venv-dev uv sync --python 3.12
-  --extra test --group tools`): developer tooling only, namely ruff and mutmut 3.x
-  (#67). CI runs ruff's Python 3.9 syntax guard (`.venv-dev/bin/ruff check .`)
+  --extra test --group tools`): developer tooling only, namely ruff and the
+  mutmut 3.7.0 mutation studies (`tools/mutation`, #67). CI runs ruff's Python 3.9 syntax guard (`.venv-dev/bin/ruff check .`)
   and the full headless suite on 3.12, skipping only tests marked
   `production_python` (entry points that refuse non-3.9 interpreters). A 3.12
   pass is not 3.9 evidence; run code changes on both. Never add a 3.10+ API or syntax to code that runs in Rhino.

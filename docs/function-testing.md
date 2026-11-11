@@ -42,8 +42,8 @@ passing test. It cannot prove assertion quality, all branches, or physical accur
 Run the gate in the Python 3.9 `.venv`, never in the Python 3.12 `.venv-dev`. The
 call profiler relies on Python 3.9 `sys.setprofile` and line-event behaviour, and
 the committed matrix and baseline were measured on 3.9; CI runs this gate on
-3.9.25. `.venv-dev` is for developer tools only (ruff, and mutmut 3.x once
-[#67](https://github.com/range-et/hawa-cfd/issues/67) ports the studies). See the
+3.9.25. `.venv-dev` is for developer tools only (ruff and the
+[mutation checks](#mutation-checks)). See the
 [README](../README.md#development) for both environments.
 
 Install the repository's test extra (now including coverage.py), and the .NET 10
@@ -134,93 +134,120 @@ merging is a repository branch-protection/ruleset decision owned by maintainers.
 
 ## Mutation checks
 
-The Python mutation workflow runs on PRs and pushes to `main`. It currently
-covers the CLI and runtime admission (`backends`, `cases`, `boundary_contracts`)
-with pinned mutmut 2.4.5 in fresh copied source trees, in the Python 3.9 `.venv`.
-mutmut 3.x needs Python 3.10 or newer, so
-[#67](https://github.com/range-et/hawa-cfd/issues/67) will move these studies to
-the Python 3.12 `.venv-dev` (mutmut 3.7.0 in the `tools` dependency group; 3.8
-needs a newer click than the production pin). Mutation results measured on 3.12
-cover test logic, not interpreter behaviour: the same tests must also pass on 3.9,
-which stays the authoritative environment. On 3.12 the suite skips tests marked
-`production_python` (entry points such as `parity_worker.py`, `compare_engines.py`
-and `verify_cuda.py` that refuse non-3.9 interpreters), so 3.12 mutation runs get
-no kills from them. This is four-module scope,
-not whole-codebase mutation coverage. Install the isolated developer dependencies:
+Mutation studies use pinned **mutmut 3.7.0** in the Python 3.12 `.venv-dev`
+(the `tools` dependency group; 3.8 needs a newer click than the production pin).
+mutmut 3 forks one worker per CPU and runs each mutant against only the tests
+that reached its function during a stats run. Each study runs in a fresh copied
+source tree with no cache. The Python mutation workflow runs the CLI and runtime
+admission (`backends`, `cases`, `boundary_contracts`) studies on PRs and pushes
+to `main`; its required checks keep their names, `cli mutations` and
+`runtime-admission mutations`. The other studies are local PR records.
+
+Mutation results measured on 3.12 cover test logic, not interpreter behaviour:
+the same tests must also pass on 3.9, which stays the authoritative environment.
+On 3.12 the suite skips tests marked `production_python` (entry points such as
+`parity_worker.py`, `compare_engines.py` and `verify_cuda.py` that refuse non-3.9
+interpreters), so 3.12 mutation runs get no kills from them; a study deselects
+them (`-m 'not production_python'`), and a mutant only they could reach is
+reported as `no tests`. These are bounded scopes, not whole-codebase mutation
+coverage.
 
 ```sh
-.venv/bin/python -m pip install -r tools/mutation/requirements.txt
+UV_PROJECT_ENVIRONMENT=.venv-dev uv sync --python 3.12 --extra test --group tools
 bash tools/mutation/run_cli.sh results/cli-mutation-NEW
-.venv/bin/python tools/mutation/check_results.py results/cli-mutation-NEW
+.venv-dev/bin/python tools/mutation/check_results.py results/cli-mutation-NEW
 bash tools/mutation/run_runtime_admission.sh results/admission-mutation-NEW
-.venv/bin/python tools/mutation/check_results.py results/admission-mutation-NEW --policy tools/mutation/runtime-admission-policy.json
+.venv-dev/bin/python tools/mutation/check_results.py results/admission-mutation-NEW --policy tools/mutation/runtime-admission-policy.json
 ```
 
-The HAWA-001 KBC studies are run locally, not in the workflow. The collision
-study mutates only the lines of vendored `kbc_collision.py` changed since the PR
-base (mutmut patch mode needs `whatthepatch` and full Git history). The diagnostic
-study mutates the whole of `scripts/diagnose_kbc_parity.py`, which is new to main
-with that PR. CUDA/MPS hardware cases are deselected by name (so CPU-run tests
-must not carry `cuda` or `mps` in their ids), and actual device runs are separate
-evidence:
+`MUTMUT_MAX_CHILDREN` overrides the worker count (default: the CPU count). The
+runners pin one CPU thread per process and hide CUDA: workers fork from a parent
+that has imported torch, so a study must not initialise an accelerator.
+mutmut 3 forks with `os.fork` directly and has no `forkserver` option. macOS and
+Linux work; Windows needs WSL.
 
-```sh
-bash tools/mutation/run_kbc.sh collision results/kbc-collision-mutation-NEW
-.venv/bin/python tools/mutation/check_results.py results/kbc-collision-mutation-NEW --policy tools/mutation/kbc-collision-policy.json
-bash tools/mutation/run_kbc.sh diagnostic results/kbc-diagnostic-mutation-NEW
-.venv/bin/python tools/mutation/check_results.py results/kbc-diagnostic-mutation-NEW --policy tools/mutation/kbc-diagnostic-policy.json
-```
+### How a study is built
 
-Do not run `mutmut results` inside a study directory while it is still mutating:
-it reads the temporarily mutated source and corrupts the run's cache.
+Each `tools/mutation/run_*.sh` names its files and tests and sources
+[`lib.sh`](../tools/mutation/lib.sh), which copies the tree, hashes the reviewed
+files before and after, runs the control suite, runs mutmut through
+[`mutmut3.py`](../tools/mutation/mutmut3.py) and exports the evidence.
+`mutmut3.py` adds two things around the pinned release:
 
-mutmut 2.4.5 marks a mutant killed only when the test command exits with 1. A
-mutant that breaks import makes pytest stop at collection (exit 2), which mutmut
-reports as survived. Review such survivors as collection errors: they are
-detected, but they are neither assertion kills nor equivalents.
+- **Changed lines only.** mutmut 3 dropped `--use-patch-file`. A PR-scoped runner
+  prints `git diff --no-prefix BASE -- FILES`; `mutmut3.py changed-lines` turns
+  the lines that diff adds into `scope.json`, and only nodes starting on those
+  lines are mutated. Removed and context lines, and files the patch does not
+  name, get no mutants. `tests/test_mutation_policy.py` runs the real mutmut on a
+  small project and checks that a line outside the patch is not mutated.
+- **Import roots.** mutmut names a mutant after its file's module path and only
+  activates it when the running function's `__module__` matches. Tests import
+  harness scripts as top-level modules (`scripts` and `tools/mutation` on
+  `sys.path`), so `--import-root scripts` names `scripts/device_smoke.py` as
+  `device_smoke`, and puts the mutated copy first on `sys.path`. A test that loads
+  a script with `importlib` must use that same module name.
 
-The helpers preserve mutmut's raw exit (2 when mutants survive); run the policy
-checker afterward. Acceptance requires the exact reviewed source/test hashes,
-all collected controls passing, a complete mutation inventory, no timeout/error/
-skip, and the exact reviewed survivor diffs. Unexpected survivors fail; reviewed
-equivalents and diagnostic decorations are reported separately, never as kills.
-Source or test edits require a fresh run and review, not blind policy regeneration.
+`mutmut3.py` patches two internal functions of mutmut 3.7.0 for this and refuses
+any other version. Bumping mutmut needs a review of those hooks and fresh runs.
 
-The HAWA-003 scope (`run_atmospheric_precision.sh`, `atmospheric-precision-policy.json`)
-mutates only the lines in `tools/mutation/atmospheric-precision.patch`: the
-`storage_resolution` diagnostic and helpers in `neutral.py`, the `dissipation_storage`
-quality field and `scripts/verify_atmospheric_precision.py`. It uses mutmut's
-`--use-patch-file`, which needs `whatthepatch`. Regenerate the patch only together
-with a fresh run and review. Two mutmut 2.4.5 behaviours matter here:
-- mutmut counts any pytest exit other than 1 as survival. A mutant that breaks
-  import (pytest exit 2) is recorded in the policy as a collection error, not a kill.
-- Do not run `mutmut show` against a cache while a run is in progress. It rewrites
-  cached line records from the currently mutated file and crashes the run with
-  `Attribute Mutant.line is required`.
+### What mutmut 3 does not mutate
 
-See the [CLI record](verification-cli-mutation.json),
-[runtime study](review-runtime-quality.md) and
-[mutmut 2.4.5 package](https://pypi.org/project/mutmut/2.4.5/).
+mutmut 3 mutates only code inside functions and methods. These are outside every
+3.x inventory: module-level statements and tables, class bodies, functions with
+any decorator other than a single `@staticmethod` or `@classmethod`, every method
+of a decorated class (for example `@dataclass`), arguments of `len()` and
+`isinstance()` calls, non-literal default arguments and annotations. Cover
+behaviour there with direct asserting tests. mutmut 3 also has more operators
+than 2.4.5 (for example removing one call argument or changing string case), so
+a 3.x inventory is larger and is not comparable mutant by mutant with a 2.x one.
 
-The HAWA-004 boundary study is a separate local run. It mutates only lines the
-PR changes (`--use-patch-file`, with whatthepatch 1.0.7): in
-`src/hawa/neutral_external.py` and `tools/mutation/check_results.py` against
-`f29fe01`, plus the reflection-harness lines changed by the PR #66 review fixes
-(against `d0b54e2`). The rest of the harness is new in that PR and is
-line-covered by asserting tests, but it is outside the mutation scope. The tests
-are `test_mutation_policy.py`, `test_neutral_external.py` (without the CPU/MPS
-device test) and `test_boundary_reflection.py`:
+### Acceptance rules
 
-```sh
-bash tools/mutation/run_boundary_reflection.sh results/boundary-mutation-NEW
-.venv/bin/python tools/mutation/check_results.py results/boundary-mutation-NEW --policy tools/mutation/boundary-reflection-policy.json
-```
+[`check_results.py`](../tools/mutation/check_results.py) accepts only the exact
+reviewed inventory, never a score threshold. It requires:
 
-It takes about 30 minutes on one CPU and stays local, outside CI. A policy may list
-several `control_test_files`. See the [HAWA-004 record](boundary-reflection-review.md).
+- the reviewed source and test hashes, unchanged during the run, in both the
+  checkout and the study copy, and the policy's mutmut version;
+- every collected control test passing, from every listed control file;
+- `mutmut run` exit 0 (mutmut exits 1 when its clean run, forced-failure check
+  or stats run fails);
+- exactly the reviewed mutant names (count and SHA-256 of the sorted names);
+- every survivor (`survived`, exit 0) and every `no tests` mutant (exit 33, no
+  selected test reached its function) listed with its exact diff hash, status
+  and a non-empty reason. Neither counts as a kill.
 
-For changed lines only, `tools/mutation/run_device_smoke.sh NEW_DIR BASE` passes
-`git diff BASE` to mutmut's `--use-patch-file` for the device smoke gate's added
-lines; check it with `--policy tools/mutation/device-smoke-policy.json` (494 mutants,
-485 killed, 9 reviewed). It needs `whatthepatch` from the same requirements file and
-is a local PR record, not a CI study.
+Only exit 1 (tests failed) is a kill. Any other outcome fails the check: timeouts,
+signals and segfaults, `suspicious`, skipped, type-check filtered, not checked,
+and pytest's internal-error exit 3, which mutmut itself reports as killed.
+
+After a fresh run, `check_results.py DIR --policy POLICY --draft` prints the
+policy the run implies. It keeps a survivor's reason only when its status and
+diff hash are unchanged; new or changed survivors get an empty reason, which
+the check rejects until someone reviews the diff in `mutations.diff` and writes
+one. Kill non-equivalent survivors with tests instead. Source or test edits
+need a fresh run and review, never blind regeneration.
+
+### Studies
+
+| Study | Scope | Tests | Run |
+| --- | --- | --- | --- |
+| `run_cli.sh` | whole `src/hawa/cli.py` | `test_cli.py` | CI |
+| `run_runtime_admission.sh` | whole `backends`, `cases`, `boundary_contracts` | `test_runtime_admission.py` | CI |
+| `run_boundary_reflection.sh` | HAWA-004 lines: `neutral_external.py` against `f29fe01`, reflection-harness review-fix lines against `d0b54e2` | `test_neutral_external.py` (without the CPU/MPS device test), `test_boundary_reflection.py` | local |
+| `run_kbc.sh collision` | HAWA-001 lines of vendored `kbc_collision.py` against `f9a3a13` | `test_kbc_precision.py`, CPU cases | local |
+| `run_kbc.sh diagnostic` | whole `scripts/diagnose_kbc_parity.py` | `test_kbc_parity_diagnostic.py`, CPU cases | local |
+| `run_atmospheric_precision.sh` | HAWA-003 lines in `atmospheric-precision.patch` | `test_atmospheric_precision.py` | local |
+| `run_device_smoke.sh` | device smoke gate lines against `8daf810` | `test_device_smoke.py`, without `production_python` | local |
+| `run_mutation_tooling.sh` | #67 lines of `check_results.py` and `mutmut3.py` against `5f2c899` | `test_mutation_policy.py` | local |
+
+Commit before running a PR-scoped study: its patch is `git diff BASE` of the
+committed files. PR #66 was squash-merged, so run `git fetch origin refs/pull/66/head`
+once before the boundary reflection study to get `d0b54e2`. Each study's policy is `tools/mutation/<study>-policy.json`
+(`kbc-collision` and `kbc-diagnostic` for the two KBC studies). Results are in
+the [#67 record](https://github.com/range-et/hawa-cfd/issues/67).
+
+The [CLI record](verification-cli-mutation.json) and
+[runtime study](review-runtime-quality.md) describe the earlier mutmut 2.4.5
+runs. Those policies are kept unchanged in
+[`tools/mutation/mutmut2-historical`](../tools/mutation/mutmut2-historical/) as
+historical evidence; the current tools do not check them.

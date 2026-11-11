@@ -1,52 +1,200 @@
 {
-  "tool": "mutmut==2.4.5",
-  "mutants": 306,
-  "control_test_file": "tests/test_kbc_parity_diagnostic.py",
+  "tool": "mutmut==3.7.0",
+  "mutants": 735,
+  "inventory_sha256": "4b4b99dbbb5b8fc13029af1e8146752bf63568b8d08b483470ef7123992c427d",
   "scope": "HAWA-001 whole of scripts/diagnose_kbc_parity.py (new to main with this PR); CPU cases only",
+  "control_test_files": [
+    "tests/test_kbc_parity_diagnostic.py"
+  ],
   "sources": {
     "scripts/diagnose_kbc_parity.py": "e346178ea3e12e770b76e915f132e2c6d549b80f9e92d4704f54350b2acd4e6b",
-    "tests/test_kbc_parity_diagnostic.py": "9f4bf8f0ced94f52be33d02ba112baa03400f36429e90816e8ed7b9a160fb27b"
+    "tests/test_kbc_parity_diagnostic.py": "59636620da3c8f2cae794a0b856ef6f0de4ec4a0a82a78f27fd9b1b827827b17"
   },
   "reviewed_survivors": {
-    "Mutant #15": {
-      "diff_sha256": "32add29b7a0c410bb889808ad90b8f22822c1ec9fd5c96f8ca28f748cfef63b2",
-      "classification": "collection error",
-      "reason": "Not equivalent, not an assertion kill. RTOL, ATOL = None raises TypeError when the test module imports the script, so pytest stops at collection with exit 2. mutmut 2.4.5 counts only exit 1 as killed, so it reports this as survived. The criteria values are asserted by test_comparison_reports_exact_statistics_at_the_criterion_boundary."
+    "diagnose_kbc_parity.x_compare__mutmut_2": {
+      "status": "survived",
+      "diff_sha256": "05a7597f4404e24ecada5ed38b416fd9ee75afe7c841b8735620a75942ea7d8a",
+      "reason": "Equivalent: numpy astype(None) converts to float64, the dtype this call names."
     },
-    "Mutant #55": {
-      "diff_sha256": "5184592b6f597867aeeca7a1671ebded55458072623c6f6cea7a73c5b924296f",
-      "classification": "equivalent",
+    "diagnose_kbc_parity.x_compare__mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "01788365fbea5f66313e2abe3fe47a1acdac87315fc879577fb66aa9043bf0ac",
+      "reason": "Equivalent: numpy astype(None) converts to float64, the dtype this call names."
+    },
+    "diagnose_kbc_parity.x_inspect_collision__mutmut_74": {
+      "status": "survived",
+      "diff_sha256": "a4eb0b855c7a146bcfb692adb2133a0cacf597b8eb924f114b80a8eff5661976",
+      "reason": "Equivalent for every flow the script builds: < and <= differ only at gamma == 1e-15. make_flow fixes 1/beta = 1.001953125. A positive gamma near zero is 1/beta - c with c in [1, 2), which Sterbenz makes exact, so gamma is a multiple of 2^-52 and cannot equal the double 1e-15."
+    },
+    "diagnose_kbc_parity.x_main__mutmut_147": {
+      "status": "survived",
+      "diff_sha256": "5c8943c8efb3f6f0f32aed3f4034d06624a01f4098f7304ca059720503f27eb6",
+      "reason": "Unresolved (test gap): the report would record null instead of false; the tests check only that the value is falsy. Not equivalent for a strict JSON consumer."
+    },
+    "diagnose_kbc_parity.x_main__mutmut_167": {
+      "status": "survived",
+      "diff_sha256": "285ccd63ce155338d897ce8467dd3df82d256a8a9d195baa98f2143a2ca1c611",
+      "reason": "Equivalent content: the indent changes only whitespace in result.json; the parsed report is identical."
+    },
+    "diagnose_kbc_parity.x_main__mutmut_168": {
+      "status": "survived",
+      "diff_sha256": "86631152f0d581693a920bd7a0b4f93447b34b297b72b4f16e45fb43d5a2e041",
+      "reason": "Equivalent: json.dumps tests allow_nan for truth, and None is false like False, so NaN is still rejected."
+    },
+    "diagnose_kbc_parity.x_main__mutmut_170": {
+      "status": "survived",
+      "diff_sha256": "38ebb96abe9602259055e78d4161f962e3802de86fb12ef1f51ce79d4a31529e",
+      "reason": "Equivalent content: the indent changes only whitespace in result.json; the parsed report is identical."
+    },
+    "diagnose_kbc_parity.x_main__mutmut_172": {
+      "status": "survived",
+      "diff_sha256": "275079f243b731079ae335ffe7579fcd3d7d53dce25cdc8c1ce5a8e9a47083ac",
+      "reason": "Equivalent content: the indent changes only whitespace in result.json; the parsed report is identical."
+    },
+    "diagnose_kbc_parity.x_main__mutmut_175": {
+      "status": "survived",
+      "diff_sha256": "6e16527e506e81b1d152d36d1756cd318f08147bc21a134c45d9999fad2839da",
+      "reason": "Unresolved (test gap): the one-line stdout summary is not asserted; result.json carries the same fields and is."
+    },
+    "diagnose_kbc_parity.x_main__mutmut_176": {
+      "status": "survived",
+      "diff_sha256": "f976ce8e5902c129a21e5641f9deb5fcc92c828e345b366298c2bc5750997b4d",
+      "reason": "Unresolved (test gap): the one-line stdout summary is not asserted; result.json carries the same fields and is."
+    },
+    "diagnose_kbc_parity.x_main__mutmut_2": {
+      "status": "survived",
+      "diff_sha256": "287a950b411e573c2b466a174daaa9e7a77614acb8d41db64046f3d4a27f825f",
+      "reason": "Decoration: argparse description copy is not part of the report or exit contract."
+    },
+    "diagnose_kbc_parity.x_main__mutmut_46": {
+      "status": "survived",
+      "diff_sha256": "7ddd5a2bdb10a2d08a172c9b4a3ace64697e0f64feed08c42e60cfcd6ac12b76",
+      "reason": "Equivalent: mkdir defaults exist_ok to False, and None is false, so an existing output directory is still refused."
+    },
+    "diagnose_kbc_parity.x_main__mutmut_48": {
+      "status": "survived",
+      "diff_sha256": "9cbcd926ef448e27606d7f52bd4748b480aadc5a825188923c9d6dbbb168f936",
+      "reason": "Equivalent: mkdir defaults exist_ok to False, so an existing output directory is still refused."
+    },
+    "diagnose_kbc_parity.x_main__mutmut_64": {
+      "status": "survived",
+      "diff_sha256": "ad054e9cc9ed092d0800bd936f6c3547e8204a51dbc20cb39738e62eda9c775a",
+      "reason": "Unresolved (test gap): the report would record null instead of false; the tests check only that the value is falsy. Not equivalent for a strict JSON consumer."
+    },
+    "diagnose_kbc_parity.x_main__mutmut_88": {
+      "status": "survived",
+      "diff_sha256": "83439b524b224d9262f9d3fd537e56097a42fee9210e29b8c46da9ab62960bca",
+      "reason": "Unresolved (test gap): the report environment provenance fields are recorded but not asserted. Not equivalent for provenance."
+    },
+    "diagnose_kbc_parity.x_main__mutmut_90": {
+      "status": "survived",
+      "diff_sha256": "68b6ef82f152533180d33a32906eab156a3ff16a193414375996748d841db963",
+      "reason": "Unresolved (test gap): the report environment provenance fields are recorded but not asserted. Not equivalent for provenance."
+    },
+    "diagnose_kbc_parity.x_main__mutmut_91": {
+      "status": "survived",
+      "diff_sha256": "a1028933f4e62923cf57958fbe3abecccc33c301e283974846cf9fea26fb3b2f",
+      "reason": "Unresolved (test gap): the report environment provenance fields are recorded but not asserted. Not equivalent for provenance."
+    },
+    "diagnose_kbc_parity.x_make_flow__mutmut_22": {
+      "status": "survived",
+      "diff_sha256": "f9425fecaa40e4b62d75a1ee81cb886262f156b6d23bde2538efa31de757e7d6",
+      "reason": "Equivalent in this CPU-only study: without a device the Context or tensor stays on the CPU, the device under test here. Accelerator placement is device evidence, not a CPU mutation kill."
+    },
+    "diagnose_kbc_parity.x_make_flow__mutmut_24": {
+      "status": "survived",
+      "diff_sha256": "0bb90cdebd8de50356a2b0a0bdcb346da1202e296d4e22ef6bfb6912edd92c0f",
+      "reason": "Equivalent on the CPU: Context resolves use_native=None to False off CUDA. On CUDA it would enable the native kernels; that is device evidence, not a CPU mutation kill."
+    },
+    "diagnose_kbc_parity.x_make_flow__mutmut_27": {
+      "status": "survived",
+      "diff_sha256": "d5445954087fa610af5a106ea95f23630591c032d4b0eb8593659f8d58471220",
+      "reason": "Equivalent on the CPU: Context resolves use_native=None to False off CUDA. On CUDA it would enable the native kernels; that is device evidence, not a CPU mutation kill."
+    },
+    "diagnose_kbc_parity.x_make_flow__mutmut_29": {
+      "status": "survived",
+      "diff_sha256": "7e2454c114d89e4398572c342879bf21b44eb653a51d66f4a76b0f8c44f216ab",
       "reason": "Equivalent: make_flow replaces the Taylor-Green units and populations right after construction. The constructor resolution then only sizes Lettuce's lazy f_next streaming buffer and grid, which the diagnostic never uses."
     },
-    "Mutant #56": {
-      "diff_sha256": "6506567dde3b9374c7730b0bf292b62b9706a70e9439006ae2871c2f7f97c846",
-      "classification": "equivalent",
-      "reason": "Equivalent for the same reason as #55 (second resolution component)."
+    "diagnose_kbc_parity.x_make_flow__mutmut_30": {
+      "status": "survived",
+      "diff_sha256": "b8ab61f1792f7cd493ea87784b4c20d3079c7ae81c3d102e5352b43a40cda51a",
+      "reason": "Equivalent for the same reason as the first resolution component: the diagnostic never uses the constructor grid."
     },
-    "Mutant #57": {
-      "diff_sha256": "e3f2dc527c368784b5b87b290807bd7f37d14d9343d568d45c79e4e62c9a725b",
-      "classification": "equivalent",
-      "reason": "Equivalent: the constructor Reynolds number only builds units and an initial field that make_flow overwrites with the notebook conversion and the frozen populations. The resulting tau is asserted by test_frozen_cell_inputs_and_size_bounds."
+    "diagnose_kbc_parity.x_make_flow__mutmut_31": {
+      "status": "survived",
+      "diff_sha256": "9328e2fd858e0db3b013aad18df88fdb6613278655958cfd5862d4b72e340c85",
+      "reason": "Equivalent: the constructor Reynolds number only builds units and an initial field that make_flow overwrites with the notebook conversion and the frozen populations."
     },
-    "Mutant #58": {
-      "diff_sha256": "734d9ceb56edb230fc377f3b3bbdb41364cec897f060610dfa10750c9415bd7d",
-      "classification": "equivalent",
-      "reason": "Equivalent for the same reason as #57 (constructor Mach number; Lettuce does not validate it)."
+    "diagnose_kbc_parity.x_make_flow__mutmut_32": {
+      "status": "survived",
+      "diff_sha256": "fe6a6a1a83036484eece6a879b56360d5383387e8ecf97ec5be1753c131492c8",
+      "reason": "Equivalent: the constructor Mach number only builds units that make_flow overwrites (Lettuce does not validate it)."
     },
-    "Mutant #112": {
-      "diff_sha256": "6d05125d2d45dd5ba2c0b460a26bfd13b091220f8b46a5bc2a2a05f2059987b9",
-      "classification": "equivalent",
-      "reason": "Equivalent for every flow the script builds: < and <= differ only at gamma == 1e-15. make_flow fixes 1/beta = 1.001953125. A positive gamma near zero is 1/beta - c with c in [1, 2), which Sterbenz makes exact, so gamma is a multiple of 2**-52 in FP64 (2**-23 in FP32). 1e-15 is 4.5036 * 2**-52, so it is never reached. The adjacent window [1e-15, 2e-15) is reachable and its 2e-15 mutant is killed by test_inspection_keeps_a_positive_stabilizer_just_above_the_reset_threshold."
+    "diagnose_kbc_parity.x_make_flow__mutmut_38": {
+      "status": "survived",
+      "diff_sha256": "e8f09e36b02ef1dd99d44339779a40e96a22360f078951dd89503624f5357426",
+      "reason": "Equivalent: lettuce UnitConversion defaults mach_number to 0.05, the value passed."
     },
-    "Mutant #296": {
-      "diff_sha256": "56022c30f2bed1ee5ad6fe4ef1946d9d95b0a2096ec7c5f66223920a63eb97f8",
-      "classification": "equivalent",
-      "reason": "Equivalent content: indent 3 instead of 2 changes only whitespace in result.json; the parsed report is identical. Tests deliberately do not pin incidental formatting."
+    "diagnose_kbc_parity.x_make_flow__mutmut_39": {
+      "status": "survived",
+      "diff_sha256": "19b5eb0343c5a18e7de21bbb87b100defa49a5f4c721a551c63f28ca777cbef4",
+      "reason": "Equivalent: lettuce UnitConversion defaults characteristic_length_lu to 1, the value passed."
     },
-    "Mutant #305": {
-      "diff_sha256": "43c1492d76f5f9053f252122d999669afeb91058ba0f7f8435dbd06fb4d749db",
-      "classification": "collection error",
-      "reason": "Not equivalent, not an assertion kill. With != the script runs main() when the test module imports it; argparse rejects pytest's argv with SystemExit(2) and pytest exits 3 (internal error) before running tests. mutmut 2.4.5 counts only exit 1 as killed. The entry point is also asserted by test_script_entrypoint_exits_with_report_status."
+    "diagnose_kbc_parity.x_make_flow__mutmut_52": {
+      "status": "survived",
+      "diff_sha256": "0305f7096a869fbce92ecb1af569400ef70ad51e3e94e898a30372a35557d55b",
+      "reason": "Equivalent: torch.tensor of the Python-float population list defaults to FP32, the dtype this call names."
+    },
+    "diagnose_kbc_parity.x_make_flow__mutmut_54": {
+      "status": "survived",
+      "diff_sha256": "5474749f47fb4d177c336927a18e9de5001cec1a0fc8a760b2ad84b61f8c63bf",
+      "reason": "Equivalent: torch.tensor of the Python-float population list defaults to FP32, the dtype this call names."
+    },
+    "diagnose_kbc_parity.x_make_flow__mutmut_62": {
+      "status": "survived",
+      "diff_sha256": "cc638d09da9e7e07384addefbbc2eb3d232547ceaefa486e5695290af85771c3",
+      "reason": "Equivalent in this CPU-only study: without a device the Context or tensor stays on the CPU, the device under test here. Accelerator placement is device evidence, not a CPU mutation kill."
+    },
+    "diagnose_kbc_parity.x_make_flow__mutmut_64": {
+      "status": "survived",
+      "diff_sha256": "a89537309bb3819257127930dcaf9b951ab6384c6f21cda2853de75d16f808ff",
+      "reason": "Equivalent in this CPU-only study: without a device the Context or tensor stays on the CPU, the device under test here. Accelerator placement is device evidence, not a CPU mutation kill."
+    },
+    "diagnose_kbc_parity.x_study__mutmut_128": {
+      "status": "survived",
+      "diff_sha256": "a66e900a5f2a02c5fe7a8fd15c18868d7ff478aefd2bac29055937edaa1ffab2",
+      "reason": "Equivalent: the frozen populations are FP32 values, so the FP64 reference holds them exactly, and torch.equal compares values across dtypes."
+    },
+    "diagnose_kbc_parity.x_study__mutmut_159": {
+      "status": "survived",
+      "diff_sha256": "8e62b88325b42e6482cbba0443beb48ff4d44e903671e17f73c4d57e99723a9f",
+      "reason": "Equivalent: flow.rho(None) reads flow.f, which the line above asserts is identical to original."
+    },
+    "diagnose_kbc_parity.x_study__mutmut_160": {
+      "status": "survived",
+      "diff_sha256": "9b9ee6ae2201ada220d6ddbcb70f8ce37858fccd871ab727230360ffd0515e38",
+      "reason": "Unresolved (test gap): the mass error would compare the input with itself. KBC conserves mass, so the tested error is at rounding level either way."
+    },
+    "diagnose_kbc_parity.x_study__mutmut_165": {
+      "status": "survived",
+      "diff_sha256": "b1bb36cd9880b3437d68c14ff7996d2c7c3d1011bacd48fd7e870a0ed093b23d",
+      "reason": "Equivalent: flow.j(None) reads flow.f, which the line above asserts is identical to original."
+    },
+    "diagnose_kbc_parity.x_study__mutmut_166": {
+      "status": "survived",
+      "diff_sha256": "77d44e1d271a8c8f83b58325786032792d2a4b8d0584064f9242e700d81ec00d",
+      "reason": "Unresolved (test gap): the momentum error would compare the input with itself. KBC conserves momentum, so the tested error is at rounding level either way."
+    },
+    "diagnose_kbc_parity.x_study__mutmut_43": {
+      "status": "survived",
+      "diff_sha256": "ef07638526025ad5591d44cd3d4e09550067e5b1a003de2b7f200b07644823dd",
+      "reason": "Unresolved (test gap): without failed_size=None the key is absent from a run with no failure; no test asserts the key on a passing run."
+    },
+    "diagnose_kbc_parity.x_study__mutmut_54": {
+      "status": "survived",
+      "diff_sha256": "d12f9a27d05e2164ffff9fcb39b61a71be11dbf9813787af455c0345d06f9045",
+      "reason": "Equivalent in this CPU-only study: without a device the Context or tensor stays on the CPU, the device under test here. Accelerator placement is device evidence, not a CPU mutation kill."
     }
   }
 }
