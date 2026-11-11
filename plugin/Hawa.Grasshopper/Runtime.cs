@@ -107,6 +107,8 @@ public abstract class HawaComponent : GH_Component
             var before = Message;
             InputsMissing();
             if (!string.IsNullOrEmpty(before) && Message == before) Message = Hawa.Shared.LifecycleText.WaitingForInput;
+            // Name the children that delivered nothing even when none did.
+            if (ComposesFrames) FieldTools.ReportSources(this, Params.Input[0]);
             return;
         }
         try {

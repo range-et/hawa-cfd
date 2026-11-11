@@ -132,6 +132,11 @@ static class ComponentContracts
             var warnings = plane.RuntimeMessages.Where(m => m.Level == GH_RuntimeMessageLevel.Warning).Select(m => m.Text).ToArray();
             assert(warnings.SequenceEqual(new[] { "3 of 4 wired inputs delivered no frame (cancelled, failed or still running upstream): Child A, Child B, loose", "1 duplicate frame is used once" }), "Composed-view warnings wrong: " + string.Join(" | ", warnings));
             assert(Json(da.Out<JsonObject>(0)["frames"]) == """[{"id":1},{"id":1},{"id":3}]""" && plane.Errors.Count == 0, "Composed frames changed");
+            plane.Params.Input[0].Sources.Clear(); foreach (var s in new[] { Source("Child A", true, false), Source("Child B", true, false) }) plane.Params.Input[0].Sources.Add(s);
+            da = Solve(plane, new List<object?>(), D);
+            assert(plane.Message == "waiting for frames" && da.Outputs.Count == 0 && plane.RuntimeMessages.SequenceEqual(new[] { (GH_RuntimeMessageLevel.Warning, "2 of 2 wired inputs delivered no frame (cancelled, failed or still running upstream): Child A, Child B") }), "Children unnamed when none delivered a frame");
+            var probe = new ProbeComponent(); probe.Params.Input[0].Sources.Add(Source("Child A", true, false)); Solve(probe, new object?[] { null });
+            assert(probe.RuntimeMessages.Count == 0, "A non-composing component reported empty sources");
             plane.Params.Input[0].Sources.Clear(); Solve(plane, new List<object?> { f1, f3 }, D);
             assert(plane.RuntimeMessages.Count == 0, "Complete, distinct frames warned");
             foreach (var view in new HawaComponent[] { new IsosurfaceComponent(), new FlowDisplayComponent(), new SurfaceFieldComponent() }) {
