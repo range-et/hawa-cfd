@@ -1280,7 +1280,7 @@
     },
     "plugin/Hawa.Grasshopper/Runtime.cs::Hawa.Grasshopper.HawaComponent.protected override void SolveInstance(IGH_DataAccess da)": {
       "status": "covered",
-      "fingerprint": "7e8a8d0f119bbbbc8b5a2dacdf220e2dcb382fe925c9b50b01c5d192ebbfe23b"
+      "fingerprint": "f9f0a6b5070e634df1da4d002492424d378dc4d263fa46e9aee5e5695ce23c6f"
     },
     "plugin/Hawa.Grasshopper/Runtime.cs::Hawa.Grasshopper.HawaComponent.SolveInstance(IGH_DataAccess da).lambda#0 p =>": {
       "status": "covered",
