@@ -23,10 +23,11 @@ def verify(directory, policy, root=ROOT):
     control = list(ET.parse(directory/'control.xml').getroot().iter('testcase'))
     files = policy.get('control_test_files', [policy.get('control_test_file', 'tests/test_cli.py')])
     control_paths = [Path(name).parts for name in files]
-    expected = Counter(line.split('::', 1)[1] for line in (directory/'collected.txt').read_text().splitlines()
-                       if '::' in line and any(Path(line.split('::', 1)[0]).parts[-len(path):] == path
-                                               for path in control_paths))
-    if not expected or Counter(c.get('name') for c in control) != expected:
+    collected = [line.split('::', 1) for line in (directory/'collected.txt').read_text().splitlines() if '::' in line]
+    owners = [[path for path in control_paths if Path(name).parts[-len(path):] == path] for name, _ in collected]
+    expected = Counter(test for (_, test), owner in zip(collected, owners) if owner)
+    if (not expected or Counter(c.get('name') for c in control) != expected
+            or any(not any(path in owner for owner in owners) for path in control_paths)):
         raise ValueError('Missing, duplicated or filtered control tests')
     if any(c.find(tag) is not None for c in control for tag in ('failure','error','skipped')):
         raise ValueError('Control suite did not pass completely')

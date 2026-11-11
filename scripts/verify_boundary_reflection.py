@@ -217,11 +217,12 @@ def uniform_corner(dtype=torch.float64, steps=200, device='cpu'):
     flow, solver = build(spec_for('S', (16, 16, 4), faces), dtype, device)
     u = np.zeros((3, *flow.resolution)); u[0], u[1] = lattice_speed(3.), lattice_speed(4.)
     set_state(flow, np.zeros(flow.resolution), u)
-    residual = 0.
-    for _ in range(steps):
+    residual = error = 0.
+    for step in range(1, steps+1):
         solver(1)
         residual = float(np.maximum(residual, abs(solver.external_links.report['mass_budget_residual_lu'])))
-    error = float(np.max(np.abs(flow.u_pu.cpu().numpy()-np.array(inflow)[:, None, None, None])))
+        if step % 10 == 0 or step == steps:  # protocol samples every 10 steps, plus the endpoint
+            error = float(np.maximum(error, np.max(np.abs(flow.u_pu.cpu().numpy()-np.array(inflow)[:, None, None, None]))))
     ok = finite([(flow,)], error, residual)
     mass_ok = dtype != torch.float64 or residual < CRITERIA['mass_lu']
     return dict(case='C1', system='S', dtype=str(dtype), steps=steps, max_velocity_error_m_s=error,

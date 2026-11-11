@@ -89,7 +89,7 @@ to run 3 (mean 0.00418 / 0.00419 / 0.00415, node 0.00704 / 0.00715 / 0.00702 m/s
 | V1-N | E = 0.527 (FP32 0.527) | ≤ 0.10 | **FAIL** |
 | V2-S | E = 0.869; no incoming link ever recorded | claim only if ≤ 0.10 | **FAIL**, unsupported |
 | V2-S pressure backflow | E = 1.422; 160 incoming links (unrepaired 0.869, first repair 1.382) | claim only if ≤ 0.10 | **FAIL**, unsupported |
-| C1-S | 2.0e-14 m/s, residual 1.3e-15 (FP32 1.9e-5 m/s) | ≤ 3e-5 m/s; < 1e-10 | **PASS** |
+| C1-S | 2.7e-14 m/s, residual 1.3e-15 (FP32 1.9e-5 m/s) | ≤ 3e-5 m/s; < 1e-10 | **PASS** |
 | C2-S | E = 1.243 (FP32 1.243); peak at the corner node (diagnostic below) | ≤ 0.10 | **FAIL** |
 | R1-S, declared node reference | mean 0.0042, node 0.0070 m/s; both branches; residual < 1e-15. dx/2: 0.0042 / 0.0072. FP32: 0.0042 / 0.0070 | ≤ 0.02; ≤ 0.05 | **PASS** after both repairs |
 | R1-S, run 2 (first repair, snapshot donor speed) | mean 0.066 / 0.036 m/s at dx and dx/2; node 0.071 / 0.039 | ≤ 0.02; ≤ 0.05 | **FAIL**; traced to the solver (below) |
@@ -179,7 +179,7 @@ V2, C2 and K1-N move to #60, the single follow-up; #55 stays separate. #14
 closes only after this PR merges and the MPS and CUDA runs on the merged
 commit qualify.
 
-**PR #66 review fixes (harness only; no recorded metric changed).**
+**PR #66 review fixes (harness only; one recorded metric changed, C1-S FP64).**
 
 - Every case now requires finite populations *and* finite metric samples before
   a row can pass. Python `max()` skips a NaN that arrives after a passing
@@ -194,11 +194,21 @@ commit qualify.
   run. They now report `steps` as the steps actually run, add
   `requested_steps`, and give R1's time and expected speed at the last sample.
   C1 and K1 already ran exactly their stated steps.
-- Every metric in this record came from samples that were actually taken, so
-  no recorded metric changed and no row was rerun. Only the reported `steps`
-  values and R1's time and expected-speed fields change; this record does not
-  cite them. The JSON gains `requested_steps`, and R1 and C1 gain `finite`. The
-  device commands are unchanged.
+- C1 measured velocity error only after its last step, although the declared
+  protocol takes the maximum over samples every 10 steps. It now samples every
+  10 steps plus the endpoint, so an error that exceeds the limit and then fades
+  fails; the new test fails on the old harness. Rerun on CPU: C1-S FP64 moves
+  from 2.0e-14 to 2.7e-14 m/s, FP32 stays 1.9e-5 m/s, and both still pass the
+  unchanged 3e-5 m/s criterion. The mass residuals (1.3e-15 and 4.2e-7 lu) are
+  unchanged.
+- Every other metric in this record came from samples that were actually
+  taken, so no other recorded metric changed and no other row was rerun. Only
+  the reported `steps` values and R1's time and expected-speed fields change;
+  this record does not cite them. The JSON gains `requested_steps`, and R1 and
+  C1 gain `finite`. The device commands are unchanged.
+- `tools/mutation/check_results.py` now rejects a policy whose listed control
+  test file has no collected test, even if collection and the control run both
+  omit it.
 
 ## Supported combinations after this work
 
@@ -224,8 +234,8 @@ commit qualify.
   `tests/test_tooling_entrypoints.py` (KBC diagnostic entrypoint, which the
   strict check found uncovered).
 - Function gate after merging `origin/main` at `c43bddf` (merge `405b2de`), with
-  the PR #66 review fixes (`tools/function_coverage.py run`): 1,513 passed, 170
-  skipped (all skips are MPS or CUDA hardware unavailable); functions 583
+  the PR #66 review and follow-up fixes (`tools/function_coverage.py run`):
+  1,515 passed, 170 skipped (all skips are MPS or CUDA hardware unavailable); functions 583
   covered, 58 declarations, 590 unmeasured C# host functions.
   `check --strict --coverage-scope headless` on the run directory: exit 0,
   `failures: []`. `check --base-ref origin/main`: exit 0, `failures: []`. The
@@ -236,11 +246,12 @@ commit qualify.
   lines changed against `origin/main` (`f29fe01`) in `neutral_external.py` and
   `check_results.py`, plus the harness lines changed by the PR #66 review fixes
   (against `d0b54e2`), with `test_mutation_policy.py`, `test_neutral_external.py`
-  and `test_boundary_reflection.py`. Result on the rebased branch: **111 mutants,
-  110 killed, 1 reviewed equivalent, 0 timeouts, 0 errors, 0 skips**; runtime
-  about 29 minutes on one CPU. Survivor
-  #29 changes `split('::', 1)[0]` to `split('::', 2)[0]`. It is equivalent
-  because the first field is identical. An earlier pass also found two
+  and `test_boundary_reflection.py`. Result after the follow-up review fixes: **132
+  mutants, 132 killed, 0 survivors, 0 timeouts, 0 errors, 0 skips**; runtime
+  about 25 minutes on a 2-CPU orb. Two survivors found during the follow-up
+  (`split('::', 2)` in the control-file check, and one extra C1 step) were not
+  equivalent and are now killed by asserting tests. The earlier equivalent #29
+  no longer exists because the code now reads both split fields. An earlier pass also found two
   equivalent survivors (an unused `get` default and `keepdim`); both arguments
   were removed. The policy is `tools/mutation/boundary-reflection-policy.json`.
 - Not in mutation scope: the rest of the reflection harness
@@ -257,7 +268,7 @@ All passes by the same Amp agent; no independent reviewer.
 | --- | --- | --- |
 | G0 research | PASS for the scoped verification | Criteria committed in `a1aa352` before the first run; enlarged-domain and analytic references; one withdrawn amendment, recorded above |
 | G1 architecture | PASS | One production change inside the existing open-face writer; no new node, schema, contract or archive change; default faces unchanged |
-| G2 reliability | PASS for headless scope | Strict headless and base-ref checks pass; PR-scoped mutation 110 of 111 killed, 1 reviewed equivalent. No live Rhino or device run |
+| G2 reliability | PASS for headless scope | Strict headless and base-ref checks pass; PR-scoped mutation 132 of 132 killed. No live Rhino or device run |
 | G3 numerical | PASS for C1, R1 and K1-S; FAIL for A1, V1, V2 and C2; INCONCLUSIVE for K1-N | Rows above. No nonreflection, vortex-exit, backflow-vortex or N cut-face claim |
 | G4 UI/UX and examples | NOT APPLICABLE / BLOCKED | No GH or UI change. Live Rhino examples were not run here; pressure-backflow behavior changes for GH cases that use it |
 | G5 integration | BLOCKED for release | CPU here. CUDA pre-merge check on `1ead04d` within all bounds (max A1-N ΔR 5.1e-4; `--require-cuda` 64 passed); qualifying run on the merge commit in #52. MPS FP32 rows go to #53 |

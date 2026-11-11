@@ -108,3 +108,15 @@ def test_policy_can_name_several_control_files(evidence):
     (output/'collected.txt').write_text('tests/test_a.py::test_one\n')
     with pytest.raises(ValueError, match='control tests'):
         policy_tool.verify(output, policy, root)
+    # A listed suite missing from both collection and the control run is incomplete evidence.
+    (output/'control.xml').write_text('<testsuite><testcase name="test_one"/></testsuite>')
+    with pytest.raises(ValueError, match='control tests'):
+        policy_tool.verify(output, policy, root)
+    (output/'collected.txt').write_text('tests/test_a.py::test_one\ntests/test_c.py::test_two\n')
+    with pytest.raises(ValueError, match='control tests'):
+        policy_tool.verify(output, policy, root)
+    # JUnit names carry no class prefix, so a class-qualified id fails closed with the policy error.
+    (output/'control.xml').write_text('<testsuite><testcase name="test_one"/><testcase name="test_two"/></testsuite>')
+    (output/'collected.txt').write_text('tests/test_a.py::TestK::test_one\ntests/test_b.py::test_two\n')
+    with pytest.raises(ValueError, match='control tests'):
+        policy_tool.verify(output, policy, root)

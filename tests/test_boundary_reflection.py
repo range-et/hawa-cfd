@@ -232,6 +232,33 @@ def test_uniform_corner_rejects_a_nan_mass_report(monkeypatch):
     assert r['finite'] is False and r['passed'] is False
 
 
+class BumpAt:
+    """Solver wrapper that disturbs one node's velocity after call `at` and undoes it before the next call."""
+
+    def __init__(self, flow, solver, at):
+        self.flow, self.solver, self.at, self.calls, self.saved = flow, solver, at, 0, None
+        self.external_links = solver.external_links
+
+    def __call__(self, n):
+        if self.saved is not None:
+            self.flow.f.copy_(self.saved); self.saved = None
+        self.solver(n)
+        self.calls += 1
+        if self.calls == self.at:
+            self.saved = self.flow.f.clone()
+            self.flow.f[1, 5, 5, 1] += .01
+
+
+@pytest.mark.parametrize('at, failed', [(10, True), (9, False)])
+def test_uniform_corner_error_is_the_maximum_over_10_step_samples(monkeypatch, at, failed):
+    original, built = v.build, []
+    monkeypatch.setattr(v, 'build', lambda *a: (lambda f, s: (f, built.append(BumpAt(f, s, at)) or built[-1]))(*original(*a)))
+    r = v.uniform_corner(steps=20)
+    # A disturbance on a sampled step counts even though the endpoint is clean; one between samples does not.
+    assert r['steps'] == built[0].calls == 20 and r['finite'] is True
+    assert (r['max_velocity_error_m_s'] > 1e-3) is failed and r['passed'] is not failed
+
+
 def test_acoustic_pass_decision_uses_the_criterion(monkeypatch):
     monkeypatch.setitem(v.CRITERIA, 'acoustic', 10.)
     r = v.acoustic('S', scale=.25, steps=21)
