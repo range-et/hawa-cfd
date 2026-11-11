@@ -99,7 +99,7 @@ class RefinedStepper:
 def run_refined(request,checkpoint):
     """Run a fixed two-level physical case and return independent field frames."""
     import lettuce as lt
-    from .plugin import Session,WindFlow,check_case
+    from .plugin import Session,WindFlow,boundary_nodes,check_case
     from .fields import store
     coarse_spec=request['case'];fine_spec=request['fine_case'];steps=request.get('steps',200)
     if coarse_spec.get('boundary_set') or fine_spec.get('boundary_set'):raise ValueError('General boundary sets cannot yet be combined with refinement')
@@ -141,12 +141,15 @@ def run_refined(request,checkpoint):
         for flow in (coarse.flow,fine):
             if not bool(torch.isfinite(flow.f).all().cpu()) or not bool((flow.rho()>0).all().cpu()):raise RuntimeError('Refined simulation became unstable')
     checkpoint(steps)
-    def frame(flow,spec,covered=False):
+    def frame(flow,spec,solver,covered=False):
         arrays={'velocity':flow.u_pu.detach().cpu().numpy().copy(),'pressure':flow.p_pu[0].detach().cpu().numpy().copy(),
                 'density':flow.rho_pu[0].detach().cpu().numpy().copy(),'solid':flow.solid.detach().cpu().numpy().copy()}
         if covered:arrays['solid'][tuple(slice(a+1,b) for a,b in zip(lower,upper))]=True
+        # Wall and slip faces hold reflected populations; views mask them like Session.fields (#80).
+        nodes=boundary_nodes(solver,flow)
+        if nodes is not None:arrays['boundary_nodes']=nodes
         return store(arrays,{'iteration':flow.i,'time':float(flow.units.convert_time_to_pu(flow.i)),
                             'case':{**spec,'physical_dx':float(flow.units.convert_length_to_pu(1))},'mean':False,'samples':0})
-    return {'coarse_frame':frame(coarse.flow,coarse_spec,True),'fine_frame':frame(fine,fine_spec),
+    return {'coarse_frame':frame(coarse.flow,coarse_spec,coarse.solver,True),'fine_frame':frame(fine,fine_spec,fine_solver),
             'steps':steps,'backend':coarse.backend.info(),'relative_mass_change':float(coupled.composite_mass().cpu())/initial-1,
             'report':'Experimental static 2:1 BGK coupling. Fine grid takes two steps per coarse step. Open-domain mass change includes inlet/outlet flux. No automatic moving refinement.'}

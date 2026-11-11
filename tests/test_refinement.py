@@ -31,6 +31,18 @@ def test_physical_patch_matches_time_and_units(solver_device):
     assert a['solid'][6:11,6:11,6:11].all()
 
 
+def test_refined_frames_mask_wall_faces_like_session_fields(solver_device):
+    from hawa.plugin import sample_arrays
+    coarse=dict(shape=[17]*3,dx=1.,spacing=1.,origin=[0,0,0],speed=1.,viscosity=1.,density=1.225,mach=.05,collision='bgk',solid=[],boundaries=['inlet','outlet','periodic','periodic','wall','slip'])
+    fine={**coarse,'shape':[13]*3,'dx':.5,'spacing':.5,'origin':[5,5,5],'refinement_lower':[5]*3,'refinement_upper':[11]*3}
+    r=run_refined(dict(case=coarse,fine_case=fine,steps=2,device=solver_device),lambda n:None)
+    a,_=get(r['coarse_frame']['frame']);b,_=get(r['fine_frame']['frame'])
+    nodes=a['boundary_nodes']
+    assert nodes[:,:,0].all() and nodes[:,:,16].all() and not nodes[:,:,1:16].any() and not a['solid'][:,:,0].any()
+    assert 'boundary_nodes' not in b and not b['solid'].any()
+    assert [row is not None for row in sample_arrays(a,[[8,8,.4],[8,8,.6],[8,8,15.4],[8,8,15.6]])]==[False,True,True,False]
+
+
 def test_three_dimensional_equilibrium_and_cancel(solver_device):
     from hawa.jobs import Cancelled
     ctx=lt.Context(torch.device(solver_device),torch.float32,use_native=False)

@@ -1,13 +1,14 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 359,
-  "inventory_sha256": "d5f1d750a2b30e9ed1d49a2d9719cc8ffa0717d90488e7942cc5b12b7fe8dc4e",
-  "scope": "Lines changed by the validity-foundation PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py and src/hawa/plugin.py, the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, and display_solid; not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
+  "mutants": 388,
+  "inventory_sha256": "30f03291cc7e8022674cc42d04f5fb7a81ab997691df3aed52eb0f638e1bc3ca",
+  "scope": "Lines changed by the validity-foundation PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, and display_solid; not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
   "control_test_files": [
     "tests/test_fields.py",
     "tests/test_field_collection.py",
     "tests/test_plugin_service.py",
-    "tests/test_recording.py"
+    "tests/test_recording.py",
+    "tests/test_refinement.py"
   ],
   "sources": {
     "src/hawa/plugin.py": "cd3c44209e210d6c00260ee54539e1fa156aaefc222af531c107aaabcbc700b2",
@@ -17,7 +18,9 @@
     "tests/test_fields.py": "b61b5add6dbec7de91350082ba4d3e9c39d216955896129c2db8c0bcd9bc9c9c",
     "tests/test_field_collection.py": "a59a77e27695043e805739f4819218d7c179cea50b4590e92494a20e2b96be02",
     "tests/test_plugin_service.py": "7a9629d5e1df029d9c09013071a6d3d3856cde66407fc1d47bc304c910655be5",
-    "tests/test_recording.py": "46fabd4a0aef3bcbd679c28fb9796f7533caf4677f843a015570171f88123cb5"
+    "tests/test_recording.py": "46fabd4a0aef3bcbd679c28fb9796f7533caf4677f843a015570171f88123cb5",
+    "src/hawa/refinement.py": "63bbbc161139044c8eb9d2dc3de6e8804beafe2152f86c5269ffc9a78e41c032",
+    "tests/test_refinement.py": "e869ca3663d235cedf56fff55a10adef8efd1a688a650bfd34a46403818a77f9"
   },
   "reviewed_survivors": {
     "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_4": {
@@ -124,6 +127,11 @@
       "status": "survived",
       "diff_sha256": "2f04e06b05d58620bc2b18355916fa67a6f3b510344f5f298c503e3d6b9cf2f8",
       "reason": "Equivalent for numeric points: the coordinates are converted to float again by lattice_weights, and the row length check is unchanged, so validity and values are identical."
+    },
+    "hawa.refinement.x_run_refined__mutmut_26": {
+      "status": "survived",
+      "diff_sha256": "a10a538ceca78b74fb82b9cac26d45b7cdde63b5e479032556834e3d7f218fb2",
+      "reason": "Equivalent: boundary_nodes(None, flow) returns None, and the fine PatchFlow's only boundary is BounceBackBoundary(solid), whose mask minus solid is empty, so the fine frame has no boundary_nodes either way (asserted in test_refined_frames_mask_wall_faces_like_session_fields)."
     }
   },
   "base_revision": "56b0728da222d60c3928193c74c8ab72788dd014"
