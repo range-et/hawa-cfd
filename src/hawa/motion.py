@@ -80,7 +80,8 @@ class Sdf(Payload):
     origin:Vector=Field(description='First sample position, m')
     shape:Annotated[List[Annotated[StrictInt,Field(ge=3)]],Field(min_length=3,max_length=3)]
     spacing:Positive=Field(description='Sample spacing, m')
-    values:Annotated[List[StrictFloat],Field(max_length=200000)]=Field(description='Signed distances, m')
+    # fail_fast: report only the first bad sample instead of building up to 200,000 errors.
+    values:Annotated[List[StrictFloat],Field(max_length=200000,fail_fast=True)]=Field(description='Signed distances, m')
 
     @model_validator(mode='after')
     def sample_count(self):

@@ -132,6 +132,16 @@ def test_fixed_motion_and_unsupported_geometry():
     with pytest.raises(ValueError, match='sphere, cylinder or sdf'): validate_bodies(spec)
 
 
+def test_sdf_with_every_sample_invalid_reports_one_error():
+    from hawa.motion import validate_bodies
+    from test_motion import grasshopper_case
+    spec = grasshopper_case(type='fixed'); geometry = spec['moving_bodies'][0]['geometry']
+    geometry.update(shape=[100, 100, 20], values=[float('nan')] * 200000)
+    with pytest.raises(ValueError) as error: validate_bodies(spec)
+    assert str(error.value) == 'Moving body 1 geometry.sdf.values.0: Input should be a finite number'
+    assert error.value.__cause__.error_count() == 1  # validation stopped at the first bad sample
+
+
 @pytest.mark.parametrize('options,message', [
     ({'period': 0.}, 'period: Input should be greater than 0'),
     ({'period': float('nan')}, 'period: Input should be a finite number'),
