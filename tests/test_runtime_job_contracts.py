@@ -56,7 +56,7 @@ def test_job_waiting_for_the_device_reports_queued_until_cancelled(isolated_jobs
             if job.state == 'queued' and job.steps == 0: break
             threading.Event().wait(.01)
         threading.Event().wait(.12)  # several slot timeouts later it is still only queued
-        assert job.state == 'queued' and job.session is None
+        assert job.state == 'queued' and job.steps == 0 and job.session is None
         job.control('cancel'); job.thread.join(5)
         assert job.state == 'cancelled' and not job.thread.is_alive()
     finally:
