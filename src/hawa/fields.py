@@ -34,8 +34,9 @@ def validate(arrays,meta):
     if any(not np.isfinite(arrays[k]).all() for k in required):
         raise ValueError('Frame fields must be finite')
     if np.any(arrays['density']<=0):raise ValueError('Frame density must be positive')
-    if 'solid' in arrays and (arrays['solid'].shape!=shape or arrays['solid'].dtype!=bool):
-        raise ValueError('Frame solid mask must be a matching boolean array')
+    for key in ('solid','boundary_nodes'):
+        if key in arrays and (arrays[key].shape!=shape or arrays[key].dtype!=bool):
+            raise ValueError('Frame '+key.replace('_',' ')+' mask must be a matching boolean array')
     if 'strain_rate' in arrays and (arrays['strain_rate'].shape!=(3,3)+shape or not np.isfinite(arrays['strain_rate']).all()):
         raise ValueError('Frame strain rate must be a finite 3x3 tensor on the lattice')
     if 'wall_velocity' in arrays and (arrays['wall_velocity'].shape!=(3,)+shape[:2] or not np.isfinite(arrays['wall_velocity']).all()):
@@ -52,7 +53,7 @@ def read_frame(path):
             raise ValueError('Frame exceeds 256 MiB budget')
     with np.load(path,allow_pickle=False) as data:
         meta=json.loads(str(data['metadata']))
-        arrays={k:data[k] for k in ('velocity','pressure','density','solid','strain_rate','wall_velocity') if k in data}
+        arrays={k:data[k] for k in ('velocity','pressure','density','solid','boundary_nodes','strain_rate','wall_velocity') if k in data}
     validate(arrays,meta)
     return arrays,meta
 
@@ -91,9 +92,43 @@ def scalar(fields, name, spec):
     raise ValueError('Field: speed, pressure, density, ux, uy, uz, cp, vorticity or q')
 
 
+def display_solid(fields):
+    """Nodes views must not show as flow: obstacles plus no-flow boundary nodes."""
+    solid=fields.get('solid',np.zeros(fields['pressure'].shape,bool))
+    nodes=fields.get('boundary_nodes')
+    return solid if nodes is None else solid|nodes
+
+
+def lattice_weights(mask, points):
+    """Halfway-wall sampling rule shared by every view.
+
+    ``points`` are lattice coordinates (n, d). A point is valid inside the
+    lattice when some unmasked corner lies within half a cell on every axis,
+    so ties on a halfway wall belong to the fluid side. Returns the corner
+    indices (2**d, n, d), their weights (n, 2**d) renormalised over unmasked
+    corners (zero for masked ones), and the validity array (n,).
+    """
+    points=np.asarray(points,float).reshape(-1,mask.ndim)
+    n=np.array(mask.shape);count=len(points)
+    finite=np.isfinite(points).all(axis=1)
+    inside=finite&np.all(np.where(np.isfinite(points),points,-1)>=0,axis=1)&np.all(np.where(np.isfinite(points),points,np.inf)<=n-1,axis=1)
+    p=np.where(inside[:,None],points,0.)
+    lo=np.minimum(np.floor(p).astype(int),n-1);hi=np.minimum(lo+1,n-1);w=p-lo
+    corners=np.zeros((2**mask.ndim,count,mask.ndim),int);weights=np.zeros((count,2**mask.ndim));near=np.zeros(count,bool)
+    for c,corner in enumerate(itertools.product((0,1),repeat=mask.ndim)):
+        ix=np.where(corner,hi,lo);index=tuple(ix.T);fluid=~mask[index]
+        weights[:,c]=np.prod(np.where(corner,w,1-w),axis=1)*fluid
+        near|=fluid&np.all(np.abs(p-ix)<=.5+1e-9,axis=1)
+        corners[c]=ix
+    valid=inside&near
+    support=weights.sum(axis=1)
+    weights=np.where(valid[:,None],weights/np.maximum(support,1e-30)[:,None],0.)
+    return corners,weights,valid
+
+
 def validity_mask(fields,name):
     """Exclude derivative stencils that touch a solid or a domain edge."""
-    solid=fields.get('solid',np.zeros(fields['pressure'].shape,bool))
+    solid=display_solid(fields)
     if name not in ('vorticity','q'):return solid
     mask=solid.copy()
     for axis in range(solid.ndim):

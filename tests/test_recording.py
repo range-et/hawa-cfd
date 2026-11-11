@@ -77,3 +77,10 @@ def test_recording_budget_counts_only_new_frames_after_warmup(tmp_path):
     assert [r['iteration'] for r in manifest['frames']]==[1001,1002,1003]
     assert manifest['complete']
     with pytest.raises(ValueError,match='precedes'):record(session,1002,1,tmp_path/'past',lambda n:None)
+
+
+def test_recorded_frames_keep_boundary_nodes(tmp_path):
+    session=Session({'example':'poiseuille2d-guo','size':16},'cpu')
+    r=record(session,2,2,tmp_path/'run',lambda n:None)
+    arrays,_=get(load_frame(r['manifest'],1)['frame'])
+    np.testing.assert_array_equal(arrays['boundary_nodes'],session.fields()['boundary_nodes'])

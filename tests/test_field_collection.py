@@ -71,10 +71,12 @@ def test_plane_trims_crossing_triangles_without_a_blank_fluid_band():
     area=np.linalg.norm(np.cross(v[f[:,1]]-v[f[:,0]],v[f[:,2]]-v[f[:,0]]),axis=1).sum()/2
     # The represented 2x2 building footprint occupies [1.5,3.5]^2.
     assert area==pytest.approx(36-4,abs=1e-10)
+    # Wall-edge vertices show the adjacent fluid nodes' values (uniform 1 here), not an invented zero.
     boundary=np.isclose(v[:,0],1.5)&(v[:,1]>=1.5)&(v[:,1]<=3.5)
-    assert boundary.any() and np.all(np.asarray(r['mesh_values'])[boundary]==0)
-    raw=dispatch_field(dict(action='sample',frames=[key],points=[[1.25,2.5,2.5]]))
-    assert raw['valid']==[False]  # Display reconstruction never rewrites raw data.
+    assert boundary.any() and np.allclose(np.asarray(r['mesh_values'])[boundary],1)
+    # Halfway wall at x=1.5: the fluid side is valid and fluid-only; the solid node's half-cell is not.
+    raw=dispatch_field(dict(action='sample',frames=[key],points=[[1.25,2.5,2.5],[1.5,2.5,2.5],[1.75,2.5,2.5]]))
+    assert raw['valid']==[True,True,False] and raw['values'][:2]==[1.,1.]
 
 
 def test_reference_example_frames_use_recorded_physical_spacing():
@@ -85,3 +87,15 @@ def test_reference_example_frames_use_recorded_physical_spacing():
     ordinary=dispatch_field(dict(request,frame=a['frame']))
     combined=dispatch_field(dict(request,frames=[a['frame'],b['frame']]))
     np.testing.assert_allclose(combined['values'],ordinary['values'],atol=1e-12)
+
+
+def test_collection_sample_interpolates_each_velocity_axis_to_the_far_face():
+    shape=(7,7,7);g=np.indices(shape).astype(float)
+    spec=dict(shape=list(shape),dx=1.,spacing=1.,origin=[0,0,0],basis=np.eye(3).tolist(),speed=1.,density=1.,reference_pressure=0.)
+    key=store(dict(velocity=np.stack([g[0],10*g[1],100*g[2]]),pressure=g[0].copy(),density=np.ones(shape),solid=np.zeros(shape,bool)),
+              dict(case=spec,time=2.,iteration=0,mean=False))['frame']
+    # Off-diagonal point, a point in the last cell and one within the 1e-9 face tolerance.
+    r=dispatch_field(dict(action='sample',frames=[key],field='pressure',points=[[1.25,2.5,3.75],[5.5,5.5,5.5],[6+5e-10,6,6]]))
+    assert r['valid']==[True,True,True]
+    np.testing.assert_allclose(r['values'],[1.25,5.5,6],atol=1e-8)
+    np.testing.assert_allclose(r['velocity'],[[1.25,25,375],[5.5,55,550],[6,60,600]],atol=1e-6)
