@@ -1060,11 +1060,11 @@
     },
     "plugin/Hawa.Grasshopper/ResultsComponents.cs::Hawa.Grasshopper.SliceComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)": {
       "status": "covered",
-      "fingerprint": "e322a86c8538a568451e70dc898e90ec92555021c31e1534e665064376973b3f"
+      "fingerprint": "b32d839e41482642aa4f14357f469673af730536bc965c7ab00ef25998c4b627"
     },
     "plugin/Hawa.Grasshopper/ResultsComponents.cs::Hawa.Grasshopper.SliceComponent.protected override void SolveHawa(IGH_DataAccess da)": {
       "status": "covered",
-      "fingerprint": "a1d6d3fcee221aa6077ba8ee54be173f40e70024b2e288fd8f2863ffd084cb13"
+      "fingerprint": "11a3c5b86702899139a160e34d411572e00ac8cfd1ec85a6f29333ce40502e28"
     },
     "plugin/Hawa.Grasshopper/ResultsComponents.cs::Hawa.Grasshopper.SliceComponent.SolveHawa(IGH_DataAccess da).lambda#0 v =>": {
       "status": "covered",
@@ -1132,19 +1132,15 @@
     },
     "plugin/Hawa.Grasshopper/ResultsComponents.cs::Hawa.Grasshopper.VectorsComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)": {
       "status": "covered",
-      "fingerprint": "3adaffef0cb7f2eb8be641a6bc50aa3e20fb0330fae05302573e26ddd294e21f"
+      "fingerprint": "8a5a56a07e2cb6ac7ed4194d8b4caadaa28cb154a37585f054cdfec0adabcacd"
     },
     "plugin/Hawa.Grasshopper/ResultsComponents.cs::Hawa.Grasshopper.VectorsComponent.SolveHawa(IGH_DataAccess da).lambda#0 p =>": {
       "status": "covered",
-      "fingerprint": "1ef64e1cc8d8285e4260933201cc90044c7e32506d99ce87600613bce0e9f321"
-    },
-    "plugin/Hawa.Grasshopper/ResultsComponents.cs::Hawa.Grasshopper.VectorsComponent.SolveHawa(IGH_DataAccess da).lambda#1 p =>": {
-      "status": "covered",
-      "fingerprint": "332d05949fa8c4fa5795cd6f1c396c38b9f0cadc15e9e2f888cc58d9dcdac46d"
+      "fingerprint": "50a8ca6ac8a7d64b87372a98bf5a42ea0d0dd61fa71025f096a87c17485cfee8"
     },
     "plugin/Hawa.Grasshopper/ResultsComponents.cs::Hawa.Grasshopper.VectorsComponent.protected override void SolveHawa(IGH_DataAccess da)": {
       "status": "covered",
-      "fingerprint": "f05750f4e4bd9e52ee780ac25aba2f6a85ae68ec13cba2623e2b448f74a7e4cf"
+      "fingerprint": "ee54118ed870c827efe7e5ac53781fa86caee4e147d0c9d0c3f04d01ba75b29e"
     },
     "plugin/Hawa.Grasshopper/ResultsComponents.cs::Hawa.Grasshopper.StreamlinesComponent.public StreamlinesComponent() : base(\"Hawa Streamlines\", \"Streamlines\", \"Instantaneous streamlines using midpoint integration on a field snapshot\", \"07 Visualize\")": {
       "status": "covered",
