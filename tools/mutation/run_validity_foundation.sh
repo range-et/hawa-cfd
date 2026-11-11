@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Correctness package item 2 (#80, #81): mutate only the lines this PR changed
+# in the boundary-node export and the shared halfway sampling rule, against
+# the focused CPU tests.
+source "$(dirname "$0")/lib.sh"
+# PR base: origin/main after #88.
+base=56b0728da222d60c3928193c74c8ab72788dd014
+mutate=(src/hawa/plugin.py src/hawa/fields.py src/hawa/field_collection.py)
+tests=(tests/conftest.py tests/test_fields.py tests/test_field_collection.py tests/test_plugin_service.py tests/test_recording.py)
+reviewed=("${mutate[@]}" "${tests[@]}")
+test_args=(tests/test_fields.py tests/test_field_collection.py tests/test_plugin_service.py tests/test_recording.py)
+changed_lines() {
+  git cat-file -e "$base^{commit}" || { echo "Missing $base: run git fetch origin first" >&2; return 65; }
+  git diff --no-prefix "$base" -- "${mutate[@]}"
+}
+run_study "$@"
