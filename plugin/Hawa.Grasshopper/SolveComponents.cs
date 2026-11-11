@@ -59,7 +59,7 @@ public sealed class SolveComponent : HawaComponent
             string phase=ready["state"]!.GetValue<string>();
             if(phase=="failed")throw new Exception(ready["error"]!.GetValue<string>());
             if(phase!="completed"){
-                Message="preparing";da.SetData(1,"preparing");string expected=creation!;
+                Message=Hawa.Shared.LifecycleText.Pending(phase);da.SetData(1,Message);string expected=creation!;
                 HawaPollScheduler.Request(this,()=>creation==expected);return;
             }
             session=ready["result"]!["status"]!["session"]!.GetValue<string>();

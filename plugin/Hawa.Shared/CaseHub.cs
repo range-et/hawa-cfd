@@ -925,7 +925,11 @@ public static class CaseHub
                             if (state is "failed" or "cancelled")
                                 throw new InvalidOperationException(response["error"]?.GetValue<string>() ?? "Preparation cancelled");
                             if (state != "completed")
+                            {
+                                c.State = state == "queued" ? "queued" : "preparing";
                                 return;
+                            }
+
                             c.Session = response["result"]!["status"]!["session"]!.GetValue<string>();
                             if (c.StartWhenReady)
                                 Transport(new() { ["op"] = "start", ["session"] = c.Session, ["steps"] = c.Target });

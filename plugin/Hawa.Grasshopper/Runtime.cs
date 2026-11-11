@@ -96,7 +96,8 @@ public abstract class HawaComponent : GH_Component
     }
     protected override void SolveInstance(IGH_DataAccess da)
     {
-        if (Params.Input.Any(p => !p.Optional && !p.VolatileData.AllData(true).Any(v => v != null))) { InputsMissing(); return; }
+        // A status that outlives its job is stale: replace it when the inputs or the run go away (#74).
+        if (Params.Input.Any(p => !p.Optional && !p.VolatileData.AllData(true).Any(v => v != null))) { var before=Message; InputsMissing(); if(!string.IsNullOrEmpty(before)&&Message==before)Message=Hawa.Shared.LifecycleText.WaitingForInput; return; }
         try {
             if(this is HawaQueryComponent || this is SolveComponent || this is GeometryComponent || this is EvaluateComponent || this is RecordComponent || this is RefinedSolveComponent || this is SearchComponent || this is MovingBodyComponent || this is MotionEvaluateComponent){
                 if(Params.Input.Any(p=>p.Access==GH_ParamAccess.item&&p.VolatileData.AllData(true).Count(v=>v!=null)>1)){
@@ -105,7 +106,7 @@ public abstract class HawaComponent : GH_Component
             }
             SolveHawa(da);
         }
-        catch (Exception ex) { InputsMissing(); AddRuntimeMessage(GH_RuntimeMessageLevel.Error, ex.GetBaseException().Message); }
+        catch (Exception ex) { InputsMissing(); if(!string.IsNullOrEmpty(Message))Message=Hawa.Shared.LifecycleText.Failed; AddRuntimeMessage(GH_RuntimeMessageLevel.Error, ex.GetBaseException().Message); }
     }
     protected string LocalPath(string path) {
         if(System.IO.Path.IsPathRooted(path))return System.IO.Path.GetFullPath(path);
@@ -114,7 +115,11 @@ public abstract class HawaComponent : GH_Component
         return System.IO.Path.GetFullPath(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(document)!,path));
     }
     protected virtual void InputsMissing() { }
-    public override void DocumentContextChanged(GH_Document document, GH_DocumentContext context) { if(context==GH_DocumentContext.Close || context==GH_DocumentContext.Unloaded || context==GH_DocumentContext.Lock) {HawaPollScheduler.Cancel(this);InputsMissing();} if(context==GH_DocumentContext.Loaded || context==GH_DocumentContext.Unlock)ExpireSolution(false); base.DocumentContextChanged(document,context); }
+    public override void DocumentContextChanged(GH_Document document, GH_DocumentContext context) {
+        if(context==GH_DocumentContext.Close || context==GH_DocumentContext.Unloaded || context==GH_DocumentContext.Lock) {HawaPollScheduler.Cancel(this);InputsMissing();}
+        // Switching documents cancels this document's jobs by design; say so instead of keeping the old status.
+        if(context==GH_DocumentContext.Unloaded && !string.IsNullOrEmpty(Message)){Message=Hawa.Shared.LifecycleText.DocumentInactive;AddRuntimeMessage(GH_RuntimeMessageLevel.Remark,Hawa.Shared.LifecycleText.DocumentInactiveReason);}
+        if(context==GH_DocumentContext.Loaded || context==GH_DocumentContext.Unlock)ExpireSolution(false); base.DocumentContextChanged(document,context); }
     public override void RemovedFromDocument(GH_Document document){HawaPollScheduler.Cancel(this);base.RemovedFromDocument(document);}
     protected abstract void SolveHawa(IGH_DataAccess da);
     protected static JsonArray Numbers(IEnumerable<double> values) => new(values.Select(v => JsonValue.Create(v)).ToArray());

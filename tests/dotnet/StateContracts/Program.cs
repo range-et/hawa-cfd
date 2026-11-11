@@ -286,7 +286,9 @@ Test("preparation pending cancelled faulted and unavailable states remain explic
 Test("runtime pending and failed jobs release resources and report status errors", () => {
     var transport=CaseHub.Transport;var c=Fresh();CaseHub.Run(1);string state="running";
     try {CaseHub.Transport=request=>request["op"]!.GetValue<string>()=="evaluate_poll"?new(){["state"]=state,["error"]="creation failed"}:transport(request);
-        Tick();Assert(c.State=="preparing"&&c.Session==null,"Pending job published");state="failed";Tick();Assert(c.State=="failed"&&c.Error=="creation failed"&&c.Job==null,"Failed job retained");
+        Tick();Assert(c.State=="preparing"&&c.Session==null,"Pending job published");
+        state="queued";Tick();Assert(c.State=="queued"&&c.Session==null,"Queued job shown as preparation");
+        state="running";Tick();Assert(c.State=="preparing","Started job left queued");state="failed";Tick();Assert(c.State=="failed"&&c.Error=="creation failed"&&c.Job==null,"Failed job retained");
     } finally {CaseHub.Transport=transport;}
     c=Fresh();Start(c);
     try {CaseHub.Transport=request=>request["op"]!.GetValue<string>()=="status"?new(){["steps"]=0,["state"]="failed",["error"]="solver failed"}:transport(request);
@@ -330,6 +332,20 @@ Test("cut cells omit unresolved crossings and deduplicate a shared solid corner"
     var corners=new JsonArray(new JsonArray(2,2,1d),new JsonArray(4,1,1d));
     var polygon=SliceCutCells.Polygons(plane,new double[4],new[]{false,true,true,true},2,2,new[]{2,2,1},corners,"speed").Single();
     Assert(polygon.Length==4&&Area(polygon)==1,"Coincident solid corner duplicated or area lost");
+});
+
+Test("lifecycle text reports queued, restarted, missing and duplicate states plainly",()=>{
+    Assert(LifecycleText.Pending("queued")=="queued: waiting for the device"&&LifecycleText.Pending("running")=="preparing"&&LifecycleText.Pending("paused")=="preparing","Queued job looks like preparation");
+    var before=new JsonObject{["op"]="evaluate_submit",["directory"]="/a",["steps"]=200,["case"]=new JsonObject{["size"]=8}};
+    Assert(LifecycleText.Restart(null,before)==null&&LifecycleText.Restart(before,(JsonObject)before.DeepClone())==null,"First run or unchanged inputs called a restart");
+    var after=(JsonObject)before.DeepClone();after["directory"]="/b";after["case"]!["size"]=9;
+    Assert(LifecycleText.Restart(before,after)=="restarted: directory, case changed","Restart reason lost or misnamed");
+    var added=(JsonObject)before.DeepClone();added["device"]="cpu";var removed=(JsonObject)before.DeepClone();removed.Remove("steps");
+    Assert(LifecycleText.Restart(before,added)=="restarted: device changed"&&LifecycleText.Restart(before,removed)=="restarted: steps changed","Added or removed input not reported");
+    Assert(LifecycleText.Missing(new List<(string,bool)>{("Parent",false),("Child",false)})==null,"Complete inputs reported missing");
+    Assert(LifecycleText.Missing(new List<(string,bool)>{("Parent",false),("Child A",true),("Child B",true)})=="2 of 3 wired inputs delivered no frame (cancelled, failed or still running upstream): Child A, Child B","Missing child not named");
+    Assert(LifecycleText.Duplicates(new[]{"a","b"})==null&&LifecycleText.Duplicates(new[]{"a","b","a"})=="1 duplicate frame is used once"&&LifecycleText.Duplicates(new[]{"a","a","a"})=="2 duplicate frames are used once","Duplicates not counted");
+    Assert(LifecycleText.DocumentInactive.StartsWith("cancelled")&&LifecycleText.DocumentInactiveReason.Contains("another Grasshopper document became active")&&LifecycleText.WaitingForInput=="waiting for input"&&LifecycleText.Failed=="failed","Lifecycle wording changed");
 });
 
 QualityContracts.Run(Test, Assert);

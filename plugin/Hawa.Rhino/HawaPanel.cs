@@ -100,8 +100,8 @@ public sealed class HawaPanel : Panel
             var shape=CaseGeometry.GridShape(c);long cells=(long)shape[0]*shape[1]*shape[2];grid.Text=$"{shape[0]} × {shape[1]} × {shape[2]} · {cells:N0} cells\nD3Q19 FP32 populations alone: {cells*19*4/1048576d:F1} MiB; solver needs additional memory.";
             link.Text=c.BindingOwner==null?"Grasshopper: unlinked":c.Driven.Count==0?"Grasshopper: linked sliders":"Grasshopper drives: "+string.Join(", ",c.Driven);
             captured.Text=c.Result==null?"No field captured":$"Field {c.Result.Field} · {CaseGeometry.FieldUnits(c.Result.Field)}\nCaptured step {c.Result.Steps}, t={c.Result.PhysicalTime:g5} s"+(c.Outdated?"\nOUTDATED · run the changed case":"");
-            bool working=c.State is "running" or "preparing" or "voxelizing" or "pausing";
-            run.Enabled=!working;pause.Enabled=c.State is "running" or "preparing" or "voxelizing";cancel.Enabled=working||c.Session!=null;reset.Enabled=true;refresh.Enabled=c.Session!=null;
+            bool working=c.State is "running" or "queued" or "preparing" or "voxelizing" or "pausing";
+            run.Enabled=!working;pause.Enabled=c.State is "running" or "queued" or "preparing" or "voxelizing";cancel.Enabled=working||c.Session!=null;reset.Enabled=true;refresh.Enabled=c.Session!=null;
             error.Text=c.Error+(c.GeometryError.Length>0?"\n"+c.GeometryError:"")+(c.ViewError.Length>0?"\nField: "+c.ViewError+". Use Refresh field.":"")+(CaseHub.PendingCleanupCount>0?"\nCleanup pending; Hawa will retry.":"");
         }finally{refreshing=false;}
     }
