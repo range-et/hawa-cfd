@@ -22,7 +22,7 @@ public sealed class SliceComponent : HawaQueryComponent
     public SliceComponent() : base("Hawa Slice", "Slice", "Colored field slice. Speed in m/s, pressure in Pa, density in kg/m³ for physical wind cases.", "07 Visualize") { }
     public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077111");
     protected override void RegisterInputParams(GH_InputParamManager p) { p.AddGenericParameter("Solution", "S", "Hawa Solution", GH_ParamAccess.item); p.AddIntegerParameter("Axis", "A", "Normal: 0=X, 1=Y, 2=Z", GH_ParamAccess.item, 2); p.AddIntegerParameter("Index", "I", "Grid slice index; -1 selects center", GH_ParamAccess.item, -1); p.AddTextParameter("Field", "F", "speed, pressure or density", GH_ParamAccess.item, "speed"); p.AddBooleanParameter("Mean", "M", "Use sampled mean velocity", GH_ParamAccess.item, false); }
-    protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddMeshParameter("Mesh", "M", "Colored slice mesh. Stationary curved walls clip cut cells; boundary colours use zero wall speed or the adjacent fluid pressure/density. Values output remains lattice samples.", GH_ParamAccess.item); p.AddNumberParameter("Values", "V", "Field values; masked sites are zero", GH_ParamAccess.list); p.AddNumberParameter("Range", "R", "Color legend minimum and maximum", GH_ParamAccess.list); p.AddBooleanParameter("Valid", "Valid", "Fluid sites; solid geometry is excluded", GH_ParamAccess.list); }
+    protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddMeshParameter("Mesh", "M", "Colored slice mesh tiling every lattice cell. Black = not simulated: solid or no-data nodes as the solver represents them, with voxel walls halfway between nodes and stationary curved walls at their link crossings (zero wall speed, adjacent fluid pressure/density). Near-wall colours depend on the wall mode and resolution. Values output remains lattice samples.", GH_ParamAccess.item); p.AddNumberParameter("Values", "V", "Field values; masked sites are zero", GH_ParamAccess.list); p.AddNumberParameter("Range", "R", "Color legend minimum and maximum", GH_ParamAccess.list); p.AddBooleanParameter("Valid", "Valid", "Fluid sites; solid geometry is excluded", GH_ParamAccess.list); }
     protected override void SolveHawa(IGH_DataAccess da)
     {
         var s = ReadObject(da, 0); int axis = 2, index = -1; string field = "speed"; bool mean = false; da.GetData(1, ref axis); da.GetData(2, ref index); da.GetData(3, ref field); da.GetData(4, ref mean);
@@ -48,6 +48,9 @@ public sealed class SliceComponent : HawaQueryComponent
                 FieldTools.ColorAt(max>min?Math.Clamp((v-min)/(max-min),0,1):.5,"blue-green")
         );
         Message=s["case"]?["wall_links"] is JsonArray?"wall-clipped display":"lattice display";
+        // The key and near-wall caveat follow the solver's actual wall mode and cell size (#29).
+        var cell=s["case"]?["dx"] is JsonNode dx?$"{dx.GetValue<double>():g3} m":$"{Coordinates.Spacing(s):g3} model units";
+        AddRuntimeMessage(GH_RuntimeMessageLevel.Remark,$"Black = not simulated (solid or no-data nodes). Walls: {(s["case"]?["wall_links"] is JsonArray?"interpolated at link crossings":"voxel, halfway between nodes")}; cell {cell}. Colours within about one cell of a surface depend on the wall mode and this resolution, so treat near-wall flow as approximate.");
         mesh.Normals.ComputeNormals(); da.SetData(0, mesh); da.SetDataList(1, values); da.SetDataList(2, new[] { min, max }); da.SetDataList(3, valid);
     }
 }
@@ -75,11 +78,9 @@ public sealed class VectorsComponent : HawaComponent
     public VectorsComponent() : base("Hawa Vectors", "Vectors", "Velocity segments for field visualization; lengths are scaled for display", "07 Visualize") { }
     public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077113");
     protected override void RegisterInputParams(GH_InputParamManager p) { p.AddPointParameter("Points", "P", "Sample points", GH_ParamAccess.list); p.AddVectorParameter("Velocity", "U", "Vectors from Hawa Sample", GH_ParamAccess.list); p.AddNumberParameter("Scale", "S", "Model length per velocity unit", GH_ParamAccess.item, 1); }
-    protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddLineParameter("Lines", "L", "Velocity segments", GH_ParamAccess.list); }
-    protected override void SolveHawa(IGH_DataAccess da) { var points = new List<Point3d>(); var u = new List<Vector3d>(); double scale = 1; da.GetDataList(0, points); da.GetDataList(1, u); da.GetData(2, ref scale); if (points.Count != u.Count) throw new ArgumentException("Point and velocity counts differ"); da.SetDataList(0, points.Zip(u).Where(p =>
-        p.Second.IsValid
-    ).Select(p =>
-        new Line(p.First, p.First + p.Second * scale)
+    protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddLineParameter("Lines", "L", "Velocity segments, index-aligned with Points; null where the sample is not simulated", GH_ParamAccess.list); }
+    protected override void SolveHawa(IGH_DataAccess da) { var points = new List<Point3d>(); var u = new List<Vector3d>(); double scale = 1; da.GetDataList(0, points); da.GetDataList(1, u); da.GetData(2, ref scale); if (points.Count != u.Count) throw new ArgumentException("Point and velocity counts differ"); da.SetDataList(0, points.Zip(u).Select(p =>
+        p.Second.IsValid ? (object)new Line(p.First, p.First + p.Second * scale) : null
     )); }
 }
 
