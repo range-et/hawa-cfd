@@ -231,6 +231,9 @@ Test("unit change invalidates referenced geometry but preserves physical setup",
 double[][] plane={new[]{0d,0d,0d},new[]{0d,1d,0d},new[]{1d,0d,0d},new[]{1d,1d,0d}};
 double Area(SliceCutCells.Vertex[] polygon){double area=0;for(int i=0;i<polygon.Length;i++){var a=polygon[i].Grid;var b=polygon[(i+1)%polygon.Length].Grid;area+=a[0]*b[1]-a[1]*b[0];}return Math.Abs(area)/2;}
 double Sum(IEnumerable<SliceCutCells.Piece> pieces,bool solid)=>pieces.Where(p=>p.Solid==solid).Sum(p=>Area(p.Polygon));
+// SliceDisplay fans each piece from its first vertex: every fan triangle must keep the piece's orientation and the triangles must add up to the outline.
+bool Fans(IEnumerable<SliceCutCells.Piece> pieces)=>pieces.All(p=>{var v=p.Polygon;double Cross(double[] a,double[] b,double[] c)=>(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);
+    var t=Enumerable.Range(1,v.Length-2).Select(i=>Cross(v[0].Grid,v[i].Grid,v[i+1].Grid)/2).ToArray();double sign=Math.Sign(t.Sum());return t.All(x=>x*sign>=-1e-12)&&Math.Abs(Math.Abs(t.Sum())-Area(v))<1e-12;});
 Test("fractional wall clips a cell at its actual link position",()=>{
     var links=new JsonArray(new JsonArray(1,0,.25),new JsonArray(1,1,.25));
     var pieces=SliceCutCells.Polygons(plane,new[]{2d,4d,99d,99d},new[]{true,true,false,false},2,2,new[]{2,2,1},links,"pressure").ToArray();
@@ -284,6 +287,13 @@ Test("slice partition tiles every cell and keeps every fluid corner",()=>{
         var pieces=SliceCutCells.Polygons(points,values,valid,n,n,new[]{n,n,1},links,"pressure").ToArray();
         Assert(Math.Abs(Sum(pieces,false)-135)<1e-9&&Math.Abs(Sum(pieces,true)-9)<1e-9,$"Halfway partition wrong: fluid {Sum(pieces,false)}, solid {Sum(pieces,true)}");
         Assert(pieces.Where(x=>!x.Solid).SelectMany(x=>x.Polygon).All(v=>v.Value!=99),"Solid sample coloured the fluid");
+        Assert(Fans(pieces),"Fan triangulation leaves a piece");
+    }
+    // Off-centre diagonal crossings make the fluid piece concave (q = 0.25) or the solid piece concave (q = 0.75).
+    foreach(double q in new[]{.25,.75}){
+        var links=new JsonArray(new JsonArray(1,0,.5),new JsonArray(4,3,.5),new JsonArray(17,1,q));
+        var cut=SliceCutCells.Polygons(plane,new double[4],new[]{true,true,false,true},2,2,new[]{2,2,1},links,"pressure").ToArray();
+        Assert(cut.Length==2&&Fans(cut)&&Math.Abs(Sum(cut,false)+Sum(cut,true)-1)<1e-12,$"q {q}: concave piece mis-triangulated");
     }
     // Without the in-plane diagonal crossings, chords would cut each convex corner (+0.125 each).
     var chords=SliceCutCells.Polygons(points,values,valid,n,n,new[]{n,n,1},Links(false),"pressure").ToArray();
@@ -310,6 +320,7 @@ Test("curved sphere slices tile the plane at two resolutions",()=>{
         Assert(Math.Abs(fluid+black-total)<1e-9,$"n {n}: pieces cover {fluid+black} of {total}");
         Assert(Math.Abs(black-Math.PI*r*r)<.02*Math.PI*r*r,$"n {n}: black {black} far from circle {Math.PI*r*r}");
         Assert(pieces.Where(x=>!x.Solid).SelectMany(x=>x.Polygon).All(v=>v.Value==1),"Wall colour invented");
+        Assert(Fans(pieces),$"n {n}: fan triangulation leaves a piece");
     }
 });
 Test("slice display draws solid pieces black and keeps zero samples coloured",()=>{

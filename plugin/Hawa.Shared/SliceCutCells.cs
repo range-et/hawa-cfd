@@ -131,7 +131,16 @@ public static class SliceCutCells
                     (valid[first] ? fluidSide : solidSide).Add(diagonal);
             }
 
-            foreach (var piece in new[] { Clean(fluidSide, false), Clean(solidSide, true) })
+            // The diagonal crossing is the only interior, possibly reflex, vertex;
+            // every other vertex lies on the cell boundary and is visible from it.
+            // Start both pieces there so a fan triangulation stays inside them.
+            List<Vertex> FromDiagonal(List<Vertex> polygon)
+            {
+                int start = diagonal == null ? 0 : Math.Max(0, polygon.IndexOf(diagonal));
+                return polygon.Skip(start).Concat(polygon.Take(start)).ToList();
+            }
+
+            foreach (var piece in new[] { Clean(FromDiagonal(fluidSide), false), Clean(FromDiagonal(solidSide), true) })
                 if (piece != null)
                     pieces.Add(piece);
             return pieces;
