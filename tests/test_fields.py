@@ -99,4 +99,28 @@ def test_boundary_nodes_mask_views_but_not_obstacles():
     assert display_solid(fields)[:,:,0].all() and display_solid(fields)[4,4,4] and not fields['solid'][:,:,0].any()
     assert validity_mask(fields,'speed')[:,:,0].all() and validity_mask(fields,'vorticity')[:,:,1].all()
     validate(fields,dict(case={}))
-    with pytest.raises(ValueError,match='boundary nodes mask'):validate(dict(fields,boundary_nodes=nodes.astype(int)),dict(case={}))
+    with pytest.raises(ValueError,match='^Frame boundary nodes mask must be a matching boolean array$'):validate(dict(fields,boundary_nodes=nodes.astype(int)),dict(case={}))
+    with pytest.raises(ValueError,match='^Frame solid mask must be a matching boolean array$'):validate(dict(fields,solid=fields['solid'][1:]),dict(case={}))
+
+
+def test_lattice_weights_judge_each_point_alone():
+    from hawa.fields import lattice_weights
+    from hawa.plugin import sample_arrays
+    fields=_block_frame()
+    corners,weights,valid=lattice_weights(fields['solid'],[[float('nan'),1,1],[1,1,1],[3.2,4,4]])
+    # A non-finite point invalidates only itself; corners keep (2**d, n, d); invalid rows weigh nothing.
+    assert valid.tolist()==[False,True,False] and corners.shape==(8,3,3)
+    assert not weights[~valid].any() and weights[1].sum()==pytest.approx(1)
+    fields['density']=1+.1*np.indices((9,9,9))[0]
+    assert sample_arrays(fields,[[1.25,1,1]])[0]['density']==pytest.approx(1.125)
+
+
+def test_read_frame_keeps_every_stored_array(tmp_path):
+    import json
+    from hawa.fields import read_frame
+    shape=(3,3,3);solid=np.zeros(shape,bool);solid[1,1,1]=True;nodes=np.zeros(shape,bool);nodes[0]=True
+    arrays=dict(velocity=np.zeros((3,)+shape),pressure=np.zeros(shape),density=np.ones(shape),solid=solid,
+                boundary_nodes=nodes,strain_rate=np.ones((3,3)+shape),wall_velocity=np.full((3,3,3),2.))
+    np.savez_compressed(tmp_path/'frame.npz',metadata=np.array(json.dumps({'case':{}})),**arrays)
+    got,_=read_frame(tmp_path/'frame.npz')
+    assert sorted(got)==sorted(arrays) and all(np.array_equal(got[k],arrays[k]) for k in arrays)

@@ -1,0 +1,130 @@
+{
+  "tool": "mutmut==3.7.0",
+  "mutants": 359,
+  "inventory_sha256": "d5f1d750a2b30e9ed1d49a2d9719cc8ffa0717d90488e7942cc5b12b7fe8dc4e",
+  "scope": "Lines changed by the validity-foundation PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py and src/hawa/plugin.py, the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, and display_solid; not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
+  "control_test_files": [
+    "tests/test_fields.py",
+    "tests/test_field_collection.py",
+    "tests/test_plugin_service.py",
+    "tests/test_recording.py"
+  ],
+  "sources": {
+    "src/hawa/plugin.py": "cd3c44209e210d6c00260ee54539e1fa156aaefc222af531c107aaabcbc700b2",
+    "src/hawa/fields.py": "6f686949e70cdd4cfd41674c77dbea9f289b2d8857a5ba164a8c74afbc9e3f78",
+    "src/hawa/field_collection.py": "f4e40783ca94ef0e93d4897c72bb2bbc36284033250663fd057566474a4c83b1",
+    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
+    "tests/test_fields.py": "b61b5add6dbec7de91350082ba4d3e9c39d216955896129c2db8c0bcd9bc9c9c",
+    "tests/test_field_collection.py": "a59a77e27695043e805739f4819218d7c179cea50b4590e92494a20e2b96be02",
+    "tests/test_plugin_service.py": "7a9629d5e1df029d9c09013071a6d3d3856cde66407fc1d47bc304c910655be5",
+    "tests/test_recording.py": "46fabd4a0aef3bcbd679c28fb9796f7533caf4677f843a015570171f88123cb5"
+  },
+  "reviewed_survivors": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "5071a0fac9f93c0dfeb818cd37e7ed66bee5f92e97292b3acadaeb69b254813b",
+      "reason": "Equivalent: only the chunk size of the sample batching changes (8192 to 8193 points per call); every vertex is still sampled exactly once in order, so values and validity are identical."
+    },
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_7": {
+      "status": "survived",
+      "diff_sha256": "7694966cb218ee5a8af28d3fa05f83e218dc05a22831a16620a85087f6e5b9cc",
+      "reason": "Free-text display_reconstruction label for users; no caller parses it and its wording is not a contract. Only the text changes."
+    },
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_8": {
+      "status": "survived",
+      "diff_sha256": "b94169e80f3ea6dfcd2b18ce79b303c741de595f031133d897c486c67d26091b",
+      "reason": "Free-text display_reconstruction label for users; no caller parses it and its wording is not a contract. Only the capitalisation changes."
+    },
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "82da45f927c00ff2ef82d7f138b9cba9ba53a435c8b196432bcc4c59b34fb3b8",
+      "reason": "Free-text display_reconstruction label for users; no caller parses it and its wording is not a contract. Only the capitalisation changes."
+    },
+    "hawa.fields.x_lattice_weights__mutmut_103": {
+      "status": "survived",
+      "diff_sha256": "f572be03d57d56624b10c69e0294c921f91cae7c57a9eef2ec13cacc483b9ff8",
+      "reason": "Equivalent: corner offsets are only used as booleans (np.where(corner, hi, lo) and np.where(corner, w, 1-w)), so (0,2) selects exactly the same corners and weights as (0,1)."
+    },
+    "hawa.fields.x_lattice_weights__mutmut_11": {
+      "status": "survived",
+      "diff_sha256": "914c3825b110fefebd40b46fc08ed07808516a97871f5d96c873c9bc5c536a31",
+      "reason": "Equivalent: NumPy treats any negative reshape length as the single inferred dimension, so reshape(-2, d) equals reshape(-1, d)."
+    },
+    "hawa.fields.x_lattice_weights__mutmut_139": {
+      "status": "survived",
+      "diff_sha256": "99660b9457a27e8daeaf2fdf072d9e016f83d9d7a71eb8d0da4cb0d92f79aa89",
+      "reason": "Equivalent in floating point: < and <= differ only for an offset of exactly 0.5+1e-9; the halfway tie (0.5) is inside both, as tested at 2.5 vs 2.49/2.51."
+    },
+    "hawa.fields.x_lattice_weights__mutmut_33": {
+      "status": "survived",
+      "diff_sha256": "7f1966e4e86f7f810f9f2da5753acaa56345915dfe50c1fb76c1f7fb9baba676",
+      "reason": "Equivalent: the replacement value only applies to non-finite coordinates, whose rows are already excluded by finite, so inside is unchanged for every point."
+    },
+    "hawa.fields.x_lattice_weights__mutmut_34": {
+      "status": "survived",
+      "diff_sha256": "bd3c35038f721a6f45e8c374c1a52e939c5f03d3c1d165a80446f74870e8c1d8",
+      "reason": "Equivalent: the replacement value only applies to non-finite coordinates, whose rows are already excluded by finite, so inside is unchanged for every point."
+    },
+    "hawa.fields.x_lattice_weights__mutmut_60": {
+      "status": "survived",
+      "diff_sha256": "fdf0b7020f5661b0388d8a699743e2b567ad891a63c17b2481c020e908ad0555",
+      "reason": "Equivalent: points outside the lattice only get a placeholder position; lo/hi are clamped to n-1 so indexing stays in range, and valid=inside&near zeroes their weights, so results are identical."
+    },
+    "hawa.fields.x_lattice_weights__mutmut_68": {
+      "status": "survived",
+      "diff_sha256": "e2e857f8965a02bd7dc9f5fc6d232dab033561d8641703526589e58fa6ff590a",
+      "reason": "Equivalent: inside points satisfy p <= n-1, so floor(p) never exceeds n-1 and the clamp to n+1 never binds; outside points use the placeholder 0."
+    },
+    "hawa.fields.x_lattice_weights__mutmut_69": {
+      "status": "survived",
+      "diff_sha256": "87ba6222eb994440585b9fcb7a6df2a3d419b02e15cdb8b09699a8fedeb56227",
+      "reason": "Equivalent in every returned weight and validity: at p = n-1 the cell becomes (n-2, n-1) with w = 1, giving the same corner values; on a size-1 axis the -1 corner (which wraps to 0) gets weight 0 and is never near. Consumers index corners only through these weights."
+    },
+    "hawa.fields.x_lattice_weights__mutmut_7": {
+      "status": "survived",
+      "diff_sha256": "ef08a09229dbc1984b23e8691a0d6e54bc25958e24b5cfac08993785b6168703",
+      "reason": "Equivalent for every caller: sample_arrays and FieldCollection.sample pass float arrays, so inferring the dtype yields the same float array as dtype=float."
+    },
+    "hawa.fields.x_lattice_weights__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "e17e7436be729d3dce92e20f01b7791cc3b245803cb1c23fe7bb5be6dfecc0ca",
+      "reason": "Equivalent for every caller: sample_arrays and FieldCollection.sample pass float arrays, so omitting the dtype yields the same float array as dtype=float."
+    },
+    "hawa.plugin.x_boundary_nodes__mutmut_1": {
+      "status": "survived",
+      "diff_sha256": "01cbb13ef4585a7b4ed1651335320cff86fd33d3ca0f0c9ab7d70879a3cddc09",
+      "reason": "Equivalent: shape is only passed to make_no_collision_mask, and both BounceBackBoundary and SlipBoundary return their stored mask without reading it (vendor/lettuce bounce_back_boundary.py:24, plugin.py SlipBoundary)."
+    },
+    "hawa.plugin.x_boundary_nodes__mutmut_14": {
+      "status": "survived",
+      "diff_sha256": "b6a9876edebaaab519aebdd30ecd3c5cc2ad5662922d1d809ee183a61dba2456",
+      "reason": "Equivalent: BounceBackBoundary and SlipBoundary.make_no_collision_mask ignore the shape argument and return their stored mask."
+    },
+    "hawa.plugin.x_boundary_nodes__mutmut_15": {
+      "status": "survived",
+      "diff_sha256": "505ab200fb1b9534f7ecedadc390e656c9441c12775bc4fd76891497644abd8c",
+      "reason": "Equivalent: BounceBackBoundary and SlipBoundary.make_no_collision_mask ignore the context argument and return their stored mask."
+    },
+    "hawa.plugin.x_boundary_nodes__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "4b44ff72ccf6f1bd49a54305b4580258afb4830a6c9601599bd38f37c7f0606e",
+      "reason": "Equivalent for every solver Session builds: lettuce Simulation and the refinement and neutral wrappers all expose post_boundaries, so the getattr default is never used."
+    },
+    "hawa.plugin.x_sample_arrays__mutmut_19": {
+      "status": "survived",
+      "diff_sha256": "7ed6d88c6fc979408bee6eea27a6064ce163350f23ae5de5dcdfb73e52cb1a7a",
+      "reason": "Equivalent: unusable rows become an object array of None, which lattice_weights converts with np.asarray(points, float) to NaN, so the row is invalid exactly as before (tested by the [1,2,nan] and [1,2] rows returning None)."
+    },
+    "hawa.plugin.x_sample_arrays__mutmut_7": {
+      "status": "survived",
+      "diff_sha256": "244e2ba4be7c1ac18a876477cfe2dd967b0f2f41a03035b59353274c9a019e47",
+      "reason": "Equivalent for numeric points: the coordinates are converted to float again by lattice_weights, and the row length check is unchanged, so validity and values are identical."
+    },
+    "hawa.plugin.x_sample_arrays__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "2f04e06b05d58620bc2b18355916fa67a6f3b510344f5f298c503e3d6b9cf2f8",
+      "reason": "Equivalent for numeric points: the coordinates are converted to float again by lattice_weights, and the row length check is unchanged, so validity and values are identical."
+    }
+  },
+  "base_revision": "56b0728da222d60c3928193c74c8ab72788dd014"
+}

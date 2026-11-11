@@ -8,7 +8,7 @@ base=56b0728da222d60c3928193c74c8ab72788dd014
 mutate=(src/hawa/plugin.py src/hawa/fields.py src/hawa/field_collection.py)
 tests=(tests/conftest.py tests/test_fields.py tests/test_field_collection.py tests/test_plugin_service.py tests/test_recording.py)
 reviewed=("${mutate[@]}" "${tests[@]}")
-test_args=(tests/test_fields.py tests/test_field_collection.py tests/test_plugin_service.py tests/test_recording.py)
+test_args=(tests/test_fields.py tests/test_field_collection.py tests/test_plugin_service.py tests/test_recording.py -k 'not cuda and not mps')
 changed_lines() {
   git cat-file -e "$base^{commit}" || { echo "Missing $base: run git fetch origin first" >&2; return 65; }
   git diff --no-prefix "$base" -- "${mutate[@]}"
