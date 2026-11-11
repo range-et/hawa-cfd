@@ -1,12 +1,12 @@
 import numpy as np
 import pytest
-from hawa.fields import isosurface,scalar,contours
+from hawa.fields import grid_lines,isosurface,scalar,contours
 
 
 def test_plane_isosurface_and_mask():
     x=np.indices((5,5,5))[0].astype(float)
     mesh=isosurface(x,2.5)
-    assert len(mesh['faces'])>0
+    assert len(mesh['faces'])>0 and mesh==isosurface(x,2.5,stride=1)!=isosurface(x,2.5,stride=2)
     np.testing.assert_allclose(np.array(mesh['vertices'])[:,0],2.5)
     assert isosurface(x,2.5,np.ones_like(x,bool))['faces']==[]
 
@@ -37,6 +37,47 @@ def test_strided_isosurface_cannot_skip_thin_wall():
     x=np.indices((5,5,5))[0].astype(float);solid=np.zeros_like(x,bool)
     solid[1,:,:]=True
     assert isosurface(x,.5,solid,stride=2)['faces']==[]
+
+
+def projected_area(mesh):
+    v=np.asarray(mesh['vertices']).reshape(-1,3);f=np.asarray(mesh['faces']).reshape(-1,3)
+    return np.abs(np.cross(v[f[:,1]]-v[f[:,0]],v[f[:,2]]-v[f[:,0]])[:,0]).sum()/2
+
+
+@pytest.mark.parametrize('stride',[1,2,3,4,16])
+def test_linear_isosurface_covers_planar_fluid_area_beside_box_and_plate(stride):
+    n=24;x=np.indices((n,n,n))[0]*1.7-3
+    box=np.zeros(x.shape,bool);box[3:9,4:10,5:12]=True
+    plate=np.zeros(x.shape,bool);plate[:,6,2:n-3]=True
+    edge=np.r_[.5,np.ones(n-2),.5];half_cells=np.outer(edge,edge)
+    # Isoplane x=L covers the half-cells of fluid nodes on lattice plane round(L).
+    for solid in (box,plate):
+        for node in (22.5,5.3,5.):
+            mesh=isosurface(x,node*1.7-3,solid,stride)
+            assert projected_area(mesh)==pytest.approx((half_cells*~solid[int(round(node))]).sum(),abs=1e-9)
+            np.testing.assert_allclose(np.asarray(mesh['vertices'])[:,0],node)
+            assert all(len(set(face))==3 for face in mesh['faces'])
+
+
+def test_isosurface_keeps_halfway_wall_rule_beside_a_face():
+    x=np.indices((17,17,17))[0].astype(float);solid=np.zeros(x.shape,bool);solid[3:9,4:10,5:12]=True
+    mesh=isosurface(x,8.7,solid)
+    # Between the halfway wall (8.5) and node 9 the display holds node 9's value.
+    v=np.asarray(mesh['vertices']);centers=v[np.asarray(mesh['faces'])].mean(axis=1)
+    assert len(centers) and not np.any((centers[:,1]>4.5)&(centers[:,1]<8.5)&(centers[:,2]>5.5)&(centers[:,2]<10.5))
+    assert projected_area(mesh)>256-7*8
+
+
+def test_isosurface_rejects_bad_requests_and_honours_cancellation():
+    x=np.indices((5,5,5))[0].astype(float)
+    with pytest.raises(ValueError,match='^Isosurfaces require a 3D field$'):isosurface(x[0],1.)
+    with pytest.raises(ValueError,match='^Level must be finite$'):isosurface(x,np.nan)
+    with pytest.raises(ValueError,match=r'^Stride must be 1\.\.16$'):isosurface(x,1.,stride=17)
+    with pytest.raises(ValueError,match=r'^Isosurface exceeds face budget\. Increase stride or restrict the domain\.$'):isosurface(x,2.5,max_faces=3)
+    np.testing.assert_array_equal(grid_lines(0,4,2),[0,2,4])
+    np.testing.assert_array_equal(grid_lines(1,4.5,2),[1,3,4.5])
+    def stop(n):raise RuntimeError('cancelled')
+    with pytest.raises(RuntimeError,match='cancelled'):isosurface(x,2.5,checkpoint=stop)
 
 
 def test_frame_rejects_mismatched_shapes():

@@ -171,23 +171,61 @@ class FieldCollection:
             display_reconstruction='Halfway solid mask clipping; samples are valid inside a fluid node\'s half-cell and interpolate fluid nodes only.')
 
     def isosurface(self,level,stride):
-        from .fields import isosurface
+        """Composed isosurface on the finest spacing, using the single-frame rule.
+
+        A cell is drawn from its corners when every corner is valid and no
+        invalid node's half-cell reaches it. Other cells are split into finest
+        cells, then half cells. The grid ends on the union bounds instead of
+        overshooting them.
+        """
+        from .fields import cell_corners, grid_lines, leaf, march
         if type(stride) is not int or not 1<=stride<=16:raise ValueError('Stride must be 1..16')
         corners=[]
         for row in self.rows:
             local=np.array(list(itertools.product(*[(0,n-1) for n in row['shape']])))
             world=row['origin']+local@row['basis']*row['dx']
             corners.extend((world-self.origin)@self.basis.T/self.dx)
-        lo=np.min(corners,axis=0);hi=np.max(corners,axis=0);h=min(row['dx'] for row in self.rows)/self.dx*stride
-        shape=np.maximum(2,np.ceil((hi-lo)/h).astype(int)+1)
-        if math.prod(shape)>250000:raise ValueError('Multi-domain isosurface exceeds 250000 display samples; increase stride or select fewer frames')
-        points=lo+np.indices(tuple(shape)).reshape(3,-1).T*h
-        values=[];valid=[]
-        for start in range(0,len(points),8192):
-            self.checkpoint(start);v,ok,_,_=self.sample(points[start:start+8192]);values.extend(v);valid.extend(ok)
-        mesh=isosurface(np.asarray(values).reshape(shape),level,~np.asarray(valid).reshape(shape),checkpoint=self.checkpoint)
+        lo=np.min(corners,axis=0);hi=np.max(corners,axis=0);h=min(row['dx'] for row in self.rows)/self.dx
+        budget=[0];walls=[]
+        for row in self.rows:
+            # Invalid nodes own a half-cell; a cell it reaches is refined.
+            nodes=np.argwhere(row['invalid'])
+            t=((row['origin']+nodes@row['basis']*row['dx']-self.origin)@self.basis.T/self.dx-lo)/h
+            walls.append((t[np.argsort(t[:,0])] if len(t) else t,.5*row['dx']/self.dx/h*np.abs(row['basis']@self.basis.T).sum(axis=0)))
+        def classify(axes):
+            points=lo+np.stack(np.meshgrid(*axes,indexing='ij'),-1).reshape(-1,3)*h;budget[0]+=len(points)
+            if budget[0]>250000:raise ValueError('Multi-domain isosurface exceeds 250000 display samples; change stride or select fewer frames')
+            values=[];valid=[]
+            for start in range(0,len(points),8192):
+                self.checkpoint(start);v,ok,_,_=self.sample(points[start:start+8192]);values.extend(v);valid.extend(ok)
+            size=tuple(len(a) for a in axes);values=np.asarray(values).reshape(size);valid=np.asarray(valid,bool).reshape(size)
+            reached=np.zeros(tuple(n-1 for n in size),bool)
+            for t,reach in walls:
+                t=t[np.searchsorted(t[:,0],axes[0][0]-reach[0]):np.searchsorted(t[:,0],axes[0][-1]+reach[0],'right')]
+                first=[np.searchsorted(a,t[:,k]-reach[k]+1e-9,'right')-1 for k,a in enumerate(axes)]
+                last=[np.searchsorted(a,t[:,k]+reach[k]-1e-9,'left')-1 for k,a in enumerate(axes)]
+                for offset in itertools.product(*[range(int(np.max(b-a,initial=0))+1) for a,b in zip(first,last)]):
+                    ix=[a+o for a,o in zip(first,offset)]
+                    keep=np.all([(i<=b)&(i>=0)&(i<n) for i,b,n in zip(ix,last,reached.shape)],axis=0)
+                    reached[tuple(i[keep] for i in ix)]=True
+            ok=cell_corners(valid)
+            # Half cells use corner validity alone: a finer domain may own fluid
+            # inside a coarser domain's invalid half-cell.
+            return values,valid,ok.all(axis=0)&~reached,ok.any(axis=0)|reached
+        def refine(axes, values, valid, cell, step):
+            if step==.5:
+                # Half-cell samples interpolate the valid finest corners only.
+                box=tuple(slice(i,i+2) for i in cell);fluid=values[box][valid[box]]
+                if not len(fluid) or not fluid.min()<=level<fluid.max():return None
+            grid=[grid_lines(axes[k][cell[k]],axes[k][cell[k]+1],step) for k in range(3)]
+            sub,ok,full,mixed=classify(grid)
+            if step==.5:return leaf(grid,sub,ok)
+            return grid,sub,full,mixed,lambda c:refine(grid,sub,ok,c,.5)
+        axes=[grid_lines(0,e,stride) for e in np.maximum((hi-lo)/h,1)]
+        values,valid,full,mixed=classify(axes)
+        mesh=march(axes,values,level,full,mixed,lambda c:refine(axes,values,valid,c,1 if stride>1 else .5),100000,self.checkpoint)
         mesh['vertices']=(lo+np.asarray(mesh['vertices']).reshape(-1,3)*h).tolist()
-        return dict(mesh,display_sampling=dict(spacing_m=h*self.dx,samples=int(math.prod(shape))))
+        return dict(mesh,display_sampling=dict(spacing_m=h*stride*self.dx,samples=budget[0]))
 
 
 def dispatch_collection(request,checkpoint=lambda n:None):

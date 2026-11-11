@@ -147,43 +147,100 @@ def sample_scalar(fields, points, name, spec):
     return [r['pressure'] if r else 0. for r in rows],[r is not None for r in rows]
 
 
-def isosurface(values, level, solid=None, stride=1, max_faces=100000, checkpoint=lambda n:None):
-    if values.ndim!=3:raise ValueError('Isosurfaces require a 3D field')
-    if not np.isfinite(level):raise ValueError('Level must be finite')
-    stride=int(stride)
-    if not 1<=stride<=16:raise ValueError('Stride must be 1..16')
-    v=values[::stride,::stride,::stride];mask=solid[::stride,::stride,::stride] if solid is not None else np.zeros(v.shape,bool)
-    offsets=np.array([[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]])
-    cells=tuple(n-1 for n in v.shape)
-    corners=np.stack([v[o[0]:o[0]+cells[0],o[1]:o[1]+cells[1],o[2]:o[2]+cells[2]] for o in offsets])
-    valid=np.ones(cells,bool)
-    for o in offsets:valid &= ~mask[o[0]:o[0]+cells[0],o[1]:o[1]+cells[1],o[2]:o[2]+cells[2]]
-    if stride>1:
-        source_mask=solid if solid is not None else np.zeros(values.shape,bool)
-        for offset in itertools.product(range(stride+1),repeat=3):
-            valid &= ~source_mask[tuple(slice(o,o+cells[a]*stride,stride) for a,o in enumerate(offset))]
-    candidates=np.argwhere(valid & (corners.min(axis=0)<=level)&(corners.max(axis=0)>level))
-    tetra=[(0,5,1,6),(0,1,2,6),(0,2,3,6),(0,3,7,6),(0,7,4,6),(0,4,5,6)]
-    vertices=[];faces=[]
-    for cell_index,cell in enumerate(candidates):
-        if cell_index%128==0:checkpoint(cell_index)
-        pts=offsets+cell;vals=np.array([v[tuple(p)] for p in pts])
-        for ids in tetra:
-            polygon=[]
-            for a,b in itertools.combinations(ids,2):
-                if (vals[a]<=level)!=(vals[b]<=level):polygon.append(pts[a]+(level-vals[a])/(vals[b]-vals[a])*(pts[b]-pts[a]))
+CUBE=np.array([[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]])
+TETRA=[(0,5,1,6),(0,1,2,6),(0,2,3,6),(0,3,7,6),(0,7,4,6),(0,4,5,6)]
+
+
+def cell_corners(grid):
+    """Stack the eight corner views of every cell in a 3D node array."""
+    cells=tuple(n-1 for n in grid.shape)
+    return np.stack([grid[o[0]:o[0]+cells[0],o[1]:o[1]+cells[1],o[2]:o[2]+cells[2]] for o in CUBE])
+
+
+def leaf(axes, values, valid):
+    """Final refinement level: draw cells whose corner samples are all valid."""
+    return axes,values,cell_corners(valid).all(axis=0),None,None
+
+
+def march(axes, values, level, full, mixed, refine, max_faces, checkpoint, out=None):
+    """Marching tetrahedra on a rectilinear grid with masked-cell refinement.
+
+    ``axes`` hold the grid-line coordinates and ``values`` the samples on their
+    nodes. Cells marked ``full`` contain only simulated fluid and use their
+    corners. Each other ``mixed`` cell is passed to ``refine(cell)``, which
+    returns the same five arguments for a finer grid inside it, or None when
+    nothing there can cross the level.
+    """
+    vertices,faces=out if out is not None else ([],[])
+    corners=cell_corners(values)
+    for count,cell in enumerate(np.argwhere(full&(corners.min(axis=0)<=level)&(corners.max(axis=0)>level))):
+        if count%128==0:checkpoint(count)
+        ids=CUBE+cell;pts=np.array([[axes[a][i[a]] for a in range(3)] for i in ids]);v=values[tuple(ids.T)]
+        for tet in TETRA:
+            polygon=[pts[a]+(level-v[a])/(v[b]-v[a])*(pts[b]-pts[a]) for a,b in itertools.combinations(tet,2) if (v[a]<=level)!=(v[b]<=level)]
             if len(polygon)<3:continue
             polygon=np.unique(np.round(polygon,12),axis=0)
             if len(polygon)<3:continue
             center=polygon.mean(axis=0);u=polygon[0]-center;u/=np.linalg.norm(u)
             normal=np.cross(polygon[1]-polygon[0],polygon[2]-polygon[0]);norm=np.linalg.norm(normal)
             if norm<1e-12:continue
-            normal/=norm;w=np.cross(normal,u)
+            w=np.cross(normal/norm,u)
             polygon=polygon[np.argsort(np.arctan2((polygon-center)@w,(polygon-center)@u))]
-            start=len(vertices);vertices.extend((polygon*stride).tolist())
-            for j in range(1,len(polygon)-1):faces.append([start,start+j,start+j+1])
+            start=len(vertices);vertices.extend(polygon.tolist())
+            faces.extend([start,start+j,start+j+1] for j in range(1,len(polygon)-1))
             if len(faces)>max_faces:raise ValueError('Isosurface exceeds face budget. Increase stride or restrict the domain.')
+    if mixed is not None:
+        for count,cell in enumerate(np.argwhere(mixed&~full)):
+            if count%16==0:checkpoint(count)
+            sub=refine(tuple(cell))
+            if sub is not None:march(*sub[:2],level,*sub[2:],max_faces,checkpoint,(vertices,faces))
     return {'vertices':vertices,'faces':faces}
+
+
+def grid_lines(start, end, stride):
+    """Lines every ``stride`` units from ``start``, ending exactly at ``end``."""
+    return np.r_[np.arange(start,end-1e-9,stride),end]
+
+
+def isosurface(values, level, solid=None, stride=1, max_faces=100000, checkpoint=lambda n:None):
+    """Lattice isosurface over the fluid half-cell region.
+
+    Coarse cells every ``stride`` nodes are drawn from their corners when every
+    node inside is unmasked. Other cells are split into lattice cells, and
+    lattice cells with a masked node are resampled on half-cell lines with
+    fluid-normalised interpolation, so the surface stops on halfway walls at
+    every stride. The last partial cell on each axis is kept.
+    """
+    if values.ndim!=3:raise ValueError('Isosurfaces require a 3D field')
+    if not np.isfinite(level):raise ValueError('Level must be finite')
+    stride=int(stride)
+    if not 1<=stride<=16:raise ValueError('Stride must be 1..16')
+    mask=solid if solid is not None else np.zeros(values.shape,bool)
+    total=np.pad(mask.astype(np.int64).cumsum(0).cumsum(1).cumsum(2),((1,0),)*3)
+    def classify(axes):
+        lo=np.ix_(*[a[:-1] for a in axes]);hi=np.ix_(*[a[1:]+1 for a in axes])
+        masked=sum((-1)**(3-sum(c))*total[tuple(h if k else l for k,l,h in zip(c,lo,hi))] for c in itertools.product((0,1),repeat=3))
+        size=np.prod(np.meshgrid(*[np.diff(a)+1 for a in axes],indexing='ij'),axis=0)
+        return masked==0,masked<size
+    def box(axes, cell):
+        box=tuple(slice(axes[a][cell[a]],axes[a][cell[a]+1]+1) for a in range(3))
+        fluid=values[box][~mask[box]]
+        return box if fluid.min()<=level<fluid.max() else None
+    def half(axes, cell):
+        b=box(axes,cell)
+        if b is None:return None
+        grid=[grid_lines(s.start,s.stop-1,.5) for s in b]
+        corners,weights,valid=lattice_weights(mask,np.stack(np.meshgrid(*grid,indexing='ij'),-1).reshape(-1,3))
+        sampled=sum(weights[:,c]*values[tuple(corners[c].T)] for c in range(len(corners)))
+        shape=tuple(len(g) for g in grid)
+        return leaf(grid,sampled.reshape(shape),valid.reshape(shape))
+    def unit(axes, cell):
+        b=box(axes,cell)
+        if b is None:return None
+        grid=[np.arange(s.start,s.stop) for s in b]
+        return (grid,values[np.ix_(*grid)])+classify(grid)+(lambda c:half(grid,c),)
+    axes=[grid_lines(0,n-1,stride).astype(int) for n in values.shape]
+    return march(axes,values[np.ix_(*axes)],level,*classify(axes),lambda c:(unit if stride>1 else half)(axes,c),max_faces,checkpoint)
 
 
 def contours(points, values, valid, shape, levels, checkpoint=lambda n:None):

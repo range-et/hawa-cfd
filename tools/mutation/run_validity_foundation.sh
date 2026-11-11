@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# Correctness package item 2 (#80, #81): mutate only the lines this PR changed
-# in the boundary-node export (session and refined frames) and the shared
-# halfway sampling rule, against the focused CPU tests.
+# Correctness package items 2 and 5 (#80, #81): mutate only the lines changed
+# since the base in the boundary-node export (session and refined frames), the
+# shared halfway sampling rule and the half-cell isosurface (single frame and
+# composed), against the focused CPU tests.
 source "$(dirname "$0")/lib.sh"
 # PR base: origin/main after #88.
 base=56b0728da222d60c3928193c74c8ab72788dd014

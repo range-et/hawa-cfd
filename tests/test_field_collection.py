@@ -53,6 +53,70 @@ def test_streamline_crosses_parent_child_and_isosurface_is_continuous():
     assert iso['faces'];np.testing.assert_allclose(np.array(iso['vertices'])[:,0],3.25)
 
 
+@pytest.mark.parametrize('stride',[1,2,4])
+def test_composed_isosurface_equals_single_frame(stride):
+    key=frame(solid=True)
+    for level in (1.25,3.25,4.6):
+        single=dispatch_field(dict(action='isosurface',frame=key,field='pressure',level=level,stride=stride))
+        composed=dispatch_field(dict(action='isosurface',frames=[key],field='pressure',level=level,stride=stride))
+        assert composed['faces']==single['faces'] and single['faces']
+        np.testing.assert_allclose(composed['vertices'],single['vertices'],atol=1e-9)
+
+
+def plate_frame(stride_bump=False):
+    # dx 0.5 child whose lattice is offset from the view origin on every axis,
+    # with a one-node plate at odd x (between stride-2 and stride-4 lines).
+    shape=(13,13,13);origin=np.array([-1.5,-1.,-.5]);g=np.indices(shape)
+    mask=np.zeros(shape,bool);mask[11,2:11,3:10]=True
+    pressure=origin[0]+g[0]*.5+(3*np.exp(-((g[0]-9.)**2+(g[1]-6.)**2+(g[2]-6.)**2)) if stride_bump else 0)
+    spec=dict(shape=list(shape),dx=.5,spacing=.5,origin=origin.tolist(),basis=np.eye(3).tolist(),speed=1.,density=1.,reference_pressure=0.)
+    return store(dict(velocity=np.zeros((3,)+shape),pressure=pressure,density=np.ones(shape),solid=mask),dict(case=spec,time=2.,iteration=0,mean=False))['frame'],origin
+
+
+@pytest.mark.parametrize('stride',[1,2,4])
+def test_composed_isosurface_matches_offset_child_with_thin_plate(stride):
+    # A coarser reference frame inside the child sets the view: dx 2 from
+    # (.5,.5,.5), so the child owns every sample. The plate lies between coarse
+    # lines, so only its node half-cells can mark those cells. The bump peaks
+    # inside a coarse cell whose corners never reach level 5.
+    ref=store(dict(velocity=np.zeros((3,3,3,3)),pressure=np.indices((3,3,3))[0]*2.+.5,density=np.ones((3,3,3))),
+              dict(case=dict(shape=[3,3,3],dx=2.,spacing=2.,origin=[.5,.5,.5],basis=np.eye(3).tolist(),speed=1.,density=1.,reference_pressure=0.),time=2.,iteration=0,mean=False))['frame']
+    for bump in (False,True):
+        key,origin=plate_frame(bump)
+        for level in (3.,3.5,3.75,4.1)+((5.,) if bump else ()):
+            single=dispatch_field(dict(action='isosurface',frame=key,field='pressure',level=level,stride=stride))
+            composed=dispatch_field(dict(action='isosurface',frames=[ref,key],field='pressure',level=level,stride=stride))
+            assert composed['faces']==single['faces']
+            # At stride 2 the peak lies inside an all-fluid coarse cell, whose
+            # corners are its only samples; mixed cells (stride 4) resolve it.
+            assert single['faces'] or (level==5. and stride==2)
+            np.testing.assert_allclose(np.reshape(composed['vertices'],(-1,3))*2+.5,origin+np.reshape(single['vertices'],(-1,3))*.5,atol=1e-9)
+            assert composed['display_sampling']['spacing_m']==.5*stride
+
+
+def test_composed_isosurface_reports_samples_and_full_budget_message():
+    iso=dispatch_field(dict(action='isosurface',frames=[frame()],field='pressure',level=2.5,stride=2))
+    # No masked nodes: only the 4 x 4 x 4 coarse lines are sampled.
+    assert iso['display_sampling']['samples']==64
+    solid=dispatch_field(dict(action='isosurface',frames=[frame(solid=True)],field='pressure',level=2.5,stride=2))
+    assert solid['display_sampling']['samples']>64
+    far=frame(origin=(100000,0,0))
+    with pytest.raises(ValueError,match='^Multi-domain isosurface exceeds 250000 display samples; change stride or select fewer frames$'):
+        dispatch_field(dict(action='isosurface',frames=[frame(),far],level=.5))
+
+
+def test_composed_isosurface_ends_on_union_bounds():
+    # The child's y edges (.25 and 3.25) fall between stride-2 lines.
+    a=frame();b=frame(.5,(6.25,.25,0))
+    iso=dispatch_field(dict(action='isosurface',frames=[a,b],field='pressure',level=9.1,stride=2))
+    v=np.asarray(iso['vertices'])
+    assert iso['faces'] and v[:,0].max()<=9.25 and iso['display_sampling']['spacing_m']==1.
+    np.testing.assert_allclose(v[:,0],9.1)
+    # Area covers the child's full cross-section (3 x 3).
+    f=np.asarray(iso['faces']);area=np.abs(np.cross(v[f[:,1]]-v[f[:,0]],v[f[:,2]]-v[f[:,0]])[:,0]).sum()/2
+    assert area==pytest.approx(9.)
+
+
 def test_collection_cancellation_budget_and_equal_spacing_order():
     a=frame();b=frame(speed=2.)
     req=dict(action='sample',frames=[a,b],points=[[1,1,1]])
