@@ -129,3 +129,28 @@ def test_default_fields_remain_array_only_for_recording_and_exports(session):
 
 def test_async_close_of_missing_session_is_idempotent():
     assert dispatch({'op': 'close_async', 'session': 'already-closed'}) == {'closed': True}
+
+
+def test_wall_and_slip_face_nodes_are_exported_as_not_simulated():
+    # Default faces: z=0 wall (full-way bounce-back), z=-1 slip; neither holds flow data.
+    spec = {"shape": [12, 10, 8], "dx": .1, "speed": 1., "viscosity": .01, "solid": [(5 * 10 + 5) * 8 + 3]}
+    ident = dispatch({"op": "create", "case": spec, "device": "cpu"})["session"]
+    try:
+        dispatch({"op": "step", "session": ident, "steps": 20})
+        fields = SESSIONS[ident].fields()
+        nodes = fields["boundary_nodes"]
+        assert nodes[:, :, 0].all() and nodes[:, :, -1].all() and nodes.sum() == 2 * 12 * 10
+        assert not fields["solid"][:, :, 0].any() and fields["solid"].sum() == 1  # obstacle mask unchanged
+        floor = dispatch({"op": "slice", "session": ident, "axis": 2, "index": 0})
+        assert not any(floor["valid"])
+        rows = dispatch({"op": "sample", "session": ident, "points": [[6, 4, .4], [6, 4, .6], [6, 4, 1]]})["values"]
+        assert rows[0] is None and rows[1]["velocity"] == pytest.approx(rows[2]["velocity"])
+    finally:
+        dispatch({"op": "close", "session": ident})
+
+
+def test_examples_export_their_bounce_back_walls():
+    from hawa.plugin import Session
+    nodes = Session({"example": "poiseuille2d-guo", "size": 16}, "cpu").fields()["boundary_nodes"]
+    assert nodes[:, [0, -1]].all() and not nodes[:, 1:-1].any()
+    assert Session({"example": "tgv2d-bgk", "size": 8}, "cpu").fields().get("boundary_nodes") is None

@@ -51,7 +51,10 @@ def test_mean_independent_of_call_batch(solver_device):
 def test_wall_interpolation_does_not_mix_solid():
     f=dict(velocity=np.ones((3,4,4,4)),pressure=np.ones((4,4,4)),density=np.ones((4,4,4)),solid=np.zeros((4,4,4),bool))
     f['solid'][2,1,1]=True
-    assert sample_arrays(f,[[1.49,1,1]])==[None]
+    f['velocity'][:,2,1,1]=99
+    # Nearest node fluid: valid, weighted over fluid corners only (#81).
+    assert sample_arrays(f,[[1.49,1,1]])[0]['velocity']==[1,1,1]
+    assert sample_arrays(f,[[1.51,1,1]])==[None]
     assert sample_arrays(f,[[1,1,1]])[0]['speed']>0
 
 

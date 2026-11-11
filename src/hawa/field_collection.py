@@ -7,6 +7,7 @@ import itertools
 import math
 import numpy as np
 from .boundary_data import geometry
+from .fields import lattice_weights
 
 
 def frame_geometry(spec):
@@ -17,7 +18,7 @@ def frame_geometry(spec):
 
 class FieldCollection:
     def __init__(self, keys, name, checkpoint=lambda n:None):
-        from .fields import get, scalar, validity_mask
+        from .fields import display_solid, get, scalar, validity_mask
         if not isinstance(keys,list) or not 1<=len(keys)<=16 or any(not isinstance(k,str) for k in keys):
             raise ValueError('Use 1..16 immutable field frames')
         self.frames=[get(k) for k in dict.fromkeys(keys)]
@@ -41,13 +42,13 @@ class FieldCollection:
                 values=scalar(arrays,name,spec)
             self.rows.append(dict(order=order,fields=arrays,meta=meta,origin=o,basis=b,dx=dx,
                 values=values,invalid=validity_mask(arrays,name),shape=np.array(arrays['pressure'].shape),
-                solids=np.argwhere(arrays.get('solid',np.zeros(arrays['pressure'].shape,bool)))))
+                solids=np.argwhere(display_solid(arrays))))
         self.rows.sort(key=lambda row:(row['dx'],row['order']))
         self.meta=dict(first,collection=dict(domains=len(self.rows),absolute_time_seconds=times[0],
             selection='finest containing domain; equal spacing uses input order; no fallback through finer solids',
             frame_ids=list(dict.fromkeys(keys))),case=dict(first['case']))
 
-    def sample(self, points, display=False):
+    def sample(self, points):
         points=np.asarray(points,float)
         if points.ndim!=2 or points.shape[1]!=3 or len(points)>10000 or not np.isfinite(points).all():
             raise ValueError('Use at most 10000 finite three-coordinate samples')
@@ -58,20 +59,12 @@ class FieldCollection:
             inside=(owner<0)&np.all(p>=-1e-9,axis=1)&np.all(p<=n-1+1e-9,axis=1)
             ids=np.flatnonzero(inside)
             if not len(ids):continue
-            owner[ids]=row['order'];p=np.clip(p[ids],0,n-1);lo=np.floor(p).astype(int);hi=np.minimum(lo+1,n-1);w=p-lo
-            ok=np.ones(len(ids),bool);u=np.zeros((len(ids),3));v=np.zeros(len(ids));support=np.zeros(len(ids));wall=np.zeros(len(ids),bool)
-            reconstruct=display and self.name not in ('q','vorticity') and not row['meta']['case'].get('wall_links')
-            for corner in itertools.product((0,1),repeat=3):
-                ix=np.where(corner,hi,lo);weight=np.prod(np.where(corner,w,1-w),axis=1);index=tuple(ix.T)
-                if reconstruct:
-                    solid=row['invalid'][index];weight*=~solid
-                    wall|=solid&np.all(np.abs(p-ix)<=.5+1e-9,axis=1)
-                else:ok&=~((weight>1e-12)&row['invalid'][index])
-                support+=weight
-                v+=weight*row['values'][index];u+=weight[:,None]*row['fields']['velocity'][:,ix[:,0],ix[:,1],ix[:,2]].T
-            if reconstruct:
-                ok&=support>1e-12;v/=np.maximum(support,1e-30);u/=np.maximum(support[:,None],1e-30)
-                if self.name in ('speed','ux','uy','uz') and not row['meta']['case'].get('moving_bodies'):v[wall]=0
+            owner[ids]=row['order'];p=np.clip(p[ids],0,n-1)
+            corners,weights,ok=lattice_weights(row['invalid'],p)
+            u=np.zeros((len(ids),3));v=np.zeros(len(ids))
+            for c in range(weights.shape[1]):
+                ix=corners[c];index=tuple(ix.T)
+                v+=weights[:,c]*row['values'][index];u+=weights[:,c,None]*row['fields']['velocity'][:,ix[:,0],ix[:,1],ix[:,2]].T
             values[ids]=np.where(ok,v,0);velocity[ids]=u@row['basis']@self.basis.T;valid[ids]=ok
         velocity[~valid]=0
         return values,valid,velocity,owner
@@ -164,7 +157,7 @@ class FieldCollection:
                         if not remaining:break
         values=[];valid=[]
         for start in range(0,len(vertices),8192):
-            v,ok,_,_=self.sample(vertices[start:start+8192],display=True);values.extend(v);valid.extend(ok)
+            v,ok,_,_=self.sample(vertices[start:start+8192]);values.extend(v);valid.extend(ok)
         values=np.asarray(values);valid=np.asarray(valid,bool);vertices=np.asarray(vertices).reshape(-1,3)
         faces=[f for f in faces if valid[list(f)].all()];lines=[]
         for level in levels:
@@ -175,7 +168,7 @@ class FieldCollection:
                 if len(cut)==2:lines.append(cut)
                 if len(lines)>100000:raise ValueError('Contours exceed 100000 segments; reduce levels or resolution')
         return dict(mesh_vertices=vertices.tolist(),mesh_faces=faces,mesh_values=values.tolist(),lines=lines,
-            display_reconstruction='Halfway solid mask clipping; fluid-normalized boundary colours; stationary body speed zero. Raw sample validity unchanged. Curved-link fields retain conservative masking.')
+            display_reconstruction='Halfway solid mask clipping; samples are valid inside a fluid node\'s half-cell and interpolate fluid nodes only.')
 
     def isosurface(self,level,stride):
         from .fields import isosurface

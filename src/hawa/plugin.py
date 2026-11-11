@@ -400,6 +400,9 @@ class Session:
                     "density": (self.mean_rho if mean and self.mean_u is not None else self.flow.rho_pu)[0].detach().cpu().numpy().copy()}
             if hasattr(self.flow, "solid"):
                 result["solid"] = self.flow.solid.detach().cpu().numpy().copy()
+            nodes = boundary_nodes(self.solver, self.flow)
+            if nodes is not None:
+                result["boundary_nodes"] = nodes
             if with_provenance:
                 result["snapshot"] = {"steps": int(self.flow.i), "session": self.id,
                                       "physical_time": float(self.flow.units.convert_time_to_pu(self.flow.i))}
@@ -410,35 +413,50 @@ SESSIONS = {}
 REGISTRY_LOCK = threading.Lock()
 
 
+def boundary_nodes(solver, flow):
+    """Full-way bounce-back and slip nodes outside the obstacle mask.
+
+    These nodes hold reflected populations, not flow, so views treat them as
+    solid. Kept apart from ``solid`` because transfer and ground coupling read
+    the obstacle mask. Returns None when there are none.
+    """
+    shape = [int(n) for n in flow.resolution]
+    mask = None
+    for boundary in getattr(solver, "post_boundaries", None) or []:
+        if isinstance(boundary, (lt.BounceBackBoundary, SlipBoundary)):
+            part = boundary.make_no_collision_mask(shape, flow.context).detach().cpu().numpy().astype(bool)
+            mask = part if mask is None else mask | part
+    if mask is None:
+        return None
+    if hasattr(flow, "solid"):
+        mask &= ~flow.solid.detach().cpu().numpy()
+    return mask if mask.any() else None
+
+
 def sample_arrays(fields, points):
-    """Trilinear interpolation of component-first velocity and scalar fields."""
-    shape = np.array(fields["pressure"].shape)
+    """Fluid-only trilinear interpolation of velocity, pressure and density.
+
+    A point is valid when it lies in the half-cell of a fluid node (the
+    halfway wall). Its value interpolates fluid nodes only; None otherwise.
+    """
+    from .fields import display_solid, lattice_weights
+    shape = fields["pressure"].shape
+    ndim = len(shape)
+    rows = [np.asarray(p, dtype=float)[:ndim] for p in points]
+    usable = [len(p) == ndim for p in rows]
+    coords = np.array([p if ok else np.full(ndim, np.nan) for p, ok in zip(rows, usable)]).reshape(len(rows), ndim)
+    corners, weights, valid = lattice_weights(display_solid(fields), coords)
     results = []
-    for point in points:
-        point = np.asarray(point, dtype=float)[:len(shape)]
-        if len(point) != len(shape) or not np.isfinite(point).all() or np.any(point < 0) or np.any(point > shape - 1):
+    for i in range(len(rows)):
+        if not valid[i]:
             results.append(None)
             continue
-        lo = np.floor(point).astype(int)
-        hi = np.minimum(lo + 1, shape - 1)
-        if "solid" in fields and fields["solid"][tuple(np.rint(point).astype(int))]:
-            results.append(None)
-            continue
-        weight = point - lo
-        v, p, rho = np.zeros(len(shape)), 0.0, 0.0
-        valid = True
-        for corner in np.ndindex(*([2] * len(shape))):
-            index = tuple(hi[a] if corner[a] else lo[a] for a in range(len(shape)))
-            w = math.prod(weight[a] if corner[a] else 1 - weight[a] for a in range(len(shape)))
-            if w > 1e-12 and "solid" in fields and fields["solid"][index]:
-                valid = False
-                break
+        v, p, rho = np.zeros(ndim), 0.0, 0.0
+        for c, w in enumerate(weights[i]):
+            index = tuple(int(x) for x in corners[c, i])
             v += w * fields["velocity"][(slice(None), *index)]
             p += w * float(fields["pressure"][index])
             rho += w * float(fields["density"][index])
-        if not valid:
-            results.append(None)
-            continue
         results.append({"velocity": list(v) + [0.0] * (3 - len(v)), "pressure": p, "density": rho,
                         "speed": float(np.linalg.norm(v))})
     return results

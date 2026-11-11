@@ -71,10 +71,12 @@ def test_plane_trims_crossing_triangles_without_a_blank_fluid_band():
     area=np.linalg.norm(np.cross(v[f[:,1]]-v[f[:,0]],v[f[:,2]]-v[f[:,0]]),axis=1).sum()/2
     # The represented 2x2 building footprint occupies [1.5,3.5]^2.
     assert area==pytest.approx(36-4,abs=1e-10)
+    # Wall-edge vertices show the adjacent fluid nodes' values (uniform 1 here), not an invented zero.
     boundary=np.isclose(v[:,0],1.5)&(v[:,1]>=1.5)&(v[:,1]<=3.5)
-    assert boundary.any() and np.all(np.asarray(r['mesh_values'])[boundary]==0)
-    raw=dispatch_field(dict(action='sample',frames=[key],points=[[1.25,2.5,2.5]]))
-    assert raw['valid']==[False]  # Display reconstruction never rewrites raw data.
+    assert boundary.any() and np.allclose(np.asarray(r['mesh_values'])[boundary],1)
+    # Halfway wall at x=1.5: the fluid side is valid and fluid-only; the solid node's half-cell is not.
+    raw=dispatch_field(dict(action='sample',frames=[key],points=[[1.25,2.5,2.5],[1.5,2.5,2.5],[1.75,2.5,2.5]]))
+    assert raw['valid']==[True,True,False] and raw['values'][:2]==[1.,1.]
 
 
 def test_reference_example_frames_use_recorded_physical_spacing():
