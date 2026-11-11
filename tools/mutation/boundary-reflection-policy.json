@@ -1,21 +1,65 @@
 {
-  "tool": "mutmut==2.4.5 with whatthepatch==1.0.7",
-  "mutants": 132,
+  "tool": "mutmut==3.7.0",
+  "mutants": 275,
+  "inventory_sha256": "3fc01868bff24d91923caccdf8c8bc7e1a61b434ee552c3b041978bf9fd11617",
+  "scope": "HAWA-004 PR study: lines PR #66 changed against origin/main f29fe01 in src/hawa/neutral_external.py, plus the scripts/verify_boundary_reflection.py lines changed by the PR #66 review fixes (against d0b54e2); the rest of the harness is new in that PR, line-covered but outside this mutation scope; check_results.py moved to the #67 mutation-tooling study after its rewrite; the CPU/MPS device test is deselected (#53)",
   "control_test_files": [
-    "tests/test_mutation_policy.py",
     "tests/test_neutral_external.py",
     "tests/test_boundary_reflection.py"
   ],
-  "scope": "HAWA-004 PR study: lines changed against origin/main f29fe01 in src/hawa/neutral_external.py and tools/mutation/check_results.py, plus the scripts/verify_boundary_reflection.py lines changed by the PR #66 review fixes (against d0b54e2); the rest of the harness is new in the PR, line-covered but outside this mutation scope; the CPU/MPS device test is deselected (#53)",
   "sources": {
     "src/hawa/neutral_external.py": "1e8efa899a399fe9fe5c023b7be68094b873ba403f660513d2c058f16964dcf4",
-    "tools/mutation/check_results.py": "a453f9b31322ddf02b4f678a7c4007db37b512cdf7e68798017ffd5a5c309af7",
     "scripts/verify_boundary_reflection.py": "cccb53070cdf01b17db90a6d67c9b37c0f01c4a09edbfe86703169dbfb8ce154",
-    "tests/test_neutral_external.py": "41ab18b4a61be3f83a2993a45ac43dc295baa20af4609b8bed601ab175a5d3c1",
-    "tests/test_mutation_policy.py": "da0ea86a736bb3fd05935903062130bf89a4ba3990f47b381fe29b03ddeb4d7b",
-    "tests/test_boundary_reflection.py": "023de2f18188ac7f968eeba586a2f52f1554e3c922aadb28110be885dcbd1441",
+    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/test_neutral.py": "287434b4c666f289a99635f216ef47b8c491ed1867c1bc52a8197969bc857bfa",
-    "tests/conftest.py": "d7e574ab188de8992116a4f9cac2e251d732e3fa1e8b8f5a98f38dd96dd4393c"
+    "tests/test_neutral_external.py": "41ab18b4a61be3f83a2993a45ac43dc295baa20af4609b8bed601ab175a5d3c1",
+    "tests/test_boundary_reflection.py": "023de2f18188ac7f968eeba586a2f52f1554e3c922aadb28110be885dcbd1441"
   },
-  "reviewed_survivors": {}
+  "reviewed_survivors": {
+    "hawa.neutral_external.xǁExternalLinksǁ__init____mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "60478f1170921b33edccb931bd4327bbdcad1587ebb683ce4ebb30ac65e3b091",
+      "reason": "Equivalent in this CPU-only study: the tensor is created on the CPU, which is the device under test here. Accelerator placement is device-qualification evidence (#53), not a CPU mutation kill."
+    },
+    "hawa.neutral_external.xǁExternalLinksǁ__init____mutmut_5": {
+      "status": "survived",
+      "diff_sha256": "854419a4ae1b34d7ae890571463b49b96ae3783bda232bbe7e5e7a197c3e2ea9",
+      "reason": "Equivalent in this CPU-only study: the tensor is created on the CPU, which is the device under test here. Accelerator placement is device-qualification evidence (#53), not a CPU mutation kill."
+    },
+    "hawa.neutral_external.xǁExternalLinksǁapply__mutmut_24": {
+      "status": "survived",
+      "diff_sha256": "377b7f7f94cf6da9775d936957141cce65e2ec2e9d3f018f4675307b949336bb",
+      "reason": "Equivalent: einsum labels are renamed consistently (qd,qn->dn to QD,QN->DN), which is the same contraction."
+    },
+    "verify_boundary_reflection.x_cut_face__mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "b5ece93a71841dc5baaaebc161b7c627caed0c4367e118946e9ef140053a6eee",
+      "reason": "Redundant metric check: settled, interior and band all come from the same sampled velocity states. A non-finite final state makes interior or band non-finite and the whole-field settled norm non-finite with it; a non-finite state needs non-finite populations (density stays positive), which the population check catches because they never recover."
+    },
+    "verify_boundary_reflection.x_cut_face__mutmut_8": {
+      "status": "survived",
+      "diff_sha256": "483175a65012a1457c31ba6a06f0be18c1e47c42762c6ffae5a38e0251a1c88a",
+      "reason": "Redundant metric check: settled, interior and band all come from the same sampled velocity states. A non-finite final state makes interior or band non-finite and the whole-field settled norm non-finite with it; a non-finite state needs non-finite populations (density stays positive), which the population check catches because they never recover."
+    },
+    "verify_boundary_reflection.x_cut_face__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "d5914af20456d6ffb8246a65a0d2d1080e569cb80e5f780f83b80816b83414f0",
+      "reason": "Redundant metric check: settled, interior and band all come from the same sampled velocity states. A non-finite final state makes interior or band non-finite and the whole-field settled norm non-finite with it; a non-finite state needs non-finite populations (density stays positive), which the population check catches because they never recover."
+    },
+    "verify_boundary_reflection.x_reversal__mutmut_34": {
+      "status": "survived",
+      "diff_sha256": "eb564adb6c8dc036f3f26823696bfabb1ba006c7e734fe454a80d70dc2b6f76d",
+      "reason": "Equivalent: mean_error and node_error come from the same sampled ux with np.maximum, so any non-finite sample makes both non-finite and finite() still sees the remaining one."
+    },
+    "verify_boundary_reflection.x_reversal__mutmut_35": {
+      "status": "survived",
+      "diff_sha256": "faa1631e32179c5bfa81966ccb1d427e8930aedccbc1682f2e357539e73bf62e",
+      "reason": "Equivalent: mean_error and node_error come from the same sampled ux with np.maximum, so any non-finite sample makes both non-finite and finite() still sees the remaining one."
+    },
+    "verify_boundary_reflection.x_uniform_corner__mutmut_40": {
+      "status": "survived",
+      "diff_sha256": "0e67eadf858b04f8522faa700a035217a51e9de91cd4de0eb280d7ed558ec51b",
+      "reason": "Redundant metric check: error comes from flow.u_pu, computed from the populations that finite() checks; a non-finite velocity with finite populations needs zero density, which the harness cannot reach. The non-finite mass report path is tested and still checked."
+    }
+  }
 }

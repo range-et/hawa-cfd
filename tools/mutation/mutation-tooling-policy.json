@@ -1,0 +1,296 @@
+{
+  "tool": "mutmut==3.7.0",
+  "mutants": 578,
+  "inventory_sha256": "b565e00e17886286731e75de72cafc40575801b5a73f7715bc8e7b7d2ac01acd",
+  "scope": "#67 PR study: lines this PR changes against origin/main 5f2c899 in tools/mutation/check_results.py and tools/mutation/mutmut3.py; the real-mutmut integration test and the committed-policy test are deselected and run in the full suite",
+  "control_test_files": [
+    "tests/test_mutation_policy.py"
+  ],
+  "sources": {
+    "tools/mutation/check_results.py": "baae49e644602a2e9dce8d71775d06f15b78b2804ac9b599485e79d8eabb25fa",
+    "tools/mutation/mutmut3.py": "81a3131a603a319e082b0f01c7f82e7bcd02717f96eac68964dd3c4693984aaa",
+    "tests/test_mutation_policy.py": "dfe590ba3583683c43da60395f337ac0c92104daf2813425659347f4bd697ed8"
+  },
+  "reviewed_survivors": {
+    "check_results.x_main__mutmut_11": {
+      "status": "survived",
+      "diff_sha256": "4401ee88f82601f1b79aef92d981b84de06fac643ea8491416cb826c20912f2c",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "check_results.x_main__mutmut_12": {
+      "status": "survived",
+      "diff_sha256": "2cc04bff1e67506825a017d3e8ecea09b625ca1de059790a58bb19bd2156600a",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "check_results.x_main__mutmut_26": {
+      "status": "survived",
+      "diff_sha256": "6783adbab327ea5999e8ff0d8cfb202b9e156d29702d29984f736c2088cd03c1",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "check_results.x_main__mutmut_27": {
+      "status": "survived",
+      "diff_sha256": "f6ec3ee70145786e005e06d94e1def5864f739f85aca9436b2db16543194f572",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "check_results.x_main__mutmut_29": {
+      "status": "survived",
+      "diff_sha256": "0cfca66fd8f40ccee20076a4f34c741f742ffbdd3ffe03b4148d83cf6a1b6027",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "check_results.x_main__mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "8f449ea8af5b948bb5770c0ba0842b28bbd64395f169137f88e9cccdf561d0d8",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "check_results.x_main__mutmut_30": {
+      "status": "survived",
+      "diff_sha256": "2b8c6efe2b7f7f9d7990c8ed9aec6bc33e4c69757c4e5f3cb80d522584aab457",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "check_results.x_main__mutmut_31": {
+      "status": "survived",
+      "diff_sha256": "eff82efc8b6bd409203eb4d76002a057c194b08380ff3bcba4b4ad02e03eb60e",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "check_results.x_main__mutmut_32": {
+      "status": "survived",
+      "diff_sha256": "fdb850631d11627126f8590ec537d25e59a83b493ac1aba4563ca58dfe0efb5a",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "check_results.x_main__mutmut_6": {
+      "status": "survived",
+      "diff_sha256": "a4eabcd95c23ef93a92e38f0e8a8bfc760370ed1cd9005c1aaea29e024c62306",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "check_results.x_verify__mutmut_32": {
+      "status": "survived",
+      "diff_sha256": "99045da9b44dbd58b2557a4aaceee0015a052cc7c263a7786177084c2ea146bf",
+      "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
+    },
+    "check_results.x_verify__mutmut_45": {
+      "status": "survived",
+      "diff_sha256": "8c646dcbc234cbe2ac0db945f9555854ea63aa460da12006b2b2da648c1c6a77",
+      "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
+    },
+    "check_results.x_verify__mutmut_46": {
+      "status": "survived",
+      "diff_sha256": "8c15ed19189fa891d71b8c5dc828ef3782d008d75ca23db9637e45ac81194eda",
+      "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
+    },
+    "check_results.x_verify__mutmut_57": {
+      "status": "survived",
+      "diff_sha256": "429f1120953c9116fb2c31516cd9af7518a1bb5f114bb50b866013f99622eaec",
+      "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
+    },
+    "check_results.x_verify__mutmut_8": {
+      "status": "survived",
+      "diff_sha256": "acaadd666d1ae983fa8fc2e8ac6f49999fbc4b704916df5adaf67007d3165e6d",
+      "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
+    },
+    "check_results.x_verify__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "d07a0398ed64ccd82bb03322e75229691081c05a4aaedf047e9a9e1722b791dc",
+      "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
+    },
+    "mutmut3.x_changed_lines__mutmut_37": {
+      "status": "survived",
+      "diff_sha256": "f6b04eb9ced24801ce61139b5661d252f97e013c2b42979ac42421638e6cd20a",
+      "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
+    },
+    "mutmut3.x_changed_lines__mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "a1b3ab22643f3f27b462e089a6482c4db92308517e6ad2da0e1b7ee3a21ce57b",
+      "reason": "Equivalent: number is set by every hunk header before any line is counted, so its initial value is never read."
+    },
+    "mutmut3.x_changed_lines__mutmut_56": {
+      "status": "survived",
+      "diff_sha256": "2dc04b81b317aa82db251af6390cd195bb59e19ac4324fa56f956aff3bfd8ce6",
+      "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
+    },
+    "mutmut3.x_changed_lines__mutmut_81": {
+      "status": "survived",
+      "diff_sha256": "85a422b9a6733487a9979918369bd13f61dcaab443168ec325dadf6ee53c36fa",
+      "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
+    },
+    "mutmut3.x_changed_lines__mutmut_82": {
+      "status": "survived",
+      "diff_sha256": "96a2e274be998819ea605c424d542b4231c92994bdb13b922ee843c9c8432341",
+      "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
+    },
+    "mutmut3.x_export__mutmut_27": {
+      "status": "survived",
+      "diff_sha256": "e7f0246a90760b52e7f6aee6502483df258dc964287a19c8f469404e791f04cb",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "mutmut3.x_export__mutmut_28": {
+      "status": "survived",
+      "diff_sha256": "795e57572fd8d35f8c46fda4e6556e9285e38bb31303d224fe324f37679db74c",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "mutmut3.x_export__mutmut_30": {
+      "status": "survived",
+      "diff_sha256": "bbdbd605fa49591a285cd369b52e515596c730c275d68e275c233726a142f93a",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "mutmut3.x_export__mutmut_31": {
+      "status": "survived",
+      "diff_sha256": "f86be4eb6f7bca1c49832f110c52025d4cd75848ff1f34f362ea1eeb09439324",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "mutmut3.x_export__mutmut_32": {
+      "status": "survived",
+      "diff_sha256": "5399ae362085c401f805b8ecfe31239047ea727f59f3bf35061f970eee89c82b",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "mutmut3.x_export__mutmut_33": {
+      "status": "survived",
+      "diff_sha256": "ad684875bceda195a25025c46b8991ccffcd648020acb21e48e8400dcdee79de",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "mutmut3.x_install__mutmut_32": {
+      "status": "survived",
+      "diff_sha256": "624fbcad8c973ae3ca31bd2da0fd1de429d00670c3efe52c732e9982f7b99318",
+      "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
+    },
+    "mutmut3.x_install__mutmut_35": {
+      "status": "survived",
+      "diff_sha256": "48cca5aa717ca392fa15e706998ea92f9e330294ed3c7188630dd32f50e6a18f",
+      "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
+    },
+    "mutmut3.x_load_mutmut__mutmut_11": {
+      "status": "survived",
+      "diff_sha256": "a133f4ef94a27b0ebb04f3a61a56ba99a92248c00b039894cd3847f4c2250039",
+      "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
+    },
+    "mutmut3.x_load_mutmut__mutmut_12": {
+      "status": "survived",
+      "diff_sha256": "885b51101200f5fe9a51c6833a09668a4370bf8d80193b812fa03a92e24eeac6",
+      "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
+    },
+    "mutmut3.x_load_mutmut__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "ee0ef50eed04c5073937676da4857ca1d411d36c137225f953e97f523bbfe7e5",
+      "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
+    },
+    "mutmut3.x_main__mutmut_101": {
+      "status": "survived",
+      "diff_sha256": "64c91fa27d852835aff89142c68310fce566fd1a98399f637a28187c31f91cde",
+      "reason": "Decoration: the \"mutants exported\" log line in export.log is not read by anything; the exported files are asserted."
+    },
+    "mutmut3.x_main__mutmut_103": {
+      "status": "survived",
+      "diff_sha256": "c682a9da2d6e7dc72022ca91049b3c931f9b7c0df0cd88214050b61e60c8d657",
+      "reason": "Decoration: the \"mutants exported\" log line in export.log is not read by anything; the exported files are asserted."
+    },
+    "mutmut3.x_main__mutmut_111": {
+      "status": "survived",
+      "diff_sha256": "90a2135a686314bccdb1260db0922c4382d545eff82190a77275b870cc25821d",
+      "reason": "Decoration: the \"mutants exported\" log line in export.log is not read by anything; the exported files are asserted."
+    },
+    "mutmut3.x_main__mutmut_112": {
+      "status": "survived",
+      "diff_sha256": "5bf019f47bdc79e6eba7741b9966d85c5836b1f16f168458db396d916a508cf2",
+      "reason": "Decoration: the \"mutants exported\" log line in export.log is not read by anything; the exported files are asserted."
+    },
+    "mutmut3.x_main__mutmut_14": {
+      "status": "survived",
+      "diff_sha256": "018096b0f41a44982470c94911e758af95e9f9075ac08b84a5520ef5dd18f39e",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "mutmut3.x_main__mutmut_16": {
+      "status": "survived",
+      "diff_sha256": "e4f87c34768299aa46ef8241b562accf7d1b55f395308ff4ebdc68562e8a0c94",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "mutmut3.x_main__mutmut_19": {
+      "status": "survived",
+      "diff_sha256": "4c321c502eb3ac6f197d1c987e8f89aacd928121de2219c28417b9c5516a9194",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "mutmut3.x_main__mutmut_2": {
+      "status": "survived",
+      "diff_sha256": "b94bfe28f9af93185e09ced33e3ee95b3a45436b27702215b96b359d85a53885",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "mutmut3.x_main__mutmut_20": {
+      "status": "survived",
+      "diff_sha256": "87284ed65cfb46a4713b681377819c2fbb24296fc6e9b808f907eab85df4551d",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "mutmut3.x_main__mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "80c91f04d6718ca4d6f9caec1d16c43b68f070dc5af8d700016fbed98861fcd6",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "mutmut3.x_main__mutmut_35": {
+      "status": "survived",
+      "diff_sha256": "6f1900c0d9708500a1b3bc1d7b34eb13ec8fe2aedc7f52d604d09c52bb1cd92f",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "mutmut3.x_main__mutmut_37": {
+      "status": "survived",
+      "diff_sha256": "3bbd4677743195269fae3652f97141de37bddbe74da78e477dcedc6ca5c3e676",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "mutmut3.x_main__mutmut_40": {
+      "status": "survived",
+      "diff_sha256": "5ba24b627902fea0861fefb5e10e332f20a8a99d0940c400137ad6bdec31de76",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "mutmut3.x_main__mutmut_41": {
+      "status": "survived",
+      "diff_sha256": "e01df1d28471e4d909c7ee6b7bbe77c117e79f61cf2d9c016c058d6437e2907e",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "mutmut3.x_main__mutmut_68": {
+      "status": "survived",
+      "diff_sha256": "849f212f2eb50a8f49569610c91adff8e73a574fa79609ccc18d116fca75096d",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "mutmut3.x_main__mutmut_70": {
+      "status": "survived",
+      "diff_sha256": "a6e06d5e5c2d9dc528405ced030a148700aa736a89aada1e0b2877f45a364c77",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "mutmut3.x_main__mutmut_73": {
+      "status": "survived",
+      "diff_sha256": "6c307bc833c5b7ed54379caaa0f3ff8b0476ce4ad6b3a5f35df6afa8750b740f",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "mutmut3.x_main__mutmut_74": {
+      "status": "survived",
+      "diff_sha256": "1118a7a1ee9b352dc224e9c4841b8a5c282539fb6b71b067e2e81291d0e9210a",
+      "reason": "Decoration: argparse help and description copy is not part of the command contract."
+    },
+    "mutmut3.x_main__mutmut_85": {
+      "status": "survived",
+      "diff_sha256": "1a51f9333749b2cecbb7a7fde542b12b0d7ea2a0049ee8fd3a43d0a902e71b9c",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "mutmut3.x_main__mutmut_86": {
+      "status": "survived",
+      "diff_sha256": "c51bc78a5a26cca132c77f40f6cb994327dea87382057f3c7dad01f6dc7f2b35",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "mutmut3.x_main__mutmut_88": {
+      "status": "survived",
+      "diff_sha256": "dcee52d31acd73fcd22d21729b92213d1be04fa3e135000a4012d1d7f3224ecb",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "mutmut3.x_main__mutmut_89": {
+      "status": "survived",
+      "diff_sha256": "e403cdc99df10086400222b9a26063597392b76eada70b681c9a5fcce8bfabf0",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "mutmut3.x_main__mutmut_90": {
+      "status": "survived",
+      "diff_sha256": "0122a2c302b1fb71c7d02e761bdf3fce06b593c988eeb2ac8313412fa32a8637",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    },
+    "mutmut3.x_main__mutmut_91": {
+      "status": "survived",
+      "diff_sha256": "c10c188d93854f4cebe1ab89b5c6c824fb770bf6d49f487cc787a9ddce952f1e",
+      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+    }
+  }
+}

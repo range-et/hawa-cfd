@@ -1,55 +1,1067 @@
 {
-  "tool": "mutmut==2.4.5",
-  "mutants": 494,
-  "control_test_file": "tests/test_device_smoke.py",
-  "base_revision": "8daf810e0abd75cd417e16bab19fa59a330985e4",
-  "scope": "Lines added by the device smoke gate PR only (git diff against the base revision, mutmut --use-patch-file): scripts/device_smoke.py including the loaded-module provenance check, the dtype argument in scripts/benchmark_curved_walls.py and the case filter in scripts/parity_worker.py; not whole-module or whole-codebase mutation coverage",
+  "tool": "mutmut==3.7.0",
+  "mutants": 1207,
+  "inventory_sha256": "4f08d3007d083c6d06df7f299451b36a8c6c6771f1a98bb25949c8635ce5e01b",
+  "scope": "Lines added by the device smoke gate PR only (git diff against the base revision, mutmut3.py changed-lines scope): scripts/device_smoke.py including the loaded-module provenance check, the dtype argument in scripts/benchmark_curved_walls.py and the case filter in scripts/parity_worker.py; not whole-module or whole-codebase mutation coverage; tests marked production_python are deselected on Python 3.12",
+  "control_test_files": [
+    "tests/test_device_smoke.py"
+  ],
   "sources": {
     "scripts/device_smoke.py": "1af89d076fe7b662be5f4035df91981b2e446a413c2d7e957b71aa40c79bd445",
     "scripts/benchmark_curved_walls.py": "018b520b53def8f665597f04c88dc80f2e11578070ac855fea038b2a402589c8",
     "scripts/parity_worker.py": "c21c4eeb9ee4770dd860c9e78547c549463f03274ced89bd8d66198887d1eaeb",
     "scripts/device_smoke_policy.json": "cc3cd8ebfea4e0a4fe970f61522f94d784c7388f3d9f1eaa48f43af09d3ef5ed",
-    "tests/test_device_smoke.py": "c982d6dbed40238eb78cdd0d3a1a90bdf5dbdf40fb41b848766771bedc519552",
+    "tests/test_device_smoke.py": "7773118a205d9033b4bae4b0c08942481d173d33ef04ab1b5ff042310e07160c",
     "tests/test_neutral.py": "287434b4c666f289a99635f216ef47b8c491ed1867c1bc52a8197969bc857bfa",
     "tests/test_motion.py": "2739488d273a643b607a46d86c2676c9e1e4265e1a9da0504546c4fac5ea16d3",
     "tests/test_kbc_precision.py": "79b606b90aa23fe5142882f3e56cf9fc85a3d74636bc845bd4c1a3554ba839f6"
   },
   "reviewed_survivors": {
-    "Mutant #27": {
-      "diff_sha256": "6cc94c5f8deb73b0678031c814ac9a6e8142ecb5aace80ac8c9de7bd6726db9b",
-      "reason": "Equivalent: parity_worker.run treats every role other than 'upstream' as the backport role, so a misspelled backport role runs the same compatibility-engine checks."
+    "benchmark_curved_walls.x_run__mutmut_1": {
+      "status": "no tests",
+      "diff_sha256": "c65f8cd32a09271f319179eaf7cd27c8c96f9d97c9c00f6d346083b4f0b35805",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
     },
-    "Mutant #49": {
-      "diff_sha256": "2a73d68583c1de576e2cb52a93899d1841e5907864dc43c8687b7f987d333eb2",
-      "reason": "Equivalent: the TaylorGreenVortex Reynolds number is a placeholder; the builder replaces flow.units and flow.f before the collision, as in tests/test_kbc_precision.py."
+    "benchmark_curved_walls.x_run__mutmut_10": {
+      "status": "no tests",
+      "diff_sha256": "6c7aab050594502e0d8bea88ed543262195f55a4ae8c46e061959a660cd403ec",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
     },
-    "Mutant #50": {
-      "diff_sha256": "d51e9510a3eff70671bbb36bc0be6bbb7499869b241013040a96ed6e2ce0f876",
-      "reason": "Equivalent: the TaylorGreenVortex Mach number is a placeholder; the builder replaces flow.units and flow.f before the collision, as in tests/test_kbc_precision.py."
+    "benchmark_curved_walls.x_run__mutmut_11": {
+      "status": "no tests",
+      "diff_sha256": "bea6bea8a68ebdd5d3cf23896af17b90af6cc5e16bf8a3839bf05b765095339c",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
     },
-    "Mutant #293": {
-      "diff_sha256": "c54c4d6b03f9b8e5a4869ce23c784381ed82f08581dbbf6190cf3bdf6f47316f",
+    "benchmark_curved_walls.x_run__mutmut_2": {
+      "status": "no tests",
+      "diff_sha256": "50b23dbb8da3ecd28361940d6a5a10693c6a975b14e6d527c8c0c91e0262c9e1",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "benchmark_curved_walls.x_run__mutmut_3": {
+      "status": "no tests",
+      "diff_sha256": "bcc25a523648c4821e8f7bc6b25b709d46d3799a59b6854e699386ccd7394ce5",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "benchmark_curved_walls.x_run__mutmut_4": {
+      "status": "no tests",
+      "diff_sha256": "b689b27b119252ec05c70f21595607f10ad324f15eb4386bb386933b92ee0b65",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "benchmark_curved_walls.x_run__mutmut_5": {
+      "status": "no tests",
+      "diff_sha256": "8a6fea2ba65477e1e8e5275140953a4c91242fdcae2bd7376f1cad8bbab17a86",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "benchmark_curved_walls.x_run__mutmut_6": {
+      "status": "no tests",
+      "diff_sha256": "a3573939d20bccf00cdfda911ee460c19ad2d5eb718c2c1a6c50f1f9b96a5060",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "benchmark_curved_walls.x_run__mutmut_7": {
+      "status": "no tests",
+      "diff_sha256": "d7f7e04eafd1557e74f65005ef0fc81dcfe8769a24a70f46279455602019a380",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "benchmark_curved_walls.x_run__mutmut_8": {
+      "status": "no tests",
+      "diff_sha256": "a88145d197a16c161846f335ad7c2959302a66a502fb6faf2c9f767605ba1504",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "benchmark_curved_walls.x_run__mutmut_9": {
+      "status": "no tests",
+      "diff_sha256": "0f3a7c17afafe7755340ca70201662802b29c50ae7186c85c827f13d7c4f1aa0",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_command__mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "0fa9f75d27e3d65e1cad329dd394484c0cf94f3da74f962346ce74cb9151ff7d",
       "reason": "Equivalent for the contract: a 31 s instead of 30 s limit on an optional host-description command changes no recorded value."
     },
-    "Mutant #338": {
-      "diff_sha256": "9fd8a00852b098a053136f289e3328443e244169f1bf109601e84b7da10fcf0b",
+    "device_smoke.x_command__mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "68da49667a7504900f9067e3fb6edd386dad6a043ab3de720cfbb61642063235",
+      "reason": "Console only: a failing optional host-description command would print its stderr; the recorded value and result are unchanged."
+    },
+    "device_smoke.x_command__mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "23d0efdeba30dc3a76001c76bb59d472ef6f7ad9ce1899a3159e234e6a7c073b",
+      "reason": "Unresolved (test gap): without the timeout a hanging host-description command would hang the run; no test simulates a hang. Not equivalent."
+    },
+    "device_smoke.x_command__mutmut_7": {
+      "status": "survived",
+      "diff_sha256": "1658d2c384036c37f040eacde34df0b8376a5d1a51da6c683fc39449f85463d9",
+      "reason": "Console only: a failing optional host-description command would print its stderr; the recorded value and result are unchanged."
+    },
+    "device_smoke.x_command__mutmut_8": {
+      "status": "survived",
+      "diff_sha256": "e99a10bf739c646e30186d51f712ad7d2c755d569733a242320d7704ab94b505",
+      "reason": "Unresolved (test gap): without the timeout a hanging host-description command would hang the run; no test simulates a hang. Not equivalent."
+    },
+    "device_smoke.x_compare__mutmut_45": {
+      "status": "survived",
+      "diff_sha256": "c8fb5ca2034ea8b9467be4276b2cda6ce7648b24dcdbb2cc832acdad8e994cb7",
+      "reason": "Unresolved (test gap): any() over the whole array makes the recorded bitwise mismatch count 1 instead of the number of differing elements; pass/fail is unchanged and no test asserts a count above 1."
+    },
+    "device_smoke.x_compare__mutmut_73": {
+      "status": "survived",
+      "diff_sha256": "850d5a5912e231b0d7bb19c3166617d752cc9039753aea6e1f24b243ff4ccf90",
+      "reason": "Equivalent: numpy astype(None) converts to float64, the dtype this call names."
+    },
+    "device_smoke.x_compare__mutmut_74": {
+      "status": "survived",
+      "diff_sha256": "227359329546a17addf3567764bcdce238c929f7ecfc0e7dc68e1cbc33fde08b",
+      "reason": "Equivalent: numpy astype(None) converts to float64, the dtype this call names."
+    },
+    "device_smoke.x_compare__mutmut_83": {
+      "status": "survived",
+      "diff_sha256": "6f087fb3fa1dee229e0fa74775460d208ac3196cd525afe8a2949d2e7fb53774",
+      "reason": "Equivalent: numpy astype(None) converts to float64, the dtype this call names."
+    },
+    "device_smoke.x_engine__mutmut_1": {
+      "status": "no tests",
+      "diff_sha256": "0ed27ad907d9eae0d62b466cb277ece12e59f585138297cec679bcfa35f0f87a",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_10": {
+      "status": "no tests",
+      "diff_sha256": "d39681591e7baa9897c37cee85043eb7cd9285f4e1ca885e6f7508098dd63ff6",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_11": {
+      "status": "no tests",
+      "diff_sha256": "e3fb2649052e8834b84f1ff4d70629d99d2a3814a8398731dee0b2dcfde099a0",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_12": {
+      "status": "no tests",
+      "diff_sha256": "4f772c23b4fd64afafdcf96d6bf8ac7675453b5ba015adae25e85034b911338a",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_13": {
+      "status": "no tests",
+      "diff_sha256": "4d5b26269add4d23c0fcef74716eeca80a19110731f72bbd9f480485e7063a57",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_14": {
+      "status": "no tests",
+      "diff_sha256": "82c1d15fee127cf3f194fb7066f4074a33d85c1b09ac4a59291827f0eacafe35",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_15": {
+      "status": "no tests",
+      "diff_sha256": "47228016ef57bab4d4d7f82aa9801bcad8afb7523583c20706fffa39e8d9d6a7",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_16": {
+      "status": "no tests",
+      "diff_sha256": "c31a64ccd1f8566e4bc708aaf025a66f5f192e6acd74e8869e5a588b15616dfd",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_17": {
+      "status": "no tests",
+      "diff_sha256": "6d89d956cd5957687fd47e89dfd5e6ac292c5d2c6230cda04120936f7265e1f7",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_18": {
+      "status": "no tests",
+      "diff_sha256": "321a0d551b1beb0e423ce96bf3363c553e36549aba126c2f87344d7b488b5977",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_19": {
+      "status": "no tests",
+      "diff_sha256": "e42ab80cbce6e2c5cd5c95d7d2320210555e3ae3a572240d799abe2e224073d2",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_2": {
+      "status": "no tests",
+      "diff_sha256": "ca73827417ebc104fd2362802e3134302ff6f802714116377c9a982a16f3b08c",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_20": {
+      "status": "no tests",
+      "diff_sha256": "009452dc09b471cc4dacd030c05946f73e475e99cd9815198da0c6bb0582305b",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_21": {
+      "status": "no tests",
+      "diff_sha256": "c5a6d2c6267e3c8b24ed3c77595e9251b77fa1e23283be0164057661baa7f3a1",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_22": {
+      "status": "no tests",
+      "diff_sha256": "177178ead362dc7667807baa9b7b06ac5823d24bc90581d2749a417e35bb3b8e",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_23": {
+      "status": "no tests",
+      "diff_sha256": "4e2db994512c0af662a037f6a5959f5a62886db7235e446ec4ff09aaea379353",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_24": {
+      "status": "no tests",
+      "diff_sha256": "73b8d40afbeb16fa228b2b0ef96166cff45df41cd5052ce0ffe6c0e0d180ce89",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_25": {
+      "status": "no tests",
+      "diff_sha256": "2ae3c78f2cf416709a292484a8f0d4b34933a8c71659f293352996a8a7de44ae",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_26": {
+      "status": "no tests",
+      "diff_sha256": "98456dc72a1d92dfd7d71666b6fc0fff98b1bbfddbd51b231771281964af747b",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_27": {
+      "status": "no tests",
+      "diff_sha256": "5be8348f1414ade4d81415366e789ab0485c2739c025cee5386275af5f037e24",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_28": {
+      "status": "no tests",
+      "diff_sha256": "c2a0877993750e0322777de16faf5c17411ab4f196d81aeb49c09d0c9f7c0169",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_29": {
+      "status": "no tests",
+      "diff_sha256": "6b379612ac710c28690d12a039a1f3672b7338c0f2dbc7adf6496d55bb41da11",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_3": {
+      "status": "no tests",
+      "diff_sha256": "c14f8587c064d5ef5c2f64f33791b447f5b0a8bddcf2f87e32db166812f64436",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_30": {
+      "status": "no tests",
+      "diff_sha256": "6b9c5608d0aea9228831fb71aeb0c4a96df973d68622d2f4af383a1f9e4837a1",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_31": {
+      "status": "no tests",
+      "diff_sha256": "812039693845acd197c56cb38aa76edb6a315ab86bf467e37dbe51e1713e5dd0",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_32": {
+      "status": "no tests",
+      "diff_sha256": "2fd4cd5c416550141b29369e32f2b59de1c77192c280f4ae74cdee113299d283",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_33": {
+      "status": "no tests",
+      "diff_sha256": "b44f4321fcefa1405bd94ccd08e55aa3d36e56987bef0be6c19bcbe2488f85d9",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_34": {
+      "status": "no tests",
+      "diff_sha256": "7e9643319bbe94d4a1d1cc015443573d2ac7af769ec7f5e00a590e1b265c5f22",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_4": {
+      "status": "no tests",
+      "diff_sha256": "6e7c11814aa9f15a57fdbae0a3c866630d0d1137b6d32c31330181d36edb0121",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_5": {
+      "status": "no tests",
+      "diff_sha256": "b024fc6d7e3bbdaf10c4d183b813e8070d782775aadd2d5bdde89dd6e0bdab4d",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_6": {
+      "status": "no tests",
+      "diff_sha256": "bf3ba7e67d554f78a01fb7208234c4574871b77e0d0879abd88c38ef96029c74",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_7": {
+      "status": "no tests",
+      "diff_sha256": "a6793d7dad6bc58d231101bf30973ebe49a45f314e57ff423e0d84d72a5ad379",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_8": {
+      "status": "no tests",
+      "diff_sha256": "9ea9652f39ad40aba0ae0e15a0f94a536d84e2ccf5b985c58036e6d62a7f4c20",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_engine__mutmut_9": {
+      "status": "no tests",
+      "diff_sha256": "906a568d34ba0a454e1662d760538fa1f12b744052a9982cdaf025880bc3b3ae",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_environment__mutmut_11": {
+      "status": "survived",
+      "diff_sha256": "abd1f67230cc1b0cae3c712aaeac4b73c867966e3e959b5eb07b9eacdfff8e22",
+      "reason": "Unresolved (test gap): the manifest environment fields are recorded but not asserted. Not equivalent for provenance."
+    },
+    "device_smoke.x_environment__mutmut_12": {
+      "status": "survived",
+      "diff_sha256": "ec95bef0f666da711de99a906ce966739ee5a6ee62e04d4eee919e7a7872c451",
+      "reason": "Unresolved (test gap): the manifest environment fields are recorded but not asserted. Not equivalent for provenance."
+    },
+    "device_smoke.x_environment__mutmut_13": {
+      "status": "survived",
+      "diff_sha256": "cc3201d61a4b7e32290363152d8873a6b800ef636abf1fadf8e7ad15ec3c2e91",
+      "reason": "Unresolved (test gap): the manifest environment fields are recorded but not asserted. Not equivalent for provenance."
+    },
+    "device_smoke.x_environment__mutmut_14": {
+      "status": "survived",
+      "diff_sha256": "b6ddf58bbb9c3e0e26faf0114950509e42bfa30c38c5fed8d5b26f61de949dd7",
+      "reason": "Unresolved (test gap): the manifest environment fields are recorded but not asserted. Not equivalent for provenance."
+    },
+    "device_smoke.x_environment__mutmut_15": {
+      "status": "survived",
+      "diff_sha256": "4fa5e0e14e27c41f9da0a67427480304be1cad4bea49c5de7893d909f3c9bd0c",
+      "reason": "Unresolved (test gap): the manifest environment fields are recorded but not asserted. Not equivalent for provenance."
+    },
+    "device_smoke.x_environment__mutmut_17": {
+      "status": "survived",
+      "diff_sha256": "a5cb46dfc08406e28c477ff31533b7de4755447fe6f8823a1c49c2957cc0c514",
+      "reason": "Unresolved (test gap): the manifest environment fields are recorded but not asserted. Not equivalent for provenance."
+    },
+    "device_smoke.x_environment__mutmut_18": {
+      "status": "survived",
+      "diff_sha256": "518e23a881c215024a0afb06f768e1a084c16e298dc3ed7fbd598d12d059500a",
+      "reason": "Unresolved (test gap): the manifest environment fields are recorded but not asserted. Not equivalent for provenance."
+    },
+    "device_smoke.x_evaluate__mutmut_52": {
+      "status": "survived",
+      "diff_sha256": "c2eac944bc6a071c028a2c6599e29056f647dc4332d974c9c5ee4564763d7d26",
+      "reason": "Unresolved (test gap): evaluate() forwards the reference configuration only for checks with an atol_scale, and no evaluate() test uses one; compare() is tested with a scale directly."
+    },
+    "device_smoke.x_kbc__mutmut_14": {
+      "status": "survived",
+      "diff_sha256": "5cb1ca7796a6d92d4711c7555b1f64eb90979173343768108da75d7dec25da1c",
+      "reason": "Equivalent in this CPU-only study: a Context or tensor without a device lands on the CPU, the device under test here. Accelerator placement is device evidence, not a CPU mutation kill."
+    },
+    "device_smoke.x_kbc__mutmut_16": {
+      "status": "survived",
+      "diff_sha256": "3f68e68beabf2b790cf9d5b3479b35e58d606ca6c0e4f3522b89077601947203",
+      "reason": "Equivalent on the CPU: Context resolves use_native=None to False off CUDA. On CUDA it would enable the native kernels; that is device evidence, not a CPU mutation kill."
+    },
+    "device_smoke.x_kbc__mutmut_19": {
+      "status": "survived",
+      "diff_sha256": "95aa485ee671f8baf6508dc0462dd52b4bb7d4547fff8b9c09f88b2c0f191459",
+      "reason": "Equivalent on the CPU: Context resolves use_native=None to False off CUDA. On CUDA it would enable the native kernels; that is device evidence, not a CPU mutation kill."
+    },
+    "device_smoke.x_kbc__mutmut_21": {
+      "status": "survived",
+      "diff_sha256": "a91cb06151b727801f591bd8b7190c6a46d04a150546da2cedac74bf864ae6b7",
+      "reason": "Equivalent: the TaylorGreenVortex Reynolds number is a placeholder; the builder replaces flow.units and flow.f before the collision, as in tests/test_kbc_precision.py."
+    },
+    "device_smoke.x_kbc__mutmut_22": {
+      "status": "survived",
+      "diff_sha256": "5ca6d343c555d063f3bb37069e0cfe78b02bd806ddd03caf6e128922e09f0880",
+      "reason": "Equivalent: the TaylorGreenVortex Mach number is a placeholder; the builder replaces flow.units and flow.f before the collision, as in tests/test_kbc_precision.py."
+    },
+    "device_smoke.x_kbc__mutmut_28": {
+      "status": "survived",
+      "diff_sha256": "b9fe588d51edb5c7d5a5718feda9c3d9ce3bf37af13b2ea02a76974b65984bf6",
+      "reason": "Equivalent: lettuce UnitConversion defaults mach_number to 0.05, the value passed."
+    },
+    "device_smoke.x_kbc__mutmut_29": {
+      "status": "survived",
+      "diff_sha256": "c46d26c44552676c3854f0fb49dc5dd6e933bee667a9618d8211fee7fb187815",
+      "reason": "Equivalent: lettuce UnitConversion defaults characteristic_length_lu to 1, the value passed."
+    },
+    "device_smoke.x_kbc__mutmut_42": {
+      "status": "survived",
+      "diff_sha256": "6189f0b8d88099a4b650089adbc2f778bc1341ebdeea87a3d0cbc24473cb0feb",
+      "reason": "Equivalent in this CPU-only study: a Context or tensor without a device lands on the CPU, the device under test here. Accelerator placement is device evidence, not a CPU mutation kill."
+    },
+    "device_smoke.x_kbc__mutmut_43": {
+      "status": "survived",
+      "diff_sha256": "a4a2123cdc5f1625e156b389591a37616d068a12f6dcf8391efa4d6fe2ab9e0f",
+      "reason": "Equivalent: torch.tensor of the Python-float population list defaults to FP32, the dtype this call names."
+    },
+    "device_smoke.x_kbc__mutmut_45": {
+      "status": "survived",
+      "diff_sha256": "eddae8694cf5752171276da0a240bead57dcb11d2b11addc9c6e19b5fbfff07c",
+      "reason": "Equivalent in this CPU-only study: a Context or tensor without a device lands on the CPU, the device under test here. Accelerator placement is device evidence, not a CPU mutation kill."
+    },
+    "device_smoke.x_kbc__mutmut_46": {
+      "status": "survived",
+      "diff_sha256": "a68682fccbaca2da9de83a85ace36de642ae358032a8edebee76eb095447f841",
+      "reason": "Equivalent: torch.tensor of the Python-float population list defaults to FP32, the dtype this call names."
+    },
+    "device_smoke.x_load_policy__mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "fcbf932121e2b9d4ff94697b89c97c011be14de4433ff3d26f54de7526ae7497",
+      "reason": "Equivalent on UTF-8 hosts: Python defaults to the locale encoding, which is UTF-8 on the supported Linux and macOS hosts; \"UTF-8\" names the same codec."
+    },
+    "device_smoke.x_load_policy__mutmut_6": {
+      "status": "survived",
+      "diff_sha256": "a528186693afadfc0342aa61cdbac4c5b78071cf88f6422ed613b4466c262eea",
+      "reason": "Equivalent on UTF-8 hosts: Python defaults to the locale encoding, which is UTF-8 on the supported Linux and macOS hosts; \"UTF-8\" names the same codec."
+    },
+    "device_smoke.x_loaded_module_paths__mutmut_7": {
+      "status": "survived",
+      "diff_sha256": "7f87a4845e64ab8f9bbdd6830fc11043a00e739e1d0aa7551dd8b4722a95b00a",
+      "reason": "Equivalent on reachable modules: every loaded hawa or lettuce module defines __file__ (None for a namespace package), so getattr without a default never raises."
+    },
+    "device_smoke.x_main__mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "fdb1c6f245ff3836939202b7d1898dca9da517a48142c2430d40d43442f93816",
+      "reason": "Unresolved (test gap): without argparse choices an unknown --device fails later with a KeyError instead of a usage error; no test passes an unknown device."
+    },
+    "device_smoke.x_main__mutmut_147": {
+      "status": "survived",
+      "diff_sha256": "a19b5db9c0ac302ead896ef4c2dcd8347027b3c4c9126802628c7929de76f943",
+      "reason": "Unresolved (test gap): datetime.now(None) records naive local time instead of UTC with an offset; no test asserts the timestamp format."
+    },
+    "device_smoke.x_main__mutmut_188": {
+      "status": "survived",
+      "diff_sha256": "3173d44935166dae9ea93d396cb5774affd2f179d1123e046f39422c8a681b61",
+      "reason": "Console flush only: the printed line text is unchanged; flushing affects interleaving with other output, not content or results."
+    },
+    "device_smoke.x_main__mutmut_19": {
+      "status": "survived",
+      "diff_sha256": "889fa2d9398cc08164d9f82403d346a49c7e000e243f23c4b22003c442ff01c4",
+      "reason": "Decoration: argparse help and description copy is not part of the manifest or exit contract."
+    },
+    "device_smoke.x_main__mutmut_190": {
+      "status": "survived",
+      "diff_sha256": "795925ed07b0f85e705ddd29afc88a060c7d05d34e9ec837b2b1d682f4f2d8a0",
+      "reason": "Console flush only: the printed line text is unchanged; flushing affects interleaving with other output, not content or results."
+    },
+    "device_smoke.x_main__mutmut_199": {
+      "status": "survived",
+      "diff_sha256": "0c66aece9076a6939c3d6335ab07d6d396a1f6fd4427b4a65259e373eed5564f",
+      "reason": "Console flush only: the printed line text is unchanged; flushing affects interleaving with other output, not content or results."
+    },
+    "device_smoke.x_main__mutmut_2": {
+      "status": "survived",
+      "diff_sha256": "3055aa92b0b33073a02e21e474af809d643da7e29ac8ac51fda6d00b44bb5db1",
+      "reason": "Decoration: argparse help and description copy is not part of the manifest or exit contract."
+    },
+    "device_smoke.x_main__mutmut_201": {
+      "status": "survived",
+      "diff_sha256": "e8e314623f0087e7b76d91aeeaf5a25b07f24ca807bc4ad2c4234dcf34235c09",
+      "reason": "Equivalent on UTF-8 hosts: Python defaults to the locale encoding, which is UTF-8 on the supported Linux and macOS hosts; \"UTF-8\" names the same codec."
+    },
+    "device_smoke.x_main__mutmut_203": {
+      "status": "survived",
+      "diff_sha256": "31bc454b63037caa8f24b58521f0ff3c8df1fbf43e27052b9ca46523416c6a18",
+      "reason": "Equivalent on UTF-8 hosts: Python defaults to the locale encoding, which is UTF-8 on the supported Linux and macOS hosts; \"UTF-8\" names the same codec."
+    },
+    "device_smoke.x_main__mutmut_215": {
+      "status": "survived",
+      "diff_sha256": "6077c976dde0e29e9fc28c636089c5f6d9d50cff939b3e640c642694caf165a1",
+      "reason": "Equivalent on UTF-8 hosts: Python defaults to the locale encoding, which is UTF-8 on the supported Linux and macOS hosts; \"UTF-8\" names the same codec."
+    },
+    "device_smoke.x_main__mutmut_225": {
+      "status": "survived",
+      "diff_sha256": "07ec68c6bb505d83e58420e97be5f0a3396b83f73180ccdaf8db7de87bfa7ded",
+      "reason": "Console flush only: the printed line text is unchanged; flushing affects interleaving with other output, not content or results."
+    },
+    "device_smoke.x_main__mutmut_227": {
+      "status": "survived",
+      "diff_sha256": "9d3a307a1d582bbb3fa54c9f8b036b7a0ae18be14fb1db962477167e1ce071fe",
+      "reason": "Console flush only: the printed line text is unchanged; flushing affects interleaving with other output, not content or results."
+    },
+    "device_smoke.x_main__mutmut_23": {
+      "status": "survived",
+      "diff_sha256": "ceb8dabc22a3611f6a6490ddb35bd049d3b176cbad3a01381f0ce022cc44418b",
+      "reason": "Decoration: argparse help and description copy is not part of the manifest or exit contract."
+    },
+    "device_smoke.x_main__mutmut_231": {
+      "status": "survived",
+      "diff_sha256": "f63152bf3a6e6a9a22b90ff50b2e4ee20fb5acfffbf2a65bb551f05f24f306e9",
+      "reason": "Console flush only: the printed line text is unchanged; flushing affects interleaving with other output, not content or results."
+    },
+    "device_smoke.x_main__mutmut_249": {
+      "status": "survived",
+      "diff_sha256": "d097a42b3a23fb8d88c73744248106024da77e1a6f6d99d1007928ed55bb790d",
+      "reason": "Console flush only: the printed line text is unchanged; flushing affects interleaving with other output, not content or results."
+    },
+    "device_smoke.x_main__mutmut_251": {
+      "status": "survived",
+      "diff_sha256": "522480162618d36c5742c1f8fce7cd221a4a254e47fb23f9464275bfa8b4b33f",
+      "reason": "Console flush only: the printed line text is unchanged; flushing affects interleaving with other output, not content or results."
+    },
+    "device_smoke.x_main__mutmut_268": {
+      "status": "survived",
+      "diff_sha256": "80534368bc15f2fd2985d87ce5817448655050f69021cc7832e0d58ea7db18ed",
+      "reason": "Console flush only: the printed line text is unchanged; flushing affects interleaving with other output, not content or results."
+    },
+    "device_smoke.x_main__mutmut_27": {
+      "status": "survived",
+      "diff_sha256": "8b606ee8703bf1a1a0a5451a873fe61ad6cf92e69631fb42048068610d2ed97d",
+      "reason": "Decoration: argparse help and description copy is not part of the manifest or exit contract."
+    },
+    "device_smoke.x_main__mutmut_28": {
+      "status": "survived",
+      "diff_sha256": "74a30ccf0701dab02253529cb0cf4d7b1f94af9c45aaf0f05e13a0dfe429879c",
+      "reason": "Decoration: argparse help and description copy is not part of the manifest or exit contract."
+    },
+    "device_smoke.x_main__mutmut_29": {
+      "status": "survived",
+      "diff_sha256": "9bd194bc72d4c7059e5d1372847215e8c0d1b53afdd44317b3d8095c1722dc53",
+      "reason": "Decoration: argparse help and description copy is not part of the manifest or exit contract."
+    },
+    "device_smoke.x_main__mutmut_32": {
+      "status": "survived",
+      "diff_sha256": "924202169c7809cbb7585167adf43aede28240d9fd6aac7cf9289d5b22e15ccb",
+      "reason": "Decoration: argparse help and description copy is not part of the manifest or exit contract."
+    },
+    "device_smoke.x_main__mutmut_321": {
+      "status": "survived",
+      "diff_sha256": "fb957302dc6663c94279696cece0a957da17db5b36132fefbf9e5dab8fe1d82c",
+      "reason": "Unresolved (test gap): datetime.now(None) records naive local time instead of UTC with an offset; no test asserts the timestamp format."
+    },
+    "device_smoke.x_main__mutmut_323": {
+      "status": "survived",
+      "diff_sha256": "46dfbe88857213f5c8ff3aa38a677553ad1d327459be3eca8def4b6e183215c0",
+      "reason": "Console flush only: the printed line text is unchanged; flushing affects interleaving with other output, not content or results."
+    },
+    "device_smoke.x_main__mutmut_325": {
+      "status": "survived",
+      "diff_sha256": "c3013747d10fad097d42bb0314874a7824c7dc6041d7c395c60890950faf2e03",
+      "reason": "Console flush only: the printed line text is unchanged; flushing affects interleaving with other output, not content or results."
+    },
+    "device_smoke.x_main__mutmut_340": {
+      "status": "survived",
+      "diff_sha256": "d5f69927cc07eddcd1b012b299353c50902301876cefa6ba038a9ba527367dc1",
+      "reason": "Console flush only: the printed line text is unchanged; flushing affects interleaving with other output, not content or results."
+    },
+    "device_smoke.x_main__mutmut_35": {
+      "status": "survived",
+      "diff_sha256": "25e68436cd1dd015bdf3990f24d815da8ccc42d6a4c79d43c353afb794ac2306",
+      "reason": "Decoration: argparse help and description copy is not part of the manifest or exit contract."
+    },
+    "device_smoke.x_main__mutmut_39": {
+      "status": "survived",
+      "diff_sha256": "ef2dd93132a9663a5898cd8e74717248b4ef025a9b89b2b51c7744408ec5cfba",
+      "reason": "Decoration: argparse help and description copy is not part of the manifest or exit contract."
+    },
+    "device_smoke.x_main__mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "23edc5a114b2208519bbd94212e7075875146fafb7f517e97f730afa3d314ee0",
+      "reason": "Decoration: argparse help and description copy is not part of the manifest or exit contract."
+    },
+    "device_smoke.x_main__mutmut_40": {
+      "status": "survived",
+      "diff_sha256": "95851fa47d5a1f04fec986b97966d18568501ecf060f8d5db87b67841c1a2bc7",
+      "reason": "Decoration: argparse help and description copy is not part of the manifest or exit contract."
+    },
+    "device_smoke.x_main__mutmut_41": {
+      "status": "survived",
+      "diff_sha256": "3361b8de11d469af23b5e68d11c48636baa308a39c668a3df96c96d3e15fabc2",
+      "reason": "Decoration: argparse help and description copy is not part of the manifest or exit contract."
+    },
+    "device_smoke.x_main__mutmut_5": {
+      "status": "survived",
+      "diff_sha256": "6b56d0e32c36eba59da528d1f7c854c87a7395d1cc9785267923268c83eedca1",
+      "reason": "Decoration: argparse help and description copy is not part of the manifest or exit contract."
+    },
+    "device_smoke.x_main__mutmut_7": {
+      "status": "survived",
+      "diff_sha256": "1f2e93bb1e5935980586582b3e8504a9e6c28bf063dcd1b79ea085fc01a1dbc3",
+      "reason": "Unresolved (test gap): without argparse choices an unknown --device fails later with a KeyError instead of a usage error; no test passes an unknown device."
+    },
+    "device_smoke.x_main__mutmut_82": {
+      "status": "survived",
+      "diff_sha256": "e93bd5d35c4d06068fb8e0a356d3a85c7e270961f0ce8ea2b183a509182db0c0",
+      "reason": "Equivalent: mkdir defaults exist_ok to False, and None is false, so stale evidence directories are still refused."
+    },
+    "device_smoke.x_main__mutmut_84": {
+      "status": "survived",
+      "diff_sha256": "4671d622a11f29522420ba34e330e2cf6bd9c33ca287cec824e2ae9a2e3af83f",
+      "reason": "Equivalent: mkdir defaults exist_ok to False, and None is false, so stale evidence directories are still refused."
+    },
+    "device_smoke.x_moving__mutmut_1": {
+      "status": "no tests",
+      "diff_sha256": "acbb1d8a12bf1240e41a01e696eb280dbf172119d836e423e460524d312cfcf3",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_10": {
+      "status": "no tests",
+      "diff_sha256": "fa758292025ba02bff0bfff931e6e0946fe87caf70f63d7039db07de5da4975e",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_11": {
+      "status": "no tests",
+      "diff_sha256": "8ef6591ea877546c70050b9dcf16538045567fa7e652e9635c39faf00365d3da",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_12": {
+      "status": "no tests",
+      "diff_sha256": "d65b7472fd1d09e6a71752e4c46c77a0153cb0681f8c70945b9d7bc456c0e0d9",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_13": {
+      "status": "no tests",
+      "diff_sha256": "23791401fa6325e2306054afb2e79906b893686f7ea294d1fc359d08396605aa",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_14": {
+      "status": "no tests",
+      "diff_sha256": "d988619ff7f684e11dff0071dc48c36125d3a5af1c9c79ade1ae8c2ffd5e6ada",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_15": {
+      "status": "no tests",
+      "diff_sha256": "caddf6672ed5a0f0be6321e50e7214fb5716641e53a998d00328116a21eac8a9",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_16": {
+      "status": "no tests",
+      "diff_sha256": "108a23f62a9a3208a9119f1a66ca77e9655c136564f2a9170768f0ae5afe28a8",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_17": {
+      "status": "no tests",
+      "diff_sha256": "25ac4b50a409f6cb00fd2ed115efc662ba934be0523d0154795666de9b8da9ce",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_18": {
+      "status": "no tests",
+      "diff_sha256": "7e83f88ecf7cb8fe44d161c202174e430feee7ecd9b49ffac3c79261a100edf4",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_19": {
+      "status": "no tests",
+      "diff_sha256": "340b3041063eb110b309734e018bb2634d9fdb635284228c745c2752676ac4e7",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_2": {
+      "status": "no tests",
+      "diff_sha256": "4bc625956ecb05a1811e6b8eecb79861429d3ce6f184c18ff9ceb18fec4e69f9",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_20": {
+      "status": "no tests",
+      "diff_sha256": "a922284e6646abb50be0e64d3cb389adb28a7df67a4d1f173f2310ee5766aa36",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_21": {
+      "status": "no tests",
+      "diff_sha256": "b04558c1bbc907007009a1a8453d68eff5bbb9995f7162b60cc71bbe2b5fda9e",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_22": {
+      "status": "no tests",
+      "diff_sha256": "37853c94802c9bbc6c31ce2a962922a45413793952d4e6d19106f9bbd680a2ff",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_23": {
+      "status": "no tests",
+      "diff_sha256": "079aa7c5182326433cf3291dfb644aeb0561ab39d2f0100ba609495ed934e04a",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_24": {
+      "status": "no tests",
+      "diff_sha256": "ec173d1ca6ab01738f4dd9904f5daaf06cc519708d549ae4862dc2d557615a4e",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_25": {
+      "status": "no tests",
+      "diff_sha256": "d8aa2f331327e7e3793ee5415a0b23512f2c88681d588845269e556f040abbcc",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_26": {
+      "status": "no tests",
+      "diff_sha256": "0e84fe45a3b2c2b896447a2f3cab44e92a3e65d6efc48551625649196373d94b",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_27": {
+      "status": "no tests",
+      "diff_sha256": "64980ed51487075f2be2f5964bb2d2b3e347b40303db03f9fc0ca65990172476",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_28": {
+      "status": "no tests",
+      "diff_sha256": "c3dbdb1a738d435a5495d4a1d21835ab4471063d866baf36bbb55a8152ab5002",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_29": {
+      "status": "no tests",
+      "diff_sha256": "23b2c90172b8914469bdc1edb2f497fab8cadf15e1de3b1c4ea142d02d087759",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_3": {
+      "status": "no tests",
+      "diff_sha256": "bb7032fbc50998ca84c2572a484562ab32b91cfb8b2e0975bac711ddc0dc3d73",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_30": {
+      "status": "no tests",
+      "diff_sha256": "e76321b085929b35b43a64d67afec56379c0bc770c9fb3d4d2f57379712032d3",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_31": {
+      "status": "no tests",
+      "diff_sha256": "db04c06c3fb933a2af55ae3947dd4cb224eaef8d68b7e4139e8b7bfe370c6b9c",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_32": {
+      "status": "no tests",
+      "diff_sha256": "eabfcc9c01e4120483768e167a227a7b46014935d3c6b11302e401f03a5f8a3f",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_33": {
+      "status": "no tests",
+      "diff_sha256": "11316920714e532cbd28dad023a2f8b1b6ad206c2cab57a8a472287ee1eedec6",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_34": {
+      "status": "no tests",
+      "diff_sha256": "e30b76b4a4c4cebfd7e42525b320792a7ac091d4ed960e1d9f077ee712395131",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_35": {
+      "status": "no tests",
+      "diff_sha256": "e153095f0b1fb42311321ffd39fb0ca276b84210a79408f48176e4d42946237c",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_36": {
+      "status": "no tests",
+      "diff_sha256": "6a6fdab559736eecfe6ae0add3f572bbf9d8e23e6c54cc0a42705a96425d6bcd",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_37": {
+      "status": "no tests",
+      "diff_sha256": "32122a3f42e082bfaaffb84d86f98ff29b98d42d08f61966a95971159a669cc1",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_38": {
+      "status": "no tests",
+      "diff_sha256": "ce16449684d190695c3694df6fb061a4bf353f754f602bdbfb06ec2a39218fab",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_39": {
+      "status": "no tests",
+      "diff_sha256": "3d0925e6f0a3a404059a28b658bc52d8d7fbc05c4bfe6980bb9923b812be2b7c",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_4": {
+      "status": "no tests",
+      "diff_sha256": "9737d3079fa86d2ff3f976706381bb68bf74a29327afaea10bfd023ff47ad09f",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_40": {
+      "status": "no tests",
+      "diff_sha256": "c11a64ccc00540d3793ef796e1fd95085ffbce022c744aa6e971441e94c7416c",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_41": {
+      "status": "no tests",
+      "diff_sha256": "05c5958386efc1900f21bcda9344c27d426e90df2864e27e9c2812b523b227f1",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_42": {
+      "status": "no tests",
+      "diff_sha256": "ce0436a4a5a628b34e55573fe89a3bb08504093458a1bae486e4ec26ea341a1f",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_43": {
+      "status": "no tests",
+      "diff_sha256": "7fd655c26cdb483b749fea78cad0fe0ae6dc83071ab620fae56b0f56c3bea245",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_44": {
+      "status": "no tests",
+      "diff_sha256": "b20aa9b2f330ff60e2608547bd6ba880c4aade63cc6ac3438de07541424b49f6",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_45": {
+      "status": "no tests",
+      "diff_sha256": "f87c5a661b09ff770610835d38127e77a010d3c5e192ea5d65a2b36fc4e6ab8d",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_46": {
+      "status": "no tests",
+      "diff_sha256": "54e205227050bc1aab228b4aabb1297abc751b8321c9202d34bba7668beedc16",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_47": {
+      "status": "no tests",
+      "diff_sha256": "c7c3f75fdedb98e492ae5e6b9d0aa05b64e645b81a3b6f4dfdde86f28f7cafe1",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_48": {
+      "status": "no tests",
+      "diff_sha256": "41a9a1b8570b36e5ee9190d927baf0bd93192aa90539eeed49ea89c6778e7075",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_49": {
+      "status": "no tests",
+      "diff_sha256": "d96e08f5903a47dd6cda1992e46c053e4266a1894f0074e0abfa50e08c9be884",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_5": {
+      "status": "no tests",
+      "diff_sha256": "7f8b8e3e395e78238f31b7c6833a9b3b6cc3d38fe6dcb8eaa2b483cb2042bc16",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_6": {
+      "status": "no tests",
+      "diff_sha256": "55b4b7ca7e44b55615b7246d269635e989288776b71b667b215f065cabda4664",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_7": {
+      "status": "no tests",
+      "diff_sha256": "a42920f328efa4f47e00e27d4a9c73e8b6fba9a0b4908bae031558e0b84e36de",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_8": {
+      "status": "no tests",
+      "diff_sha256": "5d9d46380a59b528209fc39cf7620ac3de672543d554e6a39698cae462cbd596",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_moving__mutmut_9": {
+      "status": "no tests",
+      "diff_sha256": "726752b927993035544527d37736a1feed3b342bde85c046b03ee5d6afc3e707",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "6ccff61c18ec8bb7f88df2a0e8461a545c539083c123b41298ce42477f798bf7",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_11": {
+      "status": "survived",
+      "diff_sha256": "bbd3d4bc1099a8f3e8aefa528cf399542e09aeae889e4348c4f59d974a1a6c39",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_12": {
+      "status": "survived",
+      "diff_sha256": "049026b1c1f8117f148f8709929ac7517ab3762140f7ed1efd372625cfb2c5e5",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_13": {
+      "status": "survived",
+      "diff_sha256": "56199a65e88b1ee7fb255fc140f37b38fc065c4ec672be524ff540ff016d7b68",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_14": {
+      "status": "survived",
+      "diff_sha256": "c1696aa98533717260e8999f7c7de6118819c41d4a2b7892eefed839780635ed",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_15": {
+      "status": "survived",
+      "diff_sha256": "3263f16155318234408910acd78ce357ec7a0643239da0f33f2e76ae6a60abce",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_16": {
+      "status": "survived",
+      "diff_sha256": "80136f09deb02fe21ffc6069470a0298ecfb04a29ce19df6b2f8f7a320c0bd8b",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_17": {
+      "status": "survived",
+      "diff_sha256": "c82bfc5f3e38ce41cd4503e338221d0e8009f5ce66ca96919850433379266619",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_18": {
+      "status": "survived",
+      "diff_sha256": "cd22b2a68084b8d399aedc8e25bde3494912f3822146e035ae9040a4b1d11cb9",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_19": {
+      "status": "survived",
+      "diff_sha256": "dd647ba2f3835ff1481b247084729e4a6ee96d9537ff5b0d3fd4f75da0eb2970",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_2": {
+      "status": "survived",
+      "diff_sha256": "ec639cb07c5041bf249e94c25d3152cad17bde8dbd119bf27c1fa70fb4e16de1",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_20": {
+      "status": "survived",
+      "diff_sha256": "7ad1d4f59d59058964c62d892ee24ddbc0bad23d23e6ec2cf6485ec3ffc86689",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_22": {
+      "status": "survived",
+      "diff_sha256": "a0a04317bfa5a13ff03563eb7c82d0d96b00661823582886524bfb0740a111a5",
+      "reason": "Unresolved (test gap): the 3.12 test replaces make() with a stub that ignores the spec, so the spec argument is unchecked here. Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_28": {
+      "status": "survived",
+      "diff_sha256": "7dfe8d8fa8ccefb80713bf1bf9b7adcc247a3895a9e6fd8bc24b044b53664887",
+      "reason": "Equivalent in this CPU-only study: a Context or tensor without a device lands on the CPU, the device under test here. Accelerator placement is device evidence, not a CPU mutation kill."
+    },
+    "device_smoke.x_neutral__mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "45cb2fa01d19ee5c2a8870f5ce724b7df928782655165b34083106ec703e144e",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_30": {
+      "status": "survived",
+      "diff_sha256": "32d148aa41c4f4ab93e32a8508bb018c85322b1ecc3991e501278b3952fb63ab",
+      "reason": "Equivalent on the CPU: Context resolves use_native=None to False off CUDA. On CUDA it would enable the native kernels; that is device evidence, not a CPU mutation kill."
+    },
+    "device_smoke.x_neutral__mutmut_33": {
+      "status": "survived",
+      "diff_sha256": "771fd6bd246263d6fc1792582eae16b20eecbf0ec951f54f1c3eccb6fc2eaea6",
+      "reason": "Equivalent on the CPU: Context resolves use_native=None to False off CUDA. On CUDA it would enable the native kernels; that is device evidence, not a CPU mutation kill."
+    },
+    "device_smoke.x_neutral__mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "b649f861b8f22fe70933b115b4ac1083deca667b291f904cc0e9e024271a6d90",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_40": {
+      "status": "survived",
+      "diff_sha256": "f955f5211ca490e116e39f31ab75c1d790c6f2bd13f400bc1562eeee7cbe1d2f",
+      "reason": "Only the production_python test compares the reference velocity; the 3.12 test of this path checks the mass change alone. Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_42": {
+      "status": "survived",
+      "diff_sha256": "c608b43299571ea25ee80dee8e9f4f517647bcd1f0efb3ac5d5eb0d764e102e1",
+      "reason": "Only the production_python test compares the reference velocity; the 3.12 test of this path checks the mass change alone. Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_44": {
+      "status": "survived",
+      "diff_sha256": "bc0b48152107fd598761874ce9c156ee2a92ed0ee78ffb1aaf7555784f9d7886",
+      "reason": "Only the production_python test compares the reference velocity; the 3.12 test of this path checks the mass change alone. Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_5": {
+      "status": "survived",
+      "diff_sha256": "59b826cdd268b43445faa6014262ec415cd0a15f764ffaa9f6f8e2fdb996e548",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_6": {
+      "status": "survived",
+      "diff_sha256": "eb8326decb801414f911d4cb1e71ab424d0828ca6040eb19365c093f22fcd364",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_7": {
+      "status": "survived",
+      "diff_sha256": "9ec73bb7f14f2385afa80b62416a1543a381ba4a8f18fe3284850865c175b496",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_8": {
+      "status": "survived",
+      "diff_sha256": "c97d461218924a3273dd9c9832334318a0936b4a7a9b6560886ae489acc8f1ac",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_neutral__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "7091e8d4fedc6bd1c447e158240e0a265dc523708704889e705953fc36ddf838",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_provenance__mutmut_26": {
+      "status": "survived",
+      "diff_sha256": "f34d5d7591335cc090b8573b5e879a916f66d3976d36ce3d8c8fba667d2b18ae",
+      "reason": "Unresolved (test gap): the manifest index_sha256 field is recorded but not asserted. Not equivalent for provenance."
+    },
+    "device_smoke.x_provenance__mutmut_42": {
+      "status": "survived",
+      "diff_sha256": "b2c073233f1d9979381836b5925a8380e3107005d0126d1acaa43317a5fa3122",
       "reason": "Equivalent: scripts/verification_evidence.snapshot builds the file map in sorted path order, so the JSON is already key-sorted."
     },
-    "Mutant #424": {
-      "diff_sha256": "f70e1fa2409d4830fd09d33e4cb0d401206075bf6ad001854ea81ce3d6d38225",
-      "reason": "Console flush only: the module-check failure line text is asserted; flushing affects interleaving with other output, not content or results."
+    "device_smoke.x_provenance__mutmut_44": {
+      "status": "survived",
+      "diff_sha256": "d0118f696346138bf0e5940b392687250c73a1b5cd5d99c798ebe88bebc69ebd",
+      "reason": "Equivalent: scripts/verification_evidence.snapshot builds the file map in sorted path order, so the JSON is already key-sorted."
     },
-    "Mutant #437": {
-      "diff_sha256": "9ca7778015235e2e133f4f8434d379e863d569b32b9c23da2b9c55fb1345590e",
-      "reason": "Console flush only: the progress line text is asserted; flushing affects interleaving with other output, not content or results."
+    "device_smoke.x_provenance__mutmut_47": {
+      "status": "survived",
+      "diff_sha256": "fb1bc6014f80e4ae501f1520ffed297412c3d5e42f84b9e3dfe9971ace5e7694",
+      "reason": "Equivalent: scripts/verification_evidence.snapshot builds the file map in sorted path order, so the JSON is already key-sorted."
     },
-    "Mutant #447": {
-      "diff_sha256": "5cfda7395ae8b7439702b2a45a0f093a008790b763ec067d4e093b1e11ac71b9",
-      "reason": "Console flush only: the per-case result line text is asserted; flushing affects interleaving with other output, not content or results."
+    "device_smoke.x_wall__mutmut_1": {
+      "status": "no tests",
+      "diff_sha256": "e3019d50b4020e537ff0b3bc7550482634964cbe306e8da362eb4312ea20ab7c",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
     },
-    "Mutant #483": {
-      "diff_sha256": "4824ed60440194742127ebbaa48966b1795677f9b176dcb6f0c7b6e5756d455c",
-      "reason": "Console flush only: the final result line text is asserted; flushing affects interleaving with other output, not content or results."
+    "device_smoke.x_wall__mutmut_10": {
+      "status": "no tests",
+      "diff_sha256": "a6d419f75be6081e2fcc9be56a6fd210dbf9af4da400e8b15fe8700aba3c1bb6",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_11": {
+      "status": "no tests",
+      "diff_sha256": "b3d05725bced786f2abf081c6142b154a489a79ba1201e32e5c7511591c95884",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_12": {
+      "status": "no tests",
+      "diff_sha256": "a4a438e87338f81d8bd841e5cb96fec567b23ae05b326054acee790ff5b54903",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_13": {
+      "status": "no tests",
+      "diff_sha256": "74d899661b11e5fb9691916fef36196058cecb5f4441a4ed1a23d44bea632101",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_14": {
+      "status": "no tests",
+      "diff_sha256": "9283fba64769f38ede24b8fb9fdfcc988d868892755859b883c3746149b3cdb1",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_15": {
+      "status": "no tests",
+      "diff_sha256": "cc13765ed7d13b5306e1992b3d9c811e277cadeeb98059e7970497a5bfe741c2",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_16": {
+      "status": "no tests",
+      "diff_sha256": "ccdd9303b5eb97b2c24fccf7ff604152a801e6ec7de136b7531531055997cd9d",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_17": {
+      "status": "no tests",
+      "diff_sha256": "56708d0cc711406826e1866234dbc28845e86f95e712522ac3d2d344a237e85c",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_18": {
+      "status": "no tests",
+      "diff_sha256": "1664fbe5b207dbfef93105448c59564e770e6714681da4185f043931b770e652",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_19": {
+      "status": "no tests",
+      "diff_sha256": "c89c3cbe8f21f2923cd4fd1f4623c8926defbaade9047a7556a6b018431ace51",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_2": {
+      "status": "no tests",
+      "diff_sha256": "d66159185b46f5afafaa6c348036717f21645a7593f3b98a7e7b6b9f3805fc2f",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_3": {
+      "status": "no tests",
+      "diff_sha256": "bdee52cf038b4ae4a11ce4c52c50efcd8b0502e3c1b147b59a3cd98578c4e302",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_4": {
+      "status": "no tests",
+      "diff_sha256": "6996925cb028d58d7d9fbc24c8a137d84b1e763175941bbfbbcd1ca9895a47ec",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_5": {
+      "status": "no tests",
+      "diff_sha256": "19293b51f9d2f0d4c00590a4de62dd401a64fe89ef5700398782ecd274eb36aa",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_6": {
+      "status": "no tests",
+      "diff_sha256": "55992962dc9c6115ff3fbf3d112d37f2287aeae8a5bf2820e46a951cb8cef526",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_7": {
+      "status": "no tests",
+      "diff_sha256": "41d9fc016957410cb07c56183ecdf2288045993a2527757936343bdd50f88dac",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_8": {
+      "status": "no tests",
+      "diff_sha256": "8cf13272280182ebf6486b6598148262799cd6d83e01007ec17780cbb531a47a",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_wall__mutmut_9": {
+      "status": "no tests",
+      "diff_sha256": "39cd4bfd4c102a059a954d4a57fe4480b402cee5190b4fe21944b701d0b432c9",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "parity_worker.x_run__mutmut_1": {
+      "status": "no tests",
+      "diff_sha256": "153d50d45ccfe16d90dcbdf97e3c493c271b0b78d749bb331dc4c5cb3f2bf0cd",
+      "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
     }
-  }
+  },
+  "base_revision": "8daf810e0abd75cd417e16bab19fa59a330985e4"
 }

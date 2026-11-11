@@ -1,32 +1,90 @@
 {
-  "tool": "mutmut==2.4.5",
-  "mutants": 211,
-  "control_test_file": "tests/test_kbc_precision.py",
+  "tool": "mutmut==3.7.0",
+  "mutants": 540,
+  "inventory_sha256": "69e22e6ff47fe5b95e148f160ad06ca21e33a9ef92ac7d41a1ed35b09a62f628",
   "scope": "HAWA-001 PR lines of vendored kbc_collision.py changed since f9a3a13 (patch mode); CPU cases only; not whole-module mutation coverage",
+  "control_test_files": [
+    "tests/test_kbc_precision.py"
+  ],
   "sources": {
     "vendor/lettuce/lettuce/ext/_collision/kbc_collision.py": "9722ee7daa68d378e47b4323ee281db1ef6a580c892e67bec1a6215904e115d4",
     "tests/test_kbc_precision.py": "79b606b90aa23fe5142882f3e56cf9fc85a3d74636bc845bd4c1a3554ba839f6"
   },
   "reviewed_survivors": {
-    "Mutant #1": {
-      "diff_sha256": "7e4392281fd0782bc3a481c5a7f8ffcef56cdac673027d7d2d066b5ce738600c",
-      "reason": "Equivalent in FP32: Dekker splitting with 4098 instead of 4097 still gave exact TwoProduct for all 1,711,276,032 pairs of every [1,2) significand with 204 multipliers, and for 10^7 random pairs with exponents in [-20,20]. Splitters 2049 and 65537 fail that random probe, so the probe can detect a bad split."
+    "lettuce.ext._collision.kbc_collision.x__df_constant__mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "b699c8508096010a5d0038c73ffb85951e0c54d52edcd62eaa2b2cb41a29c632",
+      "reason": "Device placement only: on the CPU, the device this study runs on, the tensor lands on the same device either way. On MPS, the only production caller of the compensated path, it would mix devices; that is device evidence (#53), not a CPU mutation kill."
     },
-    "Mutant #181": {
-      "diff_sha256": "260ba761f82a65d92536ceac0fb912018731a5a6e644ddd6f86b4288a5003a52",
+    "lettuce.ext._collision.kbc_collision.x__df_constant__mutmut_12": {
+      "status": "survived",
+      "diff_sha256": "8315ac9602aea2657167b751441476377ad036fdac8e09d0cc2ea1b8ae2a886e",
+      "reason": "Equivalent on reachable inputs: the compensated path runs only for FP32 storage, so like.dtype is FP32, which is also the default dtype for a tensor built from a Python float."
+    },
+    "lettuce.ext._collision.kbc_collision.x__df_constant__mutmut_13": {
+      "status": "survived",
+      "diff_sha256": "857952e30bc112d29a68972444755d4f9314daa2cc4f5dcbc6a335edde2e3c16",
+      "reason": "Device placement only: on the CPU, the device this study runs on, the tensor lands on the same device either way. On MPS, the only production caller of the compensated path, it would mix devices; that is device evidence (#53), not a CPU mutation kill."
+    },
+    "lettuce.ext._collision.kbc_collision.x__df_constant__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "16e46885a649437b6cdab86318222fe74530dd30128447a9c4d301d6fd397994",
+      "reason": "Equivalent on reachable inputs: the compensated path runs only for FP32 storage, so like.dtype is FP32, which is also the default dtype for a tensor built from a Python float."
+    },
+    "lettuce.ext._collision.kbc_collision.x__moment_axis__mutmut_58": {
+      "status": "survived",
+      "diff_sha256": "af20991a4f1dffa1cbf6723951d61d546877a43a31a3e70338ccc282f8a02abe",
+      "reason": "Equivalent: stacking each transformed axis at the front instead of in place only permutes the 3^d velocity axes. Every axis is still transformed once, the order-2 and order-3+ masks are symmetric under that permutation, and the inverse transform, which uses the same function, restores the original layout."
+    },
+    "lettuce.ext._collision.kbc_collision.xǁKBCCollisionǁ_collide_compensated__mutmut_13": {
+      "status": "survived",
+      "diff_sha256": "e555284cbe85287d74c0d1f2ffa2c24c9f7b24366fa94a2097a15e84697c42ba",
+      "reason": "Equivalent on reachable inputs: in the FP32 compensated path the stencil is already FP32, so .to(None) and .to(f.dtype) both leave it unchanged."
+    },
+    "lettuce.ext._collision.kbc_collision.xǁKBCCollisionǁ_collide_compensated__mutmut_130": {
+      "status": "survived",
+      "diff_sha256": "41180e4c7839f34fea1926e1e8b84fa340d17bb96510077edb26cb7ad75e2487",
+      "reason": "Equivalent: weights is FP64, so subtracting the FP32 weight_high promotes it to FP64 whether or not it is converted first."
+    },
+    "lettuce.ext._collision.kbc_collision.xǁKBCCollisionǁ_collide_compensated__mutmut_137": {
+      "status": "survived",
+      "diff_sha256": "f08896bd2ec695165995881b838298bfefd3ade4590161552c26f095968678e9",
+      "reason": "Device placement only: on the CPU, the device this study runs on, the tensor lands on the same device either way. On MPS, the only production caller of the compensated path, it would mix devices; that is device evidence (#53), not a CPU mutation kill."
+    },
+    "lettuce.ext._collision.kbc_collision.xǁKBCCollisionǁ_collide_compensated__mutmut_139": {
+      "status": "survived",
+      "diff_sha256": "8bf220838a9fdaacb310605fd9fa9838a8d1345c703319f68681bab654b61973",
+      "reason": "Device placement only: on the CPU, the device this study runs on, the tensor lands on the same device either way. On MPS, the only production caller of the compensated path, it would mix devices; that is device evidence (#53), not a CPU mutation kill."
+    },
+    "lettuce.ext._collision.kbc_collision.xǁKBCCollisionǁ_collide_compensated__mutmut_178": {
+      "status": "survived",
+      "diff_sha256": "acac1990dcfbb908c8fe55d4d6b20a16c5b541282e25352b54bd4dc369349d55",
+      "reason": "Equivalent: inverse is only tested for truth, and None is false like False."
+    },
+    "lettuce.ext._collision.kbc_collision.xǁKBCCollisionǁ_collide_compensated__mutmut_187": {
+      "status": "survived",
+      "diff_sha256": "b89fe9d5828c71dde0dfa0f6884f221891ea7e74c1833f47de91a2cf1dafc6e6",
+      "reason": "Device placement only: on the CPU, the device this study runs on, the tensor lands on the same device either way. On MPS, the only production caller of the compensated path, it would mix devices; that is device evidence (#53), not a CPU mutation kill."
+    },
+    "lettuce.ext._collision.kbc_collision.xǁKBCCollisionǁ_collide_compensated__mutmut_189": {
+      "status": "survived",
+      "diff_sha256": "c931ff31aeca6bc875cdfc546f3fa56f3de25b54f0a84c68cb1c6d16502a6172",
+      "reason": "Device placement only: on the CPU, the device this study runs on, the tensor lands on the same device either way. On MPS, the only production caller of the compensated path, it would mix devices; that is device evidence (#53), not a CPU mutation kill."
+    },
+    "lettuce.ext._collision.kbc_collision.xǁKBCCollisionǁ_collide_compensated__mutmut_251": {
+      "status": "survived",
+      "diff_sha256": "0f4865567af2fd5ab10bde65d9b32c646d2898e49e24a272182c391a3ef87b6f",
       "reason": "Boundary only: < and <= differ only when the double-float sum_h equals (q eps)^2 rho bit for bit; no FP32 input was constructed to hit equality. Density scaling of the same guard is killed by test_storage_precision_guard_scales_with_density_in_both_kernels."
     },
-    "Mutant #197": {
-      "diff_sha256": "4a38951b0d238f8cb2dba4bfbf0ed582e695c55ac18e9e34a6f26e09108327d5",
+    "lettuce.ext._collision.kbc_collision.xǁKBCCollisionǁ_collide_compensated__mutmut_289": {
+      "status": "survived",
+      "diff_sha256": "baa9f4c168057aaa81c3f4d2c6d0609f52a678aed52421fd119ee1a25301d788",
       "reason": "Equivalent on reachable inputs: TwoSum makes the low part NaN whenever the high part is infinite or NaN, so isfinite(lo) and isfinite(hi) agree. They could only differ if a split overflowed with |gamma| > 8e34, but guarded inputs bound |sum_s/sum_h| by |delta_s|/|delta_h|, many orders below that."
     },
-    "Mutant #200": {
-      "diff_sha256": "e3995b1d6ec1613d4bd3de530c0909ca7b4763faefacb09ab28c4aa429a630dc",
+    "lettuce.ext._collision.kbc_collision.xǁKBCCollisionǁ_collide_compensated__mutmut_291": {
+      "status": "survived",
+      "diff_sha256": "67a4180fb4b1075883aed833a8d6fd86e64d295bbf0d9eadfb9eaeaa633606ff",
       "reason": "Boundary only: < and <= differ only for a stabilizer exactly equal to 1e-15, the inherited Lettuce reset threshold; FP32-stored inputs cannot be tuned to hit that value."
-    },
-    "Mutant #201": {
-      "diff_sha256": "3ef84e45b823b60aa0e1dd404ee5f413c516c7639c2a4801321362ae77ef084c",
-      "reason": "Boundary only: differs only for a stabilizer in [1e-15, 2e-15). In the observed sensitive cell a one-ulp FP32 input change moved the stabilizer by about 1e-3, so FP32 input quantization makes that window unreachable when constructing tests. Not proven equivalent; reviewed as unreachable."
     }
   }
 }

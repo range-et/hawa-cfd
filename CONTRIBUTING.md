@@ -32,7 +32,7 @@ Report security problems privately as described in [SECURITY.md](SECURITY.md).
   parity, and the environment for every gate, script and documented command.
   `.venv-dev` is Python 3.12 (`UV_PROJECT_ENVIRONMENT=.venv-dev uv sync --python
   3.12 --extra test --group tools`) and holds developer tools that need newer
-  Python, such as ruff and mutmut 3.x. Nothing in `.venv-dev` is a production
+  Python: ruff and the mutmut 3.7.0 mutation studies. Nothing in `.venv-dev` is a production
   dependency, and a 3.12 pass is not evidence for 3.9.
 - Rhino installs dependencies from the `# requirements:` headers in
   `plugin/Bootstrap.py` and `scripts/grasshopper_component.py`. Change those
@@ -58,13 +58,15 @@ before review.
    [function coverage gate](docs/function-testing.md) against the PR base, run
    `check --strict --coverage-scope headless`, and commit the regenerated matrix.
    Don't add coverage exclusions or weaken assertions to pass.
-3. **Targeted mutation testing.** Run mutmut 2.4.5 only on the lines the PR
-   changes (`--use-patch-file` against the base), with the focused tests that
-   exercise them. Kill non-equivalent survivors with new tests. Record equivalent
-   survivors with their diff and reasoning in a committed, reviewed policy, and
-   report timeouts and errors separately; they never count as kills. Studies that
-   exceed the CI time limit may run locally; commit their script and policy.
-   Whole-module mutation runs are not required.
+3. **Targeted mutation testing.** Run mutmut 3.7.0 from `.venv-dev` only on the
+   lines the PR changes (a runner's `changed_lines` patch against the base), with
+   the focused tests that exercise them; see
+   [Mutation checks](docs/function-testing.md#mutation-checks). Kill
+   non-equivalent survivors with new tests. Record equivalent survivors and `no
+   tests` mutants with their diff hash and reasoning in a committed, reviewed
+   policy. Timeouts, errors and other outcomes fail the check; they never count
+   as kills. Commit the study script and policy; the CI workflow runs the CLI
+   and runtime admission studies. Whole-module mutation runs are not required.
 4. **The full suite passes on Python 3.9 and 3.12.** Run it with
    `.venv/bin/python -m pytest tests -q` and `.venv-dev/bin/python -m pytest tests -q`,
    and run `.venv-dev/bin/ruff check .`, which rejects syntax that Python 3.9

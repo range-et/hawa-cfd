@@ -1,0 +1,158 @@
+{
+  "tool": "mutmut==2.4.5",
+  "mutants": 356,
+  "control_test_file": "tests/test_runtime_admission.py",
+  "scope": "Runtime admission modules: backends, cases, boundary_contracts; not whole-codebase mutation coverage",
+  "sources": {
+    "src/hawa/backends.py": "6bdbf42473b3aa83d8b4497e7731db119d51a7344f1e3246cb64a5186cf42a73",
+    "src/hawa/cases.py": "f8ad136bd78b60b7f21d6b8fb5a911a945fb0e6b9c16ebf9ad649b0be3c643d1",
+    "src/hawa/boundary_contracts.py": "bd8c268fa77b14389f096eb676de92d0179db2b62ead370c9e51f27b6db71c20",
+    "tests/test_runtime_admission.py": "65b091ab64309c31c7a915c4f9ac7c4633725805b2fe013ad0f676a45dc85746"
+  },
+  "reviewed_survivors": {
+    "Mutant #17": {
+      "diff_sha256": "8420b88e29af590f9add926b93927c4e2eadf7db80117d59d2c51ac69b8ed9a3",
+      "reason": "Equivalent for the probe contract: rolling the fixed nonnegative array by another offset preserves its sum and exercises the same operation family."
+    },
+    "Mutant #18": {
+      "diff_sha256": "c6427aaccbdb6e2a5278c68d86923c83c1f955a4bc7cb1b2d129d4945be57299",
+      "reason": "Equivalent for the probe contract: reversing one roll offset preserves the fixed-array sum and operation family."
+    },
+    "Mutant #19": {
+      "diff_sha256": "310013c724f2de47ee19966335964c12f2a28a2e77f761d5ace25c715f28a4d6",
+      "reason": "Equivalent for the probe contract: another roll offset preserves the fixed-array sum and operation family."
+    },
+    "Mutant #20": {
+      "diff_sha256": "290b13f08d6f30d4e22c8ce0bc0208101f2f4d137904a274a9e4211bdc87850e",
+      "reason": "Equivalent for the probe contract: repeated roll dimensions preserve the fixed-array sum and still exercise torch.roll."
+    },
+    "Mutant #23": {
+      "diff_sha256": "5d04089bebfe8d4e320b1e408a27abb0dc85e1e9871a4ed397ead078e0104f3d",
+      "reason": "Equivalent on the fixed probe domain: the only changed branch is zero, and either branch contributes zero."
+    },
+    "Mutant #24": {
+      "diff_sha256": "66590367cf9a98db0501062dcaa193709c9d122374ea389f62b6e5682ef23c4f",
+      "reason": "Equivalent on the fixed integer probe domain: only zero changes branch, and either branch contributes zero."
+    },
+    "Mutant #30": {
+      "diff_sha256": "f7680ddd6a6dc265a2107d56515273b326583987a7f2dd0a1a103136ac70c6db",
+      "reason": "Equivalent with FP32 probe output: the difference from 60 is a multiple of FP32 spacing and cannot equal the Python threshold 1e-5 exactly."
+    },
+    "Mutant #32": {
+      "diff_sha256": "00dc8919736e09714000d58a849230f58e4fa7377586e9daa2f827b35eef2c1d",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #42": {
+      "diff_sha256": "817cef96af064c656a5c835d47e2669860cbd28b7ef18781a738164b6f02ce45",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #54": {
+      "diff_sha256": "5782d93eab26b6c323ef1cdae57a607954a3a05071316b99f8b4890c7179e4bf",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #65": {
+      "diff_sha256": "61607e960c27b28668a6a530fff5204e1e94ca8a43fad8394e96c5fab311f780",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #70": {
+      "diff_sha256": "6b95995a64c995fb139b7fb99648830a805366c27fa7e994a82d6b615a95dc55",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #74": {
+      "diff_sha256": "6ea0e7e8a7486d111b04dd84e4025e81231d6053f07f34a36d96d2e253b85ec3",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #75": {
+      "diff_sha256": "6c0f5a05079ae7243d1ec92bcf2ff2fe89fefe59095546b9d590474dcc53fde5",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #76": {
+      "diff_sha256": "20f913f324bfedcace972e74edf360b3e10d32d475437e05695f898e7e3a71eb",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #78": {
+      "diff_sha256": "772a00f59a1913f0ae1384a761a51f973dec998f66e42caa12fe302b5e290574",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #102": {
+      "diff_sha256": "3ba08fe7a08dd9a1ae5287c9d26da9d3812269075bc20cab20b89f1e994988d9",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #117": {
+      "diff_sha256": "36ad9c9ba07f760238b07d60b5e775ae17bfa3dfbb5e2faed3b9178be77e5bcf",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #170": {
+      "diff_sha256": "7107041446639c37e5b117808579889110b7b4786669e4cff6c41baafdbea296",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #177": {
+      "diff_sha256": "0698aa52ec1aa3d1e84c122251ddd4642a1e8544e07d23a87e008b2ee09d759d",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #188": {
+      "diff_sha256": "c1b2a569e1c971c5c10596ee152cbc4d1fb7b48e667e31f294d2281825bd622b",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #194": {
+      "diff_sha256": "29ca700946bb556de2fae6416a17aa225a809618ab6e771cd8f224cbfe98e294",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #199": {
+      "diff_sha256": "258117e467cfba1bac47e2db5df3c299c5d15b68ac9181f9aeb0669179767cfd",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #208": {
+      "diff_sha256": "e0ea307c787796fd4b85120b6125d74ede54169f6672c7e7af9c63cb7a815a68",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #222": {
+      "diff_sha256": "29e43b3a83e5ab6987dfa4de0add68b2663f560a1c8aefacea0dfb2316b50f37",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #237": {
+      "diff_sha256": "eb75dbcf17a70c101149856660572030b1dd743ed739fdb152c6a8c10c508a7e",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #255": {
+      "diff_sha256": "e4b12c3bef99c71753587206fa3f25f10716622588b3398bf5744a6cb404e220",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #259": {
+      "diff_sha256": "2745ce07bcc4eb9c0841b7837d5ee35f33bc032eb43d8bf3906fa98ade91ccd7",
+      "reason": "Equivalent algebra: outward is always +1 or -1, so multiplying and dividing by outward give the same result."
+    },
+    "Mutant #263": {
+      "diff_sha256": "b6fe49f0353a107579db5650074944c7fb663f452ae1368243d82720251089ad",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #272": {
+      "diff_sha256": "72360b4fdbb82f1fbad3aac40a16c4f7f0c945b7e826f69bdb04a165f198aa3e",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #285": {
+      "diff_sha256": "9dd5e8358455f8df00ceef12c83688e7fadc51a0fa1c8420ff31276cf56de82f",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #312": {
+      "diff_sha256": "808637380d800bffbd1a4ba4170720b02d6457300fce70520bb2f699976de118",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #318": {
+      "diff_sha256": "4aef06f092894fb1b04e191c97f475a589d26a7d5b83e77464f4fbadcba60861",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #333": {
+      "diff_sha256": "6da9a04af9f1c5b0ea469c5fa22160b2067683d3c140fa91b8f4f164e7a8c3a5",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #347": {
+      "diff_sha256": "f9579e846ab349483d276454ad1d590ffd204d92164a07ac6dc8279a9902d2d6",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    },
+    "Mutant #353": {
+      "diff_sha256": "47ab078ac761d96031e17d568afb8596335de85cec0bca1ad3f857523ac33ae5",
+      "reason": "Diagnostic-string decoration only: exception type, admission decision and substantive message remain unchanged; exact surrounding diagnostic punctuation is not an API contract."
+    }
+  }
+}

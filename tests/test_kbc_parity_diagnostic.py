@@ -9,7 +9,7 @@ import torch
 import lettuce as lt
 
 ROOT=Path(__file__).resolve().parents[1]
-spec=importlib.util.spec_from_file_location('kbc_parity',ROOT/'scripts/diagnose_kbc_parity.py')
+spec=importlib.util.spec_from_file_location('diagnose_kbc_parity',ROOT/'scripts/diagnose_kbc_parity.py')
 study=importlib.util.module_from_spec(spec);spec.loader.exec_module(study)
 
 
@@ -352,6 +352,11 @@ def test_provenance_helpers_cover_package_submodules_and_inputs():
         study.validate_loaded_modules({})
     with pytest.raises(ValueError,match=exact('Loaded module is outside this checkout vendor source: lettuce.x')):
         study.validate_loaded_modules(dict(paths,**{'lettuce.x':None}))
+    # A real file outside the vendor tree, and a missing file inside it, are each rejected.
+    vendor=ROOT/'vendor/lettuce/lettuce'
+    for location in (__file__,str(vendor/'missing.py')):
+        with pytest.raises(ValueError,match=exact('Loaded module is outside this checkout vendor source: lettuce.x')):
+            study.validate_loaded_modules(dict(paths,**{'lettuce.x':location}))
 
 
 def test_inspection_guard_includes_exact_storage_threshold(monkeypatch):

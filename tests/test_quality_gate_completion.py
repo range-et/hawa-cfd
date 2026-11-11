@@ -105,12 +105,14 @@ def test_mutation_policy_script_entrypoint_checks_real_artifact(tmp_path, monkey
     name = 'tools/mutation/check_results.py'; target = output/name
     target.parent.mkdir(parents=True); target.write_bytes(Path(mutation.__file__).read_bytes())
     for suffix in ('before','after'): (output/('working-source-'+suffix+'.sha256')).write_text('same')
+    (output/'tool.txt').write_text('mutmut==3.7.0\n')
     (output/'collected.txt').write_text('tests/test_runtime_admission.py::test_contract\n')
     (output/'control.xml').write_text('<testsuite><testcase name="test_contract"/></testsuite>')
-    (output/'mutations.xml').write_text('<testsuite><testcase name="Mutant #1"/></testsuite>')
+    (output/'mutants.json').write_text(json.dumps({'hawa.cases.x_f__mutmut_1': dict(path='src/hawa/cases.py', exit_code=1, diff='d')}))
     (output/'mutation-exit.txt').write_text('0')
-    policy = dict(mutants=1, sources={name: mutation.digest(target)}, reviewed_survivors={},
-                  control_test_file='tests/test_runtime_admission.py', scope='entrypoint fixture')
+    policy = dict(tool='mutmut==3.7.0', mutants=1, inventory_sha256=mutation.inventory_digest(['hawa.cases.x_f__mutmut_1']),
+                  sources={name: mutation.digest(target)}, reviewed_survivors={},
+                  control_test_files=['tests/test_runtime_admission.py'], scope='entrypoint fixture')
     config = output/'policy.json'; config.write_text(json.dumps(policy))
     monkeypatch.setattr(sys, 'argv', ['check_results.py',str(output),'--policy',str(config)])
     with pytest.raises(SystemExit) as exit_info: runpy.run_path(mutation.__file__, run_name='__main__')

@@ -128,16 +128,26 @@ directory to the round's device issue.
 guard handling, manifest fields, provenance, and reduced real runs of every builder
 on the CPU. `scripts/device_smoke.py` has 100% line and branch coverage.
 
-Targeted mutmut 2.4.5 covered only the lines this gate added, from
-`git diff 8daf810` passed to `--use-patch-file`:
+Targeted mutmut 3.7.0 mutates only the lines this gate added, from
+`git diff 8daf810` turned into a changed-lines scope by `tools/mutation/mutmut3.py`
+(see [Mutation checks](function-testing.md#mutation-checks)):
 
 ```sh
-bash tools/mutation/run_device_smoke.sh results/device-smoke-mutation-NEW 8daf810
-.venv/bin/python tools/mutation/check_results.py results/device-smoke-mutation-NEW --policy tools/mutation/device-smoke-policy.json
+bash tools/mutation/run_device_smoke.sh results/device-smoke-mutation-NEW
+.venv-dev/bin/python tools/mutation/check_results.py results/device-smoke-mutation-NEW --policy tools/mutation/device-smoke-policy.json
 ```
 
-Of 494 mutants, 485 were killed. The remaining 9 are reviewed in
-[the policy](../tools/mutation/device-smoke-policy.json): 3 equivalent placeholder or
-role arguments, 1 timeout constant, 1 already-sorted key order and 4 console flush
-flags. This is a PR-scoped record, not whole-module or CI mutation coverage. CPU
-runs are not CUDA or MPS evidence.
+The study runs on Python 3.12 and deselects the `production_python` test
+`test_real_builders_pass_their_criteria_on_the_cpu_proxy`, because
+`scripts/parity_worker.py` refuses interpreters other than 3.9. Of 1207 mutants,
+998 were killed. The remaining 209 are reviewed in
+[the policy](../tools/mutation/device-smoke-policy.json): 136 are reached only by
+that deselected test (the 3.9 suite still runs it), 17 are open test gaps marked
+`Unresolved (test gap)` and tracked in
+[#85](https://github.com/range-et/hawa-cfd/issues/85), and the rest are equivalent, CPU-only, decoration or
+console flush mutants. This is a PR-scoped record, not whole-module or CI mutation
+coverage. CPU runs are not CUDA or MPS evidence.
+
+The earlier mutmut 2.4.5 record on Python 3.9 (494 mutants, 485 killed, 9
+reviewed) is kept as historical evidence in
+[`tools/mutation/mutmut2-historical/`](../tools/mutation/mutmut2-historical/device-smoke-policy.json).

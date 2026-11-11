@@ -159,11 +159,11 @@
     "tests/test_general_boundaries.py": "807142676376da912ada3ff19804461ec164dfac38a98328d0267732f3c852a2",
     "tests/test_integration_review.py": "1c2ade9b7f0de48c226715ced29dc28c8058ed54cda46db99d1444e0aca6bf05",
     "tests/test_jobs.py": "f486631f137ee82be7334e02dfe19859551688a46d54a6dfa75bd8a6934fe93b",
-    "tests/test_kbc_parity_diagnostic.py": "9f4bf8f0ced94f52be33d02ba112baa03400f36429e90816e8ed7b9a160fb27b",
+    "tests/test_kbc_parity_diagnostic.py": "59636620da3c8f2cae794a0b856ef6f0de4ec4a0a82a78f27fd9b1b827827b17",
     "tests/test_kbc_precision.py": "79b606b90aa23fe5142882f3e56cf9fc85a3d74636bc845bd4c1a3554ba839f6",
     "tests/test_lbm.py": "47308abf2c82d70a0674b41ce48a9c86fff7ef346bea96b5312cacbd818ced4b",
     "tests/test_motion.py": "2739488d273a643b607a46d86c2676c9e1e4265e1a9da0504546c4fac5ea16d3",
-    "tests/test_mutation_policy.py": "da0ea86a736bb3fd05935903062130bf89a4ba3990f47b381fe29b03ddeb4d7b",
+    "tests/test_mutation_policy.py": "dfe590ba3583683c43da60395f337ac0c92104daf2813425659347f4bd697ed8",
     "tests/test_neutral.py": "287434b4c666f289a99635f216ef47b8c491ed1867c1bc52a8197969bc857bfa",
     "tests/test_neutral_external.py": "41ab18b4a61be3f83a2993a45ac43dc295baa20af4609b8bed601ab175a5d3c1",
     "tests/test_neutral_nesting_verification.py": "2f3ba5e20d4fb5dbd0a78fa610acedd170c339ba93b96cc06884ac7448446a54",
@@ -176,12 +176,12 @@
     "tests/test_plugin_service.py": "b5b9b6ca82907d034f44476269742da8237cbe02f1ff952117697cb1784430ce",
     "tests/test_port_features.py": "f45ac0cfa460cb0b562d895fb26039ad28b0337bf45dc086d8a0a6dd89653ea3",
     "tests/test_python_core_contracts.py": "cdc094cba31202e9429f156fc5cd61b0fc48b4c3727623bcf9d405675bfbb159",
-    "tests/test_quality_gate_completion.py": "47ddf354f53d149b49cf657866fe638dd1f426907c5264f2c6b31565a8a1b43c",
+    "tests/test_quality_gate_completion.py": "be4548692e719d93b508d7910f5d0e40f562ba7a1f0beae055f6555908f3dc5a",
     "tests/test_quality_tools.py": "ca78e20db561cd80762cc06e41443bd286343ef7c21a3df51b7f3f059754ee06",
     "tests/test_recording.py": "a175a8364cfcbae64881939a28727a77e9d12e244c4aecf3b8bacdc137d2282b",
     "tests/test_refinement.py": "93fb27dd65bf0db274ddf57d1e931c34eeab688a4866cba0e01215c9ba244c6e",
     "tests/test_refinement_preflight.py": "427d0c73c1c69ed1aa6377bbeb235c217809eb431c412788e4c3603eecaafc25",
-    "tests/test_runtime_admission.py": "65b091ab64309c31c7a915c4f9ac7c4633725805b2fe013ad0f676a45dc85746",
+    "tests/test_runtime_admission.py": "2afd8a5d3223bf54379db441157cb0618602321805fc0807ce5904eadad87f0d",
     "tests/test_runtime_field_rejections.py": "75d01be4166528a5c994718e621ff5c7b3e185fef87df8d3767c83162818f97d",
     "tests/test_runtime_invariants.py": "280f2ed4bcb903bb3c9147eb132163785a1a530f61a14088f54a13d57850e265",
     "tests/test_runtime_job_contracts.py": "9c54ec93a8decc094938d5aedf368d85721fcae91d399fa9a4519f2dc2754d4d",
@@ -199,7 +199,8 @@
     "tools/FunctionInventory/FunctionInventory.csproj": "5b40122f82db47b69ba4101cd6af9c1d1516df164ebd158355964f18e3cf33ac",
     "tools/FunctionInventory/Program.cs": "fdea78af6e03f436023ee8aa1ec5387f8f951ae4646f007ae3bb25c8964d5a1b",
     "tools/function_coverage.py": "7de319317470649e77be2cdd3bc67122ace333a7f05c94cee1e90013aa557db2",
-    "tools/mutation/check_results.py": "a453f9b31322ddf02b4f678a7c4007db37b512cdf7e68798017ffd5a5c309af7"
+    "tools/mutation/check_results.py": "baae49e644602a2e9dce8d71775d06f15b78b2804ac9b599485e79d8eabb25fa",
+    "tools/mutation/mutmut3.py": "81a3131a603a319e082b0f01c7f82e7bcd02717f96eac68964dd3c4693984aaa"
   },
   "python_exit": 0,
   "environment": {
@@ -1070,27 +1071,73 @@
       "tests/test_motion.py::test_rotated_off_pivot_body_geometry_device_parity[mps-sphere]",
       "tests/test_motion.py::test_rotated_off_pivot_body_geometry_device_parity[mps-cylinder]",
       "tests/test_mutation_policy.py::test_exact_reviewed_inventory_passes_without_hiding_survivors",
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[source]",
+      "tests/test_mutation_policy.py::test_reviewed_no_tests_mutant_is_reported_as_a_survivor_not_a_kill",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[3]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[2]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[4]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[5]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[34]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[35]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[36]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[37]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[24]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-24]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[152]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[255]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-9]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-11]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[None]",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[added_mutant]",
       "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[copy]",
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[during]",
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_control]",
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[failed_control]",
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[skipped_control]",
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[duplicate]",
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_mutant]",
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_name]",
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[error]",
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[timeout]",
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_survivor]",
       "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[diff]",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[during]",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[error_control]",
       "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[exit]",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[failed_control]",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_control]",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_mutant]",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[no_reason]",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[renamed_mutant]",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[skipped_control]",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[source]",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[tool]",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_survivor]",
       "tests/test_mutation_policy.py::test_policy_cli_reports_exact_verifier_result",
-      "tests/test_mutation_policy.py::test_reviewed_all_killed_inventory_requires_zero_exit",
+      "tests/test_mutation_policy.py::test_reviewed_all_killed_inventory_passes",
+      "tests/test_mutation_policy.py::test_draft_keeps_reasons_only_for_unchanged_survivor_diffs",
       "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[]",
       "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[results/cli-mutation/]",
       "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[/tmp/study/]",
-      "tests/test_mutation_policy.py::test_runtime_policy_checks_its_own_collected_inventory",
       "tests/test_mutation_policy.py::test_policy_can_name_several_control_files",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[atmospheric-precision-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[boundary-reflection-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[cli-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[device-smoke-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-collision-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-diagnostic-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mutation-tooling-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[runtime-admission-policy.json]",
+      "tests/test_mutation_policy.py::test_changed_lines_are_the_added_new_side_lines_only",
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1,2 +1,2 @@\\n context\\n-ends inside a hunk]",
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1,2 +1,0 @@\\n-x\\n-ends inside a hunk]",
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1,0 +1,2 @@\\n+x\\n-ends inside a hunk]",
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1 +1 @@\\nnot a diff line\\n-Truncated hunk]",
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ garbage @@\\n-Unreadable hunk header]",
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[@@ -1 +1 @@\\n-x\\n+y\\n-Unreadable hunk header]",
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[src/hawa/cli.py-roots0-hawa.cli]",
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[src/hawa/sub/__init__.py-roots1-hawa.sub]",
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[src.py-roots2-src]",
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[scripts/device_smoke.py-roots3-device_smoke]",
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[tools/mutation/check_results.py-roots4-check_results]",
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[tools/mutation/check_results.py-roots5-tools.mutation.check_results]",
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[vendor/lettuce/lettuce/ext/k.py-roots6-lettuce.ext.k]",
+      "tests/test_mutation_policy.py::test_install_names_mutants_by_import_root_and_scopes_lines",
+      "tests/test_mutation_policy.py::test_install_without_scope_mutates_every_line_and_rejects_foreign_scope",
+      "tests/test_mutation_policy.py::test_export_writes_raw_exit_codes_and_diffs",
+      "tests/test_mutation_policy.py::test_launcher_refuses_any_other_mutmut_version",
+      "tests/test_mutation_policy.py::test_launcher_commands_drive_the_pinned_mutmut",
+      "tests/test_mutation_policy.py::test_real_mutmut_never_mutates_a_line_outside_the_patch",
+      "tests/test_mutation_policy.py::test_launcher_script_entrypoint_writes_the_scope",
       "tests/test_neutral.py::test_strict_capabilities",
       "tests/test_neutral.py::test_shifted_equilibrium_moments",
       "tests/test_neutral.py::test_wall_mass_and_impulse_budget",
@@ -1480,6 +1527,7 @@
       "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[None]",
       "tests/test_refinement_preflight.py::test_missing_or_scalar_patch_corner_has_domain_diagnostic[5]",
       "tests/test_runtime_admission.py::test_boundary_order_defaults_and_input_are_independent",
+      "tests/test_runtime_admission.py::test_integer_velocity_components_are_returned_as_floats",
       "tests/test_runtime_admission.py::test_boundary_container_rejection[None-schema]",
       "tests/test_runtime_admission.py::test_boundary_container_rejection[data1-schema]",
       "tests/test_runtime_admission.py::test_boundary_container_rejection[data2-schema]",
@@ -2684,28 +2732,73 @@
       "tests/test_motion.py::test_sdf_sampling_matches_sphere[cpu]",
       "tests/test_motion.py::test_two_body_load_ids_and_domain_exit[cpu]",
       "tests/test_motion.py::test_uniform_flow_translates_with_body_without_force_spikes[cpu]",
+      "tests/test_mutation_policy.py::test_changed_lines_are_the_added_new_side_lines_only",
       "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[/tmp/study/]",
       "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[]",
       "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[results/cli-mutation/]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[atmospheric-precision-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[boundary-reflection-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[cli-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[device-smoke-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-collision-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-diagnostic-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mutation-tooling-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[runtime-admission-policy.json]",
+      "tests/test_mutation_policy.py::test_draft_keeps_reasons_only_for_unchanged_survivor_diffs",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-11]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-24]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-9]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[152]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[24]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[255]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[2]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[34]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[35]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[36]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[37]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[3]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[4]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[5]",
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[None]",
       "tests/test_mutation_policy.py::test_exact_reviewed_inventory_passes_without_hiding_survivors",
+      "tests/test_mutation_policy.py::test_export_writes_raw_exit_codes_and_diffs",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[added_mutant]",
       "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[copy]",
       "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[diff]",
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[duplicate]",
       "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[during]",
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[error]",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[error_control]",
       "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[exit]",
       "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[failed_control]",
       "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_control]",
       "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_mutant]",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[no_reason]",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[renamed_mutant]",
       "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[skipped_control]",
       "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[source]",
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[timeout]",
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_name]",
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[tool]",
       "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_survivor]",
+      "tests/test_mutation_policy.py::test_install_names_mutants_by_import_root_and_scopes_lines",
+      "tests/test_mutation_policy.py::test_install_without_scope_mutates_every_line_and_rejects_foreign_scope",
+      "tests/test_mutation_policy.py::test_launcher_commands_drive_the_pinned_mutmut",
+      "tests/test_mutation_policy.py::test_launcher_refuses_any_other_mutmut_version",
+      "tests/test_mutation_policy.py::test_launcher_script_entrypoint_writes_the_scope",
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1 +1 @@\\nnot a diff line\\n-Truncated hunk]",
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1,0 +1,2 @@\\n+x\\n-ends inside a hunk]",
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1,2 +1,0 @@\\n-x\\n-ends inside a hunk]",
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1,2 +1,2 @@\\n context\\n-ends inside a hunk]",
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ garbage @@\\n-Unreadable hunk header]",
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[@@ -1 +1 @@\\n-x\\n+y\\n-Unreadable hunk header]",
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[scripts/device_smoke.py-roots3-device_smoke]",
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[src.py-roots2-src]",
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[src/hawa/cli.py-roots0-hawa.cli]",
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[src/hawa/sub/__init__.py-roots1-hawa.sub]",
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[tools/mutation/check_results.py-roots4-check_results]",
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[tools/mutation/check_results.py-roots5-tools.mutation.check_results]",
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[vendor/lettuce/lettuce/ext/k.py-roots6-lettuce.ext.k]",
       "tests/test_mutation_policy.py::test_policy_can_name_several_control_files",
       "tests/test_mutation_policy.py::test_policy_cli_reports_exact_verifier_result",
-      "tests/test_mutation_policy.py::test_reviewed_all_killed_inventory_requires_zero_exit",
-      "tests/test_mutation_policy.py::test_runtime_policy_checks_its_own_collected_inventory",
+      "tests/test_mutation_policy.py::test_reviewed_all_killed_inventory_passes",
+      "tests/test_mutation_policy.py::test_reviewed_no_tests_mutant_is_reported_as_a_survivor_not_a_kill",
       "tests/test_neutral.py::test_empty_contract_is_not_silently_ignored",
       "tests/test_neutral.py::test_filter_checkpoint_continuation",
       "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[0.1]",
@@ -3061,6 +3154,7 @@
       "tests/test_runtime_admission.py::test_explicit_valid_devices_probe_and_sync_once[cpu]",
       "tests/test_runtime_admission.py::test_explicit_valid_devices_probe_and_sync_once[cuda:3]",
       "tests/test_runtime_admission.py::test_explicit_valid_devices_probe_and_sync_once[mps]",
+      "tests/test_runtime_admission.py::test_integer_velocity_components_are_returned_as_floats",
       "tests/test_runtime_admission.py::test_neutral_contract_does_not_allow_profiles_on_closed_conditions[mapped-periodic]",
       "tests/test_runtime_admission.py::test_neutral_contract_does_not_allow_profiles_on_closed_conditions[mapped-pressure]",
       "tests/test_runtime_admission.py::test_neutral_contract_does_not_allow_profiles_on_closed_conditions[mapped-slip]",
@@ -15268,7 +15362,231 @@
           "passed"
         ]
       ],
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[source]": [
+      "tests/test_mutation_policy.py::test_reviewed_no_tests_mutant_is_reported_as_a_survivor_not_a_kill": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[3]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[2]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[4]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[5]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[34]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[35]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[36]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[37]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[24]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-24]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[152]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[255]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-9]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-11]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[None]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[added_mutant]": [
         [
           "setup",
           "passed"
@@ -15296,6 +15614,20 @@
           "passed"
         ]
       ],
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[diff]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
       "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[during]": [
         [
           "setup",
@@ -15310,133 +15642,7 @@
           "passed"
         ]
       ],
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_control]": [
-        [
-          "setup",
-          "passed"
-        ],
-        [
-          "call",
-          "passed"
-        ],
-        [
-          "teardown",
-          "passed"
-        ]
-      ],
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[failed_control]": [
-        [
-          "setup",
-          "passed"
-        ],
-        [
-          "call",
-          "passed"
-        ],
-        [
-          "teardown",
-          "passed"
-        ]
-      ],
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[skipped_control]": [
-        [
-          "setup",
-          "passed"
-        ],
-        [
-          "call",
-          "passed"
-        ],
-        [
-          "teardown",
-          "passed"
-        ]
-      ],
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[duplicate]": [
-        [
-          "setup",
-          "passed"
-        ],
-        [
-          "call",
-          "passed"
-        ],
-        [
-          "teardown",
-          "passed"
-        ]
-      ],
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_mutant]": [
-        [
-          "setup",
-          "passed"
-        ],
-        [
-          "call",
-          "passed"
-        ],
-        [
-          "teardown",
-          "passed"
-        ]
-      ],
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_name]": [
-        [
-          "setup",
-          "passed"
-        ],
-        [
-          "call",
-          "passed"
-        ],
-        [
-          "teardown",
-          "passed"
-        ]
-      ],
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[error]": [
-        [
-          "setup",
-          "passed"
-        ],
-        [
-          "call",
-          "passed"
-        ],
-        [
-          "teardown",
-          "passed"
-        ]
-      ],
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[timeout]": [
-        [
-          "setup",
-          "passed"
-        ],
-        [
-          "call",
-          "passed"
-        ],
-        [
-          "teardown",
-          "passed"
-        ]
-      ],
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_survivor]": [
-        [
-          "setup",
-          "passed"
-        ],
-        [
-          "call",
-          "passed"
-        ],
-        [
-          "teardown",
-          "passed"
-        ]
-      ],
-      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[diff]": [
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[error_control]": [
         [
           "setup",
           "passed"
@@ -15464,6 +15670,132 @@
           "passed"
         ]
       ],
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[failed_control]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_control]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_mutant]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[no_reason]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[renamed_mutant]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[skipped_control]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[source]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[tool]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_survivor]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
       "tests/test_mutation_policy.py::test_policy_cli_reports_exact_verifier_result": [
         [
           "setup",
@@ -15478,7 +15810,21 @@
           "passed"
         ]
       ],
-      "tests/test_mutation_policy.py::test_reviewed_all_killed_inventory_requires_zero_exit": [
+      "tests/test_mutation_policy.py::test_reviewed_all_killed_inventory_passes": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_draft_keeps_reasons_only_for_unchanged_survivor_diffs": [
         [
           "setup",
           "passed"
@@ -15534,7 +15880,7 @@
           "passed"
         ]
       ],
-      "tests/test_mutation_policy.py::test_runtime_policy_checks_its_own_collected_inventory": [
+      "tests/test_mutation_policy.py::test_policy_can_name_several_control_files": [
         [
           "setup",
           "passed"
@@ -15548,7 +15894,399 @@
           "passed"
         ]
       ],
-      "tests/test_mutation_policy.py::test_policy_can_name_several_control_files": [
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[atmospheric-precision-policy.json]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[boundary-reflection-policy.json]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[cli-policy.json]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[device-smoke-policy.json]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-collision-policy.json]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-diagnostic-policy.json]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mutation-tooling-policy.json]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[runtime-admission-policy.json]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_changed_lines_are_the_added_new_side_lines_only": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1,2 +1,2 @@\\n context\\n-ends inside a hunk]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1,2 +1,0 @@\\n-x\\n-ends inside a hunk]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1,0 +1,2 @@\\n+x\\n-ends inside a hunk]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1 +1 @@\\nnot a diff line\\n-Truncated hunk]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ garbage @@\\n-Unreadable hunk header]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[@@ -1 +1 @@\\n-x\\n+y\\n-Unreadable hunk header]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[src/hawa/cli.py-roots0-hawa.cli]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[src/hawa/sub/__init__.py-roots1-hawa.sub]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[src.py-roots2-src]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[scripts/device_smoke.py-roots3-device_smoke]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[tools/mutation/check_results.py-roots4-check_results]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[tools/mutation/check_results.py-roots5-tools.mutation.check_results]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[vendor/lettuce/lettuce/ext/k.py-roots6-lettuce.ext.k]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_install_names_mutants_by_import_root_and_scopes_lines": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_install_without_scope_mutates_every_line_and_rejects_foreign_scope": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_export_writes_raw_exit_codes_and_diffs": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_launcher_refuses_any_other_mutmut_version": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_launcher_commands_drive_the_pinned_mutmut": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_real_mutmut_never_mutates_a_line_outside_the_patch": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "skipped"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_launcher_script_entrypoint_writes_the_scope": [
         [
           "setup",
           "passed"
@@ -20635,6 +21373,20 @@
         ]
       ],
       "tests/test_runtime_admission.py::test_boundary_order_defaults_and_input_are_independent": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_runtime_admission.py::test_integer_velocity_components_are_returned_as_floats": [
         [
           "setup",
           "passed"
@@ -52569,6 +53321,7 @@
         "tests/test_runtime_admission.py::test_boundary_patch_rejection[patch5-Unsupported]",
         "tests/test_runtime_admission.py::test_duplicate_names_and_faces_rejected_independently[face-x+]",
         "tests/test_runtime_admission.py::test_duplicate_names_and_faces_rejected_independently[id-patch-x+]",
+        "tests/test_runtime_admission.py::test_integer_velocity_components_are_returned_as_floats",
         "tests/test_runtime_admission.py::test_neutral_contract_does_not_allow_profiles_on_closed_conditions[mapped-periodic]",
         "tests/test_runtime_admission.py::test_neutral_contract_does_not_allow_profiles_on_closed_conditions[mapped-pressure]",
         "tests/test_runtime_admission.py::test_neutral_contract_does_not_allow_profiles_on_closed_conditions[mapped-slip]",
@@ -69240,28 +69993,73 @@
         "tests/test_motion.py::test_sdf_sampling_matches_sphere[cpu]",
         "tests/test_motion.py::test_two_body_load_ids_and_domain_exit[cpu]",
         "tests/test_motion.py::test_uniform_flow_translates_with_body_without_force_spikes[cpu]",
+        "tests/test_mutation_policy.py::test_changed_lines_are_the_added_new_side_lines_only",
         "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[/tmp/study/]",
         "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[]",
         "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[results/cli-mutation/]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[atmospheric-precision-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[boundary-reflection-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[cli-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[device-smoke-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-collision-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-diagnostic-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mutation-tooling-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[runtime-admission-policy.json]",
+        "tests/test_mutation_policy.py::test_draft_keeps_reasons_only_for_unchanged_survivor_diffs",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-11]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-24]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-9]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[152]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[24]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[255]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[2]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[34]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[35]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[36]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[37]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[3]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[4]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[5]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[None]",
         "tests/test_mutation_policy.py::test_exact_reviewed_inventory_passes_without_hiding_survivors",
+        "tests/test_mutation_policy.py::test_export_writes_raw_exit_codes_and_diffs",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[added_mutant]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[copy]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[diff]",
-        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[duplicate]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[during]",
-        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[error]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[error_control]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[exit]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[failed_control]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_control]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_mutant]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[no_reason]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[renamed_mutant]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[skipped_control]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[source]",
-        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[timeout]",
-        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_name]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[tool]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_survivor]",
+        "tests/test_mutation_policy.py::test_install_names_mutants_by_import_root_and_scopes_lines",
+        "tests/test_mutation_policy.py::test_install_without_scope_mutates_every_line_and_rejects_foreign_scope",
+        "tests/test_mutation_policy.py::test_launcher_commands_drive_the_pinned_mutmut",
+        "tests/test_mutation_policy.py::test_launcher_refuses_any_other_mutmut_version",
+        "tests/test_mutation_policy.py::test_launcher_script_entrypoint_writes_the_scope",
+        "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1 +1 @@\\nnot a diff line\\n-Truncated hunk]",
+        "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1,0 +1,2 @@\\n+x\\n-ends inside a hunk]",
+        "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1,2 +1,0 @@\\n-x\\n-ends inside a hunk]",
+        "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1,2 +1,2 @@\\n context\\n-ends inside a hunk]",
+        "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ garbage @@\\n-Unreadable hunk header]",
+        "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[@@ -1 +1 @@\\n-x\\n+y\\n-Unreadable hunk header]",
+        "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[scripts/device_smoke.py-roots3-device_smoke]",
+        "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[src.py-roots2-src]",
+        "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[src/hawa/cli.py-roots0-hawa.cli]",
+        "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[src/hawa/sub/__init__.py-roots1-hawa.sub]",
+        "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[tools/mutation/check_results.py-roots4-check_results]",
+        "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[tools/mutation/check_results.py-roots5-tools.mutation.check_results]",
+        "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[vendor/lettuce/lettuce/ext/k.py-roots6-lettuce.ext.k]",
         "tests/test_mutation_policy.py::test_policy_can_name_several_control_files",
         "tests/test_mutation_policy.py::test_policy_cli_reports_exact_verifier_result",
-        "tests/test_mutation_policy.py::test_reviewed_all_killed_inventory_requires_zero_exit",
-        "tests/test_mutation_policy.py::test_runtime_policy_checks_its_own_collected_inventory",
+        "tests/test_mutation_policy.py::test_reviewed_all_killed_inventory_passes",
+        "tests/test_mutation_policy.py::test_reviewed_no_tests_mutant_is_reported_as_a_survivor_not_a_kill",
         "tests/test_neutral.py::test_empty_contract_is_not_silently_ignored",
         "tests/test_neutral.py::test_filter_checkpoint_continuation",
         "tests/test_neutral.py::test_high_re_preserves_positive_margin_and_health[0.1]",
@@ -69617,6 +70415,7 @@
         "tests/test_runtime_admission.py::test_explicit_valid_devices_probe_and_sync_once[cpu]",
         "tests/test_runtime_admission.py::test_explicit_valid_devices_probe_and_sync_once[cuda:3]",
         "tests/test_runtime_admission.py::test_explicit_valid_devices_probe_and_sync_once[mps]",
+        "tests/test_runtime_admission.py::test_integer_velocity_components_are_returned_as_floats",
         "tests/test_runtime_admission.py::test_neutral_contract_does_not_allow_profiles_on_closed_conditions[mapped-periodic]",
         "tests/test_runtime_admission.py::test_neutral_contract_does_not_allow_profiles_on_closed_conditions[mapped-pressure]",
         "tests/test_runtime_admission.py::test_neutral_contract_does_not_allow_profiles_on_closed_conditions[mapped-slip]",
@@ -70328,9 +71127,9 @@
       "name": "digest",
       "signature": "digest(path) -> unannotated",
       "kind": "FunctionDef",
-      "line": 12,
-      "end_line": 13,
-      "first_line": 12,
+      "line": 19,
+      "end_line": 20,
+      "first_line": 19,
       "code_name": "digest",
       "declaration": false,
       "visibility": "public/conventional",
@@ -70345,25 +71144,50 @@
         "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[/tmp/study/]",
         "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[]",
         "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[results/cli-mutation/]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[atmospheric-precision-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[boundary-reflection-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[cli-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[device-smoke-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-collision-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-diagnostic-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mutation-tooling-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[runtime-admission-policy.json]",
+        "tests/test_mutation_policy.py::test_draft_keeps_reasons_only_for_unchanged_survivor_diffs",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-11]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-24]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-9]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[152]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[24]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[255]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[2]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[34]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[35]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[36]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[37]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[3]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[4]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[5]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[None]",
         "tests/test_mutation_policy.py::test_exact_reviewed_inventory_passes_without_hiding_survivors",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[added_mutant]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[copy]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[diff]",
-        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[duplicate]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[during]",
-        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[error]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[error_control]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[exit]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[failed_control]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_control]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_mutant]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[no_reason]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[renamed_mutant]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[skipped_control]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[source]",
-        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[timeout]",
-        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_name]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[tool]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_survivor]",
         "tests/test_mutation_policy.py::test_policy_can_name_several_control_files",
         "tests/test_mutation_policy.py::test_policy_cli_reports_exact_verifier_result",
-        "tests/test_mutation_policy.py::test_reviewed_all_killed_inventory_requires_zero_exit",
-        "tests/test_mutation_policy.py::test_runtime_policy_checks_its_own_collected_inventory",
+        "tests/test_mutation_policy.py::test_reviewed_all_killed_inventory_passes",
+        "tests/test_mutation_policy.py::test_reviewed_no_tests_mutant_is_reported_as_a_survivor_not_a_kill",
         "tests/test_quality_gate_completion.py::test_mutation_policy_script_entrypoint_checks_real_artifact"
       ],
       "lines": {
@@ -70375,50 +71199,236 @@
     {
       "path": "tools/mutation/check_results.py",
       "language": "Python",
-      "name": "verify",
-      "signature": "verify(directory, policy, root=ROOT) -> unannotated",
+      "name": "text_digest",
+      "signature": "text_digest(text) -> unannotated",
       "kind": "FunctionDef",
-      "line": 16,
-      "end_line": 56,
-      "first_line": 16,
-      "code_name": "verify",
+      "line": 23,
+      "end_line": 24,
+      "first_line": 23,
+      "code_name": "text_digest",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "3916787551eb735f1eaa16d32c2d4155222fcaae1e4042ebafa59f58447cffec",
-      "id": "tools/mutation/check_results.py::verify",
+      "fingerprint": "04d6fd06bc8d105af62bbd44391b65e75cbf09ab1acddec6def947ff44882afd",
+      "id": "tools/mutation/check_results.py::text_digest",
       "branches": {
-        "hit": 24,
-        "total": 24
+        "hit": 0,
+        "total": 0
       },
       "tests": [
         "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[/tmp/study/]",
         "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[]",
         "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[results/cli-mutation/]",
+        "tests/test_mutation_policy.py::test_draft_keeps_reasons_only_for_unchanged_survivor_diffs",
         "tests/test_mutation_policy.py::test_exact_reviewed_inventory_passes_without_hiding_survivors",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[added_mutant]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[diff]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_mutant]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[no_reason]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[renamed_mutant]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_survivor]",
+        "tests/test_mutation_policy.py::test_policy_can_name_several_control_files",
+        "tests/test_mutation_policy.py::test_policy_cli_reports_exact_verifier_result",
+        "tests/test_mutation_policy.py::test_reviewed_all_killed_inventory_passes",
+        "tests/test_mutation_policy.py::test_reviewed_no_tests_mutant_is_reported_as_a_survivor_not_a_kill",
+        "tests/test_quality_gate_completion.py::test_mutation_policy_script_entrypoint_checks_real_artifact"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "tools/mutation/check_results.py",
+      "language": "Python",
+      "name": "inventory_digest",
+      "signature": "inventory_digest(names) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 27,
+      "end_line": 29,
+      "first_line": 27,
+      "code_name": "inventory_digest",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Hash the sorted mutant names, so the policy pins exactly which mutants exist.",
+      "fingerprint": "9efca4b34b80de332b75a9388d7c38d2d3bfe44f848a5f8973c3eea4d4e3270f",
+      "id": "tools/mutation/check_results.py::inventory_digest",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[/tmp/study/]",
+        "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[]",
+        "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[results/cli-mutation/]",
+        "tests/test_mutation_policy.py::test_draft_keeps_reasons_only_for_unchanged_survivor_diffs",
+        "tests/test_mutation_policy.py::test_exact_reviewed_inventory_passes_without_hiding_survivors",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[diff]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[no_reason]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[renamed_mutant]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_survivor]",
+        "tests/test_mutation_policy.py::test_policy_can_name_several_control_files",
+        "tests/test_mutation_policy.py::test_policy_cli_reports_exact_verifier_result",
+        "tests/test_mutation_policy.py::test_reviewed_all_killed_inventory_passes",
+        "tests/test_mutation_policy.py::test_reviewed_no_tests_mutant_is_reported_as_a_survivor_not_a_kill",
+        "tests/test_quality_gate_completion.py::test_mutation_policy_script_entrypoint_checks_real_artifact"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "tools/mutation/check_results.py",
+      "language": "Python",
+      "name": "outcomes",
+      "signature": "outcomes(directory) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 32,
+      "end_line": 42,
+      "first_line": 32,
+      "code_name": "outcomes",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Return (mutant rows, unreviewed outcome map) from a study's exported mutants.json.",
+      "fingerprint": "ef9634e2159cd04b2d8c0f9b3c631d25afa6be5d37c480fc8dc6d573b276d144",
+      "id": "tools/mutation/check_results.py::outcomes",
+      "branches": {
+        "hit": 6,
+        "total": 6
+      },
+      "tests": [
+        "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[/tmp/study/]",
+        "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[]",
+        "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[results/cli-mutation/]",
+        "tests/test_mutation_policy.py::test_draft_keeps_reasons_only_for_unchanged_survivor_diffs",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-11]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-24]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-9]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[152]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[24]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[255]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[2]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[34]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[35]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[36]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[37]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[3]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[4]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[5]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[None]",
+        "tests/test_mutation_policy.py::test_exact_reviewed_inventory_passes_without_hiding_survivors",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[added_mutant]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[diff]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_mutant]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[no_reason]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[renamed_mutant]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_survivor]",
+        "tests/test_mutation_policy.py::test_policy_can_name_several_control_files",
+        "tests/test_mutation_policy.py::test_policy_cli_reports_exact_verifier_result",
+        "tests/test_mutation_policy.py::test_reviewed_all_killed_inventory_passes",
+        "tests/test_mutation_policy.py::test_reviewed_no_tests_mutant_is_reported_as_a_survivor_not_a_kill",
+        "tests/test_quality_gate_completion.py::test_mutation_policy_script_entrypoint_checks_real_artifact"
+      ],
+      "lines": {
+        "hit": 9,
+        "total": 9
+      },
+      "status": "covered"
+    },
+    {
+      "path": "tools/mutation/check_results.py",
+      "language": "Python",
+      "name": "verify",
+      "signature": "verify(directory, policy, root=ROOT) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 45,
+      "end_line": 78,
+      "first_line": 45,
+      "code_name": "verify",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "fd7bacc1aa99fe261f64b316c1eb933c8162debe9883b52b026fa16d09642007",
+      "id": "tools/mutation/check_results.py::verify",
+      "branches": {
+        "hit": 22,
+        "total": 22
+      },
+      "tests": [
+        "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[/tmp/study/]",
+        "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[]",
+        "tests/test_mutation_policy.py::test_collection_paths_are_relative_to_pytest_root[results/cli-mutation/]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-11]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-24]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[-9]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[152]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[24]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[255]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[2]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[34]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[35]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[36]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[37]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[3]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[4]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[5]",
+        "tests/test_mutation_policy.py::test_errors_timeouts_and_unchecked_mutants_are_never_kills[None]",
+        "tests/test_mutation_policy.py::test_exact_reviewed_inventory_passes_without_hiding_survivors",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[added_mutant]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[copy]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[diff]",
-        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[duplicate]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[during]",
-        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[error]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[error_control]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[exit]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[failed_control]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_control]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[missing_mutant]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[no_reason]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[renamed_mutant]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[skipped_control]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[source]",
-        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[timeout]",
-        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_name]",
+        "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[tool]",
         "tests/test_mutation_policy.py::test_incomplete_or_changed_mutation_evidence_is_rejected[unknown_survivor]",
         "tests/test_mutation_policy.py::test_policy_can_name_several_control_files",
         "tests/test_mutation_policy.py::test_policy_cli_reports_exact_verifier_result",
-        "tests/test_mutation_policy.py::test_reviewed_all_killed_inventory_requires_zero_exit",
-        "tests/test_mutation_policy.py::test_runtime_policy_checks_its_own_collected_inventory",
+        "tests/test_mutation_policy.py::test_reviewed_all_killed_inventory_passes",
+        "tests/test_mutation_policy.py::test_reviewed_no_tests_mutant_is_reported_as_a_survivor_not_a_kill",
         "tests/test_quality_gate_completion.py::test_mutation_policy_script_entrypoint_checks_real_artifact"
       ],
       "lines": {
-        "hit": 36,
-        "total": 36
+        "hit": 30,
+        "total": 30
+      },
+      "status": "covered"
+    },
+    {
+      "path": "tools/mutation/check_results.py",
+      "language": "Python",
+      "name": "draft",
+      "signature": "draft(directory, policy) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 81,
+      "end_line": 97,
+      "first_line": 81,
+      "code_name": "draft",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Return the policy a fresh run implies, keeping reasons only for unchanged diffs.",
+      "fingerprint": "22d9b95d8ac588eb12868780c2b72e59f32333a13b28ca24bda9329ce69c3964",
+      "id": "tools/mutation/check_results.py::draft",
+      "branches": {
+        "hit": 2,
+        "total": 2
+      },
+      "tests": [
+        "tests/test_mutation_policy.py::test_draft_keeps_reasons_only_for_unchanged_survivor_diffs"
+      ],
+      "lines": {
+        "hit": 9,
+        "total": 9
       },
       "status": "covered"
     },
@@ -70428,26 +71438,275 @@
       "name": "main",
       "signature": "main(argv=None) -> unannotated",
       "kind": "FunctionDef",
-      "line": 59,
-      "end_line": 66,
-      "first_line": 59,
+      "line": 100,
+      "end_line": 110,
+      "first_line": 100,
       "code_name": "main",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "d836b2423de5b936eff032dacb5af818ec0a11c248fead3b25e8c5a2dd143b2a",
+      "fingerprint": "c731db5331923f942af81e8a841f3d67fdf6dd5f7904d4849460bba66b6537c3",
       "id": "tools/mutation/check_results.py::main",
       "branches": {
         "hit": 0,
         "total": 0
       },
       "tests": [
+        "tests/test_mutation_policy.py::test_draft_keeps_reasons_only_for_unchanged_survivor_diffs",
         "tests/test_mutation_policy.py::test_policy_cli_reports_exact_verifier_result",
         "tests/test_quality_gate_completion.py::test_mutation_policy_script_entrypoint_checks_real_artifact"
       ],
       "lines": {
+        "hit": 9,
+        "total": 9
+      },
+      "status": "covered"
+    },
+    {
+      "path": "tools/mutation/mutmut3.py",
+      "language": "Python",
+      "name": "changed_lines",
+      "signature": "changed_lines(patch) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 27,
+      "end_line": 52,
+      "first_line": 27,
+      "code_name": "changed_lines",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Return {path: sorted new-side line numbers} that a `--no-prefix` unified diff adds.",
+      "fingerprint": "ce38955185421f09f2173f30fb5b1277bb08a6253fafda47a34e1a53eec96d54",
+      "id": "tools/mutation/mutmut3.py::changed_lines",
+      "branches": {
+        "hit": 20,
+        "total": 20
+      },
+      "tests": [
+        "tests/test_mutation_policy.py::test_changed_lines_are_the_added_new_side_lines_only",
+        "tests/test_mutation_policy.py::test_launcher_commands_drive_the_pinned_mutmut",
+        "tests/test_mutation_policy.py::test_launcher_script_entrypoint_writes_the_scope",
+        "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1 +1 @@\\nnot a diff line\\n-Truncated hunk]",
+        "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1,0 +1,2 @@\\n+x\\n-ends inside a hunk]",
+        "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1,2 +1,0 @@\\n-x\\n-ends inside a hunk]",
+        "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ -1,2 +1,2 @@\\n context\\n-ends inside a hunk]",
+        "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[--- a\\n+++ a\\n@@ garbage @@\\n-Unreadable hunk header]",
+        "tests/test_mutation_policy.py::test_malformed_patches_are_rejected[@@ -1 +1 @@\\n-x\\n+y\\n-Unreadable hunk header]"
+      ],
+      "lines": {
+        "hit": 24,
+        "total": 24
+      },
+      "status": "covered"
+    },
+    {
+      "path": "tools/mutation/mutmut3.py",
+      "language": "Python",
+      "name": "module_name",
+      "signature": "module_name(path, import_roots) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 55,
+      "end_line": 65,
+      "first_line": 55,
+      "code_name": "module_name",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Return the dotted module that tests import for a source path below an import root.",
+      "fingerprint": "2808f7c74169126706ac3022dd5a58f95ca773f9f807ea021f2f38a929496734",
+      "id": "tools/mutation/mutmut3.py::module_name",
+      "branches": {
+        "hit": 6,
+        "total": 6
+      },
+      "tests": [
+        "tests/test_mutation_policy.py::test_install_names_mutants_by_import_root_and_scopes_lines",
+        "tests/test_mutation_policy.py::test_launcher_commands_drive_the_pinned_mutmut",
+        "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[scripts/device_smoke.py-roots3-device_smoke]",
+        "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[src.py-roots2-src]",
+        "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[src/hawa/cli.py-roots0-hawa.cli]",
+        "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[src/hawa/sub/__init__.py-roots1-hawa.sub]",
+        "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[tools/mutation/check_results.py-roots4-check_results]",
+        "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[tools/mutation/check_results.py-roots5-tools.mutation.check_results]",
+        "tests/test_mutation_policy.py::test_module_names_follow_the_innermost_import_root[vendor/lettuce/lettuce/ext/k.py-roots6-lettuce.ext.k]"
+      ],
+      "lines": {
+        "hit": 8,
+        "total": 8
+      },
+      "status": "covered"
+    },
+    {
+      "path": "tools/mutation/mutmut3.py",
+      "language": "Python",
+      "name": "install",
+      "signature": "install(main, file_mutation, import_roots, scope, mutated_files) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 68,
+      "end_line": 89,
+      "first_line": 68,
+      "code_name": "install",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Patch the pinned mutmut modules for import roots and line scope.",
+      "fingerprint": "de69162d6651a4924d3250c48cbd35f79534942c7b53080cbbfc241ab22fb013",
+      "id": "tools/mutation/mutmut3.py::install",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_mutation_policy.py::test_install_names_mutants_by_import_root_and_scopes_lines",
+        "tests/test_mutation_policy.py::test_install_without_scope_mutates_every_line_and_rejects_foreign_scope",
+        "tests/test_mutation_policy.py::test_launcher_commands_drive_the_pinned_mutmut"
+      ],
+      "lines": {
+        "hit": 3,
+        "total": 3
+      },
+      "status": "covered"
+    },
+    {
+      "path": "tools/mutation/mutmut3.py",
+      "language": "Python",
+      "name": "install.get_mutant_name",
+      "signature": "get_mutant_name(path, method) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 70,
+      "end_line": 71,
+      "first_line": 70,
+      "code_name": "get_mutant_name",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "45c63831702247b036e1538ab22a8f8c5762d49bdbcb8271c0630f7d44898008",
+      "id": "tools/mutation/mutmut3.py::install.get_mutant_name",
+      "branches": {
+        "hit": 0,
+        "total": 0
+      },
+      "tests": [
+        "tests/test_mutation_policy.py::test_install_names_mutants_by_import_root_and_scopes_lines",
+        "tests/test_mutation_policy.py::test_launcher_commands_drive_the_pinned_mutmut"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "tools/mutation/mutmut3.py",
+      "language": "Python",
+      "name": "install.setup_source_paths",
+      "signature": "setup_source_paths() -> unannotated",
+      "kind": "FunctionDef",
+      "line": 75,
+      "end_line": 86,
+      "first_line": 75,
+      "code_name": "setup_source_paths",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "0cee067efcefcd57389307765c91608b05b46d9a15c034cd6a106d57fe2997ed",
+      "id": "tools/mutation/mutmut3.py::install.setup_source_paths",
+      "branches": {
+        "hit": 6,
+        "total": 6
+      },
+      "tests": [
+        "tests/test_mutation_policy.py::test_install_names_mutants_by_import_root_and_scopes_lines",
+        "tests/test_mutation_policy.py::test_install_without_scope_mutates_every_line_and_rejects_foreign_scope",
+        "tests/test_mutation_policy.py::test_launcher_commands_drive_the_pinned_mutmut"
+      ],
+      "lines": {
+        "hit": 10,
+        "total": 10
+      },
+      "status": "covered"
+    },
+    {
+      "path": "tools/mutation/mutmut3.py",
+      "language": "Python",
+      "name": "export",
+      "signature": "export(main, data_type, directory) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 92,
+      "end_line": 104,
+      "first_line": 92,
+      "code_name": "export",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Write mutants.json (raw exit code and diff per mutant) and the readable diffs.",
+      "fingerprint": "0168f980fee0978f643f6fb324708a4aa0b133e316bd913988fc268e747695c2",
+      "id": "tools/mutation/mutmut3.py::export",
+      "branches": {
+        "hit": 4,
+        "total": 4
+      },
+      "tests": [
+        "tests/test_mutation_policy.py::test_export_writes_raw_exit_codes_and_diffs",
+        "tests/test_mutation_policy.py::test_launcher_commands_drive_the_pinned_mutmut"
+      ],
+      "lines": {
+        "hit": 10,
+        "total": 10
+      },
+      "status": "covered"
+    },
+    {
+      "path": "tools/mutation/mutmut3.py",
+      "language": "Python",
+      "name": "load_mutmut",
+      "signature": "load_mutmut() -> unannotated",
+      "kind": "FunctionDef",
+      "line": 107,
+      "end_line": 115,
+      "first_line": 107,
+      "code_name": "load_mutmut",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Import the pinned mutmut release, refusing any other version.",
+      "fingerprint": "d10d7920a4e4443a284b97f4b99562028d78b08c172797396fa9d9220197b31a",
+      "id": "tools/mutation/mutmut3.py::load_mutmut",
+      "branches": {
+        "hit": 2,
+        "total": 2
+      },
+      "tests": [
+        "tests/test_mutation_policy.py::test_launcher_commands_drive_the_pinned_mutmut",
+        "tests/test_mutation_policy.py::test_launcher_refuses_any_other_mutmut_version"
+      ],
+      "lines": {
         "hit": 7,
         "total": 7
+      },
+      "status": "covered"
+    },
+    {
+      "path": "tools/mutation/mutmut3.py",
+      "language": "Python",
+      "name": "main",
+      "signature": "main(argv=None) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 118,
+      "end_line": 143,
+      "first_line": 118,
+      "code_name": "main",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "",
+      "fingerprint": "1619bac8e42e557a6e71fa0797ced546caf8ef03fc38082f6766263c4eba59c2",
+      "id": "tools/mutation/mutmut3.py::main",
+      "branches": {
+        "hit": 4,
+        "total": 4
+      },
+      "tests": [
+        "tests/test_mutation_policy.py::test_launcher_commands_drive_the_pinned_mutmut",
+        "tests/test_mutation_policy.py::test_launcher_script_entrypoint_writes_the_scope"
+      ],
+      "lines": {
+        "hit": 24,
+        "total": 24
       },
       "status": "covered"
     }

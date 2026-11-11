@@ -1,0 +1,21 @@
+{
+  "tool": "mutmut==2.4.5 with whatthepatch==1.0.7",
+  "mutants": 132,
+  "control_test_files": [
+    "tests/test_mutation_policy.py",
+    "tests/test_neutral_external.py",
+    "tests/test_boundary_reflection.py"
+  ],
+  "scope": "HAWA-004 PR study: lines changed against origin/main f29fe01 in src/hawa/neutral_external.py and tools/mutation/check_results.py, plus the scripts/verify_boundary_reflection.py lines changed by the PR #66 review fixes (against d0b54e2); the rest of the harness is new in the PR, line-covered but outside this mutation scope; the CPU/MPS device test is deselected (#53)",
+  "sources": {
+    "src/hawa/neutral_external.py": "1e8efa899a399fe9fe5c023b7be68094b873ba403f660513d2c058f16964dcf4",
+    "tools/mutation/check_results.py": "a453f9b31322ddf02b4f678a7c4007db37b512cdf7e68798017ffd5a5c309af7",
+    "scripts/verify_boundary_reflection.py": "cccb53070cdf01b17db90a6d67c9b37c0f01c4a09edbfe86703169dbfb8ce154",
+    "tests/test_neutral_external.py": "41ab18b4a61be3f83a2993a45ac43dc295baa20af4609b8bed601ab175a5d3c1",
+    "tests/test_mutation_policy.py": "da0ea86a736bb3fd05935903062130bf89a4ba3990f47b381fe29b03ddeb4d7b",
+    "tests/test_boundary_reflection.py": "023de2f18188ac7f968eeba586a2f52f1554e3c922aadb28110be885dcbd1441",
+    "tests/test_neutral.py": "287434b4c666f289a99635f216ef47b8c491ed1867c1bc52a8197969bc857bfa",
+    "tests/conftest.py": "d7e574ab188de8992116a4f9cac2e251d732e3fa1e8b8f5a98f38dd96dd4393c"
+  },
+  "reviewed_survivors": {}
+}
