@@ -1,6 +1,6 @@
 # Hawa for Rhino 8 / Grasshopper
 
-Hawa runs its Python 3.9 Lettuce engine inside Rhino. PyTorch uses MPS on Apple Silicon or CPU. The default installer installs the standard PyTorch wheel, which on Windows is CPU-only; CUDA inside Rhino needs the CUDA setup in [the Windows CUDA guide](windows-cuda.md). Select `auto`, `mps`, `cuda:0`, or `cpu`. An unavailable explicit selection reports an error.
+Hawa runs its Python 3.9 Lettuce engine inside Rhino. PyTorch uses MPS on Apple Silicon or CPU. The default installer installs the standard PyTorch wheel, which on Windows is CPU-only, so `cuda:0` is normally unavailable inside Rhino. Installing CUDA PyTorch into Rhino's embedded environment is unverified; [the Windows CUDA guide](windows-cuda.md) covers headless CUDA verification only. Select `auto`, `mps`, `cuda:0`, or `cpu`. An unavailable explicit selection reports an error.
 
 ## Install
 
