@@ -66,6 +66,7 @@ def test_cuda_runner_rejects_invalid_environment_before_evidence(tmp_path,monkey
     assert stop.value.code==2 and not (tmp_path/'out').exists()
 
 
+@pytest.mark.production_python
 def test_cuda_runner_full_scope_keeps_all_stage_commands_and_evidence(repository,monkeypatch):
     import subprocess
     import hawa.backends

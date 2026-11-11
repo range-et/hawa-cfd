@@ -11,8 +11,11 @@ the same import namespace. The comparison tools use separate processes and verif
 the loaded source paths and hashes.
 
 Initial changes covered packaging, metadata identity, Python 3.9 type-annotation
-compatibility, and MPS device selection/synchronization. Subsequent repairs also
-modify the explicitly audited numerical modules; this is not an unchanged solver.
+compatibility, and MPS device selection/synchronization. The packaging metadata
+accepts Python 3.9 to 3.12 only so that Hawa's Python 3.12 developer environment
+can install the fork editable; production and engine parity runs stay on 3.9.
+Subsequent repairs also modify the explicitly audited numerical modules; this is
+not an unchanged solver.
 `upstream.json` records SHA256 digests of all original source modules.
 `scripts/audit_backport.py` reports and enforces the expected changed-file list.
 

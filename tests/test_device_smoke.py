@@ -519,6 +519,7 @@ def test_neutral_reference_reports_relative_mass_change(monkeypatch):
     assert arrays['relative_mass_change'] == .5 and config == {}
 
 
+@pytest.mark.production_python
 def test_real_builders_pass_their_criteria_on_the_cpu_proxy(tmp_path):
     """Reduced real runs: FP64 reference arrays and FP32 candidate arrays differ only within policy."""
     policy = smoke.load_policy(smoke.POLICY)['cases']

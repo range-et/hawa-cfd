@@ -91,6 +91,17 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 11, 2026 — Python 3.12 developer environment (Phase 0 for #67/#68)
+
+Production stays Python 3.9. `pyproject.toml` now accepts Python 3.9–3.12 so a
+`.venv-dev` (3.12) can install Hawa editable for tooling (ruff, mutmut 3.7.0 in a
+`tools` dependency group); `.venv` (3.9) remains the gate environment. uv.lock
+covers both, and `requirements/rhino-py39.txt` re-exports byte-identically for 3.9.
+A test ties the Rhino `# requirements:` headers to the project pins. New CI jobs
+run ruff's 3.9 syntax guard, the Rhino export check and the full headless suite on
+3.12 (production-only entry points skipped). Developer tooling only; no solver or
+Rhino change, not released.
+
 ### November 10, 2026 — HAWA-004 boundary reflection measurements (partial)
 
 Added an enlarged-domain/analytic harness with criteria committed before the
