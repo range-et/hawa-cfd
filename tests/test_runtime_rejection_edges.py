@@ -132,14 +132,35 @@ def test_fixed_motion_and_unsupported_geometry():
     with pytest.raises(ValueError, match='sphere, cylinder or sdf'): validate_bodies(spec)
 
 
-@pytest.mark.parametrize('options', [{'period': 0.}, {'period': float('nan')}, {'settle_cycles': True},
-    {'settle_cycles': 21}, {'cycles': 0}, {'cycles': 21}])
-def test_motion_evaluation_rejects_invalid_windows(options):
+@pytest.mark.parametrize('options,message', [
+    ({'period': 0.}, 'period: Input should be greater than 0'),
+    ({'period': float('nan')}, 'period: Input should be a finite number'),
+    ({'period': '0.2'}, 'period: Input should be a valid number'),
+    ({'period': True}, 'period: Input should be a valid number'),
+    ({'settle_cycles': True}, 'settle_cycles: Input should be a valid integer'),
+    ({'settle_cycles': 1.}, 'settle_cycles: Input should be a valid integer'),
+    ({'settle_cycles': -1}, 'settle_cycles: Input should be greater than or equal to 0'),
+    ({'settle_cycles': 21}, 'settle_cycles: Input should be less than or equal to 20'),
+    ({'cycles': 0}, 'cycles: Input should be greater than or equal to 1'),
+    ({'cycles': 21}, 'cycles: Input should be less than or equal to 20'),
+    ({'metric': 'drag'}, "metric: Input should be 'force', 'torque', 'power' or 'input_power'"),
+    ({'axis': 3}, 'axis: Input should be less than or equal to 2'),
+    ({'axis': -1}, 'axis: Input should be greater than or equal to 0'),
+    ({'axis': 1.}, 'axis: Input should be a valid integer'),
+    ({'body_id': ''}, 'body_id: String should have at least 1 character'),
+    ({'body_id': 3}, 'body_id: Input should be a valid string'),
+    ({'kind': 'record'}, "kind: Input should be 'motion_evaluate'"),
+    ({'device': 0}, 'device: Input should be a valid string'),
+    ({'case': []}, 'case: Input should be a valid dictionary'),
+    ({'steps': 10}, 'steps: Extra inputs are not permitted'),
+    ([], ': Input should be a valid dictionary or instance of MotionEvaluation')])
+def test_motion_evaluation_rejects_invalid_requests_before_advancing(options, message):
     from hawa.motion import evaluate_motion
     from hawa.plugin import Session
     from test_motion import moving_case
     session = Session(moving_case(), 'cpu')
-    with pytest.raises(ValueError, match='settling cycles'): evaluate_motion(session, options, lambda _: None)
+    with pytest.raises(ValueError) as error: evaluate_motion(session, options, lambda _: None)
+    assert str(error.value) == 'Motion evaluation' + ('' if message.startswith(':') else ' ') + message
     assert session.flow.i == 0 and not session.solver.moving.history
 
 

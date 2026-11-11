@@ -145,6 +145,12 @@ Two project environments, both from `uv.lock`:
   `production_python` (entry points that refuse non-3.9 interpreters). A 3.12
   pass is not 3.9 evidence; run code changes on both. Never add a 3.10+ API or syntax to code that runs in Rhino.
 
+Payload schemas use pydantic 2.13.5, the end-of-line release for Python 3.9.
+Every model must subclass `BaseModel`, set `extra="forbid"`, be validated with
+Python-mode `model_validate`, and avoid `Fraction`/URL types; validate only and
+never write `model_dump` output back into a case spec. Read
+[docs/payload-schemas.md](docs/payload-schemas.md) before adding or changing one.
+
 Production dependency pins live in `pyproject.toml`, `vendor/lettuce/pyproject.toml`
 and the `# requirements:` headers in `plugin/Bootstrap.py` and
 `scripts/grasshopper_component.py`, which Rhino installs from; a test keeps them

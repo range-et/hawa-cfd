@@ -115,6 +115,19 @@ Fresh checkouts, no tolerance or policy edits; binaries stay on the hosts by SHA
 [CUDA results](https://github.com/range-et/hawa-cfd/issues/57#issuecomment-6786203542),
 [MPS results](https://github.com/range-et/hawa-cfd/issues/14#issuecomment-6786793399).
 
+### November 11, 2026 — motion payload schemas with pydantic (#68, first migration)
+
+Built, not released. `motion.py` validates the moving-body, motion and Motion
+Evaluate payloads through pydantic 2.13.5 models (unversioned v0, validate only,
+so case hashes are unchanged). Unknown keys, and numeric strings and booleans in
+float fields, are now rejected, and invalid metric or axis values fail before an
+evaluation runs. A guard refuses any other pydantic already loaded in Rhino's
+shared interpreter. Behaviour tests cover every declared
+constraint through the public entry points; tests enforce the four advisory rules
+and a checked-in JSON Schema snapshot ([docs](docs/payload-schemas.md)). Rhino
+installation of pydantic on macOS/Windows and the local Rhino acceptance are
+recorded separately on the PR; other payloads are not converted.
+
 ### November 11, 2026 — Python 3.12 developer environment (Phase 0 for #67/#68)
 
 Production stays Python 3.9. `pyproject.toml` now accepts Python 3.9–3.12 so a

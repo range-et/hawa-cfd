@@ -1,22 +1,129 @@
-"""Prescribed rigid motion in domain-local physical metres and seconds."""
+"""Prescribed rigid motion in domain-local physical metres and seconds.
+
+The motion, moving-body and motion-evaluation payloads are declared below as
+pydantic models: an unversioned v0, exactly the shape Grasshopper sends today.
+The models only validate. Callers keep the original dicts, so case hashes and
+checkpoint specs stay byte-identical. Every model follows the #68 rules that keep
+the known pydantic 2.13 advisories unreachable: BaseModel only, extra='forbid',
+Python-mode model_validate, and no Fraction or URL types. Annotations are
+evaluated at runtime on Rhino's Python 3.9, so use Optional/Union, never X | Y.
+"""
 import math
+from typing import Annotated, Any, Dict, List, Literal, Optional, Union
 import numpy as np
+import pydantic
+import pydantic_core
 
 
-def vector(value, name):
-    a=np.asarray(value,float)
-    if a.shape!=(3,) or not np.isfinite(a).all():raise ValueError(name+' requires three finite values')
-    return a
+def require_pinned_pydantic():
+    """Rhino shares one interpreter across script venvs, so the first pydantic loaded wins.
+
+    The advisory analysis covers only the pinned release; refuse any other.
+    """
+    found=(pydantic.VERSION,pydantic_core.__version__)
+    if found!=('2.13.5','2.46.5'):
+        raise RuntimeError('pydantic {} with pydantic-core {} was already loaded, probably by another plugin or script. '
+                           'Hawa requires pydantic 2.13.5 with pydantic-core 2.46.5; restart Rhino before using moving bodies.'.format(*found))
 
 
-def validate_motion(m):
-    if m.get('type','fixed') not in ('fixed','translation','rotation','oscillation'):raise ValueError('Unknown motion type')
-    for key in ('speed','rpm','amplitude','frequency','phase','ramp'):
-        if not math.isfinite(float(m.get(key,0))):raise ValueError('Motion parameters must be finite')
-    if m.get('ramp',0)<0 or m.get('frequency',0)<0:raise ValueError('Ramp and frequency must be nonnegative')
-    axis=vector(m.get('axis',[1,0,0]),'Motion axis')
-    if np.linalg.norm(axis)<1e-12:raise ValueError('Motion axis cannot be zero')
-    if m.get('mode','translation') not in ('translation','rotation'):raise ValueError('Oscillation mode: translation or rotation')
+require_pinned_pydantic()
+from pydantic import BaseModel, ConfigDict, Discriminator, Field, StrictFloat, StrictInt, StrictStr, Tag, ValidationError, model_validator
+
+
+class Payload(BaseModel):
+    # StrictFloat still accepts int (Grasshopper serializes 0d as the JSON integer 0)
+    # but rejects numeric strings and booleans; allow_inf_nan=False keeps it finite.
+    model_config=ConfigDict(extra='forbid',allow_inf_nan=False)
+
+
+Vector=Annotated[List[StrictFloat],Field(min_length=3,max_length=3)]
+NonNegative=Annotated[StrictFloat,Field(ge=0)]
+Positive=Annotated[StrictFloat,Field(gt=0)]
+
+
+class Motion(Payload):
+    """Prescribed rigid motion. Unused parameters for the chosen type are ignored."""
+    kind:Literal['Motion']=Field('Motion',description='Grasshopper object tag')
+    type:Literal['fixed','translation','rotation','oscillation']='fixed'
+    axis:Vector=Field([1.,0.,0.],description='Nonzero direction or rotation axis, domain-local')
+    ramp:NonNegative=Field(0.,description='Startup ramp, s')
+    speed:StrictFloat=Field(0.,description='Translation speed, m/s')
+    rpm:StrictFloat=Field(0.,description='Rotation rate, revolutions per minute')
+    amplitude:StrictFloat=Field(0.,description='Oscillation amplitude, m (translation) or rad (rotation)')
+    frequency:NonNegative=Field(0.,description='Oscillation frequency, Hz')
+    phase:StrictFloat=Field(0.,description='Oscillation phase, rad')
+    mode:Literal['translation','rotation']=Field('translation',description='Oscillation mode')
+
+    @model_validator(mode='after')
+    def nonzero_axis(self):
+        if np.linalg.norm(self.axis)<1e-12:raise ValueError('Motion axis cannot be zero')
+        return self
+
+
+class Sphere(Payload):
+    type:Literal['sphere']
+    center:Vector=Field(description='Centre, m')
+    radius:Positive=Field(description='Radius, m')
+
+
+class Cylinder(Payload):
+    """Cylinder along the body's local z axis."""
+    type:Literal['cylinder']
+    center:Vector=Field(description='Centre, m')
+    radius:Positive=Field(description='Radius, m')
+    length:Positive=Field(description='Length, m')
+
+
+class Sdf(Payload):
+    """Signed distances (negative inside) on a regular grid, C order (z fastest)."""
+    type:Literal['sdf']
+    origin:Vector=Field(description='First sample position, m')
+    shape:Annotated[List[Annotated[StrictInt,Field(ge=3)]],Field(min_length=3,max_length=3)]
+    spacing:Positive=Field(description='Sample spacing, m')
+    values:Annotated[List[StrictFloat],Field(max_length=200000)]=Field(description='Signed distances, m')
+
+    @model_validator(mode='after')
+    def sample_count(self):
+        if math.prod(self.shape)>200000:raise ValueError('SDF shape exceeds 200000 samples')
+        if len(self.values)!=math.prod(self.shape):raise ValueError('SDF values must match its shape')
+        return self
+
+
+def geometry_type(value):
+    return value.get('type') if isinstance(value,dict) else None
+
+
+class Body(Payload):
+    """One prescribed-motion body; Motion Case removes Grasshopper's domain_key."""
+    kind:Literal['Body']=Field('Body',description='Grasshopper object tag')
+    id:Annotated[StrictStr,Field(min_length=1)]
+    pivot:Vector=Field(description='Rotation pivot at time zero, m')
+    motion:Motion=Field(default_factory=Motion)
+    geometry:Annotated[Union[Annotated[Sphere,Tag('sphere')],Annotated[Cylinder,Tag('cylinder')],Annotated[Sdf,Tag('sdf')]],
+                       Discriminator(geometry_type,custom_error_type='geometry_type',
+                                     custom_error_message='use type sphere, cylinder or sdf')]
+
+
+class MotionEvaluation(Payload):
+    """Motion Evaluate job request; the job envelope keys are declared too."""
+    kind:Literal['motion_evaluate']='motion_evaluate'
+    case:Dict[str,Any]=Field(default_factory=dict,description='Case spec, validated by the session')
+    device:StrictStr='auto'
+    period:Positive=Field(1.,description='Common motion period, s')
+    settle_cycles:Annotated[StrictInt,Field(ge=0,le=20)]=1
+    cycles:Annotated[StrictInt,Field(ge=1,le=20)]=1
+    metric:Literal['force','torque','power','input_power']='input_power'
+    axis:Annotated[StrictInt,Field(ge=0,le=2)]=Field(0,description='Domain axis for force and torque')
+    body_id:Optional[Annotated[StrictStr,Field(min_length=1)]]=Field(None,description='Default: the first moving body')
+
+
+def check(model, payload, label):
+    """Validate a Python payload; report the first problem as one short ValueError."""
+    try:return model.model_validate(payload)
+    except ValidationError as error:
+        first=error.errors()[0];where='.'.join(str(part) for part in first['loc'])
+        reason=str(first['ctx']['error']) if first['type']=='value_error' else first['msg']
+        raise ValueError(label+(' '+where if where else '')+': '+reason) from error
 
 
 def pose(body, time):
@@ -67,35 +174,23 @@ def validate_bodies(spec):
     if spec.get('collision','regularized')!='bgk' or spec.get('wall_links') or 'refinement_lower' in spec:
         raise ValueError('Moving bodies require uniform BGK without stationary curved links or refinement')
     if np.prod(spec['shape'])>150000:raise ValueError('Experimental moving domains are limited to 150000 cells')
-    ids=[]
-    for body in bodies:
-        if not isinstance(body.get('id'),str) or not body['id']:raise ValueError('Body ID is required')
-        ids.append(body['id']);vector(body['pivot'],'Pivot');validate_motion(body.get('motion',{}))
-        g=body['geometry'];kind=g['type']
-        if kind in ('sphere','cylinder'):
-            vector(g['center'],'Center')
-            for key in (('radius','length') if kind=='cylinder' else ('radius',)):
-                if not math.isfinite(g[key]) or g[key]<=0:raise ValueError('Body dimensions must be positive')
-        elif kind=='sdf':
-            vector(g['origin'],'SDF origin');shape=g['shape']
-            if len(shape)!=3 or any(type(n) is not int or n<3 for n in shape) or np.prod(shape)>200000:raise ValueError('SDF shape invalid or exceeds 200000 samples')
-            values=np.asarray(g['values'])
-            if values.size!=np.prod(shape) or not np.isfinite(values).all() or not np.any(values<0):raise ValueError('SDF requires finite samples and resolved interior')
-            grid=values.reshape(shape)
+    for index,body in enumerate(bodies):
+        check(Body,body,'Moving body {}'.format(index+1));g=body['geometry']
+        if g['type']=='sdf':
+            grid=np.asarray(g['values']).reshape(g['shape'])
+            if not np.any(grid<0):raise ValueError('SDF requires a resolved interior')
             if any(np.any(np.take(grid,side,axis=axis)<=0) for axis in range(3) for side in (0,-1)):raise ValueError('SDF needs a positive exterior padding layer')
-            if not math.isfinite(g['spacing']) or g['spacing']<=0:raise ValueError('SDF spacing must be positive')
-        else:raise ValueError('Moving geometry: sphere, cylinder or sdf')
         if (spec['speed']+speed_bound(body))*spec.get('mach',.05)/spec['speed']>.15:
             raise ValueError('Inlet plus maximum wall speed exceeds lattice Mach 0.15; reduce lattice Mach or motion speed')
+    ids=[body['id'] for body in bodies]
     if len(set(ids))!=len(ids):raise ValueError('Body IDs must be unique')
 
 
 def evaluate_motion(session, request, checkpoint):
     """Complete whole prescribed cycles before publishing a search objective."""
+    r=check(MotionEvaluation,request,'Motion evaluation')
     if not hasattr(session.solver,'moving'):raise ValueError('Motion evaluation requires moving bodies')
-    period=float(request.get('period',1));settle=request.get('settle_cycles',1);cycles=request.get('cycles',1)
-    if not math.isfinite(period) or period<=0 or type(settle) is not int or not 0<=settle<=20 or type(cycles) is not int or not 1<=cycles<=20:
-        raise ValueError('Positive period, 0..20 settling cycles and 1..20 measured cycles required')
+    period=r.period;settle=r.settle_cycles;cycles=r.cycles
     for body in session.spec['moving_bodies']:
         m=body.get('motion',{});kind=m.get('type','fixed')
         rate=abs(m.get('rpm',0))/60 if kind=='rotation' else m.get('frequency',0) if kind=='oscillation' else 0
@@ -109,8 +204,7 @@ def evaluate_motion(session, request, checkpoint):
     checkpoint(steps)
     history=[h for h in session.solver.moving.history if h['time']>settle*period and h['time']<=(settle+cycles)*period+dt*1e-7]
     if len(history)<10:raise ValueError('Use at least ten samples in the measurement window')
-    body_id=request.get('body_id',session.spec['moving_bodies'][0]['id']);metric=request.get('metric','input_power');axis=request.get('axis',0)
-    if metric not in ('force','torque','power','input_power') or type(axis) is not int or axis not in (0,1,2):raise ValueError('Metric force, torque, power or input_power; axis 0..2')
+    body_id=session.spec['moving_bodies'][0]['id'] if r.body_id is None else r.body_id;metric=r.metric;axis=r.axis
     values=[]
     for h in history:
         load=next((v for v in h['loads'] if v['id']==body_id),None)

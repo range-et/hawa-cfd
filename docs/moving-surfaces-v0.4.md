@@ -30,6 +30,10 @@ The stationary path remains unchanged. Moving-body updates, masks, field arrays 
 
 Recordings contain body poses and current loads with each field frame. Checkpoints restore populations, iteration, motion phase reconstructed from time, transition diagnostics and bounded load history. Reset restores the initial pose. Mean-field capture is disabled for moving bodies; use instantaneous fields and explicit cycle-averaged loads.
 
+The motion, moving-body and Motion Evaluate payloads are validated by pydantic
+models; see [the payload schemas](payload-schemas.md) for the field reference and
+error format.
+
 ## Limits and operating checks
 
 - Uniform BGK only; no moving-body/refinement combination or stationary curved-link combination.
