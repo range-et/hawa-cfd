@@ -22,18 +22,20 @@ public static class SliceDisplay
             v!.GetValue<int>()
         ).ToArray() ?? Array.Empty<int>();
         var mesh = new Mesh();
-        var vertices = new Dictionary<(double, double, double, double), int>();
-        foreach (var polygon in SliceCutCells.Polygons(points, values, valid, data["shape"]![0]!.GetValue<int>(), data["shape"]![1]!.GetValue<int>(), shape, spec["wall_links"]?.AsArray(), field))
+        var vertices = new Dictionary<(double, double, double, double, bool), int>();
+        foreach (var piece in SliceCutCells.Polygons(points, values, valid, data["shape"]![0]!.GetValue<int>(), data["shape"]![1]!.GetValue<int>(), shape, spec["wall_links"]?.AsArray(), field))
         {
+            var polygon = piece.Polygon;
             var indices = new int[polygon.Length];
             for (int i = 0; i < polygon.Length; i++)
             {
                 var vertex = polygon[i];
-                var key = (vertex.Grid[0], vertex.Grid[1], vertex.Grid[2], vertex.Value);
+                // Solid pieces are black and never share a vertex colour with fluid.
+                var key = (vertex.Grid[0], vertex.Grid[1], vertex.Grid[2], piece.Solid ? 0 : vertex.Value, piece.Solid);
                 if (!vertices.TryGetValue(key, out int index))
                 {
                     index = mesh.Vertices.Add(world(vertex.Grid));
-                    mesh.VertexColors.Add(color(vertex.Value));
+                    mesh.VertexColors.Add(piece.Solid ? Color.Black : color(vertex.Value));
                     vertices[key] = index;
                 }
 

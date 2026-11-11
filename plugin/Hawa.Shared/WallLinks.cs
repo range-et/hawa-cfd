@@ -7,7 +7,7 @@ namespace Hawa.Shared;
 public static class WallLinks
 {
     // Lettuce D3Q19 order, not an arbitrary neighbour enumeration.
-    private static readonly int[][] Directions =
+    internal static readonly int[][] Directions =
     {
         new[]
         {

@@ -230,31 +230,105 @@ Test("unit change invalidates referenced geometry but preserves physical setup",
 });
 double[][] plane={new[]{0d,0d,0d},new[]{0d,1d,0d},new[]{1d,0d,0d},new[]{1d,1d,0d}};
 double Area(SliceCutCells.Vertex[] polygon){double area=0;for(int i=0;i<polygon.Length;i++){var a=polygon[i].Grid;var b=polygon[(i+1)%polygon.Length].Grid;area+=a[0]*b[1]-a[1]*b[0];}return Math.Abs(area)/2;}
+double Sum(IEnumerable<SliceCutCells.Piece> pieces,bool solid)=>pieces.Where(p=>p.Solid==solid).Sum(p=>Area(p.Polygon));
+// SliceDisplay fans each piece from its first vertex: every fan triangle must keep the piece's orientation and the triangles must add up to the outline.
+bool Fans(IEnumerable<SliceCutCells.Piece> pieces)=>pieces.All(p=>{var v=p.Polygon;double Cross(double[] a,double[] b,double[] c)=>(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);
+    var t=Enumerable.Range(1,v.Length-2).Select(i=>Cross(v[0].Grid,v[i].Grid,v[i+1].Grid)/2).ToArray();double sign=Math.Sign(t.Sum());return t.All(x=>x*sign>=-1e-12)&&Math.Abs(Math.Abs(t.Sum())-Area(v))<1e-12;});
 Test("fractional wall clips a cell at its actual link position",()=>{
     var links=new JsonArray(new JsonArray(1,0,.25),new JsonArray(1,1,.25));
-    var p=SliceCutCells.Polygons(plane,new[]{2d,4d,99d,99d},new[]{true,true,false,false},2,2,new[]{2,2,1},links,"pressure").Single();
+    var pieces=SliceCutCells.Polygons(plane,new[]{2d,4d,99d,99d},new[]{true,true,false,false},2,2,new[]{2,2,1},links,"pressure").ToArray();
+    var p=pieces.Single(x=>!x.Solid).Polygon;
     Assert(Math.Abs(Area(p)-.25)<1e-12&&p.Max(v=>v.Grid[0])==.25,"Whole-cell erasure or half-cell approximation");
     Assert(p.All(v=>v.Value==2||v.Value==4),"Solid value leaked into colour reconstruction");
+    Assert(Math.Abs(Sum(pieces,true)-.75)<1e-12&&pieces.Single(x=>x.Solid).Polygon.Min(v=>v.Grid[0])==.25,"Solid side of the wall left undrawn");
 });
 Test("stationary speed colours reach zero without mutating sampled values",()=>{
     double[] values={2d,4d,99d,99d};var links=new JsonArray(new JsonArray(1,0,.25),new JsonArray(1,1,.25));
-    var p=SliceCutCells.Polygons(plane,values,new[]{true,true,false,false},2,2,new[]{2,2,1},links,"speed").Single();
+    var p=SliceCutCells.Polygons(plane,values,new[]{true,true,false,false},2,2,new[]{2,2,1},links,"speed").Single(x=>!x.Solid).Polygon;
     Assert(p.Where(v=>v.Grid[0]==.25).All(v=>v.Value==0)&&values[2]==99&&values[0]==2,"Display changed samples or wall speed");
 });
-Test("missing wall data preserves conservative masking",()=>{
-    Assert(!SliceCutCells.Polygons(plane,new double[4],new[]{true,true,false,false},2,2,new[]{2,2,1},null,"pressure").Any(),"Invented boundary");
-    var full=SliceCutCells.Polygons(plane,new double[4],new[]{true,true,true,true},2,2,new[]{2,2,1},null,"pressure").Single();Assert(Area(full)==1,"Fluid cell lost");
-    Assert(!SliceCutCells.Polygons(plane,new double[4],new bool[4],2,2,new[]{2,2,1},null,"pressure").Any(),"Solid cell drawn");
+Test("missing wall data partitions mixed cells at the halfway lines",()=>{
+    var pieces=SliceCutCells.Polygons(plane,new[]{2d,4d,99d,99d},new[]{true,true,false,false},2,2,new[]{2,2,1},null,"pressure").ToArray();
+    Assert(pieces.Length==4&&Sum(pieces,false)==.5&&Sum(pieces,true)==.5,"Mixed cell dropped or wall moved from halfway");
+    Assert(pieces.Where(x=>!x.Solid).All(x=>x.Polygon.Max(v=>v.Grid[0])==.5)&&pieces.Where(x=>x.Solid).All(x=>x.Polygon.Min(v=>v.Grid[0])==.5),"Quadrant crosses the halfway line");
+    // Fluid-only midpoints: the wall-side vertices carry their fluid corner values, never 99.
+    Assert(pieces.Where(x=>!x.Solid).SelectMany(x=>x.Polygon).All(v=>v.Value>=2&&v.Value<=4),"Solid value leaked into a quadrant");
+    Assert(pieces.Where(x=>!x.Solid).SelectMany(x=>x.Polygon).Any(v=>v.Value==3&&v.Grid[1]==.5),"Fluid edge midpoint not interpolated");
+    var full=SliceCutCells.Polygons(plane,new double[4],new[]{true,true,true,true},2,2,new[]{2,2,1},null,"pressure").Single();Assert(!full.Solid&&Area(full.Polygon)==1,"Fluid cell lost");
+    var solid=SliceCutCells.Polygons(plane,new double[4],new bool[4],2,2,new[]{2,2,1},null,"pressure").Single();Assert(solid.Solid&&Area(solid.Polygon)==1,"Solid cell left undrawn");
 });
 Test("diagonal fluid corners stay separate",()=>{
     var links=new JsonArray(new JsonArray(1,0,.5),new JsonArray(3,0,.5),new JsonArray(2,3,.5),new JsonArray(4,3,.5));
     var p=SliceCutCells.Polygons(plane,new double[4],new[]{true,false,false,true},2,2,new[]{2,2,1},links,"pressure").ToArray();
-    Assert(p.Length==2&&p.All(v=>v.Length==3)&&Math.Abs(p.Sum(Area)-.25)<1e-12,"Bridged a solid corner");
+    var fluid=p.Where(x=>!x.Solid).ToArray();
+    Assert(fluid.Length==2&&fluid.All(x=>x.Polygon.Length==3)&&Math.Abs(Sum(p,false)-.25)<1e-12,"Bridged a solid corner");
+    Assert(p.Single(x=>x.Solid).Polygon.Length==6&&Math.Abs(Sum(p,true)-.75)<1e-12,"Solid remainder not tiled");
+    var voxel=SliceCutCells.Polygons(plane,new double[4],new[]{true,false,false,true},2,2,new[]{2,2,1},null,"pressure").ToArray();
+    Assert(voxel.Count(x=>!x.Solid)==2&&Sum(voxel,false)==.5&&Sum(voxel,true)==.5,"Voxel diagonal corners not quadrants");
+    // A missing crossing on the first corner's closing edge also falls back to quadrants.
+    var partial=SliceCutCells.Polygons(plane,new double[4],new[]{true,false,false,true},2,2,new[]{2,2,1},new JsonArray(new JsonArray(1,0,.5),new JsonArray(2,3,.5),new JsonArray(4,3,.5)),"pressure").ToArray();
+    Assert(partial.Length==4&&Sum(partial,false)==.5,"Partial diagonal crossings drawn or cell dropped");
 });
 Test("exact wall endpoints do not create duplicate polygon corners",()=>{
     var links=new JsonArray(new JsonArray(1,1,1d),new JsonArray(3,2,1d));
     var p=SliceCutCells.Polygons(plane,new double[4],new[]{true,true,true,false},2,2,new[]{2,2,1},links,"pressure").Single();
-    Assert(p.Length==4&&Area(p)==1,"Degenerate endpoint clipping");
+    Assert(!p.Solid&&p.Polygon.Length==4&&Area(p.Polygon)==1,"Degenerate endpoint clipping");
+});
+Test("slice partition tiles every cell and keeps every fluid corner",()=>{
+    // 13x13 nodes, a 3x3 solid block: the halfway representation is 9, so 135 of 144 is fluid.
+    int n=13;var points=new double[n*n][];var valid=new bool[n*n];var values=new double[n*n];
+    for(int x=0;x<n;x++)for(int y=0;y<n;y++){points[x*n+y]=new[]{(double)x,y,0d};valid[x*n+y]=!(x>=5&&x<=7&&y>=5&&y<=7);values[x*n+y]=valid[x*n+y]?x:99;}
+    JsonArray Links(bool diagonals){var links=new JsonArray();
+        foreach(var (e,dir) in new[]{(new[]{1,0},1),(new[]{-1,0},2),(new[]{0,1},3),(new[]{0,-1},4),(new[]{1,1},15),(new[]{-1,-1},16),(new[]{1,-1},17),(new[]{-1,1},18)})
+            for(int x=0;x<n;x++)for(int y=0;y<n;y++){int u=x+e[0],v=y+e[1];
+                if(u>=0&&u<n&&v>=0&&v<n&&valid[x*n+y]&&!valid[u*n+v]&&(diagonals||dir<=4))links.Add(new JsonArray(dir,x*n+y,.5));}
+        return links;}
+    foreach(var links in new[]{null,Links(true)}){
+        var pieces=SliceCutCells.Polygons(points,values,valid,n,n,new[]{n,n,1},links,"pressure").ToArray();
+        Assert(Math.Abs(Sum(pieces,false)-135)<1e-9&&Math.Abs(Sum(pieces,true)-9)<1e-9,$"Halfway partition wrong: fluid {Sum(pieces,false)}, solid {Sum(pieces,true)}");
+        Assert(pieces.Where(x=>!x.Solid).SelectMany(x=>x.Polygon).All(v=>v.Value!=99),"Solid sample coloured the fluid");
+        Assert(Fans(pieces),"Fan triangulation leaves a piece");
+    }
+    // Off-centre diagonal crossings make the fluid piece concave (q = 0.25) or the solid piece concave (q = 0.75).
+    foreach(double q in new[]{.25,.75}){
+        var links=new JsonArray(new JsonArray(1,0,.5),new JsonArray(4,3,.5),new JsonArray(17,1,q));
+        var cut=SliceCutCells.Polygons(plane,new double[4],new[]{true,true,false,true},2,2,new[]{2,2,1},links,"pressure").ToArray();
+        Assert(cut.Length==2&&Fans(cut)&&Math.Abs(Sum(cut,false)+Sum(cut,true)-1)<1e-12,$"q {q}: concave piece mis-triangulated");
+    }
+    // Without the in-plane diagonal crossings, chords would cut each convex corner (+0.125 each).
+    var chords=SliceCutCells.Polygons(points,values,valid,n,n,new[]{n,n,1},Links(false),"pressure").ToArray();
+    Assert(Math.Abs(Sum(chords,false)-135.5)<1e-9&&Math.Abs(Sum(chords,false)+Sum(chords,true)-144)<1e-9,"Axis-only cut changed or lost area");
+    // Every dual cell with a fluid corner keeps exactly count/4 fluid in the voxel partition.
+    var rng=new Random(7);var mask=Enumerable.Range(0,n*n).Select(_=>rng.NextDouble()<.6).ToArray();
+    var random=SliceCutCells.Polygons(points,values,mask,n,n,new[]{n,n,1},null,"pressure").ToArray();
+    double expected=0;for(int x=0;x<n-1;x++)for(int y=0;y<n-1;y++){int a=x*n+y;expected+=new[]{a,a+n,a+n+1,a+1}.Count(i=>mask[i])/4d;}
+    Assert(Math.Abs(Sum(random,false)-expected)<1e-9&&Math.Abs(Sum(random,false)+Sum(random,true)-144)<1e-9,"Random mask dropped or overlapped cells");
+});
+Test("curved sphere slices tile the plane at two resolutions",()=>{
+    // Analytic circle (sphere cut through its centre) with exact link fractions; off-grid centre.
+    foreach(var (n,r) in new[]{(13,3.2),(25,6.4)}){
+        double cx=(n-1)/2d+.3,cy=(n-1)/2d+.1;bool Fluid(int x,int y)=>(x-cx)*(x-cx)+(y-cy)*(y-cy)>r*r;
+        var points=new double[n*n][];var valid=new bool[n*n];var values=new double[n*n];var links=new JsonArray();
+        for(int x=0;x<n;x++)for(int y=0;y<n;y++){points[x*n+y]=new[]{(double)x,y,0d};valid[x*n+y]=Fluid(x,y);values[x*n+y]=1;}
+        foreach(var (e,dir) in new[]{(new[]{1,0},1),(new[]{-1,0},2),(new[]{0,1},3),(new[]{0,-1},4),(new[]{1,1},15),(new[]{-1,-1},16),(new[]{1,-1},17),(new[]{-1,1},18)})
+            for(int x=0;x<n;x++)for(int y=0;y<n;y++){int u=x+e[0],v=y+e[1];if(u<0||u>=n||v<0||v>=n||!Fluid(x,y)||Fluid(u,v))continue;
+                // Smallest t in (0,1] where |p + t e - c| = r.
+                double px=x-cx,py=y-cy,a=e[0]*e[0]+e[1]*e[1],b=2*(px*e[0]+py*e[1]),c=px*px+py*py-r*r,t=(-b-Math.Sqrt(b*b-4*a*c))/(2*a);
+                links.Add(new JsonArray(dir,x*n+y,t));}
+        var pieces=SliceCutCells.Polygons(points,values,valid,n,n,new[]{n,n,1},links,"pressure").ToArray();
+        double total=(n-1)*(n-1),fluid=Sum(pieces,false),black=Sum(pieces,true);
+        Assert(Math.Abs(fluid+black-total)<1e-9,$"n {n}: pieces cover {fluid+black} of {total}");
+        Assert(Math.Abs(black-Math.PI*r*r)<.02*Math.PI*r*r,$"n {n}: black {black} far from circle {Math.PI*r*r}");
+        Assert(pieces.Where(x=>!x.Solid).SelectMany(x=>x.Polygon).All(v=>v.Value==1),"Wall colour invented");
+        Assert(Fans(pieces),$"n {n}: fan triangulation leaves a piece");
+    }
+});
+Test("slice display draws solid pieces black and keeps zero samples coloured",()=>{
+    var data=JsonNode.Parse("{\"coordinates\":[[0.0,0.0,0.0],[0.0,1.0,0.0],[1.0,0.0,0.0],[1.0,1.0,0.0]],\"values\":[0.0,0.0,5.0,5.0],\"valid\":[true,true,false,false],\"shape\":[2,2]}")!.AsObject();
+    var colour=System.Drawing.Color.FromArgb(10,20,30);
+    var mesh=SliceDisplay.Build(data,new JsonObject{["shape"]=new JsonArray(2,2,1)},"speed",p=>new Rhino.Geometry.Point3d(p[0],p[1],p[2]),v=>v==0?colour:System.Drawing.Color.White);
+    Assert(mesh.Faces.Count==8&&mesh.VertexColors.Count(c=>c.ToArgb()==System.Drawing.Color.Black.ToArgb())==6&&mesh.VertexColors.Count(c=>c.ToArgb()==colour.ToArgb())==6,"Solid colour or zero-speed fluid colour wrong");
+    Assert(mesh.VertexColors.All(c=>c.ToArgb()!=System.Drawing.Color.White.ToArgb()),"Solid sample value coloured the display");
 });
 var benchmarkCase = Fresh();
 for (int i = 0; i < 1000; i++) { var sw = Stopwatch.StartNew(); CaseHub.Edit(1, new() { ["target"] = 200 + i % 2 }, benchmarkCase.Version, "panel", false); timings.Add(sw.Elapsed.TotalMilliseconds); }
@@ -330,14 +404,16 @@ Test("stale field identity and unit-change close callbacks cannot publish",()=>{
     Action<CaseState,string> close=(state,reason)=>{if(state==c&&reason=="units")CaseHub.Close(1);};
     CaseHub.Changed+=close;try{doc.ModelUnitSystem=UnitSystem.Millimeters;Tick();Assert(CaseHub.Find(1)==null,"Unit callback close ignored");}finally{CaseHub.Changed-=close;doc.ModelUnitSystem=UnitSystem.Meters;}
 });
-Test("cut cells omit unresolved crossings and deduplicate a shared solid corner",()=>{
+Test("cut cells replace unresolved crossings with the halfway partition and deduplicate a shared solid corner",()=>{
     var links=new JsonArray(new JsonArray(1,0,.5));
-    foreach(var spec in new[]{(plane,new[]{2,2}), (new[]{new[]{.1,0d,0d},plane[1],plane[2],plane[3]},new[]{2,2,1}), (new[]{plane[0],plane[1],new[]{2d,0d,0d},plane[3]},new[]{2,2,1})})
-        Assert(!SliceCutCells.Polygons(spec.Item1,new double[4],new[]{true,true,false,false},2,2,spec.Item2,links,"speed").Any(),"Unresolved crossing drawn");
-    Assert(!SliceCutCells.Polygons(plane,new double[4],new[]{true,true,false,false},2,2,new[]{2,2,1},new JsonArray(new JsonArray(1,0,0d)),"speed").Any(),"Invalid fraction drawn");
+    foreach(var spec in new[]{(plane,new[]{2,2}), (new[]{new[]{.1,0d,0d},plane[1],plane[2],plane[3]},new[]{2,2,1}), (new[]{plane[0],plane[1],new[]{2d,0d,0d},plane[3]},new[]{2,2,1})}){
+        var pieces=SliceCutCells.Polygons(spec.Item1,new double[4],new[]{true,true,false,false},2,2,spec.Item2,links,"speed").ToArray();
+        Assert(pieces.Length==4&&pieces.Count(x=>!x.Solid)==2,"Unresolved crossing drawn or cell dropped");}
+    var invalid=SliceCutCells.Polygons(plane,new double[4],new[]{true,true,false,false},2,2,new[]{2,2,1},new JsonArray(new JsonArray(1,0,0d)),"speed").ToArray();
+    Assert(invalid.Length==4&&Sum(invalid,false)==.5,"Invalid fraction drawn");
     var corners=new JsonArray(new JsonArray(2,2,1d),new JsonArray(4,1,1d));
     var polygon=SliceCutCells.Polygons(plane,new double[4],new[]{false,true,true,true},2,2,new[]{2,2,1},corners,"speed").Single();
-    Assert(polygon.Length==4&&Area(polygon)==1,"Coincident solid corner duplicated or area lost");
+    Assert(!polygon.Solid&&polygon.Polygon.Length==4&&Area(polygon.Polygon)==1,"Coincident solid corner duplicated or area lost");
 });
 
 QualityContracts.Run(Test, Assert);

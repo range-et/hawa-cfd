@@ -34,10 +34,10 @@
     "plugin/Hawa.Shared/JsonCompatibility.cs": "9287b4b457d95f6da74c4e1aac438171418afe563da13dcdd0d1489d0ed0492d",
     "plugin/Hawa.Shared/MeshContainment.cs": "4d61e33e7370de5b362398fbbcdc33a73b039a0d0f1430c189a29f4f9bc1a9df",
     "plugin/Hawa.Shared/NativeSettings.cs": "91df9149eacbd802277e3fb3c991a57e1101e9536795e1fba7024f9f1d1690a5",
-    "plugin/Hawa.Shared/SliceCutCells.cs": "b2303e9001074a39162132240b3608756ae912552fa45b5c2d527fe926f717d7",
-    "plugin/Hawa.Shared/SliceDisplay.cs": "a8c5c11bcf06e9deec17cb63505f4888aba9407bd21bc7bbe66fb42d57981ce7",
+    "plugin/Hawa.Shared/SliceCutCells.cs": "cabdeaa112148392b4866a48bc208e12edb1321d9e17d5867614a3980df88cb2",
+    "plugin/Hawa.Shared/SliceDisplay.cs": "4bc3476d837d2915b283e694455aeb38bc376624d99910bb3550e6c2f4bcb0d0",
     "plugin/Hawa.Shared/SurfaceMeshing.cs": "637792754e487bbf4980abcd0492d9736f3c7ba1182a6e5781a2ef08d74f3a63",
-    "plugin/Hawa.Shared/WallLinks.cs": "1c35e7983e78abf53039a8113ae7ef3e1002dd07d6caf8589d4a8ddc77b9ff0b",
+    "plugin/Hawa.Shared/WallLinks.cs": "2c08c62a7d336ec9ed7b9b92edc1081aaa481aade4cb8b4e17ecfbe85af25c57",
     "pyproject.toml": "1c17295039a5e2c8709ad43f69308af524cc04c022a0d9d2d44a7880ae93c60b",
     "scripts/analyze_neutral_stationary.py": "9b1ac533247ed4a19fb737785f4411630efdc790a13669e8b932d7ac607dfbbf",
     "scripts/audit_backport.py": "4cc6db5545b4d799b4a5730705f21db5156b4d6cb70f85618c4211fd6f0a4333",
@@ -124,7 +124,7 @@
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/dotnet/StateContracts/GeometryKernelContracts.cs": "a25e0a8d3c95e9236d066935d8ee62d66bbdc95003bd1c02f8b11f96fb2b0a9e",
     "tests/dotnet/StateContracts/HostDouble.cs": "10832f760922195d704a520acd2fe6d1f4cb9b7ec4f00406b34bce9a7a37e807",
-    "tests/dotnet/StateContracts/Program.cs": "e9ebbc05644e781c1be71d6d5c7a544bab8cc7caec1acb5166508e24b3fa7c4c",
+    "tests/dotnet/StateContracts/Program.cs": "b2005828aa0e2be71a11a60161c9e111d149f13265b15040dcc61ddab644122b",
     "tests/dotnet/StateContracts/QualityContracts.cs": "e2e1c53c9dd66c26c6c6762faf8eea1803d854a180229b28a7fa1cd10f1ca6ed",
     "tests/dotnet/StateContracts/StateContracts.csproj": "a71b7ab3ee7db007daabf3cfb502372db57c06f00f71aab420318779d4511c5b",
     "tests/matrix/__init__.py": "341c9919a25e6570384f1300bdb09b02173edf3aeb8cda971e44477be8697ee9",
@@ -45730,23 +45730,23 @@
     {
       "path": "plugin/Hawa.Shared/SliceCutCells.cs",
       "language": "C#",
-      "name": "Hawa.Shared.SliceCutCells.public static IEnumerable<Vertex[]> Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field)",
-      "signature": "public static IEnumerable<Vertex[]> Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field)",
+      "name": "Hawa.Shared.SliceCutCells.public static IEnumerable<Piece> Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field)",
+      "signature": "public static IEnumerable<Piece> Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field)",
       "kind": "MethodDeclaration",
-      "line": 8,
-      "end_line": 124,
-      "fingerprint": "c529d99989020211bb8ffcdbf1f52e87460a54cfac4ce3a2b92fad92ded231ad",
+      "line": 12,
+      "end_line": 185,
+      "fingerprint": "e6e85c5c27611b3930635f0de0b1097c613bf045e65daf3af28371545cc138a0",
       "declaration": false,
       "visibility": "public",
       "summary": "",
-      "id": "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.public static IEnumerable<Vertex[]> Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field)",
+      "id": "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.public static IEnumerable<Piece> Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field)",
       "branches": null,
       "tests": [
         "tests/dotnet/StateContracts (suite-level)"
       ],
       "lines": {
-        "hit": 54,
-        "total": 54
+        "hit": 26,
+        "total": 26
       },
       "status": "covered"
     },
@@ -45776,12 +45776,127 @@
     {
       "path": "plugin/Hawa.Shared/SliceCutCells.cs",
       "language": "C#",
+      "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Vertex Mid(params int[] sites)",
+      "signature": "Vertex Mid(params int[] sites)",
+      "kind": "LocalFunctionStatement",
+      "line": 23,
+      "end_line": 35,
+      "fingerprint": "f5ca1e356e6257106e08615def3b7a94e663ebd400650d13ad1441de4f47a86a",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Vertex Mid(params int[] sites)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 5,
+        "total": 5
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/SliceCutCells.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Mid(params int[] sites).lambda#0 i =>",
+      "signature": "lambda#0 i =>",
+      "kind": "SimpleLambdaExpression",
+      "line": 25,
+      "end_line": 26,
+      "fingerprint": "4b1ceef764c9cc98a4f417700a875e8a2266d94d7e4200c2934c191b5af4fbe4",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Mid(params int[] sites).lambda#0 i =>",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/SliceCutCells.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Mid(params int[] sites).lambda#1 a =>",
+      "signature": "lambda#1 a =>",
+      "kind": "SimpleLambdaExpression",
+      "line": 28,
+      "end_line": 31,
+      "fingerprint": "5f433cbdd71793c1cb6e735457c712d4e2bfd74135530c73cd3e77d025c175f8",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Mid(params int[] sites).lambda#1 a =>",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 2,
+        "total": 2
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/SliceCutCells.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Mid(params int[] sites).lambda#2 i =>",
+      "signature": "lambda#2 i =>",
+      "kind": "SimpleLambdaExpression",
+      "line": 29,
+      "end_line": 30,
+      "fingerprint": "37682ee08ed78afd2d3d4322a5e8d2677d920d71e6cc5adfb85f8dbbb34cfd3a",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Mid(params int[] sites).lambda#2 i =>",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/SliceCutCells.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Mid(params int[] sites).lambda#3 i =>",
+      "signature": "lambda#3 i =>",
+      "kind": "SimpleLambdaExpression",
+      "line": 32,
+      "end_line": 33,
+      "fingerprint": "18d575e146cb804921b47205d1eefbc07531af2e64ccd8719d09efd278a642dd",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Mid(params int[] sites).lambda#3 i =>",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/SliceCutCells.cs",
+      "language": "C#",
       "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Vertex? Crossing(int fluid, int solid)",
       "signature": "Vertex? Crossing(int fluid, int solid)",
       "kind": "LocalFunctionStatement",
-      "line": 22,
-      "end_line": 48,
-      "fingerprint": "53a32c310c7f973dc7edbfb8912c47cc67b232936e23195e94b0e467a24b9c8d",
+      "line": 38,
+      "end_line": 60,
+      "fingerprint": "22d86ad1f12e3c4f0aad98e963072da6525f1d038c5673fd6009d52152fef000",
       "declaration": false,
       "visibility": "",
       "summary": "",
@@ -45791,8 +45906,8 @@
         "tests/dotnet/StateContracts (suite-level)"
       ],
       "lines": {
-        "hit": 19,
-        "total": 19
+        "hit": 16,
+        "total": 16
       },
       "status": "covered"
     },
@@ -45802,8 +45917,8 @@
       "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#0 v =>",
       "signature": "lambda#0 v =>",
       "kind": "SimpleLambdaExpression",
-      "line": 28,
-      "end_line": 29,
+      "line": 44,
+      "end_line": 45,
       "fingerprint": "88ebadddad6fe696123a135fbecf2d5eefec67c735d4aa31b9999b5f86d189c0",
       "declaration": false,
       "visibility": "",
@@ -45825,8 +45940,8 @@
       "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#1 a =>",
       "signature": "lambda#1 a =>",
       "kind": "SimpleLambdaExpression",
-      "line": 32,
-      "end_line": 33,
+      "line": 48,
+      "end_line": 49,
       "fingerprint": "46dc45235ec7fbd55e50fde10744f71e0df1a11d9adecb517a4b56436cb5eaa7",
       "declaration": false,
       "visibility": "",
@@ -45845,16 +45960,16 @@
     {
       "path": "plugin/Hawa.Shared/SliceCutCells.cs",
       "language": "C#",
-      "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#2 v =>",
-      "signature": "lambda#2 v =>",
+      "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#2 e =>",
+      "signature": "lambda#2 e =>",
       "kind": "SimpleLambdaExpression",
-      "line": 35,
-      "end_line": 36,
-      "fingerprint": "d13f0784f0dce751870a07d4768cbf39dd3356b69f79af1bca120f4270f56d50",
+      "line": 51,
+      "end_line": 52,
+      "fingerprint": "c33de22daa27b860020ea7060f0a85e460b6c6116424ec59c7e81aea341ff59b",
       "declaration": false,
       "visibility": "",
       "summary": "",
-      "id": "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#2 v =>",
+      "id": "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#2 e =>",
       "branches": null,
       "tests": [
         "tests/dotnet/StateContracts (suite-level)"
@@ -45868,39 +45983,16 @@
     {
       "path": "plugin/Hawa.Shared/SliceCutCells.cs",
       "language": "C#",
-      "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#3 v =>",
-      "signature": "lambda#3 v =>",
+      "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#3 a =>",
+      "signature": "lambda#3 a =>",
       "kind": "SimpleLambdaExpression",
-      "line": 39,
-      "end_line": 40,
-      "fingerprint": "c5ef1665503822c2e68c75be7208f588e39ed797a96374b77be6d2cec15d6ed8",
-      "declaration": false,
-      "visibility": "",
-      "summary": "",
-      "id": "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#3 v =>",
-      "branches": null,
-      "tests": [
-        "tests/dotnet/StateContracts (suite-level)"
-      ],
-      "lines": {
-        "hit": 1,
-        "total": 1
-      },
-      "status": "covered"
-    },
-    {
-      "path": "plugin/Hawa.Shared/SliceCutCells.cs",
-      "language": "C#",
-      "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#4 a =>",
-      "signature": "lambda#4 a =>",
-      "kind": "SimpleLambdaExpression",
-      "line": 45,
-      "end_line": 46,
+      "line": 57,
+      "end_line": 58,
       "fingerprint": "af0d073ad7ba51f77d8386eb82b53a067a1a27f4dbbe56be05bb1be0794b224a",
       "declaration": false,
       "visibility": "",
       "summary": "",
-      "id": "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#4 a =>",
+      "id": "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Crossing(int fluid, int solid).lambda#3 a =>",
       "branches": null,
       "tests": [
         "tests/dotnet/StateContracts (suite-level)"
@@ -45908,6 +46000,98 @@
       "lines": {
         "hit": 1,
         "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/SliceCutCells.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Piece? Clean(List<Vertex> polygon, bool solid)",
+      "signature": "Piece? Clean(List<Vertex> polygon, bool solid)",
+      "kind": "LocalFunctionStatement",
+      "line": 62,
+      "end_line": 70,
+      "fingerprint": "a7c8077fdf51cb220802084a687f0b8d43c9ebd5242694ecedd149ce1fcb82a3",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Piece? Clean(List<Vertex> polygon, bool solid)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 6,
+        "total": 6
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/SliceCutCells.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).List<Piece>? Cut(int[] cell)",
+      "signature": "List<Piece>? Cut(int[] cell)",
+      "kind": "LocalFunctionStatement",
+      "line": 74,
+      "end_line": 147,
+      "fingerprint": "28985ba0b3d5af127d696b42515b585fb69734de4ddc98a0c8ae0e1c1a7350ca",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).List<Piece>? Cut(int[] cell)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 46,
+        "total": 46
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/SliceCutCells.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Cut(int[] cell).lambda#0 i =>",
+      "signature": "lambda#0 i =>",
+      "kind": "SimpleLambdaExpression",
+      "line": 76,
+      "end_line": 77,
+      "fingerprint": "4b1ceef764c9cc98a4f417700a875e8a2266d94d7e4200c2934c191b5af4fbe4",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Cut(int[] cell).lambda#0 i =>",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/SliceCutCells.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Cut(int[] cell).List<Vertex> FromDiagonal(List<Vertex> polygon)",
+      "signature": "List<Vertex> FromDiagonal(List<Vertex> polygon)",
+      "kind": "LocalFunctionStatement",
+      "line": 137,
+      "end_line": 141,
+      "fingerprint": "8ba13efff576c3d66917d26a0603a6ef7770ec025a891c5c3fa07847abf534ae",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/SliceCutCells.cs::Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).Cut(int[] cell).List<Vertex> FromDiagonal(List<Vertex> polygon)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 2,
+        "total": 2
       },
       "status": "covered"
     },
@@ -45917,8 +46101,8 @@
       "name": "Hawa.Shared.SliceCutCells.Polygons(double[][] points, double[] values, bool[] valid, int rows, int cols, int[] shape, JsonArray? wallLinks, string field).lambda#0 i =>",
       "signature": "lambda#0 i =>",
       "kind": "SimpleLambdaExpression",
-      "line": 61,
-      "end_line": 62,
+      "line": 160,
+      "end_line": 161,
       "fingerprint": "4b1ceef764c9cc98a4f417700a875e8a2266d94d7e4200c2934c191b5af4fbe4",
       "declaration": false,
       "visibility": "",
@@ -45941,8 +46125,8 @@
       "signature": "public static Mesh Build(JsonObject data, JsonObject spec, string field, Func<double[], Point3d> world, Func<double, Color> color)",
       "kind": "MethodDeclaration",
       "line": 8,
-      "end_line": 49,
-      "fingerprint": "1e4bd17f13b1b009707cfe5d054cdd003ac52434dbe4e5ee925db16c3c880748",
+      "end_line": 51,
+      "fingerprint": "88e7e23652f4ac5f5268d86d263ed1989963876ba3b2fc08b78b862422e90350",
       "declaration": false,
       "visibility": "public",
       "summary": "",
@@ -45952,8 +46136,8 @@
         "tests/dotnet/StateContracts (suite-level)"
       ],
       "lines": {
-        "hit": 24,
-        "total": 24
+        "hit": 25,
+        "total": 25
       },
       "status": "covered"
     },
