@@ -39,6 +39,13 @@ passing test. It cannot prove assertion quality, all branches, or physical accur
 
 ## Run locally
 
+Run the gate in the Python 3.9 `.venv`, never in the Python 3.12 `.venv-dev`. The
+call profiler relies on Python 3.9 `sys.setprofile` and line-event behaviour, and
+the committed matrix and baseline were measured on 3.9; CI runs this gate on
+3.9.25. `.venv-dev` is for developer tools only (ruff, and mutmut 3.x once
+[#67](https://github.com/range-et/hawa-cfd/issues/67) ports the studies). See the
+[README](../README.md#development) for both environments.
+
 Install the repository's test extra (now including coverage.py), and the .NET 10
 SDK used by the existing state contracts. No production/runtime dependency changes.
 The runner restores the repository-pinned Coverlet developer tool automatically.
@@ -129,7 +136,16 @@ merging is a repository branch-protection/ruleset decision owned by maintainers.
 
 The Python mutation workflow runs on PRs and pushes to `main`. It currently
 covers the CLI and runtime admission (`backends`, `cases`, `boundary_contracts`)
-with pinned mutmut 2.4.5 in fresh copied source trees. This is four-module scope,
+with pinned mutmut 2.4.5 in fresh copied source trees, in the Python 3.9 `.venv`.
+mutmut 3.x needs Python 3.10 or newer, so
+[#67](https://github.com/range-et/hawa-cfd/issues/67) will move these studies to
+the Python 3.12 `.venv-dev` (mutmut 3.7.0 in the `tools` dependency group; 3.8
+needs a newer click than the production pin). Mutation results measured on 3.12
+cover test logic, not interpreter behaviour: the same tests must also pass on 3.9,
+which stays the authoritative environment. On 3.12 the suite skips tests marked
+`production_python` (entry points such as `parity_worker.py`, `compare_engines.py`
+and `verify_cuda.py` that refuse non-3.9 interpreters), so 3.12 mutation runs get
+no kills from them. This is four-module scope,
 not whole-codebase mutation coverage. Install the isolated developer dependencies:
 
 ```sh

@@ -26,7 +26,18 @@ Report security problems privately as described in [SECURITY.md](SECURITY.md).
 ## Code requirements
 
 - Python production code stays compatible with Python 3.9 and the pinned PyTorch
-  dependencies. MPS is PyTorch's Apple backend; MLX is not a backend here.
+  dependencies, because Rhino 8 embeds CPython 3.9. MPS is PyTorch's Apple
+  backend; MLX is not a backend here.
+- Use two environments. `.venv` is Python 3.9 (`uv sync --extra test`): production
+  parity, and the environment for every gate, script and documented command.
+  `.venv-dev` is Python 3.12 (`UV_PROJECT_ENVIRONMENT=.venv-dev uv sync --python
+  3.12 --extra test --group tools`) and holds developer tools that need newer
+  Python, such as ruff and mutmut 3.x. Nothing in `.venv-dev` is a production
+  dependency, and a 3.12 pass is not evidence for 3.9.
+- Rhino installs dependencies from the `# requirements:` headers in
+  `plugin/Bootstrap.py` and `scripts/grasshopper_component.py`. Change those
+  headers together with `pyproject.toml` (a test checks they match), then run
+  `uv lock` and `scripts/export_rhino_requirements.sh`.
 - Original Hawa code is GPL-3.0-only. Preserve bundled upstream license notices
   and record vendored changes in the vendor's `PORTING.md`.
 - Make the smallest change that delivers the issue. Keep heavy work off the
@@ -54,8 +65,13 @@ before review.
    report timeouts and errors separately; they never count as kills. Studies that
    exceed the CI time limit may run locally; commit their script and policy.
    Whole-module mutation runs are not required.
-4. **The full suite passes.** Use the repository `.venv/bin/python`. Shared-state
-   changes also run `dotnet run --project tests/dotnet/StateContracts`.
+4. **The full suite passes on Python 3.9 and 3.12.** Run it with
+   `.venv/bin/python -m pytest tests -q` and `.venv-dev/bin/python -m pytest tests -q`,
+   and run `.venv-dev/bin/ruff check .`, which rejects syntax that Python 3.9
+   cannot parse. CI runs all three. Tests that run a production entry point which
+   refuses non-3.9 interpreters carry `@pytest.mark.production_python` and are
+   skipped on 3.12 only. Shared-state changes also run
+   `dotnet run --project tests/dotnet/StateContracts`.
 5. **Device smoke gate, CPU mode.** PRs that touch numerics pass the CPU mode of
    the device smoke gate ([#57](https://github.com/range-et/hawa-cfd/issues/57))
    in CI.

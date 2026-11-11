@@ -115,6 +115,17 @@ Fresh checkouts, no tolerance or policy edits; binaries stay on the hosts by SHA
 [CUDA results](https://github.com/range-et/hawa-cfd/issues/57#issuecomment-6786203542),
 [MPS results](https://github.com/range-et/hawa-cfd/issues/14#issuecomment-6786793399).
 
+### November 11, 2026 — Python 3.12 developer environment (Phase 0 for #67/#68)
+
+Production stays Python 3.9. `pyproject.toml` now accepts Python 3.9–3.12 so a
+`.venv-dev` (3.12) can install Hawa editable for tooling (ruff, mutmut 3.7.0 in a
+`tools` dependency group); `.venv` (3.9) remains the gate environment. uv.lock
+covers both, and `requirements/rhino-py39.txt` re-exports byte-identically for 3.9.
+A test ties the Rhino `# requirements:` headers to the project pins. New CI jobs
+run ruff's 3.9 syntax guard, the Rhino export check and the full headless suite on
+3.12 (production-only entry points skipped). Developer tooling only; no solver or
+Rhino change, not released.
+
 ### November 10, 2026 — HAWA-004 boundary reflection measurements (partial)
 
 Added an enlarged-domain/analytic harness with criteria committed before the

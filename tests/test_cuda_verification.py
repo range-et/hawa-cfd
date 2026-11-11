@@ -89,6 +89,7 @@ def test_complete_inventory_rejects_bad_evidence(tmp_path, fault):
         evidence.validate_pytest(tmp_path / 'expected.json', p, xml, require_cuda=True)
 
 
+@pytest.mark.production_python
 @pytest.mark.parametrize('fault', [None, 'partial', 'drift', 'bad_xml', 'collection_exit'])
 def test_cuda_runner_scrubs_selection_and_fails_closed(repository, monkeypatch, fault):
     import hawa.backends
