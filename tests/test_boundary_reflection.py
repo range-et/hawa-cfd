@@ -129,19 +129,113 @@ def test_acoustic_pressure_dirichlet_faces_reflect(system):
     before = v.acoustic(system, scale=.25, steps=0)
     assert before['history_max_every_10'] == [0.] and before['reflection'] == 0.
     r = v.acoustic(system, scale=.25)
-    assert (r['case'], r['system'], r['scale'], r['steps'], r['dtype']) == ('A1', system, .25, 36, 'torch.float64')
+    # 36 requested steps; samples every 10 steps, so 30 were run and measured.
+    assert (r['case'], r['system'], r['scale'], r['dtype']) == ('A1', system, .25, 'torch.float64')
+    assert (r['requested_steps'], r['steps']) == (36, 30)
     assert len(r['history_max_every_10']) == 4 and r['history_max_every_10'][0] == 0.
     assert r['reflection'] == max(r['history_max_every_10'])
     # A held exterior pressure reflects an incident pulse with order-one amplitude.
     assert .4 < r['reflection'] < 1.5 and r['finite'] and r['criterion'] == .10 and r['passed'] is False
     i = v.acoustic(system, scale=.25, side='inlet')
-    assert (i['case'], i['criterion'], i['passed'], i['steps']) == ('A2', None, None, 35)
+    assert (i['case'], i['criterion'], i['passed'], i['requested_steps'], i['steps']) == ('A2', None, None, 35, 30)
     assert .4 < i['reflection'] < 1.5
+
+
+def test_finite_requires_finite_populations_and_metrics():
+    flow, _ = v.build(v.spec_for('S', (6, 6, 4), v.faces_x('S', (5., 0., 0.))))
+    assert v.finite([(flow,)]) and v.finite([(flow,)], 0., .2)
+    assert not v.finite([(flow,)], .2, float('nan')) and not v.finite([(flow,)], float('inf'))
+
+
+def nan_state_on_call(monkeypatch, call):
+    """A finite run whose `call`-th sampled state is NaN, as after a transient blow-up."""
+    original, calls = v.state, []
+
+    def state(flow):
+        calls.append(1)
+        delta, u = original(flow)
+        return (delta*np.nan, u*np.nan) if len(calls) == call else (delta, u)
+    monkeypatch.setattr(v, 'state', state)
+
+
+# max() keeps an earlier passing value when a later sample is NaN.
+def test_acoustic_and_vortex_reject_a_nan_metric_sample(monkeypatch):
+    monkeypatch.setitem(v.CRITERIA, 'acoustic', 10.)
+    monkeypatch.setitem(v.CRITERIA, 'vortex', 10.)
+    nan_state_on_call(monkeypatch, 3)
+    a = v.acoustic('S', scale=.25, steps=20)
+    assert math.isnan(a['history_max_every_10'][1]) and a['finite'] is False and a['passed'] is False
+    nan_state_on_call(monkeypatch, 3)
+    w = v.vortex('S', scale=.25, steps=20)
+    assert math.isnan(w['history_max_every_10'][1]) and w['finite'] is False and w['passed'] is False
+
+
+def test_cut_face_nan_metric_is_inconclusive(monkeypatch):
+    seen = []
+    original = v.cut_status
+    monkeypatch.setattr(v, 'cut_status', lambda ok, *a: seen.append(ok) or original(ok, *a))
+    nan_state_on_call(monkeypatch, 3)  # the small domain at the end of the window
+    r = v.cut_face('S', flowthroughs=.005, scale=.5)
+    assert seen == [False] and r['finite'] is False and r['status'] == 'INCONCLUSIVE'
+
+
+class NanAfter:
+    """Solver wrapper that corrupts the flow or its mass report on call `last`."""
+
+    def __init__(self, flow, solver, last, target):
+        self.flow, self.solver, self.last, self.target, self.calls = flow, solver, last, target, 0
+        self.external_links = solver.external_links
+
+    def __call__(self, n):
+        self.solver(n)
+        self.calls += 1
+        if self.calls == self.last:
+            if self.target == 'population':
+                self.flow.f[:, 5, 1, 1] = float('nan')
+            else:
+                self.external_links.report['mass_budget_residual_lu'] = float('nan')
+
+
+def test_cut_face_backflow_counts_the_small_domain_face(monkeypatch):
+    built, original = [], v.build
+    monkeypatch.setattr(v, 'build', lambda *a: (lambda f, s: built.append(s) or (f, s))(*original(*a)))
+    monkeypatch.setattr(v, 'incoming_links', lambda solver: 5 if solver is built[0] else 0)
+    r = v.cut_face('S', flowthroughs=.005, scale=.5)
+    assert len(built) == 2 and r['incoming_open_at_end'] == 5 and r['separated_cut'] is True
+
+
+@pytest.mark.parametrize('target', ['population', 'mass'])
+def test_reversal_rejects_nan_after_both_branches(target, monkeypatch):
+    dt = .05*3/(math.sqrt(3)*5)
+    last = math.ceil(2*2*1.225*63/20/dt)//10  # the final 10-step call
+    original = v.build
+    monkeypatch.setattr(v, 'build', lambda *a: (lambda f, s: (f, NanAfter(f, s, last, target)))(*original(*a)))
+    r = v.reversal(dx=3.)
+    assert r['incoming_observed'] == dict(outlet=True, inlet=True)
+    assert r['finite'] is False and r['passed'] is False
+    nan = r['max_node_error_m_s'] if target == 'population' else r['max_mass_budget_residual_lu']
+    assert math.isnan(nan)
+
+
+def test_uniform_corner_accepts_an_error_equal_to_the_criterion(monkeypatch):
+    error = v.uniform_corner(torch.float32, steps=1)['max_velocity_error_m_s']
+    assert error > 0
+    monkeypatch.setitem(v.CRITERIA, 'uniform_m_s', error)
+    assert v.uniform_corner(torch.float32, steps=1)['passed'] is True
+
+
+def test_uniform_corner_rejects_a_nan_mass_report(monkeypatch):
+    original = v.build
+    monkeypatch.setattr(v, 'build', lambda *a: (lambda f, s: (f, NanAfter(f, s, 3, 'mass')))(*original(*a)))
+    r = v.uniform_corner(steps=5)
+    assert math.isnan(r['max_mass_budget_residual_lu']) and r['max_velocity_error_m_s'] < 1e-12
+    assert r['finite'] is False and r['passed'] is False
 
 
 def test_acoustic_pass_decision_uses_the_criterion(monkeypatch):
     monkeypatch.setitem(v.CRITERIA, 'acoustic', 10.)
-    assert v.acoustic('S', scale=.25, steps=20)['passed'] is True
+    r = v.acoustic('S', scale=.25, steps=21)
+    assert r['passed'] is True and (r['requested_steps'], r['steps'], len(r['history_max_every_10'])) == (21, 20, 3)
 
 
 def test_vortex_protocol():
@@ -159,8 +253,9 @@ def test_vortex_protocol():
 
 @pytest.mark.parametrize('system', ['S', 'N'])
 def test_vortex_identical_until_the_face_is_reached(system):
-    r = v.vortex(system, scale=.5, steps=10)
-    assert (r['case'], r['system'], r['strength'], r['backflow_mode'], r['steps']) == ('V1', system, .5, 'velocity', 10)
+    r = v.vortex(system, scale=.5, steps=21)  # sampled every 10 steps: 20 run
+    assert (r['case'], r['system'], r['strength'], r['backflow_mode']) == ('V1', system, .5, 'velocity')
+    assert (r['scale'], r['requested_steps'], r['steps'], r['finite']) == (.5, 21, 20, True)
     assert r['reference_shape'] == [67, 24] and r['history_max_every_10'][0] == 0.
     # Before the vortex reaches the face only its weak start-up transient differs.
     assert 0 < r['error'] < 1e-3 and r['passed'] is True and r['criterion'] == .10 and r['max_incoming_open'] == 0
@@ -197,6 +292,7 @@ def test_uniform_oblique_corner_flow_is_preserved(dtype):
     assert (r['case'], r['system'], r['steps'], r['dtype'], r['criterion_m_s']) == ('C1', 'S', 5, str(dtype), 3e-5)
     assert r['max_velocity_error_m_s'] < (1e-12 if dtype == torch.float64 else 3e-5)
     assert r['max_mass_budget_residual_lu'] < (1e-13 if dtype == torch.float64 else 1e-5) and r['passed'] is True
+    assert r['finite'] is True
 
 
 def test_uniform_corner_failure_paths(monkeypatch):
@@ -298,14 +394,17 @@ def test_script_entrypoint_runs_one_row(tmp_path, monkeypatch):
 def test_pressure_driven_reversal_matches_plug_flow():
     r = v.reversal(dx=3.)
     dt = .05*3/(math.sqrt(3)*5)
-    assert r['steps'] == math.ceil(2*2*1.225*63/20/dt) and r['physical_seconds'] == pytest.approx(r['steps']*dt)
+    requested = math.ceil(2*2*1.225*63/20/dt)
+    # Reported time and speed belong to the last 10-step sample actually run.
+    assert requested % 10 and (r['requested_steps'], r['steps']) == (requested, requested//10*10)
+    assert r['physical_seconds'] == pytest.approx(r['steps']*dt) and r['finite'] is True
     assert r['final_expected_m_s'] == pytest.approx(-1+20/(1.225*63)*r['steps']*dt)
     assert r['incoming_observed'] == dict(outlet=True, inlet=True)
     # Declared node reference, L=(Nx-1)dx. Before the time-consistent pressure
     # face, the drive acted half a cell outside each node: about 4/22 m/s here.
     assert r['max_mean_error_m_s'] < .02 and r['max_node_error_m_s'] < .05
     assert r['max_mass_budget_residual_lu'] < 1e-12 and r['passed'] is True
-    assert (r['case'], r['system'], r['dx']) == ('R1', 'S', 3.)
+    assert (r['case'], r['system'], r['dx'], r['dtype']) == ('R1', 'S', 3., 'torch.float64')
 
 def test_reversal_requires_both_branches_and_mass_budget(monkeypatch):
     early = v.reversal(dx=3., steps=100)

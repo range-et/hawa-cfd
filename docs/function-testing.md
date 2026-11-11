@@ -186,20 +186,25 @@ See the [CLI record](verification-cli-mutation.json),
 [runtime study](review-runtime-quality.md) and
 [mutmut 2.4.5 package](https://pypi.org/project/mutmut/2.4.5/).
 
-For changed lines only, `tools/mutation/run_device_smoke.sh NEW_DIR BASE` passes
-`git diff BASE` to mutmut's `--use-patch-file` for the device smoke gate's added
-lines; check it with `--policy tools/mutation/device-smoke-policy.json` (494 mutants,
-485 killed, 9 reviewed). It needs `whatthepatch` from the same requirements file and
-is a local PR record, not a CI study.
-
-The HAWA-004 boundary study is a separate local run. It mutates only lines
-changed since `f9a3a13` in the shifted open-face operator and the reflection
-harness (`--use-patch-file`, with whatthepatch 1.0.7):
+The HAWA-004 boundary study is a separate local run. It mutates only lines the
+PR changes (`--use-patch-file`, with whatthepatch 1.0.7): in
+`src/hawa/neutral_external.py` and `tools/mutation/check_results.py` against
+`f29fe01`, plus the reflection-harness lines changed by the PR #66 review fixes
+(against `d0b54e2`). The rest of the harness is new in that PR and is
+line-covered by asserting tests, but it is outside the mutation scope. The tests
+are `test_mutation_policy.py`, `test_neutral_external.py` (without the CPU/MPS
+device test) and `test_boundary_reflection.py`:
 
 ```sh
 bash tools/mutation/run_boundary_reflection.sh results/boundary-mutation-NEW
 .venv/bin/python tools/mutation/check_results.py results/boundary-mutation-NEW --policy tools/mutation/boundary-reflection-policy.json
 ```
 
-It takes hours on one CPU, so it is not in the 30-minute CI matrix. A policy may
-list several `control_test_files`. See the [HAWA-004 record](boundary-reflection-review.md).
+It takes about 30 minutes on one CPU and stays local, outside CI. A policy may list
+several `control_test_files`. See the [HAWA-004 record](boundary-reflection-review.md).
+
+For changed lines only, `tools/mutation/run_device_smoke.sh NEW_DIR BASE` passes
+`git diff BASE` to mutmut's `--use-patch-file` for the device smoke gate's added
+lines; check it with `--policy tools/mutation/device-smoke-policy.json` (494 mutants,
+485 killed, 9 reviewed). It needs `whatthepatch` from the same requirements file and
+is a local PR record, not a CI study.

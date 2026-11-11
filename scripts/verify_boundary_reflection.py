@@ -93,8 +93,9 @@ def state(flow):
     return (delta*fluid).cpu().numpy(), (flow.u()*fluid[None]).cpu().numpy()
 
 
-def finite(runs):
-    return all(bool(torch.isfinite(run[0].f).all()) for run in runs)
+def finite(runs, *metrics):
+    """Every population and every metric sample is finite; Python max() skips NaN."""
+    return all(bool(torch.isfinite(run[0].f).all()) for run in runs) and all(map(math.isfinite, metrics))
 
 
 def incoming_links(solver):
@@ -143,8 +144,9 @@ def acoustic(system, scale=1, dtype=torch.float64, side='outlet', steps=None, de
                 solver(10)
         a, b = (state(flow)[0][shift:shift+n] for flow, _, shift in runs)
         history.append(float(np.max(np.abs(a-b))/eps))
-    ok, limit = finite(runs), CRITERIA['acoustic'] if side == 'outlet' else None
-    return dict(case='A1' if side == 'outlet' else 'A2', system=system, dtype=str(dtype), scale=scale, steps=end,
+    ok, limit = finite(runs, *history), CRITERIA['acoustic'] if side == 'outlet' else None
+    return dict(case='A1' if side == 'outlet' else 'A2', system=system, dtype=str(dtype), scale=scale,
+                steps=end//10*10, requested_steps=end,
                 reflection=max(history), history_max_every_10=history, finite=ok, criterion=limit,
                 passed=None if limit is None else bool(ok and max(history) <= limit))
 
@@ -198,9 +200,10 @@ def vortex(system, scale=1, dtype=torch.float64, strength=.5, oblique=False, bac
             incoming = max(incoming, incoming_links(runs[0][1]))
         a, b = state(runs[0][0])[1], state(runs[1][0])[1][:, :n, :ny]
         history.append(float(np.max(np.linalg.norm(a-b, axis=0))/V))
-    ok = finite(runs)
+    ok = finite(runs, *history)
     return dict(case='C2' if oblique else ('V1' if strength <= .5 else 'V2'), system=system, dtype=str(dtype),
-                scale=scale, strength=strength, backflow_mode=backflow, steps=end, reference_shape=list(g['shapes'][1]),
+                scale=scale, strength=strength, backflow_mode=backflow, steps=end//10*10, requested_steps=end,
+                reference_shape=list(g['shapes'][1]),
                 error=max(history), history_max_every_10=history, max_incoming_open=incoming, finite=ok,
                 criterion=CRITERIA['vortex'], passed=bool(ok and max(history) <= CRITERIA['vortex']))
 
@@ -217,12 +220,13 @@ def uniform_corner(dtype=torch.float64, steps=200, device='cpu'):
     residual = 0.
     for _ in range(steps):
         solver(1)
-        residual = max(residual, abs(solver.external_links.report['mass_budget_residual_lu']))
+        residual = float(np.maximum(residual, abs(solver.external_links.report['mass_budget_residual_lu'])))
     error = float(np.max(np.abs(flow.u_pu.cpu().numpy()-np.array(inflow)[:, None, None, None])))
+    ok = finite([(flow,)], error, residual)
     mass_ok = dtype != torch.float64 or residual < CRITERIA['mass_lu']
     return dict(case='C1', system='S', dtype=str(dtype), steps=steps, max_velocity_error_m_s=error,
-                max_mass_budget_residual_lu=residual, criterion_m_s=CRITERIA['uniform_m_s'],
-                passed=bool(error <= CRITERIA['uniform_m_s'] and mass_ok))
+                max_mass_budget_residual_lu=residual, criterion_m_s=CRITERIA['uniform_m_s'], finite=ok,
+                passed=bool(ok and error <= CRITERIA['uniform_m_s'] and mass_ok))
 
 
 def reversal_setup(dx=1.):
@@ -253,17 +257,19 @@ def reversal(dx=1., dtype=torch.float64, steps=None, device='cpu'):
         solver(10)
         expected = g['start']+rate*step*dt
         ux = flow.u_pu[0].cpu().numpy()
-        mean_error = max(mean_error, abs(float(ux.mean())-expected))
-        node_error = max(node_error, float(np.max(np.abs(ux-expected))))
-        residual = max(residual, abs(solver.external_links.report['mass_budget_residual_lu']))
+        # np.maximum propagates NaN; max() would keep an earlier passing value.
+        mean_error = float(np.maximum(mean_error, abs(float(ux.mean())-expected)))
+        node_error = float(np.maximum(node_error, np.max(np.abs(ux-expected))))
+        residual = float(np.maximum(residual, abs(solver.external_links.report['mass_budget_residual_lu'])))
         if incoming_links(solver):
             incoming['outlet' if ux.mean() < 0 else 'inlet'] = True
     mass_ok = dtype != torch.float64 or residual < CRITERIA['mass_lu']
-    return dict(case='R1', system='S', dtype=str(dtype), dx=dx, steps=end,
-                physical_seconds=end*dt, final_expected_m_s=g['start']+rate*end*dt, max_mean_error_m_s=mean_error,
+    ok, done = finite([(flow,)], mean_error, node_error, residual), end//10*10
+    return dict(case='R1', system='S', dtype=str(dtype), dx=dx, steps=done, requested_steps=end, finite=ok,
+                physical_seconds=done*dt, final_expected_m_s=g['start']+rate*done*dt, max_mean_error_m_s=mean_error,
                 max_node_error_m_s=node_error, incoming_observed=incoming, max_mass_budget_residual_lu=residual,
                 passed=bool(mean_error <= CRITERIA['reversal_mean'] and node_error <= CRITERIA['reversal_node']
-                            and all(incoming.values()) and mass_ok))
+                            and all(incoming.values()) and mass_ok and ok))
 
 
 def cut_setup(system, scale=1.):
@@ -316,7 +322,7 @@ def cut_face(system, flowthroughs=4., dtype=torch.float64, scale=1., device='cpu
         return float(np.linalg.norm(d)/np.linalg.norm(ref[:, mask])), float(np.max(np.linalg.norm(d, axis=0))/U)
     x = np.arange(n)
     interior, band = compare(x <= n-7), compare(x > n-7)
-    backflow, ok = incoming_links(runs[0][1]), finite(runs)
+    backflow, ok = incoming_links(runs[0][1]), finite(runs, settled, *interior, *band)
     status = cut_status(ok, settled, interior, band)
     return dict(case='K1', system=system, dtype=str(dtype), scale=scale, steps=end, shape=[n, g['ny'], g['nz']],
                 reference_shape=[2*n, g['ny'], g['nz']], interior_l2=interior[0], interior_linf_over_u=interior[1],

@@ -179,6 +179,27 @@ V2, C2 and K1-N move to #60, the single follow-up; #55 stays separate. #14
 closes only after this PR merges and the MPS and CUDA runs on the merged
 commit qualify.
 
+**PR #66 review fixes (harness only; no recorded metric changed).**
+
+- Every case now requires finite populations *and* finite metric samples before
+  a row can pass. Python `max()` skips a NaN that arrives after a passing
+  sample. R1 and C1 had no finiteness check at all. Running maxima in R1 and C1
+  now propagate NaN. A K1 row with a NaN metric is INCONCLUSIVE. Before the
+  fix, R1 with NaN injected into the populations or the mass report after both
+  branches had run still reported `passed: true`, and so did C1 with a NaN mass
+  report. The new tests fail on the old harness.
+- Sampled cases (A1/A2, V1/V2/C2, R1) advance in 10-step blocks and stop at the
+  last multiple of 10. They used to report the requested count as `steps`, and
+  R1 also reported `physical_seconds` and `final_expected_m_s` for steps never
+  run. They now report `steps` as the steps actually run, add
+  `requested_steps`, and give R1's time and expected speed at the last sample.
+  C1 and K1 already ran exactly their stated steps.
+- Every metric in this record came from samples that were actually taken, so
+  no recorded metric changed and no row was rerun. Only the reported `steps`
+  values and R1's time and expected-speed fields change; this record does not
+  cite them. The JSON gains `requested_steps`, and R1 and C1 gain `finite`. The
+  device commands are unchanged.
+
 ## Supported combinations after this work
 
 | Combination | Status |
@@ -202,25 +223,29 @@ commit qualify.
   corner donors), `tests/test_mutation_policy.py` (several control files), and
   `tests/test_tooling_entrypoints.py` (KBC diagnostic entrypoint, which the
   strict check found uncovered).
-- Function gate after merging `origin/main` at `8eec667` (merge `6a09a71`;
-  `tools/function_coverage.py run`): 1,439 passed, 170 skipped (all skips are
-  MPS or CUDA hardware unavailable); functions 550 covered, 58 declarations,
-  590 unmeasured C# host functions. `check --strict --coverage-scope headless`
-  on the run directory: exit 0, `failures: []`. `check --base-ref origin/main`:
-  exit 0, `failures: []`. The committed matrix was regenerated from that run
-  and `check --output docs/function-tests --base-ref origin/main` passes.
-  Earlier gates at `792f0cd` and after merging `c6e57ad` also passed.
+- Function gate after merging `origin/main` at `c43bddf` (merge `405b2de`), with
+  the PR #66 review fixes (`tools/function_coverage.py run`): 1,513 passed, 170
+  skipped (all skips are MPS or CUDA hardware unavailable); functions 583
+  covered, 58 declarations, 590 unmeasured C# host functions.
+  `check --strict --coverage-scope headless` on the run directory: exit 0,
+  `failures: []`. `check --base-ref origin/main`: exit 0, `failures: []`. The
+  committed matrix was regenerated from that run and
+  `check --output docs/function-tests --base-ref origin/main` passes. Earlier
+  gates at `792f0cd` and after merging `c6e57ad` and `8eec667` also passed.
 - Mutation (mutmut 2.4.5, whatthepatch 1.0.7): the PR-scoped study mutates only
   lines changed against `origin/main` (`f29fe01`) in `neutral_external.py` and
-  `check_results.py`, with `test_mutation_policy.py` and
-  `test_neutral_external.py`. Result: **34 mutants, 33 killed, 1 reviewed
-  equivalent, 0 timeouts, 0 errors, 0 skips**; runtime a few minutes. Survivor
+  `check_results.py`, plus the harness lines changed by the PR #66 review fixes
+  (against `d0b54e2`), with `test_mutation_policy.py`, `test_neutral_external.py`
+  and `test_boundary_reflection.py`. Result on the rebased branch: **111 mutants,
+  110 killed, 1 reviewed equivalent, 0 timeouts, 0 errors, 0 skips**; runtime
+  about 29 minutes on one CPU. Survivor
   #29 changes `split('::', 1)[0]` to `split('::', 2)[0]`. It is equivalent
   because the first field is identical. An earlier pass also found two
   equivalent survivors (an unused `get` default and `keepdim`); both arguments
   were removed. The policy is `tools/mutation/boundary-reflection-policy.json`.
-- Not in mutation scope: the reflection harness (`scripts/verify_boundary_reflection.py`),
-  under the minutes budget for this PR. It is line-covered by asserting tests. A
+- Not in mutation scope: the rest of the reflection harness
+  (`scripts/verify_boundary_reflection.py`), which is new in this PR. It is
+  line-covered by asserting tests. A
   partial wider discovery pass was stopped and is not counted. The CPU/MPS
   comparison test is deselected in the study; it belongs to #53.
 
@@ -232,7 +257,7 @@ All passes by the same Amp agent; no independent reviewer.
 | --- | --- | --- |
 | G0 research | PASS for the scoped verification | Criteria committed in `a1aa352` before the first run; enlarged-domain and analytic references; one withdrawn amendment, recorded above |
 | G1 architecture | PASS | One production change inside the existing open-face writer; no new node, schema, contract or archive change; default faces unchanged |
-| G2 reliability | PASS for headless scope | Strict headless and base-ref checks pass; PR-scoped mutation 33 killed, 1 reviewed equivalent. No live Rhino or device run |
+| G2 reliability | PASS for headless scope | Strict headless and base-ref checks pass; PR-scoped mutation 110 of 111 killed, 1 reviewed equivalent. No live Rhino or device run |
 | G3 numerical | PASS for C1, R1 and K1-S; FAIL for A1, V1, V2 and C2; INCONCLUSIVE for K1-N | Rows above. No nonreflection, vortex-exit, backflow-vortex or N cut-face claim |
 | G4 UI/UX and examples | NOT APPLICABLE / BLOCKED | No GH or UI change. Live Rhino examples were not run here; pressure-backflow behavior changes for GH cases that use it |
 | G5 integration | BLOCKED for release | CPU here. CUDA pre-merge check on `1ead04d` within all bounds (max A1-N ΔR 5.1e-4; `--require-cuda` 64 passed); qualifying run on the merge commit in #52. MPS FP32 rows go to #53 |
