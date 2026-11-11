@@ -47,6 +47,27 @@ def test_checkpoint_pauses_resumes_and_reports_cancellation(isolated_jobs, monke
     with pytest.raises(ValueError, match='Job control'): jobs.Job(request()).control('unsupported')
 
 
+def test_job_waiting_for_the_device_reports_queued_until_cancelled(isolated_jobs):
+    jobs.DEVICE_SLOT.acquire()
+    job = jobs.Job(request(kind='create'))
+    # Record the state each slot-wait checkpoint leaves, so the check cannot pass on the constructor's 'queued'.
+    seen, waited, original = [], threading.Event(), job.checkpoint
+    def checkpoint(steps, *state):
+        original(steps, *state)
+        seen.append((job.state, job.steps, job.session))
+        if len(seen) == 2: waited.set()
+    job.checkpoint = checkpoint
+    try:
+        job.thread.start()
+        assert waited.wait(5) and seen[:2] == [('queued', 0, None)] * 2
+    finally:
+        job.control('cancel'); job.thread.join(5)
+        jobs.DEVICE_SLOT.release()
+    assert job.state == 'cancelled' and not job.thread.is_alive()
+    job = jobs.Job(request()); job.checkpoint(2, 'queued')
+    assert job.state == 'queued' and job.steps == 2
+
+
 @pytest.mark.parametrize('state', ['completed', 'cancelled', 'failed'])
 def test_terminal_jobs_ignore_control_but_close_disposes_result(isolated_jobs, state):
     job = jobs.Job(request()); job.state = state; job.result = {'value': 3}

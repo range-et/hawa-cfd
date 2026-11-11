@@ -1,0 +1,16 @@
+{
+  "tool": "mutmut==3.7.0",
+  "mutants": 9,
+  "inventory_sha256": "245d27c49d838c7703fb80de364b6b7f83c5ad74dc8bfbc96eb7e94298c7755c",
+  "scope": "Lines changed by the #74 status PR only (git diff against the base revision, mutmut3.py changed-lines scope): the queued state while a job waits for the device slot in src/hawa/jobs.py; not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
+  "control_test_files": [
+    "tests/test_runtime_job_contracts.py"
+  ],
+  "sources": {
+    "src/hawa/jobs.py": "61497d4b55a3b050fe7563fefe20e4066695c9474f42518c3cb1a3b2ec23e166",
+    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
+    "tests/test_runtime_job_contracts.py": "2d85aee9e92778712f267f8eeab3df6e8a61c0ad84bb49fbb20455afe9028ef1"
+  },
+  "reviewed_survivors": {},
+  "base_revision": "6b0744abb4ef132936dac310dff023852b0eade6"
+}
