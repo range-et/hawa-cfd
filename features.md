@@ -128,6 +128,20 @@ and a checked-in JSON Schema snapshot ([docs](docs/payload-schemas.md)). Rhino
 installation of pydantic on macOS/Windows and the local Rhino acceptance are
 recorded separately on the PR; other payloads are not converted.
 
+### November 11, 2026 — mutation studies on mutmut 3.7.0 (#67)
+
+Developer tooling only; no solver or numerical change. All 8 mutation studies
+were regenerated on mutmut 3.7.0 with changed-line scope and fail-closed result
+checks ([#67](https://github.com/range-et/hawa-cfd/issues/67), PR
+[#84](https://github.com/range-et/hawa-cfd/pull/84), merged at `cc407cc`).
+The runtime-admission mutation job on GitHub dropped from 11–15 min to about
+1m45s, and a full CI run now takes about 7.5 min with `functions` as the critical
+path. Accepted limits: the boundary reflection study still takes about 10–13 min
+locally on 2 vCPU, `production_python` tests cannot kill mutants on 3.12, and the
+39 unresolved survivors are tracked in
+[#85](https://github.com/range-et/hawa-cfd/issues/85). Measurements:
+[#67 record](https://github.com/range-et/hawa-cfd/issues/67#issuecomment-6789438865).
+
 ### November 11, 2026 — Python 3.12 developer environment (Phase 0 for #67/#68)
 
 Production stays Python 3.9. `pyproject.toml` now accepts Python 3.9–3.12 so a
