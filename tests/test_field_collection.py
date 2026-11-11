@@ -103,6 +103,10 @@ def test_composed_isosurface_reports_samples_and_full_budget_message():
     far=frame(origin=(100000,0,0))
     with pytest.raises(ValueError,match='^Multi-domain isosurface exceeds 250000 display samples; change stride or select fewer frames$'):
         dispatch_field(dict(action='isosurface',frames=[frame(),far],level=.5))
+    # Rejected from the axis lengths alone, before a 1e15-point grid is built.
+    corner=frame(origin=(100000,100000,100000))
+    with pytest.raises(ValueError,match='display samples'):
+        dispatch_field(dict(action='isosurface',frames=[frame(),corner],level=.5))
 
 
 def test_composed_isosurface_ends_on_union_bounds():
@@ -198,6 +202,14 @@ def test_plane_classifies_rejected_faces_of_curved_wall_frames(dx,origin):
     # solid; faces with a solid corner but a fluid centroid are invalid.
     r=dispatch_field(dict(action='plane',frames=[key],field='speed',points=plane_grid(0,6,0,6,2.5,7),shape=[7,7],levels=[]))
     assert r['class_areas']==pytest.approx(dict(fluid=28,solid=4,invalid=4,no_data=0),abs=1e-9)
+
+
+def test_dense_curved_wall_plane_inside_a_solid_is_all_solid():
+    shape=(7,7,7);spec=dict(shape=list(shape),dx=1.,spacing=1.,origin=[0,0,0],basis=np.eye(3).tolist(),speed=1.,density=1.,reference_pressure=0.,wall_links=True)
+    key=store(dict(velocity=np.zeros((3,)+shape),pressure=np.zeros(shape),density=np.ones(shape),solid=np.ones(shape,bool)),dict(case=spec,time=2.,iteration=0,mean=False))['frame']
+    # 19602 rejected triangles: their centres are sampled in batches below the 10000 limit.
+    r=dispatch_field(dict(action='plane',frames=[key],field='speed',points=plane_grid(0,6,0,6,2.5,100),shape=[100,100],levels=[]))
+    assert r['class_areas']==pytest.approx(dict(fluid=0,solid=36,invalid=0,no_data=0),abs=1e-9) and len(r['solid_faces'])==19602
 
 
 def test_reference_example_frames_use_recorded_physical_spacing():

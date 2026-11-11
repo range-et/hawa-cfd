@@ -196,7 +196,7 @@ class FieldCollection:
         classes['fluid']=[f for f in classes['fluid'] if valid[list(f)].all()]
         if rejected:
             centers=vertices[np.asarray(rejected)].mean(axis=1);solid=np.zeros(len(centers),bool)
-            owner=self.sample(centers)[3]
+            owner=np.concatenate([self.sample(centers[start:start+8192])[3] for start in range(0,len(centers),8192)])
             for row in self.rows:
                 ids=np.flatnonzero(owner==row['order'])
                 local=np.rint(((self.origin+centers[ids]@self.basis*self.dx-row['origin'])@row['basis'].T/row['dx'])).astype(int)
@@ -227,7 +227,7 @@ class FieldCollection:
         cells, then half cells. The grid ends on the union bounds instead of
         overshooting them.
         """
-        from .fields import cell_corners, grid_lines, leaf, march
+        from .fields import CUBE, cell_corners, grid_lines, leaf, match_faces, march, uniform_cells
         if type(stride) is not int or not 1<=stride<=16:raise ValueError('Stride must be 1..16')
         corners=[]
         for row in self.rows:
@@ -242,9 +242,9 @@ class FieldCollection:
             t=((row['origin']+nodes@row['basis']*row['dx']-self.origin)@self.basis.T/self.dx-lo)/h
             walls.append((t[np.argsort(t[:,0])] if len(t) else t,.5*row['dx']/self.dx/h*np.abs(row['basis']@self.basis.T).sum(axis=0)))
         def classify(axes):
-            points=lo+np.stack(np.meshgrid(*axes,indexing='ij'),-1).reshape(-1,3)*h;budget[0]+=len(points)
+            budget[0]+=math.prod(len(a) for a in axes)
             if budget[0]>250000:raise ValueError('Multi-domain isosurface exceeds 250000 display samples; change stride or select fewer frames')
-            values=[];valid=[]
+            points=lo+np.stack(np.meshgrid(*axes,indexing='ij'),-1).reshape(-1,3)*h;values=[];valid=[]
             for start in range(0,len(points),8192):
                 self.checkpoint(start);v,ok,_,_=self.sample(points[start:start+8192]);values.extend(v);valid.extend(ok)
             size=tuple(len(a) for a in axes);values=np.asarray(values).reshape(size);valid=np.asarray(valid,bool).reshape(size)
@@ -261,18 +261,21 @@ class FieldCollection:
             # Half cells use corner validity alone: a finer domain may own fluid
             # inside a coarser domain's invalid half-cell.
             return values,valid,ok.all(axis=0)&~reached,ok.any(axis=0)|reached
-        def refine(axes, values, valid, cell, step):
+        def refine(axes, values, valid, cell, step, extra):
             if step==.5:
-                # Half-cell samples interpolate the valid finest corners only.
-                box=tuple(slice(i,i+2) for i in cell);fluid=values[box][valid[box]]
+                # Half-cell samples interpolate the valid finest corners only;
+                # the boundary may also take a drawn neighbour's values.
+                box=tuple(slice(i,i+2) for i in cell);fluid=np.r_[values[box][valid[box]],extra or []]
                 if not len(fluid) or not fluid.min()<=level<fluid.max():return None
             grid=[grid_lines(axes[k][cell[k]],axes[k][cell[k]+1],step) for k in range(3)]
             sub,ok,full,mixed=classify(grid)
-            if step==.5:return leaf(grid,sub,ok)
-            return grid,sub,full,mixed,lambda c:refine(grid,sub,ok,c,.5)
+            if step==.5:
+                ids=tuple((CUBE+cell).T)
+                return leaf(grid,match_faces(grid,sub,values[ids],valid[ids]),ok)
+            return grid,sub,full,mixed,lambda c,e:refine(grid,sub,ok,c,.5,e)
         axes=[grid_lines(0,e,stride) for e in np.maximum((hi-lo)/h,1)]
-        values,valid,full,mixed=classify(axes)
-        mesh=march(axes,values,level,full,mixed,lambda c:refine(axes,values,valid,c,1 if stride>1 else .5),100000,self.checkpoint)
+        values,valid,full,mixed=classify(axes);cubic=uniform_cells(axes)
+        mesh=march(axes,values,level,full&cubic,mixed|~cubic,lambda c,e:refine(axes,values,valid,c,1 if stride>1 else .5,e),100000,self.checkpoint)
         mesh['vertices']=(lo+np.asarray(mesh['vertices']).reshape(-1,3)*h).tolist()
         return dict(mesh,display_sampling=dict(spacing_m=h*stride*self.dx,samples=budget[0]))
 

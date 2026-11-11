@@ -59,6 +59,60 @@ def test_linear_isosurface_covers_planar_fluid_area_beside_box_and_plate(stride)
             assert all(len(set(face))==3 for face in mesh['faces'])
 
 
+def seam_gaps(mesh, axis, at, mask):
+    # Points where the surface meets the plane from one side but no segment from
+    # the other side passes through them; points near a masked node are skipped.
+    v=np.asarray(mesh['vertices']).reshape(-1,3);p=v[np.asarray(mesh['faces']).reshape(-1,3)]
+    on=np.abs(p[:,:,axis]-at)<=1e-9;center=p[:,:,axis].mean(axis=1)
+    sides={-1:[],1:[]}
+    for tri,flags,c in zip(p,on,center):
+        if flags.sum()>=2 and abs(c-at)>1e-9:sides[int(np.sign(c-at))].append(tri[np.flatnonzero(flags)[:2]])
+    masked=np.argwhere(mask);gaps=0
+    for side in (-1,1):
+        other=np.array(sides[-side]).reshape(-1,2,3);a=other[:,0];ab=other[:,1]-a
+        for point in np.reshape(sides[side],(-1,3)):
+            if np.any(np.all(np.abs(masked-point)<=.5+1e-9,axis=1)):continue
+            t=np.clip(((point-a)*ab).sum(1)/np.maximum((ab*ab).sum(1),1e-30),0,1)
+            gaps+=not len(a) or np.min(np.linalg.norm(a+t[:,None]*ab-point,axis=1))>1e-7
+    return gaps
+
+
+def test_refined_cells_meet_their_drawn_neighbours_without_cracks():
+    # Greptile's case: the stride-2 cell beside the masked node is refined; the
+    # quadratic field made its face samples disagree with the drawn neighbour.
+    g=np.indices((5,5,5)).astype(float);mask=np.zeros(g[0].shape,bool);mask[4,2,2]=True
+    mesh=isosurface(g[2]+g[1]**2,2.,mask,2)
+    assert seam_gaps(mesh,0,2.,np.zeros_like(mask))==0
+    # Cells refined beside drawn cells of a coarser level and of other coarse cells.
+    g=np.indices((9,9,9)).astype(float);mask=np.zeros(g[0].shape,bool);mask[3,2,2]=True
+    values=g[0]*.3+(g[1]-2)**2*.4+(g[2]-2.5)**2*.3
+    for level in (1.5,2.,2.6):
+        mesh=isosurface(values,level,mask,4)
+        assert mesh['faces'] and sum(seam_gaps(mesh,axis,at,mask) for axis in range(3) for at in np.arange(.5,8,.5))==0
+    # Nonlinear field, scattered masked nodes, strides with a partial last cell.
+    g=np.indices((11,11,11)).astype(float);values=np.sin(.3*g[0])+np.cos(.5*g[1])+.1*g[2]+.02*(g[0]-5)**2
+    mask=np.random.default_rng(3).random(g[0].shape)<.03
+    # The mirror puts the edge-only matches on the low sides of their cells.
+    mirror=(slice(None,None,-1),slice(None),slice(None,None,-1))
+    for stride,flip in ((1,()),(2,()),(3,()),(4,()),(2,mirror)):
+        mesh=isosurface(values[flip],float(np.median(values)),mask[flip],stride)
+        assert mesh['faces'] and sum(seam_gaps(mesh,axis,at,mask[flip]) for axis in range(3) for at in np.arange(.5,10,.5))==0
+
+
+def test_tetra_value_is_the_marching_tetrahedra_interpolant():
+    from hawa.fields import CUBE,march,tetra_value,uniform_cells
+    corners=np.array([0.,3.,1.,2.,5.,-1.,4.,2.]);lo=np.array([1.,2.,3.]);hi=np.array([3.,3.,5.])
+    np.testing.assert_allclose(tetra_value(lo,hi,corners,lo+CUBE*(hi-lo)),corners)
+    # Every vertex march() draws in the cell lies on the interpolant's level set.
+    grid=[np.array([1.,3.]),np.array([2.,3.]),np.array([3.,5.])];values=np.zeros((2,2,2));values[tuple(CUBE.T)]=corners
+    mesh=march(grid,values,1.5,np.ones((1,1,1),bool),None,None,100,lambda n:None)
+    np.testing.assert_allclose(tetra_value(lo,hi,corners,np.asarray(mesh['vertices'])),1.5)
+    linear=lambda q:q@[1.,-2.,.5]
+    points=lo+np.random.default_rng(0).random((20,3))*(hi-lo)
+    np.testing.assert_allclose(tetra_value(lo,hi,linear(lo+CUBE*(hi-lo)),points),linear(points))
+    assert uniform_cells([np.array([0,2,3]),np.array([0,2]),np.array([0,2,4])]).tolist()==[[[True,True]],[[False,False]]]
+
+
 def test_isosurface_keeps_halfway_wall_rule_beside_a_face():
     x=np.indices((17,17,17))[0].astype(float);solid=np.zeros(x.shape,bool);solid[3:9,4:10,5:12]=True
     mesh=isosurface(x,8.7,solid)

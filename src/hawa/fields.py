@@ -149,6 +149,21 @@ def sample_scalar(fields, points, name, spec):
 
 CUBE=np.array([[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]])
 TETRA=[(0,5,1,6),(0,1,2,6),(0,2,3,6),(0,3,7,6),(0,7,4,6),(0,4,5,6)]
+CORNER=np.zeros((2,2,2),int);CORNER[tuple(CUBE.T)]=np.arange(8)
+
+
+def tetra_value(lo, hi, corners, points):
+    """Value of a cell's marching-tetrahedra interpolant at points in the cell.
+
+    TETRA splits the cell along the 0-6 diagonal into the six simplices that
+    order the normalised coordinates, so the interpolant follows that order.
+    """
+    t=np.clip((points-lo)/(hi-lo),0,1);rows=np.arange(len(t));bits=np.zeros(t.shape,int)
+    value=previous=corners[0]
+    for axis in np.argsort(-t,axis=1,kind='stable').T:
+        bits[rows,axis]=1;current=corners[CORNER[tuple(bits.T)]]
+        value=value+t[rows,axis]*(current-previous);previous=current
+    return value
 
 
 def cell_corners(grid):
@@ -157,19 +172,48 @@ def cell_corners(grid):
     return np.stack([grid[o[0]:o[0]+cells[0],o[1]:o[1]+cells[1],o[2]:o[2]+cells[2]] for o in CUBE])
 
 
+def match_faces(axes, values, corners, corner_valid):
+    """Give a half-cell grid the marching-tetrahedra interpolant of each lattice
+    cell edge whose two nodes, and face whose four nodes, are valid, as a
+    neighbour sharing it draws.
+
+    A neighbour drawn from its corners and a refined neighbour applying the same
+    rule then meet; other edges and faces keep their samples on both sides.
+    """
+    lo=np.array([a[0] for a in axes],float);hi=np.array([a[-1] for a in axes],float)
+    points=np.stack(np.meshgrid(*axes,indexing='ij'),-1)
+    for axis in range(3):
+        others=[a for a in range(3) if a!=axis]
+        for sides in itertools.product((0,1),repeat=2):
+            edge=(CUBE[:,others[0]]==sides[0])&(CUBE[:,others[1]]==sides[1])
+            if corner_valid[edge].all():
+                index=[slice(None)]*3;index[others[0]]=-sides[0];index[others[1]]=-sides[1]
+                values[tuple(index)]=tetra_value(lo,hi,corners,points[tuple(index)].reshape(-1,3)).reshape(values[tuple(index)].shape)
+    for axis in range(3):
+        for side in (0,1):
+            face=CUBE[:,axis]==side
+            if corner_valid[face].all():
+                index=[slice(None)]*3;index[axis]=-side
+                values[tuple(index)]=tetra_value(lo,hi,corners,points[tuple(index)].reshape(-1,3)).reshape(values[tuple(index)].shape)
+    return values
+
+
 def leaf(axes, values, valid):
     """Final refinement level: draw cells whose corner samples are all valid."""
     return axes,values,cell_corners(valid).all(axis=0),None,None
 
 
-def march(axes, values, level, full, mixed, refine, max_faces, checkpoint, out=None):
+def march(axes, values, level, full, mixed, refine, max_faces, checkpoint, out=None, drawn=()):
     """Marching tetrahedra on a rectilinear grid with masked-cell refinement.
 
     ``axes`` hold the grid-line coordinates and ``values`` the samples on their
     nodes. Cells marked ``full`` contain only simulated fluid and use their
-    corners. Each other ``mixed`` cell is passed to ``refine(cell)``, which
-    returns the same five arguments for a finer grid inside it, or None when
-    nothing there can cross the level.
+    corners. Each other ``mixed`` cell is passed to ``refine(cell, extra)``,
+    which returns the same five arguments for a finer grid inside it, or None
+    when nothing there can cross the level, given that its boundary may also
+    take values in the range ``extra``. Finer points on the boundary of a cell
+    drawn from its corners take that cell's interpolant, so the surfaces meet
+    on the shared face. ``drawn`` lists such cells from coarser levels.
     """
     vertices,faces=out if out is not None else ([],[])
     corners=cell_corners(values)
@@ -190,11 +234,33 @@ def march(axes, values, level, full, mixed, refine, max_faces, checkpoint, out=N
             faces.extend([start,start+j,start+j+1] for j in range(1,len(polygon)-1))
             if len(faces)>max_faces:raise ValueError('Isosurface exceeds face budget. Increase stride or restrict the domain.')
     if mixed is not None:
+        around=np.pad(full,1)
         for count,cell in enumerate(np.argwhere(mixed&~full)):
             if count%16==0:checkpoint(count)
-            sub=refine(tuple(cell))
-            if sub is not None:march(*sub[:2],level,*sub[2:],max_faces,checkpoint,(vertices,faces))
+            # Plain floats: these boxes are tested once per refined cell.
+            lo=[float(axes[a][cell[a]]) for a in range(3)];hi=[float(axes[a][cell[a]+1]) for a in range(3)]
+            touching=[box for box in drawn if all(box[0][a]<=hi[a]+1e-9 and box[1][a]>=lo[a]-1e-9 for a in range(3))]
+            for step in np.argwhere(around[tuple(slice(c,c+3) for c in cell)])-1:
+                near=tuple(int(c)+int(d) for c,d in zip(cell,step))
+                if any(step):
+                    touching.append(([float(axes[a][near[a]]) for a in range(3)],[float(axes[a][near[a]+1]) for a in range(3)],values[tuple((CUBE+near).T)]))
+            extra=(min(box[2].min() for box in touching),max(box[2].max() for box in touching)) if touching else None
+            sub=refine(tuple(cell),extra)
+            if sub is None:continue
+            grid,sampled=sub[:2];points=np.stack(np.meshgrid(*grid,indexing='ij'),-1)
+            for box in touching:
+                on=np.all((points>=np.subtract(box[0],1e-9))&(points<=np.add(box[1],1e-9)),axis=-1)
+                if on.any():sampled[on]=tetra_value(np.array(box[0]),np.array(box[1]),box[2],points[on])
+            march(grid,sampled,level,*sub[2:],max_faces,checkpoint,(vertices,faces),touching)
     return {'vertices':vertices,'faces':faces}
+
+
+def uniform_cells(axes):
+    """Cells with equal edges. A partial last cell is refined instead of drawn
+    from its corners, because its face diagonals do not align with the square
+    sub-cells of a refined neighbour."""
+    widths=np.meshgrid(*[np.diff(a) for a in axes],indexing='ij')
+    return np.isclose(widths[0],widths[1])&np.isclose(widths[1],widths[2])
 
 
 def grid_lines(start, end, stride):
@@ -222,25 +288,30 @@ def isosurface(values, level, solid=None, stride=1, max_faces=100000, checkpoint
         masked=sum((-1)**(3-sum(c))*total[tuple(h if k else l for k,l,h in zip(c,lo,hi))] for c in itertools.product((0,1),repeat=3))
         size=np.prod(np.meshgrid(*[np.diff(a)+1 for a in axes],indexing='ij'),axis=0)
         return masked==0,masked<size
-    def box(axes, cell):
+    def box(axes, cell, extra):
         box=tuple(slice(axes[a][cell[a]],axes[a][cell[a]+1]+1) for a in range(3))
-        fluid=values[box][~mask[box]]
+        fluid=np.r_[values[box][~mask[box]],extra or []]
         return box if fluid.min()<=level<fluid.max() else None
-    def half(axes, cell):
-        b=box(axes,cell)
+    def half(axes, nodes, cell, extra):
+        b=box(axes,cell,extra)
         if b is None:return None
         grid=[grid_lines(s.start,s.stop-1,.5) for s in b]
         corners,weights,valid=lattice_weights(mask,np.stack(np.meshgrid(*grid,indexing='ij'),-1).reshape(-1,3))
         sampled=sum(weights[:,c]*values[tuple(corners[c].T)] for c in range(len(corners)))
-        shape=tuple(len(g) for g in grid)
-        return leaf(grid,sampled.reshape(shape),valid.reshape(shape))
-    def unit(axes, cell):
-        b=box(axes,cell)
+        shape=tuple(len(g) for g in grid);ids=tuple((CUBE+cell).T)
+        # Lattice nodes carry any drawn coarse neighbour's interpolant (nodes).
+        sampled=match_faces(grid,sampled.reshape(shape),nodes[ids],~mask[tuple(np.asarray(axes[a])[ids[a]] for a in range(3))])
+        return leaf(grid,sampled,valid.reshape(shape))
+    def unit(axes, cell, extra):
+        b=box(axes,cell,extra)
         if b is None:return None
-        grid=[np.arange(s.start,s.stop) for s in b]
-        return (grid,values[np.ix_(*grid)])+classify(grid)+(lambda c:half(grid,c),)
+        grid=[np.arange(s.start,s.stop) for s in b];nodes=values[np.ix_(*grid)]
+        return (grid,nodes)+classify(grid)+(lambda c,e:half(grid,nodes,c,e),)
     axes=[grid_lines(0,n-1,stride).astype(int) for n in values.shape]
-    return march(axes,values[np.ix_(*axes)],level,*classify(axes),lambda c:(unit if stride>1 else half)(axes,c),max_faces,checkpoint)
+    full,mixed=classify(axes);cubic=uniform_cells(axes);nodes=values[np.ix_(*axes)]
+    refine=((lambda c,e:unit(axes,c,e)) if stride>1 else
+            (lambda c,e:half(axes,nodes,c,e)))
+    return march(axes,nodes,level,full&cubic,mixed|~cubic,refine,max_faces,checkpoint)
 
 
 def contours(points, values, valid, shape, levels, checkpoint=lambda n:None):
