@@ -246,6 +246,7 @@ need a fresh run and review, never blind regeneration.
 | `run_kbc.sh diagnostic` | whole `scripts/diagnose_kbc_parity.py` | `test_kbc_parity_diagnostic.py`, CPU cases | local |
 | `run_atmospheric_precision.sh` | HAWA-003 lines in `atmospheric-precision.patch` | `test_atmospheric_precision.py` | local |
 | `run_device_smoke.sh` | device smoke gate lines against `8daf810` | `test_device_smoke.py`, without `production_python` | local |
+| `run_mps_mass_budget.sh` | #73 node-first mass-budget lines of `neutral_external.py` against `cc407cc` | `test_neutral_external.py` (without the CPU/MPS device test) | local |
 | `run_mutation_tooling.sh` | #67 lines of `check_results.py` and `mutmut3.py` against `5f2c899` | `test_mutation_policy.py` | local |
 
 Commit before running a PR-scoped study: its patch is `git diff BASE` of the

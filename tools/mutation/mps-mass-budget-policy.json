@@ -1,0 +1,16 @@
+{
+  "tool": "mutmut==3.7.0",
+  "mutants": 9,
+  "inventory_sha256": "8ebc704e3923030062f5c819c0727a98cf22e2cb7255bc2e7cbc42f550c7f1c6",
+  "scope": "#73 PR study: lines PR #73 changed against origin/main cc407cc in src/hawa/neutral_external.py (node-first FP32 storage sums in the open-face mass budget); the CPU/MPS device test is deselected (#53), and the MPS budget test in test_boundary_reflection.py is device qualification, not a CPU mutation kill",
+  "control_test_files": [
+    "tests/test_neutral_external.py"
+  ],
+  "sources": {
+    "src/hawa/neutral_external.py": "62c99b509d1a46daab83fa4980ece0bf5fd0715b4ee02c2138693065ea16f14c",
+    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
+    "tests/test_neutral.py": "287434b4c666f289a99635f216ef47b8c491ed1867c1bc52a8197969bc857bfa",
+    "tests/test_neutral_external.py": "5f8085a365602667e8e01e81dfb9cec9e3ba9a58436c6913ba2e533fed1b29ed"
+  },
+  "reviewed_survivors": {}
+}
