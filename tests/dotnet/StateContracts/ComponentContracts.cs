@@ -186,10 +186,15 @@ static class ComponentContracts
             reply = (JsonObject)JsonNode.Parse("""{"shape":[2,2],"values":[1,2,3,9],"valid":[true,true,true,false],"coordinates":[[0,0,0],[0,1,0],[1,0,0],[1,1,0]]}""")!;
             var da = Solve(slice, lattice, 1, -1, "pressure", true); var mesh = da.Out<Mesh>(0);
             assert(Json(Request()) == """{"op":"slice","session":"s1","axis":1,"field":"pressure","mean":true,"revision":4}""" && slice.Message == "lattice display", "Centre slice request or label wrong");
+            assert(slice.RuntimeMessages.SequenceEqual(new[] { (GH_RuntimeMessageLevel.Remark, "Black = not simulated (solid or no-data nodes). Walls: voxel, halfway between nodes; cell 2 model units. Colours within about one cell of a surface depend on the wall mode and this resolution, so treat near-wall flow as approximate.") }), "Slice key or voxel near-wall caveat missing (#29)");
             assert(da.List(1).SequenceEqual(new object?[] { 1d, 2d, 3d, 9d }) && da.List(2).SequenceEqual(new object?[] { 1d, 3d }) && da.List(3).SequenceEqual(new object?[] { true, true, true, false }), "Slice values, range or validity wrong");
             assert(mesh.Vertices.Contains(new Point3d(10, 0, 0)) && mesh.Vertices.Contains(new Point3d(12, 2, 0)) && mesh.VertexColors.Any(c => c.ToArgb() == Color.Black.ToArgb()) && mesh.VertexColors.Any(c => c.ToArgb() == Color.FromArgb(8, 48, 107).ToArgb()) && mesh.Normals.Calls >= 1, "Slice mesh not in world space or not coloured");
-            var walled = Goo("""{"session":"s1","case":{"spacing":1,"shape":[2,2,1],"wall_links":[[1,0,0.5]]}}""");
+            var walled = Goo("""{"session":"s1","case":{"spacing":1,"dx":0.025,"shape":[2,2,1],"wall_links":[[1,0,0.5]]}}""");
             da = Solve(slice, walled, D, D, D, D); assert(da.List(2).SequenceEqual(new object?[] { 0d, 3d }) && slice.Message == "wall-clipped display", "Wall-clipped speed range must start at zero wall speed");
+            assert(slice.RuntimeMessages.Single().Text.StartsWith("Black = not simulated (solid or no-data nodes). Walls: interpolated at link crossings; cell 0.025 m. "), "Interpolated wall mode or physical cell size not named (#29)");
+            Solve(slice, Goo("""{"session":"s1","case":{"spacing":1,"dx":0.5,"shape":[2,2,1],"wall_links":[]}}"""), D, D, D, D);
+            assert(slice.Message == "lattice display" && slice.RuntimeMessages.Single().Text.Contains("Walls: voxel, halfway between nodes; cell 0.5 m."), "An empty link list was labelled as interpolated walls");
+            assert(slice.Params.Output[0] is GH_TestParam { Description: var key } && key.Contains("Black = not simulated") && key.Contains("Near-wall colours depend on the wall mode and resolution"), "Mesh output lost the colour key");
             reply["valid"] = new JsonArray(false, false, false, false); da = Solve(slice, walled, D, D, "density", D);
             assert(da.List(2).SequenceEqual(new object?[] { 0d, 0d }) && da.Out<Mesh>(0).VertexColors.All(c => c.ToArgb() == Color.Black.ToArgb()), "All-solid slice not black");
 
@@ -206,7 +211,9 @@ static class ComponentContracts
             reply = null; assert(Solve(stream, Goo("""{"session":"s5","case":{}}"""), new List<Point3d>(), D).Outputs.Count == 0, "Pending streamlines published");
 
             var vectors = new VectorsComponent(); da = Solve(vectors, new List<Point3d> { new(0, 0, 0), new(1, 0, 0) }, new List<Vector3d> { new(1, 0, 0), Vector3d.Unset }, 2.0);
-            assert(da.List(0).SequenceEqual(new object?[] { new Line(new(0, 0, 0), new(2, 0, 0)) }), "Vectors changed");
+            assert(da.List(0).SequenceEqual(new object?[] { new Line(new(0, 0, 0), new(2, 0, 0)), null }), "Vectors not index-aligned with Points (#81)");
+            da = Solve(vectors, new List<Point3d> { new(0, 0, 0), new(1, 0, 0), new(0, 1, 0) }, new List<Vector3d> { Vector3d.Unset, new(0, 0, 1), new(double.NaN, 0, 0) }, D);
+            assert(da.List(0).SequenceEqual(new object?[] { null, new Line(new(1, 0, 0), new(1, 0, 1)), null }), "Leading or non-finite sample shifted the remaining lines (#81)");
             Solve(vectors, new List<Point3d> { new(0, 0, 0) }, new List<Vector3d> { new(1, 0, 0), new(0, 1, 0) }, D); assert(vectors.Errors.Single() == "Point and velocity counts differ", "Count mismatch accepted");
             assert(slice.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077111") && sample.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077112") && vectors.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077113") && stream.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077114"), "Component GUID changed; saved definitions would break");
             assert(Names(slice) == "Solution,Axis,Index,Field,Mean|Mesh,Values,Range,Valid" && Names(sample) == "Solution,Points,Mean|Velocity,Pressure,Valid" && Names(vectors) == "Points,Velocity,Scale|Lines" && Names(stream) == "Solution,Seeds,Steps|Streamlines", "Parameter layout changed");

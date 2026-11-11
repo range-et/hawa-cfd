@@ -93,6 +93,20 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 11, 2026 — GH Slice key and GH Vectors alignment (#29, #81, partial)
+
+Built, not released, measured in the GH host harness:
+- GH Slice adds a remark on every result: "Black = not simulated (solid or
+  no-data nodes)". The remark names the actual wall mode (interpolated at link
+  crossings, or voxel halfway between nodes) and the cell size. It warns that
+  colours within about one cell of a surface depend on that wall mode and
+  resolution. The mesh output description carries the same key.
+- GH Vectors keeps one entry per input point, with null where the sample is not
+  simulated, so Lines stays index-aligned with Points, Pressure and Valid.
+
+Not done: the native panel caveat, the #81 Plane Field and Surface Field
+classes, and a live Rhino check.
+
 ### November 11, 2026 — Grasshopper host harness and GH status truth (#74, partial)
 
 Built, not released. StateContracts now links five GH source files (`Runtime.cs`,
