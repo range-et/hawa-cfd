@@ -149,8 +149,13 @@ On 3.12 the suite skips tests marked `production_python` (entry points such as
 `parity_worker.py`, `compare_engines.py` and `verify_cuda.py` that refuse non-3.9
 interpreters), so 3.12 mutation runs get no kills from them; a study deselects
 them (`-m 'not production_python'`), and a mutant only they could reach is
-reported as `no tests`. These are bounded scopes, not whole-codebase mutation
-coverage.
+`no tests` (no selected test ran its function) or `survived` (another test ran
+it without asserting the change). Either way it is a reviewed survivor, never a
+kill. This matters for the device smoke study: 136 of its 209 reviewed survivors
+are reached only by the deselected `production_python` test
+`test_real_builders_pass_their_criteria_on_the_cpu_proxy`, which the 3.9 suite
+still runs (see [the device smoke gate](device-smoke.md#verification-of-the-gate-itself)).
+These are bounded scopes, not whole-codebase mutation coverage.
 
 ```sh
 UV_PROJECT_ENVIRONMENT=.venv-dev uv sync --python 3.12 --extra test --group tools
@@ -224,7 +229,10 @@ After a fresh run, `check_results.py DIR --policy POLICY --draft` prints the
 policy the run implies. It keeps a survivor's reason only when its status and
 diff hash are unchanged; new or changed survivors get an empty reason, which
 the check rejects until someone reviews the diff in `mutations.diff` and writes
-one. Kill non-equivalent survivors with tests instead. Source or test edits
+one. Kill non-equivalent survivors with tests instead. A non-equivalent
+survivor accepted for now gets a reason starting `Unresolved` and stays a
+tracked test gap; the 39 recorded by the 3.x port are listed in
+[#85](https://github.com/range-et/hawa-cfd/issues/85). Source or test edits
 need a fresh run and review, never blind regeneration.
 
 ### Studies

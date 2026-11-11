@@ -143,7 +143,8 @@ The study runs on Python 3.12 and deselects the `production_python` test
 998 were killed. The remaining 209 are reviewed in
 [the policy](../tools/mutation/device-smoke-policy.json): 136 are reached only by
 that deselected test (the 3.9 suite still runs it), 17 are open test gaps marked
-`Unresolved (test gap)`, and the rest are equivalent, CPU-only, decoration or
+`Unresolved (test gap)` and tracked in
+[#85](https://github.com/range-et/hawa-cfd/issues/85), and the rest are equivalent, CPU-only, decoration or
 console flush mutants. This is a PR-scoped record, not whole-module or CI mutation
 coverage. CPU runs are not CUDA or MPS evidence.
 
