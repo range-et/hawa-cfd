@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 import runpy
+import subprocess
 import sys
 
 import numpy as np
@@ -130,6 +131,7 @@ def test_rhino_bootstrap_rejects_contaminated_runtime_and_limits_diagnostic_relo
         if name=='sys':return runtime
         if name=='os':return SimpleNamespace(environ=environment)
         if name=='hawa.plugin':imported.append(name);return SimpleNamespace(dispatch_json=dispatch)
+        if name=='hawa.motion':imported.append(name);return SimpleNamespace()
         return builtins.__import__(name,*args,**kwargs)
     builtins_copy=dict(vars(builtins),__import__=import_module)
     source=ROOT/'plugin/Bootstrap.py'
@@ -139,11 +141,63 @@ def test_rhino_bootstrap_rejects_contaminated_runtime_and_limits_diagnostic_relo
         assert imported==[]
     else:
         exec(compile(source.read_text(),str(source),'exec'),scope)
+        # hawa.motion (and pydantic) must load while Rhino has hawa-py39 on sys.path.
+        assert imported==['hawa.plugin','hawa.motion']
         assert scope['dispatch_json'] is dispatch and environment['MPLBACKEND']=='Agg'
         assert runtime.path==[str(package/'python')]
     assert modules['numpy'] is numpy_before and 'unrelated' in modules
     if scenario=='diagnostic':assert not any(k=='hawa' or k.startswith('hawa.') or k=='lettuce' or k.startswith('lettuce.') for k in modules)
     if scenario=='matching':assert 'hawa.child' in modules and 'lettuce.child' in modules
+
+
+BOOTSTRAP_THEN_DROP_VENV = r"""
+import json, sys
+from pathlib import Path
+bootstrap, package, venv = sys.argv[1], sys.argv[2], json.loads(sys.argv[3])
+sys.path.extend(venv)  # Rhino adds the script venv only while the `# venv:` script runs
+exec(compile(Path(bootstrap).read_text(), bootstrap, 'exec'), dict(__file__=bootstrap, HAWA_PACKAGE_DIR=package))
+for path in venv: sys.path.remove(path)
+sys.path_importer_cache.clear()
+loaded = [m for m in ('hawa.motion', 'pydantic', 'pydantic_core', 'annotated_types', 'typing_inspection') if m in sys.modules]
+import hawa.motion as motion
+def case(**edit):
+    geometry = edit.pop('geometry', dict(type='sphere', center=[2, 2, 1.5], radius=.55))
+    motion_ = dict(dict(kind='Motion', type='oscillation', axis=[0, 1, 0], amplitude=.15, frequency=.5), **edit)
+    return dict(shape=[20, 16, 12], speed=1., mach=.04, collision='bgk',
+                moving_bodies=[dict(kind='Body', id='body', pivot=[2, 2, 1.5], geometry=geometry, motion=motion_)])
+motion.validate_bodies(case(speed=0))
+errors = []
+for spec in (case(speed='0.5'), case(spin=1), case(axis=[0, 0, 0]), case(geometry=dict(type='cone')),
+             case(geometry=dict(type='sdf', origin=[1, 1, 1], spacing=.1, shape=[3, 3, 3], values=[float('nan')] * 27))):
+    try: motion.validate_bodies(spec)
+    except ValueError as error: errors.append(str(error))
+try: motion.check(motion.MotionEvaluation, dict(metric='drag'), 'Motion evaluation')
+except ValueError as error: errors.append(str(error))
+print(json.dumps(dict(loaded=loaded, hawa=str(Path(motion.__file__).parent), errors=errors)))
+"""
+
+
+@pytest.mark.production_python
+def test_rhino_bootstrap_loads_motion_schemas_while_the_venv_is_on_sys_path(tmp_path):
+    """Rhino adds hawa-py39 to sys.path only while Bootstrap runs; later calls must import nothing from it."""
+    package = tmp_path/'package'; (package/'python').mkdir(parents=True)
+    (package/'python'/'hawa').symlink_to(ROOT/'src'/'hawa')
+    (package/'python'/'lettuce').symlink_to(ROOT/'vendor'/'lettuce'/'lettuce')
+    venv = [path for path in sys.path if path.endswith('site-packages')]
+    # -S: no site, so no .pth or editable finders; the venv is reachable only while Bootstrap runs.
+    result = subprocess.run([sys.executable, '-S', '-c', BOOTSTRAP_THEN_DROP_VENV, str(ROOT/'plugin'/'Bootstrap.py'),
+                             str(package), json.dumps(venv)], capture_output=True, text=True, timeout=300)
+    assert result.returncode == 0, result.stderr
+    report = json.loads(result.stdout.splitlines()[-1])
+    assert report['loaded'] == ['hawa.motion', 'pydantic', 'pydantic_core', 'annotated_types', 'typing_inspection']
+    assert report['hawa'] == str(package/'python'/'hawa')
+    assert report['errors'] == [
+        'Moving body 1 motion.speed: Input should be a valid number',
+        'Moving body 1 motion.spin: Extra inputs are not permitted',
+        'Moving body 1 motion: Motion axis cannot be zero',
+        'Moving body 1 geometry: use type sphere, cylinder or sdf',
+        'Moving body 1 geometry.sdf.values.0: Input should be a finite number',
+        "Motion evaluation metric: Input should be 'force', 'torque', 'power' or 'input_power'"]
 
 
 @pytest.mark.parametrize('scenario',['ready','run','numpy','python','missing'])

@@ -29,3 +29,4 @@ for name in ("hawa", "lettuce"):
                 del sys.modules[key]
 os.environ.setdefault("MPLBACKEND", "Agg")
 from hawa.plugin import dispatch_json
+import hawa.motion  # Rhino adds hawa-py39 to sys.path only while this script runs
