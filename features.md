@@ -9,7 +9,9 @@ Inventory established November 9, 2026 from existing repository documentation.
 “Built” means an implementation exists within the linked scope. It does not mean
 released, physically validated or verified on every platform. Linked reports
 record historical checks on particular builds; this inventory is not a fresh
-test run. See the [release review](docs/release-review-v0.5.md) for distribution
+test run. Review and verification records cited below without a link were moved
+to a private maintainer archive on 2026-11-11; they remain in this repository's
+git history at commit cc407cc. See the release review for distribution
 claims and the [coverage matrix](examples/grasshopper/VERIFICATION.md) for required
 example checks.
 
@@ -18,13 +20,13 @@ example checks.
 | Capability | Current scope and important limits | Guide and evidence |
 | --- | --- | --- |
 | Function inventory and coverage ratchet | Syntax inventory of first-party Python and plugin C#, actual Python function-entry evidence, and instrumented .NET state contracts. Rejects new/changed untested functions, lost coverage and stale reports. Historical and host-only gaps remain HAWA-026; execution does not establish assertion quality. | [Function policy](docs/function-testing.md), [matrix](docs/function-test-matrix.md) |
-| Embedded Python/PyTorch LBM | Runs inside Rhino's Python 3.9 environment with pinned dependencies. CPU/MPS evidence exists. Headless Windows CUDA acceptance passes on merged main (#46/#47/#12); clean Windows Rhino installation and lifecycle with CUDA remain open in #61. | [Native guide](docs/native-v0.5.md), [backport](docs/backport.md) |
+| Embedded Python/PyTorch LBM | Runs inside Rhino's Python 3.9 environment with pinned dependencies. CPU/MPS evidence exists. Headless Windows CUDA acceptance passes on merged main (#46/#47/#12); clean Windows Rhino installation and lifecycle with CUDA remain open in #61. | [Native guide](docs/native-v0.5.md), backport |
 | Native geometry and case setup | Selected closed meshes/solid Breps, editable physical domain/fluid settings and one shared case per document. | [Native guide](docs/native-v0.5.md), [full review](docs/review-full-v0.5.md) |
 | Native panel and GH live binding | Shared settings, direct/computed input ownership, revisions, stale-result handling, undo and saved idle cases. Public operations support agent workflows. | [Architecture](docs/architecture-v0.5.md), [agent operations](docs/agents/native-prototype.md), [state coverage](examples/grasshopper/VERIFICATION.md) |
 | Background work and cooperative lifecycle | Preparation, solve/query jobs, pause/resume/cancel and cleanup; legacy failed-close retry has a scoped follow-up record. | [Cleanup review](docs/review-cleanup-v0.5.md), [architecture](docs/architecture-v0.5.md) |
 | Field visualization | Scalar slices, vectors, streamlines, snapshot planes/contours/isosurfaces, surface sampling and legends. Native/GH capabilities differ; integrated movable vector slices remain HAWA-007. | [Plugin guide](docs/plugin.md), [node catalogue](docs/node-catalog-v0.5.md) |
 | Record and playback | Field snapshots, physical-time metadata, playback and particle paths within documented formats and limits. | [GH examples](examples/grasshopper/README.md), [0.4 report](docs/release-notes-v0.4.0.md) |
-| Asynchronous design search | Completed-candidate objectives, best-result history and cooperative controls. Hull geometry is an example recipe, not a public hull-construction service. | [Hull workflow](docs/hull-optimization.md), [node boundary](docs/node-catalog-v0.5.md) |
+| Asynchronous design search | Completed-candidate objectives, best-result history and cooperative controls. Hull geometry is an example recipe, not a public hull-construction service. | [GH examples (example 10)](examples/grasshopper/README.md), [node boundary](docs/node-catalog-v0.5.md) |
 | Local airfoil and wing tools | Offline coordinates/NACA generation, supplied local polars and attached-flow lifting line. Bundled polar is synthetic format data; no viscous/stall CFD claim. | [Plugin guide](docs/plugin.md), [release limits](docs/release-notes-v0.4.0.md) |
 | Curved stationary walls and fixed refinement | Experimental curved links and one fixed 2:1 BGK patch with explicit unsupported combinations. Multiple-region refinement remains HAWA-009. | [0.4 numerical evidence](docs/release-notes-v0.4.0.md), [coverage](examples/grasshopper/VERIFICATION.md) |
 | Prescribed rigid motion and cycle objectives | Translation/rotation/oscillation, raw loads and complete-cycle search. No force-driven body response, free surface, buoyancy or validated propeller prediction. | [Motion guide](docs/moving-surfaces-v0.4.md), [motion evidence](docs/verification-motion-v0.4.json) |
@@ -173,7 +175,7 @@ failing rows to #60; HAWA-004 closes after merge and qualifying device runs.
 
 [PR #56](https://github.com/range-et/hawa-cfd/pull/56) fixed Windows path separators in
 the function gate, the G6 example contract and three test assertions. The full
-[Windows CUDA acceptance runbook](docs/windows-cuda-merge-checks.md) then passed on
+Windows CUDA acceptance runbook then passed on
 merged main `285d961` (Windows 11, RTX 5070 Ti, driver 621.14, torch 2.8.0+cu128,
 Python 3.9.25):
 - Suite: 1419 passed, 0 failed in each of three runs, with all 86 CUDA cases executed.
@@ -221,15 +223,15 @@ in development, not claimed installed or released:
 - **HAWA-048 / HAWA-051 closed:** atomic immutable-field NPZ writes preserve old
   output on failure; both writers support long valid destination filenames.
   Fault-injection/round-trip controls and 35 focused native/Docker checks passed.
-  [Export review](docs/review-field-export-atomicity.md).
+  Export review.
 - **HAWA-049 / HAWA-052 closed:** refinement alignment is independent of world
   origin and invalid patch topology fails before solver allocation. Combined
   gate: 852 passed, 82 hardware skips, 33 contracts; CPU G6: 97,561 passed,
   4,898 device-blocked. Host/pre-Job validation remains HAWA-028.
-  [Domain review](docs/review-domain-relationships.md).
+  Domain review.
 - **HAWA-050 closed:** pinned Python 3.9 CI provisioning and synchronized test
   dependency lock pass hosted checks and locked-sync verification.
-  [CI review](docs/review-python-ci-runner.md).
+  CI review.
 - **HAWA-053 closed:** imported rough-wall filter history survives reset;
   repeated CPU replays match exactly.
 - **HAWA-054 closed:** exterior-boundary workspace is included before allocation;
@@ -237,7 +239,7 @@ in development, not claimed installed or released:
   an OS memory limit.
 - **HAWA-055 closed:** corresponding source includes verification inputs; exact
   package checks pass and packaged source collects 892 tests. Legacy example 09
-  remains excluded. The last three repairs share the [integration review](docs/review-python-integration.md#pr-6-review-follow-up):
+  remains excluded. The last three repairs share the integration review:
   810 passed, 82 hardware skips, 33 contracts before the refinement merge.
 
 These are recorded checks, not new test runs during this documentation closeout.
@@ -252,7 +254,7 @@ Added a bounded repeated-cell KBC diagnostic with exact FP32 inputs, actual
 device/stage/stabilizer evidence and unchanged population criteria. Original
 512-square/50-step CPU/MPS parity still fails; an improved but still-failing
 scratch candidate was rejected. No production or vendor repair is claimed.
-[Diagnosis and limits](docs/review-porous-kbc-diagnostic.md). Review follow-up
+Diagnosis and limits. Review follow-up
 HAWA-056/057 adds actual loaded-source validation and partial failure evidence.
 HAWA-001 remains open.
 
@@ -267,7 +269,7 @@ checks pass (82 native and Docker CPU tests). Final function gate: 852 passed,
 CPU G6 and its combined checker pass with 4,898 MPS/CUDA rows explicitly blocked;
 development packaging passes. HAWA-028 stays open for host/pre-Job workflow and
 HAWA-052 remains an integration candidate.
-[Contract inventory and evidence](docs/review-domain-relationships.md).
+Contract inventory and evidence.
 
 ### November 9 2026 airfoil dispatcher coverage (HAWA-026 tranche)
 
@@ -277,7 +279,7 @@ pass 29 cases; seven seeded faults are detected. After rebasing onto integration
 with 83 hardware skips, 33 state contracts and zero ratchet failures. Promoted only
 the freshly measured dispatcher baseline entry; no production behavior changed.
 HAWA-026 remains open for other coverage debt; this is not physical validation or
-a release. [Review and limits](docs/review-airfoil-dispatch-coverage.md).
+a release. Review and limits.
 
 ### November 9 2026 HAWA-021/022 diagnostic harness (C1)
 
@@ -286,7 +288,7 @@ identity, explicit analysis windows and partial-scope reporting to the Python
 nesting study. Fixed numerical criteria remain unchanged; HAWA-021/022 stay open.
 No solver or host behavior changed. Original C1 checks: 32 focused tests, 656 suite
 passes, 32 CUDA skips, 33 state contracts and zero function-gate failures. The
-real bounded CPU run and replay retain the same RMS failure; see the [C1 review](docs/review-neutral-nesting-harness.md).
+real bounded CPU run and replay retain the same RMS failure; see the C1 review.
 
 PR #5 review additionally hardens malformed descriptor failures, records selected
 source/child backends and exercises actual ratio-2 fine-reference replay with
@@ -302,7 +304,7 @@ verification after incorporating PR #4: 35 focused tests on native and constrain
 Linux CPU, 671 full native passes, 32 CUDA skips, 33 state contracts and zero
 coverage failures. Matrices refreshed; no schema, solver or C# change.
 HAWA-051 and the enclosing HAWA-048 PR remain pending integration.
-[Review follow-up](docs/review-field-export-atomicity.md#pr-3-review-follow-up--hawa-051).
+Review follow-up.
 
 
 ### November 9 2026 immutable-frame export repair candidate (HAWA-048)
@@ -313,7 +315,7 @@ preserve earlier output and clean temporary files. Focused CPU tests: 31 passed
 natively and in constrained Linux Docker. Full native gate: 637 passed, 32 CUDA
 skips, 33 state contracts, zero coverage failures; matrices and development ZIP
 checked. HAWA-048 remains open pending integration.
-No format, solver, C# or installed-plugin change. [Review](docs/review-field-export-atomicity.md).
+No format, solver, C# or installed-plugin change. Review.
 
 ### November 9 2026 refinement placement repair candidate (HAWA-049)
 
@@ -328,7 +330,7 @@ checked. Development build and ZIP integrity pass. Fresh Docker CPU G6 records
 all 102,459 expected rows with unchanged source. The combined checker links this
 Linux matrix to the native suite/contract evidence without claiming a full GPU
 matrix pass. Integration review remains pending; this is not a completed release
-or closed issue. [Review](docs/review-refinement-preflight.md).
+or closed issue. Review.
 
 
 ### November 9 2026 parent/child documentation (HAWA-034 partial)
@@ -338,7 +340,7 @@ from the GH user guide, example 33 instructions and roadmap. It distinguishes
 separate recorded transfer, restricted coupled refinement and composed views,
 with actual sample counts, spacing, time and ownership rules. Historical numerical
 failures remain explicit. Example files are unchanged; canvas presentation and
-live review remain open under HAWA-034. [Documentation review](docs/review-parent-child-guide.md).
+live review remain open under HAWA-034. Documentation review.
 
 
 ### November 9 2026 CUDA blocker repairs in separate candidate
@@ -347,8 +349,8 @@ The isolated CUDA integration candidate repairs HAWA-044/045/046 and resolves
 all 17 PR coverage blockers. Fresh local evidence: 700 tests passed, 82 device
 skips, 33 state contracts, zero function-gate failures; current G6 source/evidence
 recheck passes and development assemblies build. This code is not merged into
-this checkout or published. See [repair review](docs/review-cuda-blocker-fixes.md)
-and [Windows acceptance handoff](docs/windows-cuda-merge-checks.md). The original
+this checkout or published. See repair review
+and Windows acceptance handoff. The original
 main-checkout export increment is separate; CUDA and clean-host release remain
 unverified.
 
@@ -361,7 +363,7 @@ and replace only after completion, preserving raw arrays and metadata. Ten focus
 CPU tests and the full 624-pass/32-CUDA-skip suite pass; 33 state contracts pass,
 and the function matrix is refreshed with no ratchet failures. No host install,
 Windows check or release. HAWA-033 remains in progress for broader export UX/CSV;
-baking is still HAWA-032. [Review](docs/review-export-atomicity.md).
+baking is still HAWA-032. Review.
 
 ### November 9 2026 CUDA PR integration review
 
@@ -370,7 +372,7 @@ HAWA-044/045 evidence-validation defects and HAWA-046 MPS test alias failure.
 After the local alias fix, 668 tests and 33 state contracts pass; 82 tests skip,
 the function gate has 17 untested new/changed functions, and the original bounded
 CPU/MPS PorousMedium comparison still fails. Local G6 also passes 100,010 rows with 2,449 unavailable-CUDA rows blocked.
-PR remains unmerged, with no CUDA rerun or installed-candidate claim. [Review and merge prerequisites](docs/review-cuda-pr2.md).
+PR remains unmerged, with no CUDA rerun or installed-candidate claim. Review and merge prerequisites.
 
 ### November 9 2026 CUDA PR planning follow-up
 
@@ -378,15 +380,15 @@ Linked existing PR #2’s headless CUDA evidence and numerical repairs into
 HAWA-001/002/006 and the execution plan. Replaced duplicate CPU/CUDA investigation
 with PR review/integration and current-source device checks. The PR is open;
 reported branch results are not merged, independently reproduced or installed-host
-qualification. [Scope and remaining work](docs/issue-execution-plan.md#existing-windows-cuda-pr).
+qualification. Scope and remaining work.
 
 ### November 9 2026 issue execution planning
 
 Classified all 35 open issues by isolated Python/C# work, device requirements and
 live Rhino/GH acceptance; proposed a bounded worker/PR pilot and serial host
 queue for user review. This is a plan, not implemented sandbox infrastructure or
-completed verification. [Plan](docs/issue-execution-plan.md) and
-[documentation review](docs/review-issue-execution-plan.md).
+completed verification. Plan and
+documentation review.
 
 ### November 9 2026 user-notes intake
 
@@ -394,7 +396,7 @@ Reconciled user feedback into HAWA-027–043 and existing open issues, with
 provisional verification/workflow/research groupings for later triage. Missing
 cells and overlap validation remain unreproduced hypotheses; HAWA-024’s scoped
 repair remains closed. No implementation or runtime checks were performed.
-[Documentation review](docs/review-notes-intake.md).
+Documentation review.
 
 ### November 9 2026 function testing gate
 
@@ -446,13 +448,13 @@ increment. [Review](docs/review-function-testing.md).
 Added the open-work and implemented-capability registers, linked them from the
 entry documentation, and established maintenance rules in `AGENTS.md`. This is a
 documentation change, with no solver, runtime, GH archive or release change.
-See the [documentation review](docs/review-project-tracking.md).
+See the documentation review.
 
 ### Earlier completed work retained as evidence
 
 These are a concise index of existing records, not newly verified completions:
 
-- [0.4 closeout](docs/closeout-v0.4.md): frozen experimental feature baseline,
+- 0.4 closeout: frozen experimental feature baseline,
   bundled source/licences and supported examples; numerical limits remain.
 - [0.5 native work](docs/review-full-v0.5.md): selected geometry, shared state and
   native/GH workflows; read the later cleanup follow-up before treating its old
@@ -480,7 +482,7 @@ The merged study branch and remote main now combine with the missing strict CUDA
 evidence-runner repairs. Fresh local verification: 806 suite passes, 82 device
 skips, 33 contracts, zero coverage failures; 97,561 CPU G6 passes with 4,898 GPU
 rows blocked; development package checks pass. This candidate is not an installed
-release. [Integration review](docs/review-python-integration.md). HAWA-001 and
+release. Integration review. HAWA-001 and
 atmospheric qualification remain unresolved; Windows acceptance stays separate.
 
 
@@ -492,4 +494,4 @@ verification tools/configuration/docs/examples in the source bundle. The coverag
 test dependency is now in uv.lock. Fresh combined gate: 810 passes/82 skips,
 33 contracts, no ratchet failures; actual bundled source collects all 892 tests.
 These repairs are merged into main through PR #6; they do not establish Windows/host
-qualification. [Evidence](docs/review-python-integration.md#pr-6-review-follow-up).
+qualification. Evidence.

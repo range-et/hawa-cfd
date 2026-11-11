@@ -131,11 +131,7 @@ All are annotated native GH assemblies with Run/Reset, domain wireframe, fixed
 blue-green colour range, field snapshot and Quality report. They open idle. Their
 400-step duration demonstrates the workflow, not steady convergence.
 
-Agents: use [Rhino MCP instructions](agents/rhino-mcp.md). Open a copy, wait for
-Boundary Set/Solve ready, toggle Run, poll component outputs in separate tool calls,
-inspect valid Plane Field mesh and Quality. Pause before edits. Do not save a
-running verification state over the shipped idle definition. Record physical time,
-device, errors and cleanup. Examples 09 and all prior functional IDs are preserved.
+Examples 09 and all prior functional IDs are preserved.
 
 ## Verification and limits
 

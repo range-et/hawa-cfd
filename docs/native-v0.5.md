@@ -79,7 +79,7 @@ Existing GH workflows provide moving bodies, refinement, airfoils, searches,
 recording and broader visualization. This release does not add those editors to
 the native panel. No free surface, buoyancy, force-driven body motion or thermal
 transport is implied. A successful run or attractive field does not establish
-convergence or engineering accuracy. PorousMedium CPU/MPS parity remains unresolved.
+convergence or engineering accuracy. PorousMedium CPU/MPS parity is unresolved in the released 0.4 and 0.5 packages; the repair is on main but not yet released.
 
 See the release verification report for the platforms and tests actually run.
 Windows docking, CUDA hardware and clean-machine dependency installation must be

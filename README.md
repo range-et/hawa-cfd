@@ -4,9 +4,9 @@
 
 Hawa runs its Python 3.9 engine inside Rhino. Select geometry and set up a case in the native panel, or build workflows in Grasshopper. Use MPS, CUDA or CPU through PyTorch. Inspect pressure, speed and flow paths in the viewport.
 
-This branch contains **Hawa 0.5**, with selected Rhino geometry, editable domains and fluid settings, a dockable panel with icons, field controls and live GH sync. Read the [0.5 guide](docs/native-v0.5.md) and [release review](docs/release-review-v0.5.md). The [0.4 closeout](docs/closeout-v0.4.md) records the frozen release. The published **0.3** package and videos remain available on the [project page](https://range-et.github.io/hawa-cfd/). Read the [0.4 checks and limits](docs/release-notes-v0.4.0.md) before using the new package.
+This branch contains **Hawa 0.5**, with selected Rhino geometry, editable domains and fluid settings, a dockable panel with icons, field controls and live GH sync. Read the [0.5 guide](docs/native-v0.5.md). The published **0.3** package and videos remain available on the [project page](https://range-et.github.io/hawa-cfd/). Read the [0.4 checks and limits](docs/release-notes-v0.4.0.md) before using the new package.
 
-[Plugin guide](docs/plugin.md) · [Rhino MCP agent guide](docs/agents/rhino-mcp.md) · [Editable definitions](examples/grasshopper) · [License](LICENSE)
+[User guide](docs/user/README.md) · [Plugin guide](docs/plugin.md) · [Editable definitions](examples/grasshopper) · [License](LICENSE)
 
 Project records: [built features and history](features.md) · [GitHub issues and planned work](https://github.com/range-et/hawa-cfd/issues) · [project roadmap](docs/roadmap.md) · [existing and proposed examples](docs/example-roadmap.md) · [contributing](CONTRIBUTING.md) · [code of conduct](CODE_OF_CONDUCT.md) · [security policy](SECURITY.md). Future solver work is outside the bounded 0.5 prototype.
 
@@ -20,7 +20,7 @@ Project records: [built features and history](features.md) · [GitHub issues and
 - Local airfoil coordinates and polars, offline NACA four-digit generation, tapered wings and attached-flow lifting-line analysis.
 - Mesh checks, voxel inspection, experimental stationary curved-wall links and one fixed 2:1 refinement patch.
 
-The 0.5 package has 46 public Hawa components, 19 supported GH gallery definitions and two native examples (21: block sync; 22: selected canopy). Example 09 is historical and excluded from the new package. Use example 10 for asynchronous optimization.
+The current package has 54 public Hawa components, 29 GH gallery definitions and two native examples (21: block sync; 22: selected canopy). Example 09 is historical and excluded from the new package. Use example 10 for asynchronous optimization.
 
 ## Install and run
 
@@ -81,13 +81,13 @@ The video renderer needs macOS Helvetica Neue and Menlo, Pillow, ffmpeg, and ffp
 
 ## Verification
 
-The current Hawa suite passes **140 tests**, with 29 skipped and four inherited warnings. The earlier vendored upstream run passed 419 tests with 884 skipped. The Lettuce compatibility engine remains unchanged by the new Hawa outlet and refinement modules.
+The headless Hawa suite runs in CI on every pull request, on Python 3.9 and 3.12; see [CONTRIBUTING](CONTRIBUTING.md) for the gates. The earlier vendored upstream run passed 419 tests with 884 skipped. The Lettuce compatibility engine remains unchanged by the new Hawa outlet and refinement modules.
 
-The core CPU comparison matched the upstream oracle bitwise; MPS passed declared tolerances. All 16 upstream executable entrypoints completed bounded runs. These are separate from the Grasshopper gallery. PorousMedium's pointwise CPU/MPS discrepancy has a candidate KBC repair under review (HAWA-001, [#11](https://github.com/range-et/hawa-cfd/issues/11)); it passed the original criteria on one Apple M3 Max and remains open until merged.
+The core CPU comparison matched the upstream oracle bitwise; MPS passed declared tolerances. All 16 upstream executable entrypoints completed bounded runs. These are separate from the Grasshopper gallery. PorousMedium's pointwise CPU/MPS discrepancy is repaired on main (HAWA-001, [#11](https://github.com/range-et/hawa-cfd/issues/11)) but not yet in a released package; the released 0.4 and 0.5 packages still have it.
 
 Native MPS checks exercise saved definitions, valid field meshes, recording, a repeated hull search, and the fixed refinement patch. See the [release notes](docs/release-notes-v0.4.0.md) for exact evidence and limits.
 
-Windows CUDA headless checks have an [initial verification record](docs/verification-windows-cuda-2026-11-09.md) and a [numerical repair record](docs/verification-windows-cuda-fixes-2026-11-09.md) for PorousMedium parity and rotating-sphere surface-mask/torque failures. Clean Windows Rhino installation, full-duration upstream convergence and engineering-case validation remain open. Refinement is experimental. Aircraft analysis does not include XFOIL viscous calculations, VLM, stall or stability derivatives.
+Windows CUDA headless checks have a [numerical repair record](docs/verification-windows-cuda-fixes-2026-11-09.md) for PorousMedium parity and rotating-sphere surface-mask/torque failures. Clean Windows Rhino installation, full-duration upstream convergence and engineering-case validation remain open. Refinement is experimental. Aircraft analysis does not include XFOIL viscous calculations, VLM, stall or stability derivatives.
 
 ## Attribution
 
