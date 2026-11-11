@@ -42,11 +42,27 @@ class FieldCollection:
                 values=scalar(arrays,name,spec)
             self.rows.append(dict(order=order,fields=arrays,meta=meta,origin=o,basis=b,dx=dx,
                 values=values,invalid=validity_mask(arrays,name),shape=np.array(arrays['pressure'].shape),
-                solids=np.argwhere(display_solid(arrays))))
+                display=display_solid(arrays),blocked=np.argwhere(validity_mask(arrays,name))))
         self.rows.sort(key=lambda row:(row['dx'],row['order']))
         self.meta=dict(first,collection=dict(domains=len(self.rows),absolute_time_seconds=times[0],
             selection='finest containing domain; equal spacing uses input order; no fallback through finer solids',
             frame_ids=list(dict.fromkeys(keys))),case=dict(first['case']))
+
+    @classmethod
+    def lattice(cls, fields, meta, name, checkpoint):
+        """One frame in its own lattice coordinates. A 2D frame is one flat layer."""
+        from .fields import display_solid, scalar, validity_mask
+        view=cls.__new__(cls);flat=fields['pressure'].ndim==2
+        def lift(a):return a[...,None] if flat else a
+        velocity=fields['velocity']
+        if flat:velocity=np.concatenate([velocity,np.zeros((1,)+velocity.shape[1:])])[...,None]
+        invalid=lift(validity_mask(fields,name))
+        view.origin=np.zeros(3);view.basis=np.eye(3);view.dx=1.;view.checkpoint=checkpoint;view.name=name
+        view.rows=[dict(order=0,fields=dict(velocity=velocity),meta=meta,origin=np.zeros(3),basis=np.eye(3),dx=1.,
+            values=lift(scalar(fields,name,meta['case'])),invalid=invalid,display=lift(display_solid(fields)),
+            blocked=np.argwhere(invalid),shape=np.array(invalid.shape),flat=flat)]
+        view.meta=dict(meta,collection=dict(domains=1,selection='one frame in lattice coordinates'))
+        return view
 
     def sample(self, points):
         points=np.asarray(points,float)
@@ -56,6 +72,7 @@ class FieldCollection:
         values=np.zeros(len(points));velocity=np.zeros((len(points),3));valid=np.zeros(len(points),bool);owner=np.full(len(points),-1,int)
         for row in self.rows:
             self.checkpoint(0);p=(world-row['origin'])@row['basis'].T/row['dx'];n=row['shape']
+            if row.get('flat'):p[:,2]=0
             inside=(owner<0)&np.all(p>=-1e-9,axis=1)&np.all(p<=n-1+1e-9,axis=1)
             ids=np.flatnonzero(inside)
             if not len(ids):continue
@@ -98,15 +115,19 @@ class FieldCollection:
         return dict(paths=paths,values=colors)
 
     def plane(self,points,shape,levels):
-        """Clip plane triangles to the union, partitioned by domain priority.
+        """Partition plane triangles into fluid, solid, invalid and no-data pieces.
 
-        Domain clipping is exact for oriented box extents. Solid interpolation
-        validity is still sampled; this is not a CAD surface reconstruction.
+        Domain clipping is exact for oriented box extents; finer domains own
+        their region first. Inside a domain, the half-cells of invalid nodes are
+        cut out: display-solid nodes are ``solid``, nodes that only lack a valid
+        derivative stencil are ``invalid``, as are faces with a rejected corner.
+        What no domain covers is ``no_data``. The pieces tile the rectangle and share indexed vertices.
+        This is not a CAD surface reconstruction.
         """
         from .fields import contours
         # Reuse the public plane-grid and contour-level validation.
         contours(points,np.zeros(len(points)),np.zeros(len(points),bool),shape,levels,self.checkpoint)
-        points=np.asarray(points,float);vertices=[];faces=[]
+        points=np.asarray(points,float);vertices={};classes=dict(fluid=[],solid=[],invalid=[],no_data=[])
         def split(polygon,row,axis,side):
             p=np.asarray(polygon);world=self.origin+p@self.basis*self.dx
             q=(world-row['origin'])@row['basis'][axis]/row['dx']
@@ -120,12 +141,19 @@ class FieldCollection:
             return inside,outside
         def partition(poly,row):
             inside=poly;outside=[]
-            for axis in range(3):
+            # A 2D frame is one lattice layer; its plane has no third extent.
+            for axis in range(2 if row.get('flat') else 3):
                 for side in (0,1):
                     if len(inside)<3:return [],outside
                     inside,part=split(inside,row,axis,side)
                     if len(part)>=3:outside.append(part)
             return inside,outside
+        def emit(fragment,kind):
+            ids=[vertices.setdefault(tuple(np.round(v,9)),len(vertices)) for v in fragment]
+            for k in range(1,len(ids)-1):
+                if np.linalg.norm(np.cross(fragment[k]-fragment[0],fragment[k+1]-fragment[0]))>1e-14:
+                    classes[kind].append((ids[0],ids[k],ids[k+1]))
+            if len(vertices)>100000:raise ValueError('Clipped plane exceeds 100000 vertices; reduce resolution or domains')
         nx,ny=shape
         for i in range(nx-1):
             self.checkpoint(i)
@@ -137,38 +165,59 @@ class FieldCollection:
                         next_parts=[]
                         for poly in remaining:
                             inside,outside=partition(poly,row);next_parts.extend(outside)
-                            if len(inside)>=3:
-                                fluid=[inside]
-                                if len(row['solids']) and not row['meta']['case'].get('wall_links'):
-                                    world=self.origin+np.asarray(inside)@self.basis*self.dx
-                                    local=(world-row['origin'])@row['basis'].T/row['dx']
-                                    candidates=row['solids'][np.all(row['solids']+.5>=local.min(0)-1e-10,axis=1)&np.all(row['solids']-.5<=local.max(0)+1e-10,axis=1)]
-                                    for cell in candidates:
-                                        box=dict(row,origin=row['origin']+(cell-.5)@row['basis']*row['dx'],shape=np.array([2,2,2]))
-                                        fluid=[part for fragment in fluid for part in partition(fragment,box)[1]]
-                                        if not fluid:break
-                                for fragment in fluid:
-                                    start=len(vertices);vertices.extend(fragment)
-                                    for k in range(1,len(fragment)-1):
-                                        if np.linalg.norm(np.cross(fragment[k]-fragment[0],fragment[k+1]-fragment[0]))>1e-14:
-                                            faces.append((start,start+k,start+k+1))
+                            if len(inside)<3:continue
+                            pieces=[(inside,'fluid')]
+                            if len(row['blocked']) and not row['meta']['case'].get('wall_links'):
+                                world=self.origin+np.asarray(inside)@self.basis*self.dx
+                                local=(world-row['origin'])@row['basis'].T/row['dx']
+                                if row.get('flat'):local[:,2]=0
+                                near=np.all(row['blocked']+.5>=local.min(0)-1e-10,axis=1)&np.all(row['blocked']-.5<=local.max(0)+1e-10,axis=1)
+                                for cell in row['blocked'][near]:
+                                    box=dict(row,origin=row['origin']+(cell-.5)@row['basis']*row['dx'],shape=np.array([2,2,2]))
+                                    kind='solid' if row['display'][tuple(cell)] else 'invalid';cut=[]
+                                    for fragment,old in pieces:
+                                        if old!='fluid':cut.append((fragment,old));continue
+                                        inside_cell,outside_cell=partition(fragment,box)
+                                        cut.extend((part,'fluid') for part in outside_cell)
+                                        if len(inside_cell)>=3:cut.append((inside_cell,kind))
+                                    pieces=cut
+                            for fragment,kind in pieces:emit(np.asarray(fragment),kind)
                         remaining=next_parts
-                        if len(vertices)>100000:raise ValueError('Clipped plane exceeds 100000 vertices; reduce resolution or domains')
                         if not remaining:break
-        values=[];valid=[]
+                    for fragment in remaining:emit(np.asarray(fragment),'no_data')
+        vertices=np.asarray(list(vertices),float).reshape(-1,3);values=[];valid=[]
         for start in range(0,len(vertices),8192):
             v,ok,_,_=self.sample(vertices[start:start+8192]);values.extend(v);valid.extend(ok)
-        values=np.asarray(values);valid=np.asarray(valid,bool);vertices=np.asarray(vertices).reshape(-1,3)
-        faces=[f for f in faces if valid[list(f)].all()];lines=[]
+        values=np.asarray(values);valid=np.asarray(valid,bool)
+        # Curved-wall frames are not clipped, and a finer domain may reject a
+        # corner on its boundary. Such a face has no defined colour: it is
+        # solid when its centroid's nearest node is display-solid, else invalid.
+        rejected=[f for f in classes['fluid'] if not valid[list(f)].all()]
+        classes['fluid']=[f for f in classes['fluid'] if valid[list(f)].all()]
+        if rejected:
+            centers=vertices[np.asarray(rejected)].mean(axis=1);solid=np.zeros(len(centers),bool)
+            owner=self.sample(centers)[3]
+            for row in self.rows:
+                ids=np.flatnonzero(owner==row['order'])
+                local=np.rint(((self.origin+centers[ids]@self.basis*self.dx-row['origin'])@row['basis'].T/row['dx'])).astype(int)
+                # Clipping also puts a flat row's layer at index 0.
+                solid[ids]=row['display'][tuple(np.clip(local,0,row['shape']-1).T)]
+            for face,flag in zip(rejected,solid):classes['solid' if flag else 'invalid'].append(face)
+        lines=[]
         for level in levels:
-            for a,b,c in faces:
+            for a,b,c in classes['fluid']:
                 cut=[]
                 for x,y in ((a,b),(b,c),(c,a)):
                     if (values[x]<=level)!=(values[y]<=level):cut.append((vertices[x]+(level-values[x])/(values[y]-values[x])*(vertices[y]-vertices[x])).tolist())
                 if len(cut)==2:lines.append(cut)
                 if len(lines)>100000:raise ValueError('Contours exceed 100000 segments; reduce levels or resolution')
-        return dict(mesh_vertices=vertices.tolist(),mesh_faces=faces,mesh_values=values.tolist(),lines=lines,
-            display_reconstruction='Halfway solid mask clipping; samples are valid inside a fluid node\'s half-cell and interpolate fluid nodes only.')
+        def area(faces):
+            f=np.asarray(faces,int).reshape(-1,3)
+            return float(np.linalg.norm(np.cross(vertices[f[:,1]]-vertices[f[:,0]],vertices[f[:,2]]-vertices[f[:,0]]),axis=1).sum()/2)
+        return dict(mesh_vertices=vertices.tolist(),mesh_faces=classes['fluid'],mesh_values=values.tolist(),lines=lines,
+            solid_faces=classes['solid'],invalid_faces=classes['invalid'],no_data_faces=classes['no_data'],
+            class_areas={k:area(v) for k,v in classes.items()},
+            display_reconstruction='Halfway mask partition; samples are valid inside a fluid node\'s half-cell and interpolate fluid nodes only. Solid, invalid (no derivative stencil or a rejected corner) and no-data pieces are listed separately; areas are in grid units squared.')
 
     def isosurface(self,level,stride):
         """Composed isosurface on the finest spacing, using the single-frame rule.
@@ -189,7 +238,7 @@ class FieldCollection:
         budget=[0];walls=[]
         for row in self.rows:
             # Invalid nodes own a half-cell; a cell it reaches is refined.
-            nodes=np.argwhere(row['invalid'])
+            nodes=row['blocked']
             t=((row['origin']+nodes@row['basis']*row['dx']-self.origin)@self.basis.T/self.dx-lo)/h
             walls.append((t[np.argsort(t[:,0])] if len(t) else t,.5*row['dx']/self.dx/h*np.abs(row['basis']@self.basis.T).sum(axis=0)))
         def classify(axes):

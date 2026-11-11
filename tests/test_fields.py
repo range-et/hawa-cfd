@@ -80,6 +80,33 @@ def test_isosurface_rejects_bad_requests_and_honours_cancellation():
     with pytest.raises(RuntimeError,match='cancelled'):isosurface(x,2.5,checkpoint=stop)
 
 
+@pytest.mark.parametrize('n',[2,13,40])
+def test_2d_plane_partition_matches_the_halfway_rule(n):
+    from hawa.fields import store,dispatch_field
+    shape=(12,12);g=np.indices(shape);u=np.zeros((2,)+shape);u[0]=1+.05*g[0]*g[1]
+    mask=np.zeros(shape,bool);mask[4:8,4:8]=True
+    key=store(dict(velocity=u,pressure=g[0].astype(float),density=np.ones(shape),solid=mask),
+              dict(case=dict(shape=list(shape),dx=1.,speed=1.,density=1.,reference_pressure=0.),time=1.,iteration=0,mean=False))['frame']
+    # Rectangle [-1,12]^2 = 169 around the [0,11]^2 lattice: no-data ring 48,
+    # block 16. Vorticity also masks the block's +-1 cross (16 nodes) and the
+    # 21 units of edge half-cells. The plane's z (0.75) is ignored on one layer.
+    points=[[x,y,.75] for x in np.linspace(-1,12,n) for y in np.linspace(-1,12,n)]
+    for field,areas in (('speed',dict(fluid=105,solid=16,invalid=0,no_data=48)),('vorticity',dict(fluid=68,solid=16,invalid=37,no_data=48))):
+        r=dispatch_field(dict(action='plane',frame=key,field=field,points=points,shape=[n,n],levels=[1.5]))
+        assert r['class_areas']==pytest.approx(areas,abs=1e-9) and r['collection']['domains']==1
+        np.testing.assert_allclose(np.asarray(r['mesh_vertices'])[:,2],.75)
+        assert r['iteration']==0 and r['case']['dx']==1.
+        assert len(r['values'])==len(points)==len(r['valid']) and r['valid'][0] is False
+        # Speed reaches 1.5 only where 0.05xy > 0.5, inside the fluid.
+        assert bool(r['lines'])==(field=='speed')
+    flat=dispatch_field(dict(action='plane',frame=key,field='speed',points=[p[:2] for p in points],shape=[n,n]))
+    speed=dispatch_field(dict(action='plane',frame=key,field='speed',points=points,shape=[n,n],levels=[]))
+    assert flat['class_areas']['fluid']==pytest.approx(105) and flat['values']==speed['values'] and any(flat['valid'])==(n>2)
+    assert flat['lines']==[] and np.all(np.asarray(flat['mesh_vertices'])[:,2]==0)
+    def stop(count):raise RuntimeError('cancelled')
+    with pytest.raises(RuntimeError,match='cancelled'):dispatch_field(dict(action='plane',frame=key,points=points,shape=[n,n]),checkpoint=stop)
+
+
 def test_frame_rejects_mismatched_shapes():
     import pytest
     from hawa.fields import store

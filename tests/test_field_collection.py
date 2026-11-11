@@ -143,6 +143,63 @@ def test_plane_trims_crossing_triangles_without_a_blank_fluid_band():
     assert raw['valid']==[True,True,False] and raw['values'][:2]==[1.,1.]
 
 
+def plane_grid(x0,x1,y0,y1,z,n):
+    return [[x,y,z] for x in np.linspace(x0,x1,n) for y in np.linspace(y0,y1,n)]
+
+
+@pytest.mark.parametrize('n,dx,origin',[(2,1.,(0,0,0)),(9,.5,(1,2,3)),(30,1.,(0,0,0))])
+def test_plane_classes_tile_the_rectangle_with_indexed_vertices(n,dx,origin):
+    # View coordinates are the first frame's lattice coordinates at any dx/origin.
+    key=frame(dx,origin,solid=True)
+    # Halfway rule at z=2.5: the 2x2 block owns [1.5,3.5]^2. For q, the
+    # derivative mask adds the block's +-1 cross (8 nodes) and the domain
+    # edge nodes, leaving fluid half-cells [0.5,5.5]^2 minus 12 nodes.
+    expected=dict(speed=dict(fluid=32,solid=4,invalid=0,no_data=0),q=dict(fluid=13,solid=4,invalid=19,no_data=0))
+    for field,areas in expected.items():
+        r=dispatch_field(dict(action='plane',frames=[key],field=field,points=plane_grid(0,6,0,6,2.5,n),shape=[n,n],levels=[]))
+        assert r['class_areas']==pytest.approx(areas,abs=1e-9)
+        v=np.asarray(r['mesh_vertices']);faces=[f for k in ('mesh_faces','solid_faces','invalid_faces','no_data_faces') for f in r[k]]
+        assert len(np.unique(np.round(v,9),axis=0))==len(v) and set(np.ravel(faces))==set(range(len(v)))
+        f=np.asarray(faces);assert np.all(np.linalg.norm(np.cross(v[f[:,1]]-v[f[:,0]],v[f[:,2]]-v[f[:,0]]),axis=1)>1e-14)
+        assert r['iteration']==0 and r['case']['dx']==dx
+        if field=='speed':np.testing.assert_allclose(np.asarray(r['mesh_values'])[np.ravel(r['mesh_faces'])],1)
+
+
+def test_tilted_plane_solid_area_matches_nearest_node_sampling():
+    key=frame(solid=True)
+    # Plane z=x+0.5 rises through the block's layers inside its footprint and
+    # leaves the domain (z>6) near x=6.
+    corner=lambda x,y:[x,y,x+.5]
+    r=dispatch_field(dict(action='plane',frames=[key],field='speed',points=[corner(x,y) for x in (0.,6.) for y in (0.,6.)],shape=[2,2],levels=[]))
+    # Independent check: dense points, solid where the nearest node is a block node.
+    u=(np.arange(600)+.5)/600*6;x,y=np.meshgrid(u,u,indexing='ij');z=x+.5
+    near=np.rint(np.stack([x,y,z],-1)).astype(int);inside=np.all((near>=2)&(near<=3),axis=-1)
+    slant=np.sqrt(2)
+    assert r['class_areas']['no_data']==pytest.approx(.5*6*slant)
+    assert r['class_areas']['solid']==pytest.approx(inside.mean()*36*slant,abs=.05)
+    assert sum(r['class_areas'].values())==pytest.approx(36*slant)
+
+
+def test_plane_reports_gaps_between_domains_as_no_data():
+    a=frame();b=frame(.5,(8,0,0),speed=2.)
+    r=dispatch_field(dict(action='plane',frames=[a,b],field='pressure',points=plane_grid(-1,12,-1,7,1.,20),shape=[20,20],levels=[2.]))
+    # Rectangle 13 x 8; parent covers 6 x 6, child 3 x 3.
+    assert r['class_areas']==pytest.approx(dict(fluid=45,solid=0,invalid=0,no_data=59),abs=1e-9)
+    assert r['lines'] and r['collection']['domains']==2
+
+
+@pytest.mark.parametrize('dx,origin',[(1.,[0,0,0]),(.5,[1,2,3])])
+def test_plane_classifies_rejected_faces_of_curved_wall_frames(dx,origin):
+    shape=(7,7,7);g=np.indices(shape);u=np.zeros((3,)+shape);u[0]=1
+    mask=np.zeros(shape,bool);mask[2:4,2:4,2:4]=True
+    spec=dict(shape=list(shape),dx=dx,spacing=dx,origin=origin,basis=np.eye(3).tolist(),speed=1.,density=1.,reference_pressure=0.,wall_links=True)
+    key=store(dict(velocity=u,pressure=g[0].astype(float),density=np.ones(shape),solid=mask),dict(case=spec,time=2.,iteration=0,mean=False))['frame']
+    # Unclipped unit triangles: whole faces inside the block's half-cells are
+    # solid; faces with a solid corner but a fluid centroid are invalid.
+    r=dispatch_field(dict(action='plane',frames=[key],field='speed',points=plane_grid(0,6,0,6,2.5,7),shape=[7,7],levels=[]))
+    assert r['class_areas']==pytest.approx(dict(fluid=28,solid=4,invalid=4,no_data=0),abs=1e-9)
+
+
 def test_reference_example_frames_use_recorded_physical_spacing():
     from hawa.plugin import Session
     from hawa.fields import capture

@@ -327,8 +327,12 @@ def dispatch_field(request, session=None, checkpoint=lambda n:None):
         return {'path':str(path)}
     if action=='trace':return {**trace(fields,request['seeds'],request.get('steps',200),request.get('step',.4),request.get('direction',1),name,spec,checkpoint),**meta}
     if action=='plane':
-        values,valid=sample_scalar(fields,request['points'],name,spec)
-        return {'values':values,'valid':valid,'lines':contours(request['points'],values,valid,request['shape'],request.get('levels',[]),checkpoint),**meta}
+        # Same partition as composed views; a 2D frame is one flat lattice layer.
+        from .field_collection import FieldCollection
+        view=FieldCollection.lattice(fields,meta,name,checkpoint)
+        points=[list(p)+[0.]*(3-len(p)) for p in request['points']]
+        values,valid,_,_=view.sample(points)
+        return {'values':values.tolist(),'valid':valid.tolist(),**view.plane(points,request['shape'],request.get('levels',[])),**view.meta}
     if action=='sample':
         if len(request['points'])>10000:raise ValueError('At most 10000 samples')
         values,valid=sample_scalar(fields,request['points'],name,spec)
