@@ -128,7 +128,7 @@ below: a conservative miss. Criterion 3 (agreement in every case) therefore
 **fails on 1 of 20 cases**, and the harness exits 2. The threshold was not
 changed. No CPU case was falsely reported as resolved; Apple-silicon CPU FP32 on the
 Mac gave the same agreement pattern (same single conservative miss).
-[Tracked summary](verification-atmospheric-precision.json).
+Tracked summary.
 
 **MPS defect and fix.** On MPS FP32 at `1d50235`, the collision lost more dissipation
 than CPU FP32 in the same cases. Two cases were falsely reported as resolved:

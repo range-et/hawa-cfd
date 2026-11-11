@@ -1,10 +1,10 @@
 # Hawa for Rhino 8 / Grasshopper
 
-Hawa runs its Python 3.9 Lettuce engine inside Rhino. PyTorch uses MPS on Apple Silicon, CUDA on compatible NVIDIA hardware, or CPU. Select `auto`, `mps`, `cuda:0`, or `cpu`. An unavailable explicit selection reports an error.
+Hawa runs its Python 3.9 Lettuce engine inside Rhino. PyTorch uses MPS on Apple Silicon or CPU. The default installer installs the standard PyTorch wheel, which on Windows is CPU-only; CUDA inside Rhino needs the CUDA setup in [the Windows CUDA guide](windows-cuda.md). Select `auto`, `mps`, `cuda:0`, or `cpu`. An unavailable explicit selection reports an error.
 
 ## Install
 
-Unzip `Hawa-0.4.0-rh8.zip`. Copy the complete `Hawa` folder to Grasshopper's Libraries directory. Keep `python`, `Bootstrap.py`, licenses and source beside the `.gha`. Quit Rhino normally and reopen it. Select the **Hawa** tab.
+Unzip the Hawa package (for example `Hawa-0.5.0-rh8.zip`). Copy the complete `Hawa` folder to Grasshopper's Libraries directory. Keep `python`, `Bootstrap.py`, licenses and source beside the `.gha`. Quit Rhino normally and reopen it. Select the **Hawa** tab.
 
 Open `examples/01-tgv3d-bgk.gh`. Rhino downloads pinned dependencies on first use. This needs internet access and can take time. Subsequent solves run in Rhino's process. No separate Python or OpenFOAM install is required. Quit and restart Rhino if another script loaded conflicting dependencies.
 
@@ -44,7 +44,7 @@ Keep the supplied `data` folder next to the airfoil example. Relative paths reso
 | --- | --- |
 | 00 Setup | Runtime |
 | 01 Domain | Domain, Wind Tunnel, Domain Preview, Refinement Patch |
-| 02 Geometry | Geometry, Parametric Hull, Geometry Check, Grid Preview |
+| 02 Geometry | Geometry, Geometry Check, Grid Preview |
 | 03 Physics | Physics, Boundaries |
 | 04 Case | Case, Example, Check Case |
 | 05 Solve | Solve, Evaluate, Search, Refined Solve |

@@ -4,7 +4,7 @@ November 10, 2026. Author: Amp agent working on issue #11, branch
 `codex/issue-011-kbc-conditioning`. Self-reviewed. The native Mac runs were done
 by a separate coordinating agent on the user's Mac. This is a candidate repair
 for [#11](https://github.com/range-et/hawa-cfd/issues/11), not a release. It
-builds on the [bounded diagnosis](review-porous-kbc-diagnostic.md) and the
+builds on the bounded diagnosis and the
 existing CPU/CUDA precision repair, which this change leaves untouched.
 
 ## Question, criteria and scope

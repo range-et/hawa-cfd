@@ -13,7 +13,7 @@ solvers. The product opportunity is continuity from a design question to a
 reproducible simulation, with the assumptions and evidence visible throughout.
 
 The 0.5 native prototype remains bounded by its
-[existing guide](native-prototype-v0.5.md). Everything beyond that baseline here
+existing guide. Everything beyond that baseline here
 is proposed work, ordered by dependencies and acceptance gates rather than
 promised dates. The [example catalogue](example-roadmap.md) records existing
 definitions and a larger candidate backlog.
@@ -122,9 +122,9 @@ persistence. Its public case interface provides a bounded starting point for
 agent operation. Arbitrary selected geometry and a general solver-neutral case
 schema are future work; existing GH functionality is broader than the panel.
 
-The [0.4 closeout](closeout-v0.4.md),
+The 0.4 closeout (now in the private maintainer archive),
 [release limits](release-notes-v0.4.0.md) and
-[0.5 verification](verification-native-v0.5.json) establish the present evidence.
+0.5 verification establish the present evidence.
 PorousMedium CPU/MPS parity has a candidate KBC repair under review ([record](review-porous-kbc-repair.md)); it is not merged or released. Windows, CUDA and clean-machine setup
 still need their documented checks. Native demonstrations and valid field meshes
 do not establish engineering accuracy.
@@ -162,7 +162,7 @@ demonstrated benefit, unchanged numerical acceptance criteria, and preserved
 pause/cancel and cleanup behavior. Keep the public case operations stable.
 
 This decision adds roadmap priorities, not new implementation requirements to
-the agreed 0.5 scope. See the [documentation review](review-runtime-roadmap.md).
+the agreed 0.5 scope. See the documentation review.
 
 ## Related tools and the opportunity for Hawa
 
@@ -236,7 +236,7 @@ properties. Hawa is worth building if it demonstrably reduces repeated setup and
 allows better-supported design decisions. A larger component count or another
 attractive flow render would not establish that value.
 
-The next implementation proposal is the [ten-issue Python queue](issue-execution-plan.md#next-ten-python-issues--proposed-scope-for-review): integrate the completed branches first, then prioritize numerical correctness, input contracts and usable results. C#/Rhino work remains a separate later phase; individual PR completion does not qualify an entire physical model.
+The next implementation proposal is the ten-issue Python queue: integrate the completed branches first, then prioritize numerical correctness, input contracts and usable results. C#/Rhino work remains a separate later phase; individual PR completion does not qualify an entire physical model.
 
 ## Delivery sequence
 

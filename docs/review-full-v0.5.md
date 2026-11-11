@@ -11,7 +11,7 @@ pass.** The architecture review retains a cleanup weakness in older GH component
 PorousMedium still fails CPU/MPS parity. Windows, CUDA and clean-install checks
 need their own environments. No solver or plugin assembly changed in this pass.
 
-The [machine-readable record](verification-full-v0.5.json) contains exact host
+The machine-readable record contains exact host
 results, numerical measurements and tested binary hashes. Raw logs, canvas
 captures, recordings, copied native files and package inspection are under
 `results/v05/full-gates-20261108-01` in the checkout. That large local evidence

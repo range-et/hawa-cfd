@@ -97,7 +97,7 @@ count as passing tests. Original upstream test files are unchanged.
   recording, optimization, moving bodies, refinement and outlet stability.
   Device-parity loops also include CUDA. Missing hardware remains a visible skip.
 
-The [initial November 9 verification report](verification-windows-cuda-2026-11-09.md)
+The initial November 9 verification report
 preserves the original PorousMedium and rotating-sphere failures. The subsequent
 [repair record](verification-windows-cuda-fixes-2026-11-09.md) documents the fixes
 and fresh verification on `codex/windows-cuda`. KBC now uses FP64 collision

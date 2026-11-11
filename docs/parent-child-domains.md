@@ -58,7 +58,7 @@ past its parent elsewhere. Coupled refinement additionally requires an aligned, 
 patch whose resolution is exactly `2*(upper-lower)+1`; it reports the parent and
 fine roles and the offending indices. These rules are covered by
 `tests/test_domain_relationships.py`, `tests/test_refinement_preflight.py` and the
-transfer tests; see the [domain relationship review](review-domain-relationships.md).
+transfer tests; see the domain relationship review.
 
 Nothing merges overlapping domains into one grid. If a child extends past its
 parent, enlarge or move the parent, or shrink the child, then capture again.

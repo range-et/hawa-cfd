@@ -4,7 +4,7 @@ Branch: `codex/windows-cuda`, based on `d8d8040`. Author and reviewer: Codex,
 self-review in separate research, architecture, reliability and numerical passes;
 no independent reviewer. This record concerns headless implementation verification,
 not physical validation or an installed Rhino release. The
-[initial report](verification-windows-cuda-2026-11-09.md) preserves the failures.
+initial report preserves the failures.
 
 ## Changes and acceptance criteria
 

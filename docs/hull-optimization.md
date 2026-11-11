@@ -1,4 +1,6 @@
-# Parametric hull and Galapagos
+# Parametric hull and Galapagos (legacy example 09)
+
+> **Legacy, archive only.** Example 09 is not in the current package, and its hull component is hidden. It blocks the Grasshopper solution while each candidate runs. For hull search, use example 10, which runs candidates in the background.
 
 Open `09-parametric-hull-galapagos.gh` in Rhino 8 with Hawa v0.3.0 installed. The definition contains the complete assembly. It needs no Rhino model, external Python installation, or external CFD process.
 
