@@ -47,10 +47,12 @@ public sealed class SliceComponent : HawaQueryComponent
             v=>
                 FieldTools.ColorAt(max>min?Math.Clamp((v-min)/(max-min),0,1):.5,"blue-green")
         );
-        Message=s["case"]?["wall_links"] is JsonArray?"wall-clipped display":"lattice display";
+        // The solver installs interpolated walls only for a non-empty link list.
+        bool interpolated=s["case"]?["wall_links"] is JsonArray { Count: > 0 };
+        Message=interpolated?"wall-clipped display":"lattice display";
         // The key and near-wall caveat follow the solver's actual wall mode and cell size (#29).
         var cell=s["case"]?["dx"] is JsonNode dx?$"{dx.GetValue<double>():g3} m":$"{Coordinates.Spacing(s):g3} model units";
-        AddRuntimeMessage(GH_RuntimeMessageLevel.Remark,$"Black = not simulated (solid or no-data nodes). Walls: {(s["case"]?["wall_links"] is JsonArray?"interpolated at link crossings":"voxel, halfway between nodes")}; cell {cell}. Colours within about one cell of a surface depend on the wall mode and this resolution, so treat near-wall flow as approximate.");
+        AddRuntimeMessage(GH_RuntimeMessageLevel.Remark,$"Black = not simulated (solid or no-data nodes). Walls: {(interpolated?"interpolated at link crossings":"voxel, halfway between nodes")}; cell {cell}. Colours within about one cell of a surface depend on the wall mode and this resolution, so treat near-wall flow as approximate.");
         mesh.Normals.ComputeNormals(); da.SetData(0, mesh); da.SetDataList(1, values); da.SetDataList(2, new[] { min, max }); da.SetDataList(3, valid);
     }
 }

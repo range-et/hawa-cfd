@@ -192,6 +192,8 @@ static class ComponentContracts
             var walled = Goo("""{"session":"s1","case":{"spacing":1,"dx":0.025,"shape":[2,2,1],"wall_links":[[1,0,0.5]]}}""");
             da = Solve(slice, walled, D, D, D, D); assert(da.List(2).SequenceEqual(new object?[] { 0d, 3d }) && slice.Message == "wall-clipped display", "Wall-clipped speed range must start at zero wall speed");
             assert(slice.RuntimeMessages.Single().Text.StartsWith("Black = not simulated (solid or no-data nodes). Walls: interpolated at link crossings; cell 0.025 m. "), "Interpolated wall mode or physical cell size not named (#29)");
+            Solve(slice, Goo("""{"session":"s1","case":{"spacing":1,"dx":0.5,"shape":[2,2,1],"wall_links":[]}}"""), D, D, D, D);
+            assert(slice.Message == "lattice display" && slice.RuntimeMessages.Single().Text.Contains("Walls: voxel, halfway between nodes; cell 0.5 m."), "An empty link list was labelled as interpolated walls");
             assert(slice.Params.Output[0] is GH_TestParam { Description: var key } && key.Contains("Black = not simulated") && key.Contains("Near-wall colours depend on the wall mode and resolution"), "Mesh output lost the colour key");
             reply["valid"] = new JsonArray(false, false, false, false); da = Solve(slice, walled, D, D, "density", D);
             assert(da.List(2).SequenceEqual(new object?[] { 0d, 0d }) && da.Out<Mesh>(0).VertexColors.All(c => c.ToArgb() == Color.Black.ToArgb()), "All-solid slice not black");
