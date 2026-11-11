@@ -40,10 +40,18 @@ Earlier published walkthroughs: [overview](https://youtu.be/Ji_9iOYXSXg), [block
 
 For NVIDIA hardware on Windows, see the [CUDA setup and repeatable verification workflow](docs/windows-cuda.md).
 
-The production target is Python 3.9 with PyTorch 2.8.0 and NumPy 2.0.2. A separate Python 3.12 environment runs unmodified upstream Lettuce for reference comparisons.
+The production target is Python 3.9 with PyTorch 2.8.0 and NumPy 2.0.2, because Rhino 8 embeds CPython 3.9. Every line of production code must import and pass on 3.9. Development uses three separate environments:
+
+- `.venv` (Python 3.9) is the production-parity environment. Use it for the test suite, the function coverage gate, the mutmut 2.4.5 studies, the scripts and everything else these docs run with `.venv/bin/python`. Its CI jobs are authoritative.
+- `.venv-dev` (Python 3.12) is for developer tooling that needs newer Python: ruff's Python 3.9 syntax guard and mutmut 3.x ([#67](https://github.com/range-et/hawa-cfd/issues/67)). CI also runs the full headless suite on 3.12, because mutation results on 3.12 are only valid while the tests pass there. Passing on 3.12 is never evidence that code works on 3.9.
+- `.venv-reference` (Python 3.12, created by `scripts/bootstrap_reference.py`) runs unmodified upstream Lettuce for reference comparisons.
 
 ```sh
+# .venv, Python 3.9 (from .python-version)
 uv sync --extra test
+# .venv-dev, Python 3.12, with the tools dependency group
+UV_PROJECT_ENVIRONMENT=.venv-dev uv sync --python 3.12 --extra test --group tools
+.venv-dev/bin/ruff check .
 .venv/bin/python -m pytest tests -q
 .venv/bin/python scripts/audit_backport.py
 .venv/bin/python scripts/run_upstream_tests.py

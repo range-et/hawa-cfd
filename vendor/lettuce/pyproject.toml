@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "hawa-lettuce"
 version = "0.3.0.post1"
 description = "Hawa's Python 3.9 compatibility fork of Lettuce"
-requires-python = ">=3.9,<3.10"
+requires-python = ">=3.9,<3.13"
 license = "MIT"
 license-files = ["LICENSE"]
 readme = "PORTING.md"

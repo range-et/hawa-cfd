@@ -175,6 +175,7 @@ def test_orchestrator_cli_help_has_no_execution_side_effects(script, monkeypatch
     assert '--output' in capsys.readouterr().out
 
 
+@pytest.mark.production_python
 def test_parity_cli_runs_real_small_cpu_case_and_publishes_metadata(tmp_path, monkeypatch, capsys):
     import runpy
     import hawa.cases as cases

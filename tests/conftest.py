@@ -1,4 +1,6 @@
 """Explicit backend coverage; CUDA verification must never pass by skipping it."""
+import sys
+
 import pytest
 import torch
 
@@ -6,6 +8,21 @@ import torch
 def pytest_addoption(parser):
     parser.addoption("--require-cuda", action="store_true",
                      help="Fail before collection if a real CUDA operation cannot run")
+
+
+def pytest_configure(config):
+    config.addinivalue_line("markers", "production_python: runs a production entry point "
+                            "that refuses any interpreter other than Python 3.9")
+
+
+def pytest_collection_modifyitems(config, items):
+    """The Python 3.12 dev suite skips these; the authoritative 3.9 suite runs them."""
+    if sys.version_info[:2] == (3, 9):
+        return
+    skip = pytest.mark.skip(reason="production entry point requires Python 3.9")
+    for item in items:
+        if item.get_closest_marker("production_python"):
+            item.add_marker(skip)
 
 
 def pytest_sessionstart(session):

@@ -174,6 +174,38 @@ def test_development_gh_component_validates_environment_before_running(scenario,
         assert runtime.path==[str(tmp_path/'vendor/lettuce'),str(tmp_path/'src')]
 
 
+@pytest.mark.parametrize('script', ['plugin/Bootstrap.py', 'scripts/grasshopper_component.py'])
+def test_rhino_requirements_header_matches_project_pins(script):
+    """Rhino installs from this header, not pyproject.toml; the two must name the same pins."""
+    try:
+        import tomllib
+    except ImportError:  # Python 3.9: tomli is installed as a pytest dependency.
+        import tomli as tomllib
+    from packaging.requirements import Requirement
+    from packaging.utils import canonicalize_name
+
+    def pins(requirements):
+        parsed = [Requirement(r) for r in requirements]
+        assert all(r.marker is None and len(r.specifier) == 1 and next(iter(r.specifier)).operator == '==' for r in parsed)
+        return {canonicalize_name(r.name): str(r.specifier) for r in parsed}
+
+    def project(path):
+        return tomllib.loads((ROOT / path).read_text())['project']['dependencies']
+
+    # hawa-lettuce ships as source in the package; Rhino installs its dependencies instead.
+    expected = pins(project('pyproject.toml'))
+    assert expected.pop('hawa-lettuce') == '==0.3.0.post1'
+    for name, pin in pins(project('vendor/lettuce/pyproject.toml')).items():
+        assert expected.setdefault(name, pin) == pin
+    headers = [line for line in (ROOT / script).read_text().splitlines() if line.startswith('# requirements:')]
+    assert len(headers) == 1
+    header = pins(headers[0][len('# requirements:'):].split(','))
+    assert header == expected
+    exported = {line.split(' ;')[0] for line in (ROOT / 'requirements/rhino-py39.txt').read_text().splitlines()
+                if '==' in line and not line.startswith('#')}
+    assert {name + pin for name, pin in header.items()} <= exported
+
+
 @pytest.mark.parametrize('failure',['none','diagnostic','parity'])
 def test_runtime_verifier_serializes_all_device_rows_and_rejects_failed_fixture_observations(failure,tmp_path,monkeypatch):
     import torch

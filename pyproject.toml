@@ -8,11 +8,20 @@ version = "0.5.0"
 description = "Embedded Python 3.9 LBM engine and Grasshopper plugin"
 license = "GPL-3.0-only"
 license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
-requires-python = ">=3.9,<3.10"
+requires-python = ">=3.9,<3.13"
 dependencies = ["torch==2.8.0", "numpy==2.0.2", "hawa-lettuce==0.3.0.post1"]
 
 [project.optional-dependencies]
 test = ["pytest>=8,<9", "psutil==7.2.2", "scipy==1.13.1", "coverage==7.10.7"]
+
+[dependency-groups]
+# Developer tooling for the Python 3.12 `.venv-dev` environment only; never a
+# production or Rhino dependency. mutmut 3.x needs Python 3.10 or newer; 3.8+
+# needs click>=8.4.2, which conflicts with the click==8.1.8 production pin.
+tools = [
+    "mutmut==3.7.0; python_version >= '3.10'",
+    "ruff==0.17.4; python_version >= '3.10'",
+]
 
 [tool.uv.sources]
 hawa-lettuce = { path = "vendor/lettuce", editable = true }
@@ -25,3 +34,13 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.ruff]
+# Production runs on Rhino 8's embedded CPython 3.9. This guard reports only
+# syntax that Python 3.9 cannot parse, plus PEP 604 unions without the
+# postponed-annotations import; it is not a style check.
+target-version = "py39"
+extend-exclude = [".venv-dev", ".venv-reference", ".reference"]
+
+[tool.ruff.lint]
+select = ["FA102"]

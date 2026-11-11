@@ -38,7 +38,7 @@
     "plugin/Hawa.Shared/SliceDisplay.cs": "a8c5c11bcf06e9deec17cb63505f4888aba9407bd21bc7bbe66fb42d57981ce7",
     "plugin/Hawa.Shared/SurfaceMeshing.cs": "637792754e487bbf4980abcd0492d9736f3c7ba1182a6e5781a2ef08d74f3a63",
     "plugin/Hawa.Shared/WallLinks.cs": "3ba516a1d6ff8249c8c1608252950db84c539ea5a1e70832ea47959ea17152a3",
-    "pyproject.toml": "85a71faa468ca71cf6c1ee9684d82a375daf61942509a1935e92f8a91d5bad6c",
+    "pyproject.toml": "b757de4a3f616fe2137b53ffa53345dd2da15cc0285e2089db36d9c5c3443297",
     "scripts/analyze_neutral_stationary.py": "9b1ac533247ed4a19fb737785f4411630efdc790a13669e8b932d7ac607dfbbf",
     "scripts/audit_backport.py": "4cc6db5545b4d799b4a5730705f21db5156b4d6cb70f85618c4211fd6f0a4333",
     "scripts/benchmark_curved_walls.py": "018b520b53def8f665597f04c88dc80f2e11578070ac855fea038b2a402589c8",
@@ -121,7 +121,7 @@
     "src/hawa/roughness.py": "fbebbd3fd84f2d0db139afca3c18e4f4faa7802d26848df47b77605002e2b48f",
     "src/hawa/step.py": "e468cbce49f84efe7c1eb89696893ec52cae20dacb746ad2d4d73e623f89ba45",
     "src/hawa/walls.py": "d2c0ac391a689e9b51ee4088c4821fa979eaf72a044f549327a78c8e639ca134",
-    "tests/conftest.py": "d7e574ab188de8992116a4f9cac2e251d732e3fa1e8b8f5a98f38dd96dd4393c",
+    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/dotnet/StateContracts/GeometryKernelContracts.cs": "005d441190064b0c15f260403e5e142999f53f8126358cfc5e0d748985ba43fa",
     "tests/dotnet/StateContracts/HostDouble.cs": "10832f760922195d704a520acd2fe6d1f4cb9b7ec4f00406b34bce9a7a37e807",
     "tests/dotnet/StateContracts/Program.cs": "cb04daee3e58661e47339ba9a659d007012f368c6deaff6c63e439841ab5274c",
@@ -144,9 +144,9 @@
     "tests/test_build_quality_completion.py": "76409b098a8b91a0028c48da695123510f5d2b92c9dea40f17aa6e25a9c0c1ec",
     "tests/test_cli.py": "54302618c780b8cc6fd81604d2f83880188f3bc91dc3f08ff176a1f572135e43",
     "tests/test_compatibility_matrix.py": "ee5bdedccf9125277ef708cac15a5d9870c81fdea014c2c1b3cc5eb2d48fa62d",
-    "tests/test_cuda_tooling.py": "ef1b5f48742d24c17940fad65561553bc355def9e5105ab311d3b8eae4e8cf03",
-    "tests/test_cuda_verification.py": "76255f5f651715b1c289457759c8d0b17f531121f0677d374cbcf5b173208a66",
-    "tests/test_device_smoke.py": "c982d6dbed40238eb78cdd0d3a1a90bdf5dbdf40fb41b848766771bedc519552",
+    "tests/test_cuda_tooling.py": "ba80273c0966fa5922d0904f32ae3874f2259d1e47bc675dbf36133ea04b947a",
+    "tests/test_cuda_verification.py": "f47cc33d8b328f496f5a14c84482d911500f35abd00af00d14104a405987b735",
+    "tests/test_device_smoke.py": "7773118a205d9033b4bae4b0c08942481d173d33ef04ab1b5ff042310e07160c",
     "tests/test_domain_relationships.py": "95f7ef9953e4878711b7c76f740471578efc7b294016897fbbadad76ba3fd156",
     "tests/test_engine.py": "c7c0f3dd4058338788584e036dad0af68d3cf7884da3914962b5a2c3daff52b8",
     "tests/test_example_inventory.py": "04fdc3a5ddae56e610844b508adc55391f18dde39f2eb0178866caaa5883f338",
@@ -169,7 +169,7 @@
     "tests/test_neutral_nesting_verification.py": "2f3ba5e20d4fb5dbd0a78fa610acedd170c339ba93b96cc06884ac7448446a54",
     "tests/test_numerical_tool_quality_completion.py": "44e304621e256dc2cfd7a6681e84095b9e88bb80b751da777d4e264ab2a252a1",
     "tests/test_optimization.py": "c6b79f44a0b477584316355d6953f6de9ac967c5e456ba78a65202e1157a5a23",
-    "tests/test_orchestration_quality_completion.py": "4b1e07a2f8e559946a5e6894e4d9e76b715dc8ea1a2b96c4ace1b6c2519b06e1",
+    "tests/test_orchestration_quality_completion.py": "57d67e7e900474c64ebfe376f3886cd59fe7a060341d35b6a03baed82ac4c0a6",
     "tests/test_outflow.py": "6be72f0ab31ce4eacb61eea778126d63a2cc13790ee1c8c8f8a8add0c3355e70",
     "tests/test_plugin_quality_completion.py": "2c25311ca0be14f52a260c2441e198b88b2ce288e0ddb3961e92cb51242c32b9",
     "tests/test_plugin_quality_edges.py": "49f4c4b808460e40ffd2fb39e8c4fedee363897ff54ca547954d53f0e233035f",
@@ -190,9 +190,9 @@
     "tests/test_runtime_transfer_failures.py": "55948384f8448fcb307f20e5af389f6b0ce089f2a8a86ba69a54671688af1317",
     "tests/test_stationary_failure_reporting.py": "d54a48b73e05656811238d1f2ef544cb3ff06f710b035d01b292115529e51d19",
     "tests/test_strict_coverage.py": "492412ca7a098036fadfb6d12af546f813ba8bf2ecd8acfdae2f0185d2ebd28b",
-    "tests/test_tooling_entrypoints.py": "6eb4efc89a22f8024fe19e12ceb3fbd1157a010b561e8815590c21622db38094",
+    "tests/test_tooling_entrypoints.py": "938d079f4c4ddc483e83e9afbbf9362a3542ee798cdccd79eaf2fba5d6b2a4d8",
     "tests/test_tooling_execution.py": "563128113e1deb0e4336e5e65c3a0d0ecca6795c972827d3013f2b4b653d6260",
-    "tests/test_tooling_failure_paths.py": "8bd9ccec90cc3dc7c620cf61436008671838712faaba3a11142258d4259bee8a",
+    "tests/test_tooling_failure_paths.py": "a2b161ede6127f79392f298c85d8aa196c05dbf09b9af0512b5b4d67231abf4e",
     "tests/test_tooling_media.py": "5f6207f112655b255e3fb7db8a88e434bcd32404b8a40844611f20ef3c096e18",
     "tests/test_tooling_recordings.py": "10be591c568a908fa1dced1f9607d693b6d48a1698193fcded551ac796ff875f",
     "tests/test_walls.py": "ccf7782a586b339b460e11d02dd0b0e61afc94a60b43d3d784d3679fd4077b78",
@@ -204,7 +204,7 @@
   "python_exit": 0,
   "environment": {
     "python": "3.9.25",
-    "platform": "Linux-6.1.189+-x86_64-with-glibc2.36"
+    "platform": "Linux-6.1.189+-x86_64-with-glibc2.41"
   },
   "tests": {
     "collected": [
@@ -1779,6 +1779,8 @@
       "tests/test_tooling_entrypoints.py::test_development_gh_component_validates_environment_before_running[numpy]",
       "tests/test_tooling_entrypoints.py::test_development_gh_component_validates_environment_before_running[python]",
       "tests/test_tooling_entrypoints.py::test_development_gh_component_validates_environment_before_running[missing]",
+      "tests/test_tooling_entrypoints.py::test_rhino_requirements_header_matches_project_pins[plugin/Bootstrap.py]",
+      "tests/test_tooling_entrypoints.py::test_rhino_requirements_header_matches_project_pins[scripts/grasshopper_component.py]",
       "tests/test_tooling_entrypoints.py::test_runtime_verifier_serializes_all_device_rows_and_rejects_failed_fixture_observations[none]",
       "tests/test_tooling_entrypoints.py::test_runtime_verifier_serializes_all_device_rows_and_rejects_failed_fixture_observations[diagnostic]",
       "tests/test_tooling_entrypoints.py::test_runtime_verifier_serializes_all_device_rows_and_rejects_failed_fixture_observations[parity]",
@@ -3305,6 +3307,8 @@
       "tests/test_tooling_entrypoints.py::test_rhino_lettuce_script_checks_dependencies_and_writes_failed_diagnostics[numpy]",
       "tests/test_tooling_entrypoints.py::test_rhino_lettuce_script_checks_dependencies_and_writes_failed_diagnostics[override]",
       "tests/test_tooling_entrypoints.py::test_rhino_lettuce_script_checks_dependencies_and_writes_failed_diagnostics[pass]",
+      "tests/test_tooling_entrypoints.py::test_rhino_requirements_header_matches_project_pins[plugin/Bootstrap.py]",
+      "tests/test_tooling_entrypoints.py::test_rhino_requirements_header_matches_project_pins[scripts/grasshopper_component.py]",
       "tests/test_tooling_entrypoints.py::test_runtime_verifier_serializes_all_device_rows_and_rejects_failed_fixture_observations[diagnostic]",
       "tests/test_tooling_entrypoints.py::test_runtime_verifier_serializes_all_device_rows_and_rejects_failed_fixture_observations[none]",
       "tests/test_tooling_entrypoints.py::test_runtime_verifier_serializes_all_device_rows_and_rejects_failed_fixture_observations[parity]",
@@ -24817,6 +24821,34 @@
         ]
       ],
       "tests/test_tooling_entrypoints.py::test_development_gh_component_validates_environment_before_running[missing]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_tooling_entrypoints.py::test_rhino_requirements_header_matches_project_pins[plugin/Bootstrap.py]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_tooling_entrypoints.py::test_rhino_requirements_header_matches_project_pins[scripts/grasshopper_component.py]": [
         [
           "setup",
           "passed"
@@ -69831,6 +69863,8 @@
         "tests/test_tooling_entrypoints.py::test_rhino_lettuce_script_checks_dependencies_and_writes_failed_diagnostics[numpy]",
         "tests/test_tooling_entrypoints.py::test_rhino_lettuce_script_checks_dependencies_and_writes_failed_diagnostics[override]",
         "tests/test_tooling_entrypoints.py::test_rhino_lettuce_script_checks_dependencies_and_writes_failed_diagnostics[pass]",
+        "tests/test_tooling_entrypoints.py::test_rhino_requirements_header_matches_project_pins[plugin/Bootstrap.py]",
+        "tests/test_tooling_entrypoints.py::test_rhino_requirements_header_matches_project_pins[scripts/grasshopper_component.py]",
         "tests/test_tooling_entrypoints.py::test_runtime_verifier_serializes_all_device_rows_and_rejects_failed_fixture_observations[diagnostic]",
         "tests/test_tooling_entrypoints.py::test_runtime_verifier_serializes_all_device_rows_and_rejects_failed_fixture_observations[none]",
         "tests/test_tooling_entrypoints.py::test_runtime_verifier_serializes_all_device_rows_and_rejects_failed_fixture_observations[parity]",

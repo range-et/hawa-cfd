@@ -49,6 +49,7 @@ def test_rotating_sphere_cpu_reports_finite_opposing_torque():
     assert report['analytic_unbounded'] == pytest.approx(-8*np.pi*.2*.1)
 
 
+@pytest.mark.production_python
 def test_parity_worker_captures_all_checkpoints_from_real_cpu_solver(tmp_path, monkeypatch):
     import parity_worker
     import hawa.cases
@@ -61,6 +62,7 @@ def test_parity_worker_captures_all_checkpoints_from_real_cpu_solver(tmp_path, m
         assert not np.array_equal(data['0_f'], data['50_f'])
 
 
+@pytest.mark.production_python
 def test_parity_orchestrator_uses_separate_interpreters_and_real_comparison(tmp_path, monkeypatch):
     import compare_engines
     commands = []
