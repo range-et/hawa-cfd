@@ -23,6 +23,22 @@ its signature; the tool does not invent a behavioral contract.
   exercises linked production sources with Rhino/transport doubles. C# evidence
   names the suite, not an individual case. Shared source lines cannot distinguish
   two methods and do not earn either method automatic credit.
+- The Grasshopper host harness in the same executable links whole component
+  source files (`Runtime.cs`, `FieldTools.cs`, `ResultsComponents.cs`,
+  `SolveComponents.cs`, `AnimationComponents.cs`) against Grasshopper and
+  RhinoCommon doubles (`GrasshopperDouble.cs`, `HostDouble.cs`). Its tests
+  (`ComponentContracts.cs`) drive `SolveInstance`, archive reads and document
+  context changes and assert outputs, labels, runtime messages and bridge
+  requests. The strict headless check covers every linked file, so a file is
+  linked only when all of its functions and lines are tested. Unlinked
+  component types that linked code names get empty test stand-ins
+  (`ComponentStandIns.cs`) and stay unmeasured. To measure another
+  component, link its whole file or move it into a file the harness links. The
+  doubles do not prove GH solution ordering, scheduling or canvas drawing.
+- The inventory credits a lambda only from a line that holds its own body
+  tokens. In linked files, put each lambda body on its own line. Token
+  fingerprints ignore whitespace, so this layout does not change a function's
+  fingerprint.
 - C# host-only code is **unmeasured**, not passed. Abstract declarations and
   compiler-generated auto-accessors have no explicit source body and are marked
   `declaration`. Implicit compiler-generated methods are outside the inventory.

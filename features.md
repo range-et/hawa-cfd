@@ -93,6 +93,26 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 11, 2026 — Grasshopper host harness and GH status truth (#74, partial)
+
+Built, not released. StateContracts now links five GH source files (`Runtime.cs`,
+the new `FieldTools.cs`, `ResultsComponents.cs`, `SolveComponents.cs`,
+`AnimationComponents.cs`) against GH/Rhino doubles. Every function and line in
+those files is measured with asserting tests ([policy](docs/function-testing.md)).
+The GH side of #74:
+- A component whose required input disappears replaces its old status with
+  "waiting for input". A failure shows "failed".
+- After a document switch the label reads "cancelled: document inactive", with
+  the reason as a remark.
+- Record names the inputs that changed when it restarts. After a document
+  switch it says how to resume.
+- Solve shows "queued: waiting for the device" before its session exists.
+- Plane Field, Isosurface, Flow Display and Surface Field warn when a wired
+  child delivered no frame or a frame is wired twice.
+
+Not done: CaseHub's queued state and the native panel (they must change
+together) and a live Rhino check of these transitions.
+
 ### November 11, 2026 — batched CUDA and MPS round on merged main `71625aa`
 
 One CUDA host (Windows 11, RTX 5070 Ti, driver 621.14, torch 2.8.0+cu128) and one

@@ -59,8 +59,10 @@ public sealed class SolveComponent : HawaComponent
             string phase=ready["state"]!.GetValue<string>();
             if(phase=="failed")throw new Exception(ready["error"]!.GetValue<string>());
             if(phase!="completed"){
-                Message="preparing";da.SetData(1,"preparing");string expected=creation!;
-                HawaPollScheduler.Request(this,()=>creation==expected);return;
+                Message=Hawa.Shared.LifecycleText.Pending(phase);da.SetData(1,Message);string expected=creation!;
+                HawaPollScheduler.Request(this,()=>
+                    creation==expected
+                );return;
             }
             session=ready["result"]!["status"]!["session"]!.GetValue<string>();
         }
@@ -72,7 +74,9 @@ public sealed class SolveComponent : HawaComponent
         var state = status["state"]!.GetValue<string>(); Message = state + " / " + status["quality"]?["status"]?.GetValue<string>();
         var solution = new JsonObject { ["kind"] = "Solution", ["label"] = $"Hawa {state}: {status["steps"]} steps", ["session"] = session, ["revision"]=status["steps"]!.DeepClone(), ["case"] = spec.DeepClone() };
         da.SetData(0, new HawaGoo(solution)); da.SetData(1, state); da.SetData(2, status["steps"]!.GetValue<int>()); var backend = status["backend"]!["selected"]!.GetValue<string>();
-        var grid = string.Join(" × ", status["resolution"]!.AsArray().Select(v => v!.ToString()));
+        var grid = string.Join(" × ", status["resolution"]!.AsArray().Select(v =>
+            v!.ToString()
+        ));
         var time = status["physical_time"]!.GetValue<double>();
         var mass = status["relative_mass_change"]!.GetValue<double>();
         da.SetData(3, $"Backend: {backend.ToUpperInvariant()}\nGrid: {grid}\nIterations: {status["steps"]} / {status["target"]}\nState: {state}\nSimulation time: {time:g5}\nRelative mass change: {mass:g3}\nMean samples: {status["averaging_samples"]}\nQuality: {status["quality"]?.ToJsonString()}");
@@ -80,7 +84,9 @@ public sealed class SolveComponent : HawaComponent
         if ((state == "running" || state == "pausing" || state == "resetting") && !scheduled)
         {
             scheduled = true;
-            string expectedSession=session;HawaPollScheduler.Request(this,()=>session==expectedSession,200);
+            string expectedSession=session;HawaPollScheduler.Request(this,()=>
+                session==expectedSession
+            ,200);
         }
     }
     protected override void InputsMissing(){CloseSession();}
