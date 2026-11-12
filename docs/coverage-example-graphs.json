@@ -893,14 +893,14 @@
       "outputs": [
         {
           "name": "Lines",
-          "description": "3D streamlines",
+          "description": "3D streamlines; seeds with fewer than two traced points are skipped",
           "access": "list",
           "optional": false,
           "parameter_type": "Param_Curve"
         },
         {
           "name": "Tubes",
-          "description": "Colored stream tubes",
+          "description": "Colored stream tubes; black where the colour field is not simulated",
           "access": "item",
           "optional": false,
           "parameter_type": "Param_Mesh"
@@ -1719,7 +1719,7 @@
       "outputs": [
         {
           "name": "Mesh",
-          "description": "Colored fluid slice",
+          "description": "Colored slice tiling the rectangle. Black = not simulated: solid, invalid (no defined colour) or no-data pieces.",
           "access": "item",
           "optional": false,
           "parameter_type": "Param_Mesh"
@@ -2413,7 +2413,7 @@
       "outputs": [
         {
           "name": "Mesh",
-          "description": "Colored slice mesh. Stationary curved walls clip cut cells; boundary colours use zero wall speed or the adjacent fluid pressure/density. Values output remains lattice samples.",
+          "description": "Colored slice mesh tiling every lattice cell. Black = not simulated: solid or no-data nodes as the solver represents them, with voxel walls halfway between nodes and stationary curved walls at their link crossings (zero wall speed, adjacent fluid pressure/density). Near-wall colours depend on the wall mode and resolution. Values output remains lattice samples.",
           "access": "item",
           "optional": false,
           "parameter_type": "Param_Mesh"
@@ -2635,7 +2635,7 @@
       "outputs": [
         {
           "name": "Colored surface",
-          "description": "Approximate offset surface field",
+          "description": "Approximate offset surface field; black = not simulated",
           "access": "item",
           "optional": false,
           "parameter_type": "Param_Mesh"
@@ -2725,7 +2725,7 @@
       "outputs": [
         {
           "name": "Lines",
-          "description": "Velocity segments",
+          "description": "Velocity segments, index-aligned with Points; null where the sample is not simulated",
           "access": "list",
           "optional": false,
           "parameter_type": "Param_Line"
@@ -4022,7 +4022,7 @@
     {
       "file": "examples/grasshopper/11-block-3d-visualization.gh",
       "archive_errors": 0,
-      "sha256": "9685083ca68b1c8f48d7f60118ad81b0e01b1eef272695786e511d203012cdc1",
+      "sha256": "70d79a6fc28b965aa7cbf78136c9cf88f9cfab69d7a9e389ec9bf72bdef91267",
       "nodes": [
         "BoundariesComponent",
         "CaseComponent",
@@ -4574,7 +4574,7 @@
     {
       "file": "examples/grasshopper/15-fixed-refinement.gh",
       "archive_errors": 0,
-      "sha256": "db0d8f91141abc581f037de0bea2538f28df4de91041860079ec5521fc076245",
+      "sha256": "1fe7a4613a7c2b80d0ef3bc6e6785ca95976c418ed2c82ef145cef7742b28bd2",
       "nodes": [
         "CaseComponent",
         "ColorMapComponent",
@@ -6937,7 +6937,7 @@
     {
       "file": "examples/grasshopper/32-translation-particle-recording.gh",
       "archive_errors": 0,
-      "sha256": "91b69ab64d3ca05f09733d8129bdb5274d1d1c27c3fb3afc0128ee6abf40d168",
+      "sha256": "356fe28d65671ece2ae6ae44fa6c6a7fcc9280b34eb42a5ea22356e589864314",
       "nodes": [
         "BodyLoadsComponent",
         "BodyPreviewComponent",
@@ -6946,7 +6946,6 @@
         "DomainPreviewComponent",
         "MotionCaseComponent",
         "MovingBodyComponent",
-        "ParticlesComponent",
         "PhysicsComponent",
         "PlaybackComponent",
         "RecordComponent",
@@ -7042,24 +7041,6 @@
           "from_port": 0,
           "to_type": "PlaybackComponent",
           "to_port": 1
-        },
-        {
-          "from_type": "RecordComponent",
-          "from_port": 0,
-          "to_type": "ParticlesComponent",
-          "to_port": 0
-        },
-        {
-          "from_type": "PlaybackComponent",
-          "from_port": 0,
-          "to_type": "ParticlesComponent",
-          "to_port": 1
-        },
-        {
-          "from_type": "Param_Point",
-          "from_port": 0,
-          "to_type": "ParticlesComponent",
-          "to_port": 2
         },
         {
           "from_type": "PlaybackComponent",

@@ -80,6 +80,7 @@ namespace Rhino.Geometry {
         public bool RefineGrid,SimplePlanes,JaggedSeams,DoublePrecision,Disposed;
         public void Dispose()=>Disposed=true;
     }
+    public readonly record struct Point2f(float X,float Y);
     public sealed class Mesh : IDisposable {
         public sealed class VertexList : List<Point3d> { public new int Add(Point3d point) { base.Add(point); return Count-1; } }
         public sealed class FaceList : List<MeshFace> {
@@ -104,7 +105,11 @@ namespace Rhino.Geometry {
         public static List<Mesh> Created=new();
         public static Func<Brep,MeshingParameters,Mesh[]> Factory=(_,_)=>Array.Empty<Mesh>();
         public Mesh(){Created.Add(this);Normals=new(this);}
-        public Mesh DuplicateMesh(){var m=new Mesh();m.Vertices.AddRange(Vertices);m.Faces.AddRange(Faces);m.VertexColors.AddRange(VertexColors);return m;}
+        public Mesh DuplicateMesh(){var m=new Mesh();m.Vertices.AddRange(Vertices);m.Faces.AddRange(Faces);m.VertexColors.AddRange(VertexColors);m.TextureCoordinates.AddRange(TextureCoordinates);m.SurfaceParameters.AddRange(SurfaceParameters);return m;}
+        public List<Point2f> TextureCoordinates { get; } = new();
+        // Stands in for ON_Mesh surface parameters and curvatures, which RhinoCommon only clears.
+        public List<Point2f> SurfaceParameters { get; } = new();
+        public void ClearSurfaceData()=>SurfaceParameters.Clear();
         public VertexList Vertices { get; } = new();
         public List<System.Drawing.Color> VertexColors { get; } = new();
         public FaceList Faces { get; } = new();
