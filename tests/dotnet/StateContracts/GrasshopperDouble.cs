@@ -107,6 +107,7 @@ namespace Grasshopper.Kernel {
         public int AddMeshParameter(string n, string k, string d, GH_ParamAccess a) => Add(n, k, d, a, "Mesh", null);
         public int AddLineParameter(string n, string k, string d, GH_ParamAccess a) => Add(n, k, d, a, "Line", null);
         public int AddCurveParameter(string n, string k, string d, GH_ParamAccess a) => Add(n, k, d, a, "Curve", null);
+        public int AddRectangleParameter(string n, string k, string d, GH_ParamAccess a) => Add(n, k, d, a, "Rectangle", null);
     }
     public sealed class GH_InputParamManager(GH_Component owner) : GH_ParamManager(owner.Params.Input);
     public sealed class GH_OutputParamManager(GH_Component owner) : GH_ParamManager(owner.Params.Output);

@@ -11,6 +11,7 @@
     <Compile Include="../../../plugin/Hawa.Grasshopper/PollScheduler.cs" Link="Production/PollScheduler.cs" />
     <Compile Include="../../../plugin/Hawa.Grasshopper/Runtime.cs" Link="Production/Runtime.cs" />
     <Compile Include="../../../plugin/Hawa.Grasshopper/FieldTools.cs" Link="Production/FieldTools.cs" />
+    <Compile Include="../../../plugin/Hawa.Grasshopper/FieldViewComponents.cs" Link="Production/FieldViewComponents.cs" />
     <Compile Include="../../../plugin/Hawa.Grasshopper/ResultsComponents.cs" Link="Production/ResultsComponents.cs" />
     <Compile Include="../../../plugin/Hawa.Grasshopper/SolveComponents.cs" Link="Production/SolveComponents.cs" />
     <Compile Include="../../../plugin/Hawa.Grasshopper/AnimationComponents.cs" Link="Production/AnimationComponents.cs" />

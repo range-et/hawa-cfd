@@ -74,8 +74,8 @@ static class ComponentContracts
                 assert(component.Params.Input.SequenceEqual(before) && component.Params.Output.SequenceEqual(outBefore) && component.Params.ParameterChanges == (inRange ? 1 : 0), "Parameters reordered, lost or not refreshed");
             }
             var failing = new GeometryComponent { BaseReadResult = false }; assert(!failing.Read(new GhArchive(2, 2)) && failing.Params.Input.Count == 3, "Base read failure hidden or params lost");
-            var plane = new PlaneFieldComponent(); var probe = new ProbeComponent();
-            assert(plane.Read(new GhArchive(1, 1)) && plane.Params.Input[0].Access == GH_ParamAccess.list && probe.Read(new GhArchive(1, 1)) && probe.Params.Input[0].Access == GH_ParamAccess.item, "Composed-frame port access not restored");
+            var plane = new PlaneFieldComponent(); var probe = new ProbeComponent(); plane.Params.Input[0].Access = GH_ParamAccess.item;
+            assert(plane.Read(new GhArchive(6, 3)) && plane.Params.Input[0].Access == GH_ParamAccess.list && probe.Read(new GhArchive(1, 1)) && probe.Params.Input[0].Access == GH_ParamAccess.item, "Composed-frame port access not restored");
             var record = new RecordComponent(); record.Params.Input[0].Optional = false;
             assert(record.Read(new GhArchive(7, 3)) && record.Params.Input[0].Optional, "Record case input not optional after reading");
         });
@@ -125,21 +125,21 @@ static class ComponentContracts
         test("composed views name missing children and duplicate frames (#74)", () => {
             Reset(); using var bridge = new GhBridge();
             var f1 = Goo("""{"frame":{"id":1},"case":{"spacing":1}}"""); var f3 = Goo("""{"frame":{"id":3},"case":{"spacing":1}}""");
-            var plane = new PlaneFieldComponent(); plane.Params.Input[0].Access = GH_ParamAccess.list;
+            var iso = new IsosurfaceComponent(); iso.Params.Input[0].Access = GH_ParamAccess.list;
             GH_TestParam Source(string nick, bool owned, bool data) { var p = new GH_TestParam("Frame", "F", "", GH_ParamAccess.item, "Generic", null); if (owned) p.Owner = new GhNamed(nick); else p.NickName = nick; if (data) p.VolatileData.Items.Add(f1); return p; }
-            foreach (var s in new[] { Source("Parent", true, true), Source("Child A", true, false), Source("Child B", true, false), Source("loose", false, false) }) plane.Params.Input[0].Sources.Add(s);
-            var da = Solve(plane, new List<object?> { f1, new GH_ObjectWrapper(Goo(f1.Value)), f3, null }, D);
-            var warnings = plane.RuntimeMessages.Where(m => m.Level == GH_RuntimeMessageLevel.Warning).Select(m => m.Text).ToArray();
+            foreach (var s in new[] { Source("Parent", true, true), Source("Child A", true, false), Source("Child B", true, false), Source("loose", false, false) }) iso.Params.Input[0].Sources.Add(s);
+            var da = Solve(iso, new List<object?> { f1, new GH_ObjectWrapper(Goo(f1.Value)), f3, null }, D);
+            var warnings = iso.RuntimeMessages.Where(m => m.Level == GH_RuntimeMessageLevel.Warning).Select(m => m.Text).ToArray();
             assert(warnings.SequenceEqual(new[] { "3 of 4 wired inputs delivered no frame (cancelled, failed or still running upstream): Child A, Child B, loose", "1 duplicate frame is used once" }), "Composed-view warnings wrong: " + string.Join(" | ", warnings));
-            assert(Json(da.Out<JsonObject>(0)["frames"]) == """[{"id":1},{"id":1},{"id":3}]""" && plane.Errors.Count == 0, "Composed frames changed");
-            plane.Params.Input[0].Sources.Clear(); foreach (var s in new[] { Source("Child A", true, false), Source("Child B", true, false) }) plane.Params.Input[0].Sources.Add(s);
+            assert(Json(da.Out<JsonObject>(0)["frames"]) == """[{"id":1},{"id":1},{"id":3}]""" && iso.Errors.Count == 0, "Composed frames changed");
+            var plane = new PlaneFieldComponent(); foreach (var s in new[] { Source("Child A", true, false), Source("Child B", true, false) }) plane.Params.Input[0].Sources.Add(s);
             da = Solve(plane, new List<object?>(), D);
             assert(plane.Message == "waiting for frames" && da.Outputs.Count == 0 && plane.RuntimeMessages.SequenceEqual(new[] { (GH_RuntimeMessageLevel.Warning, "2 of 2 wired inputs delivered no frame (cancelled, failed or still running upstream): Child A, Child B") }), "Children unnamed when none delivered a frame");
             var probe = new ProbeComponent(); probe.Params.Input[0].Sources.Add(Source("Child A", true, false)); Solve(probe, new object?[] { null });
             assert(probe.RuntimeMessages.Count == 0, "A non-composing component reported empty sources");
-            plane.Params.Input[0].Sources.Clear(); Solve(plane, new List<object?> { f1, f3 }, D);
-            assert(plane.RuntimeMessages.Count == 0, "Complete, distinct frames warned");
-            foreach (var view in new HawaComponent[] { new IsosurfaceComponent(), new FlowDisplayComponent(), new SurfaceFieldComponent() }) {
+            iso.Params.Input[0].Sources.Clear(); Solve(iso, new List<object?> { f1, f3 }, D);
+            assert(iso.RuntimeMessages.Count == 0, "Complete, distinct frames warned");
+            foreach (var view in new HawaComponent[] { new PlaneFieldComponent(), new FlowDisplayComponent(), new SurfaceFieldComponent() }) {
                 view.Params.Input[0].Access = GH_ParamAccess.list; view.Params.Input[0].Sources.Add(Source("Cancelled", true, false)); Solve(view, new List<object?> { f1, f1 }, D);
                 assert(view.RuntimeMessages.Count(m => m.Level == GH_RuntimeMessageLevel.Warning) == 2, view.GetType().Name + " not reported");
             }
@@ -321,9 +321,10 @@ static class ComponentContracts
             var particles = new ParticlesComponent { Document = doc }; var frame = Goo("""{"case":{"origin":[1,0,0],"spacing":2}}"""); reply = null;
             assert(Solve(particles, "/abs/manifest.json", frame, new List<Point3d> { new(3, 2, 0) }, 3).Outputs.Count == 0, "Pending particles published");
             assert(Json(Request()) == """{"op":"recording","action":"particles","manifest":"/abs/manifest.json","last":3,"seeds":[[1,1,0]]}""", "Particle request wrong");
-            reply = (JsonObject)JsonNode.Parse("""{"paths":[[],[[0,0,0]],[[0,0,0],[1,0,0]]]}""")!; da = Solve(particles, "/abs/manifest.json", frame, new List<Point3d> { new(3, 2, 0) }, 3);
-            assert(da.List(0).Cast<PolylineCurve>().Single().Points.SequenceEqual(new[] { new Point3d(1, 0, 0), new Point3d(3, 0, 0) }) && da.List(1).SequenceEqual(new object?[] { new Point3d(1, 0, 0), new Point3d(3, 0, 0) }), "Trails or final positions wrong");
-            assert(playback.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077132") && particles.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077133") && Names(playback) == "Manifest,Index|Frame,Time" && Names(particles) == "Manifest,Frame,Seeds,Last frame|Trails,Particles", "Layout changed");
+            reply = (JsonObject)JsonNode.Parse("""{"paths":[[[0,0,0]],[[0,0,0]],[[0,0,0],[1,0,0]]],"alive":[false,true,false]}""")!; da = Solve(particles, "/abs/manifest.json", frame, new List<Point3d> { new(3, 2, 0), new(1, 0, 0), new(1, 0, 0) }, 3);
+            assert(da.List(0).Cast<PolylineCurve>().Single().Points.SequenceEqual(new[] { new Point3d(1, 0, 0), new Point3d(3, 0, 0) }), "Trail of a particle that left the flow lost, or a one-point trail drawn");
+            assert(da.List(1).SequenceEqual(new object?[] { new Point3d(1, 0, 0) }), "Final positions must come only from particles still alive (#82)");
+            assert(playback.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077132") && particles.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077133") && Names(playback) == "Manifest,Index|Frame,Time" && Names(particles) == "Manifest,Frame,Seeds,Last frame|Trails,Particles" && particles.Params.Output[1] is GH_TestParam { Description: "Final positions of particles still in the flow" }, "Layout changed");
             Reset();
         });
 
@@ -336,6 +337,71 @@ static class ComponentContracts
             assert(LifecycleText.Restart(before, after) == "restarted: directory, case changed" && LifecycleText.Restart(before, added) == "restarted: device changed" && LifecycleText.Restart(before, removed) == "restarted: steps changed", "Restart reason lost or misnamed");
             assert(LifecycleText.Missing(new List<(string, bool)> { ("Parent", false), ("Child", false) }) == null && LifecycleText.Missing(new List<(string, bool)>()) == null, "Complete inputs reported missing");
             assert(LifecycleText.Duplicates(new[] { "a", "b" }) == null && LifecycleText.Duplicates(new[] { "a", "a", "a", "b", "b" }) == "3 duplicate frames are used once", "Duplicates not counted");
+        });
+
+        test("plane field draws fluid in colour and solid, invalid and no-data pieces in black (#81)", () => {
+            Reset(); using var bridge = new GhBridge(); JsonObject? reply = null;
+            bridge.Respond = r => r["op"]!.GetValue<string>() switch { "evaluate_submit" => new() { ["job"] = "f" + bridge.Ops("evaluate_submit").Count() }, "evaluate_poll" => reply == null ? new() { ["state"] = "running" } : new() { ["state"] = "completed", ["result"] = reply.DeepClone() }, _ => null };
+            var plane = new PlaneFieldComponent { Document = doc }; var frame = Goo("""{"frame":{"id":1},"case":{"origin":[10,0,0],"spacing":2}}""");
+            var map = Goo("""{"kind":"ColorMap","palette":"blue-green","min":0,"max":2,"units":"m/s"}"""); var rect = new Rectangle3d(new(10, 0, 0), new(2, 0, 0), new(0, 2, 0));
+            assert(Solve(plane, new List<object?> { frame }, rect, 2, D, map, new List<double> { .5 }).Outputs.Count == 0 && plane.Message == "running", "Pending plane published");
+            assert(Json(bridge.Ops("evaluate_submit").Single()["request"]) == """{"op":"field","action":"plane","frame":{"id":1},"frames":null,"field":"speed","points":[[0,0,0],[0,1,0],[1,0,0],[1,1,0]],"shape":[2,2],"levels":[0.5]}""", "Plane request wrong");
+            reply = (JsonObject)JsonNode.Parse("""{"values":[0,1,2,3],"valid":[true,true,true,false],"mesh_vertices":[[0,0,0],[1,0,0],[1,1,0],[0,1,0],[2,0,0]],"mesh_values":[0,2,1,0,0],"mesh_faces":[[0,1,2]],"solid_faces":[[0,2,3]],"invalid_faces":[[3,4,0]],"no_data_faces":[[1,4,2]],"lines":[[[0,0,0],[1,0,0]]],"collection":{"domains":1}}""")!;
+            var da = Solve(plane, new List<object?> { frame }, rect, 2, D, map, new List<double> { .5 }); var mesh = da.Out<Mesh>(0);
+            Point3d W(double x, double y) => new(10 + 2 * x, 2 * y, 0);
+            assert(mesh.Vertices.SequenceEqual(new[] { W(0, 0), W(1, 0), W(1, 1), W(0, 1), W(2, 0), W(0, 0), W(1, 1), W(0, 1), W(2, 0), W(1, 0) }), "Black pieces must use their own vertex copies in world space");
+            assert(mesh.Faces.SequenceEqual(new[] { new MeshFace(0, 1, 2), new MeshFace(5, 6, 7), new MeshFace(7, 8, 5), new MeshFace(9, 8, 6) }), "A solid, invalid or no-data piece was dropped or not remapped");
+            int[] Argb(params Color[] c) => c.Select(x => x.ToArgb()).ToArray();
+            assert(mesh.VertexColors.Select(c => c.ToArgb()).SequenceEqual(Argb(Color.FromArgb(8, 48, 107), Color.FromArgb(150, 235, 140), Color.FromArgb(0, 160, 180), Color.FromArgb(8, 48, 107), Color.FromArgb(8, 48, 107), Color.Black, Color.Black, Color.Black, Color.Black, Color.Black)), "Fluid colours or the not-simulated black wrong");
+            assert(da.List(2).SequenceEqual(new object?[] { 0d, 1d, 2d, 3d }) && da.List(1).SequenceEqual(new object?[] { new Line(W(0, 0), W(1, 0)) }) && plane.Message == "domains: 1" && mesh.Normals.Calls == 1, "Plane values, contours or label wrong");
+            Solve(plane, new List<object?> { frame }, rect, 1, D, map, D); assert(plane.Errors.Single() == "Resolution 2..100", "Resolution 1 accepted");
+            assert(plane.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077123") && Names(plane) == "Frames,Rectangle,Resolution,Field,Colors,Contour levels|Mesh,Contours,Values" && plane.Params.Input[5].Optional && ((GH_TestParam)plane.Params.Output[0]).Description.Contains("Black = not simulated"), "Plane layout changed");
+            Reset();
+        });
+
+        test("flow display skips undrawable seeds and blacks unsimulated colour samples (#82)", () => {
+            Reset(); using var bridge = new GhBridge(); JsonObject? reply = null;
+            bridge.Respond = r => r["op"]!.GetValue<string>() switch { "evaluate_submit" => new() { ["job"] = "t" + bridge.Ops("evaluate_submit").Count() }, "evaluate_poll" => reply == null ? new() { ["state"] = "running" } : new() { ["state"] = "completed", ["result"] = reply.DeepClone() }, _ => null };
+            var flow = new FlowDisplayComponent { Document = doc }; var frame = Goo("""{"frame":{"id":1},"case":{"spacing":1}}"""); var map = Goo("""{"palette":"blue-green","min":0,"max":2}""");
+            var seeds = new List<Point3d> { new(0, 0, 0), new(5, 5, 5), new(1, 1, 1) };
+            assert(Solve(flow, new List<object?> { frame }, seeds, map, D, D, D, D).Outputs.Count == 0, "Pending trace published");
+            assert(Json(bridge.Ops("evaluate_submit").Single()["request"]) == """{"op":"field","action":"trace","frame":{"id":1},"frames":null,"field":"speed","seeds":[[0,0,0],[5,5,5],[1,1,1]],"steps":150,"direction":1}""", "Trace request wrong");
+            reply = (JsonObject)JsonNode.Parse("""{"paths":[[[0,0,0],[1,0,0],[2,0,0]],[],[[1,1,1]]],"values":[[0,1,0],[],[0]],"valid":[[true,true,false],[],[true]],"reasons":["completed","invalid_seed","stalled"]}""")!;
+            var da = Solve(flow, new List<object?> { frame }, seeds, map, D, D, D, D); var tubes = da.Out<Mesh>(1);
+            assert(da.List(0).Cast<PolylineCurve>().Single().Points.SequenceEqual(new[] { new Point3d(0, 0, 0), new Point3d(1, 0, 0), new Point3d(2, 0, 0) }), "Seeds with fewer than two points drawn, or a path shifted");
+            assert(tubes.Vertices.Count == 18 && tubes.Faces.Count == 12 && tubes.Faces[0] == new MeshFace(0, 1, 7, 6) && tubes.Normals.Calls == 1, "Tube rings or faces wrong");
+            var centres = new[] { new Point3d(0, 0, 0), new Point3d(1, 0, 0), new Point3d(2, 0, 0) };
+            assert(Enumerable.Range(0, 18).All(i => Math.Abs(tubes.Vertices[i].DistanceTo(centres[i / 6]) - .03) < 1e-12 && Math.Abs(tubes.Vertices[i].X - centres[i / 6].X) < 1e-12), "Tube ring not a radius-0.03 circle around its path point");
+            var ring = tubes.VertexColors.Select(c => c.ToArgb()).Where((_, i) => i % 6 == 0).ToArray();
+            assert(ring.SequenceEqual(new[] { Color.FromArgb(8, 48, 107).ToArgb(), Color.FromArgb(0, 160, 180).ToArgb(), Color.Black.ToArgb() }) && tubes.VertexColors.Count == 18, "Unsimulated colour sample not black");
+            da = Solve(flow, new List<object?> { frame }, seeds, map, "q", 40, 0.0, true);
+            assert(Json(bridge.Ops("evaluate_submit").Last()["request"]!["direction"]) == "-1" && bridge.Ops("evaluate_submit").Last()["request"]!["field"]!.GetValue<string>() == "q" && da.List(0).Count == 1 && da.Out<Mesh>(1).Vertices.Count == 0, "Zero radius or backward trace wrong");
+            Solve(flow, new List<object?> { frame }, seeds, map, D, D, -1.0, D); assert(flow.Errors.Single() == "Radius must be nonnegative", "Negative radius accepted");
+            assert(flow.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077129") && Names(flow) == "Frames,Seeds,Colors,Field,Steps,Radius,Backward|Lines,Tubes", "Flow layout changed");
+            Reset();
+        });
+
+        test("surface field keeps every face and blacks faces with an invalid sample (#81)", () => {
+            Reset(); using var bridge = new GhBridge(); JsonObject? reply = null;
+            bridge.Respond = r => r["op"]!.GetValue<string>() switch { "evaluate_submit" => new() { ["job"] = "u" + bridge.Ops("evaluate_submit").Count() }, "evaluate_poll" => reply == null ? new() { ["state"] = "running" } : new() { ["state"] = "completed", ["result"] = reply.DeepClone() }, _ => null };
+            var surface = new SurfaceFieldComponent { Document = doc }; var frame = Goo("""{"frame":{"id":1},"case":{"spacing":1}}"""); var map = Goo("""{"palette":"blue-green","min":0,"max":2}""");
+            var input = new Mesh(); input.Vertices.AddRange(new Point3d[] { new(0, 0, 0), new(1, 0, 0), new(1, 1, 0), new(0, 1, 0), new(2, 0, 0), new(2, 1, 0) });
+            input.Faces.AddFace(0, 1, 2, 3); input.Faces.AddFace(1, 4, 5); input.Faces.AddFace(1, 5, 2);
+            assert(Solve(surface, new List<object?> { frame }, input, D, D, map).Outputs.Count == 0, "Pending surface published");
+            assert(Json(bridge.Ops("evaluate_submit").Single()["request"]!["points"]) == "[[0,0,1],[1,0,1],[1,1,1],[0,1,1],[2,0,1],[2,1,1]]", "Samples not offset along outward normals");
+            reply = (JsonObject)JsonNode.Parse("""{"valid":[true,true,true,true,false,true],"values":[0,1,2,0,0,1]}""")!;
+            var da = Solve(surface, new List<object?> { frame }, input, D, D, map); var mesh = da.Out<Mesh>(0);
+            assert(mesh.Faces.SequenceEqual(new[] { new MeshFace(0, 1, 2, 3), new MeshFace(6, 4, 7), new MeshFace(1, 5, 2) }) && mesh.Vertices.Count == 8 && mesh.Vertices[6] == input.Vertices[1] && mesh.Vertices[7] == input.Vertices[5], "Faces dropped, or an invalid face shares coloured vertices");
+            assert(mesh.VertexColors.Select(c => c.ToArgb()).SequenceEqual(new[] { Color.FromArgb(8, 48, 107), Color.FromArgb(0, 160, 180), Color.FromArgb(150, 235, 140), Color.FromArgb(8, 48, 107), Color.Black, Color.FromArgb(0, 160, 180), Color.Black, Color.Black }.Select(c => c.ToArgb())), "Invalid samples coloured as values");
+            assert(da.List(1).SequenceEqual(new object?[] { true, true, true, true, false, true }) && da.List(2).SequenceEqual(new object?[] { 0d, 1d, 2d, 0d, 0d, 1d }) && surface.Message == "offset sample; 1 of 3 faces not simulated", "Validity, values or label wrong");
+            assert(input.Faces.Count == 3 && input.Vertices.Count == 6 && input.VertexColors.Count == 0, "Input mesh modified");
+            reply["valid"] = new JsonArray(false, true, true, true, true, true); da = Solve(surface, new List<object?> { frame }, input, "cp", D, map);
+            assert(da.Out<Mesh>(0).Faces[0] == new MeshFace(0, 6, 7, 8) && da.Out<Mesh>(0).Faces.Skip(1).SequenceEqual(input.Faces.Skip(1)) && surface.Message == "offset sample; 1 of 3 faces not simulated", "Invalid quad not blacked on its own vertices");
+            reply["valid"] = new JsonArray(true, true, true, true, true, true); da = Solve(surface, new List<object?> { frame }, input, "cp", 2.0, map);
+            assert(da.Out<Mesh>(0).Faces.SequenceEqual(input.Faces) && da.Out<Mesh>(0).Vertices.Count == 6 && surface.Message == "offset sample", "Valid surface changed");
+            Solve(surface, new List<object?> { frame }, input, D, -1.0, map); assert(surface.Errors.Single() == "Offset must be nonnegative", "Negative offset accepted");
+            assert(surface.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077130") && Names(surface) == "Frames,Surface,Field,Offset,Colors|Colored surface,Valid,Values" && surface.Description.Contains("Every face is kept"), "Surface layout changed");
+            Reset();
         });
 
         test("query views finish a pending capture, reuse results and report failures", () => {
