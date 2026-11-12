@@ -404,6 +404,13 @@ static class ComponentContracts
             assert(da.Out<Mesh>(0).Faces[0] == new MeshFace(0, 6, 7, 8) && da.Out<Mesh>(0).Faces.Skip(1).SequenceEqual(input.Faces.Skip(1)) && surface.Message == "offset sample; 1 of 3 faces not simulated", "Invalid quad not blacked on its own vertices");
             reply["valid"] = new JsonArray(true, true, true, true, true, true); da = Solve(surface, new List<object?> { frame }, input, "cp", 2.0, map);
             assert(da.Out<Mesh>(0).Faces.SequenceEqual(input.Faces) && da.Out<Mesh>(0).Vertices.Count == 6 && surface.Message == "offset sample", "Valid surface changed");
+            var textured = input.DuplicateMesh(); textured.TextureCoordinates.AddRange(Enumerable.Range(0, 6).Select(i => new Point2f(i, -i))); textured.SurfaceParameters.AddRange(textured.TextureCoordinates);
+            reply["valid"] = new JsonArray(true, true, true, true, false, true); var tm = Solve(surface, new List<object?> { frame }, textured, D, 3.0, map).Out<Mesh>(0);
+            assert(tm.Vertices.Count == 8 && tm.VertexColors.Count == 8 && tm.TextureCoordinates.Count == 8 && tm.Normals.Count == 8 && tm.SurfaceParameters.Count == 0, "A per-vertex array no longer matches the vertex count after copying vertices (#100)");
+            assert(tm.TextureCoordinates.Take(6).SequenceEqual(textured.TextureCoordinates) && tm.TextureCoordinates[6] == new Point2f(1, -1) && tm.TextureCoordinates[7] == new Point2f(5, -5), "Copied vertices lost their texture coordinates");
+            assert(textured.SurfaceParameters.Count == 6 && textured.TextureCoordinates.Count == 6, "Input surface data modified");
+            reply["valid"] = new JsonArray(true, true, true, true, true, true); tm = Solve(surface, new List<object?> { frame }, textured, D, 4.0, map).Out<Mesh>(0);
+            assert(tm.Vertices.Count == 6 && tm.TextureCoordinates.Count == 6 && tm.SurfaceParameters.Count == 6, "Surface data cleared although no vertex was copied");
             Solve(surface, new List<object?> { frame }, input, D, -1.0, map); assert(surface.Errors.Single() == "Offset must be nonnegative", "Negative offset accepted");
             assert(surface.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077130") && Names(surface) == "Frames,Surface,Field,Offset,Colors|Colored surface,Valid,Values" && surface.Description.Contains("Every face is kept"), "Surface layout changed");
             Reset();

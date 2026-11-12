@@ -101,7 +101,9 @@ public sealed class SurfaceFieldComponent:HawaQueryComponent {
         // Keep every face. A face with an invalid corner is black on its own vertex
         // copies; an invalid vertex is only ever used by such faces.
         var black=new Dictionary<int,int>();int marked=0;
-        int Black(int v){if(!valid[v])return v;if(!black.TryGetValue(v,out int copy)){copy=mesh.Vertices.Add(mesh.Vertices[v]);mesh.VertexColors.Add(Color.Black);black[v]=copy;}return copy;}
+        // A copied vertex extends every per-vertex array (#100): texture coordinates are copied;
+        // surface parameters and curvatures cannot be, so they are cleared before the first copy.
+        int Black(int v){if(!valid[v])return v;if(!black.TryGetValue(v,out int copy)){if(black.Count==0)mesh.ClearSurfaceData();copy=mesh.Vertices.Add(mesh.Vertices[v]);mesh.VertexColors.Add(Color.Black);if(mesh.TextureCoordinates.Count>0)mesh.TextureCoordinates.Add(mesh.TextureCoordinates[v]);black[v]=copy;}return copy;}
         for(int i=0;i<mesh.Faces.Count;i++){
             var a=mesh.Faces[i];
             if(valid[a.A]&&valid[a.B]&&valid[a.C]&&(!a.IsQuad||valid[a.D]))continue;
