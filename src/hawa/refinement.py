@@ -127,19 +127,24 @@ def run_refined(request,checkpoint):
     class PatchFlow(WindFlow):
         @property
         def post_boundaries(self):return [lt.BounceBackBoundary(self.solid)]
-    fine=PatchFlow(coarse.flow.context,fine_spec)
-    fine_solver=lt.Simulation(fine,lt.BGKCollision(fine.units.relaxation_parameter_lu),[])
-    coupled=RefinedStepper(coarse.solver,fine_solver,lower,upper)
-    # No wall or unresolved geometry may touch the cubic interpolation stencil.
-    mask=coarse.flow.solid.cpu().numpy();halo=mask[tuple(slice(a-1,b+2) for a,b in zip(lower,upper))].copy()
-    halo[tuple(slice(3,-3) for _ in lower)]=False
-    if halo.any():raise ValueError('Move the refinement interface at least two coarse cells away from solids')
-    initial=float(coupled.composite_mass().cpu())
+    # The coarse session's lock covers the fine grid's device work too (#99).
+    with coarse.lock:
+        fine=PatchFlow(coarse.flow.context,fine_spec)
+        fine_solver=lt.Simulation(fine,lt.BGKCollision(fine.units.relaxation_parameter_lu),[])
+        coupled=RefinedStepper(coarse.solver,fine_solver,lower,upper)
+        # No wall or unresolved geometry may touch the cubic interpolation stencil.
+        mask=coarse.flow.solid.cpu().numpy();halo=mask[tuple(slice(a-1,b+2) for a,b in zip(lower,upper))].copy()
+        halo[tuple(slice(3,-3) for _ in lower)]=False
+        if halo.any():raise ValueError('Move the refinement interface at least two coarse cells away from solids')
+        initial=float(coupled.composite_mass().cpu())
     while coarse.flow.i<steps:
-        coupled(min(5,steps-coarse.flow.i),checkpoint)
-        coarse.backend.synchronize()
-        for flow in (coarse.flow,fine):
-            if not bool(torch.isfinite(flow.f).all().cpu()) or not bool((flow.rho()>0).all().cpu()):raise RuntimeError('Refined simulation became unstable')
+        # Pause and cancel wait outside the lock, so a held job never blocks other MPS work.
+        checkpoint(coarse.flow.i)
+        with coarse.lock:
+            coupled(min(5,steps-coarse.flow.i))
+            coarse.backend.synchronize()
+            for flow in (coarse.flow,fine):
+                if not bool(torch.isfinite(flow.f).all().cpu()) or not bool((flow.rho()>0).all().cpu()):raise RuntimeError('Refined simulation became unstable')
     checkpoint(steps)
     def frame(flow,spec,solver,covered=False):
         arrays={'velocity':flow.u_pu.detach().cpu().numpy().copy(),'pressure':flow.p_pu[0].detach().cpu().numpy().copy(),
@@ -150,6 +155,8 @@ def run_refined(request,checkpoint):
         if nodes is not None:arrays['boundary_nodes']=nodes
         return store(arrays,{'iteration':flow.i,'time':float(flow.units.convert_time_to_pu(flow.i)),
                             'case':{**spec,'physical_dx':float(flow.units.convert_length_to_pu(1))},'mean':False,'samples':0})
-    return {'coarse_frame':frame(coarse.flow,coarse_spec,coarse.solver,True),'fine_frame':frame(fine,fine_spec,fine_solver),
-            'steps':steps,'backend':coarse.backend.info(),'relative_mass_change':float(coupled.composite_mass().cpu())/initial-1,
+    with coarse.lock:
+        frames=frame(coarse.flow,coarse_spec,coarse.solver,True),frame(fine,fine_spec,fine_solver),float(coupled.composite_mass().cpu())
+    return {'coarse_frame':frames[0],'fine_frame':frames[1],
+            'steps':steps,'backend':coarse.backend.info(),'relative_mass_change':frames[2]/initial-1,
             'report':'Experimental static 2:1 BGK coupling. Fine grid takes two steps per coarse step. Open-domain mass change includes inlet/outlet flux. No automatic moving refinement.'}
