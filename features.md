@@ -25,7 +25,7 @@ example checks.
 | Native panel and GH live binding | Shared settings, direct/computed input ownership, revisions, stale-result handling, undo and saved idle cases. Public operations support agent workflows. | [Architecture](docs/architecture-v0.5.md), [agent operations](docs/agents/native-prototype.md), [state coverage](examples/grasshopper/VERIFICATION.md) |
 | Background work and cooperative lifecycle | Preparation, solve/query jobs, pause/resume/cancel and cleanup; legacy failed-close retry has a scoped follow-up record. | [Cleanup review](docs/review-cleanup-v0.5.md), [architecture](docs/architecture-v0.5.md) |
 | Field visualization | Scalar slices, vectors, streamlines, snapshot planes/contours/isosurfaces, surface sampling and legends. Native/GH capabilities differ; integrated movable vector slices remain HAWA-007. | [Plugin guide](docs/plugin.md), [node catalogue](docs/node-catalog-v0.5.md) |
-| Record and playback | Field snapshots, physical-time metadata, playback and particle paths within documented formats and limits. | [GH examples](examples/grasshopper/README.md), [0.4 report](docs/release-notes-v0.4.0.md) |
+| Record and playback | Field snapshots, physical-time metadata and playback within documented formats and limits. Particles and time-dependent pathlines were removed (see history, November 12, 2026). | [GH examples](examples/grasshopper/README.md), [0.4 report](docs/release-notes-v0.4.0.md) |
 | Asynchronous design search | Completed-candidate objectives, best-result history and cooperative controls. Hull geometry is an example recipe, not a public hull-construction service. | [GH examples (example 10)](examples/grasshopper/README.md), [node boundary](docs/node-catalog-v0.5.md) |
 | Local airfoil and wing tools | Offline coordinates/NACA generation, supplied local polars and attached-flow lifting line. Bundled polar is synthetic format data; no viscous/stall CFD claim. | [Plugin guide](docs/plugin.md), [release limits](docs/release-notes-v0.4.0.md) |
 | Curved stationary walls and fixed refinement | Experimental curved links and one fixed 2:1 BGK patch with explicit unsupported combinations. Multiple-region refinement remains HAWA-009. | [0.4 numerical evidence](docs/release-notes-v0.4.0.md), [coverage](examples/grasshopper/VERIFICATION.md) |
@@ -92,6 +92,18 @@ Evidence: [transfer review](docs/neutral-transfer-review.md),
 qualification failures remain open in HAWA-021/022; these repairs do not close them.
 
 ## History
+
+### November 12, 2026 — Particles and pathlines removed (owner decision)
+
+The owner descoped particles. Removed: Python `recording.pathlines` and its
+100,000-point budget, the `recording`/`particles` query, and the GH Particles
+tool. Old definitions still open, because a hidden Particles stub keeps the
+original GUID and parameters, and it reports only that the tool was removed.
+Example 32 is a translation-and-recording example now; its Particles node is
+removed during the live acceptance re-save. The particle work recorded in #82,
+#93 and #96 below was never verified and is no longer a capability.
+Particle-method solver research (#22) is closed as descoped on the same
+decision. Static streamlines, Flow Display, field planes and isosurfaces are kept.
 
 ### November 12, 2026 — GH field views draw what was not simulated (#81, #82, partial)
 

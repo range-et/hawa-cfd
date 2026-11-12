@@ -1616,58 +1616,6 @@
       ]
     },
     {
-      "type": "ParticlesComponent",
-      "guid": "a7bb3b0a-ae4f-42ae-9301-a3c55f077133",
-      "name": "Hawa Particles",
-      "category": "11 Animation",
-      "inputs": [
-        {
-          "name": "Manifest",
-          "description": "Recording manifest",
-          "access": "item",
-          "optional": false,
-          "parameter_type": "Param_String"
-        },
-        {
-          "name": "Frame",
-          "description": "Any frame from this recording, for coordinates",
-          "access": "item",
-          "optional": false,
-          "parameter_type": "Param_GenericObject"
-        },
-        {
-          "name": "Seeds",
-          "description": "Initial particle positions",
-          "access": "list",
-          "optional": false,
-          "parameter_type": "Param_Point"
-        },
-        {
-          "name": "Last frame",
-          "description": "Final frame index",
-          "access": "item",
-          "optional": false,
-          "parameter_type": "Param_Integer"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "Trails",
-          "description": "Particle paths",
-          "access": "list",
-          "optional": false,
-          "parameter_type": "Param_Curve"
-        },
-        {
-          "name": "Particles",
-          "description": "Final valid positions",
-          "access": "list",
-          "optional": false,
-          "parameter_type": "Param_Point"
-        }
-      ]
-    },
-    {
       "type": "PhysicsComponent",
       "guid": "a7bb3b0a-ae4f-42ae-9301-a3c55f077103",
       "name": "Hawa Physics",

@@ -44,32 +44,14 @@ public sealed class PlaybackComponent:HawaQueryComponent {
     protected override void SolveHawa(IGH_DataAccess da){string manifest="";int index=0;da.GetData(0,ref manifest);da.GetData(1,ref index);var r=View(new JsonObject{["op"]="recording",["action"]="load",["manifest"]=LocalPath(manifest),["index"]=index});if(r==null)return;var f=r.DeepClone().AsObject();f["kind"]="Frame";da.SetData(0,new HawaGoo(f));da.SetData(1,f["time"]!.GetValue<double>());}
 }
 
-public sealed class ParticlesComponent:HawaQueryComponent {
-    public ParticlesComponent():base("Hawa Particles","Particles","Time-dependent pathlines through a recorded velocity field. Seeds are in model coordinates.","11 Animation"){}
+// Archive compatibility only: Particles and time-dependent pathlines were removed by owner decision.
+// Keeps the original GUID and parameters so an old definition opens with its wires and explains the removal.
+public sealed class ParticlesComponent:HawaComponent {
+    public const string Removed="Hawa Particles was removed. Use Streamlines or Flow Display on a Playback frame.";
+    public ParticlesComponent():base("Hawa Particles","Particles","Removed. Opens old definitions only; use Streamlines or Flow Display on a Playback frame.","11 Animation"){}
+    public override GH_Exposure Exposure=>GH_Exposure.hidden;
     public override Guid ComponentGuid=>new("a7bb3b0a-ae4f-42ae-9301-a3c55f077133");
-    protected override void RegisterInputParams(GH_InputParamManager p){p.AddTextParameter("Manifest","M","Recording manifest",GH_ParamAccess.item);p.AddGenericParameter("Frame","F","Any frame from this recording, for coordinates",GH_ParamAccess.item);p.AddPointParameter("Seeds","P","Initial particle positions",GH_ParamAccess.list);p.AddIntegerParameter("Last frame","I","Final frame index",GH_ParamAccess.item,1);}
-    protected override void RegisterOutputParams(GH_OutputParamManager p){p.AddCurveParameter("Trails","C","Particle paths",GH_ParamAccess.list);p.AddPointParameter("Particles","P","Final positions of particles still in the flow",GH_ParamAccess.list);}
-    protected override void SolveHawa(IGH_DataAccess da){string manifest="";int last=1;da.GetData(0,ref manifest);var frame=ReadObject(da,1);var seeds=new List<Point3d>();da.GetDataList(2,seeds);da.GetData(3,ref last);var world=FieldTools.World(frame);var r=View(new JsonObject{["op"]="recording",["action"]="particles",["manifest"]=LocalPath(manifest),["last"]=last,["seeds"]=new JsonArray(seeds.Select(p=>
-            (JsonNode)Coordinates.Grid(world,p)
-        ).ToArray())});if(r==null)return;
-        var paths=r["paths"]!.AsArray().Select(p=>
-            p!.AsArray().Select(v=>
-                Coordinates.World(world,v!)
-            ).ToArray()
-        ).ToArray();
-        da.SetDataList(0,paths.Where(p=>
-            p.Length>1
-        ).Select(p=>
-            new PolylineCurve(p)
-        ));
-        // A particle that left the flow, or started outside it, keeps its trail but has no final position (#82).
-        var alive=r["alive"]!.AsArray().Select(x=>
-            x!.GetValue<bool>()
-        ).ToArray();
-        da.SetDataList(1,paths.Where((p,i)=>
-            alive[i]
-        ).Select(p=>
-            p[^1]
-        ));
-    }
+    protected override void RegisterInputParams(GH_InputParamManager p){p.AddTextParameter("Manifest","M","Removed",GH_ParamAccess.item);p.AddGenericParameter("Frame","F","Removed",GH_ParamAccess.item);p.AddPointParameter("Seeds","P","Removed",GH_ParamAccess.list);p.AddIntegerParameter("Last frame","I","Removed",GH_ParamAccess.item,1);for(int i=0;i<4;i++)p[i].Optional=true;}
+    protected override void RegisterOutputParams(GH_OutputParamManager p){p.AddCurveParameter("Trails","C","Removed",GH_ParamAccess.list);p.AddPointParameter("Particles","P","Removed",GH_ParamAccess.list);}
+    protected override void SolveHawa(IGH_DataAccess da)=>throw new NotSupportedException(Removed);
 }

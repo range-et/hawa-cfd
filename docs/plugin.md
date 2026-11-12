@@ -53,7 +53,7 @@ Keep the supplied `data` folder next to the airfoil example. Relative paths reso
 | 08 Files | Checkpoint |
 | 09 Airfoils | Airfoil, Polar Data |
 | 10 Aircraft | Wing, Wing Analysis |
-| 11 Animation | Record, Playback, Particles |
+| 11 Animation | Record, Playback |
 
 Hover over each input for units and limits. Domain supports `model`, `meters`, and `millimeters`. Wind Tunnel follows the document units and aligns X with the wind. Closed obstacle meshes must clear the inlet and outlet. Geometry Check reports closure, naked edges and bounding dimensions. Grid Preview shows occupied cells.
 
@@ -61,7 +61,7 @@ Hover over each input for units and limits. Domain supports `model`, `meters`, a
 
 Capture one **Field Snapshot** and connect it to several views. All views then use the same field and time. Select speed, pressure, density, velocity components, Cp, vorticity magnitude or Q. Derivative fields mask samples that touch solids. Blue-green, spectrum and diverging palettes have explicit limits. Share a Color Map between views and a Legend.
 
-Plane Field supports an arbitrary rectangle and contour levels. Isosurface extracts a scalar level in 3D. Flow Display traces snapshot streamlines and builds tubes. Particles integrates through timed recorded fields. Surface Field samples at an outward offset from a mesh; those values are approximate surface values. Hide Domain's own box preview when using Domain Preview's wireframe.
+Plane Field supports an arbitrary rectangle and contour levels. Isosurface extracts a scalar level in 3D. Flow Display traces snapshot streamlines and builds tubes. Surface Field samples at an outward offset from a mesh; those values are approximate surface values. Hide Domain's own box preview when using Domain Preview's wireframe.
 
 Recording stores velocity, pressure, density, solid masks, iteration and physical time in local NPZ files. Playback selects a frame. Limits are 1,000 frames and 2 GiB per recording. Partial recordings retain their completion state; do not treat a cancelled run as completed.
 

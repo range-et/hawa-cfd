@@ -85,8 +85,7 @@ def test_dispatch_information_and_scalar_routes(monkeypatch):
         (roughness,'apply',dict(op='wall_roughness',case={'c':1},regions=[1]),({'c':1},[1]),{}),
         (boundary_data,'capture',dict(op='boundary',action='capture',manifest='m',case={},path='p',start_time=2,end_time=3),('m',{},'p'),dict(start_time=2,end_time=3)),
         (boundary_data,'attach',dict(op='boundary',action='attach',path='p',case={}),('p',{}),{}),
-        (recording,'load_frame',dict(op='recording',action='load',manifest='m',index=2),('m',2),{}),
-        (recording,'pathlines',dict(op='recording',action='particles',manifest='m',seeds=[[1,2,3]],last=4),('m',[[1,2,3]],4),{})]
+        (recording,'load_frame',dict(op='recording',action='load',manifest='m',index=2),('m',2),{})]
     for module,name,request,args,kwargs in routes:
         monkeypatch.setattr(module,name,target)
         assert plugin.dispatch(request)=={'result':'sentinel'}

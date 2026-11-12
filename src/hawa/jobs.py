@@ -52,9 +52,6 @@ class Job:
                 elif request['op'] == 'boundary' and request['action'] == 'capture':
                     from .boundary_data import capture
                     value = capture(request['manifest'], request['case'], request['path'], self.checkpoint,request.get('start_time',0.),request.get('end_time'))
-                elif request['op'] == 'recording' and request['action'] == 'particles':
-                    from .recording import pathlines
-                    value = pathlines(request['manifest'], request['seeds'], request.get('last'), self.checkpoint)
                 else:
                     value = dispatch(request)
                 with self.condition:

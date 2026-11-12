@@ -64,9 +64,8 @@ inlet velocity and material properties, identifies walls and an outlet, and asks
 for pressure, drag and wake probes. They first explore with LBM, then request a
 finite-volume run of that case. Geometry references, physical settings and probe
 definitions carry across; the new method gets its own mesh and numerical setup.
-A particle solver is offered only if it supports that physical problem and the
-requested outputs. A liquid splash preview is a separate physical problem from
-single-phase airflow around the same body.
+Particle-method solvers are not planned: the owner descoped them in November
+2026 ([#22](https://github.com/range-et/hawa-cfd/issues/22)).
 
 ### What stays shared and what varies
 
@@ -74,7 +73,7 @@ single-phase airflow around the same body.
 | --- | --- |
 | Geometry identity, body groups, units and coordinate system | Geometry preparation, voxelization, surface or volume meshing |
 | Physical domain and named boundaries | Computational padding, boundary discretization and supported boundary implementations |
-| Fluid properties and prescribed velocity or pressure | Lattice scaling, particle spacing or finite-volume discretization |
+| Fluid properties and prescribed velocity or pressure | Lattice scaling or finite-volume discretization |
 | Gravity, prescribed motion and supported sources | Time integration, stability limits and coupling algorithms |
 | Initial physical state | A new initialization or an explicitly supported field transfer |
 | Force and moment requests, probes and averaging windows | Load integration, pressure reference and sampling implementation |
@@ -89,7 +88,7 @@ Changing solver starts a new run linked to the same physical case revision. It
 does not resume the old solver state. Compare physical time or a documented
 steady-state criterion, not iteration counts. Record pressure conventions,
 coordinate frames, force signs and reference quantities before comparing loads.
-Show particle, lattice and volume-mesh results through common field views while
+Show lattice and volume-mesh results through common field views while
 preserving their native data and sampling limitations.
 
 ### Capabilities are part of the user experience
@@ -104,7 +103,7 @@ Keep three choices separate: physical model, numerical method and execution
 device. Offer understandable presets, with advanced controls available when
 needed. Preview, Explore and Engineering are possible workflow labels; they
 describe intended use and evidence requirements. They are not an automatic
-accuracy ordering of particle methods, LBM and finite volume. LBM itself is used
+accuracy ordering of LBM and finite volume. LBM itself is used
 for industrial CFD, as illustrated by
 [SIMULIA PowerFLOW](https://www.3ds.com/products/simulia/powerflow/).
 
@@ -249,15 +248,15 @@ tasks; assign versions after feasibility and contributor capacity are known.
 | A Native case setup | Selected geometry, explicit units, editable domain, named boundaries, material settings, probes and measurement requests | A user and an agent independently reproduce one stationary block case through public operations; saving/reopening preserves intent and stays idle; invalid setup has actionable messages. |
 | B LBM evidence and examples | Stronger benchmark coverage, domain/grid/time sensitivity, force conventions, memory and device reports; user-defined refinement regions after coupling verification | Publish bounded benchmark outcomes and tolerances; investigate the PorousMedium discrepancy without widening tolerances to conceal it; qualify accuracy per case. |
 | C Shared solver contract | Physical-case schema, capability checks, adapter lifecycle, result metadata and solver-specific preparation | Two actual methods accept one overlapping case; round-trip intent and detect unsupported features; retain GH archives and migrate saved case schemas explicitly. |
-| D Particle feasibility | One bounded physics prototype independent of rendering, with a PyTorch candidate implementation | Choose liquid/free-surface or airflow scope first; measure stability, conservation, boundary behavior, neighbour-search cost and responsiveness on named hardware; adopt, revise or stop based on the evidence. |
+| ~~D Particle feasibility~~ | Descoped by owner decision, November 2026 ([#22](https://github.com/range-et/hawa-cfd/issues/22)). No particle-method solver is planned. | None |
 | E Finite-volume integration | One established engine connected to the shared case, initially one stationary isothermal flow class | Generate a mesh, run asynchronously, inspect convergence and conservation, obtain comparable fields/loads, and reproduce a published benchmark with documented settings. |
 | F Reusable engineering studies | Case variants, batch runs, comparisons, measured search objectives and reproducible report export | A second contributor repeats a complete design study; results retain geometry/settings/engine identity and measurement definitions. |
 | Later physics tracks | Thermal/scalar transport, free surfaces, force-driven motion and additional models | Each track gets a physical scope, reference cases, supported engines and maintenance owner before entering a release. |
 
 Stages A and B establish value with the existing engine. Short feasibility work
-for D and E can inform C, but broad UI or schema generalization should follow
-actual adapter needs. Neither an unsuccessful particle experiment nor delayed
-finite-volume work should prevent improving the LBM product.
+for E can inform C, but broad UI or schema generalization should follow
+actual adapter needs. Delayed finite-volume work should not prevent improving
+the LBM product.
 
 <a id="nested-city--neighbourhood--pond-studies"></a>
 
@@ -338,12 +337,9 @@ Keep the building and door geometry in an ordinary GH example assembly.
 
 ### Scope the first additional solvers narrowly
 
-For the particle experiment, [Sebastian Lague's Fluid-Sim](https://github.com/SebLague/Fluid-Sim)
-is an inspiration for simulation techniques independently of graphics. Select one
-reference experiment and agree particle count, physical duration, memory budget,
-interaction target and numerical criteria before coding. A visually convincing
-liquid demo does not establish an airflow or force-analysis capability. Python
-3.9 and pinned PyTorch compatibility remain requirements for production Python.
+The particle experiment is descoped (owner decision, November 2026,
+[#22](https://github.com/range-et/hawa-cfd/issues/22)). Python 3.9 and pinned
+PyTorch compatibility remain requirements for production Python.
 
 For finite volume, evaluate integrating an established open-source engine such
 as [OpenFOAM](https://openfoam.org/) before writing a new general-purpose solver.
@@ -407,7 +403,7 @@ building-environment toolchains.
 Record baselines before assigning performance promises. Measure time to a valid
 first case, manual steps required, first useful field, edit-to-result latency,
 peak memory, cancellation response and independent reproduction rate. Record
-hardware, device, grid/particle count, physical duration, solver settings and
+hardware, device, grid size, physical duration, solver settings and
 whether preparation and visualization costs are included.
 
 For numerical evidence, measure conservation and benchmark errors alongside

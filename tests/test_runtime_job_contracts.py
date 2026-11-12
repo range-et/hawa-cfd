@@ -136,27 +136,25 @@ def test_worker_failure_or_late_cancel_never_publishes_session(isolated_jobs, mo
     jobs.DEVICE_SLOT.release()
 
 
-@pytest.mark.parametrize('route', ['field', 'statistics', 'boundary', 'recording', 'info'])
+@pytest.mark.parametrize('route', ['field', 'statistics', 'boundary', 'info'])
 def test_query_routes_arguments_and_copies_result(isolated_jobs, monkeypatch, route):
-    from hawa import fields, flow_statistics, boundary_data, recording
+    from hawa import fields, flow_statistics, boundary_data
     calls = []
     def called(*args):
         calls.append(args); return {'route': route}
     monkeypatch.setattr(fields, 'dispatch_field', called)
     monkeypatch.setattr(flow_statistics, 'analyze', called)
     monkeypatch.setattr(boundary_data, 'capture', called)
-    monkeypatch.setattr(recording, 'pathlines', called)
     monkeypatch.setattr(plugin, 'dispatch', called)
-    req = dict(op=route, action={'boundary':'capture', 'recording':'particles'}.get(route, 'sample'),
-               manifest='parent.json', points=[[1, 2, 3]], seeds=[[4, 5, 6]], case={'shape':[8, 8, 8]},
-               path='mapped.npz', start_time=2., end_time=4., last=6)
+    req = dict(op=route, action={'boundary':'capture'}.get(route, 'sample'),
+               manifest='parent.json', points=[[1, 2, 3]], case={'shape':[8, 8, 8]},
+               path='mapped.npz', start_time=2., end_time=4.)
     job = jobs.Job(dict(kind='query', request=req)); job.work()
     assert job.state == 'completed' and job.result == {'route': route} and job.session is None
     args = calls[0]
     if route == 'field': assert args[0] == req and args[1] is None and args[2] == job.checkpoint
     elif route == 'statistics': assert args == ('parent.json', [[1, 2, 3]], 2., 4., job.checkpoint)
     elif route == 'boundary': assert args == ('parent.json', {'shape':[8, 8, 8]}, 'mapped.npz', job.checkpoint, 2., 4.)
-    elif route == 'recording': assert args == ('parent.json', [[4, 5, 6]], 6, job.checkpoint)
     else: assert args == (req,)
 
 

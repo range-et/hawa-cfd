@@ -2,12 +2,13 @@
 # Correctness package items 2, 5 and 6 (#80, #81, #82): mutate only the lines
 # changed since the base in the boundary-node export (session and refined
 # frames), the shared halfway sampling rule, the half-cell isosurface, the plane
-# partition (single frame and composed), streamline tracing and pathline alive
-# flags, against the focused CPU tests.
+# partition (single frame and composed), streamline tracing and the recording
+# query dispatch, against the focused CPU tests. Pathlines were removed by owner
+# decision, so src/hawa/recording.py is no longer mutated.
 source "$(dirname "$0")/lib.sh"
 # PR base: origin/main after #88.
 base=56b0728da222d60c3928193c74c8ab72788dd014
-mutate=(src/hawa/plugin.py src/hawa/fields.py src/hawa/field_collection.py src/hawa/refinement.py src/hawa/recording.py)
+mutate=(src/hawa/plugin.py src/hawa/fields.py src/hawa/field_collection.py src/hawa/refinement.py)
 tests=(tests/conftest.py tests/test_fields.py tests/test_field_collection.py tests/test_plugin_service.py tests/test_recording.py tests/test_refinement.py)
 reviewed=("${mutate[@]}" "${tests[@]}")
 test_args=(tests/test_fields.py tests/test_field_collection.py tests/test_plugin_service.py tests/test_recording.py tests/test_refinement.py -k 'not cuda and not mps')

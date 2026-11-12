@@ -32,7 +32,7 @@ if(action=="open"){
   if(action=="report"){
    if(errors.Length>0)throw new Exception(string.Join(" | ",errors));
    if(example==31){if(C("Sample").Params.Output[0].VolatileDataCount!=3||C("Vectors").Params.Output[0].VolatileDataCount!=3)throw new Exception("Missing probes/vectors");}
-   else if(C("Particles").Params.Output[0].VolatileDataCount!=3||C("Particles").Params.Output[1].VolatileDataCount!=3||C("BodyPreview").Params.Output[0].VolatileDataCount!=1)throw new Exception("Missing particles/body pose");
+   else if(C("Playback").Params.Output[0].VolatileDataCount!=1||C("BodyPreview").Params.Output[0].VolatileDataCount!=1)throw new Exception("Missing playback frame/body pose");
   }
   System.IO.File.WriteAllText(output+"/example-"+example+"-"+action+".json",report.ToJsonString());Console.WriteLine("Example "+example+"; errors="+errors.Length+"; "+(example==31?C("Solve").Message:C("Record").Message));
  }

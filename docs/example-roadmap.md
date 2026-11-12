@@ -111,7 +111,7 @@ methods on physical models they do not both support.
 | S04 | Request an unsupported thermal or free-surface case | Capability checks | Block with an actionable explanation; no silently ignored physics. |
 | S05 | Switch method after a completed run | Run history | Retain both results, start a distinct run and compare only compatible observables. |
 | S06 | Compare methods at a fixed resource budget | Qualified overlapping case | Report error and full workflow cost, including preparation and field extraction. |
-| S07 | Liquid particle preview and reference method | Research; compatible free-surface methods | Share gravity, container and initial liquid volume; assess matching physical outputs. |
+| ~~S07~~ | ~~Liquid particle preview and reference method~~ | Descoped with particle methods (owner decision, November 2026, [#22](https://github.com/range-et/hawa-cfd/issues/22)) | None |
 | S08 | Solver failure and unavailable engine | Adapter lifecycle | Preserve case intent and other results; provide recovery without blocking Rhino. |
 
 ## Priority RC drone and small boat examples
@@ -153,7 +153,7 @@ tracks require explicit implementation and acceptance work.
 | A11 | Oscillating body and cycle power | Extend 17/20 | Settling, cycle count, load balance and motion-resolution studies. |
 | A12 | Rotor or propeller in one fluid | Later motion models | Torque/thrust validation, rotating-boundary suitability; no cavitation or waves by default. |
 | A13 | Tank sloshing or dam break | Research free surface | Surface position, volume conservation, boundary forces and experimental comparison. |
-| A14 | Pouring and splashing around geometry | Research particle method | Defined qualitative scope, resolution/time sensitivity and collision robustness. |
+| ~~A14~~ | ~~Pouring and splashing around geometry~~ | Descoped with particle methods (owner decision, November 2026, [#22](https://github.com/range-et/hawa-cfd/issues/22)) | None |
 | A16 | Electronics enclosure cooling | Later conjugate heat transfer | Material interfaces, heat-source balance and temperature references. |
 | A17 | Passive tracer transport | Later scalar transport | Scalar conservation, numerical diffusion and boundary flux tests; no health/exposure inference from a flow image. |
 | A18 | Floating or freely moving body | Research force coupling | Fluid/body momentum balance, buoyancy and coupled-motion references. |
@@ -210,8 +210,9 @@ same public case operations for a person or agent. In parallel as a project
 workstream, qualify B01, B02 and B06 and retain B11 as an explicit numerical
 issue. These supply useful evidence before a larger application gallery.
 
-Use S01 as the first solver-adapter milestone. Treat A13/A14 as candidates for
-the particle feasibility study, not prerequisites for the next LBM release.
+Use S01 as the first solver-adapter milestone. A13 stays a free-surface research
+candidate, not a prerequisite for the next LBM release; S07 and A14 were descoped
+with particle methods.
 Lead application work with R01/R02 for drones and R06/R08 for underwater parts,
 starting with setup and qualitative fields. R07 extends the existing submerged
 hull search. Gather appropriate reference data before promoting load comparisons.

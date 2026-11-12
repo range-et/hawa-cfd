@@ -135,9 +135,9 @@
     "limits": "A short CPU demonstration at viscous conditions, not an aerodynamic accuracy result. Checkpoint load requires the same case. Saving checkpoints pauses the solver. Execute is a rising-edge action and opens idle. Probe points must remain in fluid. Wind Tunnel uses Rhino document units; physical wind speed is m/s."
   },
   "32": {
-    "title": "Translation, recording and particle paths",
-    "explore": "A closed mesh translates along Y at 0.05 m/s. Set a new absolute directory, then Record. After 40 steps, use the Frame index slider to view body pose. Particles integrates through frames 0 to 4 and draws three fluid paths. Edit Translation to set direction, speed and startup ramp; choose a new directory for another recording.",
-    "limits": "Prescribed motion, uniform BGK and a single fluid. The body must stay clear of the domain boundary. Coarse short demonstration, not a force validation. Particle trails use changing recorded fields; they differ from steady flowlines. Record false cancels; Pause holds the job. A saved true switch opens idle."
+    "title": "Translation and recording",
+    "explore": "A closed mesh translates along Y at 0.05 m/s. Set a new absolute directory, then Record. After 40 steps, use the Frame index slider to view the recorded frame and body pose. Edit Translation to set direction, speed and startup ramp; choose a new directory for another recording.",
+    "limits": "Prescribed motion, uniform BGK and a single fluid. The body must stay clear of the domain boundary. Coarse short demonstration, not a force validation. Record false cancels; Pause holds the job. A saved true switch opens idle."
   },
   "33": {
     "title": "Neutral city \u2192 neighbourhood \u2192 pond",
