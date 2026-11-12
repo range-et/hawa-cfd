@@ -59,6 +59,20 @@ def test_linear_isosurface_covers_planar_fluid_area_beside_box_and_plate(stride)
             assert all(len(set(face))==3 for face in mesh['faces'])
 
 
+def t_junctions(mesh):
+    # Welded edges used by one triangle whose midpoint lies on another such edge:
+    # a vertex of one side sits on an unsplit edge of the other side.
+    import collections
+    v=np.asarray(mesh['vertices'],float);keys,ids=np.unique(np.round(v,9),axis=0,return_inverse=True)
+    count=collections.Counter(tuple(sorted(e)) for f in ids.ravel()[np.asarray(mesh['faces'])] for e in ((f[0],f[1]),(f[1],f[2]),(f[2],f[0])) if e[0]!=e[1])
+    naked=np.array([e for e,c in count.items() if c==1]).reshape(-1,2)
+    a,b=keys[naked[:,0]],keys[naked[:,1]];d=b-a;found=0
+    for i,m in enumerate((a+b)/2):
+        t=np.clip(((m-a)*d).sum(1)/(d*d).sum(1),0,1);dist=np.linalg.norm(a+t[:,None]*d-m,axis=1);dist[i]=np.inf
+        found+=bool(dist.min()<1e-7)
+    return found
+
+
 def seam_gaps(mesh, axis, at, mask):
     # Points where the surface meets the plane from one side but no segment from
     # the other side passes through them; points near a masked node are skipped.
@@ -97,6 +111,38 @@ def test_refined_cells_meet_their_drawn_neighbours_without_cracks():
     for stride,flip in ((1,()),(2,()),(3,()),(4,()),(2,mirror)):
         mesh=isosurface(values[flip],float(np.median(values)),mask[flip],stride)
         assert mesh['faces'] and sum(seam_gaps(mesh,axis,at,mask[flip]) for axis in range(3) for at in np.arange(.5,10,.5))==0
+        # Live example 11: the welded mesh also has no T-junction where a refined
+        # cell meets a drawn one, so no pinholes appear at the seam.
+        assert t_junctions(mesh)==0
+    g=np.indices((9,9,9)).astype(float);mask=np.zeros(g[0].shape,bool);mask[4,4,4]=True
+    for stride in (1,2):
+        mesh=isosurface((g[0]-4)**2+(g[1]-4.3)**2+(g[2]-3.8)**2,2.2,mask,stride)
+        assert t_junctions(mesh)==0 and len(mesh['faces'])==452
+        # The face budget also counts the triangles split at seams.
+        assert len(isosurface((g[0]-4)**2+(g[1]-4.3)**2+(g[2]-3.8)**2,2.2,mask,stride,max_faces=452)['faces'])==452
+        with pytest.raises(ValueError,match=r'^Isosurface exceeds face budget\. Increase stride or restrict the domain\.$'):
+            isosurface((g[0]-4)**2+(g[1]-4.3)**2+(g[2]-3.8)**2,2.2,mask,stride,max_faces=451)
+
+
+def test_close_seams_splits_triangles_at_t_junctions():
+    from hawa.fields import close_seams
+    # One triangle has neighbour vertices on two of its edges; another on one edge.
+    vertices=[[0,0,0],[2,0,0],[0,2,0],[1,0,0],[1,-1,0],[-1,1,0],[0,1,0],[5,0,0],[7,0,0],[5,2,0],[6,0,0],[6,-1,0]]
+    faces=[[0,1,2],[0,4,3],[3,4,1],[0,6,5],[6,2,5],[7,8,9],[7,11,10],[10,11,8]]
+    out,split=close_seams(vertices,faces)
+    v=np.asarray(out,float);f=np.asarray(split)
+    area=np.cross(v[f[:,1]]-v[f[:,0]],v[f[:,2]]-v[f[:,0]])[:,2]/2
+    # Area and winding are kept, no triangle is degenerate and the mesh welds without T-junctions.
+    assert np.isclose(area.sum(),sum(np.cross(np.subtract(vertices[c[1]],vertices[c[0]]),np.subtract(vertices[c[2]],vertices[c[0]]))[2]/2 for c in faces))
+    assert (area>0).all() and t_junctions(dict(vertices=out,faces=split))==0
+    # The doubly split triangle is fanned from its centroid; the singly split one keeps its corners.
+    assert np.allclose(out[12],[2/3,2/3,0]) and len(out)==13 and [7,10,9] in split and [10,8,9] in split and len(split)==len(faces)-2+5+2
+    closed=dict(vertices=[[0,0,0],[1,0,0],[0,1,0],[0,0,1]],faces=[[0,2,1],[0,1,3],[1,2,3],[0,3,2]])
+    assert close_seams(closed['vertices'],closed['faces'])==(closed['vertices'],closed['faces'])
+    assert close_seams([],[])==([],[])
+    # A triangle that welds to a line adds no seam vertex.
+    line=[[0,0,0],[1,0,0],[1+1e-12,0,0]]
+    assert close_seams(line,[[0,1,2]])==(line,[[0,1,2]])
 
 
 def test_tetra_value_is_the_marching_tetrahedra_interpolant():

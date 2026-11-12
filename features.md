@@ -93,6 +93,18 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 12, 2026 — Isosurface seams welded without T-junctions (#81, partial)
+
+Built, not released. Live acceptance of example 11 found 201 naked loops in the
+isosurface. A headless reproduction showed these were T-junctions, not gaps: a
+cell refined beside a masked node meets its neighbour, which is drawn from its
+corners, on the same surface, but puts extra vertices on the shared edges.
+Triangles are now split at those vertices after marching, for single and
+composed frames. Interior T-junction edges go to 0 (previously 572, 738 and 1082
+on a 33×17×17 block case at strides 1, 2 and 3), and the area stays the same.
+On a 96³ sphere case the split adds about 1 s at stride 1 and 0.6 s at stride 2.
+Not done: the live Rhino re-check of example 11.
+
 ### November 12, 2026 — Particles and pathlines removed (owner decision)
 
 The owner descoped particles. Removed: Python `recording.pathlines` and its

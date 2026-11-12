@@ -198,6 +198,51 @@ def match_faces(axes, values, corners, corner_valid):
     return values
 
 
+def close_seams(vertices, faces):
+    """Split triangles at T-junctions so the welded mesh has no seam cracks.
+
+    A refined cell meets a neighbour drawn from its corners on the same
+    piecewise-linear surface, but it puts more vertices on the shared face.
+    Each such vertex lies on an edge that only one triangle uses; that
+    triangle is split at it. A triangle split on more than one edge is fanned
+    from its centroid.
+    """
+    if not faces:return vertices,faces
+    keys,ids=np.unique(np.round(np.asarray(vertices,float),9),axis=0,return_inverse=True)
+    ids=ids.ravel();welded=ids[np.asarray(faces)]
+    pairs,count=np.unique(np.sort(np.concatenate([welded[:,[0,1]],welded[:,[1,2]],welded[:,[2,0]]]),axis=1),axis=0,return_counts=True)
+    # Triangles that weld to a point or a line add edges of zero length; skip them.
+    naked=pairs[(count==1)&(pairs[:,0]!=pairs[:,1])]
+    if not len(naked):return vertices,faces
+    ends=np.unique(naked);h=np.linalg.norm(keys[naked[:,1]]-keys[naked[:,0]],axis=1).max()
+    buckets={}
+    for p in ends:buckets.setdefault(tuple(np.floor(keys[p]/h).astype(int)),[]).append(p)
+    inserts={}
+    for a,b in naked:
+        start,end=keys[a],keys[b];d=end-start
+        near=[p for o in itertools.product((-1,0,1),repeat=3) for p in buckets.get(tuple(np.floor(start/h).astype(int)+o),())]
+        q=keys[near];t=(q-start)@d/(d@d)
+        on=(t>1e-9)&(t<1-1e-9)&(np.linalg.norm(start+t[:,None]*d-q,axis=1)<1e-7)
+        if on.any():inserts[(a,b)]=[near[i] for i in np.flatnonzero(on)[np.argsort(t[on])]]
+    first=np.full(len(keys),-1);first[ids[::-1]]=np.arange(len(ids))[::-1]
+    vertices=list(vertices);out=[]
+    for face,w in zip(faces,welded):
+        split=[]
+        for k in range(3):
+            a,b=int(w[k]),int(w[(k+1)%3])
+            split.append(inserts.get((a,b),[]) if a<b else inserts.get((b,a),[])[::-1])
+        if not any(split):out.append(face);continue
+        ring=[v for k in range(3) for v in [face[k]]+[int(first[m]) for m in split[k]]]
+        if sum(map(bool,split))==1:
+            k=next(i for i,s in enumerate(split) if s);apex=face[(k+2)%3]
+            side=[face[k]]+[int(first[m]) for m in split[k]]+[face[(k+1)%3]]
+            out.extend([side[j],side[j+1],apex] for j in range(len(side)-1))
+        else:
+            centre=len(vertices);vertices.append(np.mean([vertices[v] for v in face],axis=0).tolist())
+            out.extend([ring[j],ring[(j+1)%len(ring)],centre] for j in range(len(ring)))
+    return vertices,out
+
+
 def leaf(axes, values, valid):
     """Final refinement level: draw cells whose corner samples are all valid."""
     return axes,values,cell_corners(valid).all(axis=0),None,None
@@ -252,6 +297,9 @@ def march(axes, values, level, full, mixed, refine, max_faces, checkpoint, out=N
                 on=np.all((points>=np.subtract(box[0],1e-9))&(points<=np.add(box[1],1e-9)),axis=-1)
                 if on.any():sampled[on]=tetra_value(np.array(box[0]),np.array(box[1]),box[2],points[on])
             march(grid,sampled,level,*sub[2:],max_faces,checkpoint,(vertices,faces),touching)
+    if out is None:
+        vertices,faces=close_seams(vertices,faces)
+        if len(faces)>max_faces:raise ValueError('Isosurface exceeds face budget. Increase stride or restrict the domain.')
     return {'vertices':vertices,'faces':faces}
 
 
