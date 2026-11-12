@@ -125,7 +125,7 @@
     "src/hawa/step.py": "e468cbce49f84efe7c1eb89696893ec52cae20dacb746ad2d4d73e623f89ba45",
     "src/hawa/walls.py": "d2c0ac391a689e9b51ee4088c4821fa979eaf72a044f549327a78c8e639ca134",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
-    "tests/dotnet/StateContracts/ComponentContracts.cs": "22e4fe724f11c25f33cb760848721e1b822a7462dc0b4aec9d45543f3f564f96",
+    "tests/dotnet/StateContracts/ComponentContracts.cs": "ef7b2aaab39233a2b6931e15ce39e0f41316b6f4489f0cdfe58b0701c9ebb680",
     "tests/dotnet/StateContracts/ComponentStandIns.cs": "e6c46b16abd46daf384d9c3d7bb920bb56bef20bb7fbbf0c3117b05de29d39b2",
     "tests/dotnet/StateContracts/GeometryKernelContracts.cs": "a25e0a8d3c95e9236d066935d8ee62d66bbdc95003bd1c02f8b11f96fb2b0a9e",
     "tests/dotnet/StateContracts/GrasshopperDouble.cs": "09abd6678bffe9ecc55ac34cc9c6f5a48d274cbd1bdbb14900d8e2a40c540f0e",
