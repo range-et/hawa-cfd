@@ -1,8 +1,8 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 2121,
-  "inventory_sha256": "b5c586440fd935a975077eba260afacb895248ee1b5cf2c534d15d2f0a8bd301",
-  "scope": "Lines changed since the base by the validity-foundation PR and the item 5 field-views and item 6 traces PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, display_solid, the half-cell isosurface (fields.march, grid_lines, isosurface and FieldCollection.isosurface) and the plane partition (FieldCollection.plane, FieldCollection.lattice and the single-frame plane dispatch) and the streamline traces (fields.trace with its per-point colour sampling, trace_seed, trace_result, FieldCollection.trace, the display mask of FieldCollection.sample; the recording pathlines were removed by owner decision, and the plugin recording dispatch line is included); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
+  "mutants": 2359,
+  "inventory_sha256": "64486405585427954a1e3a170996245f5f47598eeb8c9d39ec200d631a5d36bd",
+  "scope": "Lines changed since the base by the validity-foundation PR and the item 5 field-views and item 6 traces PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, display_solid, the half-cell isosurface (fields.march, grid_lines, isosurface and FieldCollection.isosurface, with the T-junction seam split in fields.close_seams) and the plane partition (FieldCollection.plane, FieldCollection.lattice and the single-frame plane dispatch) and the streamline traces (fields.trace with its per-point colour sampling, trace_seed, trace_result, FieldCollection.trace, the display mask of FieldCollection.sample; the recording pathlines were removed by owner decision, and the plugin recording dispatch line is included); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
   "control_test_files": [
     "tests/test_fields.py",
     "tests/test_field_collection.py",
@@ -12,10 +12,10 @@
   ],
   "sources": {
     "src/hawa/plugin.py": "d0b2436c22af5d4570a573240bb3e8f33a624dafacdf549f5fc2e747fb77743c",
-    "src/hawa/fields.py": "23705e02c383a1363608ff534ebf0aa264ade6b5712ad9d63eb275d4ae49fb38",
+    "src/hawa/fields.py": "0abde8fbbdc2a2b2529d69409576871f1235dbab7c97ebb85f0e3001002a2ff7",
     "src/hawa/field_collection.py": "8e375ad5b5d9e98bb861a8c01cc4c7351fd9928a0f8d5d5571c3258fbf969a68",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
-    "tests/test_fields.py": "af6a88d266ddc176cf81b063c9384f8644ed378c00b0ec03270b40a51dbdd6df",
+    "tests/test_fields.py": "22757af04326724720f66e4766c3855fda4c9bfc22576c5b94d4ad09b56ffe86",
     "tests/test_field_collection.py": "162f2a6220afb599f491932ba5f9f7dc11cbc45a20cba29edf1eefe4a8077644",
     "tests/test_plugin_service.py": "7a9629d5e1df029d9c09013071a6d3d3856cde66407fc1d47bc304c910655be5",
     "tests/test_recording.py": "f693484e74c0c1fab13bdd432d6a2954d5adad9da7ca829b594de20abab5e428",
@@ -548,6 +548,96 @@
       "diff_sha256": "609c9d7faab609b58c38fda3dabe8956a25f364c4866db8f4cfee04200405923",
       "reason": "Equivalent: without the float dtype an integer seed stays an integer array; its first point equals the float coordinates, and every later point is float after the first step."
     },
+    "hawa.fields.x_close_seams__mutmut_109": {
+      "status": "survived",
+      "diff_sha256": "65ec1806a5fb94c19018c8bf0b1b5b5d7ae7001bfd583373e74ae51e7fb30e1a",
+      "reason": "Equivalent on welded meshes: the tolerance boundary is never hit exactly. Edge endpoints give t of exactly 0 and 1 and an off-edge distance of 0, and every other vertex is welded at 9 decimals, so no point lands on t = 1e-9, t = 1 - 1e-9 or a distance of exactly 1e-7."
+    },
+    "hawa.fields.x_close_seams__mutmut_111": {
+      "status": "survived",
+      "diff_sha256": "69d4f4a7b8f53a7cc1b230fbd5d7636febf51e2e6ab5ed09554cf1c03774317e",
+      "reason": "Equivalent on welded meshes: the tolerance boundary is never hit exactly. Edge endpoints give t of exactly 0 and 1 and an off-edge distance of 0, and every other vertex is welded at 9 decimals, so no point lands on t = 1e-9, t = 1 - 1e-9 or a distance of exactly 1e-7."
+    },
+    "hawa.fields.x_close_seams__mutmut_123": {
+      "status": "survived",
+      "diff_sha256": "1d7b49d04fcffdb618e3f1bb3f5083c7147f74ddb0dfb85ba6cf68d7377db8e9",
+      "reason": "Equivalent on welded meshes: the tolerance boundary is never hit exactly. Edge endpoints give t of exactly 0 and 1 and an off-edge distance of 0, and every other vertex is welded at 9 decimals, so no point lands on t = 1e-9, t = 1 - 1e-9 or a distance of exactly 1e-7."
+    },
+    "hawa.fields.x_close_seams__mutmut_130": {
+      "status": "survived",
+      "diff_sha256": "6e2d94fd98923c25bc9edc623824ef06dec4b912ab0837071aceaf01a6c557c1",
+      "reason": "Equivalent: np.unique maps every welded key to at least one vertex, so first[] is overwritten at every index and its fill value is never read; int() of the stored index is the same for an object array."
+    },
+    "hawa.fields.x_close_seams__mutmut_133": {
+      "status": "survived",
+      "diff_sha256": "d3231293e2df2a5d75f279cce2449994a7db9e8186da422e69da5654373b79d4",
+      "reason": "Equivalent: np.unique maps every welded key to at least one vertex, so first[] is overwritten at every index and its fill value is never read; int() of the stored index is the same for an object array."
+    },
+    "hawa.fields.x_close_seams__mutmut_134": {
+      "status": "survived",
+      "diff_sha256": "e02bccfafd9e269a0da74153269e35519c2311b3af496f684db136ee6e8a0ba4",
+      "reason": "Equivalent: np.unique maps every welded key to at least one vertex, so first[] is overwritten at every index and its fill value is never read; int() of the stored index is the same for an object array."
+    },
+    "hawa.fields.x_close_seams__mutmut_14": {
+      "status": "survived",
+      "diff_sha256": "41b058d184c77f298585aa3000511cf942af1c79d3ced68688096b512827776e",
+      "reason": "Equivalent: vertices are lists of numbers, so NumPy infers a numeric dtype; rounding, unique and the float arithmetic on keys give the same welded keys and the same splits."
+    },
+    "hawa.fields.x_close_seams__mutmut_16": {
+      "status": "survived",
+      "diff_sha256": "c319fe2ff0704d9d730b0ab32cdc620e7ad2a4152945bef3ddb7d6a6cc309695",
+      "reason": "Equivalent: vertices are lists of numbers, so NumPy infers a numeric dtype; rounding, unique and the float arithmetic on keys give the same welded keys and the same splits."
+    },
+    "hawa.fields.x_close_seams__mutmut_169": {
+      "status": "survived",
+      "diff_sha256": "a8721942c6c54a7bdc149deed2dfdd992949bc75aba9d747f38049be6204aa0e",
+      "reason": "Equivalent: a == b only for a zero-length edge, which has no inserts under either key order, so both branches give an empty list."
+    },
+    "hawa.fields.x_close_seams__mutmut_17": {
+      "status": "survived",
+      "diff_sha256": "522ba95cc90ff9e494ba34e494dba6e939330a16c80f2c6eea044a1d108f0730",
+      "reason": "Equivalent for marched meshes: vertices that march() shares differ only by floating-point noise far below 1e-10, and distinct vertices are at least a fraction of a cell apart, so welding at 10 instead of 9 decimals merges the same points."
+    },
+    "hawa.fields.x_close_seams__mutmut_33": {
+      "status": "survived",
+      "diff_sha256": "488f3dd51aaaf02b9b1ee991bff9373a4d6c6aeeba5051e00ae2a9270ee05788",
+      "reason": "Equivalent: np.sort sorts along the last axis by default, which is axis 1 for this two-column array."
+    },
+    "hawa.fields.x_close_seams__mutmut_56": {
+      "status": "survived",
+      "diff_sha256": "f1035e3ea792d84ca5965a88c7125ed4718b4bcaaaf0747fea672870813f7d68",
+      "reason": "Equivalent in output: the bucket size only bounds how far the 27-bucket search reaches. A larger value (the norm over all edge coordinates) still covers every point on the longest naked edge; a zero value makes every coordinate infinite or NaN, which casts to one bucket, so the search becomes exhaustive. Only the work changes."
+    },
+    "hawa.fields.x_close_seams__mutmut_58": {
+      "status": "survived",
+      "diff_sha256": "0c9f33372a53d37930eece194b143af3794f6eb522fe087a1031df7826110903",
+      "reason": "Equivalent in output: the bucket size only bounds how far the 27-bucket search reaches. A larger value (the norm over all edge coordinates) still covers every point on the longest naked edge; a zero value makes every coordinate infinite or NaN, which casts to one bucket, so the search becomes exhaustive. Only the work changes."
+    },
+    "hawa.fields.x_close_seams__mutmut_59": {
+      "status": "survived",
+      "diff_sha256": "b6bedcd8f61cd8b428ead9519850a6d9fb3dad48a5880df1c485bc446f739c16",
+      "reason": "Not observable on meshes march() produces: the naked edges include edges from each endpoint to an apex, so the largest |a+b| over naked edges is at least about half the longest naked edge near the origin and much larger elsewhere; with that bucket size every point on an edge still falls in the 27 buckets around its start. Only the work changes."
+    },
+    "hawa.fields.x_close_seams__mutmut_61": {
+      "status": "survived",
+      "diff_sha256": "037ebef1a15da3c410775f8f9f6e86ea61a1490ebbcee174ae2654b5af4c12f9",
+      "reason": "Equivalent in output: the bucket size only bounds how far the 27-bucket search reaches. A larger value (the norm over all edge coordinates) still covers every point on the longest naked edge; a zero value makes every coordinate infinite or NaN, which casts to one bucket, so the search becomes exhaustive. Only the work changes."
+    },
+    "hawa.fields.x_close_seams__mutmut_70": {
+      "status": "survived",
+      "diff_sha256": "64f191aaf5a9e96305319a62ee14f279897c4da271cc52a22d16de44cc1bf15e",
+      "reason": "Equivalent: a float bucket key equals and hashes like the integer key with the same value, so lookups find the same buckets."
+    },
+    "hawa.fields.x_close_seams__mutmut_98": {
+      "status": "survived",
+      "diff_sha256": "56cb7ef1ecfb7f5a91832c97911af554ac4b899118209a5240c044708e50eb9c",
+      "reason": "Equivalent: the offsets range over the symmetric set (-1, 0, 1) in each axis, so subtracting visits the same buckets."
+    },
+    "hawa.fields.x_close_seams__mutmut_99": {
+      "status": "survived",
+      "diff_sha256": "57535dc4ccfc17766cc1df264c384244ecee7c67bb870cea41283581967ab9e0",
+      "reason": "Equivalent: a float bucket key equals and hashes like the integer key with the same value, so lookups find the same buckets."
+    },
     "hawa.fields.x_isosurface__mutmut_111": {
       "status": "survived",
       "diff_sha256": "5b232022aa08e8456c0b5f405598dcd603e5f25cefbfcf2b3b8fde2a6800aa72",
@@ -720,7 +810,7 @@
     },
     "hawa.fields.x_march__mutmut_166": {
       "status": "survived",
-      "diff_sha256": "24d6ad6ffb411335fcf65f96bc60f3f2c616ef890cb81946264560d255af8402",
+      "diff_sha256": "7f246d013e271963891a675a3e3b2c68fe85977dbe15aca82e513c671e6da918",
       "reason": "Equivalent: refined points lie on exact grid lines, so the comparison against the box bound minus 1e-9 never meets equality; strict and non-strict agree."
     },
     "hawa.fields.x_march__mutmut_17": {
@@ -730,7 +820,7 @@
     },
     "hawa.fields.x_march__mutmut_173": {
       "status": "survived",
-      "diff_sha256": "06ec5c4d3138b8655579a59ea4aa2234ebc98a45d1d1b175a8c987c378e01eca",
+      "diff_sha256": "a0c130d32925ed9b06ce939e02c67a667802027fc26262fd2812f9aa9f53029a",
       "reason": "Equivalent: refined points lie on exact grid lines, so the comparison against the box bound plus 1e-9 never meets equality; strict and non-strict agree."
     },
     "hawa.fields.x_march__mutmut_18": {
