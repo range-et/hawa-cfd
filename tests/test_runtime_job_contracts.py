@@ -184,3 +184,81 @@ def test_dispatch_enforces_capacity_unknown_operations_and_idempotent_close(isol
     jobs.dispatch_job(dict(op='evaluate_control', job=key, action='close'))
     assert key not in jobs.JOBS
     assert jobs.dispatch_job(dict(op='evaluate_control', job=key, action='close')) == {'closed': True}
+
+
+def test_jobs_hold_the_shared_device_lock_outside_checkpoints(isolated_jobs, monkeypatch):
+    import time
+    lock = plugin.DeviceLock()
+    monkeypatch.setattr(jobs, 'MPS_LOCK', lock); monkeypatch.setattr(jobs, 'SHARE_DEVICE_LOCK', True)
+    # Every wait is bounded, so a broken loop fails the test instead of hanging it.
+    def run(target):
+        thread = threading.Thread(target=target, daemon=True); thread.start(); thread.join(2)
+        return thread
+    def probe():
+        free = []
+        run(lambda: free.append(lock.acquire(timeout=0) and lock.release() is None))
+        return free
+    def worker(job, *steps):
+        out = []
+        def body():
+            for step in steps: step()
+            out.append((job.holds_device, job.state, job.steps)); job.drop_device()
+        assert not run(body).is_alive()
+        return out
+    job = jobs.Job(request())
+    assert worker(job, job.take_device) == [(True, 'queued', 0)] and lock.owner is None and not job.holds_device
+    # A busy lock: the first try fails, as if another thread held it for one poll.
+    attempts, take = [], lock.acquire
+    def busy(timeout=None):
+        attempts.append(timeout)
+        return len(attempts) % 2 == 0 and take(timeout)
+    monkeypatch.setattr(lock, 'acquire', busy)
+    # Waiting polls often enough to stay responsive, reports the caller's state and keeps the step count.
+    for args, state in (((), 'running'), (('starting',), 'starting')):
+        job = jobs.Job(request()); job.steps = 3
+        assert worker(job, lambda: job.take_device(*args)) == [(True, state, 3)] and 0 < attempts[-2] <= .1
+    # A checkpoint takes the lock back in the state it reports.
+    job = jobs.Job(request())
+    assert worker(job, job.take_device, lambda: job.checkpoint(3, 'queued')) == [(True, 'queued', 3)] and len(attempts) == 8
+    monkeypatch.setattr(lock, 'acquire', take)
+    # A query's device work runs under the lock; the lock is free once the job ends.
+    calls = []
+    monkeypatch.setattr(plugin, 'dispatch', lambda req: calls.append((lock.owner == threading.get_ident(), probe())) or {'ok': True})
+    job = jobs.Job({'kind': 'query', 'request': {'op': 'info'}}); run(job.work)
+    assert calls == [(True, [False])] and job.state == 'completed' and lock.owner is None and not job.holds_device
+    job = jobs.Job(request()); job.take_device(); job.control('pause')
+    paused = []
+    def resume_free():
+        paused.append((job.holds_device, probe())); job.control('resume')
+    monkeypatch.setattr(job.condition, 'wait', resume_free)
+    job.checkpoint(3)
+    assert paused == [(False, [True])] and job.holds_device and lock.owner == threading.get_ident()
+    job.control('cancel')
+    with pytest.raises(jobs.Cancelled): job.checkpoint(4)
+    assert not job.holds_device and lock.owner is None
+    # Waiting for the lock stays cancellable, and a failed evaluation releases it.
+    # The holder stays alive: a finished thread's identifier can be reused by the next one.
+    took, stop = threading.Event(), threading.Event()
+    def holder():
+        lock.acquire(timeout=1); took.set(); stop.wait(5); lock.release()
+    threading.Thread(target=holder, daemon=True).start(); took.wait(2)
+    waiting = jobs.Job(request()); waiting.control('cancel'); raised = []
+    def wait():
+        try:
+            waiting.take_device()
+        except jobs.Cancelled:
+            raised.append(waiting.holds_device)
+    assert not run(wait).is_alive() and raised == [False]
+    stop.set()
+    end = time.monotonic()+2
+    while lock.owner is not None and time.monotonic() < end: time.sleep(.005)
+    def failed(*args, **kwargs):
+        assert lock.owner == threading.get_ident()
+        raise RuntimeError('diverged')
+    monkeypatch.setattr(jobs, 'evaluate', failed)
+    job = jobs.Job(request()); run(job.work)
+    assert job.state == 'failed' and job.error == 'diverged' and lock.owner is None and not job.holds_device
+    # Off a Mac, jobs take no lock.
+    monkeypatch.setattr(jobs, 'SHARE_DEVICE_LOCK', False)
+    job = jobs.Job(request()); job.take_device()
+    assert not job.holds_device and lock.owner is None

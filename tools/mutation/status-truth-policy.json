@@ -1,16 +1,22 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 9,
-  "inventory_sha256": "245d27c49d838c7703fb80de364b6b7f83c5ad74dc8bfbc96eb7e94298c7755c",
-  "scope": "Lines changed by the #74 status PR only (git diff against the base revision, mutmut3.py changed-lines scope): the queued state while a job waits for the device slot in src/hawa/jobs.py; not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
+  "mutants": 27,
+  "inventory_sha256": "b23a54f3ae3268d17fc0110c9b35f8f13e9f30a3d52440a3ee1d11c9793a16c4",
+  "scope": "Lines changed by the #74 status PR only (git diff against the base revision, mutmut3.py changed-lines scope): the queued state while a job waits for the device slot in src/hawa/jobs.py, and the shared MPS lock a job holds outside its checkpoints (#99); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
   "control_test_files": [
     "tests/test_runtime_job_contracts.py"
   ],
   "sources": {
-    "src/hawa/jobs.py": "47816da2aec2530e1236d3624ed1cba305f81854dec5343c869a631d66fa1980",
+    "src/hawa/jobs.py": "0918418b3ca13b721dfcf3a63e4de854dac815423400b676b643e36157f3d6e1",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
-    "tests/test_runtime_job_contracts.py": "396ab7b2b9428e4098c755754fe38a5c4346e7c2e144fee497c2dc43ce7e3bff"
+    "tests/test_runtime_job_contracts.py": "301967cc12e6a7d3739e69214b20880e0790b59f637ab776748733e580e40032"
   },
-  "reviewed_survivors": {},
+  "reviewed_survivors": {
+    "hawa.jobs.xǁJobǁ__init____mutmut_1": {
+      "status": "survived",
+      "diff_sha256": "6d5b02f51ab9076eb9a797a8b160d6020b22645b17ba129f71d8a2536e5ed8be",
+      "reason": "Equivalent: holds_device is only tested for truth, and None is false like False until take_device sets it to True."
+    }
+  },
   "base_revision": "6b0744abb4ef132936dac310dff023852b0eade6"
 }

@@ -210,16 +210,40 @@ def test_advance_releases_the_device_lock_between_chunks(monkeypatch):
     a = plugin.Session({"example": "tgv3d-bgk", "size": 8}, 'mps')
     first, got = threading.Event(), []
     def synchronize():
-        first.set(); time.sleep(.2)
+        # Hold the first chunk until the other thread has queued for the lock.
+        if not first.is_set():
+            first.set(); end = time.monotonic()+5
+            while not plugin.MPS_LOCK.queue and time.monotonic() < end: time.sleep(.005)
     monkeypatch.setattr(a.backend, 'synchronize', synchronize)
     def other():
-        first.wait(10)
-        with plugin.MPS_LOCK:
-            got.append(a.flow.i)
-    waiter = threading.Thread(target=other); waiter.start()
-    a.advance(15); waiter.join(10)
-    # The other thread gets the lock at a chunk boundary, not after all 15 steps.
-    assert a.flow.i == 15 and len(got) == 1 and got[0] in (5, 10)
+        first.wait(5)
+        if plugin.MPS_LOCK.acquire(timeout=5):
+            got.append(a.flow.i); plugin.MPS_LOCK.release()
+    waiter = threading.Thread(target=other, daemon=True); waiter.start()
+    a.advance(15); waiter.join(5)
+    # The queued thread gets the lock at the first chunk boundary, not after all 15 steps.
+    assert a.flow.i == 15 and got == [5]
+
+
+def test_pause_from_a_thread_holding_the_device_lock_lets_the_worker_stop(monkeypatch):
+    import threading
+    plugin = mps_labelled(monkeypatch)
+    a = plugin.Session({"example": "tgv3d-bgk", "size": 8}, 'mps')
+    a.start(10**6)
+    end = time.monotonic()+5
+    while a.flow.i == 0 and time.monotonic() < end: time.sleep(.005)
+    out = []
+    def job():
+        # A query job holds the lock while it pauses the session (save/load).
+        plugin.MPS_LOCK.acquire(timeout=5)
+        try:
+            a.pause(); out.append((a.state, plugin.MPS_LOCK.owner == threading.get_ident(), plugin.MPS_LOCK.depth))
+        except RuntimeError as exc:
+            out.append(str(exc))
+        finally:
+            plugin.MPS_LOCK.release()
+    worker = threading.Thread(target=job, daemon=True); worker.start(); worker.join(5)
+    assert out == [('paused', True, 1)] and a.thread is None
 
 
 def test_refined_run_waits_on_pause_outside_the_device_lock(monkeypatch):
@@ -290,3 +314,31 @@ def test_device_lock_is_reentrant_fair_and_owned():
         order.append('main'); lock.release()
     first.join(2); second.join(2)
     assert order == ['first', 'second', 'main'] and lock.owner is None and lock.depth == 0
+    # A thread can give up every hold while it waits, then get them back.
+    assert lock.acquire(timeout=1) and lock.acquire(timeout=1)
+    taken = []
+    assert lock.suspend() == 2 and lock.owner is None and lock.depth == 0
+    run(lambda: taken.append(lock.acquire(timeout=1) and lock.release() is None)).join(2)
+    lock.restore(2)
+    assert taken == [True] and lock.owner == threading.get_ident() and lock.depth == 2
+    lock.release(); lock.release(); lock.restore(0)
+    suspended = []
+    run(lambda: suspended.append(lock.suspend())).join(2)
+    assert suspended == [0] and lock.owner is None and lock.depth == 0
+    # An interrupted wait leaves the queue, so later callers are not blocked behind it.
+    assert lock.acquire(timeout=1)
+    def interrupted(*args):
+        raise KeyboardInterrupt
+    raised = []
+    def interrupt():
+        lock.condition.wait_for = interrupted
+        try:
+            lock.acquire(timeout=1)
+        except KeyboardInterrupt:
+            raised.append(list(lock.queue))
+    run(interrupt).join(2)
+    del lock.condition.wait_for
+    lock.release()
+    late = []
+    run(lambda: late.append(lock.acquire(timeout=1) and lock.release() is None)).join(2)
+    assert raised == [[]] and late == [True]

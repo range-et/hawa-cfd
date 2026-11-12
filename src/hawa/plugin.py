@@ -308,9 +308,15 @@ class DeviceLock:
                 return True
             ticket = object()
             self.queue.append(ticket)
-            if not self.condition.wait_for(lambda: self.owner is None and self.queue[0] is ticket, timeout):
-                self.queue.remove(ticket)
-                self.condition.notify_all()
+            acquired = False
+            try:
+                acquired = self.condition.wait_for(lambda: self.owner is None and self.queue[0] is ticket, timeout)
+            finally:
+                # A timed-out or interrupted wait must not block the waiters behind it.
+                if not acquired:
+                    self.queue.remove(ticket)
+                    self.condition.notify_all()
+            if not acquired:
                 return False
             self.queue.pop(0)
             self.owner, self.depth = me, 1
@@ -324,6 +330,21 @@ class DeviceLock:
             if not self.depth:
                 self.owner = None
                 self.condition.notify_all()
+
+    def suspend(self):
+        """Release every hold the calling thread has; return the depth to restore."""
+        with self.condition:
+            if self.owner != threading.get_ident():
+                return 0
+            depth, self.depth, self.owner = self.depth, 0, None
+            self.condition.notify_all()
+            return depth
+
+    def restore(self, depth):
+        if depth:
+            self.acquire()
+            with self.condition:
+                self.depth = depth
 
     def __enter__(self):
         self.acquire()
@@ -436,7 +457,12 @@ class Session:
         self.stop.set()
         worker = self.thread
         if worker is not None and worker.is_alive():
-            worker.join(timeout=30)
+            # A job holding the shared MPS lock must let the worker finish its chunk.
+            held = MPS_LOCK.suspend()
+            try:
+                worker.join(timeout=30)
+            finally:
+                MPS_LOCK.restore(held)
             if worker.is_alive():
                 raise RuntimeError("Solver has not yet reached a cancellation boundary")
 
