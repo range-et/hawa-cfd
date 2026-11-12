@@ -48,7 +48,7 @@ public sealed class ParticlesComponent:HawaQueryComponent {
     public ParticlesComponent():base("Hawa Particles","Particles","Time-dependent pathlines through a recorded velocity field. Seeds are in model coordinates.","11 Animation"){}
     public override Guid ComponentGuid=>new("a7bb3b0a-ae4f-42ae-9301-a3c55f077133");
     protected override void RegisterInputParams(GH_InputParamManager p){p.AddTextParameter("Manifest","M","Recording manifest",GH_ParamAccess.item);p.AddGenericParameter("Frame","F","Any frame from this recording, for coordinates",GH_ParamAccess.item);p.AddPointParameter("Seeds","P","Initial particle positions",GH_ParamAccess.list);p.AddIntegerParameter("Last frame","I","Final frame index",GH_ParamAccess.item,1);}
-    protected override void RegisterOutputParams(GH_OutputParamManager p){p.AddCurveParameter("Trails","C","Particle paths",GH_ParamAccess.list);p.AddPointParameter("Particles","P","Final valid positions",GH_ParamAccess.list);}
+    protected override void RegisterOutputParams(GH_OutputParamManager p){p.AddCurveParameter("Trails","C","Particle paths",GH_ParamAccess.list);p.AddPointParameter("Particles","P","Final positions of particles still in the flow",GH_ParamAccess.list);}
     protected override void SolveHawa(IGH_DataAccess da){string manifest="";int last=1;da.GetData(0,ref manifest);var frame=ReadObject(da,1);var seeds=new List<Point3d>();da.GetDataList(2,seeds);da.GetData(3,ref last);var world=FieldTools.World(frame);var r=View(new JsonObject{["op"]="recording",["action"]="particles",["manifest"]=LocalPath(manifest),["last"]=last,["seeds"]=new JsonArray(seeds.Select(p=>
             (JsonNode)Coordinates.Grid(world,p)
         ).ToArray())});if(r==null)return;
@@ -62,8 +62,12 @@ public sealed class ParticlesComponent:HawaQueryComponent {
         ).Select(p=>
             new PolylineCurve(p)
         ));
-        da.SetDataList(1,paths.Where(p=>
-            p.Length>0
+        // A particle that left the flow, or started outside it, keeps its trail but has no final position (#82).
+        var alive=r["alive"]!.AsArray().Select(x=>
+            x!.GetValue<bool>()
+        ).ToArray();
+        da.SetDataList(1,paths.Where((p,i)=>
+            alive[i]
         ).Select(p=>
             p[^1]
         ));

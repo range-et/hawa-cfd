@@ -43,14 +43,7 @@ public abstract class StandInQuery : HawaQueryComponent
     protected override void SolveHawa(IGH_DataAccess da) => da.SetData(0, FieldTools.Frames(da, 0));
 }
 public sealed class BoundaryCaptureComponent() : StandInQuery("BoundaryCapture") { protected override int Inputs => 4; protected override int Outputs => 3; }
-public sealed class PlaneFieldComponent() : StandInQuery("PlaneField")
-{
-    // Mirrors the production override: a plane view with no frames says so.
-    protected override void InputsMissing() { base.InputsMissing(); Message = "waiting for frames"; }
-}
 public sealed class IsosurfaceComponent() : StandInQuery("Isosurface");
-public sealed class FlowDisplayComponent() : StandInQuery("FlowDisplay");
-public sealed class SurfaceFieldComponent() : StandInQuery("SurfaceField");
 
 public sealed class ProbeComponent() : StandInComponent("Probe")
 {

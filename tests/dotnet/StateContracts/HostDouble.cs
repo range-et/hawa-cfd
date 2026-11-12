@@ -60,6 +60,13 @@ namespace Rhino.Geometry {
     }
     public readonly record struct Line(Point3d From,Point3d To);
     public abstract class Curve { }
+    public readonly record struct Rectangle3d(Point3d Origin, Vector3d X, Vector3d Y) { public Point3d PointAt(double u,double v)=>Origin+(u*X+v*Y); }
+    // Plane(origin, normal) picks some perpendicular frame, as RhinoCommon does.
+    public readonly record struct Plane {
+        public Point3d Origin { get; } public Vector3d XAxis { get; } public Vector3d YAxis { get; } public Vector3d ZAxis { get; }
+        public Plane(Point3d origin,Vector3d normal){var z=normal;z.Unitize();var x=Vector3d.CrossProduct(Math.Abs(z.Z)<.9?new Vector3d(0,0,1):new Vector3d(1,0,0),z);x.Unitize();var y=Vector3d.CrossProduct(z,x);(Origin,XAxis,YAxis,ZAxis)=(origin,x,y,z);}
+        public Point3d PointAt(double u,double v)=>Origin+(u*XAxis+v*YAxis);
+    }
     public sealed class PolylineCurve(IEnumerable<Point3d> points) : Curve { public List<Point3d> Points { get; } = points.ToList(); }
     public readonly record struct MeshFace(int A,int B,int C,int D=-1) { public bool IsQuad=>D>=0; }
     public sealed record MeshPoint(Point3d Point);
@@ -79,15 +86,29 @@ namespace Rhino.Geometry {
             public int? ReportedCount;
             public new int Count=>ReportedCount??base.Count;
             public void AddFace(int a,int b,int c)=>Add(new(a,b,c));
+            public void AddFace(int a,int b,int c,int d)=>Add(new(a,b,c,d));
+            public bool SetFace(int i,int a,int b,int c){this[i]=new(a,b,c);return true;}
+            public bool SetFace(int i,int a,int b,int c,int d){this[i]=new(a,b,c,d);return true;}
         }
-        public sealed class NormalList { public int Calls; public void ComputeNormals() => Calls++; }
+        // Area-weighted vertex normals from the faces, like RhinoCommon's ComputeNormals.
+        public sealed class NormalList(Mesh mesh) {
+            public int Calls; readonly List<Vector3d> normals=new();
+            public int Count=>normals.Count;
+            public Vector3d this[int i]=>normals[i];
+            public void ComputeNormals() {
+                Calls++;normals.Clear();normals.AddRange(mesh.Vertices.Select(_=>new Vector3d(0,0,0)));
+                foreach(var f in mesh.Faces){var n=f.IsQuad?Vector3d.CrossProduct(mesh.Vertices[f.C]-mesh.Vertices[f.A],mesh.Vertices[f.D]-mesh.Vertices[f.B]):Vector3d.CrossProduct(mesh.Vertices[f.B]-mesh.Vertices[f.A],mesh.Vertices[f.C]-mesh.Vertices[f.A]);foreach(var v in f.IsQuad?new[]{f.A,f.B,f.C,f.D}:new[]{f.A,f.B,f.C})normals[v]+=n;}
+                for(int i=0;i<normals.Count;i++)if(normals[i].Length>0){var n=normals[i];n.Unitize();normals[i]=n;}
+            }
+        }
         public static List<Mesh> Created=new();
         public static Func<Brep,MeshingParameters,Mesh[]> Factory=(_,_)=>Array.Empty<Mesh>();
-        public Mesh(){Created.Add(this);}
+        public Mesh(){Created.Add(this);Normals=new(this);}
+        public Mesh DuplicateMesh(){var m=new Mesh();m.Vertices.AddRange(Vertices);m.Faces.AddRange(Faces);m.VertexColors.AddRange(VertexColors);return m;}
         public VertexList Vertices { get; } = new();
         public List<System.Drawing.Color> VertexColors { get; } = new();
         public FaceList Faces { get; } = new();
-        public NormalList Normals { get; } = new();
+        public NormalList Normals { get; }
         public bool IsValid=true,IsClosed=true,Disposed;
         public BoundingBox Bounds=new(new(-10,-10,-10),new(10,10,10));
         public Func<Line,Point3d[]> Hits=_=>Array.Empty<Point3d>();

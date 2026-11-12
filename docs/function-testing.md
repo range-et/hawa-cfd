@@ -24,8 +24,8 @@ its signature; the tool does not invent a behavioral contract.
   names the suite, not an individual case. Shared source lines cannot distinguish
   two methods and do not earn either method automatic credit.
 - The Grasshopper host harness in the same executable links whole component
-  source files (`Runtime.cs`, `FieldTools.cs`, `ResultsComponents.cs`,
-  `SolveComponents.cs`, `AnimationComponents.cs`) against Grasshopper and
+  source files (`Runtime.cs`, `FieldTools.cs`, `FieldViewComponents.cs`,
+  `ResultsComponents.cs`, `SolveComponents.cs`, `AnimationComponents.cs`) against Grasshopper and
   RhinoCommon doubles (`GrasshopperDouble.cs`, `HostDouble.cs`). Its tests
   (`ComponentContracts.cs`) drive `SolveInstance`, archive reads and document
   context changes and assert outputs, labels, runtime messages and bridge

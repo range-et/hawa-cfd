@@ -93,6 +93,21 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 12, 2026 — GH field views draw what was not simulated (#81, #82, partial)
+
+Built, not released. These views moved into `FieldViewComponents.cs`, which the
+GH host harness measures in full:
+- GH Plane Field draws the merged plane classes. Fluid faces are coloured.
+  Solid, invalid and no-data pieces are black ("not simulated", as on Slice) on
+  their own vertex copies, for single and composed frames.
+- GH Surface Field keeps every face and draws faces with an invalid sample black.
+  Its label counts those faces.
+- GH Flow Display skips seeds with fewer than two traced points. Each remaining
+  path keeps its per-seed colours, and points with no valid colour sample are black.
+- GH Particles outputs final positions only for particles whose `alive` flag is true.
+
+Not done: a live Rhino check.
+
 ### November 11, 2026 — GH Slice key and GH Vectors alignment (#29, #81, partial)
 
 Built, not released, measured in the GH host harness:
