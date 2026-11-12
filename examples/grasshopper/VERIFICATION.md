@@ -166,15 +166,15 @@ verification passes. Full atmospheric validation remains open.
 ## G6 coverage-library additions
 
 Examples 31 and 32 cover the remaining reusable public operations: Wind Tunnel,
-Runtime, Sample, Vectors, Checkpoint, Translation and Particles. Native examples
+Runtime, Sample, Vectors, Checkpoint and Translation (Particles was later removed by owner decision; see features history, November 12, 2026). Native examples
 21–22 cover Linked Case. The archive inventory now covers all 52 public nodes
 across 30 GH definitions, excluding preserved legacy 09. All are annotated, idle
 and read without missing/corrupt archive messages. This is archive coverage;
 it does not assert a fresh numerical run of every older example.
 
 Live checks: 31 completes CPU60 with three valid probes/vectors and save/load/export;
-32 completes CPU40 with five recorded frames, three particle paths and a matching
-body pose. Source files remain idle. See [G6 evidence](../../docs/compatibility-matrix.md).
+32 completed CPU40 with five recorded frames, three particle paths and a matching
+body pose (historical: the Particles node is removed in the next re-save). Source files remain idle. See [G6 evidence](../../docs/compatibility-matrix.md).
 
 
 ## Neutral transfer and shared-view development checks

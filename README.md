@@ -15,7 +15,7 @@ Project records: [built features and history](features.md) · [GitHub issues and
 - Responsive hull search with completed-candidate IDs, pause, cancel and best-result history.
 - 3D stream tubes, domain wireframes, field planes, contours, isosurfaces and offset surface sampling.
 - Shared blue-green, spectrum and diverging color maps with fixed ranges.
-- Timed field recording, playback and particle paths.
+- Timed field recording and playback.
 - Experimental prescribed moving meshes: translation, rotation, oscillation, body loads and completed-cycle search.
 - Local airfoil coordinates and polars, offline NACA four-digit generation, tapered wings and attached-flow lifting-line analysis.
 - Mesh checks, voxel inspection, experimental stationary curved-wall links and one fixed 2:1 refinement patch.

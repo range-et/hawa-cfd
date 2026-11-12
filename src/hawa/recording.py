@@ -1,4 +1,4 @@
-"""Bounded offline frame recording and time-dependent particle advection."""
+"""Bounded offline frame recording and playback."""
 import json
 from pathlib import Path
 import numpy as np
@@ -55,8 +55,6 @@ def record(session, steps, interval, directory, checkpoint):
     return {'manifest':str(root/'manifest.json'),'frames':len(frames)}
 
 
-MAX_PATH_POINTS = 100000
-
 
 def read_manifest(manifest):
     path=Path(manifest).resolve()
@@ -93,49 +91,3 @@ def load_frame(manifest,index):
         raise ValueError('Recording frame metadata does not match the manifest')
     return store(arrays,meta)
 
-
-def pathlines(manifest,seeds,last=None,checkpoint=lambda n:None):
-    from .plugin import sample_arrays
-    from .fields import read_frame
-    root,data,dx=read_manifest(manifest);frames=data['frames']
-    last=len(frames)-1 if last is None else last
-    if type(last) is not int or not 0<=last<len(frames):raise ValueError('Invalid final frame index')
-    points=np.asarray(seeds,float)
-    if points.ndim!=2 or points.shape[1]!=3 or not 1<=len(points)<=200 or not np.isfinite(points).all():
-        raise ValueError('Use 1..200 finite three-coordinate seeds')
-    points=points.copy()
-    paths=[[p.tolist()] for p in points];total=len(points)
-    def read(entry):
-        checkpoint(0)
-        arrays,meta=read_frame(root.parent/entry['file'])
-        if meta['case']!=data['case'] or meta.get('time')!=entry['time']:
-            raise ValueError('Recording frame metadata does not match the manifest')
-        return arrays
-    before=read(frames[0])
-    # A seed outside the flow of the first frame is never alive, even with no step to take.
-    alive=np.array([sample_arrays(before,[p])[0] is not None for p in points])
-    for k in range(last):
-        after=read(frames[k+1]);dt=frames[k+1]['time']-frames[k]['time']
-        if after['velocity'].shape!=before['velocity'].shape:
-            raise ValueError('Recording frame lattice shapes must match')
-        speed=max(np.linalg.norm(before['velocity'],axis=0).max(),np.linalg.norm(after['velocity'],axis=0).max())
-        sub=max(1,int(np.ceil(dt*speed/dx/.4)))
-        if sub>1000:raise ValueError('Frames too far apart for pathline integration')
-        for j in range(sub):
-            checkpoint(k*1000+j)
-            t=(j+.5)/sub;h=dt/sub/dx
-            for i,p in enumerate(points):
-                if not alive[i]:continue
-                a=sample_arrays(before,[p])[0];b=sample_arrays(after,[p])[0]
-                if a is None or b is None:alive[i]=False;continue
-                v=(1-t)*np.array(a['velocity'])+t*np.array(b['velocity'])
-                mid=p+h*v/2
-                a=sample_arrays(before,[mid])[0];b=sample_arrays(after,[mid])[0]
-                if a is None or b is None:alive[i]=False;continue
-                q=p+h*((1-t)*np.array(a['velocity'])+t*np.array(b['velocity']))
-                if sample_arrays(after,[q])[0] is None:alive[i]=False;continue
-                if total>=MAX_PATH_POINTS:raise ValueError('Pathlines exceed 100000 point budget; reduce seeds or frame range')
-                points[i]=q;paths[i].append(q.tolist());total+=1
-        before=after
-    # A particle that left the flow keeps its path but is not alive at the end.
-    return {'paths':paths,'alive':alive.tolist(),'time':frames[last]['time'],'case':data['case']}

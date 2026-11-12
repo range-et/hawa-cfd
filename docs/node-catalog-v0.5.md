@@ -24,7 +24,7 @@ run. The maintained inventory is 46 public components plus one archive reader.
 | Execution | Solve, Refined Solve, Evaluate, Motion Evaluate, Search | Keep with explicit contracts. Evaluate computes a specific stationary X-resistance objective normalized by V^(2/3); its description now states this. It is not a generic objective or an area-based Cd. Motion Evaluate measures complete cycles. Search consumes completed candidate IDs. |
 | Results and files | Field Snapshot, Body Loads, Sample, Checkpoint | Keep: shared field/time, physical loads, sampling and persistence. |
 | Display | Slice, Vectors, Streamlines, Seed Points, Color Map, Plane Field, Isosurface, Flow Display, Surface Field, Legend | Keep for compatibility; the simple slice/streamline nodes overlap the richer snapshot-based views. Prefer shared snapshots for multi-view comparison. Consolidation needs explicit migration, not silent removal. |
-| Recording | Record, Playback, Particles, Body Preview | Keep: time-indexed data and consistent field/body display. |
+| Recording | Record, Playback, Body Preview | Keep: time-indexed data and consistent field/body display. Particles was removed by owner decision (November 2026); a hidden stub only opens old definitions. |
 | Requested aerodynamic service | Airfoil, Polar Data, Wing, Wing Analysis | Keep within the explicitly requested offline airfoil/polar and lifting-line workflow. Wing is its constrained unswept/tapered geometry input, not a general aircraft modeller. No live database calls or implied viscous drag prediction. |
 | Example recipe | Parametric Hull | Remove from public catalogue; replace its supported-example use with native GH construction. Preserve hidden archive loading only. |
 

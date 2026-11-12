@@ -310,7 +310,7 @@ static class ComponentContracts
             Reset();
         });
 
-        test("playback and particles resolve recordings and keep only drawable paths", () => {
+        test("playback resolves recordings; removed Particles opens old definitions with an error", () => {
             Reset(); using var bridge = new GhBridge(); JsonObject? reply = null;
             bridge.Respond = r => r["op"]!.GetValue<string>() switch { "evaluate_submit" => new() { ["job"] = "p" + bridge.Ops("evaluate_submit").Count() }, "evaluate_poll" => reply == null ? new() { ["state"] = "running" } : new() { ["state"] = "completed", ["result"] = reply.DeepClone() }, _ => null };
             JsonObject Request() => bridge.Ops("evaluate_submit").Last()["request"]!.AsObject();
@@ -318,13 +318,15 @@ static class ComponentContracts
             assert(Solve(playback, "rec/manifest.json", 2).Outputs.Count == 0 && Json(Request()) == """{"op":"recording","action":"load","manifest":"/work/defs/rec/manifest.json","index":2}""", "Pending playback published or path wrong");
             reply = (JsonObject)JsonNode.Parse("""{"time":1.5,"frame":{"id":2},"case":{}}""")!; var da = Solve(playback, "/abs/manifest.json", 2);
             assert(Json(da.Out<HawaGoo>(0).Data) == """{"time":1.5,"frame":{"id":2},"case":{},"kind":"Frame"}""" && da.Out<double>(1) == 1.5, "Playback frame wrong");
-            var particles = new ParticlesComponent { Document = doc }; var frame = Goo("""{"case":{"origin":[1,0,0],"spacing":2}}"""); reply = null;
-            assert(Solve(particles, "/abs/manifest.json", frame, new List<Point3d> { new(3, 2, 0) }, 3).Outputs.Count == 0, "Pending particles published");
-            assert(Json(Request()) == """{"op":"recording","action":"particles","manifest":"/abs/manifest.json","last":3,"seeds":[[1,1,0]]}""", "Particle request wrong");
-            reply = (JsonObject)JsonNode.Parse("""{"paths":[[[0,0,0]],[[0,0,0]],[[0,0,0],[1,0,0]]],"alive":[false,true,false]}""")!; da = Solve(particles, "/abs/manifest.json", frame, new List<Point3d> { new(3, 2, 0), new(1, 0, 0), new(1, 0, 0) }, 3);
-            assert(da.List(0).Cast<PolylineCurve>().Single().Points.SequenceEqual(new[] { new Point3d(1, 0, 0), new Point3d(3, 0, 0) }), "Trail of a particle that left the flow lost, or a one-point trail drawn");
-            assert(da.List(1).SequenceEqual(new object?[] { new Point3d(1, 0, 0) }), "Final positions must come only from particles still alive (#82)");
-            assert(playback.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077132") && particles.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077133") && Names(playback) == "Manifest,Index|Frame,Time" && Names(particles) == "Manifest,Frame,Seeds,Last frame|Trails,Particles" && particles.Params.Output[1] is GH_TestParam { Description: "Final positions of particles still in the flow" }, "Layout changed");
+            int submits = bridge.Ops("evaluate_submit").Count();
+            var particles = new ParticlesComponent { Document = doc };
+            var gone = Solve(particles);
+            assert(ParticlesComponent.Removed == "Hawa Particles was removed. Use Flow Display on a Playback frame, or Streamlines on a live Solution.", "Removal message must point playback frames at Flow Display; Streamlines needs a live session");
+            assert(gone.Outputs.Count == 0 && particles.Errors.SequenceEqual(new[] { ParticlesComponent.Removed }) && bridge.Ops("evaluate_submit").Count() == submits, "Removed Particles must only report its removal");
+            particles.RuntimeMessages.Clear(); Solve(particles, "/abs/manifest.json", Goo("""{"case":{}}"""), new List<Point3d> { new(3, 2, 0) }, 3);
+            assert(particles.Errors.SequenceEqual(new[] { ParticlesComponent.Removed }) && bridge.Ops("evaluate_submit").Count() == submits, "Wired old Particles must report its removal without a request");
+            assert(playback.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077132") && particles.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077133") && Names(playback) == "Manifest,Index|Frame,Time" && Names(particles) == "Manifest,Frame,Seeds,Last frame|Trails,Particles", "Recording layouts changed; Particles must keep its archive GUID and parameter names");
+            assert(particles.Exposure == GH_Exposure.hidden && playback.Exposure == GH_Exposure.primary && particles.Params.Input.All(p => p.Optional), "Removed Particles must stay hidden and accept an unwired archive");
             Reset();
         });
 

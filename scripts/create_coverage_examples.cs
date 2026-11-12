@@ -39,7 +39,6 @@ foreach(int number in new[]{31,32}){
   var moving=C("MotionCase",1500,200);W(spec,0,moving,0);W(body,0,moving,1);
   var record=C("Record",1800,200);W(moving,0,record,0);Int(record,2,40);Int(record,3,10);Text(record,4,"cpu");Toggle("Record",record,5,1500,550);Toggle("Pause recording",record,6,1500,650);var directory=Add(new GH_Panel(),1500,850);directory.NickName="Recording directory";directory.UserText="Choose a new absolute recording directory";record.Params.Input[1].AddSource(directory);
   var playback=C("Playback",2100,200);W(record,0,playback,0);var index=Add(new GH_NumberSlider(),1800,800);index.NickName="Frame index";index.Slider.Minimum=0;index.Slider.Maximum=4;index.Slider.DecimalPlaces=0;index.SetSliderValue(4);playback.Params.Input[1].AddSource(index);
-  var particles=C("Particles",2400,200);W(record,0,particles,0);W(playback,0,particles,1);particles.Params.Input[2].AddSource(points);Int(particles,3,4);
   var loads=C("BodyLoads",2400,500);W(playback,0,loads,0);var pose=C("BodyPreview",2700,500);pose.Params.Input[0].AddSource(mesh);W(loads,4,pose,1);mesh.Hidden=true;
   var state=Add(new GH_Panel(),2100,800);state.AddSource(record.Params.Output[1]);
  }

@@ -75,10 +75,11 @@ Two new human-readable workflows fill the previous gaps:
   Wind Tunnel, Runtime, Sample, Vectors and Checkpoint. Live Rhino CPU60 produces
   three valid velocity/pressure probes and vectors. Save, load and export complete;
   the exported array is finite and has shape 3×21×16×16. Use metres in Rhino.
-- [32: Translation and particles](../examples/grasshopper/32-translation-particle-recording.gh):
-  Translation, Moving Body, Record, Playback, Particles and Body Preview. Live
-  CPU40 writes five frames, then produces three particle paths and a matching body
-  pose. A new absolute recording directory is required.
+- [32: Translation and recording](../examples/grasshopper/32-translation-particle-recording.gh):
+  Translation, Moving Body, Record, Playback and Body Preview. The last live run
+  (CPU40) wrote five frames and a matching body pose; it predates the removal of
+  Particles (owner decision, November 2026), whose node is removed in the next
+  re-save. A new absolute recording directory is required.
 
 Both were tested through embedded Python in Rhino 8, without waiting on its UI
 thread. Owned documents were disposed; pending cleanup reached zero. Their source
@@ -133,7 +134,7 @@ harnesses remain required when their adapters change.
 | Rough walls, shifted storage, exterior/body ownership, reversal | `test_neutral.py`, `test_neutral_external.py`, numerical scripts | 28–30 |
 | Translation, rotation, linear/angular oscillation, loads and restart | `test_motion.py` | 17–20, 32 |
 | Immutable fields, contour/iso/vector/flow displays | field product, `test_fields.py`, StateContracts | 11, 15–16, 23, 30–32 |
-| Recording/playback/pathlines and corrupt/missing data | `test_recording.py`, `test_motion.py` | 13, 16–19, 32 |
+| Recording/playback and corrupt/missing data | `test_recording.py`, `test_motion.py` | 13, 16–19, 32 |
 | Local airfoil coordinates/polars and wing analysis | `test_airfoils.py` | 12, 18 |
 | Coupled refinement and solid/interface clearance | refinement product, `test_refinement.py` | 14 |
 | Backend selection and backport behavior | `test_engine.py`, `test_port_features.py`, separate upstream suites | 01–08 |
@@ -207,7 +208,6 @@ and broader refinement remain in [GitHub Issues](https://github.com/range-et/haw
 | Hawa Moving Body | 17, 18, 19, 20, 32 |
 | Hawa Neutral Flow | 28, 29, 30, 33 |
 | Hawa Oscillation | 17, 18, 20 |
-| Hawa Particles | 32 |
 | Hawa Physics | 08, 10, 11, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33 |
 | Hawa Plane Field | 11, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 29, 30, 33 |
 | Hawa Playback | 13, 16, 17, 18, 19, 20, 32, 33 |

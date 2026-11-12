@@ -102,7 +102,7 @@ Reconcile added/removed examples against both catalogue directories and
 | 29 | Roughness sensitivity: wall traction at equal physical time and changed z0 |
 | 30 | Cropped buildings: geometry, boundary setup, quality report and shared slice time |
 | 31 | Tunnel/probes/checkpoint: runtime/device, probe vectors, save/load/export |
-| 32 | Translation/particles: completed frames, particle paths and matching body pose |
+| 32 | Translation/recording: completed frames, playback frame and matching body pose |
 | 33 | Three-stage transfer: all recordings/captures, common final physical time, shared slice and quality/statistics limits |
 
 Suggested per-example evidence row:

@@ -33,6 +33,7 @@ namespace Grasshopper.Kernel {
     public enum GH_RuntimeMessageLevel { Blank, Remark, Warning, Error }
     public enum GH_DocumentContext { Unknown, None, Loaded, Unloaded, Open, Close, Lock, Unlock }
     public enum GH_ParamAccess { item, list, tree }
+    public enum GH_Exposure { primary, secondary, tertiary, hidden }
     public sealed class GH_Document {
         public static bool EnableSolutions = true;
         public bool Enabled = true;
@@ -141,6 +142,7 @@ namespace Grasshopper.Kernel {
             foreach (var p in Params.Output.OfType<GH_TestParam>()) p.Owner = this;
         }
         public virtual Guid ComponentGuid => Guid.Empty;
+        public virtual GH_Exposure Exposure => GH_Exposure.primary;
         protected virtual System.Drawing.Bitmap? Icon => null;
         public System.Drawing.Bitmap? IconForTest => Icon;
         protected virtual void RegisterInputParams(GH_InputParamManager pManager) { }

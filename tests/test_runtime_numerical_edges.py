@@ -62,17 +62,6 @@ def test_curved_wall_links_require_nonperiodic_padding():
         install_interpolated_walls(session.solver, [[direction, 0, .5]])
 
 
-def test_pathlines_reject_changed_lattice_shapes(tmp_path):
-    from hawa.recording import pathlines
-    spec = external_case((6,6,6)); manifest = recording(tmp_path/'parent', spec, times=(0.,1.))
-    path = tmp_path/'parent'/'frame1.npz'
-    with np.load(path) as archive: data = {key: archive[key] for key in archive}
-    for name in ('velocity','pressure','density','solid'):
-        data[name] = data[name][..., :-1].copy()
-    np.savez_compressed(path, **data)
-    with pytest.raises(ValueError, match='lattice shapes'): pathlines(manifest, [[1.,1.,1.]])
-
-
 def test_optimization_rejects_zero_drag_rest_state():
     from hawa.optimization import evaluate
     from test_optimization import spec

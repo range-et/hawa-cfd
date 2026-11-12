@@ -476,12 +476,10 @@ def dispatch(request):
         if request['action'] == 'attach': return attach(request['path'], request['case'])
         raise ValueError('Boundary action must be capture or attach')
     if op == "recording":
-        from .recording import load_frame, pathlines
+        from .recording import load_frame
         if request["action"] == "load":
             return load_frame(request["manifest"], request["index"])
-        if request["action"] == "particles":
-            return pathlines(request["manifest"], request["seeds"], request.get("last"))
-        raise ValueError("Recording action must be load or particles")
+        raise ValueError("Recording action must be load")
     if op == "field":
         from .fields import dispatch_field
         return dispatch_field(request, SESSIONS[request["session"]] if request.get("session") else None)

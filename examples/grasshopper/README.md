@@ -105,10 +105,10 @@ transfer remain unqualified. See [the current review](../../docs/neutral-couplin
   → Solve → Sample/Vectors. Runtime reports the embedded environment. Checkpoint
   demonstrates save, load and export; set an absolute `.npz` path and toggle
   Execute off/on. Use metres in Rhino. Default CPU60 is a smoke demonstration.
-- **32 — Translation and recorded particles:** closed mesh → Translation/Moving
-  Body/Motion Case → Record → Playback/Particles and Body Preview. Choose a new
-  absolute directory, then Record. Default CPU40 saves frames 0–4. Inspect three
-  particle paths and the final body pose. Motion is prescribed; no free-body dynamics.
+- **32 — Translation and recording:** closed mesh → Translation/Moving
+  Body/Motion Case → Record → Playback and Body Preview. Choose a new
+  absolute directory, then Record. Default CPU40 saves frames 0–4. Inspect the
+  played-back frame and the final body pose. Motion is prescribed; no free-body dynamics.
 
 The [G6 compatibility gate](../../docs/compatibility-matrix.md) connects these
 annotated workflows to the finite machine-generated contract matrix. Every public

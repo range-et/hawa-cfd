@@ -76,6 +76,7 @@ def verify_examples(report):
     for source in (ROOT/'plugin/Hawa.Grasshopper').glob('*.cs'):
         declared.update(re.findall(r'public sealed class (\w+Component)\s*:',source.read_text()))
     declared.discard('LegacyHullComponent')  # Explicit hidden compatibility reader, preserved user example 09.
+    declared.discard('ParticlesComponent')  # Hidden archive stub: Particles was removed by owner decision.
     nodes={n['type'] for n in graph['nodes']}
     if declared!=nodes:raise ValueError('Public component inventory drift')
     if nodes-used or graph['nodes_without_example']:raise ValueError('Public nodes without example')

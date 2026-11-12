@@ -1,8 +1,8 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 2139,
-  "inventory_sha256": "945ea5cc0e30f7e1d130358ef9bb75efaa3064f2a233408edbe7e1c24d14f96a",
-  "scope": "Lines changed since the base by the validity-foundation PR and the item 5 field-views and item 6 traces PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, display_solid, the half-cell isosurface (fields.march, grid_lines, isosurface and FieldCollection.isosurface) and the plane partition (FieldCollection.plane, FieldCollection.lattice and the single-frame plane dispatch) and the streamline and pathline traces (fields.trace with its per-point colour sampling, trace_seed, trace_result, FieldCollection.trace, the display mask of FieldCollection.sample and the recording pathline payload); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
+  "mutants": 2121,
+  "inventory_sha256": "b5c586440fd935a975077eba260afacb895248ee1b5cf2c534d15d2f0a8bd301",
+  "scope": "Lines changed since the base by the validity-foundation PR and the item 5 field-views and item 6 traces PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, display_solid, the half-cell isosurface (fields.march, grid_lines, isosurface and FieldCollection.isosurface) and the plane partition (FieldCollection.plane, FieldCollection.lattice and the single-frame plane dispatch) and the streamline traces (fields.trace with its per-point colour sampling, trace_seed, trace_result, FieldCollection.trace, the display mask of FieldCollection.sample; the recording pathlines were removed by owner decision, and the plugin recording dispatch line is included); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
   "control_test_files": [
     "tests/test_fields.py",
     "tests/test_field_collection.py",
@@ -11,14 +11,14 @@
     "tests/test_refinement.py"
   ],
   "sources": {
-    "src/hawa/plugin.py": "cd3c44209e210d6c00260ee54539e1fa156aaefc222af531c107aaabcbc700b2",
+    "src/hawa/plugin.py": "d0b2436c22af5d4570a573240bb3e8f33a624dafacdf549f5fc2e747fb77743c",
     "src/hawa/fields.py": "23705e02c383a1363608ff534ebf0aa264ade6b5712ad9d63eb275d4ae49fb38",
     "src/hawa/field_collection.py": "8e375ad5b5d9e98bb861a8c01cc4c7351fd9928a0f8d5d5571c3258fbf969a68",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/test_fields.py": "af6a88d266ddc176cf81b063c9384f8644ed378c00b0ec03270b40a51dbdd6df",
     "tests/test_field_collection.py": "162f2a6220afb599f491932ba5f9f7dc11cbc45a20cba29edf1eefe4a8077644",
     "tests/test_plugin_service.py": "7a9629d5e1df029d9c09013071a6d3d3856cde66407fc1d47bc304c910655be5",
-    "tests/test_recording.py": "0edcc285e2375fbb356fbc3fdde213ebdd2522c3e87bbc4fdc77d99e635bea51",
+    "tests/test_recording.py": "f693484e74c0c1fab13bdd432d6a2954d5adad9da7ca829b594de20abab5e428",
     "src/hawa/refinement.py": "63bbbc161139044c8eb9d2dc3de6e8804beafe2152f86c5269ffc9a78e41c032",
     "tests/test_refinement.py": "e869ca3663d235cedf56fff55a10adef8efd1a688a650bfd34a46403818a77f9"
   },
