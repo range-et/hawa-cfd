@@ -54,6 +54,8 @@ def test_pathline_inputs_and_output_budget(tmp_path,monkeypatch):
     out=pathlines(manifest,[[1,2,3],[9,9,9],[2,2,2]])
     assert out['alive']==[True,False,True] and out['paths'][1]==[[9.,9.,9.]] and len(out['paths'][0])==3
     assert out['time']==2 and out['case']=={'physical_dx':1.}
+    still=pathlines(manifest,[[1,2,3],[9,9,9]],0)
+    assert still=={'paths':[[[1.,2.,3.]],[[9.,9.,9.]]],'alive':[True,False],'time':0,'case':{'physical_dx':1.}}
     monkeypatch.setattr(recording,'MAX_PATH_POINTS',2)
     with pytest.raises(ValueError,match='point budget'):pathlines(manifest,[[1,2,3]])
 
