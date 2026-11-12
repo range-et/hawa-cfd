@@ -321,6 +321,7 @@ static class ComponentContracts
             int submits = bridge.Ops("evaluate_submit").Count();
             var particles = new ParticlesComponent { Document = doc };
             var gone = Solve(particles);
+            assert(ParticlesComponent.Removed == "Hawa Particles was removed. Use Flow Display on a Playback frame, or Streamlines on a live Solution.", "Removal message must point playback frames at Flow Display; Streamlines needs a live session");
             assert(gone.Outputs.Count == 0 && particles.Errors.SequenceEqual(new[] { ParticlesComponent.Removed }) && bridge.Ops("evaluate_submit").Count() == submits, "Removed Particles must only report its removal");
             particles.RuntimeMessages.Clear(); Solve(particles, "/abs/manifest.json", Goo("""{"case":{}}"""), new List<Point3d> { new(3, 2, 0) }, 3);
             assert(particles.Errors.SequenceEqual(new[] { ParticlesComponent.Removed }) && bridge.Ops("evaluate_submit").Count() == submits, "Wired old Particles must report its removal without a request");

@@ -47,8 +47,8 @@ public sealed class PlaybackComponent:HawaQueryComponent {
 // Archive compatibility only: Particles and time-dependent pathlines were removed by owner decision.
 // Keeps the original GUID and parameters so an old definition opens with its wires and explains the removal.
 public sealed class ParticlesComponent:HawaComponent {
-    public const string Removed="Hawa Particles was removed. Use Streamlines or Flow Display on a Playback frame.";
-    public ParticlesComponent():base("Hawa Particles","Particles","Removed. Opens old definitions only; use Streamlines or Flow Display on a Playback frame.","11 Animation"){}
+    public const string Removed="Hawa Particles was removed. Use Flow Display on a Playback frame, or Streamlines on a live Solution.";
+    public ParticlesComponent():base("Hawa Particles","Particles","Removed. Opens old definitions only; use Flow Display on a Playback frame, or Streamlines on a live Solution.","11 Animation"){}
     public override GH_Exposure Exposure=>GH_Exposure.hidden;
     public override Guid ComponentGuid=>new("a7bb3b0a-ae4f-42ae-9301-a3c55f077133");
     protected override void RegisterInputParams(GH_InputParamManager p){p.AddTextParameter("Manifest","M","Removed",GH_ParamAccess.item);p.AddGenericParameter("Frame","F","Removed",GH_ParamAccess.item);p.AddPointParameter("Seeds","P","Removed",GH_ParamAccess.list);p.AddIntegerParameter("Last frame","I","Removed",GH_ParamAccess.item,1);for(int i=0;i<4;i++)p[i].Optional=true;}
