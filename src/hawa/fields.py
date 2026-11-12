@@ -291,7 +291,7 @@ def isosurface(values, level, solid=None, stride=1, max_faces=100000, checkpoint
     def box(axes, cell, extra):
         box=tuple(slice(axes[a][cell[a]],axes[a][cell[a]+1]+1) for a in range(3))
         fluid=np.r_[values[box][~mask[box]],extra or []]
-        return box if fluid.min()<=level<fluid.max() else None
+        return box if len(fluid) and fluid.min()<=level<fluid.max() else None
     def half(axes, nodes, cell, extra):
         b=box(axes,cell,extra)
         if b is None:return None

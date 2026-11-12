@@ -228,6 +228,7 @@ class FieldCollection:
         overshooting them.
         """
         from .fields import CUBE, cell_corners, grid_lines, leaf, match_faces, march, uniform_cells
+        if not np.isfinite(level):raise ValueError('Level must be finite')
         if type(stride) is not int or not 1<=stride<=16:raise ValueError('Stride must be 1..16')
         corners=[]
         for row in self.rows:

@@ -128,6 +128,9 @@ def test_isosurface_rejects_bad_requests_and_honours_cancellation():
     with pytest.raises(ValueError,match='^Level must be finite$'):isosurface(x,np.nan)
     with pytest.raises(ValueError,match=r'^Stride must be 1\.\.16$'):isosurface(x,1.,stride=17)
     with pytest.raises(ValueError,match=r'^Isosurface exceeds face budget\. Increase stride or restrict the domain\.$'):isosurface(x,2.5,max_faces=3)
+    # A fully masked field with partial last cells is empty, not an error.
+    y=np.indices((5,5,6))[0].astype(float)
+    assert isosurface(y,1.,np.ones(y.shape,bool),2)=={'vertices':[],'faces':[]}
     np.testing.assert_array_equal(grid_lines(0,4,2),[0,2,4])
     np.testing.assert_array_equal(grid_lines(1,4.5,2),[1,3,4.5])
     def stop(n):raise RuntimeError('cancelled')

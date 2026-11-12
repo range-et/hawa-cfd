@@ -61,6 +61,9 @@ def test_composed_isosurface_equals_single_frame(stride):
         composed=dispatch_field(dict(action='isosurface',frames=[key],field='pressure',level=level,stride=stride))
         assert composed['faces']==single['faces'] and single['faces']
         np.testing.assert_allclose(composed['vertices'],single['vertices'],atol=1e-9)
+    for bad in (float('nan'),float('inf')):
+        with pytest.raises(ValueError,match='^Level must be finite$'):
+            dispatch_field(dict(action='isosurface',frames=[key],field='pressure',level=bad,stride=stride))
 
 
 def plate_frame(stride_bump=False):
