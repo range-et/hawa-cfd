@@ -196,7 +196,7 @@
     },
     "plugin/Hawa.Grasshopper/AnimationComponents.cs::Hawa.Grasshopper.ParticlesComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)": {
       "status": "covered",
-      "fingerprint": "793c7eff2bb0557304f5655e058be5e2af9dd65b721b8dc66978ef10ff446b20"
+      "fingerprint": "58a1eea6370d6a1e09a3471aaa5cb928970dc9b5ec38caa85b101615d7a12b0b"
     },
     "plugin/Hawa.Grasshopper/AnimationComponents.cs::Hawa.Grasshopper.ParticlesComponent.SolveHawa(IGH_DataAccess da).lambda#0 p=>": {
       "status": "covered",
@@ -218,17 +218,9 @@
       "status": "covered",
       "fingerprint": "6fc90ddf0c541905eee16634dd6929567151095d595c2b7a1b607717490bdd00"
     },
-    "plugin/Hawa.Grasshopper/AnimationComponents.cs::Hawa.Grasshopper.ParticlesComponent.SolveHawa(IGH_DataAccess da).lambda#5 p=>": {
-      "status": "covered",
-      "fingerprint": "46756b6487abf22d0aff9f4bfc36b2cae3f7ba4d4751c5acf49b7f4ef368a72b"
-    },
-    "plugin/Hawa.Grasshopper/AnimationComponents.cs::Hawa.Grasshopper.ParticlesComponent.SolveHawa(IGH_DataAccess da).lambda#6 p=>": {
-      "status": "covered",
-      "fingerprint": "ee71bfbe45ccb6c17b74a60bd86089d02b411262fa3d98955dce9a0eeb724e32"
-    },
     "plugin/Hawa.Grasshopper/AnimationComponents.cs::Hawa.Grasshopper.ParticlesComponent.protected override void SolveHawa(IGH_DataAccess da)": {
       "status": "covered",
-      "fingerprint": "55a94b3c6f632f1333abfe031083411bde38130e57bead6425d8446748489122"
+      "fingerprint": "7eea656c34de1c4fbab5022dd7ee06aa808f27929e2eb952da7a660de8df76c7"
     },
     "plugin/Hawa.Grasshopper/AtmosphericTools.cs::Hawa.Grasshopper.WallRoughnessComponent.public WallRoughnessComponent():base(\"Hawa Wall Roughness\",\"Roughness\",\"Assign aerodynamic roughness to planar ground regions. Physical metres; last region wins. Does not create waves or displacement geometry.\",\"03 Physics\")": {
       "status": "unmeasured",
@@ -1898,42 +1890,6 @@
       "status": "unmeasured",
       "fingerprint": "ecbeaeca0f3571a63c1b1c6681283fa58555dd7989f1e2a6d36c0374b04235d3"
     },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.protected override void InputsMissing()": {
-      "status": "unmeasured",
-      "fingerprint": "009369f387843fd1abeb1329a64373d6ab9dd66d790e5ef71c42fef6c0bc5229"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.public PlaneFieldComponent():base(\"Hawa Plane Field\",\"Plane\",\"Sample an arbitrary rectangle with shared colors and equal-value contours\",\"07 Visualize\")": {
-      "status": "unmeasured",
-      "fingerprint": "97a2608d1247bdbd7d26659fef1e39b2ffb4d9ffe694ecf26a27d98d981c4d1e"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.public override Guid ComponentGuid": {
-      "status": "unmeasured",
-      "fingerprint": "74fed315eb2ab16e6d4915a1f829e2963e9744a2c2a5d932c1043e99ae49641c"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.protected override void RegisterInputParams(GH_InputParamManager p)": {
-      "status": "unmeasured",
-      "fingerprint": "c5ef7bd1f364ffdfab37eb12ad479f357287101999ee73484339d9104454db6d"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)": {
-      "status": "unmeasured",
-      "fingerprint": "28f9256c97deb94451848e2ef78f01568fa3e5ff43b53d304f0ed4cfb893a931"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.SolveHawa(IGH_DataAccess da).lambda#0 x=>": {
-      "status": "unmeasured",
-      "fingerprint": "cb2a64907179c737ffb31fc4d070bde5c09801ddc5273d077f14a8d6f5f607c5"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.SolveHawa(IGH_DataAccess da).lambda#1 x=>": {
-      "status": "unmeasured",
-      "fingerprint": "ba10c21c1ffb051235e939d080ed50d52530e8f3508a22c718b91897831b1887"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.SolveHawa(IGH_DataAccess da).lambda#2 l=>": {
-      "status": "unmeasured",
-      "fingerprint": "7bc66d1c4178015c6e85fa78c15a0be2118a02b9475fcb2b782b166f123cca41"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.protected override void SolveHawa(IGH_DataAccess da)": {
-      "status": "unmeasured",
-      "fingerprint": "d902ab61d402d0481bf5284beccca54d358cda85f15f72fcf299a2a06611aeb0"
-    },
     "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.IsosurfaceComponent.public IsosurfaceComponent():base(\"Hawa Isosurface\",\"Iso\",\"Equal-value surface. Solid cells are excluded.\",\"07 Visualize\")": {
       "status": "unmeasured",
       "fingerprint": "f10952d9d7d72e56b3f85f1b52fefd77c7af48d58ad9ab36021cfe1d20ecc850"
@@ -1953,66 +1909,6 @@
     "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.IsosurfaceComponent.protected override void SolveHawa(IGH_DataAccess da)": {
       "status": "unmeasured",
       "fingerprint": "ab29c0974acd23981fe6fd7f3cd426106faf0d01ad796b3f07a87a9f94096e0c"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.FlowDisplayComponent.public FlowDisplayComponent():base(\"Hawa Flow Display\",\"Flow\",\"3D RK4 streamlines and colored tubes on a captured frame\",\"07 Visualize\")": {
-      "status": "unmeasured",
-      "fingerprint": "5a1dfb891e23562528ea56538480ee03536d2daaa95c95bb4b97a96a36756282"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.FlowDisplayComponent.public override Guid ComponentGuid": {
-      "status": "unmeasured",
-      "fingerprint": "cbdaee71845c3c7152b66cc6fb49703ec117390f2926ac0501c67e5999965623"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.FlowDisplayComponent.protected override void RegisterInputParams(GH_InputParamManager p)": {
-      "status": "unmeasured",
-      "fingerprint": "076442b13e48b17578c16ad2e27c2f2642b5e6f21c802d0e8732077d974acc65"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.FlowDisplayComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)": {
-      "status": "unmeasured",
-      "fingerprint": "a7ab4c1e123c4b771a4904ca5930f1101b4bf2a908b36b4434af17c4d76b5197"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.FlowDisplayComponent.SolveHawa(IGH_DataAccess da).lambda#0 p=>": {
-      "status": "unmeasured",
-      "fingerprint": "3410f7620baa760d54ef9d540b25a31a6349e076cf1ff1e1878833f95c399478"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.FlowDisplayComponent.SolveHawa(IGH_DataAccess da).lambda#1 p=>": {
-      "status": "unmeasured",
-      "fingerprint": "aa4ee4d4dd72108385db8411d23c8ee5372750d4259be8f6567eed142bbf4a76"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.FlowDisplayComponent.protected override void SolveHawa(IGH_DataAccess da)": {
-      "status": "unmeasured",
-      "fingerprint": "a2b69bad1739e2625e63da6256357c1210d055f78864417063a1898544a22a22"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.SurfaceFieldComponent.public SurfaceFieldComponent():base(\"Hawa Surface Field\",\"Surface\",\"Sample a scalar outside the surface along outward normals. Invalid samples are reported and faces omitted.\",\"07 Visualize\")": {
-      "status": "unmeasured",
-      "fingerprint": "7b3d8f9a2f4050de5322033a98f49db305e99219debfa18ec7ac92d04339f165"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.SurfaceFieldComponent.public override Guid ComponentGuid": {
-      "status": "unmeasured",
-      "fingerprint": "2fa55d0f9aa475dcbc96d983ec7485e21b35d38ae84bc233b7fb6d17b66949b4"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.SurfaceFieldComponent.protected override void RegisterInputParams(GH_InputParamManager p)": {
-      "status": "unmeasured",
-      "fingerprint": "3f750897bdd4fdadad9ef163212097c6a44f519ebefe3c1fca574515e02f9606"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.SurfaceFieldComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)": {
-      "status": "unmeasured",
-      "fingerprint": "2e9ca71ffe7a58d8fbbba35b5a3d105e5eb766445018aaf20f72fcefc82d08c4"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.SurfaceFieldComponent.SolveHawa(IGH_DataAccess da).lambda#0 x=>": {
-      "status": "unmeasured",
-      "fingerprint": "ba10c21c1ffb051235e939d080ed50d52530e8f3508a22c718b91897831b1887"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.SurfaceFieldComponent.SolveHawa(IGH_DataAccess da).lambda#1 x=>": {
-      "status": "unmeasured",
-      "fingerprint": "cb2a64907179c737ffb31fc4d070bde5c09801ddc5273d077f14a8d6f5f607c5"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.SurfaceFieldComponent.SolveHawa(IGH_DataAccess da).lambda#2 i=>": {
-      "status": "unmeasured",
-      "fingerprint": "1d399e9575c800810276d610d544871d53c33279ca4ab179c593b629d075a0bd"
-    },
-    "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.SurfaceFieldComponent.protected override void SolveHawa(IGH_DataAccess da)": {
-      "status": "unmeasured",
-      "fingerprint": "a40109e8e49590f17c578c0ce8d4907e61cdc3138791051545d59981fb4aeb8c"
     },
     "plugin/Hawa.Grasshopper/VisualizationComponents.cs::Hawa.Grasshopper.LegendComponent.public LegendComponent():base(\"Hawa Legend\",\"Legend\",\"Colored legend with fixed range, units and viewport labels\",\"07 Visualize\")": {
       "status": "unmeasured",
@@ -4841,6 +4737,110 @@
     "plugin/Hawa.Shared/LifecycleText.cs::Hawa.Shared.LifecycleText.public static string? Duplicates(IReadOnlyList<string> frames)": {
       "status": "covered",
       "fingerprint": "5c4a3f54e06e0f9d1280d2013d6e559d75e86c18258926b36294084f09eb08f5"
+    },
+    "plugin/Hawa.Grasshopper/AnimationComponents.cs::Hawa.Grasshopper.ParticlesComponent.SolveHawa(IGH_DataAccess da).lambda#5 x=>": {
+      "status": "covered",
+      "fingerprint": "ba10c21c1ffb051235e939d080ed50d52530e8f3508a22c718b91897831b1887"
+    },
+    "plugin/Hawa.Grasshopper/AnimationComponents.cs::Hawa.Grasshopper.ParticlesComponent.SolveHawa(IGH_DataAccess da).lambda#6 (p,i)=>": {
+      "status": "covered",
+      "fingerprint": "3162d04ce764097cd456d4e553ed55ff6d4efdb13144a41955d31a1e5cabb206"
+    },
+    "plugin/Hawa.Grasshopper/AnimationComponents.cs::Hawa.Grasshopper.ParticlesComponent.SolveHawa(IGH_DataAccess da).lambda#7 p=>": {
+      "status": "covered",
+      "fingerprint": "ee71bfbe45ccb6c17b74a60bd86089d02b411262fa3d98955dce9a0eeb724e32"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.protected override void InputsMissing()": {
+      "status": "covered",
+      "fingerprint": "009369f387843fd1abeb1329a64373d6ab9dd66d790e5ef71c42fef6c0bc5229"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.public PlaneFieldComponent():base(\"Hawa Plane Field\",\"Plane\",\"Sample an arbitrary rectangle with shared colors and equal-value contours\",\"07 Visualize\")": {
+      "status": "covered",
+      "fingerprint": "97a2608d1247bdbd7d26659fef1e39b2ffb4d9ffe694ecf26a27d98d981c4d1e"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.public override Guid ComponentGuid": {
+      "status": "covered",
+      "fingerprint": "74fed315eb2ab16e6d4915a1f829e2963e9744a2c2a5d932c1043e99ae49641c"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.protected override void RegisterInputParams(GH_InputParamManager p)": {
+      "status": "covered",
+      "fingerprint": "c5ef7bd1f364ffdfab37eb12ad479f357287101999ee73484339d9104454db6d"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)": {
+      "status": "covered",
+      "fingerprint": "ca3faad62e85edb757a3afc97ddde680d0652ea9878ba2b04e0c2928983b17c3"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.protected override void SolveHawa(IGH_DataAccess da)": {
+      "status": "covered",
+      "fingerprint": "dddb0ec08898315fdee1bccaa635b8d2a233e4aed57db4dc9fa9d80e8f3a1dc2"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.SolveHawa(IGH_DataAccess da).lambda#0 x=>": {
+      "status": "covered",
+      "fingerprint": "cb2a64907179c737ffb31fc4d070bde5c09801ddc5273d077f14a8d6f5f607c5"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.PlaneFieldComponent.SolveHawa(IGH_DataAccess da).lambda#1 l=>": {
+      "status": "covered",
+      "fingerprint": "7bc66d1c4178015c6e85fa78c15a0be2118a02b9475fcb2b782b166f123cca41"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.FlowDisplayComponent.public FlowDisplayComponent():base(\"Hawa Flow Display\",\"Flow\",\"3D RK4 streamlines and colored tubes on a captured frame\",\"07 Visualize\")": {
+      "status": "covered",
+      "fingerprint": "5a1dfb891e23562528ea56538480ee03536d2daaa95c95bb4b97a96a36756282"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.FlowDisplayComponent.public override Guid ComponentGuid": {
+      "status": "covered",
+      "fingerprint": "cbdaee71845c3c7152b66cc6fb49703ec117390f2926ac0501c67e5999965623"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.FlowDisplayComponent.protected override void RegisterInputParams(GH_InputParamManager p)": {
+      "status": "covered",
+      "fingerprint": "076442b13e48b17578c16ad2e27c2f2642b5e6f21c802d0e8732077d974acc65"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.FlowDisplayComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)": {
+      "status": "covered",
+      "fingerprint": "44ef16bf8c3033601cc395784771d4507271891819f5fa8b7ff6796ee80e49cf"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.FlowDisplayComponent.protected override void SolveHawa(IGH_DataAccess da)": {
+      "status": "covered",
+      "fingerprint": "ec2d7e5c563a0c4a046109c059486a5649d8b23e3d6499eab7491668458e2d68"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.FlowDisplayComponent.SolveHawa(IGH_DataAccess da).lambda#0 p=>": {
+      "status": "covered",
+      "fingerprint": "3410f7620baa760d54ef9d540b25a31a6349e076cf1ff1e1878833f95c399478"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.FlowDisplayComponent.SolveHawa(IGH_DataAccess da).lambda#1 p=>": {
+      "status": "covered",
+      "fingerprint": "aa4ee4d4dd72108385db8411d23c8ee5372750d4259be8f6567eed142bbf4a76"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.SurfaceFieldComponent.public SurfaceFieldComponent():base(\"Hawa Surface Field\",\"Surface\",\"Sample a scalar outside the surface along outward normals. Every face is kept; faces with an invalid sample are black.\",\"07 Visualize\")": {
+      "status": "covered",
+      "fingerprint": "fe4780e3bde8b209fcda594e303950aa685c256f0e77f6dc463628c622781652"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.SurfaceFieldComponent.public override Guid ComponentGuid": {
+      "status": "covered",
+      "fingerprint": "2fa55d0f9aa475dcbc96d983ec7485e21b35d38ae84bc233b7fb6d17b66949b4"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.SurfaceFieldComponent.protected override void RegisterInputParams(GH_InputParamManager p)": {
+      "status": "covered",
+      "fingerprint": "3f750897bdd4fdadad9ef163212097c6a44f519ebefe3c1fca574515e02f9606"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.SurfaceFieldComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)": {
+      "status": "covered",
+      "fingerprint": "8270cf7753592979c83a015bd4ad162692d1a0c3e2205956138fad89d42b95ab"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.SurfaceFieldComponent.protected override void SolveHawa(IGH_DataAccess da)": {
+      "status": "covered",
+      "fingerprint": "6075c558469d17265862023268cc9849d3a08ccfe14ba878bf76f4c1805a2d9e"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.SurfaceFieldComponent.SolveHawa(IGH_DataAccess da).lambda#0 x=>": {
+      "status": "covered",
+      "fingerprint": "ba10c21c1ffb051235e939d080ed50d52530e8f3508a22c718b91897831b1887"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.SurfaceFieldComponent.SolveHawa(IGH_DataAccess da).lambda#1 x=>": {
+      "status": "covered",
+      "fingerprint": "cb2a64907179c737ffb31fc4d070bde5c09801ddc5273d077f14a8d6f5f607c5"
+    },
+    "plugin/Hawa.Grasshopper/FieldViewComponents.cs::Hawa.Grasshopper.SurfaceFieldComponent.SolveHawa(IGH_DataAccess da).int Black(int v)": {
+      "status": "covered",
+      "fingerprint": "4a45f174cc2072018bdabe1eb75bb0b39050c5e2024a4ec953ec5615fc9a4687"
     }
   }
 }
