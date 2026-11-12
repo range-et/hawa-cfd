@@ -198,14 +198,15 @@ def match_faces(axes, values, corners, corner_valid):
     return values
 
 
-def close_seams(vertices, faces):
+def close_seams(vertices, faces, checkpoint=lambda n:None):
     """Split triangles at T-junctions so the welded mesh has no seam cracks.
 
     A refined cell meets a neighbour drawn from its corners on the same
     piecewise-linear surface, but it puts more vertices on the shared face.
     Each such vertex lies on an edge that only one triangle uses; that
     triangle is split at it. A triangle split on more than one edge is fanned
-    from its centroid.
+    from its centroid. Both loops call checkpoint so a query can be paused or
+    cancelled here.
     """
     if not faces:return vertices,faces
     keys,ids=np.unique(np.round(np.asarray(vertices,float),9),axis=0,return_inverse=True)
@@ -218,7 +219,8 @@ def close_seams(vertices, faces):
     buckets={}
     for p in ends:buckets.setdefault(tuple(np.floor(keys[p]/h).astype(int)),[]).append(p)
     inserts={}
-    for a,b in naked:
+    for e,(a,b) in enumerate(naked):
+        if e%64==0:checkpoint(e)
         start,end=keys[a],keys[b];d=end-start
         near=[p for o in itertools.product((-1,0,1),repeat=3) for p in buckets.get(tuple(np.floor(start/h).astype(int)+o),())]
         q=keys[near];t=(q-start)@d/(d@d)
@@ -226,7 +228,8 @@ def close_seams(vertices, faces):
         if on.any():inserts[(a,b)]=[near[i] for i in np.flatnonzero(on)[np.argsort(t[on])]]
     first=np.full(len(keys),-1);first[ids[::-1]]=np.arange(len(ids))[::-1]
     vertices=list(vertices);out=[]
-    for face,w in zip(faces,welded):
+    for n,(face,w) in enumerate(zip(faces,welded)):
+        if n%64==0:checkpoint(n)
         split=[]
         for k in range(3):
             a,b=int(w[k]),int(w[(k+1)%3])
@@ -298,7 +301,7 @@ def march(axes, values, level, full, mixed, refine, max_faces, checkpoint, out=N
                 if on.any():sampled[on]=tetra_value(np.array(box[0]),np.array(box[1]),box[2],points[on])
             march(grid,sampled,level,*sub[2:],max_faces,checkpoint,(vertices,faces),touching)
     if out is None:
-        vertices,faces=close_seams(vertices,faces)
+        vertices,faces=close_seams(vertices,faces,checkpoint)
         if len(faces)>max_faces:raise ValueError('Isosurface exceeds face budget. Increase stride or restrict the domain.')
     return {'vertices':vertices,'faces':faces}
 

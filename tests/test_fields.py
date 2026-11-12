@@ -91,7 +91,7 @@ def seam_gaps(mesh, axis, at, mask):
     return gaps
 
 
-def test_refined_cells_meet_their_drawn_neighbours_without_cracks():
+def test_refined_cells_meet_their_drawn_neighbours_without_cracks(monkeypatch):
     # Greptile's case: the stride-2 cell beside the masked node is refined; the
     # quadratic field made its face samples disagree with the drawn neighbour.
     g=np.indices((5,5,5)).astype(float);mask=np.zeros(g[0].shape,bool);mask[4,2,2]=True
@@ -122,6 +122,15 @@ def test_refined_cells_meet_their_drawn_neighbours_without_cracks():
         assert len(isosurface((g[0]-4)**2+(g[1]-4.3)**2+(g[2]-3.8)**2,2.2,mask,stride,max_faces=452)['faces'])==452
         with pytest.raises(ValueError,match=r'^Isosurface exceeds face budget\. Increase stride or restrict the domain\.$'):
             isosurface((g[0]-4)**2+(g[1]-4.3)**2+(g[2]-3.8)**2,2.2,mask,stride,max_faces=451)
+    # The query checkpoint reaches the seam split, so cancelling there stops the query.
+    import hawa.fields as fields
+    stage=[];split=fields.close_seams
+    def seams(*args):
+        stage.append('seams');return split(*args)
+    def cancel(n):
+        if stage:raise RuntimeError('cancelled in seams')
+    monkeypatch.setattr(fields,'close_seams',seams)
+    with pytest.raises(RuntimeError,match='^cancelled in seams$'):isosurface((g[0]-4)**2+(g[1]-4.3)**2+(g[2]-3.8)**2,2.2,mask,2,checkpoint=cancel)
 
 
 def test_close_seams_splits_triangles_at_t_junctions():
@@ -140,6 +149,14 @@ def test_close_seams_splits_triangles_at_t_junctions():
     closed=dict(vertices=[[0,0,0],[1,0,0],[0,1,0],[0,0,1]],faces=[[0,2,1],[0,1,3],[1,2,3],[0,3,2]])
     assert close_seams(closed['vertices'],closed['faces'])==(closed['vertices'],closed['faces'])
     assert close_seams([],[])==([],[])
+    # Both loops call checkpoint every 64 items, so a query can be cancelled during the pass.
+    copies=[[x+10*c,y,z] for c in range(40) for x,y,z in vertices];tiled=[[i+12*c for i in f] for c in range(40) for f in faces]
+    welded=np.unique(np.asarray(copies),axis=0,return_inverse=True)[1].ravel()[np.asarray(tiled)]
+    _,uses=np.unique(np.sort(np.concatenate([welded[:,[0,1]],welded[:,[1,2]],welded[:,[2,0]]]),axis=1),axis=0,return_counts=True)
+    calls=[];close_seams(copies,tiled,calls.append)
+    assert (uses==1).sum()>128 and calls==list(range(0,int((uses==1).sum()),64))+list(range(0,len(tiled),64))
+    def cancel(n):raise RuntimeError('cancelled')
+    with pytest.raises(RuntimeError,match='^cancelled$'):close_seams(copies,tiled,cancel)
     # A triangle that welds to a line adds no seam vertex.
     line=[[0,0,0],[1,0,0],[1+1e-12,0,0]]
     assert close_seams(line,[[0,1,2]])==(line,[[0,1,2]])
