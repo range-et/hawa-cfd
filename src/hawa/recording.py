@@ -104,7 +104,7 @@ def pathlines(manifest,seeds,last=None,checkpoint=lambda n:None):
     if points.ndim!=2 or points.shape[1]!=3 or not 1<=len(points)<=200 or not np.isfinite(points).all():
         raise ValueError('Use 1..200 finite three-coordinate seeds')
     points=points.copy()
-    paths=[[p.tolist()] for p in points];alive=np.ones(len(points),bool);total=len(points)
+    paths=[[p.tolist()] for p in points];total=len(points)
     def read(entry):
         checkpoint(0)
         arrays,meta=read_frame(root.parent/entry['file'])
@@ -112,6 +112,8 @@ def pathlines(manifest,seeds,last=None,checkpoint=lambda n:None):
             raise ValueError('Recording frame metadata does not match the manifest')
         return arrays
     before=read(frames[0])
+    # A seed outside the flow of the first frame is never alive, even with no step to take.
+    alive=np.array([sample_arrays(before,[p])[0] is not None for p in points])
     for k in range(last):
         after=read(frames[k+1]);dt=frames[k+1]['time']-frames[k]['time']
         if after['velocity'].shape!=before['velocity'].shape:
@@ -135,4 +137,5 @@ def pathlines(manifest,seeds,last=None,checkpoint=lambda n:None):
                 if total>=MAX_PATH_POINTS:raise ValueError('Pathlines exceed 100000 point budget; reduce seeds or frame range')
                 points[i]=q;paths[i].append(q.tolist());total+=1
         before=after
-    return {'paths':paths,'time':frames[last]['time'],'case':data['case']}
+    # A particle that left the flow keeps its path but is not alive at the end.
+    return {'paths':paths,'alive':alive.tolist(),'time':frames[last]['time'],'case':data['case']}

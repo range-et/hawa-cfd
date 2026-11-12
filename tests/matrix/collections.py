@@ -34,5 +34,5 @@ def exercise_collection(row,directory):
     if row['action'] in ('sample','plane','contours'):
         assert len(result['values'])==4 and np.isfinite(result['values']).all()
     if row['action']=='plane':assert result['mesh_faces'] and np.isfinite(result['mesh_vertices']).all()
-    if row['action']=='trace':assert len(result['paths'])==1 and len(result['paths'][0])==4
+    if row['action']=='trace':assert len(result['paths'])==1 and len(result['paths'][0])==5 and result['reasons']==['completed']
     if row['action']=='isosurface':assert np.isfinite(result['vertices']).all()

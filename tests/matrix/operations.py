@@ -55,7 +55,7 @@ def exercise_field(row,directory):
         invalid=dispatch_field(dict(action='sample',frame=frame,field=name,points=[[-1.]*dim]+([[2.]*dim] if row['masked'] else [])))
         assert not any(invalid['valid'])
     elif action=='trace':
-        assert len(result['paths'])==1 and len(result['paths'][0])==4
+        assert len(result['paths'])==1 and len(result['paths'][0])==5 and result['reasons']==['completed']
         assert np.isfinite(result['paths']).all() and np.isfinite(result['values']).all()
     elif action=='isosurface':
         assert np.isfinite(result['vertices']).all()

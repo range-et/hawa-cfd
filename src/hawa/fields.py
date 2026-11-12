@@ -147,43 +147,171 @@ def sample_scalar(fields, points, name, spec):
     return [r['pressure'] if r else 0. for r in rows],[r is not None for r in rows]
 
 
-def isosurface(values, level, solid=None, stride=1, max_faces=100000, checkpoint=lambda n:None):
-    if values.ndim!=3:raise ValueError('Isosurfaces require a 3D field')
-    if not np.isfinite(level):raise ValueError('Level must be finite')
-    stride=int(stride)
-    if not 1<=stride<=16:raise ValueError('Stride must be 1..16')
-    v=values[::stride,::stride,::stride];mask=solid[::stride,::stride,::stride] if solid is not None else np.zeros(v.shape,bool)
-    offsets=np.array([[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]])
-    cells=tuple(n-1 for n in v.shape)
-    corners=np.stack([v[o[0]:o[0]+cells[0],o[1]:o[1]+cells[1],o[2]:o[2]+cells[2]] for o in offsets])
-    valid=np.ones(cells,bool)
-    for o in offsets:valid &= ~mask[o[0]:o[0]+cells[0],o[1]:o[1]+cells[1],o[2]:o[2]+cells[2]]
-    if stride>1:
-        source_mask=solid if solid is not None else np.zeros(values.shape,bool)
-        for offset in itertools.product(range(stride+1),repeat=3):
-            valid &= ~source_mask[tuple(slice(o,o+cells[a]*stride,stride) for a,o in enumerate(offset))]
-    candidates=np.argwhere(valid & (corners.min(axis=0)<=level)&(corners.max(axis=0)>level))
-    tetra=[(0,5,1,6),(0,1,2,6),(0,2,3,6),(0,3,7,6),(0,7,4,6),(0,4,5,6)]
-    vertices=[];faces=[]
-    for cell_index,cell in enumerate(candidates):
-        if cell_index%128==0:checkpoint(cell_index)
-        pts=offsets+cell;vals=np.array([v[tuple(p)] for p in pts])
-        for ids in tetra:
-            polygon=[]
-            for a,b in itertools.combinations(ids,2):
-                if (vals[a]<=level)!=(vals[b]<=level):polygon.append(pts[a]+(level-vals[a])/(vals[b]-vals[a])*(pts[b]-pts[a]))
+CUBE=np.array([[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]])
+TETRA=[(0,5,1,6),(0,1,2,6),(0,2,3,6),(0,3,7,6),(0,7,4,6),(0,4,5,6)]
+CORNER=np.zeros((2,2,2),int);CORNER[tuple(CUBE.T)]=np.arange(8)
+
+
+def tetra_value(lo, hi, corners, points):
+    """Value of a cell's marching-tetrahedra interpolant at points in the cell.
+
+    TETRA splits the cell along the 0-6 diagonal into the six simplices that
+    order the normalised coordinates, so the interpolant follows that order.
+    """
+    t=np.clip((points-lo)/(hi-lo),0,1);rows=np.arange(len(t));bits=np.zeros(t.shape,int)
+    value=previous=corners[0]
+    for axis in np.argsort(-t,axis=1,kind='stable').T:
+        bits[rows,axis]=1;current=corners[CORNER[tuple(bits.T)]]
+        value=value+t[rows,axis]*(current-previous);previous=current
+    return value
+
+
+def cell_corners(grid):
+    """Stack the eight corner views of every cell in a 3D node array."""
+    cells=tuple(n-1 for n in grid.shape)
+    return np.stack([grid[o[0]:o[0]+cells[0],o[1]:o[1]+cells[1],o[2]:o[2]+cells[2]] for o in CUBE])
+
+
+def match_faces(axes, values, corners, corner_valid):
+    """Give a half-cell grid the marching-tetrahedra interpolant of each lattice
+    cell edge whose two nodes, and face whose four nodes, are valid, as a
+    neighbour sharing it draws.
+
+    A neighbour drawn from its corners and a refined neighbour applying the same
+    rule then meet; other edges and faces keep their samples on both sides.
+    """
+    lo=np.array([a[0] for a in axes],float);hi=np.array([a[-1] for a in axes],float)
+    points=np.stack(np.meshgrid(*axes,indexing='ij'),-1)
+    for axis in range(3):
+        others=[a for a in range(3) if a!=axis]
+        for sides in itertools.product((0,1),repeat=2):
+            edge=(CUBE[:,others[0]]==sides[0])&(CUBE[:,others[1]]==sides[1])
+            if corner_valid[edge].all():
+                index=[slice(None)]*3;index[others[0]]=-sides[0];index[others[1]]=-sides[1]
+                values[tuple(index)]=tetra_value(lo,hi,corners,points[tuple(index)].reshape(-1,3)).reshape(values[tuple(index)].shape)
+    for axis in range(3):
+        for side in (0,1):
+            face=CUBE[:,axis]==side
+            if corner_valid[face].all():
+                index=[slice(None)]*3;index[axis]=-side
+                values[tuple(index)]=tetra_value(lo,hi,corners,points[tuple(index)].reshape(-1,3)).reshape(values[tuple(index)].shape)
+    return values
+
+
+def leaf(axes, values, valid):
+    """Final refinement level: draw cells whose corner samples are all valid."""
+    return axes,values,cell_corners(valid).all(axis=0),None,None
+
+
+def march(axes, values, level, full, mixed, refine, max_faces, checkpoint, out=None, drawn=()):
+    """Marching tetrahedra on a rectilinear grid with masked-cell refinement.
+
+    ``axes`` hold the grid-line coordinates and ``values`` the samples on their
+    nodes. Cells marked ``full`` contain only simulated fluid and use their
+    corners. Each other ``mixed`` cell is passed to ``refine(cell, extra)``,
+    which returns the same five arguments for a finer grid inside it, or None
+    when nothing there can cross the level, given that its boundary may also
+    take values in the range ``extra``. Finer points on the boundary of a cell
+    drawn from its corners take that cell's interpolant, so the surfaces meet
+    on the shared face. ``drawn`` lists such cells from coarser levels.
+    """
+    vertices,faces=out if out is not None else ([],[])
+    corners=cell_corners(values)
+    for count,cell in enumerate(np.argwhere(full&(corners.min(axis=0)<=level)&(corners.max(axis=0)>level))):
+        if count%128==0:checkpoint(count)
+        ids=CUBE+cell;pts=np.array([[axes[a][i[a]] for a in range(3)] for i in ids]);v=values[tuple(ids.T)]
+        for tet in TETRA:
+            polygon=[pts[a]+(level-v[a])/(v[b]-v[a])*(pts[b]-pts[a]) for a,b in itertools.combinations(tet,2) if (v[a]<=level)!=(v[b]<=level)]
             if len(polygon)<3:continue
             polygon=np.unique(np.round(polygon,12),axis=0)
             if len(polygon)<3:continue
             center=polygon.mean(axis=0);u=polygon[0]-center;u/=np.linalg.norm(u)
             normal=np.cross(polygon[1]-polygon[0],polygon[2]-polygon[0]);norm=np.linalg.norm(normal)
             if norm<1e-12:continue
-            normal/=norm;w=np.cross(normal,u)
+            w=np.cross(normal/norm,u)
             polygon=polygon[np.argsort(np.arctan2((polygon-center)@w,(polygon-center)@u))]
-            start=len(vertices);vertices.extend((polygon*stride).tolist())
-            for j in range(1,len(polygon)-1):faces.append([start,start+j,start+j+1])
+            start=len(vertices);vertices.extend(polygon.tolist())
+            faces.extend([start,start+j,start+j+1] for j in range(1,len(polygon)-1))
             if len(faces)>max_faces:raise ValueError('Isosurface exceeds face budget. Increase stride or restrict the domain.')
+    if mixed is not None:
+        around=np.pad(full,1)
+        for count,cell in enumerate(np.argwhere(mixed&~full)):
+            if count%16==0:checkpoint(count)
+            # Plain floats: these boxes are tested once per refined cell.
+            lo=[float(axes[a][cell[a]]) for a in range(3)];hi=[float(axes[a][cell[a]+1]) for a in range(3)]
+            touching=[box for box in drawn if all(box[0][a]<=hi[a]+1e-9 and box[1][a]>=lo[a]-1e-9 for a in range(3))]
+            for step in np.argwhere(around[tuple(slice(c,c+3) for c in cell)])-1:
+                near=tuple(int(c)+int(d) for c,d in zip(cell,step))
+                if any(step):
+                    touching.append(([float(axes[a][near[a]]) for a in range(3)],[float(axes[a][near[a]+1]) for a in range(3)],values[tuple((CUBE+near).T)]))
+            extra=(min(box[2].min() for box in touching),max(box[2].max() for box in touching)) if touching else None
+            sub=refine(tuple(cell),extra)
+            if sub is None:continue
+            grid,sampled=sub[:2];points=np.stack(np.meshgrid(*grid,indexing='ij'),-1)
+            for box in touching:
+                on=np.all((points>=np.subtract(box[0],1e-9))&(points<=np.add(box[1],1e-9)),axis=-1)
+                if on.any():sampled[on]=tetra_value(np.array(box[0]),np.array(box[1]),box[2],points[on])
+            march(grid,sampled,level,*sub[2:],max_faces,checkpoint,(vertices,faces),touching)
     return {'vertices':vertices,'faces':faces}
+
+
+def uniform_cells(axes):
+    """Cells with equal edges. A partial last cell is refined instead of drawn
+    from its corners, because its face diagonals do not align with the square
+    sub-cells of a refined neighbour."""
+    widths=np.meshgrid(*[np.diff(a) for a in axes],indexing='ij')
+    return np.isclose(widths[0],widths[1])&np.isclose(widths[1],widths[2])
+
+
+def grid_lines(start, end, stride):
+    """Lines every ``stride`` units from ``start``, ending exactly at ``end``."""
+    return np.r_[np.arange(start,end-1e-9,stride),end]
+
+
+def isosurface(values, level, solid=None, stride=1, max_faces=100000, checkpoint=lambda n:None):
+    """Lattice isosurface over the fluid half-cell region.
+
+    Coarse cells every ``stride`` nodes are drawn from their corners when every
+    node inside is unmasked. Other cells are split into lattice cells, and
+    lattice cells with a masked node are resampled on half-cell lines with
+    fluid-normalised interpolation, so the surface stops on halfway walls at
+    every stride. The last partial cell on each axis is kept.
+    """
+    if values.ndim!=3:raise ValueError('Isosurfaces require a 3D field')
+    if not np.isfinite(level):raise ValueError('Level must be finite')
+    stride=int(stride)
+    if not 1<=stride<=16:raise ValueError('Stride must be 1..16')
+    mask=solid if solid is not None else np.zeros(values.shape,bool)
+    total=np.pad(mask.astype(np.int64).cumsum(0).cumsum(1).cumsum(2),((1,0),)*3)
+    def classify(axes):
+        lo=np.ix_(*[a[:-1] for a in axes]);hi=np.ix_(*[a[1:]+1 for a in axes])
+        masked=sum((-1)**(3-sum(c))*total[tuple(h if k else l for k,l,h in zip(c,lo,hi))] for c in itertools.product((0,1),repeat=3))
+        size=np.prod(np.meshgrid(*[np.diff(a)+1 for a in axes],indexing='ij'),axis=0)
+        return masked==0,masked<size
+    def box(axes, cell, extra):
+        box=tuple(slice(axes[a][cell[a]],axes[a][cell[a]+1]+1) for a in range(3))
+        fluid=np.r_[values[box][~mask[box]],extra or []]
+        return box if len(fluid) and fluid.min()<=level<fluid.max() else None
+    def half(axes, nodes, cell, extra):
+        b=box(axes,cell,extra)
+        if b is None:return None
+        grid=[grid_lines(s.start,s.stop-1,.5) for s in b]
+        corners,weights,valid=lattice_weights(mask,np.stack(np.meshgrid(*grid,indexing='ij'),-1).reshape(-1,3))
+        sampled=sum(weights[:,c]*values[tuple(corners[c].T)] for c in range(len(corners)))
+        shape=tuple(len(g) for g in grid);ids=tuple((CUBE+cell).T)
+        # Lattice nodes carry any drawn coarse neighbour's interpolant (nodes).
+        sampled=match_faces(grid,sampled.reshape(shape),nodes[ids],~mask[tuple(np.asarray(axes[a])[ids[a]] for a in range(3))])
+        return leaf(grid,sampled,valid.reshape(shape))
+    def unit(axes, cell, extra):
+        b=box(axes,cell,extra)
+        if b is None:return None
+        grid=[np.arange(s.start,s.stop) for s in b];nodes=values[np.ix_(*grid)]
+        return (grid,nodes)+classify(grid)+(lambda c,e:half(grid,nodes,c,e),)
+    axes=[grid_lines(0,n-1,stride).astype(int) for n in values.shape]
+    full,mixed=classify(axes);cubic=uniform_cells(axes);nodes=values[np.ix_(*axes)]
+    refine=((lambda c,e:unit(axes,c,e)) if stride>1 else
+            (lambda c,e:half(axes,nodes,c,e)))
+    return march(axes,nodes,level,full&cubic,mixed|~cubic,refine,max_faces,checkpoint)
 
 
 def contours(points, values, valid, shape, levels, checkpoint=lambda n:None):
@@ -210,34 +338,58 @@ def contours(points, values, valid, shape, levels, checkpoint=lambda n:None):
 
 
 def trace(fields, seeds, steps=200, step=.4, direction=1, name='speed', spec=None, checkpoint=lambda n:None):
+    """RK4 streamlines, one entry per seed, with a termination reason each.
+
+    The tangent follows the simulated velocity alone, so every colour field
+    gives the same paths. Colours are sampled with that field's own validity;
+    ``valid`` marks the samples it can show. A path that runs all ``steps``
+    ends on its final point; one that leaves the simulated flow or stalls
+    ends on its last valid point.
+    """
     from .plugin import sample_arrays
     if len(seeds)>2000 or not 1<=steps<=2000 or not .01<=step<=1 or direction not in (-1,1):
         raise ValueError('Trace limits: 2000 seeds/steps, step .01..1, direction -1 or 1')
-    paths=[];colors=[];total=0
-    proxy={**fields,"pressure":scalar(fields,name,spec or {})}
+    proxy={**fields,'pressure':scalar(fields,name,spec or {}),'solid':validity_mask(fields,name)}
     def tangent(p):
         r=sample_arrays(fields,[p])[0]
-        if r is None or r['speed']<1e-10:return None
+        if r is None:return 'left_flow'
+        if r['speed']<1e-10:return 'stalled'
         return np.asarray(r['velocity'])[:len(p)]*direction/r['speed']
+    def colour(path):
+        return [(r['pressure'],True) if r else (0.,False) for r in sample_arrays(proxy,path)]
+    return trace_result(seeds,lambda p:trace_seed(np.asarray(p,float),steps,step,tangent,checkpoint),colour)
+
+
+def trace_seed(p, steps, step, tangent, checkpoint):
+    """Integrate one seed. ``tangent`` returns a unit vector or a reason string."""
+    path=[]
+    for iteration in range(steps+1):
+        if iteration%16==0:checkpoint(iteration)
+        k1=tangent(p)
+        if isinstance(k1,str):
+            # A stalled point is still simulated flow; it ends the path.
+            if k1=='stalled':path.append(p.tolist())
+            return path,k1 if path else 'invalid_seed'
+        path.append(p.tolist())
+        if iteration==steps:return path,'completed'
+        k2=tangent(p+step*k1/2)
+        if isinstance(k2,str):return path,k2
+        k3=tangent(p+step*k2/2)
+        if isinstance(k3,str):return path,k3
+        k4=tangent(p+step*k3)
+        if isinstance(k4,str):return path,k4
+        p=p+step*(k1+2*k2+2*k3+k4)/6
+
+
+def trace_result(seeds, follow, colour):
+    paths=[];values=[];valid=[];reasons=[];total=0
     for seed in seeds:
-        p=np.asarray(seed,float);path=[]
-        for iteration in range(steps):
-            if iteration%16==0:checkpoint(iteration)
-            k1=tangent(p)
-            if k1 is None:break
-            total+=1
-            if total>100000:raise ValueError('Flow display exceeds 100000 points. Reduce seeds or steps.')
-            path.append(p.tolist())
-            k2=tangent(p+step*k1/2)
-            if k2 is None:break
-            k3=tangent(p+step*k2/2)
-            if k3 is None:break
-            k4=tangent(p+step*k3)
-            if k4 is None:break
-            p=p+step*(k1+2*k2+2*k3+k4)/6
-        if len(path)>1:
-            paths.append(path);colors.append([r['pressure'] if r else 0. for r in sample_arrays(proxy,path)])
-    return {'paths':paths,'values':colors}
+        path,reason=follow(seed);total+=len(path)
+        if total>100000:raise ValueError('Flow display exceeds 100000 points. Reduce seeds or steps.')
+        samples=colour(path) if path else []
+        paths.append(path);reasons.append(reason)
+        values.append([float(v) for v,ok in samples]);valid.append([bool(ok) for v,ok in samples])
+    return {'paths':paths,'values':values,'valid':valid,'reasons':reasons}
 
 
 def dispatch_field(request, session=None, checkpoint=lambda n:None):
@@ -270,8 +422,12 @@ def dispatch_field(request, session=None, checkpoint=lambda n:None):
         return {'path':str(path)}
     if action=='trace':return {**trace(fields,request['seeds'],request.get('steps',200),request.get('step',.4),request.get('direction',1),name,spec,checkpoint),**meta}
     if action=='plane':
-        values,valid=sample_scalar(fields,request['points'],name,spec)
-        return {'values':values,'valid':valid,'lines':contours(request['points'],values,valid,request['shape'],request.get('levels',[]),checkpoint),**meta}
+        # Same partition as composed views; a 2D frame is one flat lattice layer.
+        from .field_collection import FieldCollection
+        view=FieldCollection.lattice(fields,meta,name,checkpoint)
+        points=[list(p)+[0.]*(3-len(p)) for p in request['points']]
+        values,valid,_,_=view.sample(points)
+        return {'values':values.tolist(),'valid':valid.tolist(),**view.plane(points,request['shape'],request.get('levels',[])),**view.meta}
     if action=='sample':
         if len(request['points'])>10000:raise ValueError('At most 10000 samples')
         values,valid=sample_scalar(fields,request['points'],name,spec)

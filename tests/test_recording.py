@@ -13,7 +13,7 @@ def test_record_and_playback(tmp_path, solver_device):
     np.testing.assert_allclose(arrays['velocity'],session.flow.u_pu.cpu().numpy())
     assert meta['iteration']==10
     p=pathlines(r['manifest'],[[2,2,2]],2)
-    assert len(p['paths'][0])>=2
+    assert len(p['paths'][0])>=2 and p['alive']==[True]
 
 
 def recording_fixture(tmp_path):
@@ -50,6 +50,12 @@ def test_pathline_inputs_and_output_budget(tmp_path,monkeypatch):
     for seeds in ([[1,2]],[[1,2,float('nan')]],[],[1,2,3]):
         with pytest.raises(ValueError,match='seeds'):pathlines(manifest,seeds)
     with pytest.raises(ValueError,match='index'):pathlines(manifest,[[1,2,3]],1.2)
+    # A seed outside the lattice is reported, but not as a live final position.
+    out=pathlines(manifest,[[1,2,3],[9,9,9],[2,2,2]])
+    assert out['alive']==[True,False,True] and out['paths'][1]==[[9.,9.,9.]] and len(out['paths'][0])==3
+    assert out['time']==2 and out['case']=={'physical_dx':1.}
+    still=pathlines(manifest,[[1,2,3],[9,9,9]],0)
+    assert still=={'paths':[[[1.,2.,3.]],[[9.,9.,9.]]],'alive':[True,False],'time':0,'case':{'physical_dx':1.}}
     monkeypatch.setattr(recording,'MAX_PATH_POINTS',2)
     with pytest.raises(ValueError,match='point budget'):pathlines(manifest,[[1,2,3]])
 
