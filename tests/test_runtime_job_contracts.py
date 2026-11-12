@@ -209,14 +209,18 @@ def test_jobs_hold_the_shared_device_lock_outside_checkpoints(isolated_jobs, mon
     assert worker(job, job.take_device) == [(True, 'queued', 0)] and lock.owner is None and not job.holds_device
     # A busy lock: the first try fails, as if another thread held it for one poll.
     attempts, take = [], lock.acquire
-    def busy(timeout=None):
-        attempts.append(timeout)
+    def busy(timeout=None, stop=None):
+        attempts.append(stop)
         return len(attempts) % 2 == 0 and take(timeout)
     monkeypatch.setattr(lock, 'acquire', busy)
-    # Waiting polls often enough to stay responsive, reports the caller's state and keeps the step count.
+    # A wait that gives up reports the caller's state and keeps the step count; it gives up
+    # only to pause or cancel.
     for args, state in (((), 'running'), (('starting',), 'starting')):
         job = jobs.Job(request()); job.steps = 3
-        assert worker(job, lambda: job.take_device(*args)) == [(True, state, 3)] and 0 < attempts[-2] <= .1
+        assert worker(job, lambda: job.take_device(*args)) == [(True, state, 3)]
+        stop = attempts[-2]; assert stop() is False
+        job.control('pause'); assert stop() is True
+        job.control('resume'); job.control('cancel'); assert stop() is True
     # A checkpoint takes the lock back in the state it reports.
     job = jobs.Job(request())
     assert worker(job, job.take_device, lambda: job.checkpoint(3, 'queued')) == [(True, 'queued', 3)] and len(attempts) == 8

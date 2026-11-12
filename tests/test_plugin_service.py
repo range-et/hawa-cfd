@@ -342,3 +342,38 @@ def test_device_lock_is_reentrant_fair_and_owned():
     late = []
     run(lambda: late.append(lock.acquire(timeout=1) and lock.release() is None)).join(2)
     assert raised == [[]] and late == [True]
+
+
+def test_device_lock_waiter_with_a_stop_check_keeps_its_place():
+    # Kept apart from the fast lock test so a broken lock fails that one first.
+    import threading
+    from hawa.plugin import DeviceLock
+    lock = DeviceLock()
+    def run(target):
+        thread = threading.Thread(target=target, daemon=True); thread.start(); return thread
+    def settle(done):
+        end = time.monotonic()+2
+        while not done():
+            assert time.monotonic() < end, 'lock did not reach the expected state'
+            time.sleep(.005)
+    def wait(name):
+        if lock.acquire(timeout=2):
+            order.append(name); lock.release()
+    # A waiter that polls a stop request keeps its place ahead of later waiters, and gives it
+    # up once stop() is true, even without a notify.
+    assert lock.acquire(timeout=1)
+    order, flag = [], []
+    def polled(name, stop):
+        if lock.acquire(stop=stop):
+            order.append(name); lock.release()
+        else:
+            order.append(name+' stopped')
+    first = run(lambda: polled('polled', lambda: False)); settle(lambda: len(lock.queue) == 1)
+    second = run(lambda: wait('later')); settle(lambda: len(lock.queue) == 2)
+    lock.release(); first.join(2); second.join(2)
+    assert order == ['polled', 'later'] and lock.queue == []
+    assert lock.acquire(timeout=1)
+    stopper = run(lambda: polled('cancelled', lambda: bool(flag))); settle(lambda: len(lock.queue) == 1)
+    flag.append(True); stopper.join(2)
+    assert order[-1] == 'cancelled stopped' and lock.queue == [] and lock.owner == threading.get_ident()
+    lock.release()

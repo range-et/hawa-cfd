@@ -1,7 +1,7 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 2508,
-  "inventory_sha256": "a998d90a0c036de2d346ce82db764827e92295910047e0b262ba749e61c04be5",
+  "mutants": 2516,
+  "inventory_sha256": "65f4a94b543c0e6c47800ab33d39fc3e1df66dc110f338dfa816c7dea0ea608b",
   "scope": "Lines changed since the base by the validity-foundation PR and the item 5 field-views and item 6 traces PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared MPS device lock (#99: plugin.DeviceLock with suspend and restore, Session construction, per-chunk stepping and pause, and the locked refined set-up, stepping and frames), the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, display_solid, the half-cell isosurface (fields.march, grid_lines, isosurface and FieldCollection.isosurface, with the T-junction seam split in fields.close_seams) and the plane partition (FieldCollection.plane, FieldCollection.lattice and the single-frame plane dispatch) and the streamline traces (fields.trace with its per-point colour sampling, trace_seed, trace_result, FieldCollection.trace, the display mask of FieldCollection.sample; the recording pathlines were removed by owner decision, and the plugin recording dispatch line is included); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
   "control_test_files": [
     "tests/test_fields.py",
@@ -11,13 +11,13 @@
     "tests/test_refinement.py"
   ],
   "sources": {
-    "src/hawa/plugin.py": "f1eca124b47e4b98e08765829338cb612687d491acad2027f916b39e0be2f0b2",
+    "src/hawa/plugin.py": "f786fabcbe58254dfae48610c1c8fa1a3839e6663cd58b277878f348b634bfc7",
     "src/hawa/fields.py": "0abde8fbbdc2a2b2529d69409576871f1235dbab7c97ebb85f0e3001002a2ff7",
     "src/hawa/field_collection.py": "8e375ad5b5d9e98bb861a8c01cc4c7351fd9928a0f8d5d5571c3258fbf969a68",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/test_fields.py": "22757af04326724720f66e4766c3855fda4c9bfc22576c5b94d4ad09b56ffe86",
     "tests/test_field_collection.py": "162f2a6220afb599f491932ba5f9f7dc11cbc45a20cba29edf1eefe4a8077644",
-    "tests/test_plugin_service.py": "17750b0b1ce5579bc45a6ba93b266083614cba269135a20b559fb0cbfa9de424",
+    "tests/test_plugin_service.py": "c51ab5059300357059d715f6ba9d86c6ea2b66f4410bf505243b9b231eb55483",
     "tests/test_recording.py": "f693484e74c0c1fab13bdd432d6a2954d5adad9da7ca829b594de20abab5e428",
     "src/hawa/refinement.py": "f6da784b1d0f023b49194a56e3778017e613967848db0982d42293971be73584",
     "tests/test_refinement.py": "74f4bd8e6b87d1e0be835c0bc4e4139fe08a061d8e278c621d52996fff5fe931"
@@ -1093,10 +1093,20 @@
       "diff_sha256": "8e489caf4a62d5ae465414b295415141708a9b923d23218569a20855eaa20466",
       "reason": "Equivalent: depth is read only by its owner, and acquire sets it to 1 when a thread becomes the owner; the initial value is never read."
     },
-    "hawa.plugin.xǁDeviceLockǁacquire__mutmut_9": {
+    "hawa.plugin.xǁDeviceLockǁacquire__mutmut_15": {
       "status": "survived",
-      "diff_sha256": "012606b5462cd4f5fbb41ef04b3c4874855b878e51f4d951101cfa525824c186",
+      "diff_sha256": "7b645bf51ea608b367f881226e0a7b16b831c90f8808976f4b14705e29399624",
       "reason": "Equivalent: acquired is only tested for truth; it is overwritten by wait_for unless the wait raises, and None is false like False."
+    },
+    "hawa.plugin.xǁDeviceLockǁacquire__mutmut_27": {
+      "status": "survived",
+      "diff_sha256": "44a47f72246c0a96d2fb4882d20f6b10ef77222a29e54c4919ac67b9a5a10f0a",
+      "reason": "Latency only: a stop request that arrives without a notify is noticed within 1.05 s instead of 0.05 s, and the waiter still leaves the queue; a test could tell them apart only with a wall-clock threshold."
+    },
+    "hawa.plugin.xǁSessionǁpause__mutmut_1": {
+      "status": "survived",
+      "diff_sha256": "6ce0b57500dc9d40af4a0258cfe7e7d0ed44d59929ed2481ae3b6b5d2819cf62",
+      "reason": "Killed when run directly: test_pause_from_a_thread_holding_the_device_lock_lets_the_worker_stop fails in about 5 s with this change (checked by hand). mutmut does not select that test for Session.pause because the test calls pause from a helper thread, which its per-test call mapping does not record."
     },
     "hawa.plugin.xǁSessionǁpause__mutmut_2": {
       "status": "survived",

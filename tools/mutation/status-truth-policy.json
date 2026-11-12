@@ -1,15 +1,15 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 27,
-  "inventory_sha256": "b23a54f3ae3268d17fc0110c9b35f8f13e9f30a3d52440a3ee1d11c9793a16c4",
+  "mutants": 28,
+  "inventory_sha256": "d5bc4dbee724d6bfb691813361cfac6cffc2e7f032c42ba82d15dfbe997ac9b2",
   "scope": "Lines changed by the #74 status PR only (git diff against the base revision, mutmut3.py changed-lines scope): the queued state while a job waits for the device slot in src/hawa/jobs.py, and the shared MPS lock a job holds outside its checkpoints (#99); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
   "control_test_files": [
     "tests/test_runtime_job_contracts.py"
   ],
   "sources": {
-    "src/hawa/jobs.py": "0918418b3ca13b721dfcf3a63e4de854dac815423400b676b643e36157f3d6e1",
+    "src/hawa/jobs.py": "7a90d44a49e65acfd2e7604c5612a761bdcb36f4b80c16ccc4bdbbcee390bc88",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
-    "tests/test_runtime_job_contracts.py": "301967cc12e6a7d3739e69214b20880e0790b59f637ab776748733e580e40032"
+    "tests/test_runtime_job_contracts.py": "d8bb845781bbfe68172217f3298e3271b427a4d62bd443cdb21e889dd7b98aa1"
   },
   "reviewed_survivors": {
     "hawa.jobs.xǁJobǁ__init____mutmut_1": {

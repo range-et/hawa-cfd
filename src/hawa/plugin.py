@@ -300,7 +300,8 @@ class DeviceLock:
         self.depth = 0
         self.queue = []
 
-    def acquire(self, timeout=None):
+    def acquire(self, timeout=None, stop=None):
+        """Take the lock in arrival order; False after timeout or once stop() is true."""
         me = threading.get_ident()
         with self.condition:
             if self.owner == me:
@@ -308,9 +309,16 @@ class DeviceLock:
                 return True
             ticket = object()
             self.queue.append(ticket)
+            ready = lambda: self.owner is None and self.queue[0] is ticket
             acquired = False
             try:
-                acquired = self.condition.wait_for(lambda: self.owner is None and self.queue[0] is ticket, timeout)
+                if stop is None:
+                    acquired = self.condition.wait_for(ready, timeout)
+                else:
+                    # Keep this place in the queue while checking the caller's pause or cancel.
+                    while not ready() and not stop():
+                        self.condition.wait(.05)
+                    acquired = ready()
             finally:
                 # A timed-out or interrupted wait must not block the waiters behind it.
                 if not acquired:

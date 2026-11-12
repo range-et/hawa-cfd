@@ -48,11 +48,12 @@ class Job:
 
         PyTorch's MPS backend aborts when two threads submit work at once, so on
         a Mac a job's device work runs under the lock that MPS sessions step
-        under; checkpoint releases it. The wait stays cancellable.
+        under; checkpoint releases it. The job keeps its place in the queue
+        while it waits, and gives it up only to pause or cancel.
         """
         if not SHARE_DEVICE_LOCK:
             return
-        while not MPS_LOCK.acquire(timeout=.05):
+        while not MPS_LOCK.acquire(stop=lambda: self.paused or self.cancelled):
             self.checkpoint(self.steps, state)
         self.holds_device = True
 
