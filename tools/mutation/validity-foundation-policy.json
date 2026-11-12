@@ -1,8 +1,8 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 2359,
-  "inventory_sha256": "64486405585427954a1e3a170996245f5f47598eeb8c9d39ec200d631a5d36bd",
-  "scope": "Lines changed since the base by the validity-foundation PR and the item 5 field-views and item 6 traces PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, display_solid, the half-cell isosurface (fields.march, grid_lines, isosurface and FieldCollection.isosurface, with the T-junction seam split in fields.close_seams) and the plane partition (FieldCollection.plane, FieldCollection.lattice and the single-frame plane dispatch) and the streamline traces (fields.trace with its per-point colour sampling, trace_seed, trace_result, FieldCollection.trace, the display mask of FieldCollection.sample; the recording pathlines were removed by owner decision, and the plugin recording dispatch line is included); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
+  "mutants": 2516,
+  "inventory_sha256": "65f4a94b543c0e6c47800ab33d39fc3e1df66dc110f338dfa816c7dea0ea608b",
+  "scope": "Lines changed since the base by the validity-foundation PR and the item 5 field-views and item 6 traces PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared MPS device lock (#99: plugin.DeviceLock with suspend and restore, Session construction, per-chunk stepping and pause, and the locked refined set-up, stepping and frames), the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, display_solid, the half-cell isosurface (fields.march, grid_lines, isosurface and FieldCollection.isosurface, with the T-junction seam split in fields.close_seams) and the plane partition (FieldCollection.plane, FieldCollection.lattice and the single-frame plane dispatch) and the streamline traces (fields.trace with its per-point colour sampling, trace_seed, trace_result, FieldCollection.trace, the display mask of FieldCollection.sample; the recording pathlines were removed by owner decision, and the plugin recording dispatch line is included); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
   "control_test_files": [
     "tests/test_fields.py",
     "tests/test_field_collection.py",
@@ -11,16 +11,16 @@
     "tests/test_refinement.py"
   ],
   "sources": {
-    "src/hawa/plugin.py": "d0b2436c22af5d4570a573240bb3e8f33a624dafacdf549f5fc2e747fb77743c",
+    "src/hawa/plugin.py": "f786fabcbe58254dfae48610c1c8fa1a3839e6663cd58b277878f348b634bfc7",
     "src/hawa/fields.py": "0abde8fbbdc2a2b2529d69409576871f1235dbab7c97ebb85f0e3001002a2ff7",
     "src/hawa/field_collection.py": "8e375ad5b5d9e98bb861a8c01cc4c7351fd9928a0f8d5d5571c3258fbf969a68",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/test_fields.py": "22757af04326724720f66e4766c3855fda4c9bfc22576c5b94d4ad09b56ffe86",
     "tests/test_field_collection.py": "162f2a6220afb599f491932ba5f9f7dc11cbc45a20cba29edf1eefe4a8077644",
-    "tests/test_plugin_service.py": "7a9629d5e1df029d9c09013071a6d3d3856cde66407fc1d47bc304c910655be5",
+    "tests/test_plugin_service.py": "c51ab5059300357059d715f6ba9d86c6ea2b66f4410bf505243b9b231eb55483",
     "tests/test_recording.py": "f693484e74c0c1fab13bdd432d6a2954d5adad9da7ca829b594de20abab5e428",
-    "src/hawa/refinement.py": "63bbbc161139044c8eb9d2dc3de6e8804beafe2152f86c5269ffc9a78e41c032",
-    "tests/test_refinement.py": "e869ca3663d235cedf56fff55a10adef8efd1a688a650bfd34a46403818a77f9"
+    "src/hawa/refinement.py": "f6da784b1d0f023b49194a56e3778017e613967848db0982d42293971be73584",
+    "tests/test_refinement.py": "74f4bd8e6b87d1e0be835c0bc4e4139fe08a061d8e278c621d52996fff5fe931"
   },
   "reviewed_survivors": {
     "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_100": {
@@ -1078,10 +1078,55 @@
       "diff_sha256": "2f04e06b05d58620bc2b18355916fa67a6f3b510344f5f298c503e3d6b9cf2f8",
       "reason": "Equivalent for numeric points: the coordinates are converted to float again by lattice_weights, and the row length check is unchanged, so validity and values are identical."
     },
-    "hawa.refinement.x_run_refined__mutmut_26": {
+    "hawa.plugin.xǁDeviceLockǁ__init____mutmut_2": {
       "status": "survived",
-      "diff_sha256": "a10a538ceca78b74fb82b9cac26d45b7cdde63b5e479032556834e3d7f218fb2",
-      "reason": "Equivalent: boundary_nodes(None, flow) returns None, and the fine PatchFlow's only boundary is BounceBackBoundary(solid), whose mask minus solid is empty, so the fine frame has no boundary_nodes either way (asserted in test_refined_frames_mask_wall_faces_like_session_fields)."
+      "diff_sha256": "05dfb7f0f909d26543dc351e0f2b786e46d69656e7d448fc892cb05277a111b0",
+      "reason": "Equivalent: Condition(None) builds its own RLock; DeviceLock never re-enters the condition lock, so a plain Lock and an RLock behave the same here."
+    },
+    "hawa.plugin.xǁDeviceLockǁ__init____mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "341207f4e430d695000069db3bb7f6d54a9a34c82b51e6a09172fdb624c8a236",
+      "reason": "Equivalent: depth is read only by its owner, and acquire sets it to 1 when a thread becomes the owner; the initial value is never read."
+    },
+    "hawa.plugin.xǁDeviceLockǁ__init____mutmut_5": {
+      "status": "survived",
+      "diff_sha256": "8e489caf4a62d5ae465414b295415141708a9b923d23218569a20855eaa20466",
+      "reason": "Equivalent: depth is read only by its owner, and acquire sets it to 1 when a thread becomes the owner; the initial value is never read."
+    },
+    "hawa.plugin.xǁDeviceLockǁacquire__mutmut_15": {
+      "status": "survived",
+      "diff_sha256": "7b645bf51ea608b367f881226e0a7b16b831c90f8808976f4b14705e29399624",
+      "reason": "Equivalent: acquired is only tested for truth; it is overwritten by wait_for unless the wait raises, and None is false like False."
+    },
+    "hawa.plugin.xǁDeviceLockǁacquire__mutmut_27": {
+      "status": "survived",
+      "diff_sha256": "44a47f72246c0a96d2fb4882d20f6b10ef77222a29e54c4919ac67b9a5a10f0a",
+      "reason": "Latency only: a stop request that arrives without a notify is noticed within 1.05 s instead of 0.05 s, and the waiter still leaves the queue; a test could tell them apart only with a wall-clock threshold."
+    },
+    "hawa.plugin.xǁSessionǁpause__mutmut_1": {
+      "status": "survived",
+      "diff_sha256": "6ce0b57500dc9d40af4a0258cfe7e7d0ed44d59929ed2481ae3b6b5d2819cf62",
+      "reason": "Killed when run directly: test_pause_from_a_thread_holding_the_device_lock_lets_the_worker_stop fails in about 5 s with this change (checked by hand). mutmut does not select that test for Session.pause because the test calls pause from a helper thread, which its per-test call mapping does not record."
+    },
+    "hawa.plugin.xǁSessionǁpause__mutmut_2": {
+      "status": "survived",
+      "diff_sha256": "6714fb875048936f7e2254b36c01b15b8bac62f2b876c48448027312c70aa92d",
+      "reason": "Not observable in the CPU suite: the join timeout matters only when a worker fails to reach a chunk boundary, which a test could show only by blocking a worker for 30 s or more per run; the timeout value predates #99 and only moved into the try block."
+    },
+    "hawa.plugin.xǁSessionǁpause__mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "75cca42f37e9fe63c466d6cdecda83b5e5f1882f159220fd50012737f71adfca",
+      "reason": "Not observable in the CPU suite: the join timeout matters only when a worker fails to reach a chunk boundary, which a test could show only by blocking a worker for 30 s or more per run; the timeout value predates #99 and only moved into the try block."
+    },
+    "hawa.refinement.x_run_refined__mutmut_38": {
+      "status": "survived",
+      "diff_sha256": "0803ec6aa2bd611959c0465c1c052ca44c5a4f70b08aaf1538b2119fe0f22f71",
+      "reason": "Equivalent: assigning None to a NumPy boolean array stores False."
+    },
+    "hawa.refinement.x_run_refined__mutmut_96": {
+      "status": "survived",
+      "diff_sha256": "840886475c2c52af61f5379348d84cb8cf770b4baec2fcad4bee9959424e9607",
+      "reason": "Equivalent: the fine Simulation is built with an empty boundary list, so boundary_nodes finds no wall or slip nodes for it, as for None; the fine frame never carries boundary_nodes (asserted in test_refined_frames_mask_wall_faces_like_session_fields)."
     }
   },
   "base_revision": "56b0728da222d60c3928193c74c8ab72788dd014"

@@ -2,7 +2,8 @@
 import copy
 import threading
 import uuid
-from .plugin import Session, SESSIONS, REGISTRY_LOCK, case_key
+import torch
+from .plugin import Session, SESSIONS, REGISTRY_LOCK, MPS_LOCK, case_key
 from .optimization import evaluate
 
 
@@ -25,9 +26,12 @@ class Job:
         self.steps = 0
         self.target = request.get('steps', 200)
         self.key = case_key(request)
+        self.holds_device = False
         self.thread = threading.Thread(target=self.work, name='Hawa evaluation '+self.id[:8], daemon=True)
 
     def checkpoint(self, steps, state='running'):
+        # Other device work can run while this job waits or reports a cancel.
+        held = self.drop_device()
         with self.condition:
             self.steps = steps
             while self.paused and not self.cancelled:
@@ -36,12 +40,35 @@ class Job:
             if self.cancelled:
                 raise Cancelled('Evaluation cancelled')
             self.state = state
+        if held:
+            self.take_device(state)
+
+    def take_device(self, state='running'):
+        """Hold the shared MPS lock for this worker's device work (#99).
+
+        PyTorch's MPS backend aborts when two threads submit work at once, so on
+        a Mac a job's device work runs under the lock that MPS sessions step
+        under; checkpoint releases it. The job keeps its place in the queue
+        while it waits, and gives it up only to pause or cancel.
+        """
+        if not SHARE_DEVICE_LOCK:
+            return
+        while not MPS_LOCK.acquire(stop=lambda: self.paused or self.cancelled):
+            self.checkpoint(self.steps, state)
+        self.holds_device = True
+
+    def drop_device(self):
+        held, self.holds_device = self.holds_device, False
+        if held:
+            MPS_LOCK.release()
+        return held
 
     def work(self):
         try:
             if self.request.get('kind') == 'query':
                 from .plugin import dispatch
                 self.checkpoint(0)
+                self.take_device()
                 request = self.request['request']
                 if request['op'] == 'field':
                     from .fields import dispatch_field
@@ -66,6 +93,7 @@ class Job:
                 self.checkpoint(self.steps, 'queued')
             try:
                 self.checkpoint(0)
+                self.take_device()
                 if self.request.get('kind') == 'refine':
                     from .refinement import run_refined
                     value=run_refined(self.request,self.checkpoint)
@@ -98,6 +126,7 @@ class Job:
                     self.steps = self.target
                     self.state = 'completed'
             finally:
+                self.drop_device()
                 DEVICE_SLOT.release()
         except Cancelled:
             with self.condition:
@@ -107,6 +136,7 @@ class Job:
                 self.error = str(exc)
                 self.state = 'failed'
         finally:
+            self.drop_device()
             with self.condition:
                 if self.state != 'completed' or self.disposed:
                     if self.session is not None:
@@ -153,6 +183,8 @@ class Job:
 
 
 DEVICE_SLOT = threading.Semaphore(1)
+# Only Apple's MPS backend needs one thread at a time across jobs and sessions.
+SHARE_DEVICE_LOCK = torch.backends.mps.is_available()
 JOBS = {}
 LOCK = threading.Lock()
 

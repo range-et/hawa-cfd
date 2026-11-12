@@ -265,8 +265,8 @@ need a fresh run and review, never blind regeneration.
 | `run_mps_mass_budget.sh` | #73 node-first mass-budget lines of `neutral_external.py` against `cc407cc` | `test_neutral_external.py` (without the CPU/MPS device test) | local |
 | `run_mutation_tooling.sh` | #67 lines of `check_results.py` and `mutmut3.py` against `5f2c899` | `test_mutation_policy.py` | local |
 | `run_motion_schema.sh` | #68 lines of `src/hawa/motion.py` against `cc407cc` | `test_motion.py`, `test_payload_schemas.py`, two motion tests in `test_runtime_rejection_edges.py`; CPU cases | local |
-| `run_validity_foundation.sh` | #80/#81/#82 lines (validity foundation, item 5 field views: isosurface and plane partition, and item 6 traces) of `src/hawa/plugin.py`, `fields.py`, `field_collection.py` and `refinement.py` against `56b0728` (pathlines and their `recording.py` lines were removed by owner decision) | `test_fields.py`, `test_field_collection.py`, `test_plugin_service.py`, `test_recording.py`, `test_refinement.py`; CPU cases | local |
-| `run_status_truth.sh` | #74 queued-state lines of `src/hawa/jobs.py` against `6b0744a` | `test_runtime_job_contracts.py`; CPU cases | local |
+| `run_validity_foundation.sh` | #80/#81/#82/#99 lines (validity foundation, item 5 field views: isosurface and plane partition, item 6 traces, and the shared MPS device lock) of `src/hawa/plugin.py`, `fields.py`, `field_collection.py` and `refinement.py` against `56b0728` (pathlines and their `recording.py` lines were removed by owner decision) | `test_fields.py`, `test_field_collection.py`, `test_plugin_service.py`, `test_recording.py`, `test_refinement.py`; CPU cases | local |
+| `run_status_truth.sh` | #74 queued-state and #99 job device-lock lines of `src/hawa/jobs.py` against `6b0744a` | `test_runtime_job_contracts.py`; CPU cases | local |
 
 Commit before running a PR-scoped study: its patch is `git diff BASE` of the
 committed files. PR #66 was squash-merged, so run `git fetch origin refs/pull/66/head`

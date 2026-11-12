@@ -287,13 +287,99 @@ def make_solver(spec, device):
     return backend, flow, solver
 
 
+class DeviceLock:
+    """Re-entrant lock handed over in arrival order.
+
+    A session stepping in a loop releases and retakes it every chunk; with an
+    ordinary lock it can retake it before a waiting thread wakes, so other
+    device work and field reads could wait for the whole run.
+    """
+    def __init__(self):
+        self.condition = threading.Condition(threading.Lock())
+        self.owner = None
+        self.depth = 0
+        self.queue = []
+
+    def acquire(self, timeout=None, stop=None):
+        """Take the lock in arrival order; False after timeout or once stop() is true."""
+        me = threading.get_ident()
+        with self.condition:
+            if self.owner == me:
+                self.depth += 1
+                return True
+            ticket = object()
+            self.queue.append(ticket)
+            ready = lambda: self.owner is None and self.queue[0] is ticket
+            acquired = False
+            try:
+                if stop is None:
+                    acquired = self.condition.wait_for(ready, timeout)
+                else:
+                    # Keep this place in the queue while checking the caller's pause or cancel.
+                    while not ready() and not stop():
+                        self.condition.wait(.05)
+                    acquired = ready()
+            finally:
+                # A timed-out or interrupted wait must not block the waiters behind it.
+                if not acquired:
+                    self.queue.remove(ticket)
+                    self.condition.notify_all()
+            if not acquired:
+                return False
+            self.queue.pop(0)
+            self.owner, self.depth = me, 1
+            return True
+
+    def release(self):
+        with self.condition:
+            if self.owner != threading.get_ident():
+                raise RuntimeError('Device lock released by a thread that does not hold it')
+            self.depth -= 1
+            if not self.depth:
+                self.owner = None
+                self.condition.notify_all()
+
+    def suspend(self):
+        """Release every hold the calling thread has; return the depth to restore."""
+        with self.condition:
+            if self.owner != threading.get_ident():
+                return 0
+            depth, self.depth, self.owner = self.depth, 0, None
+            self.condition.notify_all()
+            return depth
+
+    def restore(self, depth):
+        if depth:
+            self.acquire()
+            with self.condition:
+                self.depth = depth
+
+    def __enter__(self):
+        self.acquire()
+        return self
+
+    def __exit__(self, *exc):
+        self.release()
+
+
+# PyTorch's MPS backend must not run work from two threads at once (#99): every
+# MPS session uses this lock as its session lock, and construction holds it.
+MPS_LOCK = DeviceLock()
+
+
 class Session:
     def __init__(self, spec, device):
+        # Construction runs device work: the backend probe, new tensors, quality.
+        with MPS_LOCK:
+            self.build(spec, device)
+
+    def build(self, spec, device):
         self.spec = json.loads(canonical(spec))
         self.key=case_key(self.spec)
         self.backend, self.flow, self.solver = make_solver(spec, device)
         self.id = str(uuid.uuid4())
-        self.lock = threading.RLock()
+        # MPS sessions share one lock (#99); others keep their own.
+        self.lock = MPS_LOCK if self.backend.device.type == 'mps' else threading.RLock()
         self.lifecycle = threading.RLock()
         self.stop = threading.Event()
         self.thread = None
@@ -316,9 +402,10 @@ class Session:
     def advance(self, steps):
         if type(steps) is not int or steps < 0:
             raise ValueError("Steps must be a nonnegative integer")
-        with self.lock:
-            remaining = steps
-            while remaining:
+        remaining = steps
+        while remaining:
+            # One lock hold per chunk lets other MPS sessions and field reads interleave.
+            with self.lock:
                 n = min(remaining, 5 - self.flow.i % 5)
                 if self.spec.get('boundary_field') and float(self.flow.units.convert_time_to_pu(self.flow.i+n)) > self.spec['boundary_field']['end_time'] + 1e-10:
                     raise ValueError('Boundary time coverage exhausted; capture a longer parent recording')
@@ -378,7 +465,12 @@ class Session:
         self.stop.set()
         worker = self.thread
         if worker is not None and worker.is_alive():
-            worker.join(timeout=30)
+            # A job holding the shared MPS lock must let the worker finish its chunk.
+            held = MPS_LOCK.suspend()
+            try:
+                worker.join(timeout=30)
+            finally:
+                MPS_LOCK.restore(held)
             if worker.is_alive():
                 raise RuntimeError("Solver has not yet reached a cancellation boundary")
 

@@ -154,3 +154,226 @@ def test_examples_export_their_bounce_back_walls():
     nodes = Session({"example": "poiseuille2d-guo", "size": 16}, "cpu").fields()["boundary_nodes"]
     assert nodes[:, [0, -1]].all() and not nodes[:, 1:-1].any()
     assert Session({"example": "tgv2d-bgk", "size": 8}, "cpu").fields().get("boundary_nodes") is None
+
+
+def mps_labelled(monkeypatch):
+    # Real CPU solvers whose backend reports MPS, so the lock rule can run off a Mac.
+    import torch
+    from hawa import plugin
+    from hawa.backends import Backend
+    build = plugin.make_solver
+    def make(spec, device):
+        backend, flow, solver = build(spec, 'cpu')
+        if device != 'mps':
+            return backend, flow, solver
+        labelled = Backend(torch.device('mps'), 'mps')
+        monkeypatch.setattr(labelled, 'synchronize', lambda: None)
+        return labelled, flow, solver
+    monkeypatch.setattr(plugin, 'make_solver', make)
+    return plugin
+
+
+def test_metal_sessions_share_one_device_lock_and_serialise_device_work(monkeypatch):
+    import threading
+    plugin = mps_labelled(monkeypatch)
+    case = {"example": "tgv3d-bgk", "size": 8}
+    a, b = plugin.Session(case, 'mps'), plugin.Session(case, 'mps')
+    c, d = plugin.Session(case, 'cpu'), plugin.Session(case, 'cpu')
+    assert a.lock is b.lock is plugin.MPS_LOCK
+    assert c.lock is not d.lock and plugin.MPS_LOCK not in (c.lock, d.lock)
+    held, release = threading.Event(), threading.Event()
+    def hold():
+        with plugin.MPS_LOCK:
+            held.set(); release.wait(10)
+    holder = threading.Thread(target=hold); holder.start(); held.wait(10)
+    built = []
+    workers = [threading.Thread(target=lambda: b.advance(5)), threading.Thread(target=lambda: built.append(plugin.Session(case, 'mps')))]
+    for w in workers: w.start()
+    # Another thread's MPS work blocks both stepping and construction; a CPU session does not wait.
+    c.advance(5)
+    time.sleep(.3)
+    assert b.flow.i == 0 and not built and c.flow.i == 5
+    release.set(); holder.join(10)
+    for w in workers: w.join(30)
+    assert b.flow.i == 5 and len(built) == 1 and built[0].lock is plugin.MPS_LOCK
+    # Field reads of another MPS session wait for the lock as well.
+    with plugin.MPS_LOCK:
+        reader = threading.Thread(target=lambda: built.append(a.fields())); reader.start(); time.sleep(.2)
+        assert len(built) == 1
+    reader.join(10)
+    assert len(built) == 2 and built[1]['velocity'].shape[0] == 3
+
+
+def test_advance_releases_the_device_lock_between_chunks(monkeypatch):
+    import threading
+    plugin = mps_labelled(monkeypatch)
+    a = plugin.Session({"example": "tgv3d-bgk", "size": 8}, 'mps')
+    first, got = threading.Event(), []
+    def synchronize():
+        # Hold the first chunk until the other thread has queued for the lock.
+        if not first.is_set():
+            first.set(); end = time.monotonic()+5
+            while not plugin.MPS_LOCK.queue and time.monotonic() < end: time.sleep(.005)
+    monkeypatch.setattr(a.backend, 'synchronize', synchronize)
+    def other():
+        first.wait(5)
+        if plugin.MPS_LOCK.acquire(timeout=5):
+            got.append(a.flow.i); plugin.MPS_LOCK.release()
+    waiter = threading.Thread(target=other, daemon=True); waiter.start()
+    a.advance(15); waiter.join(5)
+    # The queued thread gets the lock at the first chunk boundary, not after all 15 steps.
+    assert a.flow.i == 15 and got == [5]
+
+
+def test_pause_from_a_thread_holding_the_device_lock_lets_the_worker_stop(monkeypatch):
+    import threading
+    plugin = mps_labelled(monkeypatch)
+    a = plugin.Session({"example": "tgv3d-bgk", "size": 8}, 'mps')
+    a.start(10**6)
+    end = time.monotonic()+5
+    while a.flow.i == 0 and time.monotonic() < end: time.sleep(.005)
+    out = []
+    def job():
+        # A query job holds the lock while it pauses the session (save/load).
+        plugin.MPS_LOCK.acquire(timeout=5)
+        try:
+            a.pause(); out.append((a.state, plugin.MPS_LOCK.owner == threading.get_ident(), plugin.MPS_LOCK.depth))
+        except RuntimeError as exc:
+            out.append(str(exc))
+        finally:
+            plugin.MPS_LOCK.release()
+    worker = threading.Thread(target=job, daemon=True); worker.start(); worker.join(5)
+    assert out == [('paused', True, 1)] and a.thread is None
+
+
+def test_refined_run_waits_on_pause_outside_the_device_lock(monkeypatch):
+    import threading
+    from hawa import refinement
+    plugin = mps_labelled(monkeypatch)
+    sessions = []
+    class Recorded(plugin.Session):
+        def __init__(self, spec, device):
+            super().__init__(spec, device); sessions.append(self)
+    monkeypatch.setattr(plugin, 'Session', Recorded)
+    coarse = dict(shape=[17]*3, dx=1., spacing=1., origin=[0,0,0], speed=1., viscosity=1., density=1.225, mach=.05, collision='bgk', solid=[], boundaries=['inlet','outlet','periodic','periodic','periodic','periodic'])
+    fine = {**coarse, 'shape': [13]*3, 'dx': .5, 'spacing': .5, 'origin': [5,5,5], 'refinement_lower': [5]*3, 'refinement_upper': [11]*3}
+    free, seen = [], []
+    def checkpoint(n):
+        seen.append(n)
+        # A paused job waits here: the lock must be free for other MPS work.
+        probe = threading.Thread(target=lambda: free.append(plugin.MPS_LOCK.acquire(timeout=0) and (plugin.MPS_LOCK.release() or True)))
+        probe.start(); probe.join(5)
+    r = refinement.run_refined(dict(case=coarse, fine_case=fine, steps=7, device='mps'), checkpoint)
+    assert sessions[0].lock is plugin.MPS_LOCK and r['steps'] == 7 and sessions[0].flow.i == 7
+    # Before construction, then before each 5-step chunk, then once complete.
+    assert free == [True, True, True, True] and seen == [0, 0, 5, 7]
+    assert r['backend'] == sessions[0].backend.info() and abs(r['relative_mass_change']) < 1e-3
+
+
+def test_device_lock_is_reentrant_fair_and_owned():
+    import threading
+    from hawa.plugin import DeviceLock
+    lock = DeviceLock()
+    # Every wait here is bounded, so a broken lock fails the test instead of hanging it.
+    def run(target):
+        thread = threading.Thread(target=target, daemon=True); thread.start(); return thread
+    def settle(done):
+        end = time.monotonic()+2
+        while not done():
+            assert time.monotonic() < end, 'lock did not reach the expected state'
+            time.sleep(.005)
+    assert lock.acquire(timeout=1) is True and lock.acquire(timeout=1) is True and lock.depth == 2
+    # Another thread neither takes nor releases a lock it does not hold.
+    out = []
+    def other():
+        out.append(lock.acquire(timeout=0))
+        try:
+            lock.release()
+        except RuntimeError as exc:
+            out.append(str(exc))
+    run(other).join(2)
+    assert out == [False, 'Device lock released by a thread that does not hold it'] and lock.queue == []
+    lock.release(); lock.release()
+    assert lock.owner is None and lock.depth == 0
+    freed = []
+    run(lambda: freed.append(lock.acquire(timeout=1) and lock.release() is None)).join(2)
+    assert freed == [True]
+    with lock:
+        with lock:
+            assert lock.depth == 2
+    order = []
+    assert lock.acquire(timeout=1)
+    def wait(name):
+        if lock.acquire(timeout=2):
+            order.append(name); lock.release()
+    first = run(lambda: wait('first')); settle(lambda: len(lock.queue) == 1)
+    second = run(lambda: wait('second')); settle(lambda: len(lock.queue) == 2)
+    lock.release()
+    # The releasing thread queues behind earlier waiters instead of retaking the lock.
+    if lock.acquire(timeout=2):
+        order.append('main'); lock.release()
+    first.join(2); second.join(2)
+    assert order == ['first', 'second', 'main'] and lock.owner is None and lock.depth == 0
+    # A thread can give up every hold while it waits, then get them back.
+    assert lock.acquire(timeout=1) and lock.acquire(timeout=1)
+    taken = []
+    assert lock.suspend() == 2 and lock.owner is None and lock.depth == 0
+    run(lambda: taken.append(lock.acquire(timeout=1) and lock.release() is None)).join(2)
+    lock.restore(2)
+    assert taken == [True] and lock.owner == threading.get_ident() and lock.depth == 2
+    lock.release(); lock.release(); lock.restore(0)
+    suspended = []
+    run(lambda: suspended.append(lock.suspend())).join(2)
+    assert suspended == [0] and lock.owner is None and lock.depth == 0
+    # An interrupted wait leaves the queue, so later callers are not blocked behind it.
+    assert lock.acquire(timeout=1)
+    def interrupted(*args):
+        raise KeyboardInterrupt
+    raised = []
+    def interrupt():
+        lock.condition.wait_for = interrupted
+        try:
+            lock.acquire(timeout=1)
+        except KeyboardInterrupt:
+            raised.append(list(lock.queue))
+    run(interrupt).join(2)
+    del lock.condition.wait_for
+    lock.release()
+    late = []
+    run(lambda: late.append(lock.acquire(timeout=1) and lock.release() is None)).join(2)
+    assert raised == [[]] and late == [True]
+
+
+def test_device_lock_waiter_with_a_stop_check_keeps_its_place():
+    # Kept apart from the fast lock test so a broken lock fails that one first.
+    import threading
+    from hawa.plugin import DeviceLock
+    lock = DeviceLock()
+    def run(target):
+        thread = threading.Thread(target=target, daemon=True); thread.start(); return thread
+    def settle(done):
+        end = time.monotonic()+2
+        while not done():
+            assert time.monotonic() < end, 'lock did not reach the expected state'
+            time.sleep(.005)
+    def wait(name):
+        if lock.acquire(timeout=2):
+            order.append(name); lock.release()
+    # A waiter that polls a stop request keeps its place ahead of later waiters, and gives it
+    # up once stop() is true, even without a notify.
+    assert lock.acquire(timeout=1)
+    order, flag = [], []
+    def polled(name, stop):
+        if lock.acquire(stop=stop):
+            order.append(name); lock.release()
+        else:
+            order.append(name+' stopped')
+    first = run(lambda: polled('polled', lambda: False)); settle(lambda: len(lock.queue) == 1)
+    second = run(lambda: wait('later')); settle(lambda: len(lock.queue) == 2)
+    lock.release(); first.join(2); second.join(2)
+    assert order == ['polled', 'later'] and lock.queue == []
+    assert lock.acquire(timeout=1)
+    stopper = run(lambda: polled('cancelled', lambda: bool(flag))); settle(lambda: len(lock.queue) == 1)
+    flag.append(True); stopper.join(2)
+    assert order[-1] == 'cancelled stopped' and lock.queue == [] and lock.owner == threading.get_ident()
+    lock.release()
