@@ -110,6 +110,9 @@ static class PreviewContracts
         GhAccess Solve(GH_Component c, params object?[] inputs) { var da = new GhAccess(c, inputs); c.Compute(da); var output = c.Params.Output[0].VolatileData.Items; output.Clear(); if (da.Outputs.TryGetValue(0, out var v) && v is IGH_Goo g) output.Add(g); return da; }
         const string DomainJson = """{"kind":"Domain","label":"d","shape":[5,4,3],"origin":[5,5,0],"basis":[[0,1,0],[-1,0,0],[0,0,1]],"spacing":2,"dx":2}""";
         var domain = Goo(DomainJson);
+        var host = new RhinoDoc(601);
+        // One GH viewport frame: the wire pass only queues; Rhino's foreground channel draws.
+        void Frame(GH_Component comp, DisplayPipeline d) { int before = d.Calls.Count; comp.DrawViewportWires(new Args(d)); assert(d.Calls.Count == before, "Wire pass drew annotations under later preview meshes"); BoundaryOverlay.Instance.RaiseForeground(new DrawEventArgs(host, d)); }
         var physics = Goo("""{"kind":"Physics","label":"p","speed":3,"viscosity":0.1,"density":1.2,"mach":0.05,"collision":"bgk"}""");
 
         test("GH Case previews its accepted boundaries in the domain frame only while selected", () => {
@@ -118,15 +121,15 @@ static class PreviewContracts
             var da = Solve(comp, domain, null, physics, null); var result = ((HawaGoo)da.Outputs[0]!).Data;
             assert(result["speed"]!.GetValue<double>() == 3 && result["collision"]!.GetValue<string>() == "bgk" && result["kind"]!.GetValue<string>() == "Case" && result["label"]!.GetValue<string>() == "Hawa wind case" && result["boundaries"] == null && result["solid"] == null, "Case composition changed");
             assert(comp.ClippingBox == new BoundingBox(new(-1, 5, 0), new(5, 13, 4)), "Clipping box ignores the oriented domain");
-            var d = new DisplayPipeline(); comp.DrawViewportWires(new Args(d));
+            var d = new DisplayPipeline(); Frame(comp, d);
             assert(d.Calls.Count == 0, "Unselected Case drew annotations");
-            comp.Attributes.Selected = true; comp.DrawViewportWires(new Args(d));
+            comp.Attributes.Selected = true; Frame(comp, d);
             assert(HasDot(d, new(2, 5, 3), "X- inlet · +X 3 m/s", BoundaryAnnotations.Velocity) && HasDot(d, new(2, 13, 3), "X+ outlet · open, extrapolated", BoundaryAnnotations.Open) && Segment(d.Of("arrow").Single()[0], new(2, 5, 2), new(2, 5.8, 2)), "Default faces not drawn along the domain X axis");
             var pair = d.Of("dotted").First();
             assert(Near((Point3d)pair[0], new(5, 9, 2)) && Near((Point3d)pair[1], new(-1, 9, 2)), "Default periodic Y pair wrong");
             var shifted = Goo(((HawaGoo)da.Outputs[0]!).Value.Replace("\"origin\":[5,5,0]", "\"origin\":[20,0,0]"));
             comp.Params.Output[0].VolatileData.Items.Add(shifted);
-            d = new DisplayPipeline(); comp.DrawViewportWires(new Args(d));
+            d = new DisplayPipeline(); Frame(comp, d);
             assert(comp.ClippingBox == new BoundingBox(new(-1, 0, 0), new(20, 13, 4)) && Dots(d).Count == 12 && HasDot(d, new(17, 0, 3), "X- inlet · +X 3 m/s", BoundaryAnnotations.Velocity), "A second list-matched case was not drawn or bounded");
             comp.Params.Output[0].VolatileData.Items.Remove(shifted);
             var geometry = Goo("""{"kind":"Geometry","domain":""" + DomainJson + ""","solid":[1],"solid_halo":[2],"wall_links":[[1,0,0.5]]}""");
@@ -134,11 +137,22 @@ static class PreviewContracts
             comp.Params.Input[1].Sources.Add(comp.Params.Input[0]);
             da = Solve(comp, domain, geometry, physics, faces); result = ((HawaGoo)da.Outputs[0]!).Data;
             assert(result["solid"]!.ToJsonString() == "[1]" && result["solid_halo"]!.ToJsonString() == "[2]" && result["wall_links"]!.ToJsonString() == "[[1,0,0.5]]" && result["boundaries"]![4]!.GetValue<string>() == "periodic", "Geometry or boundaries not copied");
-            d = new DisplayPipeline(); comp.DrawViewportWires(new Args(d)); pair = d.Of("dotted").First();
+            d = new DisplayPipeline(); Frame(comp, d); pair = d.Of("dotted").First();
             assert(HasDot(d, new(5, 9, 3), "Y- wall", BoundaryAnnotations.Wall) && Near((Point3d)pair[0], new(2, 9, 0)) && Near((Point3d)pair[1], new(2, 9, 4)), "Connected boundaries not previewed");
             Solve(comp, domain, Goo("""{"kind":"Geometry","domain":{"other":1},"solid":[]}"""), physics, null);
             assert(comp.Errors.Contains("Geometry was voxelized on a different domain") && comp.ClippingBox == BoundingBox.Empty, "Mismatched geometry accepted or stale preview kept");
             assert(Solve(comp, domain, null, physics, null).Outputs.Count == 0, "Case solved while connected geometry was pending");
+        });
+
+        test("GH overlay draws queued annotations once per pipeline and bounds a stalled queue", () => {
+            var a = new DisplayPipeline(); var b = new DisplayPipeline();
+            for (int i = 0; i < 65; i++) BoundaryOverlay.Instance.Queue(a, BoundaryAnnotations.None);
+            assert(BoundaryOverlay.Instance.Enabled, "Overlay conduit not enabled by a queued preview");
+            BoundaryOverlay.Instance.RaiseForeground(new DrawEventArgs(host, b));
+            assert(b.Calls.Count == 0, "Another viewport drew this viewport's annotations");
+            BoundaryOverlay.Instance.RaiseForeground(new DrawEventArgs(host, a)); int drawn = a.Of("depth").Count();
+            BoundaryOverlay.Instance.RaiseForeground(new DrawEventArgs(host, a));
+            assert(drawn == 1 && a.Of("depth").Count() == 1, "Stalled queue grew without bound or redrew after its frame");
         });
 
         test("GH Boundary Set previews accepted NEE patches after the worker check only while selected", () => {
@@ -160,9 +174,9 @@ static class PreviewContracts
             var check = bridge.Ops("evaluate_submit").Single()["request"]!;
             assert(check["op"]!.GetValue<string>() == "check" && check["case"]!["boundary_set"]!["patches"]!.AsArray().Count == 6 && (string)da.Outputs[1]! == """{"ok":true}""", "Worker check request or report wrong");
             assert(spec["boundary_method"]!.GetValue<string>() == "hawa-nee-v1" && spec["initial_velocity"]!.ToJsonString() == "[0,0,0]" && spec["boundary_set"]!["patches"]![0]!["kind"] == null && spec["boundary_set"]!["patches"]![1]!["face"]!.GetValue<string>() == "x+", "Compiled boundary set changed");
-            var d = new DisplayPipeline(); comp.DrawViewportWires(new Args(d));
+            var d = new DisplayPipeline(); Frame(comp, d);
             assert(d.Calls.Count == 0 && comp.ClippingBox == new BoundingBox(new(-1, 5, 0), new(5, 13, 4)), "Unselected Boundary Set drew or lost bounds");
-            comp.Attributes.Selected = true; comp.DrawViewportWires(new Args(d));
+            comp.Attributes.Selected = true; Frame(comp, d);
             var arrows = d.Of("arrow").ToList(); var solid = d.Of("line").Single(); var dotted = d.Of("dotted").Single();
             assert(HasDot(d, new(2, 5, 3), "x- velocity · 2 m/s parabolic", BoundaryAnnotations.Velocity) && HasDot(d, new(2, 13, 3), "x+ open/pressure reference · 0 Pa gauge", BoundaryAnnotations.Open)
                 && HasDot(d, new(5, 9, 3), "y- wall", BoundaryAnnotations.Wall) && HasDot(d, new(-1, 9, 3), "y+ wall · moving 1.5 m/s", BoundaryAnnotations.Wall)
