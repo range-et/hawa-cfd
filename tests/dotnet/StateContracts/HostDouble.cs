@@ -51,8 +51,6 @@ namespace Rhino.Display {
         public bool Enabled { get; set; }
         protected virtual void CalculateBoundingBox(CalculateBoundingBoxEventArgs e) { }
         protected virtual void PostDrawObjects(DrawEventArgs e) { }
-        protected virtual void DrawForeground(DrawEventArgs e) { }
-        public void RaiseForeground(DrawEventArgs e) => DrawForeground(e);
         // Test entry points standing in for Rhino invoking the conduit.
         public void RaiseBoundingBox(CalculateBoundingBoxEventArgs e) => CalculateBoundingBox(e);
         public void RaisePostDraw(DrawEventArgs e) => PostDrawObjects(e);
