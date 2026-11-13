@@ -30,14 +30,16 @@ static class PreviewContracts
             var boxes = d.Of("box").ToList();
             assert(boxes.Count == 2 && (BoundingBox)boxes[0][0] == new BoundingBox(new(0, 0, 0), new(8, 6, 4)) && (BoundingBox)boxes[1][0] == new BoundingBox(new(2.5, 2.5, 1.5), new(3.5, 3.5, 2.5)), "Domain or block box changed");
             var dots = Dots(d);
-            assert(dots.Count == 6 && HasDot(d, new(0, 3, 2), "X- inlet · +X 1 m/s", BoundaryAnnotations.Velocity) && HasDot(d, new(8, 3, 2), "X+ outlet · open, extrapolated", BoundaryAnnotations.Open)
-                && HasDot(d, new(4, 0, 2), "Y- periodic ↔ Y+", BoundaryAnnotations.Periodic) && HasDot(d, new(4, 6, 2), "Y+ periodic ↔ Y-", BoundaryAnnotations.Periodic)
-                && HasDot(d, new(4, 3, 0), "Z- wall", BoundaryAnnotations.Wall) && HasDot(d, new(4, 3, 4), "Z+ slip", BoundaryAnnotations.Slip), "Accepted faces mislabelled or misplaced");
+            assert(dots.Count == 6 && HasDot(d, new(0, 3, 3), "X- inlet · +X 1 m/s", BoundaryAnnotations.Velocity) && HasDot(d, new(8, 3, 3), "X+ outlet · open, extrapolated", BoundaryAnnotations.Open)
+                && HasDot(d, new(4, 0, 3), "Y- periodic ↔ Y+", BoundaryAnnotations.Periodic) && HasDot(d, new(4, 6, 3), "Y+ periodic ↔ Y-", BoundaryAnnotations.Periodic)
+                && HasDot(d, new(4, 4.5, 0), "Z- wall", BoundaryAnnotations.Wall) && HasDot(d, new(4, 4.5, 4), "Z+ slip", BoundaryAnnotations.Slip), "Accepted faces mislabelled or misplaced");
             assert(dots.Select(x => x.Text).All(t => !t.Contains("outflow")), "A face label implies guaranteed outflow");
             var arrows = d.Of("arrow").ToList(); var dotted = d.Of("dotted").ToList();
             assert(arrows.Count == 1 && Segment(arrows[0][0], new(0, 3, 2), new(.8, 3, 2)), "Inlet arrow must point +X into the box");
             assert(dotted.Count == 2 && Near((Point3d)dotted[0][0], new(4, 0, 2)) && Near((Point3d)dotted[0][1], new(4, 6, 2)) && Near((Point3d)dotted[1][0], new(8, 3, 2)) && Near((Point3d)dotted[1][1], new(7.6, 3, 2)) && !d.Of("line").Any(), "Periodic pair or outlet tick wrong");
             assert(d.Calls.FindIndex(x => x.Op == "dot") > d.Calls.FindIndex(x => x.Op == "box") && !d.Of("mesh").Any() && !((string)d.Of("text").Single()[0]).Contains("OUTDATED"), "Annotation order or status changed");
+            int push = d.Calls.FindIndex(x => x.Op == "depth"), pop = d.Calls.FindIndex(x => x.Op == "depth-pop");
+            assert(push >= 0 && !(bool)d.Calls[push].Args[0] && push < d.Calls.FindIndex(x => x.Op == "dotted") && pop > d.Calls.FindLastIndex(x => x.Op == "dot") && pop < d.Calls.FindIndex(x => x.Op == "box" && d.Calls.IndexOf(x) > push), "Annotations must draw without depth testing and restore it before the body box");
             CaseHub.Close(501);
         });
 
@@ -50,7 +52,7 @@ static class PreviewContracts
             var d = new DisplayPipeline(); preview.RaisePostDraw(new DrawEventArgs(doc, d));
             var boxes = d.Of("box").ToList();
             assert(boxes.Count == 2 && (BoundingBox)boxes[0][0] == new BoundingBox(new(10000, -2000, 1000), new(14000, 0, 3000)) && (int)boxes[1][2] == 1, "Selected domain or found object box wrong");
-            assert(HasDot(d, new(10000, -1000, 2000), "X- inlet · +X 1 m/s", BoundaryAnnotations.Velocity) && HasDot(d, new(12000, -2000, 2000), "Y- wall", BoundaryAnnotations.Wall) && HasDot(d, new(12000, 0, 2000), "Y+ wall", BoundaryAnnotations.Wall), "Edited faces not shown in document units");
+            assert(HasDot(d, new(10000, -1000, 2500), "X- inlet · +X 1 m/s", BoundaryAnnotations.Velocity) && HasDot(d, new(12000, -2000, 2500), "Y- wall", BoundaryAnnotations.Wall) && HasDot(d, new(12000, 0, 2500), "Y+ wall", BoundaryAnnotations.Wall), "Edited faces not shown in document units");
             var dotted = d.Of("dotted").ToList();
             assert(Segment(d.Of("arrow").Single()[0], new(10000, -1000, 2000), new(10400, -1000, 2000)) && dotted.Count == 1 && Near((Point3d)dotted[0][1], new(13800, -1000, 2000)), "Walled Y faces kept a periodic pair or arrow scale wrong");
             CaseHub.Close(502);
@@ -119,13 +121,13 @@ static class PreviewContracts
             var d = new DisplayPipeline(); comp.DrawViewportWires(new Args(d));
             assert(d.Calls.Count == 0, "Unselected Case drew annotations");
             comp.Attributes.Selected = true; comp.DrawViewportWires(new Args(d));
-            assert(HasDot(d, new(2, 5, 2), "X- inlet · +X 3 m/s", BoundaryAnnotations.Velocity) && HasDot(d, new(2, 13, 2), "X+ outlet · open, extrapolated", BoundaryAnnotations.Open) && Segment(d.Of("arrow").Single()[0], new(2, 5, 2), new(2, 5.8, 2)), "Default faces not drawn along the domain X axis");
+            assert(HasDot(d, new(2, 5, 3), "X- inlet · +X 3 m/s", BoundaryAnnotations.Velocity) && HasDot(d, new(2, 13, 3), "X+ outlet · open, extrapolated", BoundaryAnnotations.Open) && Segment(d.Of("arrow").Single()[0], new(2, 5, 2), new(2, 5.8, 2)), "Default faces not drawn along the domain X axis");
             var pair = d.Of("dotted").First();
             assert(Near((Point3d)pair[0], new(5, 9, 2)) && Near((Point3d)pair[1], new(-1, 9, 2)), "Default periodic Y pair wrong");
             var shifted = Goo(((HawaGoo)da.Outputs[0]!).Value.Replace("\"origin\":[5,5,0]", "\"origin\":[20,0,0]"));
             comp.Params.Output[0].VolatileData.Items.Add(shifted);
             d = new DisplayPipeline(); comp.DrawViewportWires(new Args(d));
-            assert(comp.ClippingBox == new BoundingBox(new(-1, 0, 0), new(20, 13, 4)) && Dots(d).Count == 12 && HasDot(d, new(17, 0, 2), "X- inlet · +X 3 m/s", BoundaryAnnotations.Velocity), "A second list-matched case was not drawn or bounded");
+            assert(comp.ClippingBox == new BoundingBox(new(-1, 0, 0), new(20, 13, 4)) && Dots(d).Count == 12 && HasDot(d, new(17, 0, 3), "X- inlet · +X 3 m/s", BoundaryAnnotations.Velocity), "A second list-matched case was not drawn or bounded");
             comp.Params.Output[0].VolatileData.Items.Remove(shifted);
             var geometry = Goo("""{"kind":"Geometry","domain":""" + DomainJson + ""","solid":[1],"solid_halo":[2],"wall_links":[[1,0,0.5]]}""");
             var faces = Goo("""{"kind":"Boundaries","boundaries":["inlet","outlet","wall","wall","periodic","periodic"]}""");
@@ -133,7 +135,7 @@ static class PreviewContracts
             da = Solve(comp, domain, geometry, physics, faces); result = ((HawaGoo)da.Outputs[0]!).Data;
             assert(result["solid"]!.ToJsonString() == "[1]" && result["solid_halo"]!.ToJsonString() == "[2]" && result["wall_links"]!.ToJsonString() == "[[1,0,0.5]]" && result["boundaries"]![4]!.GetValue<string>() == "periodic", "Geometry or boundaries not copied");
             d = new DisplayPipeline(); comp.DrawViewportWires(new Args(d)); pair = d.Of("dotted").First();
-            assert(HasDot(d, new(5, 9, 2), "Y- wall", BoundaryAnnotations.Wall) && Near((Point3d)pair[0], new(2, 9, 0)) && Near((Point3d)pair[1], new(2, 9, 4)), "Connected boundaries not previewed");
+            assert(HasDot(d, new(5, 9, 3), "Y- wall", BoundaryAnnotations.Wall) && Near((Point3d)pair[0], new(2, 9, 0)) && Near((Point3d)pair[1], new(2, 9, 4)), "Connected boundaries not previewed");
             Solve(comp, domain, Goo("""{"kind":"Geometry","domain":{"other":1},"solid":[]}"""), physics, null);
             assert(comp.Errors.Contains("Geometry was voxelized on a different domain") && comp.ClippingBox == BoundingBox.Empty, "Mismatched geometry accepted or stale preview kept");
             assert(Solve(comp, domain, null, physics, null).Outputs.Count == 0, "Case solved while connected geometry was pending");
@@ -162,9 +164,9 @@ static class PreviewContracts
             assert(d.Calls.Count == 0 && comp.ClippingBox == new BoundingBox(new(-1, 5, 0), new(5, 13, 4)), "Unselected Boundary Set drew or lost bounds");
             comp.Attributes.Selected = true; comp.DrawViewportWires(new Args(d));
             var arrows = d.Of("arrow").ToList(); var solid = d.Of("line").Single(); var dotted = d.Of("dotted").Single();
-            assert(HasDot(d, new(2, 5, 2), "x- velocity · 2 m/s parabolic", BoundaryAnnotations.Velocity) && HasDot(d, new(2, 13, 2), "x+ open/pressure reference · 0 Pa gauge", BoundaryAnnotations.Open)
-                && HasDot(d, new(5, 9, 2), "y- wall", BoundaryAnnotations.Wall) && HasDot(d, new(-1, 9, 2), "y+ wall · moving 1.5 m/s", BoundaryAnnotations.Wall)
-                && HasDot(d, new(2, 9, 0), "z- slip", BoundaryAnnotations.Slip) && HasDot(d, new(2, 9, 4), "z+ pressure reference · 5 Pa gauge", BoundaryAnnotations.Pressure), "Patch labels or anchors wrong");
+            assert(HasDot(d, new(2, 5, 3), "x- velocity · 2 m/s parabolic", BoundaryAnnotations.Velocity) && HasDot(d, new(2, 13, 3), "x+ open/pressure reference · 0 Pa gauge", BoundaryAnnotations.Open)
+                && HasDot(d, new(5, 9, 3), "y- wall", BoundaryAnnotations.Wall) && HasDot(d, new(-1, 9, 3), "y+ wall · moving 1.5 m/s", BoundaryAnnotations.Wall)
+                && HasDot(d, new(0.5, 9, 0), "z- slip", BoundaryAnnotations.Slip) && HasDot(d, new(0.5, 9, 4), "z+ pressure reference · 5 Pa gauge", BoundaryAnnotations.Pressure), "Patch labels or anchors wrong");
             assert(arrows.Count == 2 && Segment(arrows[0][0], new(2, 5, 2), new(2, 5.8, 2)) && Segment(arrows[1][0], new(-1, 9, 2), new(-1, 9.8, 2)), "Velocity or moving-wall arrows wrong");
             assert(Near((Point3d)solid[0], new(2, 9, 4)) && Near((Point3d)solid[1], new(2, 9, 3.6)) && (int)solid[3] == 3 && Near((Point3d)dotted[0], new(2, 13, 2)) && Near((Point3d)dotted[1], new(2, 12.6, 2)), "Pressure and open markers must be distinct inward normal ticks");
             Solve(comp, caseGoo, new List<object> { new GH_String("x-") });

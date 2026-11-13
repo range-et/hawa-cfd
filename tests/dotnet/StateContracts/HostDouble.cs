@@ -42,6 +42,8 @@ namespace Rhino.Display {
         public void DrawArrow(Line line, Color color) => Add("arrow", line, color);
         public void DrawLine(Point3d from, Point3d to, Color color, int thickness) => Add("line", from, to, color, thickness);
         public void DrawDottedLine(Point3d from, Point3d to, Color color) => Add("dotted", from, to, color);
+        public void PushDepthTesting(bool enable) => Add("depth", enable);
+        public void PopDepthTesting() => Add("depth-pop");
     }
     public sealed class DrawEventArgs(RhinoDoc doc, DisplayPipeline display) : EventArgs { public RhinoDoc RhinoDoc { get; } = doc; public DisplayPipeline Display { get; } = display; }
     public sealed class CalculateBoundingBoxEventArgs(RhinoDoc doc) : EventArgs { public RhinoDoc RhinoDoc { get; } = doc; public readonly List<BoundingBox> Included = new(); public void IncludeBoundingBox(BoundingBox box) => Included.Add(box); }

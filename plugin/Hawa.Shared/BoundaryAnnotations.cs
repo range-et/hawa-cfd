@@ -84,10 +84,10 @@ public static class BoundaryAnnotations
         string name = Faces[face].ToUpperInvariant();
         return type switch
         {
-            "inlet" => new(Anchor(f, face), $"{name} inlet · +X" + (speed is double u ? $" {u:g3} m/s" : ""), Velocity, Arrow(f, face, f.Axes[0], l)),
-            "outlet" => new(Anchor(f, face), $"{name} outlet · open, extrapolated", Open, Tick: Tick(f, face, l), Dotted: true),
-            "periodic" => new(Anchor(f, face), $"{name} periodic ↔ {Faces[face ^ 1].ToUpperInvariant()}", Periodic),
-            _ => new(Anchor(f, face), $"{name} {type}", type == "slip" ? Slip : Wall)
+            "inlet" => new(Label(f, face), $"{name} inlet · +X" + (speed is double u ? $" {u:g3} m/s" : ""), Velocity, Arrow(f, face, f.Axes[0], l)),
+            "outlet" => new(Label(f, face), $"{name} outlet · open, extrapolated", Open, Tick: Tick(f, face, l), Dotted: true),
+            "periodic" => new(Label(f, face), $"{name} periodic ↔ {Faces[face ^ 1].ToUpperInvariant()}", Periodic),
+            _ => new(Label(f, face), $"{name} {type}", type == "slip" ? Slip : Wall)
         };
     }
 
@@ -98,7 +98,7 @@ public static class BoundaryAnnotations
         ).ToArray() ?? new double[3];
         var world = f.Axes[0] * u[0] + f.Axes[1] * u[1] + f.Axes[2] * u[2];
         Line? arrow = world.Length > 0 ? Arrow(f, face, world, l) : null;
-        var anchor = Anchor(f, face);
+        var anchor = Label(f, face);
         return type switch
         {
             "velocity" => new(anchor, $"{id} velocity · {world.Length:g3} m/s {c["profile"]?.GetValue<string>()}".TrimEnd(), Velocity, arrow),
@@ -118,6 +118,14 @@ public static class BoundaryAnnotations
         return At(f, t[0], t[1], t[2]);
     }
 
+    // Label dots sit a quarter-extent above the face centre (beside it on Z faces),
+    // so a wide screen-space dot does not cover the arrow or tick at that centre.
+    static Point3d Label(Frame f, int face)
+    {
+        int t = face < 4 ? 2 : 1;
+        return Anchor(f, face) + f.Axes[t] * (.25 * f.Lengths[t]);
+    }
+
     static Vector3d Normal(Frame f, int face) => f.Axes[face / 2] * (face % 2 == 1 ? 1 : -1);
     // The arrow shows direction only; an outward vector ends at the face instead of leaving the box.
     static Line Arrow(Frame f, int face, Vector3d direction, double l)
@@ -131,8 +139,10 @@ public static class BoundaryAnnotations
 
     // Inward normal tick: marks the face type without implying a flow direction.
     static Line Tick(Frame f, int face, double l) => new(Anchor(f, face), Anchor(f, face) + Normal(f, face) * (-l / 2));
+    // Drawn without depth testing so obstacles and opaque field previews cannot hide them.
     public static void Draw(DisplayPipeline display, BoundaryAnnotationSet a)
     {
+        display.PushDepthTesting(false);
         foreach (var pair in a.Pairs)
             display.DrawDottedLine(pair.From, pair.To, Periodic);
         foreach (var m in a.Marks)
@@ -145,5 +155,6 @@ public static class BoundaryAnnotations
                 display.DrawLine(solid.From, solid.To, m.Color, 3);
             display.DrawDot(m.Anchor, m.Text, m.Color, Color.White);
         }
+        display.PopDepthTesting();
     }
 }
