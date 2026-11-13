@@ -125,6 +125,28 @@ For example 21, preserve its native generator annotations and unbound saved ID.
 
 Native example 23 adds a saved idle curved-solid case; `verify_native_curved.cs` checks the shared native path. See `docs/verification-boundaries-v0.5.json` for scope and results.
 
+## Boundary annotation previews (#38)
+
+Hawa Case and Hawa Boundary Set draw their accepted output case only while
+selected. Native example 22 draws the same annotations while Domain wireframe is
+on. Covered headlessly by `tests/dotnet/StateContracts/PreviewContracts.cs`
+(positions, labels, periodic pairs, selection gating, hiding while a result is
+outdated).
+
+One live run on macOS (branch a5bdef2) passed:
+
+- 22: labels, the Y± → wall edit and the toggle.
+- 25: Boundary Set, selected versus unselected, with a real canvas click.
+- 08: Case, the legacy periodic pair.
+
+Open limits:
+
+- Opaque field meshes depth-occlude GH labels.
+- The native inlet arrow and outlet tick were not visible at 22's framing.
+- Windows has not been checked.
+
+The two display gaps are tracked in #108.
+
 ## Boundary-transfer development coverage
 
 Example 24: coarse parent Record → Boundary Capture → Boundary Data → child Solve,

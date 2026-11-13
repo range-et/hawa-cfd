@@ -124,13 +124,13 @@ static class PreviewContracts
             assert(Near((Point3d)pair[0], new(5, 9, 2)) && Near((Point3d)pair[1], new(-1, 9, 2)), "Default periodic Y pair wrong");
             var geometry = Goo("""{"kind":"Geometry","domain":""" + DomainJson + ""","solid":[1],"solid_halo":[2],"wall_links":[[1,0,0.5]]}""");
             var faces = Goo("""{"kind":"Boundaries","boundaries":["inlet","outlet","wall","wall","periodic","periodic"]}""");
+            comp.Params.Input[1].Sources.Add(comp.Params.Input[0]);
             da = Solve(comp, domain, geometry, physics, faces); result = ((HawaGoo)da.Outputs[0]!).Data;
             assert(result["solid"]!.ToJsonString() == "[1]" && result["solid_halo"]!.ToJsonString() == "[2]" && result["wall_links"]!.ToJsonString() == "[[1,0,0.5]]" && result["boundaries"]![4]!.GetValue<string>() == "periodic", "Geometry or boundaries not copied");
             d = new DisplayPipeline(); comp.DrawViewportWires(new Args(d)); pair = d.Of("dotted").First();
             assert(HasDot(d, new(5, 9, 2), "Y- wall", BoundaryAnnotations.Wall) && Near((Point3d)pair[0], new(2, 9, 0)) && Near((Point3d)pair[1], new(2, 9, 4)), "Connected boundaries not previewed");
             Solve(comp, domain, Goo("""{"kind":"Geometry","domain":{"other":1},"solid":[]}"""), physics, null);
             assert(comp.Errors.Contains("Geometry was voxelized on a different domain") && comp.ClippingBox == BoundingBox.Empty, "Mismatched geometry accepted or stale preview kept");
-            comp.Params.Input[1].Sources.Add(comp.Params.Input[0]);
             assert(Solve(comp, domain, null, physics, null).Outputs.Count == 0, "Case solved while connected geometry was pending");
         });
 

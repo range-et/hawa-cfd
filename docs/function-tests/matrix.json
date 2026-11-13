@@ -6,7 +6,8 @@
     "plugin/Hawa.Grasshopper/AirfoilComponents.cs": "792a472f4fdc31c5d110cb79cdbf57e0fe86517e968072550755c5e3c3ff20e8",
     "plugin/Hawa.Grasshopper/AnimationComponents.cs": "f692be6af81bf7b732a76b319a988f8e74370ef9343e8249c4ab440769944648",
     "plugin/Hawa.Grasshopper/AtmosphericTools.cs": "9a619c64d95aa22cc11f95df0ccf360ddace497936e8e01e4239362c8dfe475c",
-    "plugin/Hawa.Grasshopper/BoundaryComponents.cs": "c16ba38c327e99a23b3c41b16473b0ba266c1907ecb9fdf3938f70d53362e3c8",
+    "plugin/Hawa.Grasshopper/BoundaryComponents.cs": "ca29615df42b7def09edfb8347f4ae4b50bf861df34f74d34327f373960c1f24",
+    "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs": "d6226ef6d447b6563310732f2700ed4022d91fc74102bdfb4934da71a91ddaa1",
     "plugin/Hawa.Grasshopper/FieldTools.cs": "8a114d93d183cad70aa20b96371302fd50767d0a977d5b11db263f9d848fc45a",
     "plugin/Hawa.Grasshopper/FieldViewComponents.cs": "b346ea1e571190d6bfa041ebfa47f53778de5e3cbe4d1e2ec6052b4b2e6b1285",
     "plugin/Hawa.Grasshopper/GridComponents.cs": "a2cbcdc184560914e36d9172969d94c2b394ed82591c3d92dafc5f048dfae3be",
@@ -20,7 +21,7 @@
     "plugin/Hawa.Grasshopper/ResultsComponents.cs": "0fc3dc0b89375bc619dd0c42b0e6bd7a9468fb2903f36e4915ae4e221f99a5e6",
     "plugin/Hawa.Grasshopper/Runtime.cs": "5e476ce19affd8c9f50c355bf6ae1b04d93c95b0f25e3a2327f447ad7eae1992",
     "plugin/Hawa.Grasshopper/SearchComponent.cs": "55938691ad9b86ac2a7e89742c40bd9f27eae7a449d5b378509af5d0b1900314",
-    "plugin/Hawa.Grasshopper/SetupComponents.cs": "e4a401e2713474bd0b67b76773dc76e507d614d44b71d9a62ec1d29145804a2d",
+    "plugin/Hawa.Grasshopper/SetupComponents.cs": "b3ce88abc65491cc659431079fd80dc9a1bf55315af6caeb8cd1447360ec10e9",
     "plugin/Hawa.Grasshopper/SolveComponents.cs": "78ae52caf92e0f3446fecacd320ef77c29426b42b2dad2c2793b9966decaf9fc",
     "plugin/Hawa.Grasshopper/VisualizationComponents.cs": "a6b6741189dc476f491bdd773a413c6d5417a37f6d1d27101bdb1e91320b2d9b",
     "plugin/Hawa.Rhino/AssemblyInfo.cs": "f8354aa59b1f40f6823afc6e8d266b1e93e34f5e75dc0207b079d152a56b59ab",
@@ -28,7 +29,8 @@
     "plugin/Hawa.Rhino/HawaPlugin.cs": "d2f94ef7f38451eb62b776961cc53198b753ad09024095887b25e5bed99ac07a",
     "plugin/Hawa.Rhino/NativeGeometry.cs": "1ce126cc50d9286d3f654685f503b57e8216fde9824677da30d49851e0c04d20",
     "plugin/Hawa.Rhino/NativeIcons.cs": "2404ec813d1dfcd1e2bf570c57a72cc140a5e25a7f0207bcdd670dcefb934e85",
-    "plugin/Hawa.Rhino/NativePreview.cs": "9cd82183c3fc389d5b885176a6ea00a4da1b1e4e718713812645d64ef125d16a",
+    "plugin/Hawa.Rhino/NativePreview.cs": "bb9ec86e8be0296c60ec55a8eff1c4b641617a382eda036571b57723d8c3d16b",
+    "plugin/Hawa.Shared/BoundaryAnnotations.cs": "cfce29a8cc95358e95ef0d89cce6ba8a1318154e3595e01e719309426689b132",
     "plugin/Hawa.Shared/CaseGeometry.cs": "7cc9cec76559ed16da51b89f78058b822b43ca96f753395c588cf37afeaa8821",
     "plugin/Hawa.Shared/CaseHub.cs": "fda9fd34976b025f71093a4d844b6b414e91a0aef37b9a0497df9c9865926358",
     "plugin/Hawa.Shared/CaseState.cs": "da0ba27b970837ee4c9cb7127d66d7b1c2bccd63d0accf533f5429b70a632ec2",
@@ -128,11 +130,12 @@
     "tests/dotnet/StateContracts/ComponentContracts.cs": "1b093ce7bd91ccbb21918f12ba203fa46dbf438a93553082a919b4a51d8b0eef",
     "tests/dotnet/StateContracts/ComponentStandIns.cs": "e6c46b16abd46daf384d9c3d7bb920bb56bef20bb7fbbf0c3117b05de29d39b2",
     "tests/dotnet/StateContracts/GeometryKernelContracts.cs": "a25e0a8d3c95e9236d066935d8ee62d66bbdc95003bd1c02f8b11f96fb2b0a9e",
-    "tests/dotnet/StateContracts/GrasshopperDouble.cs": "1ffac9215ad6bc8d962f0ede9783379793521c4e3b128fdcb5cbbed7ab1ceeaf",
-    "tests/dotnet/StateContracts/HostDouble.cs": "cae99843fc85eee04e97da2cc5d7fcaf5ade176e289725695185cb679b0c030a",
-    "tests/dotnet/StateContracts/Program.cs": "b916e65653dd9098ac4b8a75c95a5e2ae66247cb5b75543116d4320cca5f8ecd",
+    "tests/dotnet/StateContracts/GrasshopperDouble.cs": "9e94f313036a8d42c1a34031ebe7812b84fff8cfb00eddcb02a807773da58ab7",
+    "tests/dotnet/StateContracts/HostDouble.cs": "4a354f3ef9e6feb743968cb8d1cefbc6b7afc895f93cd0c099049dabdbf188fd",
+    "tests/dotnet/StateContracts/PreviewContracts.cs": "42e076f1713b1be02180bd1042898f22bfccc31c37832b2ec4993613041dcb1d",
+    "tests/dotnet/StateContracts/Program.cs": "74eb669a3f7fbfd74fab1894b2c5725a93486c922ab320bf7ff4678cfb67a62c",
     "tests/dotnet/StateContracts/QualityContracts.cs": "b371c5524e5506f1e1a3ecadb324cfef4185b126b5e9f2bdad45edcdcc0dd16f",
-    "tests/dotnet/StateContracts/StateContracts.csproj": "7c92836f532da0b3e4ea0e935e06944257cb2f536470c9b040e3a08e51c62a51",
+    "tests/dotnet/StateContracts/StateContracts.csproj": "7d4333b875d9676b70dd09229fad2d9eeb79500e210b880571d82fd7ffe1807a",
     "tests/matrix/__init__.py": "341c9919a25e6570384f1300bdb09b02173edf3aeb8cda971e44477be8697ee9",
     "tests/matrix/cases.py": "d01447e0ef37279e509a72ddd9891aa303abb2dab651291823fa958b8818afbc",
     "tests/matrix/collections.py": "6cbd570db7289babb6f068c117df331f86a413fdd538802c59351750b0434372",
@@ -212,7 +215,7 @@
   "python_exit": 0,
   "environment": {
     "python": "3.9.25",
-    "platform": "Linux-6.1.189+-x86_64-with-glibc2.36"
+    "platform": "Linux-6.1.189+-x86_64-with-glibc2.41"
   },
   "tests": {
     "collected": [
@@ -31946,116 +31949,11 @@
     {
       "path": "plugin/Hawa.Grasshopper/BoundaryComponents.cs",
       "language": "C#",
-      "name": "Hawa.Grasshopper.BoundarySetComponent.public BoundarySetComponent():base(\"Hawa Boundary Set\",\"Boundary Set\",\"Compile six physical patches for stationary uniform-grid NEE. Supports one opposite flow-face pair and compatible wall/slip edges. Validation runs in a worker.\",\"03 Physics\")",
-      "signature": "public BoundarySetComponent():base(\"Hawa Boundary Set\",\"Boundary Set\",\"Compile six physical patches for stationary uniform-grid NEE. Supports one opposite flow-face pair and compatible wall/slip edges. Validation runs in a worker.\",\"03 Physics\")",
-      "kind": "ConstructorDeclaration",
-      "line": 79,
-      "end_line": 79,
-      "fingerprint": "16c6e61d53713cfe08cbb144e71c63bc45249a626e004aeb726abbe995ae4a33",
-      "declaration": false,
-      "visibility": "public",
-      "summary": "",
-      "id": "plugin/Hawa.Grasshopper/BoundaryComponents.cs::Hawa.Grasshopper.BoundarySetComponent.public BoundarySetComponent():base(\"Hawa Boundary Set\",\"Boundary Set\",\"Compile six physical patches for stationary uniform-grid NEE. Supports one opposite flow-face pair and compatible wall/slip edges. Validation runs in a worker.\",\"03 Physics\")",
-      "branches": null,
-      "tests": [],
-      "lines": {
-        "hit": 0,
-        "total": 0
-      },
-      "status": "unmeasured"
-    },
-    {
-      "path": "plugin/Hawa.Grasshopper/BoundaryComponents.cs",
-      "language": "C#",
-      "name": "Hawa.Grasshopper.BoundarySetComponent.public override Guid ComponentGuid",
-      "signature": "public override Guid ComponentGuid",
-      "kind": "PropertyDeclaration",
-      "line": 80,
-      "end_line": 80,
-      "fingerprint": "857b831eeb7f754869c929ee03744c4efd8c42657da8e51cc44811176c720ff9",
-      "declaration": false,
-      "visibility": "public",
-      "summary": "",
-      "id": "plugin/Hawa.Grasshopper/BoundaryComponents.cs::Hawa.Grasshopper.BoundarySetComponent.public override Guid ComponentGuid",
-      "branches": null,
-      "tests": [],
-      "lines": {
-        "hit": 0,
-        "total": 0
-      },
-      "status": "unmeasured"
-    },
-    {
-      "path": "plugin/Hawa.Grasshopper/BoundaryComponents.cs",
-      "language": "C#",
-      "name": "Hawa.Grasshopper.BoundarySetComponent.protected override void RegisterInputParams(GH_InputParamManager p)",
-      "signature": "protected override void RegisterInputParams(GH_InputParamManager p)",
-      "kind": "MethodDeclaration",
-      "line": 81,
-      "end_line": 81,
-      "fingerprint": "6b5ae9bdad0585fea4cb94f291a5c3378e2a8948dde8eb883ba3ba03aa8917bd",
-      "declaration": false,
-      "visibility": "protected",
-      "summary": "",
-      "id": "plugin/Hawa.Grasshopper/BoundaryComponents.cs::Hawa.Grasshopper.BoundarySetComponent.protected override void RegisterInputParams(GH_InputParamManager p)",
-      "branches": null,
-      "tests": [],
-      "lines": {
-        "hit": 0,
-        "total": 0
-      },
-      "status": "unmeasured"
-    },
-    {
-      "path": "plugin/Hawa.Grasshopper/BoundaryComponents.cs",
-      "language": "C#",
-      "name": "Hawa.Grasshopper.BoundarySetComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)",
-      "signature": "protected override void RegisterOutputParams(GH_OutputParamManager p)",
-      "kind": "MethodDeclaration",
-      "line": 82,
-      "end_line": 82,
-      "fingerprint": "0bf06a50e616c43f48a9e8a0acf53f35afd06295f1353d443382fa01285dc05a",
-      "declaration": false,
-      "visibility": "protected",
-      "summary": "",
-      "id": "plugin/Hawa.Grasshopper/BoundaryComponents.cs::Hawa.Grasshopper.BoundarySetComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)",
-      "branches": null,
-      "tests": [],
-      "lines": {
-        "hit": 0,
-        "total": 0
-      },
-      "status": "unmeasured"
-    },
-    {
-      "path": "plugin/Hawa.Grasshopper/BoundaryComponents.cs",
-      "language": "C#",
-      "name": "Hawa.Grasshopper.BoundarySetComponent.protected override void SolveHawa(IGH_DataAccess da)",
-      "signature": "protected override void SolveHawa(IGH_DataAccess da)",
-      "kind": "MethodDeclaration",
-      "line": 83,
-      "end_line": 90,
-      "fingerprint": "e624eaddb5d0f8e8eec4a722c404bccee870eab9ed995b62979992d451a9a9e4",
-      "declaration": false,
-      "visibility": "protected",
-      "summary": "",
-      "id": "plugin/Hawa.Grasshopper/BoundaryComponents.cs::Hawa.Grasshopper.BoundarySetComponent.protected override void SolveHawa(IGH_DataAccess da)",
-      "branches": null,
-      "tests": [],
-      "lines": {
-        "hit": 0,
-        "total": 0
-      },
-      "status": "unmeasured"
-    },
-    {
-      "path": "plugin/Hawa.Grasshopper/BoundaryComponents.cs",
-      "language": "C#",
       "name": "Hawa.Grasshopper.NeutralPrecursorComponent.public NeutralPrecursorComponent():base(\"Hawa Neutral Flow\",\"Neutral Lab\",\"Experimental rough-floor flow. Without patches: periodic precursor. Six patches: external flow with halo-classified buildings. V2 parent-flow import preserves numerical and model qualification separately.\",\"03 Physics\")",
       "signature": "public NeutralPrecursorComponent():base(\"Hawa Neutral Flow\",\"Neutral Lab\",\"Experimental rough-floor flow. Without patches: periodic precursor. Six patches: external flow with halo-classified buildings. V2 parent-flow import preserves numerical and model qualification separately.\",\"03 Physics\")",
       "kind": "ConstructorDeclaration",
-      "line": 95,
-      "end_line": 95,
+      "line": 79,
+      "end_line": 79,
       "fingerprint": "75fa01753de13d2f3dafd7d5762131d5e64aa7de94e6f935af266c0f86c99271",
       "declaration": false,
       "visibility": "public",
@@ -32075,8 +31973,8 @@
       "name": "Hawa.Grasshopper.NeutralPrecursorComponent.public override Guid ComponentGuid",
       "signature": "public override Guid ComponentGuid",
       "kind": "PropertyDeclaration",
-      "line": 96,
-      "end_line": 96,
+      "line": 80,
+      "end_line": 80,
       "fingerprint": "7882415cae9553c81f944cbc67093460809159fff1246bfc5ddd5ea3cd30e43d",
       "declaration": false,
       "visibility": "public",
@@ -32096,8 +31994,8 @@
       "name": "Hawa.Grasshopper.NeutralPrecursorComponent.protected override void RegisterInputParams(GH_InputParamManager p)",
       "signature": "protected override void RegisterInputParams(GH_InputParamManager p)",
       "kind": "MethodDeclaration",
-      "line": 97,
-      "end_line": 107,
+      "line": 81,
+      "end_line": 91,
       "fingerprint": "44a18ec9beef9c8e7e8aa56644fe2cfa20d3146e285f9c2fb6f75a24e8e6e82a",
       "declaration": false,
       "visibility": "protected",
@@ -32117,8 +32015,8 @@
       "name": "Hawa.Grasshopper.NeutralPrecursorComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)",
       "signature": "protected override void RegisterOutputParams(GH_OutputParamManager p)",
       "kind": "MethodDeclaration",
-      "line": 108,
-      "end_line": 108,
+      "line": 92,
+      "end_line": 92,
       "fingerprint": "93fd5da60b4dedf4a144d06d24d958c0915a08038e5539a7cc341d974460f938",
       "declaration": false,
       "visibility": "protected",
@@ -32138,8 +32036,8 @@
       "name": "Hawa.Grasshopper.NeutralPrecursorComponent.protected override void SolveHawa(IGH_DataAccess da)",
       "signature": "protected override void SolveHawa(IGH_DataAccess da)",
       "kind": "MethodDeclaration",
-      "line": 109,
-      "end_line": 127,
+      "line": 93,
+      "end_line": 111,
       "fingerprint": "eb37221ea568a94a1b22b2b2c3491c7824a8277e4a2e6dc6b91d986ea0babb1d",
       "declaration": false,
       "visibility": "protected",
@@ -32159,8 +32057,8 @@
       "name": "Hawa.Grasshopper.NeutralPrecursorComponent.SolveHawa(IGH_DataAccess da).lambda#0 v=>",
       "signature": "lambda#0 v=>",
       "kind": "SimpleLambdaExpression",
-      "line": 110,
-      "end_line": 110,
+      "line": 94,
+      "end_line": 94,
       "fingerprint": "9927e79e9bbd6766629f80302410fc2c65e77453c4233a253b089fccff57a101",
       "declaration": false,
       "visibility": "",
@@ -32180,8 +32078,8 @@
       "name": "Hawa.Grasshopper.NeutralPrecursorComponent.SolveHawa(IGH_DataAccess da).lambda#1 v=>",
       "signature": "lambda#1 v=>",
       "kind": "SimpleLambdaExpression",
-      "line": 113,
-      "end_line": 113,
+      "line": 97,
+      "end_line": 97,
       "fingerprint": "b4ae0afcc283db5a3fc406562832415eddc0100593e66da4ebbcc2a64fd04f43",
       "declaration": false,
       "visibility": "",
@@ -32194,6 +32092,512 @@
         "total": 0
       },
       "status": "unmeasured"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.BoundaryPreview.Accepted(GH_Component c).lambda#0 g =>",
+      "signature": "lambda#0 g =>",
+      "kind": "SimpleLambdaExpression",
+      "line": 12,
+      "end_line": 13,
+      "fingerprint": "a777b96b9a7e66ba09a42e779387ea51572ae5aecc5d984cd943ddc7629cd818",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.BoundaryPreview.Accepted(GH_Component c).lambda#0 g =>",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.BoundaryPreview.internal static BoundaryAnnotationSet Accepted(GH_Component c)",
+      "signature": "internal static BoundaryAnnotationSet Accepted(GH_Component c)",
+      "kind": "MethodDeclaration",
+      "line": 12,
+      "end_line": 14,
+      "fingerprint": "68add6c9a38292cfc7e9671e10fda8e9a82615ce456c888c3ac5115780a79a6e",
+      "declaration": false,
+      "visibility": "internal",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.BoundaryPreview.internal static BoundaryAnnotationSet Accepted(GH_Component c)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 2,
+        "total": 2
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.BoundaryPreview.internal static void Draw(GH_Component c, IGH_PreviewArgs args)",
+      "signature": "internal static void Draw(GH_Component c, IGH_PreviewArgs args)",
+      "kind": "MethodDeclaration",
+      "line": 15,
+      "end_line": 19,
+      "fingerprint": "6e749d36ebd687f7d332458ecfeb161555502154d9ff3abfefa9d4c7951205b9",
+      "declaration": false,
+      "visibility": "internal",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.BoundaryPreview.internal static void Draw(GH_Component c, IGH_PreviewArgs args)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 2,
+        "total": 2
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.CaseComponent.public CaseComponent() : base(\"Hawa Case\", \"Case\", \"Combine domain, geometry, physics and boundary assignments\", \"04 Case\")",
+      "signature": "public CaseComponent() : base(\"Hawa Case\", \"Case\", \"Combine domain, geometry, physics and boundary assignments\", \"04 Case\")",
+      "kind": "ConstructorDeclaration",
+      "line": 24,
+      "end_line": 24,
+      "fingerprint": "ed2661815d06fdfba4fb3f7cf88f677deb7af8136f204512da355eb16e39cc87",
+      "declaration": false,
+      "visibility": "public",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.CaseComponent.public CaseComponent() : base(\"Hawa Case\", \"Case\", \"Combine domain, geometry, physics and boundary assignments\", \"04 Case\")",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.CaseComponent.public override Guid ComponentGuid",
+      "signature": "public override Guid ComponentGuid",
+      "kind": "PropertyDeclaration",
+      "line": 25,
+      "end_line": 25,
+      "fingerprint": "415368b9d6bce2f6fd2beb06c539d7d982cac2ab5442972afe8103797dec3ce9",
+      "declaration": false,
+      "visibility": "public",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.CaseComponent.public override Guid ComponentGuid",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.CaseComponent.protected override void RegisterInputParams(GH_InputParamManager p)",
+      "signature": "protected override void RegisterInputParams(GH_InputParamManager p)",
+      "kind": "MethodDeclaration",
+      "line": 26,
+      "end_line": 26,
+      "fingerprint": "d8bd8a526f573feeef7711e9199c150199126ccd82d9918d681c0269a3dd1f32",
+      "declaration": false,
+      "visibility": "protected",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.CaseComponent.protected override void RegisterInputParams(GH_InputParamManager p)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.CaseComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)",
+      "signature": "protected override void RegisterOutputParams(GH_OutputParamManager p)",
+      "kind": "MethodDeclaration",
+      "line": 27,
+      "end_line": 27,
+      "fingerprint": "944aa3a891fe5f292908465e36d9137fafce6e1eb2960ead455b9bd26b931cbe",
+      "declaration": false,
+      "visibility": "protected",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.CaseComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.CaseComponent.protected override void SolveHawa(IGH_DataAccess da)",
+      "signature": "protected override void SolveHawa(IGH_DataAccess da)",
+      "kind": "MethodDeclaration",
+      "line": 28,
+      "end_line": 43,
+      "fingerprint": "a4c37e5e796b641dea3cc0fdb8374e2b735e9d4063c2e6defb1ede74661d00c1",
+      "declaration": false,
+      "visibility": "protected",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.CaseComponent.protected override void SolveHawa(IGH_DataAccess da)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 9,
+        "total": 9
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.CaseComponent.SolveHawa(IGH_DataAccess da).lambda#0 i=>",
+      "signature": "lambda#0 i=>",
+      "kind": "SimpleLambdaExpression",
+      "line": 30,
+      "end_line": 33,
+      "fingerprint": "93c98b3077afd06aac95a84f4c07d420c4aa971a94af8fc2eeebacb08795175f",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.CaseComponent.SolveHawa(IGH_DataAccess da).lambda#0 i=>",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 2,
+        "total": 2
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.CaseComponent.SolveHawa(IGH_DataAccess da).lambda#1 v=>",
+      "signature": "lambda#1 v=>",
+      "kind": "SimpleLambdaExpression",
+      "line": 31,
+      "end_line": 32,
+      "fingerprint": "9927e79e9bbd6766629f80302410fc2c65e77453c4233a253b089fccff57a101",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.CaseComponent.SolveHawa(IGH_DataAccess da).lambda#1 v=>",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.CaseComponent.SolveHawa(IGH_DataAccess da).lambda#2 p =>",
+      "signature": "lambda#2 p =>",
+      "kind": "SimpleLambdaExpression",
+      "line": 36,
+      "end_line": 37,
+      "fingerprint": "0a441d24d57003818fc4ec880f553422de8531d9ea65ea3d017f09215259b05b",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.CaseComponent.SolveHawa(IGH_DataAccess da).lambda#2 p =>",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.CaseComponent.public override bool IsPreviewCapable",
+      "signature": "public override bool IsPreviewCapable",
+      "kind": "PropertyDeclaration",
+      "line": 44,
+      "end_line": 44,
+      "fingerprint": "b3922b2fb3f44f47d2532768cecd94babaeea1bf6daba3f7bc6bdda57f7f09fa",
+      "declaration": false,
+      "visibility": "public",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.CaseComponent.public override bool IsPreviewCapable",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.CaseComponent.public override BoundingBox ClippingBox",
+      "signature": "public override BoundingBox ClippingBox",
+      "kind": "PropertyDeclaration",
+      "line": 45,
+      "end_line": 45,
+      "fingerprint": "b1f3d0e397dedf54d7b4a5f442a7a2f01ec8096a13a1cf151a3d9046530b60d6",
+      "declaration": false,
+      "visibility": "public",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.CaseComponent.public override BoundingBox ClippingBox",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.CaseComponent.public override void DrawViewportWires(IGH_PreviewArgs args)",
+      "signature": "public override void DrawViewportWires(IGH_PreviewArgs args)",
+      "kind": "MethodDeclaration",
+      "line": 46,
+      "end_line": 46,
+      "fingerprint": "5f9aa003ef1a8dfadca7ae88a2d37bd4072038a9aae8c0495f3b6bb6f3962a64",
+      "declaration": false,
+      "visibility": "public",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.CaseComponent.public override void DrawViewportWires(IGH_PreviewArgs args)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.BoundarySetComponent.public BoundarySetComponent():base(\"Hawa Boundary Set\",\"Boundary Set\",\"Compile six physical patches for stationary uniform-grid NEE. Supports one opposite flow-face pair and compatible wall/slip edges. Validation runs in a worker.\",\"03 Physics\")",
+      "signature": "public BoundarySetComponent():base(\"Hawa Boundary Set\",\"Boundary Set\",\"Compile six physical patches for stationary uniform-grid NEE. Supports one opposite flow-face pair and compatible wall/slip edges. Validation runs in a worker.\",\"03 Physics\")",
+      "kind": "ConstructorDeclaration",
+      "line": 51,
+      "end_line": 51,
+      "fingerprint": "16c6e61d53713cfe08cbb144e71c63bc45249a626e004aeb726abbe995ae4a33",
+      "declaration": false,
+      "visibility": "public",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.BoundarySetComponent.public BoundarySetComponent():base(\"Hawa Boundary Set\",\"Boundary Set\",\"Compile six physical patches for stationary uniform-grid NEE. Supports one opposite flow-face pair and compatible wall/slip edges. Validation runs in a worker.\",\"03 Physics\")",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.BoundarySetComponent.public override Guid ComponentGuid",
+      "signature": "public override Guid ComponentGuid",
+      "kind": "PropertyDeclaration",
+      "line": 52,
+      "end_line": 52,
+      "fingerprint": "857b831eeb7f754869c929ee03744c4efd8c42657da8e51cc44811176c720ff9",
+      "declaration": false,
+      "visibility": "public",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.BoundarySetComponent.public override Guid ComponentGuid",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.BoundarySetComponent.protected override void RegisterInputParams(GH_InputParamManager p)",
+      "signature": "protected override void RegisterInputParams(GH_InputParamManager p)",
+      "kind": "MethodDeclaration",
+      "line": 53,
+      "end_line": 53,
+      "fingerprint": "6b5ae9bdad0585fea4cb94f291a5c3378e2a8948dde8eb883ba3ba03aa8917bd",
+      "declaration": false,
+      "visibility": "protected",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.BoundarySetComponent.protected override void RegisterInputParams(GH_InputParamManager p)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.BoundarySetComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)",
+      "signature": "protected override void RegisterOutputParams(GH_OutputParamManager p)",
+      "kind": "MethodDeclaration",
+      "line": 54,
+      "end_line": 54,
+      "fingerprint": "0bf06a50e616c43f48a9e8a0acf53f35afd06295f1353d443382fa01285dc05a",
+      "declaration": false,
+      "visibility": "protected",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.BoundarySetComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.BoundarySetComponent.protected override void SolveHawa(IGH_DataAccess da)",
+      "signature": "protected override void SolveHawa(IGH_DataAccess da)",
+      "kind": "MethodDeclaration",
+      "line": 55,
+      "end_line": 62,
+      "fingerprint": "e624eaddb5d0f8e8eec4a722c404bccee870eab9ed995b62979992d451a9a9e4",
+      "declaration": false,
+      "visibility": "protected",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.BoundarySetComponent.protected override void SolveHawa(IGH_DataAccess da)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 6,
+        "total": 6
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.BoundarySetComponent.public override bool IsPreviewCapable",
+      "signature": "public override bool IsPreviewCapable",
+      "kind": "PropertyDeclaration",
+      "line": 63,
+      "end_line": 63,
+      "fingerprint": "b3922b2fb3f44f47d2532768cecd94babaeea1bf6daba3f7bc6bdda57f7f09fa",
+      "declaration": false,
+      "visibility": "public",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.BoundarySetComponent.public override bool IsPreviewCapable",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.BoundarySetComponent.public override BoundingBox ClippingBox",
+      "signature": "public override BoundingBox ClippingBox",
+      "kind": "PropertyDeclaration",
+      "line": 64,
+      "end_line": 64,
+      "fingerprint": "b1f3d0e397dedf54d7b4a5f442a7a2f01ec8096a13a1cf151a3d9046530b60d6",
+      "declaration": false,
+      "visibility": "public",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.BoundarySetComponent.public override BoundingBox ClippingBox",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs",
+      "language": "C#",
+      "name": "Hawa.Grasshopper.BoundarySetComponent.public override void DrawViewportWires(IGH_PreviewArgs args)",
+      "signature": "public override void DrawViewportWires(IGH_PreviewArgs args)",
+      "kind": "MethodDeclaration",
+      "line": 65,
+      "end_line": 65,
+      "fingerprint": "5f9aa003ef1a8dfadca7ae88a2d37bd4072038a9aae8c0495f3b6bb6f3962a64",
+      "declaration": false,
+      "visibility": "public",
+      "summary": "",
+      "id": "plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs::Hawa.Grasshopper.BoundarySetComponent.public override void DrawViewportWires(IGH_PreviewArgs args)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
     },
     {
       "path": "plugin/Hawa.Grasshopper/FieldTools.cs",
@@ -39330,179 +39734,11 @@
     {
       "path": "plugin/Hawa.Grasshopper/SetupComponents.cs",
       "language": "C#",
-      "name": "Hawa.Grasshopper.CaseComponent.public CaseComponent() : base(\"Hawa Case\", \"Case\", \"Combine domain, geometry, physics and boundary assignments\", \"04 Case\")",
-      "signature": "public CaseComponent() : base(\"Hawa Case\", \"Case\", \"Combine domain, geometry, physics and boundary assignments\", \"04 Case\")",
-      "kind": "ConstructorDeclaration",
-      "line": 151,
-      "end_line": 151,
-      "fingerprint": "ed2661815d06fdfba4fb3f7cf88f677deb7af8136f204512da355eb16e39cc87",
-      "declaration": false,
-      "visibility": "public",
-      "summary": "",
-      "id": "plugin/Hawa.Grasshopper/SetupComponents.cs::Hawa.Grasshopper.CaseComponent.public CaseComponent() : base(\"Hawa Case\", \"Case\", \"Combine domain, geometry, physics and boundary assignments\", \"04 Case\")",
-      "branches": null,
-      "tests": [],
-      "lines": {
-        "hit": 0,
-        "total": 0
-      },
-      "status": "unmeasured"
-    },
-    {
-      "path": "plugin/Hawa.Grasshopper/SetupComponents.cs",
-      "language": "C#",
-      "name": "Hawa.Grasshopper.CaseComponent.public override Guid ComponentGuid",
-      "signature": "public override Guid ComponentGuid",
-      "kind": "PropertyDeclaration",
-      "line": 152,
-      "end_line": 152,
-      "fingerprint": "415368b9d6bce2f6fd2beb06c539d7d982cac2ab5442972afe8103797dec3ce9",
-      "declaration": false,
-      "visibility": "public",
-      "summary": "",
-      "id": "plugin/Hawa.Grasshopper/SetupComponents.cs::Hawa.Grasshopper.CaseComponent.public override Guid ComponentGuid",
-      "branches": null,
-      "tests": [],
-      "lines": {
-        "hit": 0,
-        "total": 0
-      },
-      "status": "unmeasured"
-    },
-    {
-      "path": "plugin/Hawa.Grasshopper/SetupComponents.cs",
-      "language": "C#",
-      "name": "Hawa.Grasshopper.CaseComponent.protected override void RegisterInputParams(GH_InputParamManager p)",
-      "signature": "protected override void RegisterInputParams(GH_InputParamManager p)",
-      "kind": "MethodDeclaration",
-      "line": 153,
-      "end_line": 153,
-      "fingerprint": "d8bd8a526f573feeef7711e9199c150199126ccd82d9918d681c0269a3dd1f32",
-      "declaration": false,
-      "visibility": "protected",
-      "summary": "",
-      "id": "plugin/Hawa.Grasshopper/SetupComponents.cs::Hawa.Grasshopper.CaseComponent.protected override void RegisterInputParams(GH_InputParamManager p)",
-      "branches": null,
-      "tests": [],
-      "lines": {
-        "hit": 0,
-        "total": 0
-      },
-      "status": "unmeasured"
-    },
-    {
-      "path": "plugin/Hawa.Grasshopper/SetupComponents.cs",
-      "language": "C#",
-      "name": "Hawa.Grasshopper.CaseComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)",
-      "signature": "protected override void RegisterOutputParams(GH_OutputParamManager p)",
-      "kind": "MethodDeclaration",
-      "line": 154,
-      "end_line": 154,
-      "fingerprint": "944aa3a891fe5f292908465e36d9137fafce6e1eb2960ead455b9bd26b931cbe",
-      "declaration": false,
-      "visibility": "protected",
-      "summary": "",
-      "id": "plugin/Hawa.Grasshopper/SetupComponents.cs::Hawa.Grasshopper.CaseComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)",
-      "branches": null,
-      "tests": [],
-      "lines": {
-        "hit": 0,
-        "total": 0
-      },
-      "status": "unmeasured"
-    },
-    {
-      "path": "plugin/Hawa.Grasshopper/SetupComponents.cs",
-      "language": "C#",
-      "name": "Hawa.Grasshopper.CaseComponent.protected override void SolveHawa(IGH_DataAccess da)",
-      "signature": "protected override void SolveHawa(IGH_DataAccess da)",
-      "kind": "MethodDeclaration",
-      "line": 155,
-      "end_line": 164,
-      "fingerprint": "a4c37e5e796b641dea3cc0fdb8374e2b735e9d4063c2e6defb1ede74661d00c1",
-      "declaration": false,
-      "visibility": "protected",
-      "summary": "",
-      "id": "plugin/Hawa.Grasshopper/SetupComponents.cs::Hawa.Grasshopper.CaseComponent.protected override void SolveHawa(IGH_DataAccess da)",
-      "branches": null,
-      "tests": [],
-      "lines": {
-        "hit": 0,
-        "total": 0
-      },
-      "status": "unmeasured"
-    },
-    {
-      "path": "plugin/Hawa.Grasshopper/SetupComponents.cs",
-      "language": "C#",
-      "name": "Hawa.Grasshopper.CaseComponent.SolveHawa(IGH_DataAccess da).lambda#0 i=>",
-      "signature": "lambda#0 i=>",
-      "kind": "SimpleLambdaExpression",
-      "line": 157,
-      "end_line": 157,
-      "fingerprint": "93c98b3077afd06aac95a84f4c07d420c4aa971a94af8fc2eeebacb08795175f",
-      "declaration": false,
-      "visibility": "",
-      "summary": "",
-      "id": "plugin/Hawa.Grasshopper/SetupComponents.cs::Hawa.Grasshopper.CaseComponent.SolveHawa(IGH_DataAccess da).lambda#0 i=>",
-      "branches": null,
-      "tests": [],
-      "lines": {
-        "hit": 0,
-        "total": 0
-      },
-      "status": "unmeasured"
-    },
-    {
-      "path": "plugin/Hawa.Grasshopper/SetupComponents.cs",
-      "language": "C#",
-      "name": "Hawa.Grasshopper.CaseComponent.SolveHawa(IGH_DataAccess da).lambda#1 v=>",
-      "signature": "lambda#1 v=>",
-      "kind": "SimpleLambdaExpression",
-      "line": 157,
-      "end_line": 157,
-      "fingerprint": "9927e79e9bbd6766629f80302410fc2c65e77453c4233a253b089fccff57a101",
-      "declaration": false,
-      "visibility": "",
-      "summary": "",
-      "id": "plugin/Hawa.Grasshopper/SetupComponents.cs::Hawa.Grasshopper.CaseComponent.SolveHawa(IGH_DataAccess da).lambda#1 v=>",
-      "branches": null,
-      "tests": [],
-      "lines": {
-        "hit": 0,
-        "total": 0
-      },
-      "status": "unmeasured"
-    },
-    {
-      "path": "plugin/Hawa.Grasshopper/SetupComponents.cs",
-      "language": "C#",
-      "name": "Hawa.Grasshopper.CaseComponent.SolveHawa(IGH_DataAccess da).lambda#2 p =>",
-      "signature": "lambda#2 p =>",
-      "kind": "SimpleLambdaExpression",
-      "line": 159,
-      "end_line": 159,
-      "fingerprint": "0a441d24d57003818fc4ec880f553422de8531d9ea65ea3d017f09215259b05b",
-      "declaration": false,
-      "visibility": "",
-      "summary": "",
-      "id": "plugin/Hawa.Grasshopper/SetupComponents.cs::Hawa.Grasshopper.CaseComponent.SolveHawa(IGH_DataAccess da).lambda#2 p =>",
-      "branches": null,
-      "tests": [],
-      "lines": {
-        "hit": 0,
-        "total": 0
-      },
-      "status": "unmeasured"
-    },
-    {
-      "path": "plugin/Hawa.Grasshopper/SetupComponents.cs",
-      "language": "C#",
       "name": "Hawa.Grasshopper.ExampleComponent.public ExampleComponent() : base(\"Hawa Example\", \"Example\", \"Numerical verification case: tgv2d-bgk, tgv3d-bgk, tgv2d-trt, tgv2d-smagorinsky, tgv3d-smagorinsky, cavity2d-bgk or poiseuille2d-guo\", \"04 Case\")",
       "signature": "public ExampleComponent() : base(\"Hawa Example\", \"Example\", \"Numerical verification case: tgv2d-bgk, tgv3d-bgk, tgv2d-trt, tgv2d-smagorinsky, tgv3d-smagorinsky, cavity2d-bgk or poiseuille2d-guo\", \"04 Case\")",
       "kind": "ConstructorDeclaration",
-      "line": 169,
-      "end_line": 169,
+      "line": 151,
+      "end_line": 151,
       "fingerprint": "b4ffe4d15b3b19404033b35016350d8d15d6c300653a24cc9e916117d847eac5",
       "declaration": false,
       "visibility": "public",
@@ -39522,8 +39758,8 @@
       "name": "Hawa.Grasshopper.ExampleComponent.public override Guid ComponentGuid",
       "signature": "public override Guid ComponentGuid",
       "kind": "PropertyDeclaration",
-      "line": 170,
-      "end_line": 170,
+      "line": 152,
+      "end_line": 152,
       "fingerprint": "677f3514160a24f321ce1f2785c0df5d01681d29961830add7db1b1fbb707b54",
       "declaration": false,
       "visibility": "public",
@@ -39543,8 +39779,8 @@
       "name": "Hawa.Grasshopper.ExampleComponent.protected override void RegisterInputParams(GH_InputParamManager p)",
       "signature": "protected override void RegisterInputParams(GH_InputParamManager p)",
       "kind": "MethodDeclaration",
-      "line": 171,
-      "end_line": 171,
+      "line": 153,
+      "end_line": 153,
       "fingerprint": "0357e614898700444d1b425a708ab99850c3b7220885e161c7ce040481b6e63c",
       "declaration": false,
       "visibility": "protected",
@@ -39564,8 +39800,8 @@
       "name": "Hawa.Grasshopper.ExampleComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)",
       "signature": "protected override void RegisterOutputParams(GH_OutputParamManager p)",
       "kind": "MethodDeclaration",
-      "line": 172,
-      "end_line": 172,
+      "line": 154,
+      "end_line": 154,
       "fingerprint": "44c5a425a6d37b6427a901e35ecfd707a63fabd07e21cccee2f020f81bc64293",
       "declaration": false,
       "visibility": "protected",
@@ -39585,8 +39821,8 @@
       "name": "Hawa.Grasshopper.ExampleComponent.protected override void SolveHawa(IGH_DataAccess da)",
       "signature": "protected override void SolveHawa(IGH_DataAccess da)",
       "kind": "MethodDeclaration",
-      "line": 173,
-      "end_line": 173,
+      "line": 155,
+      "end_line": 155,
       "fingerprint": "d36cfb14fd8b71e3c209304f62d02b3c22107ef87adbdd69ebdd593390a5c3d4",
       "declaration": false,
       "visibility": "protected",
@@ -42545,12 +42781,14 @@
       "summary": "",
       "id": "plugin/Hawa.Rhino/NativePreview.cs::Hawa.Native.NativePreview.public NativePreview()",
       "branches": null,
-      "tests": [],
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
       "lines": {
-        "hit": 0,
-        "total": 0
+        "hit": 1,
+        "total": 1
       },
-      "status": "unmeasured"
+      "status": "covered"
     },
     {
       "path": "plugin/Hawa.Rhino/NativePreview.cs",
@@ -42566,12 +42804,14 @@
       "summary": "",
       "id": "plugin/Hawa.Rhino/NativePreview.cs::Hawa.Native.NativePreview.private void Changed(CaseState c, string origin)",
       "branches": null,
-      "tests": [],
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
       "lines": {
-        "hit": 0,
-        "total": 0
+        "hit": 1,
+        "total": 1
       },
-      "status": "unmeasured"
+      "status": "covered"
     },
     {
       "path": "plugin/Hawa.Rhino/NativePreview.cs",
@@ -42587,12 +42827,14 @@
       "summary": "",
       "id": "plugin/Hawa.Rhino/NativePreview.cs::Hawa.Native.NativePreview.public void Dispose()",
       "branches": null,
-      "tests": [],
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
       "lines": {
-        "hit": 0,
-        "total": 0
+        "hit": 1,
+        "total": 1
       },
-      "status": "unmeasured"
+      "status": "covered"
     },
     {
       "path": "plugin/Hawa.Rhino/NativePreview.cs",
@@ -42608,12 +42850,14 @@
       "summary": "",
       "id": "plugin/Hawa.Rhino/NativePreview.cs::Hawa.Native.NativePreview.protected override void CalculateBoundingBox(CalculateBoundingBoxEventArgs e)",
       "branches": null,
-      "tests": [],
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
       "lines": {
-        "hit": 0,
-        "total": 0
+        "hit": 1,
+        "total": 1
       },
-      "status": "unmeasured"
+      "status": "covered"
     },
     {
       "path": "plugin/Hawa.Rhino/NativePreview.cs",
@@ -42622,19 +42866,366 @@
       "signature": "protected override void PostDrawObjects(DrawEventArgs e)",
       "kind": "MethodDeclaration",
       "line": 18,
-      "end_line": 45,
-      "fingerprint": "26a567ae6caf413e206b97ec7f520ea0d0667b4e5b12cc18771acba9e617e6fe",
+      "end_line": 49,
+      "fingerprint": "dacc7f9a78bbdaf611120c61bbfe6aa485ff5e54b8040dbfd25ab5ef42b78d6e",
       "declaration": false,
       "visibility": "protected",
       "summary": "",
       "id": "plugin/Hawa.Rhino/NativePreview.cs::Hawa.Native.NativePreview.protected override void PostDrawObjects(DrawEventArgs e)",
       "branches": null,
-      "tests": [],
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
       "lines": {
-        "hit": 0,
-        "total": 0
+        "hit": 24,
+        "total": 24
       },
-      "status": "unmeasured"
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/BoundaryAnnotations.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.BoundaryAnnotations.public static BoundaryAnnotationSet ForNative(CaseState c)",
+      "signature": "public static BoundaryAnnotationSet ForNative(CaseState c)",
+      "kind": "MethodDeclaration",
+      "line": 26,
+      "end_line": 31,
+      "fingerprint": "5eb7afd3e7d613f91b4d6d6be3d446879416b7db557649a892361490f52fa838",
+      "declaration": false,
+      "visibility": "public",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/BoundaryAnnotations.cs::Hawa.Shared.BoundaryAnnotations.public static BoundaryAnnotationSet ForNative(CaseState c)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 3,
+        "total": 3
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/BoundaryAnnotations.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.BoundaryAnnotations.public static BoundaryAnnotationSet ForCase(string json)",
+      "signature": "public static BoundaryAnnotationSet ForCase(string json)",
+      "kind": "MethodDeclaration",
+      "line": 35,
+      "end_line": 35,
+      "fingerprint": "5ed54d6a3ae22f68e3a77682745fd955d023a8a6140ef35e0fabffbcc3af26ef",
+      "declaration": false,
+      "visibility": "public",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/BoundaryAnnotations.cs::Hawa.Shared.BoundaryAnnotations.public static BoundaryAnnotationSet ForCase(string json)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/BoundaryAnnotations.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.BoundaryAnnotations.static BoundaryAnnotationSet Parse(string json)",
+      "signature": "static BoundaryAnnotationSet Parse(string json)",
+      "kind": "MethodDeclaration",
+      "line": 37,
+      "end_line": 51,
+      "fingerprint": "aed48bcfa27fedf7dc4fd9e814b3493a0ac7804379fc99ce0015e35befaf1d06",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/BoundaryAnnotations.cs::Hawa.Shared.BoundaryAnnotations.static BoundaryAnnotationSet Parse(string json)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 10,
+        "total": 10
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/BoundaryAnnotations.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.BoundaryAnnotations.Parse(string json).lambda#0 v =>",
+      "signature": "lambda#0 v =>",
+      "kind": "SimpleLambdaExpression",
+      "line": 43,
+      "end_line": 44,
+      "fingerprint": "63b4bceb5fc9420d1321a018f0ce2bea95a2cff6f1c2480a3aec42d5e8a17cb1",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/BoundaryAnnotations.cs::Hawa.Shared.BoundaryAnnotations.Parse(string json).lambda#0 v =>",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/BoundaryAnnotations.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.BoundaryAnnotations.Parse(string json).lambda#1 n =>",
+      "signature": "lambda#1 n =>",
+      "kind": "SimpleLambdaExpression",
+      "line": 46,
+      "end_line": 47,
+      "fingerprint": "49356a0b31c15f0d1fb4eae21fe7e8d92871a25bc12e0d0ae517132d1f688f2e",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/BoundaryAnnotations.cs::Hawa.Shared.BoundaryAnnotations.Parse(string json).lambda#1 n =>",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/BoundaryAnnotations.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.BoundaryAnnotations.static BoundaryAnnotationSet Build(Frame f, JsonArray? legacy, JsonArray? patches, double? speed)",
+      "signature": "static BoundaryAnnotationSet Build(Frame f, JsonArray? legacy, JsonArray? patches, double? speed)",
+      "kind": "MethodDeclaration",
+      "line": 53,
+      "end_line": 80,
+      "fingerprint": "4540cec21ccbc0b28455b7bf9c55928dee9199b566ac3a0fee710ba631661238",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/BoundaryAnnotations.cs::Hawa.Shared.BoundaryAnnotations.static BoundaryAnnotationSet Build(Frame f, JsonArray? legacy, JsonArray? patches, double? speed)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 20,
+        "total": 20
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/BoundaryAnnotations.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.BoundaryAnnotations.static BoundaryMark Legacy(Frame f, int face, string type, double? speed, double l)",
+      "signature": "static BoundaryMark Legacy(Frame f, int face, string type, double? speed, double l)",
+      "kind": "MethodDeclaration",
+      "line": 82,
+      "end_line": 92,
+      "fingerprint": "a936bdbe3b4f8a895ff45c108e00d915fcca439a113e203733603bf1cf4e299d",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/BoundaryAnnotations.cs::Hawa.Shared.BoundaryAnnotations.static BoundaryMark Legacy(Frame f, int face, string type, double? speed, double l)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 7,
+        "total": 7
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/BoundaryAnnotations.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.BoundaryAnnotations.static BoundaryMark Patch(Frame f, int face, string id, string type, JsonObject c, double l)",
+      "signature": "static BoundaryMark Patch(Frame f, int face, string id, string type, JsonObject c, double l)",
+      "kind": "MethodDeclaration",
+      "line": 94,
+      "end_line": 111,
+      "fingerprint": "9a87e9876388ded65b8bdf4bcd881f723bc3ceddb2380055aa18b394408c2cdc",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/BoundaryAnnotations.cs::Hawa.Shared.BoundaryAnnotations.static BoundaryMark Patch(Frame f, int face, string id, string type, JsonObject c, double l)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 13,
+        "total": 13
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/BoundaryAnnotations.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.BoundaryAnnotations.Patch(Frame f, int face, string id, string type, JsonObject c, double l).lambda#0 v =>",
+      "signature": "lambda#0 v =>",
+      "kind": "SimpleLambdaExpression",
+      "line": 96,
+      "end_line": 97,
+      "fingerprint": "6d8b0315b2028d3378efe6c76af443c09d0ce5e949a5c61b89cd78039861ab24",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/BoundaryAnnotations.cs::Hawa.Shared.BoundaryAnnotations.Patch(Frame f, int face, string id, string type, JsonObject c, double l).lambda#0 v =>",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/BoundaryAnnotations.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.BoundaryAnnotations.static Point3d At(Frame f, double x, double y, double z)",
+      "signature": "static Point3d At(Frame f, double x, double y, double z)",
+      "kind": "MethodDeclaration",
+      "line": 113,
+      "end_line": 113,
+      "fingerprint": "6e90f8e65ea290f83f0f0cabed424d7429fa1d350d29f6444e998f835ec08fdf",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/BoundaryAnnotations.cs::Hawa.Shared.BoundaryAnnotations.static Point3d At(Frame f, double x, double y, double z)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/BoundaryAnnotations.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.BoundaryAnnotations.static Point3d Anchor(Frame f, int face)",
+      "signature": "static Point3d Anchor(Frame f, int face)",
+      "kind": "MethodDeclaration",
+      "line": 114,
+      "end_line": 119,
+      "fingerprint": "7b67ebddb45aa6d7c82c8f65cdd1a6b733e117d3533e126a886246fb8563a22b",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/BoundaryAnnotations.cs::Hawa.Shared.BoundaryAnnotations.static Point3d Anchor(Frame f, int face)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 3,
+        "total": 3
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/BoundaryAnnotations.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.BoundaryAnnotations.static Vector3d Normal(Frame f, int face)",
+      "signature": "static Vector3d Normal(Frame f, int face)",
+      "kind": "MethodDeclaration",
+      "line": 121,
+      "end_line": 121,
+      "fingerprint": "f3e8fcb909c8cc84262deb4f249c40bf76dea2cba6d40d261523a1bcc6944dcd",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/BoundaryAnnotations.cs::Hawa.Shared.BoundaryAnnotations.static Vector3d Normal(Frame f, int face)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/BoundaryAnnotations.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.BoundaryAnnotations.static Line Arrow(Frame f, int face, Vector3d direction, double l)",
+      "signature": "static Line Arrow(Frame f, int face, Vector3d direction, double l)",
+      "kind": "MethodDeclaration",
+      "line": 123,
+      "end_line": 130,
+      "fingerprint": "379209aebf163c309dbffd0dec837f24340af505c0fdce8df8d1907abded371d",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/BoundaryAnnotations.cs::Hawa.Shared.BoundaryAnnotations.static Line Arrow(Frame f, int face, Vector3d direction, double l)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 5,
+        "total": 5
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/BoundaryAnnotations.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.BoundaryAnnotations.static Line Tick(Frame f, int face, double l)",
+      "signature": "static Line Tick(Frame f, int face, double l)",
+      "kind": "MethodDeclaration",
+      "line": 133,
+      "end_line": 133,
+      "fingerprint": "2045ac863614a7df5f1cc90425d6d8354ecd522c1c4a5c84e885cd7e89e5df80",
+      "declaration": false,
+      "visibility": "",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/BoundaryAnnotations.cs::Hawa.Shared.BoundaryAnnotations.static Line Tick(Frame f, int face, double l)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 1,
+        "total": 1
+      },
+      "status": "covered"
+    },
+    {
+      "path": "plugin/Hawa.Shared/BoundaryAnnotations.cs",
+      "language": "C#",
+      "name": "Hawa.Shared.BoundaryAnnotations.public static void Draw(DisplayPipeline display, BoundaryAnnotationSet a)",
+      "signature": "public static void Draw(DisplayPipeline display, BoundaryAnnotationSet a)",
+      "kind": "MethodDeclaration",
+      "line": 134,
+      "end_line": 148,
+      "fingerprint": "9752d2e8c9cbc98794783b331b91cdcf79fdd9ca72636acf8022c227cfa4bd82",
+      "declaration": false,
+      "visibility": "public",
+      "summary": "",
+      "id": "plugin/Hawa.Shared/BoundaryAnnotations.cs::Hawa.Shared.BoundaryAnnotations.public static void Draw(DisplayPipeline display, BoundaryAnnotationSet a)",
+      "branches": null,
+      "tests": [
+        "tests/dotnet/StateContracts (suite-level)"
+      ],
+      "lines": {
+        "hit": 10,
+        "total": 10
+      },
+      "status": "covered"
     },
     {
       "path": "plugin/Hawa.Shared/CaseGeometry.cs",
