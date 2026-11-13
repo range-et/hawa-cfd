@@ -43,10 +43,49 @@ including their license files, using the pinned requirements. Hawa's plugin zip
 contains Hawa/Lettuce Python source, not redistributed third-party binary wheels.
 `requirements/rhino-py39.txt` records the locked dependency versions.
 
-Rhino and Grasshopper are McNeel products. Their proprietary assemblies are
-referenced from the user's Rhino installation and are not bundled with Hawa.
-The plugin uses the System.Drawing.Common reference package for compilation;
-runtime graphics assemblies are supplied by Rhino, not bundled in the zip.
+## Rhino, Grasshopper and build references
+
+Rhinoceros (Rhino) and Grasshopper are products of Robert McNeel & Associates
+(TLM, Inc.). Hawa's GPL-3.0-only licence covers Hawa's own code only. It does
+not cover RhinoCommon, Grasshopper, GH_IO, Eto or any other McNeel or
+third-party code.
+
+How the build uses them (checked November 13, 2026 against the project files):
+
+- `plugin/*/*.csproj` reference `RhinoCommon.dll`, `Eto.dll` and, for the GH
+  plugin, `Grasshopper.dll` and `GH_IO.dll` from the local Rhino 8 installation
+  with `<Private>false</Private>`, so they are not copied to the build output.
+  No RhinoCommon or Grasshopper NuGet package is referenced.
+- `scripts/build_plugin.py` copies only `Hawa.Rhino.rhp`, `Hawa.Shared.dll` and
+  `Hawa.Grasshopper.gha` from the build output, plus Hawa/Lettuce source, docs
+  and examples. The plugin zip therefore redistributes no McNeel or Eto
+  assembly. At run time Rhino loads its own copies.
+
+McNeel's published terms:
+
+- The [Rhino developer licence](https://developer.rhino3d.com/en/license)
+  (page copyright 1993-2026, read November 13, 2026) grants an MIT licence for
+  "Rhino SDKs and APIs, including openNURBS, rhino3dm, RhinoCommon, the
+  Grasshopper API, and associated documentation files". Its notice condition
+  applies to copies or substantial portions of that software. Hawa ships none,
+  and keeps this attribution: Copyright (c) 1993-2026 Robert McNeel & Associates.
+- The [Rhino 8 EULA](https://www.rhino3d.com/en/8/eula/) (updated March 6,
+  2026) governs installing and using Rhinoceros itself. Hawa runs only inside a
+  licensed Rhino installation.
+- Not established: whether the binary assemblies installed with Rhino fall
+  under the MIT page, the EULA, or both. Hawa only references them and does not
+  redistribute them, so it relies on neither grant to redistribute anything.
+  This is not legal advice. Ask the maintainer before bundling any McNeel file.
+
+Eto.Forms is bundled with Rhino and states the BSD-3 licence in its
+[LICENSE.txt](https://github.com/picoe/Eto/blob/develop/LICENSE.txt). The
+version used is whatever the user's Rhino installs, and Hawa does not redistribute it.
+
+The plugins compile against the
+[System.Drawing.Common 7.0.0](https://www.nuget.org/packages/System.Drawing.Common/7.0.0)
+reference package (Microsoft, MIT licence expression in its nuspec) with
+`ExcludeAssets="runtime"`. Rhino supplies the runtime graphics assemblies, and
+the zip does not contain them.
 
 Hawa is an independent project. These credits do not imply endorsement by the
 upstream projects or their authors. Future inclusion of third-party source/assets

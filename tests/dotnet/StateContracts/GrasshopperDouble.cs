@@ -51,7 +51,9 @@ namespace Grasshopper.Kernel {
         public virtual System.Drawing.Bitmap? Icon => null;
     }
     public interface IGH_DocumentObject { string NickName { get; } }
-    public interface IGH_Attributes { IGH_Attributes GetTopLevel { get; } IGH_DocumentObject DocObject { get; } }
+    public interface IGH_Attributes { IGH_Attributes GetTopLevel { get; } IGH_DocumentObject DocObject { get; } bool Selected { get; set; } }
+    public sealed class GH_TestAttributes(IGH_DocumentObject owner) : IGH_Attributes { public bool Selected { get; set; } public IGH_Attributes GetTopLevel => this; public IGH_DocumentObject DocObject => owner; }
+    public interface IGH_PreviewArgs { Rhino.Display.DisplayPipeline Display { get; } }
     public sealed class GH_Structure {
         public readonly List<IGH_Goo?> Items = new();
         public IEnumerable<IGH_Goo?> AllData(bool skipNulls) => skipNulls ? Items.Where(v => v != null) : Items;
@@ -62,6 +64,7 @@ namespace Grasshopper.Kernel {
         bool Optional { get; set; }
         GH_ParamAccess Access { get; set; }
         GH_Structure VolatileData { get; }
+        int VolatileDataCount { get; }
         IList<IGH_Param> Sources { get; }
         IGH_Attributes? Attributes { get; }
     }
@@ -75,6 +78,8 @@ namespace Grasshopper.Kernel {
         public bool Optional { get; set; }
         public GH_ParamAccess Access { get; set; } = access;
         public GH_Structure VolatileData { get; } = new();
+        public int VolatileDataCount => VolatileData.Items.Count;
+        public bool Selected { get; set; }
         public IList<IGH_Param> Sources { get; } = new List<IGH_Param>();
         public IGH_DocumentObject? Owner;
         public IGH_Attributes? Attributes => Owner == null ? null : this;
@@ -105,6 +110,7 @@ namespace Grasshopper.Kernel {
         public int AddNumberParameter(string n, string k, string d, GH_ParamAccess a, double v) => Add(n, k, d, a, "Number", v);
         public int AddPointParameter(string n, string k, string d, GH_ParamAccess a) => Add(n, k, d, a, "Point", null);
         public int AddVectorParameter(string n, string k, string d, GH_ParamAccess a) => Add(n, k, d, a, "Vector", null);
+        public int AddVectorParameter(string n, string k, string d, GH_ParamAccess a, Rhino.Geometry.Vector3d v) => Add(n, k, d, a, "Vector", v);
         public int AddMeshParameter(string n, string k, string d, GH_ParamAccess a) => Add(n, k, d, a, "Mesh", null);
         public int AddLineParameter(string n, string k, string d, GH_ParamAccess a) => Add(n, k, d, a, "Line", null);
         public int AddCurveParameter(string n, string k, string d, GH_ParamAccess a) => Add(n, k, d, a, "Curve", null);
@@ -133,10 +139,15 @@ namespace Grasshopper.Kernel {
         public string Description { get; } = "";
         public string Category { get; } = "";
         public string SubCategory { get; } = "";
-        public GH_Component() { }
+        public IGH_Attributes Attributes { get; set; }
+        public virtual bool IsPreviewCapable => false;
+        public virtual Rhino.Geometry.BoundingBox ClippingBox => Rhino.Geometry.BoundingBox.Empty;
+        public virtual void DrawViewportWires(IGH_PreviewArgs args) { }
+        public GH_Component() { Attributes = new GH_TestAttributes(this); }
         // GH registers parameters while constructing a component.
         protected GH_Component(string name, string nick, string description, string category, string subCategory) {
             (Name, NickName, Description, Category, SubCategory) = (name, nick, description, category, subCategory);
+            Attributes = new GH_TestAttributes(this);
             RegisterInputParams(new GH_InputParamManager(this));
             RegisterOutputParams(new GH_OutputParamManager(this));
             foreach (var p in Params.Output.OfType<GH_TestParam>()) p.Owner = this;
