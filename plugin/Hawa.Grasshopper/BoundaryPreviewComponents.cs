@@ -42,8 +42,9 @@ internal sealed class BoundaryOverlay : DisplayConduit
     {
         if (!queued.TryGetValue(display, out var list))
             queued[display] = list = new();
-        // A pipeline whose foreground never ran must not grow without bound.
-        if (list.Count >= 64)
+        // A pipeline whose foreground never ran must not grow without bound. Like GH's
+        // own 16,384 text-dot overlay cap, the bound is far above one frame's previews.
+        if (list.Count >= 4096)
             list.Clear();
         list.Add(set);
         Enabled = true;
