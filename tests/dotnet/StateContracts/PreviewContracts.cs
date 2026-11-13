@@ -122,6 +122,11 @@ static class PreviewContracts
             assert(HasDot(d, new(2, 5, 2), "X- inlet · +X 3 m/s", BoundaryAnnotations.Velocity) && HasDot(d, new(2, 13, 2), "X+ outlet · open, extrapolated", BoundaryAnnotations.Open) && Segment(d.Of("arrow").Single()[0], new(2, 5, 2), new(2, 5.8, 2)), "Default faces not drawn along the domain X axis");
             var pair = d.Of("dotted").First();
             assert(Near((Point3d)pair[0], new(5, 9, 2)) && Near((Point3d)pair[1], new(-1, 9, 2)), "Default periodic Y pair wrong");
+            var shifted = Goo(((HawaGoo)da.Outputs[0]!).Value.Replace("\"origin\":[5,5,0]", "\"origin\":[20,0,0]"));
+            comp.Params.Output[0].VolatileData.Items.Add(shifted);
+            d = new DisplayPipeline(); comp.DrawViewportWires(new Args(d));
+            assert(comp.ClippingBox == new BoundingBox(new(-1, 0, 0), new(20, 13, 4)) && Dots(d).Count == 12 && HasDot(d, new(17, 0, 2), "X- inlet · +X 3 m/s", BoundaryAnnotations.Velocity), "A second list-matched case was not drawn or bounded");
+            comp.Params.Output[0].VolatileData.Items.Remove(shifted);
             var geometry = Goo("""{"kind":"Geometry","domain":""" + DomainJson + ""","solid":[1],"solid_halo":[2],"wall_links":[[1,0,0.5]]}""");
             var faces = Goo("""{"kind":"Boundaries","boundaries":["inlet","outlet","wall","wall","periodic","periodic"]}""");
             comp.Params.Input[1].Sources.Add(comp.Params.Input[0]);

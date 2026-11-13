@@ -9,13 +9,24 @@ namespace Hawa.Grasshopper;
 // passed SolveHawa (and, for Boundary Set, the worker check). Display only.
 internal static class BoundaryPreview
 {
-    internal static BoundaryAnnotationSet Accepted(GH_Component c) => c.Params.Output[0].VolatileData.AllData(true).OfType<HawaGoo>().Select(g =>
+    // Case can emit several cases through GH list matching; draw each and bound them all.
+    internal static IEnumerable<BoundaryAnnotationSet> Accepted(GH_Component c) => c.Params.Output[0].VolatileData.AllData(true).OfType<HawaGoo>().Select(g =>
         BoundaryAnnotations.ForCase(g.Value)
-    ).FirstOrDefault() ?? BoundaryAnnotations.None;
+    ).Where(a =>
+        a.Marks.Count > 0
+    );
+    internal static BoundingBox Bounds(GH_Component c)
+    {
+        var corners = Accepted(c).SelectMany(a =>
+            new[] { a.Bounds.Min, a.Bounds.Max }
+        ).ToList();
+        return corners.Count == 0 ? BoundingBox.Empty : new BoundingBox(corners);
+    }
     internal static void Draw(GH_Component c, IGH_PreviewArgs args)
     {
         if (c.Attributes.Selected)
-            BoundaryAnnotations.Draw(args.Display, Accepted(c));
+            foreach (var a in Accepted(c))
+                BoundaryAnnotations.Draw(args.Display, a);
     }
 }
 
@@ -42,7 +53,7 @@ public sealed class CaseComponent : HawaComponent
         da.SetData(0, new HawaGoo(result));
     }
     public override bool IsPreviewCapable => true;
-    public override BoundingBox ClippingBox => BoundaryPreview.Accepted(this).Bounds;
+    public override BoundingBox ClippingBox => BoundaryPreview.Bounds(this);
     public override void DrawViewportWires(IGH_PreviewArgs args) => BoundaryPreview.Draw(this, args);
 }
 
@@ -61,6 +72,6 @@ public sealed class BoundarySetComponent : HawaQueryComponent
         da.SetData(0,new HawaGoo(spec));da.SetData(1,report.ToJsonString());
     }
     public override bool IsPreviewCapable => true;
-    public override BoundingBox ClippingBox => BoundaryPreview.Accepted(this).Bounds;
+    public override BoundingBox ClippingBox => BoundaryPreview.Bounds(this);
     public override void DrawViewportWires(IGH_PreviewArgs args) => BoundaryPreview.Draw(this, args);
 }
