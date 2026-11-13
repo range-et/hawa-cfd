@@ -1,7 +1,7 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 2516,
-  "inventory_sha256": "65f4a94b543c0e6c47800ab33d39fc3e1df66dc110f338dfa816c7dea0ea608b",
+  "mutants": 2521,
+  "inventory_sha256": "cf817dc844e4bbae70bc2fcc0172cc9813dc9272acb7b7e701c139901da299ca",
   "scope": "Lines changed since the base by the validity-foundation PR and the item 5 field-views and item 6 traces PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared MPS device lock (#99: plugin.DeviceLock with suspend and restore, Session construction, per-chunk stepping and pause, and the locked refined set-up, stepping and frames), the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, display_solid, the half-cell isosurface (fields.march, grid_lines, isosurface and FieldCollection.isosurface, with the T-junction seam split in fields.close_seams) and the plane partition (FieldCollection.plane, FieldCollection.lattice and the single-frame plane dispatch) and the streamline traces (fields.trace with its per-point colour sampling, trace_seed, trace_result, FieldCollection.trace, the display mask of FieldCollection.sample; the recording pathlines were removed by owner decision, and the plugin recording dispatch line is included); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
   "control_test_files": [
     "tests/test_fields.py",
@@ -12,10 +12,10 @@
   ],
   "sources": {
     "src/hawa/plugin.py": "f786fabcbe58254dfae48610c1c8fa1a3839e6663cd58b277878f348b634bfc7",
-    "src/hawa/fields.py": "0abde8fbbdc2a2b2529d69409576871f1235dbab7c97ebb85f0e3001002a2ff7",
+    "src/hawa/fields.py": "edb5618ac963f791f01131e30f3c75bafad23b5a5fa0d475b405803c9e40c2f2",
     "src/hawa/field_collection.py": "8e375ad5b5d9e98bb861a8c01cc4c7351fd9928a0f8d5d5571c3258fbf969a68",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
-    "tests/test_fields.py": "22757af04326724720f66e4766c3855fda4c9bfc22576c5b94d4ad09b56ffe86",
+    "tests/test_fields.py": "46c6181d697003a9214f043cbc6945b330063433e03b0d9d287b1897b9582867",
     "tests/test_field_collection.py": "162f2a6220afb599f491932ba5f9f7dc11cbc45a20cba29edf1eefe4a8077644",
     "tests/test_plugin_service.py": "c51ab5059300357059d715f6ba9d86c6ea2b66f4410bf505243b9b231eb55483",
     "tests/test_recording.py": "f693484e74c0c1fab13bdd432d6a2954d5adad9da7ca829b594de20abab5e428",
@@ -638,29 +638,29 @@
       "diff_sha256": "57535dc4ccfc17766cc1df264c384244ecee7c67bb870cea41283581967ab9e0",
       "reason": "Equivalent: a float bucket key equals and hashes like the integer key with the same value, so lookups find the same buckets."
     },
-    "hawa.fields.x_isosurface__mutmut_111": {
+    "hawa.fields.x_isosurface__mutmut_116": {
       "status": "survived",
-      "diff_sha256": "5b232022aa08e8456c0b5f405598dcd603e5f25cefbfcf2b3b8fde2a6800aa72",
+      "diff_sha256": "389bfd8b136f91c7a282ca690dc0403615076278ba7607d4880e1c321cdaa03e",
       "reason": "Equivalent in output: the min/max range test only skips cells that cannot cross the level; this change skips fewer cells, and march() still requires a strict crossing on every drawn cell."
     },
-    "hawa.fields.x_isosurface__mutmut_112": {
+    "hawa.fields.x_isosurface__mutmut_117": {
       "status": "survived",
-      "diff_sha256": "df78cff91f6ab178048579eecdd3443018864687330b6ea26b738942b252f1da",
+      "diff_sha256": "7fec999907b669fec83f3b7a643f30274c1473c87e6aa0cd94fa3dd6e906fe9e",
       "reason": "Equivalent in output: it only admits cells whose maximum equals the level; every sample is then at or below the level, so no tetrahedron edge straddles it and no polygon is drawn."
     },
-    "hawa.fields.x_isosurface__mutmut_139": {
+    "hawa.fields.x_isosurface__mutmut_144": {
       "status": "survived",
-      "diff_sha256": "5c27ce619a6931f2e3ec5949a4db3ea694425f5eff8019c2214b0ad10688eff6",
+      "diff_sha256": "7d098d0b15a5ed95ef5fd6302cfdf3c771f037cc7f914206b0791e7e46f2376f",
       "reason": "Equivalent: lattice_weights reshapes its points to (n, 3) itself."
     },
-    "hawa.fields.x_isosurface__mutmut_152": {
+    "hawa.fields.x_isosurface__mutmut_157": {
       "status": "survived",
-      "diff_sha256": "92369be33f89230ba19acd6f7dac9a7d1793f39e9452471be8514ee9bdfa3a3a",
+      "diff_sha256": "b66504a1177b6da646610b961b3383f941661168de03ac9419c6efe4dcabba6d",
       "reason": "Equivalent: NumPy treats any negative reshape length as the single inferred dimension."
     },
-    "hawa.fields.x_isosurface__mutmut_189": {
+    "hawa.fields.x_isosurface__mutmut_194": {
       "status": "survived",
-      "diff_sha256": "6227f6649c66853209d1092d799454ceaef568bf827dd5ad65319370a3b27bb5",
+      "diff_sha256": "107d31f9ea24c95ca79286d7ad4f68505930cd388289333827c19ad1338af499",
       "reason": "Unresolved (test gap): dropping the neighbours' value range narrows the prefilter, so a refined cell whose only crossing comes from values a drawn neighbour imposes on its boundary could be skipped. Searches over the targeted, random and mirrored fixtures (strides 1 to 4) found no output change. Not equivalent."
     },
     "hawa.fields.x_isosurface__mutmut_2": {
@@ -668,64 +668,64 @@
       "diff_sha256": "905c38ae2730dc907ca1d3568d6f680b744a6db7d0d974ac4d94a167bce93db2",
       "reason": "Face-budget boundary default: differs only for a mesh of exactly 100001 faces; not practical as a fixture."
     },
-    "hawa.fields.x_isosurface__mutmut_232": {
+    "hawa.fields.x_isosurface__mutmut_237": {
       "status": "survived",
-      "diff_sha256": "926c1765912418ccf6021ef3da96040d333db174ca7cb0292dc48ce8d837fea7",
+      "diff_sha256": "3bf4f7e3ec9cae6c881492888d4ba52779a10a862aa3cf78b1d54e855daf235d",
       "reason": "Unresolved (test gap): dropping the neighbours' value range narrows the prefilter, so a refined cell whose only crossing comes from values a drawn neighbour imposes on its boundary could be skipped. Searches over the targeted, random and mirrored fixtures (strides 1 to 4) found no output change. Not equivalent."
     },
-    "hawa.fields.x_isosurface__mutmut_236": {
+    "hawa.fields.x_isosurface__mutmut_241": {
       "status": "survived",
-      "diff_sha256": "226c5e5c7020f7c0123f5e55f00817cd2dfdfdea0c490c2c5eee46889268832f",
+      "diff_sha256": "a228e12299b50d4550c294231d4c649be0d3c3dbc4f95be9e0ef20fd1d979eba",
       "reason": "Equivalent: at stride 1 the extra lattice-cell refinement level has the same grid lines as the coarse cell, so it classifies and refines exactly as the direct half-cell level."
     },
-    "hawa.fields.x_isosurface__mutmut_242": {
+    "hawa.fields.x_isosurface__mutmut_247": {
       "status": "survived",
-      "diff_sha256": "36a93c63c7427baa8b1e2b9785a8d9446a90b0298970948d420595482bd75fff",
+      "diff_sha256": "eb4d7122264e8c64aa93fac443c75df65e8d4fead54f40998f15dde44c72f71a",
       "reason": "Unresolved (test gap): dropping the neighbours' value range narrows the prefilter, so a refined cell whose only crossing comes from values a drawn neighbour imposes on its boundary could be skipped. Searches over the targeted, random and mirrored fixtures (strides 1 to 4) found no output change. Not equivalent."
     },
-    "hawa.fields.x_isosurface__mutmut_265": {
+    "hawa.fields.x_isosurface__mutmut_270": {
       "status": "survived",
-      "diff_sha256": "f5ee76be3b19f5d015751de028a537f95b0d9aa8ec417da32dc07f1aa22c3b94",
+      "diff_sha256": "03700d4405067b6b023cd5388ae0b03bbeb5a7e75082cd3cfa856868c6a60cf8",
       "reason": "Equivalent in output: the change only marks fully masked cells as mixed. They go to refinement, where box() finds no fluid and no neighbour values and skips them, so no polygon is drawn. (Every non-masked cell is already in mixed, so dropping ~cubic loses nothing else.)"
     },
-    "hawa.fields.x_isosurface__mutmut_29": {
+    "hawa.fields.x_isosurface__mutmut_34": {
       "status": "survived",
-      "diff_sha256": "b57b1ce510da0c68d7d37985b69d2483ddd649f6659b0251b339e795d49b84f8",
+      "diff_sha256": "438f95d9b2e042d70d90749d2351c8af61c7f511c14ac5f661506bb30ac26812",
       "reason": "Equivalent: without a mask there are no masked nodes, so no cell is mixed and the mask is never inverted."
     },
-    "hawa.fields.x_isosurface__mutmut_31": {
+    "hawa.fields.x_isosurface__mutmut_36": {
       "status": "survived",
-      "diff_sha256": "4572a9c6f563c45c1ea0d71efd2ba7e6bfe524f19fdabb5eaadc7e4ef0511c8b",
+      "diff_sha256": "cbb595be58093932674ee8d97cedccd5e288bede3092d493e00449d11a882133",
       "reason": "Equivalent: without a mask there are no masked nodes, so no cell is mixed and the mask is never inverted."
     },
-    "hawa.fields.x_isosurface__mutmut_40": {
+    "hawa.fields.x_isosurface__mutmut_45": {
       "status": "survived",
-      "diff_sha256": "c2cc040670bae5b00effc0e95c03f20e25c15bb8bea867feeb8c499aaaf423c2",
+      "diff_sha256": "848827cc3bb990030813f450dea305213ed00ee8a31eafe59afc6a7d3fa5c13d",
       "reason": "Equivalent: the prefix sums of a boolean mask are exact small integers in float64 too."
     },
-    "hawa.fields.x_isosurface__mutmut_46": {
+    "hawa.fields.x_isosurface__mutmut_51": {
       "status": "survived",
-      "diff_sha256": "fb67798808f2ac0eae9bcb74650cff4564413b9a683d3ae856ffb314e196e378",
+      "diff_sha256": "e49ab68f39e257f0accdc4a6927835bc8dc0b37a3fccd7bbf8860edb833270b1",
       "reason": "Equivalent: the extra trailing zero plane is never indexed (upper indices are at most n)."
     },
-    "hawa.fields.x_isosurface__mutmut_61": {
+    "hawa.fields.x_isosurface__mutmut_66": {
       "status": "survived",
-      "diff_sha256": "29d4ede4d52bc9d9e2c9977adf5e85ab9be48104650d48ddabe42c62bd8b01fe",
+      "diff_sha256": "385e25e69f5cf2d381bc924a16a58f4ed6e5c93797cf253ced1ce51b108695a4",
       "reason": "Equivalent: (-1)**(3+k) and (-1)**(3-k) have the same parity for every corner."
     },
-    "hawa.fields.x_isosurface__mutmut_62": {
+    "hawa.fields.x_isosurface__mutmut_67": {
       "status": "survived",
-      "diff_sha256": "0cb825255166329cacda90ca134dcd0cdba6fd20aea9589eb27bf3c8efda731f",
+      "diff_sha256": "8528f3dbeb01d37a20050cd46817bff500f766c335d6ce935389fc10fdbb95b8",
       "reason": "Equivalent in output: the flipped sign makes every count negative, so masked==0 still holds only for unmasked cells and masked<size now also holds for fully masked ones. Equivalent in output: the change only marks fully masked cells as mixed. They go to refinement, where box() finds no fluid and no neighbour values and skips them, so no polygon is drawn."
     },
-    "hawa.fields.x_isosurface__mutmut_88": {
+    "hawa.fields.x_isosurface__mutmut_93": {
       "status": "survived",
-      "diff_sha256": "1ac5b8debbf8056912344892d118a28b331e79971408f690df7ede99b06e0c78",
+      "diff_sha256": "5e44ed31df87db96f8f64784e785fc8c324c9959192eb4d5ec9f29c13939555f",
       "reason": "Equivalent in output: the change only marks fully masked cells as mixed. They go to refinement, where box() finds no fluid and no neighbour values and skips them, so no polygon is drawn."
     },
-    "hawa.fields.x_isosurface__mutmut_94": {
+    "hawa.fields.x_isosurface__mutmut_99": {
       "status": "survived",
-      "diff_sha256": "7b0c7fa865bacced3d788cb7dc98ff7fe87e9c0e2836ddf7c13654fb9405c347",
+      "diff_sha256": "e066ac1e6416f46d0f2ada1bc9c112475a868ec00c6eb053ecd6a43b085ea91f",
       "reason": "Equivalent in output: the change only marks fully masked cells as mixed. They go to refinement, where box() finds no fluid and no neighbour values and skips them, so no polygon is drawn."
     },
     "hawa.fields.x_lattice_weights__mutmut_103": {
@@ -1102,11 +1102,6 @@
       "status": "survived",
       "diff_sha256": "44a47f72246c0a96d2fb4882d20f6b10ef77222a29e54c4919ac67b9a5a10f0a",
       "reason": "Latency only: a stop request that arrives without a notify is noticed within 1.05 s instead of 0.05 s, and the waiter still leaves the queue; a test could tell them apart only with a wall-clock threshold."
-    },
-    "hawa.plugin.xǁSessionǁpause__mutmut_1": {
-      "status": "survived",
-      "diff_sha256": "6ce0b57500dc9d40af4a0258cfe7e7d0ed44d59929ed2481ae3b6b5d2819cf62",
-      "reason": "Killed when run directly: test_pause_from_a_thread_holding_the_device_lock_lets_the_worker_stop fails in about 5 s with this change (checked by hand). mutmut does not select that test for Session.pause because the test calls pause from a helper thread, which its per-test call mapping does not record."
     },
     "hawa.plugin.xǁSessionǁpause__mutmut_2": {
       "status": "survived",

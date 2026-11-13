@@ -93,6 +93,19 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 13, 2026 — Isosurface crack line closed on float32 frames (#81, partial)
+
+Built, not released. On the merged seam weld (4fa2a35), example 11 still showed
+60 naked loops, including a crack across the wake at z≈1.0. A headless replay of
+the captured frame matched the live mesh exactly. The cause was float32 interpolation.
+Each cell computed a shared edge crossing separately, giving points up to
+about 1e-6 lattice units apart, and refined cells truncated the crossings they
+copied from coarse neighbours. The isosurface now interpolates in float64; the
+sampled values are unchanged. Live in Rhino 8.37 on macOS 27.0.1 (MPS, branch
+build 8fbf485), example 11 has 3 naked loops, down from 60. All 3 are on the
+domain floor, inlet and solid walls; 0 crack vertices remain inside the wake, down from 43.
+Not checked: the composed multi-frame isosurface with float32 input.
+
 ### November 12, 2026 — Isosurface seams welded without T-junctions (#81, partial)
 
 Built, not released. Live acceptance of example 11 found 201 naked loops in the
