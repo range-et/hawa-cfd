@@ -133,6 +133,22 @@ def test_refined_cells_meet_their_drawn_neighbours_without_cracks(monkeypatch):
     with pytest.raises(RuntimeError,match='^cancelled in seams$'):isosurface((g[0]-4)**2+(g[1]-4.3)**2+(g[2]-3.8)**2,2.2,mask,2,checkpoint=cancel)
 
 
+@pytest.mark.parametrize('stride',[1,2])
+def test_float32_sphere_isosurface_is_closed_across_refined_floor(stride):
+    # Live frames are float32; a masked floor refines the cells below z=2.
+    def naked(result):
+        _,ids=np.unique(np.round(np.asarray(result['vertices'],float),9),axis=0,return_inverse=True)
+        w=ids.ravel()[np.asarray(result['faces'])]
+        w=w[(w[:,0]!=w[:,1])&(w[:,1]!=w[:,2])&(w[:,0]!=w[:,2])]
+        _,count=np.unique(np.sort(np.concatenate([w[:,[0,1]],w[:,[1,2]],w[:,[2,0]]]),axis=1),axis=0,return_counts=True)
+        return int((count==1).sum())
+    x,y,z=np.meshgrid(*[np.arange(9)]*3,indexing='ij')
+    values=np.sqrt((x-4.3)**2+(y-3.9)**2+(z-3.1)**2).astype(np.float32)
+    solid=np.zeros(values.shape,bool);solid[:,:,0]=True
+    result=isosurface(values,1.7,solid,stride)
+    assert len(result['faces'])>0 and naked(result)==0
+
+
 def test_close_seams_splits_triangles_at_t_junctions():
     from hawa.fields import close_seams
     # One triangle has neighbour vertices on two of its edges; another on one edge.

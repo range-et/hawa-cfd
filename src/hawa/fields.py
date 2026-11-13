@@ -328,6 +328,8 @@ def isosurface(values, level, solid=None, stride=1, max_faces=100000, checkpoint
     fluid-normalised interpolation, so the surface stops on halfway walls at
     every stride. The last partial cell on each axis is kept.
     """
+    # float32 frames would interpolate a shared edge differently per cell.
+    values=np.asarray(values,float)
     if values.ndim!=3:raise ValueError('Isosurfaces require a 3D field')
     if not np.isfinite(level):raise ValueError('Level must be finite')
     stride=int(stride)
