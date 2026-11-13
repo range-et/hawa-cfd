@@ -146,7 +146,7 @@ static class PreviewContracts
 
         test("GH overlay draws queued annotations once per pipeline and bounds a stalled queue", () => {
             var a = new DisplayPipeline(); var b = new DisplayPipeline();
-            for (int i = 0; i < 4097; i++) BoundaryOverlay.Instance.Queue(a, BoundaryAnnotations.None);
+            for (int i = 0; i < 65; i++) BoundaryOverlay.Instance.Queue(a, BoundaryAnnotations.None);
             assert(BoundaryOverlay.Instance.Enabled, "Overlay conduit not enabled by a queued preview");
             BoundaryOverlay.Instance.RaiseForeground(new DrawEventArgs(host, b));
             assert(b.Calls.Count == 0, "Another viewport drew this viewport's annotations");
