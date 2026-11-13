@@ -53,7 +53,7 @@ namespace Grasshopper.Kernel {
     public interface IGH_DocumentObject { string NickName { get; } }
     public interface IGH_Attributes { IGH_Attributes GetTopLevel { get; } IGH_DocumentObject DocObject { get; } bool Selected { get; set; } }
     public sealed class GH_TestAttributes(IGH_DocumentObject owner) : IGH_Attributes { public bool Selected { get; set; } public IGH_Attributes GetTopLevel => this; public IGH_DocumentObject DocObject => owner; }
-    public interface IGH_PreviewArgs { Rhino.Display.DisplayPipeline Display { get; } }
+    public interface IGH_PreviewArgs { Rhino.Display.DisplayPipeline Display { get; } Rhino.Display.RhinoViewport Viewport { get; } }
     public sealed class GH_Structure {
         public readonly List<IGH_Goo?> Items = new();
         public IEnumerable<IGH_Goo?> AllData(bool skipNulls) => skipNulls ? Items.Where(v => v != null) : Items;

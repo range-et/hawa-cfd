@@ -45,12 +45,16 @@ namespace Rhino.Display {
         public void PushDepthTesting(bool enable) => Add("depth", enable);
         public void PopDepthTesting() => Add("depth-pop");
     }
-    public sealed class DrawEventArgs(RhinoDoc doc, DisplayPipeline display) : EventArgs { public RhinoDoc RhinoDoc { get; } = doc; public DisplayPipeline Display { get; } = display; }
+    public sealed class RhinoViewport(Guid id) { public Guid Id { get; } = id; }
+    // Like RhinoCommon, each event gets its own pipeline wrapper; only the viewport Id is stable.
+    public sealed class DrawEventArgs(RhinoDoc doc, DisplayPipeline display, RhinoViewport? viewport = null) : EventArgs { public RhinoDoc RhinoDoc { get; } = doc; public DisplayPipeline Display { get; } = display; public RhinoViewport Viewport { get; } = viewport ?? new(Guid.Empty); }
     public sealed class CalculateBoundingBoxEventArgs(RhinoDoc doc) : EventArgs { public RhinoDoc RhinoDoc { get; } = doc; public readonly List<BoundingBox> Included = new(); public void IncludeBoundingBox(BoundingBox box) => Included.Add(box); }
     public abstract class DisplayConduit {
         public bool Enabled { get; set; }
         protected virtual void CalculateBoundingBox(CalculateBoundingBoxEventArgs e) { }
         protected virtual void PostDrawObjects(DrawEventArgs e) { }
+        protected virtual void DrawForeground(DrawEventArgs e) { }
+        public void RaiseForeground(DrawEventArgs e) => DrawForeground(e);
         // Test entry points standing in for Rhino invoking the conduit.
         public void RaiseBoundingBox(CalculateBoundingBoxEventArgs e) => CalculateBoundingBox(e);
         public void RaisePostDraw(DrawEventArgs e) => PostDrawObjects(e);

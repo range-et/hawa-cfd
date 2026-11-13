@@ -1,5 +1,6 @@
 using System.Text.Json.Nodes;
 using Grasshopper.Kernel;
+using Rhino.Display;
 using Rhino.Geometry;
 using Hawa.Shared;
 namespace Hawa.Grasshopper;
@@ -26,7 +27,35 @@ internal static class BoundaryPreview
     {
         if (c.Attributes.Selected)
             foreach (var a in Accepted(c))
-                BoundaryAnnotations.Draw(args.Display, a);
+                BoundaryOverlay.Instance.Queue(args.Viewport.Id, a);
+    }
+}
+
+// GH draws every component's wires and then every preview mesh in one pass, so a
+// later field mesh covered labels drawn in DrawViewportWires. Selected previews
+// queue here and draw in Rhino's foreground channel, after GH's preview meshes.
+internal sealed class BoundaryOverlay : DisplayConduit
+{
+    internal static readonly BoundaryOverlay Instance = new();
+    // Keyed by viewport Id: RhinoCommon wraps each draw event's pipeline in a new object.
+    readonly Dictionary<Guid, List<BoundaryAnnotationSet>> queued = new();
+    internal void Queue(Guid viewport, BoundaryAnnotationSet set)
+    {
+        if (!queued.TryGetValue(viewport, out var list))
+            queued[viewport] = list = new();
+        // A pipeline whose foreground never ran must not grow without bound. Like GH's
+        // own 16,384 text-dot overlay cap, the bound is far above one frame's previews.
+        if (list.Count >= 4096)
+            list.Clear();
+        list.Add(set);
+        Enabled = true;
+    }
+    protected override void DrawForeground(DrawEventArgs e)
+    {
+        if (!queued.Remove(e.Viewport.Id, out var list))
+            return;
+        foreach (var set in list)
+            BoundaryAnnotations.Draw(e.Display, set);
     }
 }
 
