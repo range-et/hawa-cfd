@@ -2,7 +2,7 @@
 
 **A CFD sketchpad for Rhino 8 and Grasshopper.**
 
-Hawa runs a lattice Boltzmann flow solver inside Rhino. You select geometry, set a domain and fluid properties, run on the GPU (Apple MPS or NVIDIA CUDA) or the CPU, and inspect pressure, speed and flow lines in the viewport. Results are quick and approximate. Hawa is experimental: a completed run or a clean-looking field does not establish convergence or engineering accuracy.
+Hawa runs a lattice Boltzmann flow solver inside Rhino. You select geometry, set a domain and fluid properties, run on the Apple GPU (MPS) or the CPU, and inspect pressure, speed and flow lines in the viewport. Results are quick and approximate. Hawa is experimental: a completed run or a clean-looking field does not establish convergence or engineering accuracy.
 
 [User guide](docs/user/README.md) · [Plugin guide](docs/plugin.md) · [Example definitions](examples/grasshopper/README.md) · [Project page](https://range-et.github.io/hawa-cfd/) · [License](LICENSE)
 
@@ -18,7 +18,7 @@ Particles and time-dependent pathlines were removed in November 2026. Saved defi
 
 ## Install
 
-Requirements: Rhino 8 on macOS (Apple silicon, MPS or CPU) or Windows (CUDA or CPU), and internet access on first use.
+Requirements: Rhino 8 on macOS (Apple silicon, MPS or CPU) or Windows (CPU by default), and internet access on first use. CUDA inside Rhino remains unverified; the [Windows CUDA guide](docs/windows-cuda.md) covers headless runs only.
 
 1. Build the package with `scripts/build_plugin.py`, or use a provided Hawa ZIP.
 2. Copy the complete `Hawa` folder to Grasshopper's Libraries directory. Keep `python`, `Bootstrap.py`, the licenses and the source beside the `.gha`.
