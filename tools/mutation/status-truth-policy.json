@@ -2,14 +2,14 @@
   "tool": "mutmut==3.7.0",
   "mutants": 28,
   "inventory_sha256": "d5bc4dbee724d6bfb691813361cfac6cffc2e7f032c42ba82d15dfbe997ac9b2",
-  "scope": "Lines changed by the #74 status PR only (git diff against the base revision, mutmut3.py changed-lines scope): the queued state while a job waits for the device slot in src/hawa/jobs.py, and the shared MPS lock an evaluation job holds outside its checkpoints, which queries do not take (#99); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
+  "scope": "Lines changed by the #74 status PR only (git diff against the base revision, mutmut3.py changed-lines scope): the queued state while a job waits for the device slot in src/hawa/jobs.py, and the shared MPS lock an evaluation job holds outside its checkpoints, which field, statistics and boundary queries do not take (#99); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
   "control_test_files": [
     "tests/test_runtime_job_contracts.py"
   ],
   "sources": {
-    "src/hawa/jobs.py": "f4f377e888160ebe19ff7f4154dfdfb20aac6c41403c58141c6b9e389d75221d",
+    "src/hawa/jobs.py": "0306d097b6d0982cf7e28cf2626f0667f0a61916e0811112d0265455b554d981",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
-    "tests/test_runtime_job_contracts.py": "9bc37c825952d59e46c8d2508b3111eff11a67fe01c379fb43028ad1ef4ffb87"
+    "tests/test_runtime_job_contracts.py": "19c534672629f061bbd2bd255d31efa1e21d062c0adb5b2219d406506250ff33"
   },
   "reviewed_survivors": {
     "hawa.jobs.xǁJobǁ__init____mutmut_1": {

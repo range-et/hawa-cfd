@@ -68,9 +68,9 @@ class Job:
             if self.request.get('kind') == 'query':
                 from .plugin import dispatch
                 self.checkpoint(0)
-                # Queries read stored frames on the CPU; session reads take the
-                # session lock. Holding the device lock here would make views
-                # wait behind a whole Solve and Record (#99).
+                # Field, statistics and boundary queries read stored frames on the
+                # CPU, and session reads take the session lock. Holding the device
+                # lock for them would make views wait behind Solve and Record (#99).
                 request = self.request['request']
                 if request['op'] == 'field':
                     from .fields import dispatch_field
@@ -82,6 +82,8 @@ class Job:
                     from .boundary_data import capture
                     value = capture(request['manifest'], request['case'], request['path'], self.checkpoint,request.get('start_time',0.),request.get('end_time'))
                 else:
+                    # Other operations can run solver work, such as evaluate.
+                    self.take_device()
                     value = dispatch(request)
                 with self.condition:
                     if self.cancelled:
