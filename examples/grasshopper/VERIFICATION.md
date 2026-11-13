@@ -133,19 +133,10 @@ on. Covered headlessly by `tests/dotnet/StateContracts/PreviewContracts.cs`
 (positions, labels, periodic pairs, selection gating, hiding while a result is
 outdated).
 
-One live run on macOS (branch a5bdef2) passed:
-
-- 22: labels, the Y± → wall edit and the toggle.
-- 25: Boundary Set, selected versus unselected, with a real canvas click.
-- 08: Case, the legacy periodic pair.
-
-Open limits:
-
-- Opaque field meshes depth-occlude GH labels.
-- The native inlet arrow and outlet tick were not visible at 22's framing.
-- Windows has not been checked.
-
-The two display gaps are tracked in #108.
+Live on macOS: 22 labels, Y± → wall edit and toggle (a5bdef2); 22 inlet arrow and
+outlet tick (cbcd81c, tick faint at domain-fit zoom); 25 Boundary Set and 08 Case
+selected versus unselected with a real click, all labels and glyphs visible over
+the Plane Field (9d6f4c5, #108). Windows has not been checked.
 
 ## Boundary-transfer development coverage
 

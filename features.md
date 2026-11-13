@@ -35,7 +35,7 @@ example checks.
 | Experimental neutral flow | Shifted-population regularized SGS with molecular-air input viscosity (FP32 storage does not represent molecular dissipation at 0.1–10 m; runtime `dissipation_storage` diagnostic, [#13](https://github.com/range-et/hawa-cfd/issues/13)), sampled/filtered planar rough-floor stress and restart state. External mode adds halo-classified cropped buildings, side/top velocity or open faces, pressure reference and measured link mass budget. Pressure-backflow open faces now pass a pressure-driven reversal test; open faces of both boundary methods reflect acoustic pulses and fail the declared vortex-exit criterion ([HAWA-004 record](docs/boundary-reflection-review.md)). Analytic wall, convected-disturbance, stationary-channel and scoped CPU/MPS/Rhino checks pass. Full atmospheric accuracy and nesting qualification remain open. | [Coupling review](docs/neutral-coupling-review.md), [verification](docs/verification-neutral-coupling.json); HAWA-003/004/011 in [GitHub Issues](https://github.com/range-et/hawa-cfd/issues) |
 | Device smoke gate | Five short existing cases (compatibility engine, KBC collision, neutral precursor, moving sphere, curved-wall channel) compared with a CPU FP64 reference under a committed bitwise/bounded policy, with a per-run manifest. The CPU mode runs in CI. CUDA (RTX 5070 Ti) and MPS (M3 Max) each passed 5/5 on merged main `71625aa`, so #57 is complete; other devices are not qualified. | [Gate guide](docs/device-smoke.md), [#57](https://github.com/range-et/hawa-cfd/issues/57) |
 | Compatibility and example coverage gate | G6 enumerates 102,459 finite contract rows, detects incomplete/stale evidence and audits all public nodes against annotated GH workflows. CPU/MPS local checks pass; on Windows CUDA (merged main `285d961`) all `cuda:0` rows pass with MPS rows blocked. Arbitrary graphs and continuous inputs are not exhaustively enumerated. | [G6 guide](docs/compatibility-matrix.md), [machine report](docs/verification-compatibility.json) |
-| Boundary assignment annotations (display only) | Ephemeral viewport labels for accepted faces: IDs/types, inlet and prescribed-velocity arrows, inward normal ticks for pressure (solid) and open/outlet (dotted) faces labelled "open/pressure reference" or "open, extrapolated", wall/slip labels and periodic pair lines. Native: with a case and Domain wireframe on; hidden while a result is outdated. GH: Case and Boundary Set, only while selected. No picking, editing, baked geometry or physics change. Arrows show direction only. Live-checked once on macOS (#38); GH labels are depth-occluded by opaque field meshes, and the native inlet arrow/outlet tick were not visible at example 22's framing (#108). | [History](#november-13-2026--boundary-assignment-annotations-38-partial), [coverage](examples/grasshopper/VERIFICATION.md) |
+| Boundary assignment annotations (display only) | Ephemeral viewport labels for accepted faces: IDs/types, inlet and prescribed-velocity arrows, inward normal ticks for pressure (solid) and open/outlet (dotted) faces labelled "open/pressure reference" or "open, extrapolated", wall/slip labels and periodic pair lines. Native: with a case and Domain wireframe on; hidden while a result is outdated. GH: Case and Boundary Set, only while selected. No picking, editing, baked geometry or physics change. Arrows show direction only. Labels sit off the face centre and draw without depth testing; GH annotations draw in Rhino's foreground after GH preview meshes. Live-checked on macOS (#38, #108): native on cbcd81c, GH on 9d6f4c5; the native outlet tick is faint at domain-fit zoom and some labels nearly touch. | [History](#november-13-2026--boundary-assignment-annotations-38-partial), [coverage](examples/grasshopper/VERIFICATION.md) |
 
 ## Headless testing expansion (November 9, 2026)
 
@@ -116,6 +116,15 @@ matched, one run each:
   components show their labels and glyphs; unselected ones show none.
 - **Limit:** labels are depth-tested, so the opaque Plane Field mesh hides or
   cuts some of them. Both legibility gaps are tracked in #108.
+
+Follow-up the same day (#108): label dots moved a quarter-extent off the face
+centre and draw without depth testing. Native 22 on cbcd81c then showed the inlet
+arrow and outlet tick (faint at domain-fit zoom). GH draws all preview wires
+before all meshes (decompiled Grasshopper 8.25), so selected Case/Boundary Set
+annotations now draw in a DisplayConduit foreground keyed by viewport Id; a
+pipeline-keyed attempt (87a64f3) drew nothing live and was replaced. On 9d6f4c5
+GH 25 and 08 showed every label, arrow and tick over the Plane Field. Native code
+is identical between cbcd81c and 9d6f4c5.
 
 Not checked: Windows, outdated-result hiding in the live host, and save/reopen.
 
