@@ -68,7 +68,9 @@ class Job:
             if self.request.get('kind') == 'query':
                 from .plugin import dispatch
                 self.checkpoint(0)
-                self.take_device()
+                # Queries read stored frames on the CPU; session reads take the
+                # session lock. Holding the device lock here would make views
+                # wait behind a whole Solve and Record (#99).
                 request = self.request['request']
                 if request['op'] == 'field':
                     from .fields import dispatch_field

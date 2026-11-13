@@ -225,11 +225,20 @@ def test_jobs_hold_the_shared_device_lock_outside_checkpoints(isolated_jobs, mon
     job = jobs.Job(request())
     assert worker(job, job.take_device, lambda: job.checkpoint(3, 'queued')) == [(True, 'queued', 3)] and len(attempts) == 8
     monkeypatch.setattr(lock, 'acquire', take)
-    # A query's device work runs under the lock; the lock is free once the job ends.
-    calls = []
-    monkeypatch.setattr(plugin, 'dispatch', lambda req: calls.append((lock.owner == threading.get_ident(), probe())) or {'ok': True})
-    job = jobs.Job({'kind': 'query', 'request': {'op': 'info'}}); run(job.work)
-    assert calls == [(True, [False])] and job.state == 'completed' and lock.owner is None and not job.holds_device
+    # A query does not wait for the device lock: views keep updating while another thread
+    # holds it for a solve chunk or a recording.
+    calls, took, stop = [], threading.Event(), threading.Event()
+    def solving():
+        lock.acquire(timeout=1); took.set(); stop.wait(5); lock.release()
+    threading.Thread(target=solving, daemon=True).start(); took.wait(2)
+    monkeypatch.setattr(plugin, 'dispatch', lambda req: calls.append(lock.owner == threading.get_ident()) or {'ok': True})
+    job = jobs.Job({'kind': 'query', 'request': {'op': 'info'}})
+    assert not run(job.work).is_alive()
+    assert calls == [False] and job.state == 'completed' and job.result == {'ok': True} and not job.holds_device
+    stop.set()
+    end = time.monotonic()+2
+    while lock.owner is not None and time.monotonic() < end: time.sleep(.005)
+    assert lock.owner is None
     job = jobs.Job(request()); job.take_device(); job.control('pause')
     paused = []
     def resume_free():
