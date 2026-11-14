@@ -19,7 +19,11 @@ public sealed class NativePreview : DisplayConduit, IDisposable
         var c = CaseHub.Find(e.RhinoDoc.RuntimeSerialNumber); if (c == null) return;
         var view = c.View;
         if (!view["domain"]!.GetValue<bool>() && !view["body"]!.GetValue<bool>() && !view["field"]!.GetValue<bool>()) return;
-        if (view["domain"]!.GetValue<bool>()) e.Display.DrawBox(CaseGeometry.Bounds(c,c.Outdated), Color.FromArgb(65,85,95),2);
+        if (view["domain"]!.GetValue<bool>()) {
+            e.Display.DrawBox(CaseGeometry.Bounds(c,c.Outdated), Color.FromArgb(65,85,95),2);
+            // Accepted setup labels are hidden while the box shows an outdated result domain.
+            if (!c.Outdated) BoundaryAnnotations.Draw(e.Display, BoundaryAnnotations.ForNative(c));
+        }
         double s = RhinoMath.UnitScale(UnitSystem.Meters,e.RhinoDoc.ModelUnitSystem);
         if (view["body"]!.GetValue<bool>()) {
             if (!c.SelectedGeometry) {
@@ -34,7 +38,7 @@ public sealed class NativePreview : DisplayConduit, IDisposable
             entry.mesh?.Dispose(); var range = CaseGeometry.Range(c); entry = (c.Id,c.ResultVersion,e.RhinoDoc.ModelUnitSystem,CaseGeometry.ResultMesh(c),range.Min,range.Max); cache[c.Document] = entry;
         }
         if (view["field"]!.GetValue<bool>() && entry.mesh != null) e.Display.DrawMeshFalseColors(entry.mesh);
-        e.Display.Draw2dText($"Hawa · {c.Result?.Field ?? c.Field} · field {c.Result?.Steps ?? 0} / solver {c.Steps} · t={c.Result?.PhysicalTime ?? 0:g4} s" + (c.Outdated ? " · OUTDATED" : ""),Color.DarkSlateGray,new Point2d(20,55),false,14);
+        e.Display.Draw2dText($"Hawa · {c.Result?.Field ?? c.Field} · field {c.Result?.Steps ?? 0} / solver {c.Steps} · t={c.Result?.PhysicalTime ?? 0:g4} s" + (c.Outdated ? " · OUTDATED · boundary labels hidden" : ""),Color.DarkSlateGray,new Point2d(20,55),false,14);
         if (view["field"]!.GetValue<bool>() && c.Result != null) {
             var (lo,hi) = (entry.low,entry.high);
             for (int i=0;i<5;i++) e.Display.Draw2dText($"■ {lo+(hi-lo)*i/4:g4}",CaseGeometry.ColorAt(i/4d,view["palette"]!.GetValue<string>()),new Point2d(20,80+i*20),false,13);

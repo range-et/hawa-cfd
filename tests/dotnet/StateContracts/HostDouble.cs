@@ -9,6 +9,7 @@ namespace Rhino {
         public uint RuntimeSerialNumber { get; }
         public UnitSystem ModelUnitSystem { get; set; } = UnitSystem.Meters;
         public bool Modified { get; set; }
+        public DocObjects.Tables.ObjectTable Objects { get; } = new();
         public int OpenUndoRecords, EndedUndoRecords;
         public List<EventHandler<Commands.CustomUndoEventArgs>> UndoEvents = new();
         public static RhinoDoc? FromRuntimeSerialNumber(uint id) => docs.GetValueOrDefault(id);
@@ -17,6 +18,46 @@ namespace Rhino {
         public void EndUndoRecord(uint id) { OpenUndoRecords--; EndedUndoRecords++; }
         public void AddCustomUndoEvent(string name, EventHandler<Commands.CustomUndoEventArgs> action) => UndoEvents.Add(action);
         public void Undo() { var a = UndoEvents.Last(); UndoEvents.RemoveAt(UndoEvents.Count - 1); a(this, new(this)); }
+    }
+}
+namespace Rhino.DocObjects {
+    public sealed class RhinoObject(Rhino.Geometry.GeometryBase geometry) { public Rhino.Geometry.GeometryBase Geometry { get; } = geometry; }
+}
+namespace Rhino.DocObjects.Tables {
+    public sealed class ObjectTable { public readonly Dictionary<Guid, RhinoObject> Items = new(); public RhinoObject? FindId(Guid id) => Items.GetValueOrDefault(id); }
+}
+// Recording display doubles: they store draw calls in order. They cannot show
+// legibility, label overlap, depth or real conduit scheduling.
+namespace Rhino.Display {
+    using System.Drawing;
+    using Rhino.Geometry;
+    public sealed class DisplayPipeline {
+        public readonly List<(string Op, object[] Args)> Calls = new();
+        void Add(string op, params object[] args) => Calls.Add((op, args));
+        public IEnumerable<object[]> Of(string op) => Calls.Where(c => c.Op == op).Select(c => c.Args);
+        public void DrawBox(BoundingBox box, Color color, int thickness) => Add("box", box, color, thickness);
+        public void DrawMeshFalseColors(Mesh mesh) => Add("mesh", mesh);
+        public void Draw2dText(string text, Color color, Point2d at, bool middle, int height) => Add("text", text, color, at, middle, height);
+        public void DrawDot(Point3d at, string text, Color dot, Color textColor) => Add("dot", at, text, dot, textColor);
+        public void DrawArrow(Line line, Color color) => Add("arrow", line, color);
+        public void DrawLine(Point3d from, Point3d to, Color color, int thickness) => Add("line", from, to, color, thickness);
+        public void DrawDottedLine(Point3d from, Point3d to, Color color) => Add("dotted", from, to, color);
+        public void PushDepthTesting(bool enable) => Add("depth", enable);
+        public void PopDepthTesting() => Add("depth-pop");
+    }
+    public sealed class RhinoViewport(Guid id) { public Guid Id { get; } = id; }
+    // Like RhinoCommon, each event gets its own pipeline wrapper; only the viewport Id is stable.
+    public sealed class DrawEventArgs(RhinoDoc doc, DisplayPipeline display, RhinoViewport? viewport = null) : EventArgs { public RhinoDoc RhinoDoc { get; } = doc; public DisplayPipeline Display { get; } = display; public RhinoViewport Viewport { get; } = viewport ?? new(Guid.Empty); }
+    public sealed class CalculateBoundingBoxEventArgs(RhinoDoc doc) : EventArgs { public RhinoDoc RhinoDoc { get; } = doc; public readonly List<BoundingBox> Included = new(); public void IncludeBoundingBox(BoundingBox box) => Included.Add(box); }
+    public abstract class DisplayConduit {
+        public bool Enabled { get; set; }
+        protected virtual void CalculateBoundingBox(CalculateBoundingBoxEventArgs e) { }
+        protected virtual void PostDrawObjects(DrawEventArgs e) { }
+        protected virtual void DrawForeground(DrawEventArgs e) { }
+        public void RaiseForeground(DrawEventArgs e) => DrawForeground(e);
+        // Test entry points standing in for Rhino invoking the conduit.
+        public void RaiseBoundingBox(CalculateBoundingBoxEventArgs e) => CalculateBoundingBox(e);
+        public void RaisePostDraw(DrawEventArgs e) => PostDrawObjects(e);
     }
 }
 namespace Rhino.Commands { public sealed class CustomUndoEventArgs(Rhino.RhinoDoc document) : EventArgs { public Rhino.RhinoDoc Document { get; } = document; } }
@@ -34,6 +75,7 @@ namespace Rhino.Geometry {
     public record struct Vector3d(double X, double Y, double Z) {
         // RhinoCommon's unset sentinel (RhinoMath.UnsetValue) is finite but invalid.
         public const double UnsetValue = -1.23432101234321e+308;
+        public static Vector3d Zero => new(0,0,0);
         public static Vector3d XAxis => new(1,0,0);
         public static Vector3d YAxis => new(0,1,0);
         public static Vector3d ZAxis => new(0,0,1);
@@ -56,9 +98,13 @@ namespace Rhino.Geometry {
     }
     public readonly record struct BoundingBox(Point3d Min, Point3d Max) {
         public Vector3d Diagonal=>Max-Min;
+        public static BoundingBox Empty => new(new(1,0,0),new(-1,0,0));
+        public BoundingBox(IEnumerable<Point3d> points):this(new(points.Min(p=>p.X),points.Min(p=>p.Y),points.Min(p=>p.Z)),new(points.Max(p=>p.X),points.Max(p=>p.Y),points.Max(p=>p.Z))){}
         public bool Contains(Point3d p)=>p.X>=Min.X&&p.X<=Max.X&&p.Y>=Min.Y&&p.Y<=Max.Y&&p.Z>=Min.Z&&p.Z<=Max.Z;
     }
     public readonly record struct Line(Point3d From,Point3d To);
+    public readonly record struct Point2d(double X,double Y);
+    public class GeometryBase { public BoundingBox Bounds; public BoundingBox GetBoundingBox(bool accurate)=>Bounds; }
     public abstract class Curve { }
     public readonly record struct Rectangle3d(Point3d Origin, Vector3d X, Vector3d Y) { public Point3d PointAt(double u,double v)=>Origin+(u*X+v*Y); }
     // Plane(origin, normal) picks some perpendicular frame, as RhinoCommon does.

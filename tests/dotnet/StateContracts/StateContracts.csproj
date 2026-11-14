@@ -19,5 +19,8 @@
     <Compile Include="../../../plugin/Hawa.Shared/MeshContainment.cs" Link="Production/MeshContainment.cs" />
     <Compile Include="../../../plugin/Hawa.Shared/WallLinks.cs" Link="Production/WallLinks.cs" />
     <Compile Include="../../../plugin/Hawa.Shared/SurfaceMeshing.cs" Link="Production/SurfaceMeshing.cs" />
+    <Compile Include="../../../plugin/Hawa.Shared/BoundaryAnnotations.cs" Link="Production/BoundaryAnnotations.cs" />
+    <Compile Include="../../../plugin/Hawa.Rhino/NativePreview.cs" Link="Production/NativePreview.cs" />
+    <Compile Include="../../../plugin/Hawa.Grasshopper/BoundaryPreviewComponents.cs" Link="Production/BoundaryPreviewComponents.cs" />
   </ItemGroup>
 </Project>

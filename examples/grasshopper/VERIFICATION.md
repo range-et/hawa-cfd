@@ -125,6 +125,19 @@ For example 21, preserve its native generator annotations and unbound saved ID.
 
 Native example 23 adds a saved idle curved-solid case; `verify_native_curved.cs` checks the shared native path. See `docs/verification-boundaries-v0.5.json` for scope and results.
 
+## Boundary annotation previews (#38)
+
+Hawa Case and Hawa Boundary Set draw their accepted output case only while
+selected. Native example 22 draws the same annotations while Domain wireframe is
+on. Covered headlessly by `tests/dotnet/StateContracts/PreviewContracts.cs`
+(positions, labels, periodic pairs, selection gating, hiding while a result is
+outdated).
+
+Live on macOS: 22 labels, Y± → wall edit and toggle (a5bdef2); 22 inlet arrow and
+outlet tick (cbcd81c, tick faint at domain-fit zoom); 25 Boundary Set and 08 Case
+selected versus unselected with a real click, all labels and glyphs visible over
+the Plane Field (9d6f4c5, #108). Windows has not been checked.
+
 ## Boundary-transfer development coverage
 
 Example 24: coarse parent Record → Boundary Capture → Boundary Data → child Solve,

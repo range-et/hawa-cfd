@@ -74,22 +74,6 @@ public sealed class BoundaryPatchComponent : HawaComponent
     }
 }
 
-public sealed class BoundarySetComponent : HawaQueryComponent
-{
-    public BoundarySetComponent():base("Hawa Boundary Set","Boundary Set","Compile six physical patches for stationary uniform-grid NEE. Supports one opposite flow-face pair and compatible wall/slip edges. Validation runs in a worker.","03 Physics"){}
-    public override Guid ComponentGuid=>new("3c7b9535-cfa0-473e-8dbb-61c984374f14");
-    protected override void RegisterInputParams(GH_InputParamManager p){p.AddGenericParameter("Case","C","Base or mapped case; legacy face strings are replaced explicitly",GH_ParamAccess.item);p.AddGenericParameter("Patches","B","Exactly six named Boundary Patch objects",GH_ParamAccess.list);p.AddVectorParameter("Initial velocity","U0","Domain-axis m/s at t=0; default starts from rest",GH_ParamAccess.item,Rhino.Geometry.Vector3d.Zero);}
-    protected override void RegisterOutputParams(GH_OutputParamManager p){p.AddGenericParameter("Case","C","Validated NEE case; connect to Solve",GH_ParamAccess.item);p.AddTextParameter("Plan","P","Ownership, scaling and supported limits",GH_ParamAccess.item);}
-    protected override void SolveHawa(IGH_DataAccess da){
-        var spec=ReadObject(da,0);var inputs=new List<global::Grasshopper.Kernel.Types.IGH_Goo>();da.GetDataList(1,inputs);var patches=new JsonArray();
-        foreach(var input in inputs){var value=input is HawaGoo h?h:(input as global::Grasshopper.Kernel.Types.GH_ObjectWrapper)?.Value as HawaGoo;if(value==null)throw new ArgumentException("Use Boundary Patch objects");var p=value.Data;p.Remove("kind");p.Remove("label");patches.Add(p);}
-        var initial=Rhino.Geometry.Vector3d.Zero;da.GetData(2,ref initial);if(!initial.IsValid)throw new ArgumentException("Finite initial velocity required");
-        spec["boundary_set"]=new JsonObject{["schema"]=1,["patches"]=patches};spec["boundary_method"]="hawa-nee-v1";spec["initial_velocity"]=Numbers(new[]{initial.X,initial.Y,initial.Z});
-        var report=View(new JsonObject{["op"]="check",["case"]=spec});if(report==null)return;
-        da.SetData(0,new HawaGoo(spec));da.SetData(1,report.ToJsonString());
-    }
-}
-
 public sealed class NeutralPrecursorComponent : HawaQueryComponent
 {
     public NeutralPrecursorComponent():base("Hawa Neutral Flow","Neutral Lab","Experimental rough-floor flow. Without patches: periodic precursor. Six patches: external flow with halo-classified buildings. V2 parent-flow import preserves numerical and model qualification separately.","03 Physics"){}

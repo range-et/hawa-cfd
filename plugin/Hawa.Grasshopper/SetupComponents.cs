@@ -146,24 +146,6 @@ public sealed class BoundariesComponent : HawaComponent
     protected override void SolveHawa(IGH_DataAccess da) { var types = new JsonArray(); for (int i = 0; i < 6; i++) { string t = ""; da.GetData(i, ref t); types.Add(t.ToLowerInvariant()); } da.SetData(0, new HawaGoo(new JsonObject { ["kind"] = "Boundaries", ["label"] = "Hawa boundary faces", ["boundaries"] = types })); }
 }
 
-public sealed class CaseComponent : HawaComponent
-{
-    public CaseComponent() : base("Hawa Case", "Case", "Combine domain, geometry, physics and boundary assignments", "04 Case") { }
-    public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077105");
-    protected override void RegisterInputParams(GH_InputParamManager p) { p.AddGenericParameter("Domain", "D", "Hawa Domain", GH_ParamAccess.item); p.AddGenericParameter("Geometry", "G", "Optional voxelized obstacles", GH_ParamAccess.item); p[1].Optional = true; p.AddGenericParameter("Physics", "P", "Hawa Physics", GH_ParamAccess.item); p.AddGenericParameter("Boundaries", "B", "Optional face settings", GH_ParamAccess.item); p[3].Optional = true; }
-    protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddGenericParameter("Case", "C", "Serializable Hawa case", GH_ParamAccess.item); }
-    protected override void SolveHawa(IGH_DataAccess da)
-    {
-        if(new[]{1,3}.Any(i=>Params.Input[i].Sources.Count>0 && !Params.Input[i].VolatileData.AllData(true).Any(v=>v!=null)))return;
-        var domain = ReadObject(da, 0); var physics = ReadObject(da, 2); var result = domain.DeepClone().AsObject();
-        foreach (var pair in physics.Where(p => p.Key != "kind" && p.Key != "label")) result[pair.Key] = pair.Value?.DeepClone();
-        if (Params.Input[1].VolatileDataCount > 0) { var geometry = ReadObject(da, 1); if (domain.ToJsonString() != geometry["domain"]!.ToJsonString()) throw new ArgumentException("Geometry was voxelized on a different domain"); result["solid"] = geometry["solid"]!.DeepClone(); if(geometry["solid_halo"]!=null)result["solid_halo"]=geometry["solid_halo"]!.DeepClone(); if(geometry["wall_links"]!=null)result["wall_links"]=geometry["wall_links"]!.DeepClone(); }
-        if (Params.Input[3].VolatileDataCount > 0) result["boundaries"] = ReadObject(da, 3)["boundaries"]!.DeepClone();
-        result["kind"] = "Case"; result["label"] = "Hawa wind case";
-        da.SetData(0, new HawaGoo(result));
-    }
-}
-
 public sealed class ExampleComponent : HawaComponent
 {
     public ExampleComponent() : base("Hawa Example", "Example", "Numerical verification case: tgv2d-bgk, tgv3d-bgk, tgv2d-trt, tgv2d-smagorinsky, tgv3d-smagorinsky, cavity2d-bgk or poiseuille2d-guo", "04 Case") { }
