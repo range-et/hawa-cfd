@@ -39,10 +39,14 @@ def assess(session):
                     violations.append({'quantity': quantity, 'value': value, 'limit': limit})
             reasons = []
             for v in violations:
-                if v['quantity'] == 'max_density_deviation':
-                    detail = f"density deviation {100*v['value']:.6g}% > {100*v['limit']:.6g}%"
-                else:
-                    detail = f"lattice Mach {v['value']:.6g} > {v['limit']:.6g}"
+                density_metric = v['quantity'] == 'max_density_deviation'
+                scale = 100 if density_metric else 1
+                amount, bound = v['value'] * scale, v['limit'] * scale
+                displayed, threshold = f"{amount:.6g}", f"{bound:.6g}"
+                if displayed == threshold:
+                    displayed = repr(amount)  # Never display a false "5% > 5%".
+                label, unit = ('density deviation', '%') if density_metric else ('lattice Mach', '')
+                detail = f"{label} {displayed}{unit} > {threshold}{unit}"
                 reasons.append(f"Sampled {detail} at step {iteration} (t={time_seconds:.6g} s)")
         elif not valid:
             violations = [{'quantity': 'finite_positive_fluid', 'value': False, 'limit': True}]

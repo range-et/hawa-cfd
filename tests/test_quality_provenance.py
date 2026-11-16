@@ -246,3 +246,24 @@ def test_checkpoint_rejects_mismatched_severity_with_otherwise_valid_limits():
     with pytest.raises(ValueError, match='^Checkpoint quality trigger is invalid$'):
         validate_provenance(dict(status='rejected', trigger=dict(status='warning', iteration=0,
             time_seconds=0, violations=[dict(quantity='max_lattice_mach', value=.12, limit=.1)])), 0)
+
+
+@pytest.mark.parametrize('quantity,limit', [('mach', .1), ('mach', .15), ('density', .05), ('density', .1)])
+def test_near_threshold_reason_keeps_strict_exceedance_visible(quantity, limit):
+    import math
+    s = session()
+    s.flow.f = s.flow.f.double()
+    velocity = torch.zeros((3, 2, 2, 2), dtype=torch.float64)
+    s.flow.u = lambda: velocity
+    if quantity == 'mach':
+        velocity[0] = math.nextafter(limit, math.inf) / math.sqrt(3)
+    else:
+        s.flow.f.fill_(math.nextafter(1 + limit, math.inf))
+    q = assess(s)
+    v = q['trigger']['violations'][0]
+    assert v['value'] > limit
+    amount = v['value'] * (100 if quantity == 'density' else 1)
+    label = 'density deviation' if quantity == 'density' else 'lattice Mach'
+    unit = '%' if quantity == 'density' else ''
+    bound = limit * (100 if quantity == 'density' else 1)
+    assert q['reasons'] == [f'Sampled {label} {amount!r}{unit} > {bound:.6g}{unit} at step 0 (t=0 s)']
