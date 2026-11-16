@@ -72,6 +72,10 @@ run_study() {
     printf 'use_git_change_detection = false\n'
   } > setup.cfg
   export PYTHONPATH="$output_dir/src:$lettuce"
+  # Make opt-in study plugins/import roots visible during controls as well as mutmut.
+  for path in ${import_roots[@]+"${import_roots[@]}"}; do
+    export PYTHONPATH="$PYTHONPATH:$output_dir/$path"
+  done
   export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 MPLBACKEND=Agg
   export CUDA_VISIBLE_DEVICES='' PYTEST_DISABLE_PLUGIN_AUTOLOAD=1
   unset PYTEST_ADDOPTS
