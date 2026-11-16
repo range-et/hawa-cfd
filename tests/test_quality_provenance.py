@@ -164,7 +164,8 @@ def test_checkpoint_rejects_invalid_provenance_before_mutating(tmp_path, key, va
         arrays['quality'] = np.array(json.dumps(history))
         np.savez(path, **arrays)
         before = s.flow.f.clone()
-        with pytest.raises(ValueError, match='quality'):
+        expected = 'trigger' if key == 'trigger' else 'provenance'
+        with pytest.raises(ValueError, match='^Checkpoint quality ' + expected + ' is invalid$'):
             dispatch(dict(op='load', session=s.id, path=str(path)))
         assert torch.equal(s.flow.f, before) and s.flow.i == 0
     finally:
@@ -189,7 +190,8 @@ def test_trigger_validation_rejects_malformed_history(change):
     trigger = dict(status='rejected', iteration=5, time_seconds=1.25,
                    violations=[dict(quantity='max_lattice_mach', value=.2, limit=.15)])
     trigger.update(change)
-    with pytest.raises(ValueError, match='quality'):
+    expected = 'violation' if change.get('violations') and isinstance(change['violations'], list) else 'trigger'
+    with pytest.raises(ValueError, match='^Checkpoint quality ' + expected + ' is invalid$'):
         validate_provenance(dict(status='rejected', trigger=trigger), 10)
 
 
@@ -200,3 +202,47 @@ def test_valid_warning_rejection_and_invalid_fluid_provenance():
     validate_provenance(sample(s, 10, mach=.2), 10)
     s = session()
     validate_provenance(sample(s, 5, float('nan')), 5)
+
+
+def test_legacy_absent_reasons_and_healthy_history_do_not_invent_triggers():
+    s = session()
+    s.quality = dict(status='warning')
+    q = sample(s, 5)
+    assert q['reasons'] == [] and q['trigger'] is None
+    s.quality = dict(status='within-tested-envelope', reasons=['stale'], trigger={'stale': True})
+    q = sample(s, 10)
+    assert q['reasons'] == [] and q['trigger'] is None
+
+
+def test_trigger_only_lists_quantities_strictly_above_the_limit():
+    import math
+    s = session()
+    velocity = torch.zeros((3, 2, 2, 2), dtype=torch.float64)
+    velocity[0] = .15 / math.sqrt(3)
+    s.flow.u = lambda: velocity
+    q = sample(s, 5, 1.12)
+    assert q['max_lattice_mach'] == .15
+    assert [v['quantity'] for v in q['trigger']['violations']] == ['max_density_deviation']
+
+
+@pytest.mark.parametrize('density,mach', [(1.08, .04), (1.12, .04), (1., .2)])
+def test_checkpoint_accepts_initial_exceedance_at_step_zero(density, mach):
+    from hawa.quality import validate_provenance
+    s = session()
+    validate_provenance(sample(s, 0, density, mach), 0)
+
+
+@pytest.mark.parametrize('quantity,value,limit', [
+    ('max_lattice_mach', .15, .15), ('max_density_deviation', .1, .1)])
+def test_checkpoint_rejects_threshold_equality(quantity, value, limit):
+    from hawa.quality import validate_provenance
+    with pytest.raises(ValueError, match='^Checkpoint quality violation is invalid$'):
+        validate_provenance(dict(status='rejected', trigger=dict(status='rejected', iteration=0,
+            time_seconds=0, violations=[dict(quantity=quantity, value=value, limit=limit)])), 0)
+
+
+def test_checkpoint_rejects_mismatched_severity_with_otherwise_valid_limits():
+    from hawa.quality import validate_provenance
+    with pytest.raises(ValueError, match='^Checkpoint quality trigger is invalid$'):
+        validate_provenance(dict(status='rejected', trigger=dict(status='warning', iteration=0,
+            time_seconds=0, violations=[dict(quantity='max_lattice_mach', value=.12, limit=.1)])), 0)
