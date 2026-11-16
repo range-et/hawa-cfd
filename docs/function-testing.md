@@ -286,3 +286,13 @@ The [CLI record](verification-cli-mutation.json) and
 runs. Those policies are kept unchanged in
 [`tools/mutation/mutmut2-historical`](../tools/mutation/mutmut2-historical/) as
 historical evidence; the current tools do not check them.
+
+### Sequential host pilot controller (#39)
+
+`bash tools/mutation/run_host_acceptance.sh results/host-mutation-NEW` measures
+the whole Python control plane against `tests/test_host_acceptance.py`; check it
+with `tools/mutation/host-acceptance-policy.json`. The first reviewed macOS run
+has586 mutants,548 assertion kills and38 reviewed survivors, including explicit
+case-sensitive-filesystem/diagnostic gaps. C# adapter behavior and top-level
+embedded audit require their separate compile/live and execution evidence; they
+are not credited by the mutation score. [Pilot review](review-host-acceptance-pilot.md).
