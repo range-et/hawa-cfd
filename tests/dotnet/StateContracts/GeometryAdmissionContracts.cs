@@ -30,7 +30,7 @@ static class GeometryAdmissionContracts
         });
         test("GH Geometry rejects invalid obstacles and retains valid union/halo outputs",()=>{
             var c=new GeometryComponent();assert(c.ComponentGuid==new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077102")&&c.Params.Input.Count==4,"Geometry archive identity changed");
-            var bad=ObstacleContracts.Box();bad.Faces.RemoveAt(0);var result=Complete(c,Goo(Domain()),new[]{bad},false,Array.Empty<Brep>());assert(c.Errors.Single().Contains("Obstacle 1: 4 naked"),"Invalid obstacle reached voxelizer");
+            var bad=ObstacleContracts.Box();bad.Faces.RemoveAt(0);var result=Complete(c,Goo(Domain()),new[]{bad},false,Array.Empty<Brep>());assert(c.Errors.Count==1&&c.Errors[0].Contains("Obstacle 1: 4 naked"),"Invalid obstacle reached voxelizer");
             var valid=ObstacleContracts.Box(1,1,1);var outside=ObstacleContracts.Box(20,20,20);
             result=Complete(c,Goo(Domain()),new[]{valid,ObstacleContracts.Box(2,1,1),outside},false,Array.Empty<Brep>());
             assert(c.Errors.Count==0&&result.Out<int>(1)==12,"Separate touching union solid set incorrect");
@@ -104,6 +104,7 @@ static class GeometryAdmissionContracts
         test("Geometry Check reports the same obstacle rejection and preserves display metadata",()=>{
             var c=new GeometryCheckComponent();assert(c.ComponentGuid==new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077134"),"Check GUID changed");
             var good=ObstacleContracts.Box();var bad=ObstacleContracts.Box();bad.Faces.RemoveAt(0);bad.NakedEdges=new[]{new[]{new Point3d(0,0,0),new Point3d(1,0,0)}};
+            var duplicate=Solve(c,new[]{good},new GhMany(1d,2d));assert(c.Errors.Single().Contains("one value per item input")&&duplicate.Outputs.Count==0,"Background Geometry Check accepted multiple spacing values");
             var r=Complete(c,new[]{good,bad},1d);assert(r.List(0).Cast<bool>().SequenceEqual(new[]{true,false}),"Checker disagrees with obstacle admission");
             assert(r.List(2).Cast<string>().ElementAt(1).Contains("Obstacle 2: 4 naked")&&r.List(2).Cast<string>().ElementAt(0).Contains("Coplanar")&&r.List(1).Count==1,"Checker lost defect, edge or unsupported limit");
             r=Solve(c,new[]{good},0d);assert(c.Errors.Single().Contains("Spacing"),"Nonpositive spacing accepted");c.RemovedFromDocument(new GH_Document());
