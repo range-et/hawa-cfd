@@ -23,9 +23,9 @@ try{
  if(doc!=Rhino.RhinoDoc.ActiveDoc)throw new Exception("MCP target must be the active dedicated Rhino document");
  if((long)doc.RuntimeSerialNumber!=s["rhino_serial"].GetValue<long>())throw new Exception("Rhino document changed");
  string ownedText=s["owned"]?.GetValue<string>();
- if(ownedText!=null){
-  owned=AppDomain.CurrentDomain.GetData("HawaAcceptance:"+run) as GH_Document;
-  if(owned!=null && owned.DocumentID!=Guid.Parse(ownedText))throw new Exception("Owned GH identity changed");
+ owned=AppDomain.CurrentDomain.GetData("HawaAcceptance:"+run) as GH_Document;
+ if(owned!=null || ownedText!=null){
+  if(owned!=null && ownedText!=null && owned.DocumentID!=Guid.Parse(ownedText))throw new Exception("Owned GH identity changed");
   if(owned!=null && owned.FilePath!=s["examples"][index].GetValue<string>())throw new Exception("Owned GH document path changed");
  }
  var shared=AppDomain.CurrentDomain.GetAssemblies().Single(a=>a.GetName().Name=="Hawa.Shared");
@@ -68,7 +68,7 @@ try{
   if(owned!=null)throw new Exception("Already owns a document");
   string path=s["examples"][index].GetValue<string>();
   var io=new GH_DocumentIO();if(!io.Open(path))throw new Exception("Cannot open copied definition");
-  owned=io.Document;r["owned"]=owned.DocumentID.ToString();
+  owned=io.Document;owned.FilePath=path;r["owned"]=owned.DocumentID.ToString();
   AppDomain.CurrentDomain.SetData("HawaAcceptance:"+run,owned);
   // Persist ownership before adding/solving, so a lost MCP reply can still cancel.
   File.WriteAllText(Path.Combine(output,"ownership.json"),new JsonObject{["run_id"]=run,["owned"]=owned.DocumentID.ToString()}.ToJsonString());
@@ -77,6 +77,10 @@ try{
   var devices=owned.Objects.OfType<GH_Component>().SelectMany(c=>c.Params.Input).Where(p=>p.Name=="Device").ToArray();
   if(devices.Length==0 || devices.Any(p=>p.Sources.Count!=0 || !(p is Param_String)))throw new Exception("Pilot requires direct device inputs");
   foreach(Param_String device in devices){device.PersistentData.Clear();device.SetPersistentData("cpu");}
+  // MCP host callbacks run serially on the UI thread. A queued close recovers
+  // this AppDomain reference even when cancellation preceded ownership publication.
+  var latest=JsonNode.Parse(File.ReadAllText(Path.Combine(output,"state.json")));
+  if(latest["sequence"].GetValue<int>()!=sequence || latest["status"].GetValue<string>()!="running")throw new Exception("Open superseded; retained for owned cleanup");
   owned.FilePath=path;owned.AssociateWithRhinoDocument();Grasshopper.Instances.DocumentServer.AddDocument(owned);
   if(!Grasshopper.Instances.DocumentServer.Any(d=>ReferenceEquals(d,owned)))throw new Exception("Scratch document is excluded by Grasshopper active-document filter; activate its native window before retrying");
   Grasshopper.Instances.ActiveCanvas.Document=owned;owned.NewSolution(false);
