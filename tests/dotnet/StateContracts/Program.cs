@@ -420,6 +420,8 @@ QualityContracts.Run(Test, Assert);
 ComponentContracts.Run(Test, Assert);
 PreviewContracts.Run(Test, Assert);
 PanelContracts.Run(Test, Assert);
+ObstacleContracts.Run(Test, Assert);
+GeometryAdmissionContracts.Run(Test, Assert);
 timings.Sort();
 Console.WriteLine(new JsonObject { ["passed"] = passed, ["host"] = "Rhino/transport doubles; production CaseHub source", ["edit_p50_ms"] = timings[500], ["edit_p95_ms"] = timings[950], ["edit_max_ms"] = timings[^1] }.ToJsonString());
 

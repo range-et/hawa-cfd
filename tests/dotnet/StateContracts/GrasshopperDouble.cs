@@ -65,6 +65,7 @@ namespace Grasshopper.Kernel {
         GH_ParamAccess Access { get; set; }
         GH_Structure VolatileData { get; }
         int VolatileDataCount { get; }
+        int SourceCount { get; }
         IList<IGH_Param> Sources { get; }
         IGH_Attributes? Attributes { get; }
     }
@@ -79,6 +80,7 @@ namespace Grasshopper.Kernel {
         public GH_ParamAccess Access { get; set; } = access;
         public GH_Structure VolatileData { get; } = new();
         public int VolatileDataCount => VolatileData.Items.Count;
+        public int SourceCount=>Sources.Count;
         public bool Selected { get; set; }
         public IList<IGH_Param> Sources { get; } = new List<IGH_Param>();
         public IGH_DocumentObject? Owner;
@@ -111,6 +113,7 @@ namespace Grasshopper.Kernel {
         public int AddPointParameter(string n, string k, string d, GH_ParamAccess a) => Add(n, k, d, a, "Point", null);
         public int AddVectorParameter(string n, string k, string d, GH_ParamAccess a) => Add(n, k, d, a, "Vector", null);
         public int AddVectorParameter(string n, string k, string d, GH_ParamAccess a, Rhino.Geometry.Vector3d v) => Add(n, k, d, a, "Vector", v);
+        public int AddBrepParameter(string n, string k, string d, GH_ParamAccess a) => Add(n, k, d, a, "Brep", null);
         public int AddMeshParameter(string n, string k, string d, GH_ParamAccess a) => Add(n, k, d, a, "Mesh", null);
         public int AddLineParameter(string n, string k, string d, GH_ParamAccess a) => Add(n, k, d, a, "Line", null);
         public int AddCurveParameter(string n, string k, string d, GH_ParamAccess a) => Add(n, k, d, a, "Curve", null);

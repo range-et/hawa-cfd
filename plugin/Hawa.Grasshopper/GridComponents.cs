@@ -3,14 +3,6 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 namespace Hawa.Grasshopper;
 
-public sealed class GeometryCheckComponent:HawaComponent {
-    public GeometryCheckComponent():base("Hawa Geometry Check","GeoCheck","Report mesh closure, naked edges, dimensions, and mesh volume before voxelization","02 Geometry"){}
-    public override Guid ComponentGuid=>new("a7bb3b0a-ae4f-42ae-9301-a3c55f077134");
-    protected override void RegisterInputParams(GH_InputParamManager p){p.AddMeshParameter("Meshes","M","Obstacles",GH_ParamAccess.list);p.AddNumberParameter("Spacing","dx","Proposed cell size in model units",GH_ParamAccess.item,1);}
-    protected override void RegisterOutputParams(GH_OutputParamManager p){p.AddBooleanParameter("Closed valid","V","Basic geometry check",GH_ParamAccess.list);p.AddCurveParameter("Open edges","E","Naked mesh edges",GH_ParamAccess.list);p.AddTextParameter("Report","R","Dimensions and volume",GH_ParamAccess.list);}
-    protected override void SolveHawa(IGH_DataAccess da){var meshes=new List<Mesh>();double dx=1;da.GetDataList(0,meshes);da.GetData(1,ref dx);if(!double.IsFinite(dx)||dx<=0)throw new ArgumentException("Spacing must be positive");var reports=new List<string>();var edges=new List<Curve>();foreach(var m in meshes){var b=m.GetBoundingBox(true);var size=b.Diagonal;var naked=m.GetNakedEdges();if(naked!=null)edges.AddRange(naked.Select(p=>new PolylineCurve(p)));double volume=m.IsClosed?Math.Abs(VolumeMassProperties.Compute(m)?.Volume??0):0;reports.Add($"Closed={m.IsClosed}; Valid={m.IsValid}; volume={volume:g7}; cells across bounds={size.X/dx:g3}, {size.Y/dx:g3}, {size.Z/dx:g3}. Internal thin features require grid inspection.");}da.SetDataList(0,meshes.Select(m=>m.IsClosed&&m.IsValid));da.SetDataList(1,edges);da.SetDataList(2,reports);}
-}
-
 public sealed class GridPreviewComponent:HawaComponent {
     public GridPreviewComponent():base("Hawa Grid Preview","Grid","Show exposed voxel faces and occupied volume. Limit 50000 solid sites.","02 Geometry"){}
     public override Guid ComponentGuid=>new("a7bb3b0a-ae4f-42ae-9301-a3c55f077135");
