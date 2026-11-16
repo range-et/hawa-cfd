@@ -104,6 +104,7 @@ static class GeometryAdmissionContracts
         test("Geometry Check reports the same obstacle rejection and preserves display metadata",()=>{
             var c=new GeometryCheckComponent();assert(c.ComponentGuid==new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077134"),"Check GUID changed");
             var good=ObstacleContracts.Box();var bad=ObstacleContracts.Box();bad.Faces.RemoveAt(0);bad.NakedEdges=new[]{new[]{new Point3d(0,0,0),new Point3d(1,0,0)}};
+            var duplicate=Solve(c,new[]{good},new GhMany(1d,2d));assert(c.Errors.Single().Contains("one value per item input")&&duplicate.Outputs.Count==0,"Background Geometry Check accepted multiple spacing values");
             var r=Complete(c,new[]{good,bad},1d);assert(r.List(0).Cast<bool>().SequenceEqual(new[]{true,false}),"Checker disagrees with obstacle admission");
             assert(r.List(2).Cast<string>().ElementAt(1).Contains("Obstacle 2: 4 naked")&&r.List(2).Cast<string>().ElementAt(0).Contains("Coplanar")&&r.List(1).Count==1,"Checker lost defect, edge or unsupported limit");
             r=Solve(c,new[]{good},0d);assert(c.Errors.Single().Contains("Spacing"),"Nonpositive spacing accepted");c.RemovedFromDocument(new GH_Document());
