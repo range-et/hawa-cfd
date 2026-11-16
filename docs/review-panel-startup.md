@@ -112,7 +112,7 @@ The user opened a saved block case and requested readily accessible visibility
 buttons. **Show preview / Hide preview** now sit above the run controls and toggle
 native view flags. They preserve physical settings, case ID,
 bindings, session and job, and keep individual controls in the View tab. Saving
-the document retains visibility; no schema change or new node is required.
+the document retains visibility; no schema-version change or new node is required.
 Buttons are disabled when no case exists. An unchanged visibility action is a
 no-op. A changed action writes a native document marker for Mac save prompting.
 Hidden native overlays also stop contributing to automatic viewport extents.
@@ -121,8 +121,8 @@ Hidden native overlays also stop contributing to automatic viewport extents.
 empty-state/no-op behavior, other display settings and actual conduit draw/bounds
 recording doubles. The plugin builds with the same two icon warnings. This is a
 new candidate: earlier live hashes/results above do not prove the new buttons.
-Live button/layout/visibility acceptance remains pending a safe restart because
-Rhino now contains the user's opened model. Do not replace its loaded assembly.
+The user authorized saving and a normal restart. The new candidate was installed
+only after Rhino exited; fresh bounded acceptance is recorded below.
 
 Fit domain now explains that bodies must be assigned with **Select bodies**;
 adding Rhino geometry alone does not change the case. Its tooltip says it refits
@@ -137,8 +137,8 @@ documents, and is controlled by **Annotations and legend** in View. Global show/
 includes it. Disabling annotations leaves the mesh/domain visible. Invalid flag
 types are rejected. This is an additive schema-2 field, not a schema-version bump.
 Contracts assert foreground ordering around an opaque mesh, visibility independence,
-legacy missing-key behavior and persisted false values. Actual overlap/legibility
-still requires the new build's live screenshots; older host runs do not prove it.
+legacy missing-key behavior and persisted false values. Actual field-overlap behavior is checked in the new-build captures below; broader
+example-specific legibility is not inferred from the contracts.
 
 Final follow-up measurement (`results/issue31-annotations`): 1,821 Python tests
 passed / 87 skipped; 108 C# contracts passed. The base ratchet and strict headless
@@ -146,3 +146,36 @@ function/line gate pass: 916 functions covered, 361 host functions unmeasured,
 including all 46 panel/command/selection functions. The committed matrix and
 changed-function baseline are refreshed. Two intermediate measurements were
 discarded when subsequent user requests changed their inputs; they are not passes.
+
+## Installed follow-up acceptance — November 16, 2026
+
+The user model was backed up and saved, Rhino quit normally, and the new build
+was installed without replacing loaded assemblies. Rhino 8.37 Mac loaded native
+SHA256 `34E8DA7AB5F4986A905F53263E54F31908251AA86F13FA6CE1A74C5618630B3D`
+and shared SHA256 `D9D063FBFF40B6A07FFD900A7EA19B6FF30FFBA428609560C733BB430B297044`.
+
+Fresh live passes: empty startup, first-preset save state, unchanged preset,
+global preview hide/show, hidden flags surviving actual `.3dm` reopen, schema-1/2
+restore with binding preservation, all 3 binding-callback phases and all 13 state
+hardening phases (CPU pause/resume, MPS 25 steps and zero pending cleanup).
+On a separate CPU 30-step velocity field, toggling annotations retained the field
+and solver. The normal domain-framed captures were visually inspected:
+[annotations hidden](captures/native-annotations-hidden-8f3d31f.png) and
+[annotations above the field](captures/native-annotations-shown-8f3d31f.png).
+All six boundary labels and the legend render above the field; the independent
+switch removes annotations while retaining the field/domain/body preview.
+A first recapture attempt ran during a transient field refresh and failed its
+ready-field precondition; the later ready-field capture passed. No failed attempt
+is treated as a test pass.
+
+Only owned test documents were modified during verification. The user's model
+was reopened afterward; its object ID set and serialized Hawa settings matched
+the pre-restart records exactly. It was clean and idle with no session/job and
+zero pending cleanup. No simulation was started on that model. The MCP router
+readopted its window on port 10501 after the owned test window closed.
+
+G4/G5 now have bounded installed Mac evidence for these controls and field
+layering. Windows/CUDA, full 22/25/08 legibility acceptance, full example execution
+and the previously recorded native Undo/Redo gap remain outside these passes.
+Greptile approved code commit `8f3d31f`; both original review threads are resolved
+and all CI checks on that code commit passed.

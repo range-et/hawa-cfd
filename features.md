@@ -637,9 +637,12 @@ The requested follow-up adds top-level **Show preview / Hide preview** buttons.
 They toggle native overlays while preserving the saved case and active solver;
 hidden overlays no longer contribute to viewport extents. Visibility is persisted
 with the existing view settings. This follow-up is built with 108 passing C#
-contracts; live acceptance of the new buttons is pending installation/restart.
+contracts. The installed Rhino 8.37 Mac build passes live hide/show, saved hidden
+restore and independent annotation-toggle checks; the user model reopened with
+matching object IDs and settings.
 
 Native annotations and legends now render in the foreground after field meshes,
 with an independent **Annotations and legend** switch in View. Missing flags in
 older archives default to visible. Drawing-order/visibility contracts pass;
-new-build legibility remains pending live review under [#108](https://github.com/range-et/hawa-cfd/issues/108).
+CPU 30-step field captures verify native labels above the mesh. Broader 22/25/08
+legibility remains under [#108](https://github.com/range-et/hawa-cfd/issues/108).

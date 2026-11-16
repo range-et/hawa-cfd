@@ -107,6 +107,7 @@ if(phase=="empty"){
     var toggle=Walk(panel).OfType<CheckBox>().Single(x=>x.Text=="Annotations and legend");
     var apply=Walk(panel).OfType<Button>().Single(x=>x.Text=="Apply display");
     var capture=new Rhino.Display.ViewCapture{Width=1200,Height=800,ScaleScreenItems=true,DrawAxes=false,DrawGrid=false,DrawGridAxes=false};
+    Walk(panel).OfType<Button>().Single(x=>x.Text=="Zoom domain").PerformClick();
     foreach(bool visible in new[]{false,true}){
         toggle.Checked=visible;apply.PerformClick();
         Check(((JsonObject)c.View)["annotations"].GetValue<bool>()==visible && ((JsonObject)c.View)["field"].GetValue<bool>() && c.Result!=null,"Annotation switch lost the field");
