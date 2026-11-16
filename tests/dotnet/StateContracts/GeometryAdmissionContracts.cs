@@ -30,7 +30,7 @@ static class GeometryAdmissionContracts
         });
         test("GH Geometry rejects invalid obstacles and retains valid union/halo outputs",()=>{
             var c=new GeometryComponent();assert(c.ComponentGuid==new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077102")&&c.Params.Input.Count==4,"Geometry archive identity changed");
-            var bad=ObstacleContracts.Box();bad.Faces.RemoveAt(0);var result=Complete(c,Goo(Domain()),new[]{bad},false,Array.Empty<Brep>());assert(c.Errors.Single().Contains("Obstacle 1: 4 naked"),"Invalid obstacle reached voxelizer");
+            var bad=ObstacleContracts.Box();bad.Faces.RemoveAt(0);var result=Complete(c,Goo(Domain()),new[]{bad},false,Array.Empty<Brep>());assert(c.Errors.Count==1&&c.Errors[0].Contains("Obstacle 1: 4 naked"),"Invalid obstacle reached voxelizer");
             var valid=ObstacleContracts.Box(1,1,1);var outside=ObstacleContracts.Box(20,20,20);
             result=Complete(c,Goo(Domain()),new[]{valid,ObstacleContracts.Box(2,1,1),outside},false,Array.Empty<Brep>());
             assert(c.Errors.Count==0&&result.Out<int>(1)==12,"Separate touching union solid set incorrect");
