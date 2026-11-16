@@ -20,6 +20,9 @@ def assess(session):
         deviation = float((rho[fluid] - 1).abs().max().cpu()) if valid else None
         count = int(((mach > .15) & fluid).sum().cpu()) if valid else 0
         reasons = []
+        violations = []
+        iteration = int(flow.i)
+        time_seconds = float(flow.units.convert_time_to_pu(flow.i))
         state = 'within-tested-envelope'
         if not valid:
             state = 'rejected'; reasons.append('Nonfinite populations, nonpositive density or no fluid cells')
@@ -27,11 +30,42 @@ def assess(session):
             state = 'rejected'; reasons.append('Local lattice Mach > 0.15 or density deviation > 10%')
         elif maximum > .1 or deviation > .05:
             state = 'warning'; reasons.append('Local lattice Mach > 0.10 or density deviation > 5%')
+        if valid and state != 'within-tested-envelope':
+            limits = (.15, .1) if state == 'rejected' else (.1, .05)
+            for quantity, value, limit in zip(
+                    ('max_lattice_mach', 'max_density_deviation'),
+                    (maximum, deviation), limits):
+                if value > limit:
+                    violations.append({'quantity': quantity, 'value': value, 'limit': limit})
+            reasons = []
+            for v in violations:
+                if v['quantity'] == 'max_density_deviation':
+                    detail = f"density deviation {100*v['value']:.6g}% > {100*v['limit']:.6g}%"
+                else:
+                    detail = f"lattice Mach {v['value']:.6g} > {v['limit']:.6g}"
+                reasons.append(f"Sampled {detail} at step {iteration} (t={time_seconds:.6g} s)")
+        elif not valid:
+            violations = [{'quantity': 'finite_positive_fluid', 'value': False, 'limit': True}]
+            reasons = [reasons[0] + f' at step {iteration} (t={time_seconds:.6g} s)']
+        trigger = ({'status': state, 'iteration': iteration, 'time_seconds': time_seconds,
+                    'violations': violations} if violations else None)
         old = getattr(session, 'quality', {})
         rank = {'unchecked': -1, 'within-tested-envelope': 0, 'warning': 1, 'rejected': 2}
-        worst = old.get('status', state)
-        if rank[state] > rank[worst]: worst = state
-        if worst != state: reasons = old.get('reasons', [])
+        worst = old.get('status', 'unchecked')
+        if rank[state] > rank[worst]:
+            worst = state
+        elif rank[worst] > 0:
+            # Keep the first assessment that established the worst severity.
+            # Older checkpoints cannot supply provenance they never recorded.
+            reasons = old.get('reasons', [])
+            trigger = old.get('trigger')
+        peaks = {}
+        for quantity, value in (('lattice_mach', maximum), ('density_deviation', deviation)):
+            key = 'peak_sampled_' + quantity
+            previous = old.get(key, 0)
+            increased = value is not None and value > previous
+            peaks[key] = value if increased else previous
+            peaks[key + '_iteration'] = iteration if increased else old.get(key + '_iteration')
         flux = None
         backflow = None
         if valid and hasattr(flow, 'solid'):
@@ -70,10 +104,10 @@ def assess(session):
             flux = None
             backflow = None
         return {'policy': POLICY, 'status': worst, 'current_status': state,
-                'reasons': reasons, 'iteration': int(flow.i),
-                'time_seconds': float(flow.units.convert_time_to_pu(flow.i)),
+                'reasons': reasons, 'trigger': trigger, 'iteration': iteration,
+                'time_seconds': time_seconds,
                 'max_lattice_mach': maximum,
-                'peak_sampled_lattice_mach': max(maximum or 0, old.get('peak_sampled_lattice_mach', 0)),
+                **peaks,
                 'mach_exceedance_cells': count, 'max_density_deviation': deviation,
                 'boundary_method': 'shifted-links-v1' if hasattr(session.solver,'external_links') else 'halfway-specular-stress-v1' if session.spec.get('neutral_precursor') else session.spec.get('boundary_method', 'legacy-equilibrium-v1'),
                 'boundary_diagnostics': dict(session.solver.external_links.report) if hasattr(session.solver,'external_links') else dict(session.solver.general_boundary.report) if hasattr(session.solver, 'general_boundary') else None,
@@ -86,3 +120,45 @@ def assess(session):
                 'transfer_scope': 'experimental-neutral-nesting' if session.spec.get('neutral_precursor') else 'numerical-envelope',
                 'absolute_time_seconds': float(session.spec.get('time_origin_seconds',0.))+float(flow.units.convert_time_to_pu(flow.i)), 
                 'scope': 'Sampled low-Mach envelope only; not convergence, atmospheric validation or conservation certification'}
+
+
+def validate_provenance(quality, iteration):
+    """Reject malformed new checkpoint history before any solver state is changed.
+
+    Missing fields remain valid for legacy checkpoints; unknown peak locations
+    and trigger provenance stay unknown rather than being inferred on reload.
+    """
+    for quantity in ('lattice_mach', 'density_deviation'):
+        key = 'peak_sampled_' + quantity
+        peak = quality.get(key, 0)
+        step = quality.get(key + '_iteration')
+        if (type(peak) not in (int, float) or not math.isfinite(peak) or peak < 0
+                or (step is not None and (type(step) is not int or not 0 <= step <= iteration))):
+            raise ValueError('Checkpoint quality provenance is invalid')
+    trigger = quality.get('trigger')
+    if trigger is None:
+        return
+    if not isinstance(trigger, dict):
+        raise ValueError('Checkpoint quality trigger is invalid')
+    state = trigger.get('status')
+    step, time = trigger.get('iteration'), trigger.get('time_seconds')
+    violations = trigger.get('violations')
+    if (state not in ('warning', 'rejected') or state != quality['status']
+            or type(step) is not int or not 0 <= step <= iteration
+            or type(time) not in (int, float) or not math.isfinite(time) or time < 0
+            or not isinstance(violations, list) or not violations):
+        raise ValueError('Checkpoint quality trigger is invalid')
+    limits = {'max_lattice_mach': .15 if state == 'rejected' else .1,
+              'max_density_deviation': .1 if state == 'rejected' else .05}
+    for violation in violations:
+        if not isinstance(violation, dict):
+            raise ValueError('Checkpoint quality violation is invalid')
+        quantity, value, limit = (violation.get(k) for k in ('quantity', 'value', 'limit'))
+        if quantity == 'finite_positive_fluid':
+            valid = state == 'rejected' and value is False and limit is True
+        else:
+            valid = (isinstance(quantity, str) and quantity in limits
+                     and type(value) in (int, float) and math.isfinite(value)
+                     and type(limit) in (int, float) and limit == limits[quantity] and value > limit)
+        if not valid:
+            raise ValueError('Checkpoint quality violation is invalid')

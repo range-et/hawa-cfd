@@ -86,6 +86,17 @@ static class PanelContracts {
             using(var reopened=new HawaPanel(3102))assert(CaseHub.Find(3102)!.Settings().ToJsonString()==saved,"Panel reopen overwrote case");
             CaseHub.Close(3102);
         });
+        test("panel displays quality trigger reasons and tolerates legacy missing or malformed reasons", () => {
+            var doc=new RhinoDoc(3203);var c=CaseHub.Get(3203);
+            foreach(var reasons in new JsonNode?[]{null, new JsonArray(), new JsonArray("Sampled density deviation 8% > 5% at step 5 (t=1.25 s)",null,12)}) {
+                c.StatusData=new JsonObject{["quality"]=new JsonObject{["status"]="warning",["reasons"]=reasons}};
+                using var panel=new HawaPanel(3203);
+                var label=Walk(panel).OfType<Label>().Single(x=>x.Text.Contains("Quality: warning"));
+                assert(label.Text.Contains("Sampled density deviation")== (reasons is JsonArray a && a.Count>0),"Trigger omitted or invented");
+                assert(!label.Text.Contains("12"),"Malformed legacy reason displayed");
+            }
+            CaseHub.Close(3203);
+        });
         test("first preset persists a native change even when the Modified setter is ignored", () => {
             var doc=new RhinoDoc(3199){IgnoreModifiedWrites=true};
             doc.Modified=true;assert(!doc.Modified,"Mac-like fixture did not ignore setter");

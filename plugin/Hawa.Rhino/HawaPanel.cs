@@ -446,6 +446,10 @@ public sealed class HawaPanel : Panel
             foreach (var p in CaseHub.Parameters)
                 numbers[p.Key].Enabled = !c.Driven.Contains(p.Key) && (!c.SelectedGeometry || p.Key != "width");
             state.Text = $"{c.State.ToUpperInvariant()} · {c.Steps:N0} / {c.Target:N0} steps\nQuality: {c.Status?["quality"]?["status"]?.GetValue<string>() ?? "unchecked"}";
+            if (c.Status?["quality"]?["reasons"] is JsonArray reasons)
+                foreach (var reason in reasons)
+                    if (reason is JsonValue value && value.TryGetValue<string>(out var text))
+                        state.Text += "\n" + text;
             progress.Value = (int)Math.Clamp(100d * c.Steps / c.Target, 0, 100);
             geometry.Text = c.SelectedGeometry ? $"{c.Setup["objects"]!.AsArray().Count} referenced Rhino bodies · coordinates in metres" : "Block starter · 8 × 6 × 4 m · demonstration viscosity";
             var shape = CaseGeometry.GridShape(c);
