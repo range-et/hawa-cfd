@@ -60,7 +60,7 @@ def advance(state, reply, now=None, cancel=False, recovered_owned=None):
         state["failure"] = state["failure"] or error
         if phase in ("close", "cleanup"):
             state["status"] = "blocked"
-        elif state["owned"]:
+        elif state["owned"] or phase == "open":
             state["phase"] = "close"
         else:
             state["status"] = "failed"

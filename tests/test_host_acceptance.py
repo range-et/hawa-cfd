@@ -263,3 +263,21 @@ def test_cli_default_timeout(run):
     output = Path(run['output']).with_name('default-timeout')
     assert host.main(['start', '--root', run['root'], '--output', str(output), '--document', '8']) == 0
     assert json.loads((output / 'state.json').read_text())['timeout'] == 180
+
+
+def test_cancel_open_before_ownership_requires_late_cleanup(run):
+    opening = step(run, safe=True, rhino_serial=8, original_gh=None)
+    cancelled = host.advance(opening, None, now=101, cancel=True)
+    assert cancelled['status'] == 'running'
+    assert cancelled['phase'] == 'close'
+    assert cancelled['owned'] is None
+    # Ownership can appear only after cancellation; close must reconcile it.
+    closed = host.advance(cancelled, ack(cancelled), now=102, recovered_owned='late')
+    assert closed['owned'] == 'late' and closed['phase'] == 'cleanup'
+    pending = step(closed, clean=False)
+    assert pending['status'] == 'running' and pending['owned'] == 'late'
+    final = step(pending, clean=True)
+    assert final['status'] == 'failed' and final['owned'] is None
+    assert final['failure'] == 'Cancelled by operator'
+    expired = host.advance(opening, None, now=111)
+    assert expired['phase'] == 'close' and expired['status'] == 'running'

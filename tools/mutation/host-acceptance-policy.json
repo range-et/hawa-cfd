@@ -2,16 +2,16 @@
   "tool": "mutmut==3.7.0",
   "scope": "Whole #39 Python developer controller; C# host adapter and top-level embedded audit are outside mutmut function scope and require their separate tests/live evidence.",
   "sources": {
-    "scripts/host_acceptance.py": "25f9e16c7316d586d906ca302a2afe12d09473aed41c032c23afd25c0c2df5dc",
-    "scripts/host_acceptance.cs": "4cbc91207b944af29fb080e43c2ee7a7251eebdbf215921e15bc94051fb25a29",
+    "scripts/host_acceptance.py": "bf6746ce6bd0cd27a3b9efe287a75519a2149408f87cb0e61adab4e81f3b65a4",
+    "scripts/host_acceptance.cs": "8ea10bba49b6bc80cb6a82ac7f7ae5c6fe008b4fa28db8a2aaceb8d97dbdf520",
     "scripts/host_acceptance_audit.py": "a0a581c4bc5f90aaa6a4b4c6c5f7912ab8109139c0f5719fb9f448fa6e92bafb",
-    "tests/test_host_acceptance.py": "5e9a15bdecf7e70813a52025d70c249348049bd0dee36be455f357017f59d49f"
+    "tests/test_host_acceptance.py": "feef148345669f3a58efebe7c7b1614cee9bfa0d85df182f3edc7a984f314206"
   },
   "control_test_files": [
     "tests/test_host_acceptance.py"
   ],
-  "mutants": 586,
-  "inventory_sha256": "b17df11dc824df14af0df4f2ad5b112ca3c8affc5cfbaf5e917404d84fbc77f5",
+  "mutants": 590,
+  "inventory_sha256": "4b36bcc7bcc183f6016bac2b073d14805687abbad33f0111d541054dec166525",
   "reviewed_survivors": {
     "host_acceptance.x_advance__mutmut_11": {
       "status": "survived",
@@ -23,12 +23,12 @@
       "diff_sha256": "12c0447afdee5c0c341d426ded3f0ee858aeb5940d37ebec6d185e7488cba745",
       "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
     },
-    "host_acceptance.x_advance__mutmut_145": {
+    "host_acceptance.x_advance__mutmut_149": {
       "status": "survived",
       "diff_sha256": "9d161e13609c7470e237b9821863936bbd63607f9fb06950b583c043fbcd8737",
       "reason": "Equivalent: the same serial/owned value was already validated or assigned before this redundant update; all supported state transitions retain identity."
     },
-    "host_acceptance.x_advance__mutmut_159": {
+    "host_acceptance.x_advance__mutmut_163": {
       "status": "survived",
       "diff_sha256": "ff33be5145aac5016b6b3dda122f724b251866f8137ef2bc66b0064fc11ebbff",
       "reason": "Equivalent: the same serial/owned value was already validated or assigned before this redundant update; all supported state transitions retain identity."
@@ -38,7 +38,7 @@
       "diff_sha256": "85b78378fe9264b159c68df8818a537d6c4ec31abb80adcddfe8c4da2aa7d70c",
       "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
     },
-    "host_acceptance.x_advance__mutmut_244": {
+    "host_acceptance.x_advance__mutmut_248": {
       "status": "survived",
       "diff_sha256": "0df3da8cf5673c3925792c4a8afa649e0a061d66a4bdf26bfe08fb98dc3d1ff3",
       "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
