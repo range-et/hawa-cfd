@@ -22,7 +22,7 @@
       "passed": 1811,
       "skipped": 97
     },
-    "possible_overlap": "A separate aborted issue98 mutation study may have probed MPS during Python3.9 suite. No failure observed; no performance conclusions. Earlier issue83 interrupted run discarded."
+    "possible_overlap": "A separate aborted issue98 mutation study may have probed MPS during Python3.9 suite. No failure observed; no performance conclusions. Earlier issue83 interrupted run discarded. During Python3.12, issue98 GH08 idle first solution may have briefly initialized an auto-selected device before being switched to CPU; no solver steps were reported. Absence of device overlap is not established."
   },
   "seeded_faults": {
     "base": "34f4c7f04a0f5e2974d22052deda61984f1defba",

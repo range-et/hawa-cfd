@@ -122,7 +122,10 @@ mutation study may have probed MPS concurrently with the fresh 3.9 suite; no
 failure was observed, but these runs support correctness checks only, not
 performance comparisons. Python 3.12.4 subsequently passed 1811 tests with 97 skips. Both isolated
 environments use pinned PyTorch 2.8.0. CPU/MPS cases ran where supported; CUDA
-was unavailable. No tolerances were relaxed.
+was unavailable. No tolerances were relaxed. During the 3.12 suite, the #98 host check may
+have briefly initialized an auto-selected device on an idle GH08 first solution
+before switching to CPU; no solver steps were reported. Absence of device
+overlap is not established, and no timing/performance claim relies on this run.
 
 Through Rhino MCP, the issue83 agent verified the loaded hashes of combined
 candidate `6ed1012` before testing. Nine real-kernel fixtures agreed with admission
