@@ -66,14 +66,14 @@ static class ComponentContracts
         test("HawaComponent archive reads hide appended parameters from older definitions", () => {
             // Archived counts inside [the original count, the current count] hide the appended ports from GH's reader.
             foreach (var (component, inputs, outputs, seen, inRange) in new (GH_Component, int, int, (int, int), bool)[] {
-                (new GeometryComponent(), 2, 2, (2, 2), true), (new GeometryComponent(), 1, 2, (3, 3), false), (new GeometryComponent(), 4, 3, (3, 3), false), (new GeometryComponent(), 2, 1, (3, 3), false), (new GeometryComponent(), 3, 4, (3, 3), false),
+                (new GeometryComponent(), 2, 2, (2, 2), true), (new GeometryComponent(), 1, 2, (4, 2), false), (new GeometryComponent(), 4, 3, (4, 2), false), (new GeometryComponent(), 2, 1, (4, 2), false), (new GeometryComponent(), 3, 4, (4, 2), false),
                 (new EvaluateComponent(), 6, 4, (6, 4), true), (new BoundaryCaptureComponent(), 4, 3, (4, 3), true), (new BoundaryPatchComponent(), 6, 1, (6, 1), true), (new ProbeComponent(), 1, 1, (1, 1), true) }) {
                 var before = component.Params.Input.ToArray(); var outBefore = component.Params.Output.ToArray();
                 assert(component.Read(new GhArchive(inputs, outputs)), "Read failed");
                 assert(component.BaseReads == 1 && (component.InputsAtBaseRead, component.OutputsAtBaseRead) == seen, $"{component.GetType().Name} {inputs}/{outputs}: base read saw {component.InputsAtBaseRead}/{component.OutputsAtBaseRead}");
                 assert(component.Params.Input.SequenceEqual(before) && component.Params.Output.SequenceEqual(outBefore) && component.Params.ParameterChanges == (inRange ? 1 : 0), "Parameters reordered, lost or not refreshed");
             }
-            var failing = new GeometryComponent { BaseReadResult = false }; assert(!failing.Read(new GhArchive(2, 2)) && failing.Params.Input.Count == 3, "Base read failure hidden or params lost");
+            var failing = new GeometryComponent { BaseReadResult = false }; assert(!failing.Read(new GhArchive(2, 2)) && failing.Params.Input.Count == 4, "Base read failure hidden or params lost");
             var plane = new PlaneFieldComponent(); var probe = new ProbeComponent(); plane.Params.Input[0].Access = GH_ParamAccess.item;
             assert(plane.Read(new GhArchive(6, 3)) && plane.Params.Input[0].Access == GH_ParamAccess.list && probe.Read(new GhArchive(1, 1)) && probe.Params.Input[0].Access == GH_ParamAccess.item, "Composed-frame port access not restored");
             var record = new RecordComponent(); record.Params.Input[0].Optional = false;

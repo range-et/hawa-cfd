@@ -106,3 +106,21 @@ Connect one Field Snapshot to both Plane Field and **Body Loads**. Connect Body 
 Example 20 demonstrates this wiring. Its short candidate count and settling interval demonstrate the workflow; they do not establish an optimum. Instantaneous loads can contain startup and cell-transition transients. Compare cycle averages, grid sizes, time steps and longer settling periods.
 
 CPU and MPS work through the same tensor implementation. On the tested small imported-mesh case, CPU was substantially faster than MPS because of many small geometry and boundary tensor operations. `auto` selects an available accelerator, not the fastest measured backend. Select `cpu` when responsiveness matters for a small grid. CUDA moving-body hardware tests remain outstanding.
+
+### Obstacle geometry admission
+
+Geometry and Moving Body require valid closed volumetric meshes (or solid Breps
+for Geometry). Before voxelization, shared admission reports the obstacle index
+or native object ID and rejects naked/non-manifold edges, degenerate faces,
+invalid coordinates and detected transverse self-intersections. Geometry Check
+uses the same check and reports its limits. It does not repair geometry.
+
+Separate closed bodies may overlap, touch or be disjoint; a closed hollow shell
+retains its cavity. A single self-intersecting mesh is unsupported. Coplanar
+intersection and near-coincident self-contact are not certified by this bounded
+check: split separate bodies into separate inputs or union/repair the mesh.
+If its overlapping-candidate budget is exhausted, simplify or split the input.
+Resolution remains your choice; a watertight thin feature can still be unresolved.
+Domain faces, Wind Tunnel sizing meshes and Surface Field display meshes are not
+subject to the obstacle contract. See the [admission review](review-obstacle-preflight.md)
+for implementation and verification limits.

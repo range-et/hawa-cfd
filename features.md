@@ -646,3 +646,16 @@ with an independent **Annotations and legend** switch in View. Missing flags in
 older archives default to visible. Drawing-order/visibility contracts pass;
 CPU 30-step field captures verify native labels above the mesh. Broader 22/25/08
 legibility remains under [#108](https://github.com/range-et/hawa-cfd/issues/108).
+
+### November 16 2026 — Obstacle admission candidate (#83)
+
+A shared background preflight now checks obstacle topology and bounded transverse
+self-intersections in Geometry, Moving Body and native preparation; Geometry
+Check reports the same result and explicit unsupported-geometry limits. Domain
+structure/clearance checks precede GH voxelization and native case budget checks
+precede preparation. No automatic geometry repair or thin-feature qualification.
+Separate bodies and hollow/cropped cases retain their documented contracts.
+Dedicated adapter source files enable measured headless tests for preparation,
+replacement, cancellation and disposal. This is a local development candidate;
+final gates and serial Rhino acceptance remain in the
+[review record](docs/review-obstacle-preflight.md). Not merged or released.

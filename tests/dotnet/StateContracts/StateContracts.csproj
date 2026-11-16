@@ -1,6 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
   <ItemGroup>
+    <Compile Include="../../../plugin/Hawa.Shared/GeometryDomain.cs" Link="Production/GeometryDomain.cs" />
+    <Compile Include="../../../plugin/Hawa.Rhino/NativePreparation.cs" Link="Production/NativePreparation.cs" />
+    <Compile Include="../../../plugin/Hawa.Grasshopper/GeometryComponent.cs" Link="Production/GeometryComponent.cs" />
+    <Compile Include="../../../plugin/Hawa.Grasshopper/MovingBodyComponent.cs" Link="Production/MovingBodyComponent.cs" />
+    <Compile Include="../../../plugin/Hawa.Grasshopper/GeometryCheckComponent.cs" Link="Production/GeometryCheckComponent.cs" />
+
+    <Compile Include="../../../plugin/Hawa.Shared/ObstaclePreflight.cs" Link="Production/ObstaclePreflight.cs" />
     <Compile Include="../../../plugin/Hawa.Rhino/NativeSelection.cs" Link="Production/NativeSelection.cs" />
     <Compile Include="../../../plugin/Hawa.Rhino/HawaCommand.cs" Link="Production/HawaCommand.cs" />
     <Compile Include="../../../plugin/Hawa.Rhino/HawaPanel.cs" Link="Production/HawaPanel.cs" />
