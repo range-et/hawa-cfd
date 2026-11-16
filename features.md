@@ -657,8 +657,10 @@ precede preparation. No automatic geometry repair or thin-feature qualification.
 Separate bodies and hollow/cropped cases retain their documented contracts.
 Dedicated adapter source files enable measured headless tests for preparation,
 replacement, cancellation and disposal. This is a local development candidate;
-final gates and serial Rhino acceptance remain in the
-[review record](docs/review-obstacle-preflight.md). Not merged or released.
+measured headless checks and bounded live GH/native CPU fixtures passed on the
+combined development candidate. Remaining examples/lifecycle/release gates and
+actual evidence are in the [review record](docs/review-obstacle-preflight.md).
+Not merged or released; #83 remains open for its explicitly recorded remainder.
 
 ### November 16 2026 — Sequential host acceptance pilot (#39, partial)
 

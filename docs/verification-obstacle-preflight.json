@@ -1,0 +1,674 @@
+{
+  "date": "2026-11-16",
+  "source_commit": "31368cb",
+  "base": "1b4e6c7",
+  "headless": {
+    "python39": {
+      "version": "3.9.25",
+      "passed": 1821,
+      "skipped": 87,
+      "torch": "2.8.0"
+    },
+    "state_contracts": 120,
+    "strict_headless": {
+      "covered": 994,
+      "host_unmeasured": 308,
+      "declarations": 58,
+      "failures": []
+    },
+    "python312": {
+      "version": "3.12.4",
+      "torch": "2.8.0",
+      "passed": 1811,
+      "skipped": 97
+    },
+    "possible_overlap": "A separate aborted issue98 mutation study may have probed MPS during Python3.9 suite. No failure observed; no performance conclusions. Earlier issue83 interrupted run discarded. During Python3.12, issue98 GH08 idle first solution may have briefly initialized an auto-selected device before being switched to CPU; no solver steps were reported. Absence of device overlap is not established."
+  },
+  "seeded_faults": {
+    "base": "34f4c7f04a0f5e2974d22052deda61984f1defba",
+    "scope": "Five manually seeded C# admission faults; not exhaustive mutation coverage",
+    "results": [
+      {
+        "name": "control",
+        "file": "",
+        "old": "",
+        "new": "",
+        "status": "pass",
+        "exit": 0,
+        "log_sha256": "b490dc9de6bdf2292045bf0a24ed6d997c73d961c34580532e6b4c8dadd7f35a"
+      },
+      {
+        "name": "nonmanifold-threshold",
+        "file": "plugin/Hawa.Shared/ObstaclePreflight.cs",
+        "old": "e.Value > 2",
+        "new": "e.Value > 3",
+        "status": "assertion-kill",
+        "exit": 134,
+        "log_sha256": "590ad1c6c879d6b4e718f19ed44eef717d5ea7314ccc7e8fcb92b813abce14d2"
+      },
+      {
+        "name": "zero-area-admission",
+        "file": "plugin/Hawa.Shared/ObstaclePreflight.cs",
+        "old": "if (degenerate > 0)",
+        "new": "if (degenerate > 1)",
+        "status": "assertion-kill",
+        "exit": 134,
+        "log_sha256": "4acd28ebb21fb336f87ccca1c983b13b87867818d506c5f717730a8f031e7f95"
+      },
+      {
+        "name": "intersection-admission",
+        "file": "plugin/Hawa.Shared/ObstaclePreflight.cs",
+        "old": "var intersection = FirstCrossing(triangles, token);",
+        "new": "string? intersection = null;",
+        "status": "assertion-kill",
+        "exit": 134,
+        "log_sha256": "13683345ca371a09b8567d56c2533067a8d9e3295f14fc1858fb34f17dd5ede9"
+      },
+      {
+        "name": "gh-obstacle-admission",
+        "file": "plugin/Hawa.Grasshopper/GeometryComponent.cs",
+        "old": "Hawa.Shared.ObstaclePreflight.Require(copies[i], $\"Obstacle {i + 1}\", token);",
+        "new": "_ = copies[i].Vertices.Count;",
+        "status": "assertion-kill",
+        "exit": 134,
+        "log_sha256": "b2e5c4320daa3921d23ad2700b4f2c341e0f0353396bf731554672e297a54c8b"
+      },
+      {
+        "name": "native-obstacle-admission",
+        "file": "plugin/Hawa.Rhino/NativePreparation.cs",
+        "old": "ObstaclePreflight.Require(mesh, $\"Obstacle {ids[meshes.Count - 1]}\", token);",
+        "new": "_ = mesh.Vertices.Count;",
+        "status": "assertion-kill",
+        "exit": 134,
+        "log_sha256": "4a0cd296ed7f173afb72cb82b19682f9ed34872618857a66da60d6a137bcc360"
+      }
+    ]
+  },
+  "live": {
+    "combined_commit": "6ed1012",
+    "slot": "aardvark",
+    "target": 268435457,
+    "device": "cpu",
+    "loaded_sha256": {
+      "Hawa.Rhino.rhp": "f507b784a6fc256f500898a6c2b7f3e0956a9e3ce69dfe631152273210ef205f",
+      "Hawa.gha": "36c94c17f9339914fbe2cb89ad2136f3c1766bbfe2e055ec842b513e58d87a1c",
+      "Hawa.Shared.dll": "de5220bd9cbacfa487e89d7035787ebb44e3a05cd96a0473b564153870940bb5"
+    },
+    "kernel": [
+      {
+        "Name": "closed-box",
+        "expected": true,
+        "accepted": true,
+        "pass": true,
+        "IsValid": true,
+        "IsClosed": true,
+        "vertices": 24,
+        "faces": 6,
+        "error": null
+      },
+      {
+        "Name": "triangulated-sphere",
+        "expected": true,
+        "accepted": true,
+        "pass": true,
+        "IsValid": true,
+        "IsClosed": true,
+        "vertices": 554,
+        "faces": 576,
+        "error": null
+      },
+      {
+        "Name": "brep-meshed-sphere",
+        "expected": true,
+        "accepted": true,
+        "pass": true,
+        "IsValid": true,
+        "IsClosed": true,
+        "vertices": 2143,
+        "faces": 2048,
+        "error": null
+      },
+      {
+        "Name": "open-box",
+        "expected": false,
+        "accepted": false,
+        "pass": true,
+        "IsValid": true,
+        "IsClosed": false,
+        "vertices": 20,
+        "faces": 5,
+        "error": "open-box: 4 naked edges; 0 non-manifold edges. Close the mesh; every edge must have exactly two faces. Split separate bodies into separate obstacle inputs or union them."
+      },
+      {
+        "Name": "nonmanifold-fin",
+        "expected": false,
+        "accepted": false,
+        "pass": true,
+        "IsValid": false,
+        "IsClosed": false,
+        "vertices": 25,
+        "faces": 7,
+        "error": "nonmanifold-fin: 2 naked edges; 1 non-manifold edges. Close the mesh; every edge must have exactly two faces. Split separate bodies into separate obstacle inputs or union them."
+      },
+      {
+        "Name": "zero-area-face",
+        "expected": false,
+        "accepted": false,
+        "pass": true,
+        "IsValid": false,
+        "IsClosed": false,
+        "vertices": 27,
+        "faces": 7,
+        "error": "zero-area-face: 1 degenerate/zero-area faces. Remove degenerate faces and close the mesh."
+      },
+      {
+        "Name": "intersecting-single-mesh",
+        "expected": false,
+        "accepted": false,
+        "pass": true,
+        "IsValid": true,
+        "IsClosed": true,
+        "vertices": 48,
+        "faces": 12,
+        "error": "intersecting-single-mesh: self-intersection between faces 6 and 3. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them."
+      },
+      {
+        "Name": "closed-hollow",
+        "expected": true,
+        "accepted": true,
+        "pass": true,
+        "IsValid": true,
+        "IsClosed": true,
+        "vertices": 48,
+        "faces": 12,
+        "error": null
+      },
+      {
+        "name": "hollow-parity",
+        "shell": true,
+        "cavity": false,
+        "innerSurface": true
+      },
+      {
+        "Name": "closed-disjoint-shells",
+        "expected": true,
+        "accepted": true,
+        "pass": true,
+        "IsValid": true,
+        "IsClosed": true,
+        "vertices": 48,
+        "faces": 12,
+        "error": null
+      }
+    ],
+    "gh_geometry": [
+      {
+        "name": "closed",
+        "errors": [],
+        "solids": 8,
+        "cavity": false
+      },
+      {
+        "name": "open",
+        "errors": [
+          "Obstacle 1: 4 naked edges; 0 non-manifold edges. Close the mesh; every edge must have exactly two faces. Split separate bodies into separate obstacle inputs or union them."
+        ],
+        "solids": null,
+        "cavity": null
+      },
+      {
+        "name": "zero",
+        "errors": [
+          "Obstacle 1: 1 degenerate/zero-area faces. Remove degenerate faces and close the mesh."
+        ],
+        "solids": null,
+        "cavity": null
+      },
+      {
+        "name": "cross",
+        "errors": [
+          "Obstacle 1: self-intersection between faces 6 and 3. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them."
+        ],
+        "solids": null,
+        "cavity": null
+      },
+      {
+        "name": "separate-overlap",
+        "errors": [],
+        "solids": 8,
+        "cavity": false
+      },
+      {
+        "name": "separate-touch",
+        "errors": [],
+        "solids": 12,
+        "cavity": false
+      },
+      {
+        "name": "separate-disjoint",
+        "errors": [],
+        "solids": 16,
+        "cavity": false
+      },
+      {
+        "name": "hollow",
+        "errors": [],
+        "solids": 342,
+        "cavity": false
+      },
+      {
+        "name": "cropped",
+        "errors": [],
+        "solids": 4,
+        "cavity": false
+      },
+      {
+        "name": "nonmanifold",
+        "errors": [
+          "Obstacle 1: 2 naked edges; 1 non-manifold edges. Close the mesh; every edge must have exactly two faces. Split separate bodies into separate obstacle inputs or union them."
+        ],
+        "solids": null,
+        "cavity": null
+      }
+    ],
+    "gh_check": {
+      "errors": [],
+      "outputs": [
+        {
+          "name": "Closed valid",
+          "values": [
+            "True",
+            "False",
+            "False",
+            "False",
+            "True",
+            "True",
+            "True",
+            "True",
+            "True",
+            "True",
+            "True",
+            "True",
+            "False"
+          ]
+        },
+        {
+          "name": "Open edges",
+          "values": [
+            "Polyline Curve",
+            "Linear Curve",
+            "Polyline Curve"
+          ]
+        },
+        {
+          "name": "Report",
+          "values": [
+            "Obstacle 1: passes obstacle admission; volume=1; cells across bounds=1, 1, 1. Internal thin features require grid inspection. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them.",
+            "Obstacle 2: 4 naked edges; 0 non-manifold edges. Close the mesh; every edge must have exactly two faces. Split separate bodies into separate obstacle inputs or union them.; volume=0; cells across bounds=1, 1, 1. Internal thin features require grid inspection. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them.",
+            "Obstacle 3: 1 degenerate/zero-area faces. Remove degenerate faces and close the mesh.; volume=0; cells across bounds=1, 1, 1. Internal thin features require grid inspection. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them.",
+            "Obstacle 4: self-intersection between faces 6 and 3. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them.; volume=0; cells across bounds=1.3, 1.2, 1.1. Internal thin features require grid inspection. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them.",
+            "Obstacle 5: passes obstacle admission; volume=1; cells across bounds=1, 1, 1. Internal thin features require grid inspection. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them.",
+            "Obstacle 6: passes obstacle admission; volume=1; cells across bounds=1, 1, 1. Internal thin features require grid inspection. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them.",
+            "Obstacle 7: passes obstacle admission; volume=1; cells across bounds=1, 1, 1. Internal thin features require grid inspection. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them.",
+            "Obstacle 8: passes obstacle admission; volume=1; cells across bounds=1, 1, 1. Internal thin features require grid inspection. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them.",
+            "Obstacle 9: passes obstacle admission; volume=1; cells across bounds=1, 1, 1. Internal thin features require grid inspection. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them.",
+            "Obstacle 10: passes obstacle admission; volume=1; cells across bounds=1, 1, 1. Internal thin features require grid inspection. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them.",
+            "Obstacle 11: passes obstacle admission; volume=26; cells across bounds=3, 3, 3. Internal thin features require grid inspection. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them.",
+            "Obstacle 12: passes obstacle admission; volume=1; cells across bounds=1, 1, 1. Internal thin features require grid inspection. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them.",
+            "Obstacle 13: 2 naked edges; 1 non-manifold edges. Close the mesh; every edge must have exactly two faces. Split separate bodies into separate obstacle inputs or union them.; volume=0; cells across bounds=1, 1.43, 1. Internal thin features require grid inspection. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them."
+          ]
+        }
+      ]
+    },
+    "native_pick": [
+      {
+        "name": "open",
+        "id": "d759f100-7553-4a71-ba77-ff161748fa59",
+        "error": "Obstacle d759f100-7553-4a71-ba77-ff161748fa59: 4 naked edges; 0 non-manifold edges. Close the mesh; every edge must have exactly two faces. Split separate bodies into separate obstacle inputs or union them."
+      },
+      {
+        "name": "zero",
+        "id": "00000000-0000-0000-0000-000000000000",
+        "error": "A selected object no longer exists"
+      },
+      {
+        "name": "nonmanifold",
+        "id": "00000000-0000-0000-0000-000000000000",
+        "error": "A selected object no longer exists"
+      },
+      {
+        "name": "cross",
+        "id": "79e51871-3bfa-4787-a3f7-f29fa418d36d",
+        "error": null
+      }
+    ],
+    "native_cross": {
+      "id": "b6464e99-bf9b-451b-b414-347a52aee75f",
+      "version": 2,
+      "revision": 2,
+      "generation": 4,
+      "run_revision": 2,
+      "result_revision": -1,
+      "result_version": 0,
+      "result_steps": null,
+      "result_time_seconds": null,
+      "result_field": null,
+      "state": "failed",
+      "steps": 0,
+      "session": null,
+      "job": null,
+      "error": "Obstacle 79e51871-3bfa-4787-a3f7-f29fa418d36d: self-intersection between faces 6 and 3. Coplanar overlap and near-coincident self-contact are not certified; self-intersecting single meshes are unsupported. Split separate bodies into separate obstacle inputs or union them.",
+      "view_error": "",
+      "geometry_error": "",
+      "fault_area": "solver",
+      "retryable": true,
+      "settings": {
+        "schema": 2,
+        "setup": {
+          "mode": "selected",
+          "curved_walls": false,
+          "objects": [
+            "79e51871-3bfa-4787-a3f7-f29fa418d36d"
+          ],
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            8,
+            8,
+            8
+          ],
+          "viscosity": 0.1,
+          "density": 1.225,
+          "mach": 0.04,
+          "collision": "bgk",
+          "boundaries": [
+            "inlet",
+            "outlet",
+            "periodic",
+            "periodic",
+            "wall",
+            "slip"
+          ]
+        },
+        "view": {
+          "axis": 2,
+          "position": 0.5,
+          "palette": "blue-green",
+          "auto_range": true,
+          "min": 0,
+          "max": 1,
+          "domain": true,
+          "body": true,
+          "field": true,
+          "annotations": true
+        },
+        "id": "b6464e99-bf9b-451b-b414-347a52aee75f",
+        "speed": 1,
+        "cell": 1,
+        "width": 1,
+        "target": 1,
+        "device": "cpu",
+        "field": "speed"
+      },
+      "linked": false,
+      "outdated": false
+    },
+    "native_valid": {
+      "id": "b6464e99-bf9b-451b-b414-347a52aee75f",
+      "version": 3,
+      "revision": 3,
+      "generation": 6,
+      "run_revision": 3,
+      "result_revision": 3,
+      "result_version": 1,
+      "result_steps": 1,
+      "result_time_seconds": 0.023094010767585035,
+      "result_field": "speed",
+      "state": "completed",
+      "steps": 1,
+      "session": "b2dca64c-7538-423c-a113-03fb3adcbd19",
+      "job": "a51c745b-d158-4abd-bf1c-19307bd32e25",
+      "error": "",
+      "view_error": "",
+      "geometry_error": "",
+      "fault_area": null,
+      "retryable": null,
+      "settings": {
+        "schema": 2,
+        "setup": {
+          "mode": "selected",
+          "curved_walls": false,
+          "objects": [
+            "6cae0c2c-fa49-475d-aacb-b5ee69695a38"
+          ],
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            8,
+            8,
+            8
+          ],
+          "viscosity": 0.1,
+          "density": 1.225,
+          "mach": 0.04,
+          "collision": "bgk",
+          "boundaries": [
+            "inlet",
+            "outlet",
+            "periodic",
+            "periodic",
+            "wall",
+            "slip"
+          ]
+        },
+        "view": {
+          "axis": 2,
+          "position": 0.5,
+          "palette": "blue-green",
+          "auto_range": true,
+          "min": 0,
+          "max": 1,
+          "domain": true,
+          "body": true,
+          "field": true,
+          "annotations": true
+        },
+        "id": "b6464e99-bf9b-451b-b414-347a52aee75f",
+        "speed": 1,
+        "cell": 1,
+        "width": 1,
+        "target": 1,
+        "device": "cpu",
+        "field": "speed"
+      },
+      "linked": false,
+      "outdated": false
+    },
+    "native_valid_solid_count": 8,
+    "native_hollow": {
+      "state": {
+        "id": "b6464e99-bf9b-451b-b414-347a52aee75f",
+        "version": 5,
+        "revision": 5,
+        "generation": 10,
+        "run_revision": 5,
+        "result_revision": 5,
+        "result_version": 3,
+        "result_steps": 1,
+        "result_time_seconds": 0.011547005383792518,
+        "result_field": "speed",
+        "state": "completed",
+        "steps": 1,
+        "session": "8e110d26-ba5a-4409-a237-08758f7dc9c4",
+        "job": "e0d5d366-e72c-40e8-aad4-c25fb4b37f1b",
+        "error": "",
+        "view_error": "",
+        "geometry_error": "",
+        "fault_area": null,
+        "retryable": null,
+        "settings": {
+          "schema": 2,
+          "setup": {
+            "mode": "selected",
+            "curved_walls": false,
+            "objects": [
+              "313b7aa2-9f50-4f8d-8df1-5b074d2919e1"
+            ],
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "size": [
+              8,
+              8,
+              8
+            ],
+            "viscosity": 0.1,
+            "density": 1.225,
+            "mach": 0.04,
+            "collision": "bgk",
+            "boundaries": [
+              "inlet",
+              "outlet",
+              "periodic",
+              "periodic",
+              "wall",
+              "slip"
+            ]
+          },
+          "view": {
+            "axis": 2,
+            "position": 0.5,
+            "palette": "blue-green",
+            "auto_range": true,
+            "min": 0,
+            "max": 1,
+            "domain": true,
+            "body": true,
+            "field": true,
+            "annotations": true
+          },
+          "id": "b6464e99-bf9b-451b-b414-347a52aee75f",
+          "speed": 1,
+          "cell": 0.5,
+          "width": 1,
+          "target": 1,
+          "device": "cpu",
+          "field": "speed"
+        },
+        "linked": false,
+        "outdated": false
+      },
+      "solids": 342,
+      "cavity": false
+    },
+    "native_touch": {
+      "state": {
+        "id": "b6464e99-bf9b-451b-b414-347a52aee75f",
+        "version": 7,
+        "revision": 7,
+        "generation": 14,
+        "run_revision": 7,
+        "result_revision": 7,
+        "result_version": 5,
+        "result_steps": 1,
+        "result_time_seconds": 0.023094010767585035,
+        "result_field": "speed",
+        "state": "completed",
+        "steps": 1,
+        "session": "b626b10f-7c67-44d7-b410-2b90f04438ad",
+        "job": "57fba36a-129e-4c86-9e89-73ec13367d78",
+        "error": "",
+        "view_error": "",
+        "geometry_error": "",
+        "fault_area": null,
+        "retryable": null,
+        "settings": {
+          "schema": 2,
+          "setup": {
+            "mode": "selected",
+            "curved_walls": false,
+            "objects": [
+              "fd45abd6-81c0-437b-93b5-eed32bb98729",
+              "94bdbcc8-c99c-48a9-92d9-bd6e5ed1e673"
+            ],
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "size": [
+              8,
+              8,
+              8
+            ],
+            "viscosity": 0.1,
+            "density": 1.225,
+            "mach": 0.04,
+            "collision": "bgk",
+            "boundaries": [
+              "inlet",
+              "outlet",
+              "periodic",
+              "periodic",
+              "wall",
+              "slip"
+            ]
+          },
+          "view": {
+            "axis": 2,
+            "position": 0.5,
+            "palette": "blue-green",
+            "auto_range": true,
+            "min": 0,
+            "max": 1,
+            "domain": true,
+            "body": true,
+            "field": true,
+            "annotations": true
+          },
+          "id": "b6464e99-bf9b-451b-b414-347a52aee75f",
+          "speed": 1,
+          "cell": 1,
+          "width": 1,
+          "target": 1,
+          "device": "cpu",
+          "field": "speed"
+        },
+        "linked": false,
+        "outdated": false
+      },
+      "solids": 12
+    },
+    "cleanup": {
+      "undeleted_objects": 0,
+      "native_case": null,
+      "pending_cleanup": 0,
+      "pending_polling": 0,
+      "owned_gh_removed": true
+    }
+  },
+  "omissions": [
+    "No full example sweep or independent numerical validation",
+    "No live MovingBody SDF or worker replacement/cancellation audit in this pass",
+    "Native invalid zero-area and nonmanifold-fin meshes refused by Rhino Objects.AddMesh before pick: Guid.Empty is not preflight acceptance evidence",
+    "Native closed self-intersecting mesh admitted at pick then refused by Run before voxelization",
+    "Full coplanar/near-tangent self-intersection certification excluded",
+    "Standalone GH final memory/capture budget remains issue75",
+    "Windows/CUDA/release not verified",
+    "No viewport/canvas screenshot or visual gallery acceptance; GH volatile output/runtime messages and native public state/spec inspected"
+  ],
+  "artifacts": {
+    "results/issue83-function-verified/pytest.log": "2c76cc7e1d33ab2c0e9b37971ab043d0bf02ca06f4423b4caaad7e82f621b0f0",
+    "results/issue83-function-verified/state-contracts.log": "00898535a1f5d9bd9d57a0a210ac637147aaa1ad5f5064d110b251740a6011c7",
+    "results/issue83-python312.log": "ff10657d61f9855557d26db3e16e56df38c504f2999338d6c1f858c2839f9dc6",
+    "results/issue83-build-final.zip": "b93943e1d1bbad7c89cd473c9d74c42b6b905aff820469c40e52df5ffa4bf730"
+  }
+}
