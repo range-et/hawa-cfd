@@ -1992,7 +1992,7 @@
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.public HawaPanel(uint documentSerialNumber)": {
       "status": "covered",
-      "fingerprint": "f068580d53af242aef57546eacf55a9a1f316096c72e26b5892bfd583eef5e02"
+      "fingerprint": "4bec68c867e96a80930104d0ed270e2944e5b020c5d910f12f8eda3f3c7ad545"
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#0 ()=>": {
       "status": "unmeasured",
@@ -4900,7 +4900,7 @@
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#5 () =>": {
       "status": "covered",
-      "fingerprint": "c6f72bae0857216ae144cb555cd87a966c3446c8acdb110be3791069755c3e9a"
+      "fingerprint": "8c15c8909fb98870dad3dff7695b980d792aaf74a75199ce7b881d38e29ef9d5"
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#6 () =>": {
       "status": "covered",
@@ -4953,6 +4953,30 @@
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.private void RefreshState(bool force = false)": {
       "status": "covered",
       "fingerprint": "92d83cc2aece3b94edc74110744a3f09b49785fd72c3865fa20f44dd8359cfd4"
+    },
+    "plugin/Hawa.Rhino/NativeSelection.cs::Hawa.Native.NativeGeometry.public static void SelectObjects(uint serial, IEnumerable<Guid> objectIds, bool fitDomain)": {
+      "status": "covered",
+      "fingerprint": "69726c9500f0f68faf175b1dd3ed476132c6d75f67586ccddad549911e8cab19"
+    },
+    "plugin/Hawa.Rhino/NativeSelection.cs::Hawa.Native.NativeGeometry.SelectObjects(uint serial, IEnumerable<Guid> objectIds, bool fitDomain).lambda#0 id =>": {
+      "status": "covered",
+      "fingerprint": "7f5692598e369a4e87b7d734e45a9e9d4fab5952cb7623b9be90ac5176e1eed2"
+    },
+    "plugin/Hawa.Rhino/NativeSelection.cs::Hawa.Native.NativeGeometry.public static void FitDomain(uint serial)": {
+      "status": "covered",
+      "fingerprint": "eda736bfcb3b4385d56a4a195d9e8ce98f6575f2a8f628f2c0906880461809fd"
+    },
+    "plugin/Hawa.Rhino/NativeSelection.cs::Hawa.Native.NativeGeometry.FitDomain(uint serial).lambda#0 v =>": {
+      "status": "covered",
+      "fingerprint": "91092d838a2849a27a4bc0c3d7b6fa8b96699c20e8d850f039d31fd97304a29c"
+    },
+    "plugin/Hawa.Rhino/NativeSelection.cs::Hawa.Native.NativeGeometry.private static void Fit(JsonObject setup, BoundingBox b, double cell)": {
+      "status": "covered",
+      "fingerprint": "7a8fb01aa2e2ca107232a1c0514f8f308df5f22eaf8ba60059df6ad0eca57e52"
+    },
+    "plugin/Hawa.Rhino/NativeSelection.cs::Hawa.Native.NativeGeometry.private static void CheckGeometry(GeometryBase geometry)": {
+      "status": "covered",
+      "fingerprint": "6096229f369e4125fecb787d060ddb68598d88b2fc27e8021634bb730334f44f"
     }
   }
 }

@@ -52,6 +52,9 @@ static class PanelContracts {
                 var controls=Walk(panel).ToArray();
                 Button Button(string name)=>controls.OfType<Button>().Single(x=>x.Text==name);
                 Button("Block preset").PerformClick();var c=CaseHub.Find(3102)!;
+                assert(doc.Modified,"First explicit preset must trigger the save prompt");
+                doc.Modified=false;Button("Block preset").PerformClick();
+                assert(!doc.Modified,"Unchanged existing preset should remain clean");
                 assert(c!=null && c.State=="idle" && c.Session==null && c.Job==null,"Preset did not create idle case");
                 assert(controls.OfType<TabControl>().Single().Visible && Button("Run / Resume").Enabled,"Case controls not enabled");
                 var id=c!.Id;var owner=Guid.NewGuid();var lease=CaseHub.Bind(c,owner,new[]{"speed"});
@@ -81,6 +84,63 @@ static class PanelContracts {
             var saved=CaseHub.Find(3102)!.Settings().ToJsonString();
             using(var reopened=new HawaPanel(3102))assert(CaseHub.Find(3102)!.Settings().ToJsonString()==saved,"Panel reopen overwrote case");
             CaseHub.Close(3102);
+        });
+        test("first preset persists a native change even when the Modified setter is ignored", () => {
+            var doc=new RhinoDoc(3199){IgnoreModifiedWrites=true};
+            doc.Modified=true;assert(!doc.Modified,"Mac-like fixture did not ignore setter");
+            using var panel=new HawaPanel(3199);
+            assert(!doc.Modified && doc.Strings.GetValue("Hawa","last-created-case")==null,"Opening panel wrote document metadata");
+            Walk(panel).OfType<Button>().Single(x=>x.Text=="Block preset").PerformClick();
+            var c=CaseHub.Find(3199)!;
+            assert(doc.Modified && doc.Strings.GetValue("Hawa","last-created-case")==c.Id.ToString(),"Explicit case not registered as a native document change");
+            assert(c.Session==null && c.Job==null,"Creation started solver");CaseHub.Close(3199);
+        });
+        test("rejected geometry and invalid fitted domains leave the empty panel empty", () => {
+            var doc=new RhinoDoc(3200);
+            using var panel=new HawaPanel(3200);
+            var button=Walk(panel).OfType<Button>().Single(x=>x.Text=="Select bodies");
+            var invalid=new Rhino.Geometry.GeometryBase[]{
+                new Rhino.Geometry.Mesh { IsClosed=false },new Rhino.Geometry.Mesh { IsValid=false },
+                new Rhino.Geometry.Brep { IsSolid=false },new Rhino.Geometry.Brep { IsValid=false },
+                new Rhino.Geometry.GeometryBase(),
+                new Rhino.Geometry.Mesh { Bounds=new(new(0,0,0),new(10000,10000,10000)) }
+            };
+            try {
+                foreach(var geometry in invalid){
+                    var id=Guid.NewGuid();doc.Objects.Items[id]=new(geometry);
+                    NativeGeometry.PickAction=serial=>NativeGeometry.SelectObjects(serial,new[]{id},true);
+                    button.PerformClick();
+                    assert(CaseHub.Find(3200)==null && !doc.Modified,"Rejected selection published/modified a case");
+                    assert(Walk(panel).OfType<Label>().Any(x=>x.Text=="NO CASE"),"Rejected selection replaced empty state");
+                    assert(!Walk(panel).OfType<TabControl>().Single().Visible,"Rejected selection exposed case controls");
+                }
+            } finally { NativeGeometry.PickAction=null; }
+            void Reject(Action action){bool rejected=false;try{action();}catch(InvalidOperationException){rejected=true;}catch(ArgumentException){rejected=true;}assert(rejected,"Invalid selection accepted");}
+            Reject(()=>NativeGeometry.SelectObjects(3200,Array.Empty<Guid>(),true));
+            Reject(()=>NativeGeometry.SelectObjects(3200,Enumerable.Range(0,101).Select(_=>Guid.NewGuid()),true));
+            Reject(()=>NativeGeometry.SelectObjects(3200,new[]{Guid.NewGuid()},true));
+            Reject(()=>NativeGeometry.SelectObjects(99998,new[]{Guid.NewGuid()},true));
+            Reject(()=>NativeGeometry.FitDomain(3200));
+            try { RhinoApp.InvokeRequired=true;Reject(()=>NativeGeometry.SelectObjects(3200,new[]{Guid.NewGuid()},true)); }
+            finally { RhinoApp.InvokeRequired=false; }
+            assert(CaseHub.Find(3200)==null && !doc.Modified,"Rejected preflight created case");
+        });
+        test("valid geometry commits fitted metres and rejected edits preserve the existing case", () => {
+            var doc=new RhinoDoc(3201){ModelUnitSystem=UnitSystem.Millimeters};
+            var mesh=Guid.NewGuid();var brep=Guid.NewGuid();
+            doc.Objects.Items[mesh]=new(new Rhino.Geometry.Mesh{Bounds=new(new(0,0,0),new(1000,1000,1000))});
+            doc.Objects.Items[brep]=new(new Rhino.Geometry.Brep{Bounds=new(new(1000,0,0),new(2000,1000,1000))});
+            NativeGeometry.SelectObjects(3201,new[]{mesh,mesh,brep},true);
+            var c=CaseHub.Find(3201)!;
+            assert(doc.Modified && c.SelectedGeometry && c.Setup["objects"]!.AsArray().Count==2,"Valid selection not committed/deduplicated");
+            assert(c.Setup["origin"]!.ToJsonString()=="[-2,-1,-1]" && c.Setup["size"]!.ToJsonString()=="[8,3,3]","Fitted domain units/bounds incorrect");
+            NativeGeometry.FitDomain(3201);
+            NativeGeometry.SelectObjects(3201,new[]{mesh},false);
+            assert(c.Setup["size"]!.ToJsonString()=="[8,3,3]","Unfitted selection changed domain");
+            var owner=Guid.NewGuid();var lease=CaseHub.Bind(c,owner,new[]{"speed"});var before=c.Settings().ToJsonString();doc.Modified=false;
+            bool rejected=false;try{NativeGeometry.SelectObjects(3201,new[]{Guid.NewGuid()},true);}catch(ArgumentException){rejected=true;}
+            assert(rejected && ReferenceEquals(c,CaseHub.Find(3201)) && c.Settings().ToJsonString()==before && !doc.Modified && c.BindingLease==lease,"Rejected edit changed saved case/binding");
+            CaseHub.Close(3201);
         });
         test("saved schema 1 and selected schema 2 restore before or after panel opens", () => {
             foreach(var schema in new[]{1,2})foreach(var restoreFirst in new[]{false,true}) {

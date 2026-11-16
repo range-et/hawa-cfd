@@ -63,10 +63,9 @@ namespace Eto.Forms {
 }
 namespace Hawa.Native {
     public static class NativeIcons { public static object Get(string name) => name; }
-    public static class NativeGeometry {
+    public static partial class NativeGeometry {
         public static Action<uint>? PickAction;
         public static void Pick(uint document) => PickAction?.Invoke(document);
-        public static void FitDomain(uint document) { if (!Hawa.Shared.CaseHub.Get(document).SelectedGeometry) throw new ArgumentException("Select Rhino geometry first"); }
     }
 }
 namespace Rhino.Display {

@@ -130,8 +130,16 @@ public sealed class HawaPanel : Panel
             NativeGeometry.Pick(document);
         }), Action("Block preset", "reset", "Create the original demonstration. Geometry in Rhino is preserved.", () =>
         {
+            bool creating = CaseHub.Find(document) == null;
             var c = CaseHub.Get(document);
             CaseHub.Edit(document, new() { ["setup"] = NativeSettings.DefaultSetup(), ["cell"] = .5, ["speed"] = 1d, ["width"] = 1d }, displayedVersion);
+            if (creating)
+            {
+                // Rhino for Mac ignores Modified's setter. A namespaced document
+                // record makes the explicit creation a native, saveable change.
+                // Case settings still live exclusively in the plugin archive.
+                RhinoDoc.FromRuntimeSerialNumber(document)!.Strings.SetString("Hawa", "last-created-case", c.Id.ToString());
+            }
         }));
         var setup = Layout();
         setup.AddSeparateRow(Text("1 / Geometry and domain · global +X flow"));

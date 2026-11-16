@@ -625,6 +625,10 @@ block demonstration. An empty document shows a setup prompt; Select bodies and
 Block preset remain explicit actions. Saved schema-1/schema-2 cases and explicit
 GH creation retain their existing contracts. Production panel/command callbacks
 are linked into automated C# contracts with event-capable host doubles.
-[Review and verification scope](docs/review-panel-startup.md). This is a development
-change, not installed or released; live Rhino acceptance remains pending under
-[issue #31](https://github.com/range-et/hawa-cfd/issues/31).
+[Review and verification scope](docs/review-panel-startup.md). PR review fixes make
+first explicit presets a native saveable document change on Mac and validate
+selected geometry/domain before publishing a case. The development candidate is
+built and installed for Rhino 8.37 Mac verification: startup, rejected selection,
+saved-case restoration, live GH binding/state and CPU/MPS selected-geometry
+smoke checks passed. This is not merged or released; remaining acceptance and
+platform omissions stay explicit under [issue #31](https://github.com/range-et/hawa-cfd/issues/31).

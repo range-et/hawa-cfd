@@ -6,7 +6,7 @@ using Rhino.Input.Custom;
 using Rhino.DocObjects;
 namespace Hawa.Native;
 
-public static class NativeGeometry
+public static partial class NativeGeometry
 {
     public static void Pick(uint serial) {
         var doc = RhinoDoc.FromRuntimeSerialNumber(serial) ?? throw new InvalidOperationException("Document closed");
@@ -16,37 +16,6 @@ public static class NativeGeometry
         pick.GetMultiple(1, 100);
         if (pick.CommandResult() != Rhino.Commands.Result.Success) return;
         SelectObjects(serial, Enumerable.Range(0, pick.ObjectCount).Select(i => pick.Object(i).ObjectId), true);
-    }
-    public static void SelectObjects(uint serial, IEnumerable<Guid> objectIds, bool fitDomain) {
-        var c = CaseHub.Get(serial); var doc = RhinoDoc.FromRuntimeSerialNumber(serial)!;
-        var ids = objectIds.Distinct().ToArray();
-        if (ids.Length == 0 || ids.Length > 100) throw new ArgumentException("Select 1..100 closed meshes or solids");
-        var bounds = BoundingBox.Empty;
-        foreach (var id in ids) {
-            var obj = doc.Objects.FindId(id) ?? throw new ArgumentException("A selected object no longer exists");
-            CheckGeometry(obj.Geometry); bounds.Union(obj.Geometry.GetBoundingBox(true));
-        }
-        double scale = RhinoMath.UnitScale(doc.ModelUnitSystem, UnitSystem.Meters);
-        bounds.Transform(Transform.Scale(Point3d.Origin, scale));
-        var setup = c.Setup; setup["mode"] = "selected"; setup["objects"] = new JsonArray(ids.Select(id => JsonValue.Create(id.ToString())).ToArray());
-        if (fitDomain) Fit(setup, bounds, c.Cell);
-        CaseHub.Edit(serial, new() { ["setup"] = setup }, c.Version);
-    }
-    public static void FitDomain(uint serial) {
-        var c = CaseHub.Get(serial); if (!c.SelectedGeometry) throw new ArgumentException("Select Rhino geometry first");
-        SelectObjects(serial, c.Setup["objects"]!.AsArray().Select(v => Guid.Parse(v!.GetValue<string>())), true);
-    }
-    private static void Fit(JsonObject setup, BoundingBox b, double cell) {
-        double h = Math.Max(cell * 2, Math.Max(b.Diagonal.Y, b.Diagonal.Z));
-        var origin = b.Min - new Vector3d(2*h, h, h);
-        var end = b.Max + new Vector3d(4*h, h, h);
-        setup["origin"] = new JsonArray(origin.X, origin.Y, origin.Z);
-        setup["size"] = new JsonArray(end.X-origin.X, end.Y-origin.Y, end.Z-origin.Z);
-    }
-    private static void CheckGeometry(GeometryBase geometry) {
-        if (geometry is Mesh m && m.IsValid && m.IsClosed) return;
-        if (geometry is Brep b && b.IsValid && b.IsSolid) return;
-        throw new ArgumentException("Select valid closed meshes or closed solid Breps. Repair open geometry before running.");
     }
     public static Task<JsonObject> Prepare(CaseState c, CancellationToken token) {
         var doc = RhinoDoc.FromRuntimeSerialNumber(c.Document)!;

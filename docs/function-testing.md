@@ -43,7 +43,9 @@ its signature; the tool does not invent a behavioral contract.
   event-capable Eto and command/docking doubles. They exercise empty startup,
   explicit creation, control callbacks, schema-1/schema-2 state restoration and
   binding preservation. This measures production callback logic, not native Eto
-  layout, `.3dm` archive IO or actual docking.
+  layout, `.3dm` archive IO or actual docking. `NativeSelection.cs` additionally
+  tests selection admission and fitted-domain settings against geometry/bounds
+  doubles; these do not establish Rhino kernel correctness.
 - C# host-only code is **unmeasured**, not passed. Abstract declarations and
   compiler-generated auto-accessors have no explicit source body and are marked
   `declaration`. Implicit compiler-generated methods are outside the inventory.
