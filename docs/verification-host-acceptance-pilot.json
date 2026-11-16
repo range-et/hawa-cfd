@@ -121,17 +121,125 @@
     "Windows/CUDA/MPS pilot qualification"
   ],
   "tests": {
-    "focused_python39": 25,
-    "focused_python312": 25,
+    "focused_python39": 26,
+    "focused_python312": 26,
     "targeted_line_coverage": "147/147",
     "targeted_branch_coverage": "62/62",
     "mutation": {
-      "total": 586,
-      "assertion_kills": 548,
+      "total": 590,
+      "assertion_kills": 552,
       "reviewed_survivors": 38,
       "policy": "tools/mutation/host-acceptance-policy.json",
       "unresolved": "Case-sensitive filesystem path variants and two diagnostic/help assertion gaps remain explicitly reviewed; no all-killed claim."
     },
-    "full_measured": "pending"
+    "full_measured": {
+      "python": "3.9",
+      "directory": "results/function-coverage-issue39-c",
+      "passed": 1848,
+      "skipped": 87,
+      "warnings": 213,
+      "exit": 0,
+      "device": "CPU and available MPS; CUDA skipped",
+      "concurrency": "Exclusive MPS lease; other agents CPU-only host/mutation checks. No performance claims."
+    },
+    "full_python312": "Deferred by root to final integrated suite; branch26 focused controls passed."
+  },
+  "tool_source_commit": "e9b8ef4",
+  "tool_source_sha256": {
+    "scripts/host_acceptance.py": "25f9e16c7316d586d906ca302a2afe12d09473aed41c032c23afd25c0c2df5dc",
+    "scripts/host_acceptance.cs": "4cbc91207b944af29fb080e43c2ee7a7251eebdbf215921e15bc94051fb25a29",
+    "scripts/host_acceptance_audit.py": "a0a581c4bc5f90aaa6a4b4c6c5f7912ab8109139c0f5719fb9f448fa6e92bafb",
+    "tests/test_host_acceptance.py": "5e9a15bdecf7e70813a52025d70c249348049bd0dee36be455f357017f59d49f"
+  },
+  "package": {
+    "path": "dist/Hawa-issue39-dev.zip",
+    "integrity": "passed",
+    "pilot_sources_equal": true,
+    "legacy09_excluded": true,
+    "installed": false,
+    "released": false
+  },
+  "post_repair": {
+    "commit": "17046e5",
+    "run_id": "e9a20eb7ff7e4fd09c5ee095edda474e",
+    "directory": "results/host-pilot-20261116-i",
+    "fixture": "Open then cancel without consuming response or ownership. Close request owned null; adapter recovered per-run host reference. No Run toggle enabled.",
+    "terminal": "failed",
+    "reason": "Cancelled by operator",
+    "cleanup": {
+      "run_id": "e9a20eb7ff7e4fd09c5ee095edda474e",
+      "sequence": 3,
+      "phase": "cleanup",
+      "audit": {
+        "run_id": "e9a20eb7ff7e4fd09c5ee095edda474e",
+        "sequence": 3,
+        "pid": 34800,
+        "time": 1794873243.763679,
+        "jobs": 0,
+        "sessions": 0,
+        "workers": [],
+        "sources": {
+          "plugin": {
+            "path": "/Users/r2d2/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)/Libraries/Hawa/python/hawa/plugin.py",
+            "sha256": "89dfa8446c8b804e64a8de1eed414d1dd18b8f3ed43cc89906946ac2e6d3c26b"
+          },
+          "jobs": {
+            "path": "/Users/r2d2/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)/Libraries/Hawa/python/hawa/jobs.py",
+            "sha256": "0306d097b6d0982cf7e28cf2626f0667f0a61916e0811112d0265455b554d981"
+          }
+        }
+      },
+      "pending_cleanup": 0,
+      "pending_refreshes": 0,
+      "clean": true
+    },
+    "host_preflight": {
+      "run_id": "e9a20eb7ff7e4fd09c5ee095edda474e",
+      "sequence": 0,
+      "phase": "preflight",
+      "audit": {
+        "run_id": "e9a20eb7ff7e4fd09c5ee095edda474e",
+        "sequence": 0,
+        "pid": 34800,
+        "time": 1794873218.990585,
+        "jobs": 0,
+        "sessions": 0,
+        "workers": [],
+        "sources": {
+          "plugin": {
+            "path": "/Users/r2d2/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)/Libraries/Hawa/python/hawa/plugin.py",
+            "sha256": "89dfa8446c8b804e64a8de1eed414d1dd18b8f3ed43cc89906946ac2e6d3c26b"
+          },
+          "jobs": {
+            "path": "/Users/r2d2/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)/Libraries/Hawa/python/hawa/jobs.py",
+            "sha256": "0306d097b6d0982cf7e28cf2626f0667f0a61916e0811112d0265455b554d981"
+          }
+        }
+      },
+      "pending_cleanup": 0,
+      "pending_refreshes": 0,
+      "safe": true,
+      "rhino_serial": 268435457,
+      "modified": true,
+      "original_gh": "6b279053-981c-4735-965a-ce8ee8bdbd86",
+      "rhino": "8.37.26307.15002",
+      "installed_files": {
+        "Hawa.Shared": {
+          "path": "/Users/r2d2/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)/Libraries/Hawa/Hawa.Shared.dll",
+          "sha256": "DE5220BD9CBACFA487E89D7035787EBB44E3A05CD96A0473B564153870940BB5"
+        },
+        "Hawa.Grasshopper": {
+          "path": "/Users/r2d2/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)/Libraries/Hawa/Hawa.Grasshopper.gha",
+          "sha256": "36C94C17F9339914FBE2CB89AD2136F3C1766BBFE2E055EC842B513E58D87A1C"
+        }
+      }
+    },
+    "restoration": "Native 268435457 millimetres, dirty true retained, live objects zero. Original blank GH 6b279053-981c-4735-965a-ce8ee8bdbd86 active and 23060563-125b-4e67-a176-ce7d29bda788 preserved; both zero objects/unmodified.",
+    "source_sha256": {
+      "scripts/host_acceptance.py": "bf6746ce6bd0cd27a3b9efe287a75519a2149408f87cb0e61adab4e81f3b65a4",
+      "scripts/host_acceptance.cs": "8ea10bba49b6bc80cb6a82ac7f7ae5c6fe008b4fa28db8a2aaceb8d97dbdf520",
+      "scripts/host_acceptance_audit.py": "a0a581c4bc5f90aaa6a4b4c6c5f7912ab8109139c0f5719fb9f448fa6e92bafb",
+      "tests/test_host_acceptance.py": "feef148345669f3a58efebe7c7b1614cee9bfa0d85df182f3edc7a984f314206"
+    }
   }
 }

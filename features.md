@@ -665,10 +665,10 @@ Not merged or released; #83 remains open for its explicitly recorded remainder.
 ### November 16 2026 — Sequential host acceptance pilot (#39, partial)
 
 Built a poll-driven developer control plane and Rhino MCP adapter for isolated
-copies of examples31/32. Requests have fresh run/sequence identities, explicit
+copies of examples 31/32. Requests have fresh run/sequence identities, explicit
 scratch-document opt-in, deadlines and durable owned-document recovery. Failures
 route through cooperative disposal and fresh resource audits. This is tooling,
 not a completed full-gallery pass. After external Mac window/filter recovery,
-two fresh CPU31/32 runs and active cancellation reached zero owned resources;
+two fresh CPU 31/32 runs and active cancellation reached zero owned resources;
 four captures were inspected. Original examples are unchanged. [Guide](docs/host-acceptance-pilot.md)
 and [review](docs/review-host-acceptance-pilot.md). Not released.
