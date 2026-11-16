@@ -23,6 +23,9 @@ are shown as restored; opening or reopening the panel does not reset them.
 
 1. In **Setup**, select valid closed Rhino meshes or solid Breps. Hawa keeps their
    object IDs and suggests an axis-aligned domain around them. Flow is global +X.
+   Adding objects to Rhino alone does not assign them to Hawa. Use **Select bodies**
+   to assign new boxes or other closed solids; **Fit domain** refits the bodies
+   already assigned to the case.
 2. Set domain origin and lengths in **metres**, independent of Rhino display units.
    Review the padding; it is a setup aid, not a domain-independence study. Keep
    bodies at least two cells from every domain face.
@@ -40,6 +43,17 @@ are shown as restored; opening or reopening the panel does not reset them.
    relative position; choose blue-green, spectrum or diverging colours. Fixed
    colour limits support comparisons. Apply display changes without restarting
    physics. The legend states field units and automatic/fixed range.
+
+**Hide preview** at the top of the panel hides the native domain, body bounds,
+field and legend immediately. **Show preview** enables all three again. These
+buttons preserve the case, Rhino geometry, linked controls and running solver.
+Save the Rhino file to keep the visibility choice when reopening. Use the **View**
+tab checkboxes for individual overlays. **Annotations and legend** controls boundary
+labels/glyphs, the status caption and colour legend independently of the field
+plane. They draw in the foreground above field meshes; boundary labels still
+require a visible domain and are withheld for outdated results. Older saved cases
+keep annotations on until you change this setting. These controls affect the native Hawa
+preview; Grasshopper and ordinary Rhino geometry have their own visibility.
 
 The **Block preset** retains the original 8 × 6 × 4 m demonstration. Its default
 viscosity is artificial (0.1 m²/s). Use it for setup and interaction checks, not an

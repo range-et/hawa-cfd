@@ -8,7 +8,7 @@ Base: `cc48d62`. Development candidate; not merged or released.
 Opening Hawa or reopening its panel reads `CaseHub.Find` and leaves a fresh
 document without a case, domain/body preview, dirty flag or solver job. Setup
 controls stay hidden and run controls disabled until explicit creation or restore.
-Saved cases keep their identity, settings and live binding. Archive schemas and
+Saved cases keep their identity, settings and live binding. Archive schema versions and
 shared-state ownership are unchanged.
 
 Both PR review findings were reproduced and repaired:
@@ -105,3 +105,44 @@ not convergence or engineering-accuracy evidence.
 
 Keep #31 open until its remaining declared acceptance is reviewed. This PR must
 not automatically close the issue.
+
+## Requested preview controls follow-up
+
+The user opened a saved block case and requested readily accessible visibility
+buttons. **Show preview / Hide preview** now sit above the run controls and toggle
+native view flags. They preserve physical settings, case ID,
+bindings, session and job, and keep individual controls in the View tab. Saving
+the document retains visibility; no schema change or new node is required.
+Buttons are disabled when no case exists. An unchanged visibility action is a
+no-op. A changed action writes a native document marker for Mac save prompting.
+Hidden native overlays also stop contributing to automatic viewport extents.
+
+108 contracts pass, including running-session preservation, saved hidden restore,
+empty-state/no-op behavior, other display settings and actual conduit draw/bounds
+recording doubles. The plugin builds with the same two icon warnings. This is a
+new candidate: earlier live hashes/results above do not prove the new buttons.
+Live button/layout/visibility acceptance remains pending a safe restart because
+Rhino now contains the user's opened model. Do not replace its loaded assembly.
+
+Fit domain now explains that bodies must be assigned with **Select bodies**;
+adding Rhino geometry alone does not change the case. Its tooltip says it refits
+the already assigned bodies. The invalid-selection regression asserts this guidance.
+
+The subsequent native annotation report is related to [#108](https://github.com/range-et/hawa-cfd/issues/108).
+Boundary labels were emitted in `PostDrawObjects` before the field mesh despite
+depth testing being disabled. Native annotations and the HUD/legend now draw in
+`DrawForeground`, after object/field passes. The existing GH foreground conduit is
+unchanged. A new optional `view.annotations` Boolean defaults to true for older
+documents, and is controlled by **Annotations and legend** in View. Global show/hide
+includes it. Disabling annotations leaves the mesh/domain visible. Invalid flag
+types are rejected. This is an additive schema-2 field, not a schema-version bump.
+Contracts assert foreground ordering around an opaque mesh, visibility independence,
+legacy missing-key behavior and persisted false values. Actual overlap/legibility
+still requires the new build's live screenshots; older host runs do not prove it.
+
+Final follow-up measurement (`results/issue31-annotations`): 1,821 Python tests
+passed / 87 skipped; 108 C# contracts passed. The base ratchet and strict headless
+function/line gate pass: 916 functions covered, 361 host functions unmeasured,
+including all 46 panel/command/selection functions. The committed matrix and
+changed-function baseline are refreshed. Two intermediate measurements were
+discarded when subsequent user requests changed their inputs; they are not passes.

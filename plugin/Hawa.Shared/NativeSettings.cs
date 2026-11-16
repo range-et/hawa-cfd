@@ -27,7 +27,8 @@ public static class NativeSettings
         ["max"] = 1d,
         ["domain"] = true,
         ["body"] = true,
-        ["field"] = true
+        ["field"] = true,
+        ["annotations"] = true
     };
     public static Parameter[] Parameters(bool selected) => selected ? new[]
     {
@@ -149,5 +150,7 @@ public static class NativeSettings
 
         )
             _ = view[key]!.GetValue<bool>();
+        // Older schema-2 documents predate the independent annotation switch.
+        _ = view["annotations"]?.GetValue<bool>();
     }
 }

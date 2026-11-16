@@ -2,6 +2,7 @@
 // Use run_command for Hawa and Save/SaveAs BETWEEN calls: nested RunScript saves
 // do not establish a clean checkpoint inside the MCP script command on Mac.
 // empty -> reject -> Save -> preset -> SaveAs -> unchanged -> restore.
+// On the preview-controls build: Save, then preview (writes an owned hidden copy).
 // Never run this against a user document. Adjust the evidence root for checkout.
 using System.Text.Json.Nodes;
 using Eto.Forms;
@@ -69,6 +70,51 @@ if(phase=="empty"){
     Walk(panel).OfType<Button>().Single(x=>x.Text=="Block preset").PerformClick();
     Check(!doc.Modified && (string)Call("Save",serial)==before,"Unchanged preset dirtied or reset case");
     checks.Add("saved preset and panel reopen preserve settings and clean flag");
+}else if(phase=="preview"){
+    dynamic c=Call("Find",serial);
+    Check(c!=null && !doc.Modified,"Save owned case before preview phase");
+    var id=(Guid)c.Id;var revision=(long)c.Revision;var session=(string)c.Session;
+    var setup=((JsonObject)c.Setup).ToJsonString();
+    using var panel=(Panel)Activator.CreateInstance(panelType,serial);
+    var hide=Walk(panel).OfType<Button>().Single(x=>x.Text=="Hide preview");
+    var show=Walk(panel).OfType<Button>().Single(x=>x.Text=="Show preview");
+    Walk(panel).OfType<Button>().Single(x=>x.Text=="Zoom domain").PerformClick();
+    hide.PerformClick();
+    Check(doc.Modified && !hide.Enabled && show.Enabled,"Hide state/save prompt missing");
+    Check(new[]{"domain","body","field","annotations"}.All(key=>!((JsonObject)c.View)[key].GetValue<bool>()),"Some overlays still visible");
+    string path=evidence+"/hidden-preview.3dm";
+    Check(doc.WriteFile(path,new Rhino.FileIO.FileWriteOptions{WriteUserData=true,SuppressDialogBoxes=true}),"Hidden copy save failed");
+    using(var reopened=RhinoDoc.OpenHeadless(path)){
+        dynamic restored=Call("Find",reopened.RuntimeSerialNumber);
+        Check(restored!=null && (Guid)restored.Id==id && (string)restored.State=="idle","Hidden case not restored");
+        Check(new[]{"domain","body","field","annotations"}.All(key=>!((JsonObject)restored.View)[key].GetValue<bool>()),"Reopen reset hidden flags");
+        Call("Close",reopened.RuntimeSerialNumber);
+    }
+    doc.Views.Redraw();
+    var capture=new Rhino.Display.ViewCapture{Width=1200,Height=800,ScaleScreenItems=true,DrawAxes=false,DrawGrid=false,DrawGridAxes=false};
+    using(var bitmap=capture.CaptureToBitmap(doc.Views.ActiveView))bitmap.Save(evidence+"/preview-hidden.png",System.Drawing.Imaging.ImageFormat.Png);
+    show.PerformClick();
+    Check(!show.Enabled && hide.Enabled && new[]{"domain","body","field","annotations"}.All(key=>((JsonObject)c.View)[key].GetValue<bool>()),"Show did not restore overlays");
+    Check((Guid)c.Id==id && (long)c.Revision==revision && (string)c.Session==session && ((JsonObject)c.Setup).ToJsonString()==setup,"Visibility changed case/physics");
+    doc.Views.Redraw();
+    using(var bitmap=capture.CaptureToBitmap(doc.Views.ActiveView))bitmap.Save(evidence+"/preview-shown.png",System.Drawing.Imaging.ImageFormat.Png);
+    checks.Add("quick hide/show preserves case/physics and hidden flags survive 3dm reopen");
+}else if(phase=="annotations"){
+    dynamic c=Call("Find",serial);
+    Check(c!=null && c.Result!=null && ((JsonObject)c.View)["field"].GetValue<bool>(),"Run a small owned case to a field result first");
+    var revision=(long)c.Revision;var session=(string)c.Session;
+    using var panel=(Panel)Activator.CreateInstance(panelType,serial);
+    var toggle=Walk(panel).OfType<CheckBox>().Single(x=>x.Text=="Annotations and legend");
+    var apply=Walk(panel).OfType<Button>().Single(x=>x.Text=="Apply display");
+    var capture=new Rhino.Display.ViewCapture{Width=1200,Height=800,ScaleScreenItems=true,DrawAxes=false,DrawGrid=false,DrawGridAxes=false};
+    foreach(bool visible in new[]{false,true}){
+        toggle.Checked=visible;apply.PerformClick();
+        Check(((JsonObject)c.View)["annotations"].GetValue<bool>()==visible && ((JsonObject)c.View)["field"].GetValue<bool>() && c.Result!=null,"Annotation switch lost the field");
+        Check((long)c.Revision==revision && (string)c.Session==session,"Annotation switch restarted physics");
+        doc.Views.Redraw();
+        using(var bitmap=capture.CaptureToBitmap(doc.Views.ActiveView))bitmap.Save(evidence+"/annotations-"+(visible?"shown":"hidden")+".png",System.Drawing.Imaging.ImageFormat.Png);
+    }
+    checks.Add("annotation switch preserves field and solver; paired captures require visual review");
 }else if(phase=="restore"){
     var saved=JsonNode.Parse((string)Call("Save",serial)).AsObject();saved["speed"]=1.75;
     foreach(int schema in new[]{1,2}){

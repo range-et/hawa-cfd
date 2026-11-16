@@ -1992,7 +1992,7 @@
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.public HawaPanel(uint documentSerialNumber)": {
       "status": "covered",
-      "fingerprint": "4bec68c867e96a80930104d0ed270e2944e5b020c5d910f12f8eda3f3c7ad545"
+      "fingerprint": "886ed00ba86d37309bf06f49ed226cc2761a9ba8b93bff151ae03ee6f9b17812"
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#0 ()=>": {
       "status": "unmeasured",
@@ -2064,7 +2064,7 @@
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.private void ApplyView()": {
       "status": "covered",
-      "fingerprint": "3d568fc89c194eb965bb74588d35f52ac0955968bb2e6f41b1dc708854ff3124"
+      "fingerprint": "5135c4e03af210c5deb60b001edefe1752ab7485a2685ac88fb6fc68641485d3"
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.protected override void Dispose(bool disposing)": {
       "status": "covered",
@@ -2215,24 +2215,24 @@
       "fingerprint": "9df09eaf8d968385f9fe194ca36b5b92fbd150cfd56be8b121df8469b1eebfc4"
     },
     "plugin/Hawa.Rhino/NativePreview.cs::Hawa.Native.NativePreview.public NativePreview()": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "1e9aec6517f177c3221529b84df1f254da90a8abf22edfb4fdc1414233640294"
     },
     "plugin/Hawa.Rhino/NativePreview.cs::Hawa.Native.NativePreview.private void Changed(CaseState c, string origin)": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "389ca60fbdd00a825f799301ec984d969e211e44429e467441440173d9f8417b"
     },
     "plugin/Hawa.Rhino/NativePreview.cs::Hawa.Native.NativePreview.public void Dispose()": {
-      "status": "unmeasured",
+      "status": "covered",
       "fingerprint": "7a9b6a1803e519b0bfb186e43371a3c9918852c7c27998e0c417c004700b0d43"
     },
     "plugin/Hawa.Rhino/NativePreview.cs::Hawa.Native.NativePreview.protected override void CalculateBoundingBox(CalculateBoundingBoxEventArgs e)": {
-      "status": "unmeasured",
-      "fingerprint": "06765d063ba7a6d627c34aa0bc9b88bb2eeef76e5915139632971accee63861c"
+      "status": "covered",
+      "fingerprint": "ac6987cc635c550089478ee8512973d058469b30e927982aabf52b5a69388a29"
     },
     "plugin/Hawa.Rhino/NativePreview.cs::Hawa.Native.NativePreview.protected override void PostDrawObjects(DrawEventArgs e)": {
-      "status": "unmeasured",
-      "fingerprint": "26a567ae6caf413e206b97ec7f520ea0d0667b4e5b12cc18771acba9e617e6fe"
+      "status": "covered",
+      "fingerprint": "68ead3fb955f153fb0f0e174a8cdd5cb7e4dd1d0fcf078313350cd829642afe5"
     },
     "plugin/Hawa.Shared/CaseGeometry.cs::Hawa.Shared.CaseGeometry.public static JsonObject? SpecInModelUnits(CaseState c)": {
       "status": "covered",
@@ -2924,7 +2924,7 @@
     },
     "plugin/Hawa.Shared/NativeSettings.cs::Hawa.Shared.NativeSettings.public static JsonObject DefaultView()": {
       "status": "covered",
-      "fingerprint": "8abf46c87f91f4d05c9af693c805b20e3a17f47b75fdeea0559489128d03a040"
+      "fingerprint": "a1d19b1e6782f0f75fdf12f020ef72dcc53dfa0cb76e5de922e60c77e7b7691f"
     },
     "plugin/Hawa.Shared/NativeSettings.cs::Hawa.Shared.NativeSettings.public static Parameter[] Parameters(bool selected)": {
       "status": "covered",
@@ -2952,7 +2952,7 @@
     },
     "plugin/Hawa.Shared/NativeSettings.cs::Hawa.Shared.NativeSettings.public static void Validate(JsonObject setup, JsonObject view, double cell)": {
       "status": "covered",
-      "fingerprint": "debfaabd0bdc03a3249635823ae0093692e6e2e7cfcf333ec19a703dd821227b"
+      "fingerprint": "2bc72e5a234338074df6e99b8afd152640bc26131595ec929499f08219b0385b"
     },
     "plugin/Hawa.Shared/NativeSettings.cs::Hawa.Shared.NativeSettings.Validate(JsonObject setup, JsonObject view, double cell).lambda#0 v =>": {
       "status": "covered",
@@ -4880,31 +4880,31 @@
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#0 () =>": {
       "status": "covered",
-      "fingerprint": "7a447bc422e930a24887d9e6abceff6b81963474994ae9019e45f676a758e793"
+      "fingerprint": "0cd4bdf015c76ba61b2b334d02b1e352f4f6dfecfaebb8e511a686143fe81f15"
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#1 () =>": {
       "status": "covered",
-      "fingerprint": "490902420f921eee836616f411cc9091cb7371ce88191a79d0c4c165a502b7e8"
+      "fingerprint": "6de1a54da04e6762906fe92909dbc1821b574f8826828c8168520288675e2eb9"
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#2 () =>": {
       "status": "covered",
-      "fingerprint": "c15327812c384dcf7da229860a52edb91bd68e2cee9c249c6f6ee25c0f5fc795"
+      "fingerprint": "7a447bc422e930a24887d9e6abceff6b81963474994ae9019e45f676a758e793"
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#3 () =>": {
       "status": "covered",
-      "fingerprint": "329f27d0341ab2de0b57bbd7fcc8011cb5e92fa9559e610e00e4c39400beeae8"
+      "fingerprint": "490902420f921eee836616f411cc9091cb7371ce88191a79d0c4c165a502b7e8"
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#4 () =>": {
       "status": "covered",
-      "fingerprint": "049b191cef66d795764934a6c32ba37945ed35fd07ce0345d685465dfcfc5f4a"
+      "fingerprint": "c15327812c384dcf7da229860a52edb91bd68e2cee9c249c6f6ee25c0f5fc795"
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#5 () =>": {
       "status": "covered",
-      "fingerprint": "8c15c8909fb98870dad3dff7695b980d792aaf74a75199ce7b881d38e29ef9d5"
+      "fingerprint": "329f27d0341ab2de0b57bbd7fcc8011cb5e92fa9559e610e00e4c39400beeae8"
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#6 () =>": {
       "status": "covered",
-      "fingerprint": "873b3a4743e755188f8f8d228a7e97d36b82b3b91e550d931bce0a05cfed9326"
+      "fingerprint": "049b191cef66d795764934a6c32ba37945ed35fd07ce0345d685465dfcfc5f4a"
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#7 (_, _) =>": {
       "status": "covered",
@@ -4916,11 +4916,11 @@
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#9 (_, _) =>": {
       "status": "covered",
-      "fingerprint": "ea89454daa3845d99afc60650d7cf720dfdae7dd0979e81c264a806e5edd69e8"
+      "fingerprint": "5c671b862d39ca63fa680189dd953ec83465020ade89abb95847b7a5964d459a"
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#10 (_, _) =>": {
       "status": "covered",
-      "fingerprint": "06b741971eef19bd24128c7ec0dbcc444ebdb51330413ab71cd036b0d2b7ccba"
+      "fingerprint": "072a337cfab86e6964223adfe40416ac63e2d9c69d085396b68dc3d367213439"
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#11 () =>": {
       "status": "covered",
@@ -4948,11 +4948,11 @@
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.private void OnChanged(CaseState c, string origin)": {
       "status": "covered",
-      "fingerprint": "858e53f1ac78af7f7b08fa6a2cc0e02c7188e43739afcef30f75d15ab8518882"
+      "fingerprint": "3d7b74f7b0f3f21f94954f8a0686e0ccfe8bbc106ed80135b897e233bed1f670"
     },
     "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.private void RefreshState(bool force = false)": {
       "status": "covered",
-      "fingerprint": "92d83cc2aece3b94edc74110744a3f09b49785fd72c3865fa20f44dd8359cfd4"
+      "fingerprint": "a16f2dea913c80bc21340489be7a45cad13b96a25f1ebc9a1dd45003c8e39d6b"
     },
     "plugin/Hawa.Rhino/NativeSelection.cs::Hawa.Native.NativeGeometry.public static void SelectObjects(uint serial, IEnumerable<Guid> objectIds, bool fitDomain)": {
       "status": "covered",
@@ -4964,7 +4964,7 @@
     },
     "plugin/Hawa.Rhino/NativeSelection.cs::Hawa.Native.NativeGeometry.public static void FitDomain(uint serial)": {
       "status": "covered",
-      "fingerprint": "eda736bfcb3b4385d56a4a195d9e8ce98f6575f2a8f628f2c0906880461809fd"
+      "fingerprint": "6092b0015a18fe61d879981c56a4d1003b5ae5c147dca71bb9f07ae9a1458b00"
     },
     "plugin/Hawa.Rhino/NativeSelection.cs::Hawa.Native.NativeGeometry.FitDomain(uint serial).lambda#0 v =>": {
       "status": "covered",
@@ -4977,6 +4977,42 @@
     "plugin/Hawa.Rhino/NativeSelection.cs::Hawa.Native.NativeGeometry.private static void CheckGeometry(GeometryBase geometry)": {
       "status": "covered",
       "fingerprint": "6096229f369e4125fecb787d060ddb68598d88b2fc27e8021634bb730334f44f"
+    },
+    "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#7 () =>": {
+      "status": "covered",
+      "fingerprint": "8c15c8909fb98870dad3dff7695b980d792aaf74a75199ce7b881d38e29ef9d5"
+    },
+    "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#8 () =>": {
+      "status": "covered",
+      "fingerprint": "873b3a4743e755188f8f8d228a7e97d36b82b3b91e550d931bce0a05cfed9326"
+    },
+    "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#11 (_, _) =>": {
+      "status": "covered",
+      "fingerprint": "ea89454daa3845d99afc60650d7cf720dfdae7dd0979e81c264a806e5edd69e8"
+    },
+    "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#12 (_, _) =>": {
+      "status": "covered",
+      "fingerprint": "06b741971eef19bd24128c7ec0dbcc444ebdb51330413ab71cd036b0d2b7ccba"
+    },
+    "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#13 () =>": {
+      "status": "covered",
+      "fingerprint": "85f0bae9c4e732c7bc893ffaead56e264d1e2ec56be6e0cd6c4cfbf6c6ecf17b"
+    },
+    "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.HawaPanel(uint documentSerialNumber).lambda#14 () =>": {
+      "status": "covered",
+      "fingerprint": "3aaf15ba86abcfcca68c30a2f8a868eb23895eb64b605de4fc99708572a3bfe3"
+    },
+    "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.private void SetPreviewVisible(bool visible)": {
+      "status": "covered",
+      "fingerprint": "f061e86f79693c83583796237b6f329dfac0a342d1d96bcc9011c3b05a667ab4"
+    },
+    "plugin/Hawa.Rhino/HawaPanel.cs::Hawa.Native.HawaPanel.private void EditView(JsonObject view)": {
+      "status": "covered",
+      "fingerprint": "06635159e2d135dc89e3b5d4ed56f20228639df255f32c0d526d26fc1c4df046"
+    },
+    "plugin/Hawa.Rhino/NativePreview.cs::Hawa.Native.NativePreview.protected override void DrawForeground(DrawEventArgs e)": {
+      "status": "covered",
+      "fingerprint": "616ba75e9665f8ef58e3f40ff455f68b9b9b874ad5004ad540326b147659960f"
     }
   }
 }

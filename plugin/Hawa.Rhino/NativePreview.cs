@@ -13,7 +13,10 @@ public sealed class NativePreview : DisplayConduit, IDisposable
     private void Changed(CaseState c, string origin) { if (origin == "closed" && cache.Remove(c.Document, out var entry)) entry.mesh?.Dispose(); }
     public void Dispose() { Enabled = false; CaseHub.Changed -= Changed; foreach (var entry in cache.Values) entry.mesh?.Dispose(); cache.Clear(); }
     protected override void CalculateBoundingBox(CalculateBoundingBoxEventArgs e) {
-        var c = CaseHub.Find(e.RhinoDoc.RuntimeSerialNumber); if (c != null) e.IncludeBoundingBox(CaseGeometry.Bounds(c,c.Outdated));
+        var c = CaseHub.Find(e.RhinoDoc.RuntimeSerialNumber); if (c == null) return;
+        var view = c.View;
+        if (view["domain"]!.GetValue<bool>() || view["body"]!.GetValue<bool>() || view["field"]!.GetValue<bool>())
+            e.IncludeBoundingBox(CaseGeometry.Bounds(c,c.Outdated));
     }
     protected override void PostDrawObjects(DrawEventArgs e) {
         var c = CaseHub.Find(e.RhinoDoc.RuntimeSerialNumber); if (c == null) return;
@@ -21,8 +24,6 @@ public sealed class NativePreview : DisplayConduit, IDisposable
         if (!view["domain"]!.GetValue<bool>() && !view["body"]!.GetValue<bool>() && !view["field"]!.GetValue<bool>()) return;
         if (view["domain"]!.GetValue<bool>()) {
             e.Display.DrawBox(CaseGeometry.Bounds(c,c.Outdated), Color.FromArgb(65,85,95),2);
-            // Accepted setup labels are hidden while the box shows an outdated result domain.
-            if (!c.Outdated) BoundaryAnnotations.Draw(e.Display, BoundaryAnnotations.ForNative(c));
         }
         double s = RhinoMath.UnitScale(UnitSystem.Meters,e.RhinoDoc.ModelUnitSystem);
         if (view["body"]!.GetValue<bool>()) {
@@ -38,8 +39,18 @@ public sealed class NativePreview : DisplayConduit, IDisposable
             entry.mesh?.Dispose(); var range = CaseGeometry.Range(c); entry = (c.Id,c.ResultVersion,e.RhinoDoc.ModelUnitSystem,CaseGeometry.ResultMesh(c),range.Min,range.Max); cache[c.Document] = entry;
         }
         if (view["field"]!.GetValue<bool>() && entry.mesh != null) e.Display.DrawMeshFalseColors(entry.mesh);
+    }
+    protected override void DrawForeground(DrawEventArgs e) {
+        var c = CaseHub.Find(e.RhinoDoc.RuntimeSerialNumber); if (c == null) return;
+        var view = c.View;
+        if (!(view["annotations"]?.GetValue<bool>() ?? true)) return;
+        if (!view["domain"]!.GetValue<bool>() && !view["body"]!.GetValue<bool>() && !view["field"]!.GetValue<bool>()) return;
+        // Foreground runs after native and GH field meshes. Depth-disabled labels
+        // drawn in PostDrawObjects can still be covered by a later mesh draw.
+        if (view["domain"]!.GetValue<bool>() && !c.Outdated)
+            BoundaryAnnotations.Draw(e.Display, BoundaryAnnotations.ForNative(c));
         e.Display.Draw2dText($"Hawa · {c.Result?.Field ?? c.Field} · field {c.Result?.Steps ?? 0} / solver {c.Steps} · t={c.Result?.PhysicalTime ?? 0:g4} s" + (c.Outdated ? " · OUTDATED · boundary labels hidden" : ""),Color.DarkSlateGray,new Point2d(20,55),false,14);
-        if (view["field"]!.GetValue<bool>() && c.Result != null) {
+        if (view["field"]!.GetValue<bool>() && c.Result != null && cache.TryGetValue(c.Document, out var entry)) {
             var (lo,hi) = (entry.low,entry.high);
             for (int i=0;i<5;i++) e.Display.Draw2dText($"■ {lo+(hi-lo)*i/4:g4}",CaseGeometry.ColorAt(i/4d,view["palette"]!.GetValue<string>()),new Point2d(20,80+i*20),false,13);
             e.Display.Draw2dText(CaseGeometry.FieldUnits(c.Result.Field)+(view["auto_range"]!.GetValue<bool>() ? " · auto range" : " · fixed range"),Color.DarkSlateGray,new Point2d(20,184),false,12);

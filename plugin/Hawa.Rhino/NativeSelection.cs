@@ -45,7 +45,7 @@ public static partial class NativeGeometry
     {
         var c = CaseHub.Find(serial);
         if (c == null || !c.SelectedGeometry)
-            throw new ArgumentException("Select Rhino geometry first");
+            throw new ArgumentException("Use Select bodies to choose closed Rhino meshes or solid Breps first. Adding geometry to Rhino does not assign it to the case.");
         SelectObjects(serial, c.Setup["objects"]!.AsArray().Select(v =>
         {
             return Guid.Parse(v!.GetValue<string>());

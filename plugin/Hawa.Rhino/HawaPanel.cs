@@ -42,7 +42,10 @@ public sealed class HawaPanel : Panel
         Text = "Body bounds"
     }, showField = new()
     {
-        Text = "Field plane and legend"
+        Text = "Field plane"
+    }, showAnnotations = new()
+    {
+        Text = "Annotations and legend"
     };
     private readonly Label state = Text(), link = Text(), error = Text(), geometry = Text(), grid = Text(), captured = Text();
     private readonly ProgressBar progress = new()
@@ -50,7 +53,7 @@ public sealed class HawaPanel : Panel
         MinValue = 0,
         MaxValue = 100
     };
-    private readonly Button run, pause, cancel, reset, refresh;
+    private readonly Button run, pause, cancel, reset, refresh, showPreview, hidePreview;
     private readonly TabControl tabs = new();
     private readonly Label empty = Text("Select bodies to create a case, or choose Block preset for the demonstration.");
     private bool refreshing;
@@ -106,6 +109,15 @@ public sealed class HawaPanel : Panel
         root.AddSeparateRow(new ImageView { Image = NativeIcons.Get("hawa") }, new Label { Text = "Hawa 0.5", Font = new Font(SystemFont.Bold, 17), TextAlignment = TextAlignment.Left }, null);
         root.AddSeparateRow(state);
         root.AddSeparateRow(progress);
+        showPreview = Action("Show preview", "field", "Show the native domain, body bounds and field preview. Keep the saved case and solver unchanged.", () =>
+        {
+            SetPreviewVisible(true);
+        });
+        hidePreview = Action("Hide preview", "field", "Hide all native Hawa overlays. Keep the saved case, Rhino objects and solver unchanged.", () =>
+        {
+            SetPreviewVisible(false);
+        });
+        root.AddSeparateRow(showPreview, hidePreview);
         run = Action("Run / Resume", "run", "Run the accepted physical case to its total target. First runtime initialization can take time.", () =>
         {
             CaseHub.Run(document);
@@ -143,7 +155,7 @@ public sealed class HawaPanel : Panel
         }));
         var setup = Layout();
         setup.AddSeparateRow(Text("1 / Geometry and domain · global +X flow"));
-        setup.AddSeparateRow(Action("Fit domain", "domain", "Rebuild domain padding around the current selection.", () =>
+        setup.AddSeparateRow(Action("Fit domain", "domain", "Refit domain padding around bodies already assigned with Select bodies.", () =>
         {
             NativeGeometry.FitDomain(document);
         }));
@@ -222,6 +234,7 @@ public sealed class HawaPanel : Panel
         view.AddSeparateRow(showDomain);
         view.AddSeparateRow(showBody);
         view.AddSeparateRow(showField);
+        view.AddSeparateRow(showAnnotations);
         view.AddSeparateRow(Action("Apply display", "field", "Change the slice and colour settings without restarting the solver. Use fixed limits for comparisons.", ApplyView));
         refresh = Action("Refresh field", "reset", "Retry a failed or stale field query while preserving a healthy run.", () =>
         {
@@ -270,6 +283,21 @@ public sealed class HawaPanel : Panel
         CaseHub.Edit(document, new() { ["setup"] = setup }, displayedVersion);
     }
 
+    private void SetPreviewVisible(bool visible)
+    {
+        var c = CaseHub.Find(document);
+        if (c == null)
+            return;
+        var view = c.View;
+        if (view["domain"]!.GetValue<bool>() == visible && view["body"]!.GetValue<bool>() == visible && view["field"]!.GetValue<bool>() == visible && (view["annotations"]?.GetValue<bool>() ?? true) == visible)
+            return;
+        view["domain"] = visible;
+        view["body"] = visible;
+        view["field"] = visible;
+        view["annotations"] = visible;
+        EditView(view);
+    }
+
     private void ApplyView()
     {
         var view = new JsonObject
@@ -282,9 +310,23 @@ public sealed class HawaPanel : Panel
             ["max"] = high.Value,
             ["domain"] = showDomain.Checked == true,
             ["body"] = showBody.Checked == true,
-            ["field"] = showField.Checked == true
+            ["field"] = showField.Checked == true,
+            ["annotations"] = showAnnotations.Checked == true
         };
+        EditView(view);
+    }
+
+    private void EditView(JsonObject view)
+    {
+        var c = CaseHub.Find(document);
+        if (c == null)
+            return;
+        long before = c.Version;
         CaseHub.Edit(document, new() { ["view"] = view }, displayedVersion);
+        // Mark a persisted display change natively on Mac too (Modified's setter
+        // is ignored there). This marker is not a source of case state.
+        if (c.Version != before)
+            RhinoDoc.FromRuntimeSerialNumber(document)!.Strings.SetString("Hawa", "last-preview-change", $"{c.Id}:{c.Version}");
     }
 
     protected override void Dispose(bool disposing)
@@ -326,7 +368,7 @@ public sealed class HawaPanel : Panel
         {
             state.Text = "CASE CLOSED";
             link.Text = "Grasshopper: unlinked";
-            run.Enabled = pause.Enabled = cancel.Enabled = reset.Enabled = refresh.Enabled = false;
+            run.Enabled = pause.Enabled = cancel.Enabled = reset.Enabled = refresh.Enabled = showPreview.Enabled = hidePreview.Enabled = false;
         }
         else
             RefreshState();
@@ -344,7 +386,7 @@ public sealed class HawaPanel : Panel
             displayedVersion = -1;
             state.Text = "NO CASE";
             progress.Value = 0;
-            run.Enabled = pause.Enabled = cancel.Enabled = reset.Enabled = refresh.Enabled = false;
+            run.Enabled = pause.Enabled = cancel.Enabled = reset.Enabled = refresh.Enabled = showPreview.Enabled = hidePreview.Enabled = false;
             error.Text = "";
             return;
         }
@@ -396,6 +438,7 @@ public sealed class HawaPanel : Panel
                 showDomain.Checked = view["domain"]!.GetValue<bool>();
                 showBody.Checked = view["body"]!.GetValue<bool>();
                 showField.Checked = view["field"]!.GetValue<bool>();
+                showAnnotations.Checked = view["annotations"]?.GetValue<bool>() ?? true;
                 displayedVersion = c.Version;
             }
 
@@ -416,6 +459,9 @@ public sealed class HawaPanel : Panel
             cancel.Enabled = working || c.Session != null;
             reset.Enabled = true;
             refresh.Enabled = c.Session != null;
+            var visibility = c.View;
+            showPreview.Enabled = !visibility["domain"]!.GetValue<bool>() || !visibility["body"]!.GetValue<bool>() || !visibility["field"]!.GetValue<bool>() || !(visibility["annotations"]?.GetValue<bool>() ?? true);
+            hidePreview.Enabled = visibility["domain"]!.GetValue<bool>() || visibility["body"]!.GetValue<bool>() || visibility["field"]!.GetValue<bool>() || (visibility["annotations"]?.GetValue<bool>() ?? true);
             error.Text = c.Error + (c.GeometryError.Length > 0 ? "\n" + c.GeometryError : "") + (c.ViewError.Length > 0 ? "\nField: " + c.ViewError + ". Use Refresh field." : "") + (CaseHub.PendingCleanupCount > 0 ? "\nCleanup pending; Hawa will retry." : "");
         }
         finally

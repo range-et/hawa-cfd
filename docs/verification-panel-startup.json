@@ -191,5 +191,31 @@
     "Full supported-example execution",
     "Human picker cancellation",
     "Broad G6 qualification"
-  ]
+  ],
+  "preview_controls_followup": {
+    "state": "built; host acceptance pending",
+    "contracts_passed": 108,
+    "behavior": [
+      "Show/hide all native overlays",
+      "Preserve case, physics, session and binding",
+      "Persist visibility through existing view settings",
+      "Exclude hidden overlays from viewport bounds",
+      "Explain Select bodies before Fit domain",
+      "Draw native annotations/legend in foreground after field meshes",
+      "Independent optional annotations view flag defaults true for old archives"
+    ],
+    "prior_live_evidence_scope": "Pre-controls build hashes above; not fresh acceptance of the new buttons",
+    "native_sha256": "34e8da7ab5f4986a905f53263e54f31908251aa86f13fa6ce1a74c5618630b3d",
+    "shared_sha256": "d9d063fbff40b6a07ffd900a7ea19b6ff30ffba428609560c733bb430b297044",
+    "measured_suite": {
+      "python_passed": 1821,
+      "python_skipped": 87,
+      "csharp_passed": 108,
+      "base_ratchet": "passed",
+      "strict_headless": "passed",
+      "covered_functions": 916,
+      "unmeasured_host_debt": 361,
+      "panel_command_selection_functions": 46
+    }
+  }
 }

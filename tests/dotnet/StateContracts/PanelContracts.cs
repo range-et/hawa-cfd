@@ -43,6 +43,7 @@ static class PanelContracts {
                 // Programmatic control events while empty must not synthesize a case.
                 foreach(var n in controls.OfType<NumericStepper>())n.Value+=.1;
                 foreach(var d in controls.OfType<DropDown>())d.SelectedIndex=0;
+                controls.OfType<Button>().Single(x=>x.Text=="Apply display").PerformClick();
                 assert(CaseHub.Find(3101)==null,"Empty controls created a case");
             }
         });
@@ -70,7 +71,7 @@ static class PanelContracts {
                 assert(c.Field=="pressure","Field edit failed");field.SelectedValue="speed";
                 Button("Apply setup").PerformClick();Button("Apply display").PerformClick();Button("Zoom domain").PerformClick();
                 assert(doc.Views.ActiveView.ActiveViewport.Zoomed!=null,"Zoom failed");
-                Button("Fit domain").PerformClick();assert(controls.OfType<Label>().Any(x=>x.Text.Contains("Select Rhino geometry first")),"Error not shown");
+                Button("Fit domain").PerformClick();assert(controls.OfType<Label>().Any(x=>x.Text.Contains("Use Select bodies") && x.Text.Contains("Adding geometry to Rhino does not assign it")),"Selection guidance not shown");
                 Button("Block preset").PerformClick();assert(c.Id==id,"Preset replaced identity");
                 Button("Run / Resume").PerformClick();assert(c.State=="preparing","Run did not submit");
                 Button("Pause").PerformClick();Button("Cancel").PerformClick();Button("Reset").PerformClick();
@@ -94,6 +95,55 @@ static class PanelContracts {
             var c=CaseHub.Find(3199)!;
             assert(doc.Modified && doc.Strings.GetValue("Hawa","last-created-case")==c.Id.ToString(),"Explicit case not registered as a native document change");
             assert(c.Session==null && c.Job==null,"Creation started solver");CaseHub.Close(3199);
+        });
+        test("quick preview controls hide saved cases without changing physics, geometry or binding", () => {
+            var doc=new RhinoDoc(3202){IgnoreModifiedWrites=true};
+            var c=CaseHub.Get(3202);var view=c.View;view["palette"]="spectrum";view["position"]=.3;
+            CaseHub.Edit(3202,new(){["view"]=view},c.Version);
+            using var panel=new HawaPanel(3202);
+            Button Button(string text)=>Walk(panel).OfType<Button>().Single(b=>b.Text==text);
+            var owner=Guid.NewGuid();var lease=CaseHub.Bind(c,owner,new[]{"speed"});
+            CaseHub.Run(3202);CaseHub.Tick();CaseHub.Tick();
+            var session=c.Session;var job=c.Job;var revision=c.Revision;var setup=c.Setup.ToJsonString();var id=c.Id;
+            assert(session!=null && !doc.Modified,"Fixture should have a session and clean Mac-like document");
+            assert(!Button("Show preview").Enabled && Button("Hide preview").Enabled,"Visible state buttons wrong");
+            var version=c.Version;Button("Show preview").Enabled=true;Button("Show preview").PerformClick();
+            assert(c.Version==version && !doc.Modified,"Repeated visibility action dirtied an unchanged case");
+            Button("Hide preview").PerformClick();
+            assert(!c.View["annotations"]!.GetValue<bool>(),"Hide left annotations enabled");
+            assert(doc.Modified && c.View["domain"]!.GetValue<bool>()==false && c.View["body"]!.GetValue<bool>()==false && c.View["field"]!.GetValue<bool>()==false,"Hide did not persist all overlays");
+            assert(c.Id==id && c.Revision==revision && c.Session==session && c.Job==job && c.BindingLease==lease && c.Setup.ToJsonString()==setup,"Visibility changed physics, identity or binding");
+            assert(c.View["palette"]!.GetValue<string>()=="spectrum" && c.View["position"]!.GetValue<double>()==.3,"Visibility reset other display settings");
+            assert(Button("Show preview").Enabled && !Button("Hide preview").Enabled,"Hidden state buttons wrong");
+            using var preview=new NativePreview();var draw=new Rhino.Display.DisplayPipeline();preview.RaisePostDraw(new(doc,draw));preview.RaiseForeground(new(doc,draw));var bounds=new Rhino.Display.CalculateBoundingBoxEventArgs(doc);preview.RaiseBoundingBox(bounds);
+            assert(draw.Calls.Count==0 && bounds.Included.Count==0,"Hidden preview still draws or affects zoom extents");
+            var saved=CaseHub.Save(3202);using(var reopened=new HawaPanel(3202))assert(CaseHub.Save(3202)==saved,"Reopening showed a hidden saved case");
+            Button("Show preview").PerformClick();
+            preview.RaisePostDraw(new(doc,draw));preview.RaiseBoundingBox(bounds);
+            assert(draw.Calls.Count>0 && bounds.Included.Count==1 && c.Session==session && c.Revision==revision,"Show failed or restarted physics");
+            CaseHub.Close(3202);CaseHub.Restore(3202,saved);
+            c=CaseHub.Find(3202)!;
+            assert(c.View["domain"]!.GetValue<bool>()==false && c.Session==null,"Saved hidden state did not restore idle");
+            CaseHub.Close(3202);
+            // Even a programmatic click must not resurrect an absent case.
+            Button("Hide preview").Enabled=true;Button("Hide preview").PerformClick();
+            assert(CaseHub.Find(3202)==null,"Visibility created an absent case");
+        });
+        test("annotation control supports legacy views and persists independently of field visibility", () => {
+            var doc=new RhinoDoc(3203){IgnoreModifiedWrites=true};var c=CaseHub.Get(3203);
+            var legacy=c.Settings();legacy["view"]!.AsObject().Remove("annotations");CaseHub.Restore(3203,legacy.ToJsonString());
+            using var panel=new HawaPanel(3203);
+            var toggle=Walk(panel).OfType<CheckBox>().Single(x=>x.Text=="Annotations and legend");
+            var apply=Walk(panel).OfType<Button>().Single(x=>x.Text=="Apply display");
+            assert(toggle.Checked==true,"Legacy view lost annotations");
+            toggle.Checked=false;apply.PerformClick();
+            assert(doc.Modified && !c.View["annotations"]!.GetValue<bool>() && c.View["field"]!.GetValue<bool>(),"Annotation toggle failed or hid field");
+            var saved=CaseHub.Save(3203);CaseHub.Close(3203);CaseHub.Restore(3203,saved);c=CaseHub.Find(3203)!;
+            assert(toggle.Checked==false && !c.View["annotations"]!.GetValue<bool>(),"Annotation choice did not survive restore");
+            var invalid=c.View;invalid["annotations"]="yes";bool rejected=false;
+            try{CaseHub.Edit(3203,new(){["view"]=invalid},c.Version);}catch(InvalidOperationException){rejected=true;}
+            assert(rejected && !c.View["annotations"]!.GetValue<bool>(),"Invalid annotation flag accepted");
+            CaseHub.Close(3203);
         });
         test("rejected geometry and invalid fitted domains leave the empty panel empty", () => {
             var doc=new RhinoDoc(3200);

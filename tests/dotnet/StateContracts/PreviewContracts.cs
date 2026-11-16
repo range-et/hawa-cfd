@@ -17,6 +17,7 @@ using Rhino.Geometry;
 static class PreviewContracts
 {
     sealed class Args(DisplayPipeline display, RhinoViewport viewport) : IGH_PreviewArgs { public DisplayPipeline Display { get; } = display; public RhinoViewport Viewport { get; } = viewport; }
+    static void Draw(NativePreview preview, DrawEventArgs args) { preview.RaisePostDraw(args); preview.RaiseForeground(args); }
     static bool Near(Point3d a, Point3d b) => a.DistanceTo(b) < 1e-9;
     static bool Segment(object line, Point3d from, Point3d to) => line is Line l && Near(l.From, from) && Near(l.To, to);
     static List<(Point3d At, string Text, Color Color)> Dots(DisplayPipeline d) => d.Of("dot").Select(a => ((Point3d)a[0], (string)a[1], (Color)a[2])).ToList();
@@ -26,7 +27,7 @@ static class PreviewContracts
     {
         test("native preview annotates the default block case with the domain box", () => {
             var doc = new RhinoDoc(501); var c = CaseHub.Get(501); using var preview = new NativePreview(); var d = new DisplayPipeline();
-            preview.RaisePostDraw(new DrawEventArgs(doc, d));
+            Draw(preview, new DrawEventArgs(doc, d));
             var boxes = d.Of("box").ToList();
             assert(boxes.Count == 2 && (BoundingBox)boxes[0][0] == new BoundingBox(new(0, 0, 0), new(8, 6, 4)) && (BoundingBox)boxes[1][0] == new BoundingBox(new(2.5, 2.5, 1.5), new(3.5, 3.5, 2.5)), "Domain or block box changed");
             var dots = Dots(d);
@@ -39,7 +40,7 @@ static class PreviewContracts
             assert(dotted.Count == 2 && Near((Point3d)dotted[0][0], new(4, 0, 2)) && Near((Point3d)dotted[0][1], new(4, 6, 2)) && Near((Point3d)dotted[1][0], new(8, 3, 2)) && Near((Point3d)dotted[1][1], new(7.6, 3, 2)) && !d.Of("line").Any(), "Periodic pair or outlet tick wrong");
             assert(d.Calls.FindIndex(x => x.Op == "dot") > d.Calls.FindIndex(x => x.Op == "box") && !d.Of("mesh").Any() && !((string)d.Of("text").Single()[0]).Contains("OUTDATED"), "Annotation order or status changed");
             int push = d.Calls.FindIndex(x => x.Op == "depth"), pop = d.Calls.FindIndex(x => x.Op == "depth-pop");
-            assert(push >= 0 && !(bool)d.Calls[push].Args[0] && push < d.Calls.FindIndex(x => x.Op == "dotted") && pop > d.Calls.FindLastIndex(x => x.Op == "dot") && pop < d.Calls.FindIndex(x => x.Op == "box" && d.Calls.IndexOf(x) > push), "Annotations must draw without depth testing and restore it before the body box");
+            assert(push >= 0 && !(bool)d.Calls[push].Args[0] && push < d.Calls.FindIndex(x => x.Op == "dotted") && pop > d.Calls.FindLastIndex(x => x.Op == "dot") && push > d.Calls.FindLastIndex(x => x.Op == "box"), "Annotations must draw without depth testing and restore it after the foreground labels");
             CaseHub.Close(501);
         });
 
@@ -49,7 +50,7 @@ static class PreviewContracts
             c.SetupData["mode"] = "selected"; c.SetupData["origin"] = new JsonArray(10d, -2d, 1d); c.SetupData["size"] = new JsonArray(4d, 2d, 2d);
             c.SetupData["objects"] = new JsonArray(found.ToString(), Guid.NewGuid().ToString());
             c.SetupData["boundaries"] = new JsonArray("inlet", "outlet", "wall", "wall", "wall", "slip");
-            var d = new DisplayPipeline(); preview.RaisePostDraw(new DrawEventArgs(doc, d));
+            var d = new DisplayPipeline(); Draw(preview, new DrawEventArgs(doc, d));
             var boxes = d.Of("box").ToList();
             assert(boxes.Count == 2 && (BoundingBox)boxes[0][0] == new BoundingBox(new(10000, -2000, 1000), new(14000, 0, 3000)) && (int)boxes[1][2] == 1, "Selected domain or found object box wrong");
             assert(HasDot(d, new(10000, -1000, 2500), "X- inlet · +X 1 m/s", BoundaryAnnotations.Velocity) && HasDot(d, new(12000, -2000, 2500), "Y- wall", BoundaryAnnotations.Wall) && HasDot(d, new(12000, 0, 2500), "Y+ wall", BoundaryAnnotations.Wall), "Edited faces not shown in document units");
@@ -63,30 +64,46 @@ static class PreviewContracts
             c.SliceData = JsonNode.Parse("{\"coordinates\":[[0.0,0.0,0.0],[0.0,1.0,0.0],[1.0,0.0,0.0],[1.0,1.0,0.0]],\"values\":[1.0,2.0,3.0,4.0],\"valid\":[true,true,true,true],\"shape\":[2,2]}")!.AsObject();
             c.ResultSpecData = new JsonObject { ["dx"] = .5, ["shape"] = new JsonArray(2, 2, 1), ["origin_m"] = new JsonArray(1d, 2d, 3d), ["wall_links"] = new JsonArray(new JsonArray(1, 0, .5)), ["hawa_block_width"] = 2d };
             c.Result = new ResultStamp(c.Id, c.Revision, c.Generation, "s", "speed", 7, .7);
-            var d = new DisplayPipeline(); preview.RaisePostDraw(new DrawEventArgs(doc, d));
+            var d = new DisplayPipeline(); Draw(preview, new DrawEventArgs(doc, d));
             var texts = d.Of("text").Select(a => (string)a[0]).ToList(); var first = (Mesh)d.Of("mesh").Single()[0];
             assert(Dots(d).Count == 6 && texts[0] == "Hawa · speed · field 7 / solver 0 · t=0.7 s" && texts.Count == 8 && texts[1] == "■ 0" && texts[5] == "■ 4" && texts[6] == "m/s · auto range" && texts[7] == "Clipped boundary · stationary wall speed = 0", "Current result lost annotations or legend");
             c.Field = "pressure"; c.Result = c.Result with { Field = "pressure" }; c.ResultVersion++;
-            d = new DisplayPipeline(); preview.RaisePostDraw(new DrawEventArgs(doc, d)); texts = d.Of("text").Select(a => (string)a[0]).ToList();
+            d = new DisplayPipeline(); Draw(preview, new DrawEventArgs(doc, d)); texts = d.Of("text").Select(a => (string)a[0]).ToList();
             assert(first.Disposed && texts[6] == "Pa · auto range" && texts[7] == "Clipped boundary · colours use adjacent fluid samples", "Recache did not dispose or relabel");
             c.Revision++;
-            d = new DisplayPipeline(); preview.RaisePostDraw(new DrawEventArgs(doc, d));
+            d = new DisplayPipeline(); Draw(preview, new DrawEventArgs(doc, d));
             var boxes = d.Of("box").ToList();
             assert(!d.Of("dot").Any() && !d.Of("arrow").Any() && !d.Of("dotted").Any() && ((string)d.Of("text").First()[0]).EndsWith(" · OUTDATED · boundary labels hidden"), "Outdated result showed accepted setup labels");
             assert((BoundingBox)boxes[0][0] == new BoundingBox(new(1, 2, 3), new(1.5, 2.5, 3)) && (BoundingBox)boxes[1][0] == new BoundingBox(new(2, 2, 1), new(4, 4, 3)), "Outdated boxes must show the result domain and block");
             var bounds = new CalculateBoundingBoxEventArgs(doc); preview.RaiseBoundingBox(bounds); var none = new CalculateBoundingBoxEventArgs(new RhinoDoc(504)); preview.RaiseBoundingBox(none);
             assert(bounds.Included.Single() == new BoundingBox(new(1, 2, 3), new(1.5, 2.5, 3)) && none.Included.Count == 0, "Conduit bounds wrong");
-            var empty = new DisplayPipeline(); preview.RaisePostDraw(new DrawEventArgs(none.RhinoDoc, empty));
+            var empty = new DisplayPipeline(); Draw(preview, new DrawEventArgs(none.RhinoDoc, empty));
             foreach (var key in new[] { "domain", "body", "field" }) c.ViewData[key] = false;
-            preview.RaisePostDraw(new DrawEventArgs(doc, empty));
+            Draw(preview, new DrawEventArgs(doc, empty));
             assert(empty.Calls.Count == 0, "Hidden views or absent case drew");
             var current = (Mesh)d.Of("mesh").Single()[0]; CaseHub.Close(503);
             assert(current.Disposed, "Closing the case retained its preview mesh");
             var other = new RhinoDoc(505); var o = CaseHub.Get(505); o.SliceData = c.SliceData; o.ResultSpecData = c.ResultSpecData; o.Result = new ResultStamp(o.Id, o.Revision, o.Generation, "s", "speed", 1);
-            d = new DisplayPipeline(); preview.RaisePostDraw(new DrawEventArgs(other, d)); var retained = (Mesh)d.Of("mesh").Single()[0];
+            d = new DisplayPipeline(); Draw(preview, new DrawEventArgs(other, d)); var retained = (Mesh)d.Of("mesh").Single()[0];
             preview.Enabled = true; preview.Dispose();
             assert(retained.Disposed && !preview.Enabled, "Dispose kept meshes or left the conduit enabled");
             CaseHub.Close(505);
+        });
+
+        test("native annotations draw in foreground above other meshes and can be hidden independently", () => {
+            var doc=new RhinoDoc(506);var c=CaseHub.Get(506);using var preview=new NativePreview();
+            // A legacy view has no annotation key and must retain visible labels.
+            c.ViewData.Remove("annotations");var d=new DisplayPipeline();
+            preview.RaisePostDraw(new(doc,d));
+            assert(!d.Of("dot").Any() && !d.Of("text").Any(),"Annotations drew before opaque field passes");
+            using var opaque=new Mesh();d.DrawMeshFalseColors(opaque);
+            preview.RaiseForeground(new(doc,d));
+            assert(Dots(d).Count==6 && d.Calls.FindIndex(x=>x.Op=="dot")>d.Calls.FindLastIndex(x=>x.Op=="mesh"),"Field mesh covers native annotations");
+            var view=c.View;view["annotations"]=false;var revision=c.Revision;
+            CaseHub.Edit(506,new(){["view"]=view},c.Version);
+            var hidden=new DisplayPipeline();Draw(preview,new(doc,hidden));
+            assert(hidden.Of("box").Count()==2 && !hidden.Of("dot").Any() && !hidden.Of("text").Any() && c.Revision==revision,"Annotation toggle hid geometry or changed physics");
+            CaseHub.Close(506);preview.RaiseForeground(new(doc,hidden));
         });
 
         test("shared annotations keep outward arrows inside, pair periodic patches and tolerate missing frames", () => {
