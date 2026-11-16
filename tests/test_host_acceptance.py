@@ -168,8 +168,8 @@ def test_cli_module_entrypoint(run, monkeypatch):
 
 
 def test_identity_evidence_and_request_sequence_are_preserved(run):
-    s = step(run, safe=True, rhino_serial=1234, original_gh='previous')
-    assert s['rhino_serial'] == 1234 and s['sequence'] == 1
+    s = step(run, safe=True, rhino_serial=8, original_gh='previous')
+    assert s['rhino_serial'] == 8 and s['sequence'] == 1
     s = step(s, owned='child')
     assert s['owned'] == 'child' and s['sequence'] == 2
     s = step(step(s, ready=True))
@@ -239,3 +239,27 @@ def test_explicit_scratch_serial_required(run):
     for value in (None, 0, -1, True, "8"):
         with pytest.raises(ValueError, match="scratch"):
             host.create(run['root'], Path(run['output']).with_name('invalid'), document=value)
+
+
+def test_document_identity_and_minimum_serial(run):
+    assert step(run, safe=True, rhino_serial=9, original_gh=None)['status'] == 'blocked'
+    state = host.create(run['root'], Path(run['output']).with_name('serial-one'), document=1)
+    assert state['rhino_serial'] == 1
+
+
+@pytest.mark.parametrize('missing', ['--root', '--output', '--document'])
+def test_each_cli_required_argument(run, missing):
+    args = {'--root': run['root'], '--output': str(Path(run['output']).with_name('missing')), '--document': '8'}
+    del args[missing]
+    argv = ['start']
+    for key, value in args.items():
+        argv.extend([key, value])
+    with pytest.raises(SystemExit) as result:
+        host.main(argv)
+    assert result.value.code == 2
+
+
+def test_cli_default_timeout(run):
+    output = Path(run['output']).with_name('default-timeout')
+    assert host.main(['start', '--root', run['root'], '--output', str(output), '--document', '8']) == 0
+    assert json.loads((output / 'state.json').read_text())['timeout'] == 180

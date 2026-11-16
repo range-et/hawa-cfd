@@ -65,7 +65,7 @@ def advance(state, reply, now=None, cancel=False, recovered_owned=None):
         else:
             state["status"] = "failed"
     elif phase == "preflight":
-        if reply.get("safe") is not True:
+        if reply.get("safe") is not True or reply.get("rhino_serial") != state["rhino_serial"]:
             state["failure"], state["status"] = "Unsafe host preflight", "blocked"
         else:
             state.update(rhino_serial=reply["rhino_serial"], original_gh=reply["original_gh"], phase="open")

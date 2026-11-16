@@ -56,12 +56,12 @@ try{
    foreach(var a in new[]{shared,ghAssembly})hashes[a.GetName().Name]=new JsonObject{["path"]=a.Location,["sha256"]=Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(a.Location)))};
    r["installed_files"]=hashes;
   }else{
-   r["clean"]=idle && owned==null;
+   r["clean"]=idle && owned==null && !Grasshopper.Instances.DocumentServer.AllDocuments.Any(d=>d.FilePath==s["examples"][index].GetValue<string>());
    if(r["clean"].GetValue<bool>()){
     File.Delete(Path.Combine(output,"ownership.json"));
     var original=s["original_gh"]?.GetValue<string>();
     if(Grasshopper.Instances.ActiveCanvas.Document==null)
-     Grasshopper.Instances.ActiveCanvas.Document=original==null?null:Grasshopper.Instances.DocumentServer.ToArray().SingleOrDefault(d=>d.DocumentID==Guid.Parse(original));
+     Grasshopper.Instances.ActiveCanvas.Document=original==null?null:Grasshopper.Instances.DocumentServer.AllDocuments.SingleOrDefault(d=>d.DocumentID==Guid.Parse(original));
    }
   }
  }else if(phase=="open"){
@@ -77,7 +77,9 @@ try{
   var devices=owned.Objects.OfType<GH_Component>().SelectMany(c=>c.Params.Input).Where(p=>p.Name=="Device").ToArray();
   if(devices.Length==0 || devices.Any(p=>p.Sources.Count!=0 || !(p is Param_String)))throw new Exception("Pilot requires direct device inputs");
   foreach(Param_String device in devices){device.PersistentData.Clear();device.SetPersistentData("cpu");}
-  owned.FilePath=path;Grasshopper.Instances.DocumentServer.AddDocument(owned);Grasshopper.Instances.ActiveCanvas.Document=owned;owned.NewSolution(false);
+  owned.FilePath=path;owned.AssociateWithRhinoDocument();Grasshopper.Instances.DocumentServer.AddDocument(owned);
+  if(!Grasshopper.Instances.DocumentServer.Any(d=>ReferenceEquals(d,owned)))throw new Exception("Scratch document is excluded by Grasshopper active-document filter; activate its native window before retrying");
+  Grasshopper.Instances.ActiveCanvas.Document=owned;owned.NewSolution(false);
  }else{
   if(owned==null && phase!="close")throw new Exception("Owned document disappeared");
   if(phase=="close"){

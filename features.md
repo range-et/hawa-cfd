@@ -646,3 +646,13 @@ with an independent **Annotations and legend** switch in View. Missing flags in
 older archives default to visible. Drawing-order/visibility contracts pass;
 CPU 30-step field captures verify native labels above the mesh. Broader 22/25/08
 legibility remains under [#108](https://github.com/range-et/hawa-cfd/issues/108).
+
+### November 16 2026 — Sequential host acceptance pilot (#39, partial)
+
+Built a poll-driven developer control plane and Rhino MCP adapter for isolated
+copies of examples31/32. Requests have fresh run/sequence identities, explicit
+scratch-document opt-in, deadlines and durable owned-document recovery. Failures
+route through cooperative disposal and fresh resource audits. This is tooling,
+not a completed live/gallery pass: Mac window/filter targeting blocked the two-run
+criterion. Original examples are unchanged. [Guide](docs/host-acceptance-pilot.md)
+and [review](docs/review-host-acceptance-pilot.md). Not released.
