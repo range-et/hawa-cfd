@@ -616,3 +616,33 @@ test dependency is now in uv.lock. Fresh combined gate: 810 passes/82 skips,
 33 contracts, no ratchet failures; actual bundled source collects all 892 tests.
 These repairs are merged into main through PR #6; they do not establish Windows/host
 qualification. Evidence.
+
+
+### November 16 2026 — Opt-in native startup (#31 / HAWA-029)
+
+The native command and panel now inspect existing state without creating the
+block demonstration. An empty document shows a setup prompt; Select bodies and
+Block preset remain explicit actions. Saved schema-1/schema-2 cases and explicit
+GH creation retain their existing contracts. Production panel/command callbacks
+are linked into automated C# contracts with event-capable host doubles.
+[Review and verification scope](docs/review-panel-startup.md). PR review fixes make
+first explicit presets a native saveable document change on Mac and validate
+selected geometry/domain before publishing a case. The development candidate is
+built and installed for Rhino 8.37 Mac verification: startup, rejected selection,
+saved-case restoration, live GH binding/state and CPU/MPS selected-geometry
+smoke checks passed. This is not merged or released; remaining acceptance and
+platform omissions stay explicit under [issue #31](https://github.com/range-et/hawa-cfd/issues/31).
+
+The requested follow-up adds top-level **Show preview / Hide preview** buttons.
+They toggle native overlays while preserving the saved case and active solver;
+hidden overlays no longer contribute to viewport extents. Visibility is persisted
+with the existing view settings. This follow-up is built with 108 passing C#
+contracts. The installed Rhino 8.37 Mac build passes live hide/show, saved hidden
+restore and independent annotation-toggle checks; the user model reopened with
+matching object IDs and settings.
+
+Native annotations and legends now render in the foreground after field meshes,
+with an independent **Annotations and legend** switch in View. Missing flags in
+older archives default to visible. Drawing-order/visibility contracts pass;
+CPU 30-step field captures verify native labels above the mesh. Broader 22/25/08
+legibility remains under [#108](https://github.com/range-et/hawa-cfd/issues/108).

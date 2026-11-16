@@ -1,0 +1,355 @@
+{
+  "date": "2026-11-16",
+  "reviewer": "Codex self-review",
+  "rhino": "8.37.26307.15002",
+  "platform": "macOS arm64",
+  "release": false,
+  "startup": [
+    {
+      "phase": "empty",
+      "state": "passed",
+      "checks": [
+        "command and repeated panel opening stay empty and clean"
+      ],
+      "rhino": "8.37.26307.15002",
+      "document": 268435457,
+      "path": "/Users/r2d2/Desktop/hawa-issue-31/results/issue31-host/final-clean.3dm",
+      "modified": false,
+      "native_sha256": "830F2E5171DEBA13CEA436704778BFD2F54181DE58F652062CB97B756A508F9B",
+      "shared_sha256": "47730850F333D47B13491E554A5BC3FB47A0C8CA45504B287560BBC2D0E6BB0F"
+    },
+    {
+      "phase": "preset",
+      "state": "passed",
+      "checks": [
+        "explicit first preset marks native document changed and stays idle"
+      ],
+      "rhino": "8.37.26307.15002",
+      "document": 268435457,
+      "path": "/Users/r2d2/Desktop/hawa-issue-31/results/issue31-host/final-empty.3dm",
+      "modified": true,
+      "native_sha256": "830F2E5171DEBA13CEA436704778BFD2F54181DE58F652062CB97B756A508F9B",
+      "shared_sha256": "47730850F333D47B13491E554A5BC3FB47A0C8CA45504B287560BBC2D0E6BB0F"
+    },
+    {
+      "phase": "reject",
+      "state": "passed",
+      "checks": [
+        "open mesh and non-solid Brep rejected without a case"
+      ],
+      "rhino": "8.37.26307.15002",
+      "document": 268435457,
+      "path": "/Users/r2d2/Desktop/hawa-issue-31/results/issue31-host/final-empty.3dm",
+      "modified": false,
+      "native_sha256": "830F2E5171DEBA13CEA436704778BFD2F54181DE58F652062CB97B756A508F9B",
+      "shared_sha256": "47730850F333D47B13491E554A5BC3FB47A0C8CA45504B287560BBC2D0E6BB0F"
+    },
+    {
+      "phase": "restore",
+      "state": "passed",
+      "checks": [
+        "schema 1 idle restore and binding preserved",
+        "schema 2 idle restore and binding preserved"
+      ],
+      "rhino": "8.37.26307.15002",
+      "document": 268435457,
+      "path": "/Users/r2d2/Desktop/hawa-issue-31/results/issue31-host/final-block.3dm",
+      "modified": false,
+      "native_sha256": "830F2E5171DEBA13CEA436704778BFD2F54181DE58F652062CB97B756A508F9B",
+      "shared_sha256": "47730850F333D47B13491E554A5BC3FB47A0C8CA45504B287560BBC2D0E6BB0F"
+    },
+    {
+      "phase": "unchanged",
+      "state": "passed",
+      "checks": [
+        "saved preset and panel reopen preserve settings and clean flag"
+      ],
+      "rhino": "8.37.26307.15002",
+      "document": 268435457,
+      "path": "/Users/r2d2/Desktop/hawa-issue-31/results/issue31-host/final-block.3dm",
+      "modified": false,
+      "native_sha256": "830F2E5171DEBA13CEA436704778BFD2F54181DE58F652062CB97B756A508F9B",
+      "shared_sha256": "47730850F333D47B13491E554A5BC3FB47A0C8CA45504B287560BBC2D0E6BB0F"
+    }
+  ],
+  "binding": {
+    "state": "completed",
+    "phase": 3,
+    "checks": [
+      "native edit queued while duplicate component has no lease",
+      "duplicate callback leaves its sliders and current owner unchanged",
+      "case replacement invalidates queued pull without rewriting old definition"
+    ]
+  },
+  "state": {
+    "state": "completed",
+    "phase": 13,
+    "checks": [
+      "pending panel pull survives an intervening GH solution",
+      "locked component retains native change for unlock",
+      "non-finite input releases binding and preserves case",
+      "multi-value input cannot produce several competing edits",
+      "computed input owns its parameter; panel write rejected",
+      "display and target edits are versioned; CPU run submitted",
+      "cooperative pause submitted",
+      "worker acknowledged pause",
+      "pause held and resume retained run",
+      "CPU completion publishes capture step and physical time",
+      "unit change rescales preview; physical edit withholds outdated GH field",
+      "MPS run submitted",
+      "MPS snapshot verified; cancel/reset/GH close release runtime and binding"
+    ],
+    "devices_steps": {
+      "cpu": "pause/resume to observed paused steps + 25",
+      "mps": 25
+    }
+  },
+  "geometry": {
+    "state": "completed",
+    "phase": 8,
+    "checks": [
+      "mesh and solid Brep capture returns with background preparation",
+      "CPU field completed with selected geometry; display edit retains session",
+      "slice axis/position and fixed spectrum work; domain edit invalidates run",
+      "MPS completed; deleting a referenced body invalidates and reports missing geometry",
+      "replacement invalidates pending geometry; cooperative cancellation submitted",
+      "retry after geometry replacement and cancellation",
+      "schema 2 and object references survive 3dm reopen without auto-run",
+      "open mesh rejected atomically; units invalidate geometry; selected case cleanup completed"
+    ],
+    "devices_steps": {
+      "cpu": [
+        30,
+        20
+      ],
+      "mps": [
+        30
+      ]
+    }
+  },
+  "undo_redo_attempt_1": {
+    "state": "failed",
+    "phase": 5,
+    "checks": [
+      "one shared assembly and one binding",
+      "panel changes reached all three GH sliders; old session closed",
+      "GH slider updates shared case without feedback loop",
+      "waiting for normal Rhino Undo command",
+      "Rhino undo restored shared case and slider; waiting for normal Redo command"
+    ],
+    "error": "System.Exception: Timeout phase 5"
+  },
+  "undo_redo_attempt_2": {
+    "state": "failed",
+    "phase": 4,
+    "checks": [
+      "one shared assembly and one binding",
+      "panel changes reached all three GH sliders; old session closed",
+      "GH slider updates shared case without feedback loop",
+      "waiting for normal Rhino Undo command"
+    ],
+    "undo_api": false,
+    "error": "System.Exception: Timeout phase 4"
+  },
+  "archive_audit": {
+    "definitions": 31,
+    "public_nodes": 53,
+    "nodes_without_example": [],
+    "archive_errors": 0,
+    "execution_claim": false
+  },
+  "shipped_3dm_restore": [
+    "native-block.3dm",
+    "22-selected-canopy.3dm",
+    "23-curved-solid.3dm"
+  ],
+  "cleanup": {
+    "case_count_for_test_document": 0,
+    "objects": 0,
+    "pending_cleanup": 0,
+    "owned_gh_disposed": true
+  },
+  "automated": {
+    "python39": {
+      "passed": 1821,
+      "skipped": 87
+    },
+    "python312": {
+      "passed": 1811,
+      "skipped": 86,
+      "deselected": 11
+    },
+    "state_contracts": 105,
+    "strict_headless_gate": "passed",
+    "base_ratchet": "passed",
+    "measured_changed_functions": 42,
+    "unmeasured_host_debt": 361
+  },
+  "omissions": [
+    "Native Undo/Redo acceptance unresolved",
+    "Windows/CUDA",
+    "Full supported-example execution",
+    "Human picker cancellation",
+    "Broad G6 qualification"
+  ],
+  "preview_controls_followup": {
+    "state": "installed and bounded live acceptance passed",
+    "contracts_passed": 108,
+    "behavior": [
+      "Show/hide all native overlays",
+      "Preserve case, physics, session and binding",
+      "Persist visibility through existing view settings",
+      "Exclude hidden overlays from viewport bounds",
+      "Explain Select bodies before Fit domain",
+      "Draw native annotations/legend in foreground after field meshes",
+      "Independent optional annotations view flag defaults true for old archives"
+    ],
+    "prior_live_evidence_scope": "Earlier tests above retain their original build scope; the live follow-up here uses the new hashes.",
+    "native_sha256": "34e8da7ab5f4986a905f53263e54f31908251aa86f13fa6ce1a74c5618630b3d",
+    "shared_sha256": "d9d063fbff40b6a07ffd900a7ea19b6ff30ffba428609560c733bb430b297044",
+    "measured_suite": {
+      "python_passed": 1821,
+      "python_skipped": 87,
+      "csharp_passed": 108,
+      "base_ratchet": "passed",
+      "strict_headless": "passed",
+      "covered_functions": 916,
+      "unmeasured_host_debt": 361,
+      "panel_command_selection_functions": 46
+    },
+    "live": {
+      "rhino": "8.37.26307.15002",
+      "host": "macOS arm64",
+      "code_commit": "8f3d31f",
+      "startup": [
+        {
+          "phase": "annotations",
+          "state": "passed",
+          "checks": [
+            "annotation switch preserves field and solver; paired captures require visual review"
+          ],
+          "rhino": "8.37.26307.15002",
+          "document": 268435457,
+          "path": "/Users/r2d2/Desktop/hawa-issue-31/results/issue31-controls-host/preset.3dm",
+          "modified": true,
+          "native_sha256": "34E8DA7AB5F4986A905F53263E54F31908251AA86F13FA6CE1A74C5618630B3D",
+          "shared_sha256": "D9D063FBFF40B6A07FFD900A7EA19B6FF30FFBA428609560C733BB430B297044"
+        },
+        {
+          "phase": "empty",
+          "state": "passed",
+          "checks": [
+            "command and repeated panel opening stay empty and clean"
+          ],
+          "rhino": "8.37.26307.15002",
+          "document": 268435457,
+          "path": null,
+          "modified": false,
+          "native_sha256": "34E8DA7AB5F4986A905F53263E54F31908251AA86F13FA6CE1A74C5618630B3D",
+          "shared_sha256": "D9D063FBFF40B6A07FFD900A7EA19B6FF30FFBA428609560C733BB430B297044"
+        },
+        {
+          "phase": "preset",
+          "state": "passed",
+          "checks": [
+            "explicit first preset marks native document changed and stays idle"
+          ],
+          "rhino": "8.37.26307.15002",
+          "document": 268435457,
+          "path": "/Users/r2d2/Desktop/hawa-issue-31/results/issue31-controls-host/empty.3dm",
+          "modified": true,
+          "native_sha256": "34E8DA7AB5F4986A905F53263E54F31908251AA86F13FA6CE1A74C5618630B3D",
+          "shared_sha256": "D9D063FBFF40B6A07FFD900A7EA19B6FF30FFBA428609560C733BB430B297044"
+        },
+        {
+          "phase": "preview",
+          "state": "passed",
+          "checks": [
+            "quick hide/show preserves case/physics and hidden flags survive 3dm reopen"
+          ],
+          "rhino": "8.37.26307.15002",
+          "document": 268435457,
+          "path": "/Users/r2d2/Desktop/hawa-issue-31/results/issue31-controls-host/preset.3dm",
+          "modified": true,
+          "native_sha256": "34E8DA7AB5F4986A905F53263E54F31908251AA86F13FA6CE1A74C5618630B3D",
+          "shared_sha256": "D9D063FBFF40B6A07FFD900A7EA19B6FF30FFBA428609560C733BB430B297044"
+        },
+        {
+          "phase": "restore",
+          "state": "passed",
+          "checks": [
+            "schema 1 idle restore and binding preserved",
+            "schema 2 idle restore and binding preserved"
+          ],
+          "rhino": "8.37.26307.15002",
+          "document": 268435457,
+          "path": "/Users/r2d2/Desktop/hawa-issue-31/results/issue31-controls-host/preset.3dm",
+          "modified": true,
+          "native_sha256": "34E8DA7AB5F4986A905F53263E54F31908251AA86F13FA6CE1A74C5618630B3D",
+          "shared_sha256": "D9D063FBFF40B6A07FFD900A7EA19B6FF30FFBA428609560C733BB430B297044"
+        },
+        {
+          "phase": "unchanged",
+          "state": "passed",
+          "checks": [
+            "saved preset and panel reopen preserve settings and clean flag"
+          ],
+          "rhino": "8.37.26307.15002",
+          "document": 268435457,
+          "path": "/Users/r2d2/Desktop/hawa-issue-31/results/issue31-controls-host/preset.3dm",
+          "modified": false,
+          "native_sha256": "34E8DA7AB5F4986A905F53263E54F31908251AA86F13FA6CE1A74C5618630B3D",
+          "shared_sha256": "D9D063FBFF40B6A07FFD900A7EA19B6FF30FFBA428609560C733BB430B297044"
+        }
+      ],
+      "binding": {
+        "state": "completed",
+        "phase": 3,
+        "checks": [
+          "native edit queued while duplicate component has no lease",
+          "duplicate callback leaves its sliders and current owner unchanged",
+          "case replacement invalidates queued pull without rewriting old definition"
+        ]
+      },
+      "state_hardening": {
+        "state": "completed",
+        "phase": 13,
+        "checks": [
+          "pending panel pull survives an intervening GH solution",
+          "locked component retains native change for unlock",
+          "non-finite input releases binding and preserves case",
+          "multi-value input cannot produce several competing edits",
+          "computed input owns its parameter; panel write rejected",
+          "display and target edits are versioned; CPU run submitted",
+          "cooperative pause submitted",
+          "worker acknowledged pause",
+          "pause held and resume retained run",
+          "CPU completion publishes capture step and physical time",
+          "unit change rescales preview; physical edit withholds outdated GH field",
+          "MPS run submitted",
+          "MPS snapshot verified; cancel/reset/GH close release runtime and binding"
+        ]
+      },
+      "user_restore": {
+        "state": "passed",
+        "objects_preserved": true,
+        "settings_preserved": true,
+        "idle_restore": true,
+        "modified": false,
+        "pending_cleanup": 0
+      },
+      "velocity_capture": {
+        "device": "cpu",
+        "steps": 30,
+        "annotations_above_field": true,
+        "annotations_hidden_field_retained": true,
+        "full_domain_framing": true
+      },
+      "omissions": [
+        "Windows/CUDA",
+        "22/25/08 legibility acceptance",
+        "Broad native Undo/Redo acceptance remains unresolved"
+      ]
+    }
+  }
+}

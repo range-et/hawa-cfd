@@ -5,10 +5,15 @@ namespace Rhino {
     public static class RhinoApp { public static bool InvokeRequired; public static event EventHandler? Idle; public static void RaiseIdle() => Idle?.Invoke(null, EventArgs.Empty); public static int IdleSubscribers => Idle?.GetInvocationList().Length ?? 0; public static List<string> Log = new(); public static void WriteLine(string s) => Log.Add(s); }
     public sealed class RhinoDoc {
         static readonly Dictionary<uint, RhinoDoc> docs = new();
-        public RhinoDoc(uint id) { RuntimeSerialNumber = id; docs[id] = this; }
+        public RhinoDoc(uint id) { RuntimeSerialNumber = id; docs[id] = this; Strings = new(this); }
         public uint RuntimeSerialNumber { get; }
         public UnitSystem ModelUnitSystem { get; set; } = UnitSystem.Meters;
-        public bool Modified { get; set; }
+        private bool modified;
+        public bool IgnoreModifiedWrites;
+        public bool Modified { get => modified; set { if(!IgnoreModifiedWrites) modified=value; } }
+        internal void MarkModified() => modified=true;
+        public TestStringTable Strings { get; }
+        public Rhino.Display.TestViews Views { get; } = new();
         public DocObjects.Tables.ObjectTable Objects { get; } = new();
         public int OpenUndoRecords, EndedUndoRecords;
         public List<EventHandler<Commands.CustomUndoEventArgs>> UndoEvents = new();
@@ -18,6 +23,13 @@ namespace Rhino {
         public void EndUndoRecord(uint id) { OpenUndoRecords--; EndedUndoRecords++; }
         public void AddCustomUndoEvent(string name, EventHandler<Commands.CustomUndoEventArgs> action) => UndoEvents.Add(action);
         public void Undo() { var a = UndoEvents.Last(); UndoEvents.RemoveAt(UndoEvents.Count - 1); a(this, new(this)); }
+    }
+}
+namespace Rhino {
+    public sealed class TestStringTable(RhinoDoc doc) {
+        readonly Dictionary<(string,string),string> values=new();
+        public void SetString(string section,string key,string value) { values[(section,key)]=value;doc.MarkModified(); }
+        public string? GetValue(string section,string key)=>values.GetValueOrDefault((section,key));
     }
 }
 namespace Rhino.DocObjects {
@@ -92,19 +104,24 @@ namespace Rhino.Geometry {
     }
     public readonly record struct Point3d(double X, double Y, double Z) {
         public bool IsValid => double.IsFinite(X)&&double.IsFinite(Y)&&double.IsFinite(Z);
+        public static Point3d Origin => new(0,0,0);
+        public static Point3d operator -(Point3d p, Vector3d v) => new(p.X-v.X,p.Y-v.Y,p.Z-v.Z);
         public static Point3d operator +(Point3d p, Vector3d v) => new(p.X+v.X,p.Y+v.Y,p.Z+v.Z);
         public static Vector3d operator -(Point3d a,Point3d b)=>new(a.X-b.X,a.Y-b.Y,a.Z-b.Z);
         public double DistanceTo(Point3d other)=>(this-other).Length;
     }
-    public readonly record struct BoundingBox(Point3d Min, Point3d Max) {
+    public record struct BoundingBox(Point3d Min, Point3d Max) {
         public Vector3d Diagonal=>Max-Min;
+        public void Union(BoundingBox b) { if(Min.X>Max.X){this=b;return;}Min=new(Math.Min(Min.X,b.Min.X),Math.Min(Min.Y,b.Min.Y),Math.Min(Min.Z,b.Min.Z));Max=new(Math.Max(Max.X,b.Max.X),Math.Max(Max.Y,b.Max.Y),Math.Max(Max.Z,b.Max.Z)); }
+        public void Transform(Transform t) { Min=new(Min.X*t.Factor,Min.Y*t.Factor,Min.Z*t.Factor);Max=new(Max.X*t.Factor,Max.Y*t.Factor,Max.Z*t.Factor); }
         public static BoundingBox Empty => new(new(1,0,0),new(-1,0,0));
         public BoundingBox(IEnumerable<Point3d> points):this(new(points.Min(p=>p.X),points.Min(p=>p.Y),points.Min(p=>p.Z)),new(points.Max(p=>p.X),points.Max(p=>p.Y),points.Max(p=>p.Z))){}
         public bool Contains(Point3d p)=>p.X>=Min.X&&p.X<=Max.X&&p.Y>=Min.Y&&p.Y<=Max.Y&&p.Z>=Min.Z&&p.Z<=Max.Z;
     }
+    public record struct Transform(double Factor) { public static Transform Scale(Point3d origin,double factor)=>new(factor); }
     public readonly record struct Line(Point3d From,Point3d To);
     public readonly record struct Point2d(double X,double Y);
-    public class GeometryBase { public BoundingBox Bounds; public BoundingBox GetBoundingBox(bool accurate)=>Bounds; }
+    public class GeometryBase { public BoundingBox Bounds; public virtual BoundingBox GetBoundingBox(bool accurate)=>Bounds; }
     public abstract class Curve { }
     public readonly record struct Rectangle3d(Point3d Origin, Vector3d X, Vector3d Y) { public Point3d PointAt(double u,double v)=>Origin+(u*X+v*Y); }
     // Plane(origin, normal) picks some perpendicular frame, as RhinoCommon does.
@@ -116,10 +133,10 @@ namespace Rhino.Geometry {
     public sealed class PolylineCurve(IEnumerable<Point3d> points) : Curve { public List<Point3d> Points { get; } = points.ToList(); }
     public readonly record struct MeshFace(int A,int B,int C,int D=-1) { public bool IsQuad=>D>=0; }
     public sealed record MeshPoint(Point3d Point);
-    public sealed class Brep {
+    public sealed class Brep : GeometryBase {
         public bool IsValid=true,IsSolid=true;
-        public BoundingBox Bounds=new(new(0,0,0),new(10,0,0));
-        public BoundingBox GetBoundingBox(bool accurate)=>Bounds;
+        public new BoundingBox Bounds=new(new(0,0,0),new(10,0,0));
+        public override BoundingBox GetBoundingBox(bool accurate)=>Bounds;
     }
     public sealed class MeshingParameters : IDisposable {
         public double Tolerance,MinimumTolerance,RelativeTolerance,MinimumEdgeLength,MaximumEdgeLength;
@@ -127,7 +144,7 @@ namespace Rhino.Geometry {
         public void Dispose()=>Disposed=true;
     }
     public readonly record struct Point2f(float X,float Y);
-    public sealed class Mesh : IDisposable {
+    public sealed class Mesh : GeometryBase, IDisposable {
         public sealed class VertexList : List<Point3d> { public new int Add(Point3d point) { base.Add(point); return Count-1; } }
         public sealed class FaceList : List<MeshFace> {
             public int? ReportedCount;
@@ -161,11 +178,11 @@ namespace Rhino.Geometry {
         public FaceList Faces { get; } = new();
         public NormalList Normals { get; }
         public bool IsValid=true,IsClosed=true,Disposed;
-        public BoundingBox Bounds=new(new(-10,-10,-10),new(10,10,10));
+        public new BoundingBox Bounds=new(new(-10,-10,-10),new(10,10,10));
         public Func<Line,Point3d[]> Hits=_=>Array.Empty<Point3d>();
         public Func<Point3d,double,MeshPoint?> Closest=(_,_)=>null;
         public MeshPoint? ClosestMeshPoint(Point3d p,double tolerance)=>Closest(p,tolerance);
-        public BoundingBox GetBoundingBox(bool accurate)=>Bounds;
+        public override BoundingBox GetBoundingBox(bool accurate)=>Bounds;
         public static Mesh[] CreateFromBrep(Brep b,MeshingParameters p)=>Factory(b,p);
         public void Append(Mesh part){Vertices.AddRange(part.Vertices);Faces.AddRange(part.Faces);Faces.ReportedCount=part.Faces.ReportedCount;IsValid&=part.IsValid;IsClosed&=part.IsClosed;}
         public void Dispose()=>Disposed=true;
