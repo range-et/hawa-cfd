@@ -292,7 +292,7 @@ historical evidence; the current tools do not check them.
 `bash tools/mutation/run_host_acceptance.sh results/host-mutation-NEW` measures
 the whole Python control plane against `tests/test_host_acceptance.py`; check it
 with `tools/mutation/host-acceptance-policy.json`. The first reviewed macOS run
-has586 mutants,548 assertion kills and38 reviewed survivors, including explicit
+has 590 mutants, 552 assertion kills and 38 reviewed survivors, including explicit
 case-sensitive-filesystem/diagnostic gaps. C# adapter behavior and top-level
 embedded audit require their separate compile/live and execution evidence; they
 are not credited by the mutation score. [Pilot review](review-host-acceptance-pilot.md).

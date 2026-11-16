@@ -64,6 +64,8 @@
     "scripts/example_inventory.py": "38c9a97c9ceb5cbb99c73d9cd1d62a3985c6fd7a79c0747a3a0db6202f768dca",
     "scripts/example_worker.py": "09063bcb809effa08e09c0b2a5b0bd3b235868b016172da5ee9bfa3b40f21601",
     "scripts/grasshopper_component.py": "b3f1785fab143939f26b71db840f6558c6632861b3a66a3508e9d5a325076a05",
+    "scripts/host_acceptance.py": "bf6746ce6bd0cd27a3b9efe287a75519a2149408f87cb0e61adab4e81f3b65a4",
+    "scripts/host_acceptance_audit.py": "a0a581c4bc5f90aaa6a4b4c6c5f7912ab8109139c0f5719fb9f448fa6e92bafb",
     "scripts/make_motion_demo.py": "e5b950d0fc3e18b89de51ea5b46b006e198214501f02291a6494f701c6f14fe2",
     "scripts/make_v04_demo.py": "599a878f1f57434eda6c1bee03b1d4fd4d7db85a5a939b543ee2d32a4abc0399",
     "scripts/make_v05_demo.py": "8771f430e8b1b081b5978c0e485098b534a4666d45ed2add9459f9a4bec83255",
@@ -170,6 +172,7 @@
     "tests/test_flow_statistics.py": "23d45a3ebf82b0cdf5a7cfbc3dda684af67019e2eb3a1fe99090667455f41be4",
     "tests/test_function_coverage.py": "ec85147830b41c0aa675cabfdc10fa2b7f485643bb130738512d13620adfb8e3",
     "tests/test_general_boundaries.py": "807142676376da912ada3ff19804461ec164dfac38a98328d0267732f3c852a2",
+    "tests/test_host_acceptance.py": "feef148345669f3a58efebe7c7b1614cee9bfa0d85df182f3edc7a984f314206",
     "tests/test_integration_review.py": "1c2ade9b7f0de48c226715ced29dc28c8058ed54cda46db99d1444e0aca6bf05",
     "tests/test_jobs.py": "97507bc83f05b7a4c07888c95608ed89d5c00dce5356b3f1c7e2d616e947cfda",
     "tests/test_kbc_parity_diagnostic.py": "59636620da3c8f2cae794a0b856ef6f0de4ec4a0a82a78f27fd9b1b827827b17",
@@ -950,6 +953,32 @@
       "tests/test_general_boundaries.py::test_multistep_reversal_and_cropped_window",
       "tests/test_general_boundaries.py::test_channel_record_capture_with_walls",
       "tests/test_general_boundaries.py::test_refinement_and_reset_guards",
+      "tests/test_host_acceptance.py::test_complete_two_examples_with_polling_and_cleanup",
+      "tests/test_host_acceptance.py::test_preflight_refuses_user_work_and_old_ack",
+      "tests/test_host_acceptance.py::test_deadlines_do_not_reset_on_waits_and_cleanup_has_own_deadline",
+      "tests/test_host_acceptance.py::test_cancel_missing_response_recovers_owned_and_does_not_claim_pass",
+      "tests/test_host_acceptance.py::test_failure_and_bad_state_are_explicit",
+      "tests/test_host_acceptance.py::test_create_unique_copies_hashes_and_publish_terminal",
+      "tests/test_host_acceptance.py::test_cli_poll_missing_cancel_and_wrong_owner",
+      "tests/test_host_acceptance.py::test_cli_start_reply_and_durable_owner",
+      "tests/test_host_acceptance.py::test_audit_reads_loaded_modules_and_does_not_import_solver",
+      "tests/test_host_acceptance.py::test_cli_module_entrypoint",
+      "tests/test_host_acceptance.py::test_identity_evidence_and_request_sequence_are_preserved",
+      "tests/test_host_acceptance.py::test_creation_inventory_defaults_and_nested_output",
+      "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv0]",
+      "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv1]",
+      "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv2]",
+      "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv3]",
+      "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv4]",
+      "tests/test_host_acceptance.py::test_cli_timeout_and_success_status",
+      "tests/test_host_acceptance.py::test_operator_cancel_ignores_corrupt_reply_and_retains_owned_id",
+      "tests/test_host_acceptance.py::test_explicit_scratch_serial_required",
+      "tests/test_host_acceptance.py::test_document_identity_and_minimum_serial",
+      "tests/test_host_acceptance.py::test_each_cli_required_argument[--root]",
+      "tests/test_host_acceptance.py::test_each_cli_required_argument[--output]",
+      "tests/test_host_acceptance.py::test_each_cli_required_argument[--document]",
+      "tests/test_host_acceptance.py::test_cli_default_timeout",
+      "tests/test_host_acceptance.py::test_cancel_open_before_ownership_requires_late_cleanup",
       "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
       "tests/test_integration_review.py::test_external_memory_rejected_before_link_allocation",
       "tests/test_integration_review.py::test_source_bundle_contains_verification_inputs",
@@ -1249,6 +1278,7 @@
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[boundary-reflection-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[cli-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[device-smoke-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[host-acceptance-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-collision-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-diagnostic-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[motion-schema-policy.json]",
@@ -2856,6 +2886,32 @@
       "tests/test_general_boundaries.py::test_sgs_zero_and_device",
       "tests/test_general_boundaries.py::test_slip_edges_and_shear_projection",
       "tests/test_general_boundaries.py::test_smagorinsky_manufactured_stress",
+      "tests/test_host_acceptance.py::test_audit_reads_loaded_modules_and_does_not_import_solver",
+      "tests/test_host_acceptance.py::test_cancel_missing_response_recovers_owned_and_does_not_claim_pass",
+      "tests/test_host_acceptance.py::test_cancel_open_before_ownership_requires_late_cleanup",
+      "tests/test_host_acceptance.py::test_cli_default_timeout",
+      "tests/test_host_acceptance.py::test_cli_module_entrypoint",
+      "tests/test_host_acceptance.py::test_cli_poll_missing_cancel_and_wrong_owner",
+      "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv0]",
+      "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv1]",
+      "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv2]",
+      "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv3]",
+      "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv4]",
+      "tests/test_host_acceptance.py::test_cli_start_reply_and_durable_owner",
+      "tests/test_host_acceptance.py::test_cli_timeout_and_success_status",
+      "tests/test_host_acceptance.py::test_complete_two_examples_with_polling_and_cleanup",
+      "tests/test_host_acceptance.py::test_create_unique_copies_hashes_and_publish_terminal",
+      "tests/test_host_acceptance.py::test_creation_inventory_defaults_and_nested_output",
+      "tests/test_host_acceptance.py::test_deadlines_do_not_reset_on_waits_and_cleanup_has_own_deadline",
+      "tests/test_host_acceptance.py::test_document_identity_and_minimum_serial",
+      "tests/test_host_acceptance.py::test_each_cli_required_argument[--document]",
+      "tests/test_host_acceptance.py::test_each_cli_required_argument[--output]",
+      "tests/test_host_acceptance.py::test_each_cli_required_argument[--root]",
+      "tests/test_host_acceptance.py::test_explicit_scratch_serial_required",
+      "tests/test_host_acceptance.py::test_failure_and_bad_state_are_explicit",
+      "tests/test_host_acceptance.py::test_identity_evidence_and_request_sequence_are_preserved",
+      "tests/test_host_acceptance.py::test_operator_cancel_ignores_corrupt_reply_and_retains_owned_id",
+      "tests/test_host_acceptance.py::test_preflight_refuses_user_work_and_old_ack",
       "tests/test_integration_review.py::test_boundary_memory_increases_with_exposed_faces_before_allocation",
       "tests/test_integration_review.py::test_external_memory_rejected_before_link_allocation",
       "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
@@ -3086,6 +3142,7 @@
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[boundary-reflection-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[cli-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[device-smoke-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[host-acceptance-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-collision-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-diagnostic-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[motion-schema-policy.json]",
@@ -14134,6 +14191,370 @@
           "passed"
         ]
       ],
+      "tests/test_host_acceptance.py::test_complete_two_examples_with_polling_and_cleanup": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_preflight_refuses_user_work_and_old_ack": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_deadlines_do_not_reset_on_waits_and_cleanup_has_own_deadline": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_cancel_missing_response_recovers_owned_and_does_not_claim_pass": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_failure_and_bad_state_are_explicit": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_create_unique_copies_hashes_and_publish_terminal": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_cli_poll_missing_cancel_and_wrong_owner": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_cli_start_reply_and_durable_owner": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_audit_reads_loaded_modules_and_does_not_import_solver": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_cli_module_entrypoint": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_identity_evidence_and_request_sequence_are_preserved": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_creation_inventory_defaults_and_nested_output": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv2]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv3]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv4]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_cli_timeout_and_success_status": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_operator_cancel_ignores_corrupt_reply_and_retains_owned_id": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_explicit_scratch_serial_required": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_document_identity_and_minimum_serial": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_each_cli_required_argument[--root]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_each_cli_required_argument[--output]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_each_cli_required_argument[--document]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_cli_default_timeout": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_host_acceptance.py::test_cancel_open_before_ownership_requires_late_cleanup": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
       "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset": [
         [
           "setup",
@@ -18195,6 +18616,20 @@
         ]
       ],
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[device-smoke-policy.json]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[host-acceptance-policy.json]": [
         [
           "setup",
           "passed"
@@ -51173,6 +51608,182 @@
       "status": "covered"
     },
     {
+      "path": "scripts/host_acceptance.py",
+      "language": "Python",
+      "name": "create",
+      "signature": "create(root, output, timeout=180.0, now=None, document=None) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 15,
+      "end_line": 37,
+      "first_line": 15,
+      "code_name": "create",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Create new evidence storage; never reuse a previous run's output.",
+      "fingerprint": "276498221c830dab45b680648aa7db290ed27faabe0055abdc18b7864693ea9f",
+      "id": "scripts/host_acceptance.py::create",
+      "branches": {
+        "hit": 6,
+        "total": 6
+      },
+      "tests": [
+        "tests/test_host_acceptance.py::test_audit_reads_loaded_modules_and_does_not_import_solver",
+        "tests/test_host_acceptance.py::test_cancel_missing_response_recovers_owned_and_does_not_claim_pass",
+        "tests/test_host_acceptance.py::test_cancel_open_before_ownership_requires_late_cleanup",
+        "tests/test_host_acceptance.py::test_cli_default_timeout",
+        "tests/test_host_acceptance.py::test_cli_module_entrypoint",
+        "tests/test_host_acceptance.py::test_cli_poll_missing_cancel_and_wrong_owner",
+        "tests/test_host_acceptance.py::test_cli_start_reply_and_durable_owner",
+        "tests/test_host_acceptance.py::test_cli_timeout_and_success_status",
+        "tests/test_host_acceptance.py::test_complete_two_examples_with_polling_and_cleanup",
+        "tests/test_host_acceptance.py::test_create_unique_copies_hashes_and_publish_terminal",
+        "tests/test_host_acceptance.py::test_creation_inventory_defaults_and_nested_output",
+        "tests/test_host_acceptance.py::test_deadlines_do_not_reset_on_waits_and_cleanup_has_own_deadline",
+        "tests/test_host_acceptance.py::test_document_identity_and_minimum_serial",
+        "tests/test_host_acceptance.py::test_each_cli_required_argument[--document]",
+        "tests/test_host_acceptance.py::test_each_cli_required_argument[--output]",
+        "tests/test_host_acceptance.py::test_each_cli_required_argument[--root]",
+        "tests/test_host_acceptance.py::test_explicit_scratch_serial_required",
+        "tests/test_host_acceptance.py::test_failure_and_bad_state_are_explicit",
+        "tests/test_host_acceptance.py::test_identity_evidence_and_request_sequence_are_preserved",
+        "tests/test_host_acceptance.py::test_operator_cancel_ignores_corrupt_reply_and_retains_owned_id",
+        "tests/test_host_acceptance.py::test_preflight_refuses_user_work_and_old_ack"
+      ],
+      "lines": {
+        "hit": 18,
+        "total": 18
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/host_acceptance.py",
+      "language": "Python",
+      "name": "advance",
+      "signature": "advance(state, reply, now=None, cancel=False, recovered_owned=None) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 40,
+      "end_line": 100,
+      "first_line": 40,
+      "code_name": "advance",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Advance one acknowledged host operation; cleanup precedes failure exit.",
+      "fingerprint": "c2ec22ee2b1a52fbb83c7be9fd10c64fdad528d07b705c71fadcf7c60fcf68fd",
+      "id": "scripts/host_acceptance.py::advance",
+      "branches": {
+        "hit": 44,
+        "total": 44
+      },
+      "tests": [
+        "tests/test_host_acceptance.py::test_cancel_missing_response_recovers_owned_and_does_not_claim_pass",
+        "tests/test_host_acceptance.py::test_cancel_open_before_ownership_requires_late_cleanup",
+        "tests/test_host_acceptance.py::test_cli_poll_missing_cancel_and_wrong_owner",
+        "tests/test_host_acceptance.py::test_cli_start_reply_and_durable_owner",
+        "tests/test_host_acceptance.py::test_cli_timeout_and_success_status",
+        "tests/test_host_acceptance.py::test_complete_two_examples_with_polling_and_cleanup",
+        "tests/test_host_acceptance.py::test_deadlines_do_not_reset_on_waits_and_cleanup_has_own_deadline",
+        "tests/test_host_acceptance.py::test_document_identity_and_minimum_serial",
+        "tests/test_host_acceptance.py::test_failure_and_bad_state_are_explicit",
+        "tests/test_host_acceptance.py::test_identity_evidence_and_request_sequence_are_preserved",
+        "tests/test_host_acceptance.py::test_operator_cancel_ignores_corrupt_reply_and_retains_owned_id",
+        "tests/test_host_acceptance.py::test_preflight_refuses_user_work_and_old_ack"
+      ],
+      "lines": {
+        "hit": 54,
+        "total": 54
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/host_acceptance.py",
+      "language": "Python",
+      "name": "publish",
+      "signature": "publish(state) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 103,
+      "end_line": 118,
+      "first_line": 103,
+      "code_name": "publish",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Write fresh request and durable state; replies are unique per request.",
+      "fingerprint": "1900f95ac82bae247808fc4c0c02bbd5874c743d6c024851900226bbe916ce08",
+      "id": "scripts/host_acceptance.py::publish",
+      "branches": {
+        "hit": 2,
+        "total": 2
+      },
+      "tests": [
+        "tests/test_host_acceptance.py::test_audit_reads_loaded_modules_and_does_not_import_solver",
+        "tests/test_host_acceptance.py::test_cancel_missing_response_recovers_owned_and_does_not_claim_pass",
+        "tests/test_host_acceptance.py::test_cancel_open_before_ownership_requires_late_cleanup",
+        "tests/test_host_acceptance.py::test_cli_default_timeout",
+        "tests/test_host_acceptance.py::test_cli_module_entrypoint",
+        "tests/test_host_acceptance.py::test_cli_poll_missing_cancel_and_wrong_owner",
+        "tests/test_host_acceptance.py::test_cli_start_reply_and_durable_owner",
+        "tests/test_host_acceptance.py::test_cli_timeout_and_success_status",
+        "tests/test_host_acceptance.py::test_complete_two_examples_with_polling_and_cleanup",
+        "tests/test_host_acceptance.py::test_create_unique_copies_hashes_and_publish_terminal",
+        "tests/test_host_acceptance.py::test_creation_inventory_defaults_and_nested_output",
+        "tests/test_host_acceptance.py::test_deadlines_do_not_reset_on_waits_and_cleanup_has_own_deadline",
+        "tests/test_host_acceptance.py::test_document_identity_and_minimum_serial",
+        "tests/test_host_acceptance.py::test_each_cli_required_argument[--document]",
+        "tests/test_host_acceptance.py::test_each_cli_required_argument[--output]",
+        "tests/test_host_acceptance.py::test_each_cli_required_argument[--root]",
+        "tests/test_host_acceptance.py::test_explicit_scratch_serial_required",
+        "tests/test_host_acceptance.py::test_failure_and_bad_state_are_explicit",
+        "tests/test_host_acceptance.py::test_identity_evidence_and_request_sequence_are_preserved",
+        "tests/test_host_acceptance.py::test_operator_cancel_ignores_corrupt_reply_and_retains_owned_id",
+        "tests/test_host_acceptance.py::test_preflight_refuses_user_work_and_old_ack"
+      ],
+      "lines": {
+        "hit": 13,
+        "total": 13
+      },
+      "status": "covered"
+    },
+    {
+      "path": "scripts/host_acceptance.py",
+      "language": "Python",
+      "name": "main",
+      "signature": "main(argv=None) -> unannotated",
+      "kind": "FunctionDef",
+      "line": 121,
+      "end_line": 148,
+      "first_line": 121,
+      "code_name": "main",
+      "declaration": false,
+      "visibility": "public/conventional",
+      "summary": "Create or advance the pilot using the latest identity-bound MCP reply.",
+      "fingerprint": "6ee90ae2ee9de324447337cc09a2f02410403f644c0270f4d83f469b20fa7e4f",
+      "id": "scripts/host_acceptance.py::main",
+      "branches": {
+        "hit": 4,
+        "total": 4
+      },
+      "tests": [
+        "tests/test_host_acceptance.py::test_cli_default_timeout",
+        "tests/test_host_acceptance.py::test_cli_module_entrypoint",
+        "tests/test_host_acceptance.py::test_cli_poll_missing_cancel_and_wrong_owner",
+        "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv0]",
+        "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv1]",
+        "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv2]",
+        "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv3]",
+        "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv4]",
+        "tests/test_host_acceptance.py::test_cli_start_reply_and_durable_owner",
+        "tests/test_host_acceptance.py::test_cli_timeout_and_success_status",
+        "tests/test_host_acceptance.py::test_each_cli_required_argument[--document]",
+        "tests/test_host_acceptance.py::test_each_cli_required_argument[--output]",
+        "tests/test_host_acceptance.py::test_each_cli_required_argument[--root]",
+        "tests/test_host_acceptance.py::test_operator_cancel_ignores_corrupt_reply_and_retains_owned_id"
+      ],
+      "lines": {
+        "hit": 24,
+        "total": 24
+      },
+      "status": "covered"
+    },
+    {
       "path": "scripts/make_v04_demo.py",
       "language": "Python",
       "name": "card",
@@ -83050,6 +83661,32 @@
         "tests/test_general_boundaries.py::test_sgs_zero_and_device",
         "tests/test_general_boundaries.py::test_slip_edges_and_shear_projection",
         "tests/test_general_boundaries.py::test_smagorinsky_manufactured_stress",
+        "tests/test_host_acceptance.py::test_audit_reads_loaded_modules_and_does_not_import_solver",
+        "tests/test_host_acceptance.py::test_cancel_missing_response_recovers_owned_and_does_not_claim_pass",
+        "tests/test_host_acceptance.py::test_cancel_open_before_ownership_requires_late_cleanup",
+        "tests/test_host_acceptance.py::test_cli_default_timeout",
+        "tests/test_host_acceptance.py::test_cli_module_entrypoint",
+        "tests/test_host_acceptance.py::test_cli_poll_missing_cancel_and_wrong_owner",
+        "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv0]",
+        "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv1]",
+        "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv2]",
+        "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv3]",
+        "tests/test_host_acceptance.py::test_cli_requires_complete_arguments[argv4]",
+        "tests/test_host_acceptance.py::test_cli_start_reply_and_durable_owner",
+        "tests/test_host_acceptance.py::test_cli_timeout_and_success_status",
+        "tests/test_host_acceptance.py::test_complete_two_examples_with_polling_and_cleanup",
+        "tests/test_host_acceptance.py::test_create_unique_copies_hashes_and_publish_terminal",
+        "tests/test_host_acceptance.py::test_creation_inventory_defaults_and_nested_output",
+        "tests/test_host_acceptance.py::test_deadlines_do_not_reset_on_waits_and_cleanup_has_own_deadline",
+        "tests/test_host_acceptance.py::test_document_identity_and_minimum_serial",
+        "tests/test_host_acceptance.py::test_each_cli_required_argument[--document]",
+        "tests/test_host_acceptance.py::test_each_cli_required_argument[--output]",
+        "tests/test_host_acceptance.py::test_each_cli_required_argument[--root]",
+        "tests/test_host_acceptance.py::test_explicit_scratch_serial_required",
+        "tests/test_host_acceptance.py::test_failure_and_bad_state_are_explicit",
+        "tests/test_host_acceptance.py::test_identity_evidence_and_request_sequence_are_preserved",
+        "tests/test_host_acceptance.py::test_operator_cancel_ignores_corrupt_reply_and_retains_owned_id",
+        "tests/test_host_acceptance.py::test_preflight_refuses_user_work_and_old_ack",
         "tests/test_integration_review.py::test_boundary_memory_increases_with_exposed_faces_before_allocation",
         "tests/test_integration_review.py::test_external_memory_rejected_before_link_allocation",
         "tests/test_integration_review.py::test_imported_wall_filter_survives_repeated_reset",
@@ -83280,6 +83917,7 @@
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[boundary-reflection-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[cli-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[device-smoke-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[host-acceptance-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-collision-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-diagnostic-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[motion-schema-policy.json]",
@@ -84527,6 +85165,7 @@
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[boundary-reflection-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[cli-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[device-smoke-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[host-acceptance-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-collision-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-diagnostic-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[motion-schema-policy.json]",
