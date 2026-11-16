@@ -297,7 +297,7 @@ diff --git a/src/hawa/quality.py b/src/hawa/quality.py
 index 3a9158c..ccb91d5 100644
 --- a/src/hawa/quality.py
 +++ b/src/hawa/quality.py
-@@ -81,6 +81,7 @@ def assess(session):
+@@ -119,6 +119,7 @@ def assess(session):
                  'finite': finite, 'positive_density': positive, 'boundary_flux': flux, 'backflow': backflow,
                  'physical_model_status': ('unvalidated-neutral-external' if session.spec['neutral_precursor'].get('mode')=='external' else 'unvalidated-neutral-precursor') if session.spec.get('neutral_precursor') else 'not-assessed',
                  'wall_diagnostics': dict(session.solver.rough_floor.report) if hasattr(session.solver, 'rough_floor') else None,
