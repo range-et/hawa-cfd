@@ -20,7 +20,7 @@ def run(tmp_path):
     source.mkdir(parents=True)
     for n in (31, 32):
         (source / ('%s-example.gh' % n)).write_bytes(b'archive')
-    return host.create(root, tmp_path / 'run', timeout=10, now=100)
+    return host.create(root, tmp_path / 'run', timeout=10, now=100, document=8)
 
 
 def ack(state, **values):
@@ -106,10 +106,10 @@ def test_create_unique_copies_hashes_and_publish_terminal(run):
     assert (output / 'audit.py').exists()
     assert all(len(v) == 64 for v in run['source_hashes'].values())
     with pytest.raises(FileExistsError):
-        host.create(run['root'], output)
+        host.create(run['root'], output, document=8)
     for timeout in (0, -1, 3601, float('nan')):
         with pytest.raises(ValueError):
-            host.create(run['root'], output / 'invalid', timeout)
+            host.create(run['root'], output / 'invalid', timeout, document=8)
     run['status'] = 'passed'
     host.publish(run)
     assert not (output / 'request.cs').exists() and not (output / 'audit.py').exists()
@@ -132,7 +132,7 @@ def test_cli_poll_missing_cancel_and_wrong_owner(run, monkeypatch, capsys):
 def test_cli_start_reply_and_durable_owner(run, monkeypatch, capsys):
     monkeypatch.setattr(host.time, 'time', lambda: 100)
     output = Path(run['output']).with_name('second')
-    assert host.main(['start', '--root', run['root'], '--output', str(output)]) == 0
+    assert host.main(['start', '--root', run['root'], '--output', str(output), '--document', '8']) == 0
     state = json.loads((output / 'state.json').read_text())
     (output / 'reply-0000.json').write_text(json.dumps(ack(state, safe=True, rhino_serial=8, original_gh=None)))
     assert host.main(['poll', '--output', str(output)]) == 0
@@ -160,8 +160,82 @@ def test_audit_reads_loaded_modules_and_does_not_import_solver(run, monkeypatch,
 def test_cli_module_entrypoint(run, monkeypatch):
     import runpy
     output = str(Path(run["output"]).with_name("entrypoint"))
-    monkeypatch.setattr(sys, "argv", [host.__file__, "start", "--root", run["root"], "--output", output])
+    monkeypatch.setattr(sys, "argv", [host.__file__, "start", "--root", run["root"], "--output", output, "--document", "8"])
     with pytest.raises(SystemExit) as caught:
         runpy.run_path(host.__file__, run_name="__main__")
     assert caught.value.code == 0
     assert (Path(output) / "state.json").exists()
+
+
+def test_identity_evidence_and_request_sequence_are_preserved(run):
+    s = step(run, safe=True, rhino_serial=1234, original_gh='previous')
+    assert s['rhino_serial'] == 1234 and s['sequence'] == 1
+    s = step(s, owned='child')
+    assert s['owned'] == 'child' and s['sequence'] == 2
+    s = step(step(s, ready=True))
+    evidence = ack(s, passed=True, outputs={'velocity': [1.25, 0, 0]}, steps=60)
+    done = host.advance(s, evidence, now=101)
+    assert done['results'] == [evidence] and done['sequence'] == s['sequence'] + 1
+    assert step(run, safe=False)['failure'] == 'Unsafe host preflight'
+    assert host.advance(run, None, now=101, cancel=True)['failure'] == 'Cancelled by operator'
+    for bad in ('true', 1, [], None):
+        assert step(run, safe=bad)['status'] == 'blocked'
+        assert step(s, passed=bad)['phase'] == 'observe'
+    # The engine does not mutate the caller's persisted snapshot.
+    assert run['sequence'] == 0 and run['results'] == []
+
+
+def test_creation_inventory_defaults_and_nested_output(run):
+    import uuid
+    root = Path(run['root'])
+    output = Path(run['output']).with_name('nested') / 'new' / 'run'
+    s = host.create(root, output, now=10, document=8)
+    assert s['timeout'] == 180 and s['deadline'] == 190
+    assert uuid.UUID(hex=s['run_id']).hex == s['run_id']
+    assert s['run_id'] != run['run_id']
+    assert s['original_gh'] is None and s['rhino_serial'] == 8
+    assert s['examples'] == [str(output / ('%s-example.gh' % n)) for n in (31, 32)]
+    assert set(s['source_hashes']) == {str(root / 'examples/grasshopper' / ('%s-example.gh' % n)) for n in (31, 32)}
+    assert all(Path(path).read_bytes() == b'archive' for path in s['examples'])
+    for timeout in (0.1, 1, 3600):
+        t = host.create(root, output.with_name('boundary-' + str(timeout)), timeout, now=10, document=8)
+        assert t['deadline'] == 10 + timeout
+    s['status'] = 'failed'
+    host.publish(s)
+    host.publish(s)  # Terminal writes remain idempotent after scripts are removed.
+
+
+@pytest.mark.parametrize('argv', [[], ['start'], ['start', '--root', '/tmp'], ['start', '--output', '/tmp'], ['poll']])
+def test_cli_requires_complete_arguments(argv):
+    with pytest.raises(SystemExit) as result:
+        host.main(argv)
+    assert result.value.code == 2
+
+
+def test_cli_timeout_and_success_status(run, monkeypatch, capsys):
+    output = Path(run['output']).with_name('cli')
+    monkeypatch.setattr(host.time, 'time', lambda: 100)
+    assert host.main(['start', '--root', run['root'], '--output', str(output), '--timeout', '1.5', '--document', '8']) == 0
+    s = json.loads((output / 'state.json').read_text())
+    assert s['timeout'] == 1.5 and s['deadline'] == 101.5
+    s.update(phase='cleanup', index=1, owned='owned')
+    host.publish(s)
+    (output / 'reply-0000.json').write_text(json.dumps(ack(s, clean=True)))
+    assert host.main(['poll', '--output', str(output)]) == 0
+    assert json.loads((output / 'state.json').read_text())['status'] == 'passed'
+
+
+def test_operator_cancel_ignores_corrupt_reply_and_retains_owned_id(run, monkeypatch):
+    monkeypatch.setattr(host.time, 'time', lambda: 101)
+    output = Path(run['output'])
+    (output / 'reply-0000.json').write_text('corrupt response')
+    (output / 'ownership.json').write_text(json.dumps(dict(run_id=run['run_id'], owned='owned')))
+    assert host.main(['poll', '--output', str(output), '--cancel']) == 0
+    state = json.loads((output / 'state.json').read_text())
+    assert state['phase'] == 'close' and state['owned'] == 'owned'
+
+
+def test_explicit_scratch_serial_required(run):
+    for value in (None, 0, -1, True, "8"):
+        with pytest.raises(ValueError, match="scratch"):
+            host.create(run['root'], Path(run['output']).with_name('invalid'), document=value)

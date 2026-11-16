@@ -2,6 +2,7 @@
 // No timer, waiting loop, private embedded-runtime fields, or source archive writes.
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Special;
+using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using System.Text.Json.Nodes;
 using System.IO;
@@ -20,10 +21,11 @@ var doc=__rhino_doc__;
 GH_Document owned=null;
 try{
  if(doc!=Rhino.RhinoDoc.ActiveDoc)throw new Exception("MCP target must be the active dedicated Rhino document");
- if(phase!="preflight" && (long)doc.RuntimeSerialNumber!=s["rhino_serial"].GetValue<long>())throw new Exception("Rhino document changed");
+ if((long)doc.RuntimeSerialNumber!=s["rhino_serial"].GetValue<long>())throw new Exception("Rhino document changed");
  string ownedText=s["owned"]?.GetValue<string>();
  if(ownedText!=null){
-  owned=Grasshopper.Instances.DocumentServer.ToArray().SingleOrDefault(d=>d.DocumentID==Guid.Parse(ownedText));
+  owned=AppDomain.CurrentDomain.GetData("HawaAcceptance:"+run) as GH_Document;
+  if(owned!=null && owned.DocumentID!=Guid.Parse(ownedText))throw new Exception("Owned GH identity changed");
   if(owned!=null && owned.FilePath!=s["examples"][index].GetValue<string>())throw new Exception("Owned GH document path changed");
  }
  var shared=AppDomain.CurrentDomain.GetAssemblies().Single(a=>a.GetName().Name=="Hawa.Shared");
@@ -42,12 +44,12 @@ try{
    if(hash!=source.Value.GetValue<string>())throw new Exception("Source archive changed: "+source.Key);
   }
   if(phase=="preflight"){
-   bool empty=!doc.Objects.Any(o=>!o.IsDeleted) && !doc.Modified && string.IsNullOrEmpty(doc.Path);
+   bool empty=!doc.Objects.Any(o=>!o.IsDeleted) && string.IsNullOrEmpty(doc.Path) && doc.ModelUnitSystem==Rhino.UnitSystem.Meters;
    bool casesIdle=true;
    foreach(dynamic c in (System.Collections.IEnumerable)hub.GetProperty("All").GetValue(null))
     if(c.Session!=null || c.Job!=null || c.State=="preparing" || c.State=="running")casesIdle=false;
-   r["safe"]=idle && empty && casesIdle;
-   r["rhino_serial"]=(long)doc.RuntimeSerialNumber;
+   r["safe"]=idle && empty && casesIdle && hub.GetMethod("Find").Invoke(null,new object[]{doc.RuntimeSerialNumber})==null;
+   r["rhino_serial"]=(long)doc.RuntimeSerialNumber;r["modified"]=doc.Modified;
    r["original_gh"]=Grasshopper.Instances.ActiveCanvas.Document?.DocumentID.ToString();
    r["rhino"]=Rhino.RhinoApp.Version.ToString();
    var hashes=new JsonObject();
@@ -58,7 +60,8 @@ try{
    if(r["clean"].GetValue<bool>()){
     File.Delete(Path.Combine(output,"ownership.json"));
     var original=s["original_gh"]?.GetValue<string>();
-    Grasshopper.Instances.ActiveCanvas.Document=original==null?null:Grasshopper.Instances.DocumentServer.ToArray().Single(d=>d.DocumentID==Guid.Parse(original));
+    if(Grasshopper.Instances.ActiveCanvas.Document==null)
+     Grasshopper.Instances.ActiveCanvas.Document=original==null?null:Grasshopper.Instances.DocumentServer.ToArray().SingleOrDefault(d=>d.DocumentID==Guid.Parse(original));
    }
   }
  }else if(phase=="open"){
@@ -66,13 +69,14 @@ try{
   string path=s["examples"][index].GetValue<string>();
   var io=new GH_DocumentIO();if(!io.Open(path))throw new Exception("Cannot open copied definition");
   owned=io.Document;r["owned"]=owned.DocumentID.ToString();
+  AppDomain.CurrentDomain.SetData("HawaAcceptance:"+run,owned);
   // Persist ownership before adding/solving, so a lost MCP reply can still cancel.
   File.WriteAllText(Path.Combine(output,"ownership.json"),new JsonObject{["run_id"]=run,["owned"]=owned.DocumentID.ToString()}.ToJsonString());
   if(owned.Objects.OfType<GH_BooleanToggle>().Any(t=>t.Value))throw new Exception("Copied definition must start idle");
-  // CPU is explicit in the two shipped pilot definitions. Never use auto/MPS here.
-  var device=owned.Objects.OfType<GH_Panel>().Where(p=>p.UserText.Trim()=="cpu").ToArray();
-  if(device.Length!=1)throw new Exception("Expected one explicit CPU device panel");
-  doc.ModelUnitSystem=Rhino.UnitSystem.Meters;
+  // Override only unconnected device values on this owned copy; never rewire.
+  var devices=owned.Objects.OfType<GH_Component>().SelectMany(c=>c.Params.Input).Where(p=>p.Name=="Device").ToArray();
+  if(devices.Length==0 || devices.Any(p=>p.Sources.Count!=0 || !(p is Param_String)))throw new Exception("Pilot requires direct device inputs");
+  foreach(Param_String device in devices){device.PersistentData.Clear();device.SetPersistentData("cpu");}
   owned.FilePath=path;Grasshopper.Instances.DocumentServer.AddDocument(owned);Grasshopper.Instances.ActiveCanvas.Document=owned;owned.NewSolution(false);
  }else{
   if(owned==null && phase!="close")throw new Exception("Owned document disappeared");
@@ -81,6 +85,7 @@ try{
     foreach(var t in owned.Objects.OfType<GH_BooleanToggle>()){t.Value=false;t.ExpireSolution(false);}
     if(Grasshopper.Instances.ActiveCanvas.Document==owned)Grasshopper.Instances.ActiveCanvas.Document=null;
     Grasshopper.Instances.DocumentServer.RemoveDocument(owned);owned.Dispose();
+    AppDomain.CurrentDomain.SetData("HawaAcceptance:"+run,null);
    }
   }else{
    if(Grasshopper.Instances.ActiveCanvas.Document!=owned)throw new Exception("User switched GH document; cancelling owned test");
@@ -127,7 +132,7 @@ try{
   }
  }
 }catch(Exception e){
- if(phase=="open" && owned!=null && !Grasshopper.Instances.DocumentServer.ToArray().Contains(owned))owned.Dispose();
+ // Retain owned identity even after partial open; close phase disposes it.
  r["error"]=e.ToString();
 }
 File.WriteAllText(replyPath,r.ToJsonString(new System.Text.Json.JsonSerializerOptions{WriteIndented=true}));

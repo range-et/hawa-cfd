@@ -12,8 +12,10 @@ import time
 import uuid
 
 
-def create(root, output, timeout=180.0, now=None):
+def create(root, output, timeout=180.0, now=None, document=None):
     """Create new evidence storage; never reuse a previous run's output."""
+    if type(document) is not int or document <= 0:
+        raise ValueError("Explicit scratch Rhino document serial required")
     root, output = Path(root).resolve(), Path(output).resolve()
     if not 0 < timeout <= 3600:
         raise ValueError("Timeout must be in (0, 3600] seconds")
@@ -29,7 +31,7 @@ def create(root, output, timeout=180.0, now=None):
     stamp = time.time() if now is None else now
     state = dict(run_id=uuid.uuid4().hex, sequence=0, phase="preflight", status="running",
                  root=str(root), output=str(output), examples=copies, source_hashes=hashes,
-                 index=0, owned=None, original_gh=None, rhino_serial=None,
+                 index=0, owned=None, original_gh=None, rhino_serial=document,
                  timeout=timeout, deadline=stamp + timeout, failure=None, results=[])
     publish(state)
     return state
@@ -63,25 +65,25 @@ def advance(state, reply, now=None, cancel=False, recovered_owned=None):
         else:
             state["status"] = "failed"
     elif phase == "preflight":
-        if not reply.get("safe"):
+        if reply.get("safe") is not True:
             state["failure"], state["status"] = "Unsafe host preflight", "blocked"
         else:
             state.update(rhino_serial=reply["rhino_serial"], original_gh=reply["original_gh"], phase="open")
     elif phase == "open":
         state.update(owned=reply["owned"], phase="prepare")
     elif phase == "prepare":
-        if reply["ready"]:
+        if reply["ready"] is True:
             state["phase"] = "start"
     elif phase == "start":
         state["phase"] = "observe"
     elif phase == "observe":
-        if reply["passed"]:
+        if reply["passed"] is True:
             state["results"].append(reply)
             state["phase"] = "close"
     elif phase == "close":
         state["phase"] = "cleanup"
     elif phase == "cleanup":
-        if reply["clean"]:
+        if reply["clean"] is True:
             state["owned"] = None
             state["index"] += 1
             if state["failure"]:
@@ -124,16 +126,17 @@ def main(argv=None):
     start.add_argument("--root", type=Path, required=True)
     start.add_argument("--output", type=Path, required=True)
     start.add_argument("--timeout", type=float, default=180)
+    start.add_argument("--document", type=int, required=True)
     poll = sub.add_parser("poll")
     poll.add_argument("--output", type=Path, required=True)
     poll.add_argument("--cancel", action="store_true")
     args = parser.parse_args(argv)
     if args.command == "start":
-        state = create(args.root, args.output, args.timeout)
+        state = create(args.root, args.output, args.timeout, document=args.document)
     else:
         state = json.loads((args.output / "state.json").read_text())
         reply_path = args.output / ("reply-%04d.json" % state["sequence"])
-        reply = json.loads(reply_path.read_text()) if reply_path.exists() else None
+        reply = json.loads(reply_path.read_text()) if reply_path.exists() and not args.cancel else None
         owner_path = args.output / "ownership.json"
         owner = json.loads(owner_path.read_text()) if owner_path.exists() else None
         if owner is not None and owner["run_id"] != state["run_id"]:
