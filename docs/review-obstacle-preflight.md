@@ -75,13 +75,13 @@ OCE as a fault, and normal removal/replacement while kernel work is blocked.
 | --- | --- | --- |
 | G0 | PASS for bounded admission contract | Explicit exclusions and original issue fixtures; source/API review above |
 | G1 | PASS for code review | Copies and workers own disposal; caller meshes unchanged; no solver or state schema migration; exact GUID/port contracts tested |
-| G2 | PENDING final measured run | Focused C# contracts and development build pass; final source-bound full gate and seeded-fault results to be recorded |
+| G2 | PASS for measured headless scope | 3.9: 1821 passes / 87 skips; 3.12: 1811 passes / 97 skips; 120 StateContracts; strict headless 994 covered functions, 308 unmeasured host functions; five seeded faults detected |
 | G3 | PASS for unchanged numerical method scope | No solver, viscosity, collision, field or load arithmetic changes; intentionally rejects invalid geometry earlier. Kernel/solid classification acceptance remains G4 |
-| G4 | BLOCKED pending serial host acceptance | Headless doubles do not establish Rhino kernel geometry or GH scheduling; native/GH fixtures and supported examples still required |
-| G5 | BLOCKED for release | Local development build only; no install/release, Windows or CUDA claim |
-| G6 | PENDING | Existing node IDs and ports preserved; final matrix/archive checks and host omissions to be recorded |
+| G4 | PASS for listed live fixtures; broader acceptance BLOCKED | Combined candidate real-kernel, GH Geometry/Check and native CPU fixtures passed; no full example sweep or live Moving Body/lifecycle audit |
+| G5 | BLOCKED for release | Local build passed; coordinating agent installed combined development candidate for acceptance, hashes verified. No release, Windows or CUDA claim |
+| G6 | BLOCKED pending final checks | Existing node IDs and ports preserved; final matrix/archive checks and host omissions to be recorded |
 
-## Live acceptance queue
+## Fixture specification and remaining acceptance
 
 Use an isolated owned Rhino/GH document, one fixture at a time. All fixture shapes
 are provided by `ObstacleContracts.Box` and `GeometryAdmissionContracts` for
@@ -102,4 +102,54 @@ measured; the doubles script analytic box kernel answers.
 - Run supported examples on the tested combined candidate, preserving user
   documents and example 09. Record actual omissions instead of claiming a sweep.
 
-#83 remains open until live scope is verified or explicitly re-scoped.
+#83 remains open for the acceptance omissions and pick-time scope below.
+
+## Measured candidate evidence
+
+[Machine-readable evidence](verification-obstacle-preflight.json) identifies the
+source and the separately built combined host candidate. Source `31368cb` passed
+the Python 3.9.25 suite (1821 passed, 87 skipped), 120 linked StateContracts and
+the strict headless gate against base `1b4e6c7`: 994 covered functions, 58
+declarations and 308 unmeasured host functions. The committed matrix is refreshed.
+The raw Coverlet total includes host/test doubles; the strict gate evaluates the
+linked production-source scope. Five deliberate C# faults in topology, degeneracy,
+intersection and GH/native admission produced inspected assertion failures at
+`34f4c7f`; these files are unchanged at `31368cb`. This is bounded seeded-fault
+evidence, not an exhaustive mutation score. Build and Ruff passed.
+
+The earlier interrupted measured run is discarded. A separate aborted #98
+mutation study may have probed MPS concurrently with the fresh 3.9 suite; no
+failure was observed, but these runs support correctness checks only, not
+performance comparisons. Python 3.12.4 subsequently passed 1811 tests with 97 skips. Both isolated
+environments use pinned PyTorch 2.8.0. CPU/MPS cases ran where supported; CUDA
+was unavailable. No tolerances were relaxed.
+
+Through Rhino MCP, the issue83 agent verified the loaded hashes of combined
+candidate `6ed1012` before testing. Nine real-kernel fixtures agreed with admission
+expectations, including a 2048-face meshed sphere. GH Geometry produced 8 closed
+box, 8 overlapping, 12 touching, 16 disjoint and 4 cropped solid sites. Hollow
+outer [2,5]^3 / inner [3,4]^3 at dx=.5 produced 342 sites and excluded the cavity
+center; direct kernel tests retained inner surface/material membership. Open,
+zero-area, nonmanifold and intersecting meshes gave specific obstacle diagnostics.
+Geometry Check reported the same results for 13 input meshes without errors.
+
+Native open-mesh pick refused with object ID. Rhino itself refused insertion of
+the zero-area and nonmanifold-fin meshes (empty GUID); this is explicitly **not**
+a native preflight pass. Closed intersecting shells were selectable, then Run
+failed before a solver session existed, at zero steps, with object ID and faces.
+Native valid box, hollow and touching cases completed one CPU step with 8, 342
+and 12 solids respectively; hollow cavity center remained fluid. These are
+admission/scheduling smoke checks, not convergence or physical accuracy results.
+
+The owned GH definition was removed/disposed, owned Rhino objects deleted,
+CaseHub case closed, and later read-only checks showed zero undeleted objects,
+zero retained cleanup and zero pending polling. Original documents were not
+opened, closed or replaced. Full examples, live Moving Body and blocked-worker
+cancellation/replacement remain unrun on this combined candidate; headless tests
+do cover those lifecycle paths. #83 must not be closed as full pick-time solid
+certification or complete release acceptance.
+
+No viewport or canvas screenshots were captured or visually inspected. The live
+checks inspected actual volatile outputs/runtime messages and public native
+Describe/Spec data. Visual presentation and the complete example gallery remain
+explicitly unverified.
