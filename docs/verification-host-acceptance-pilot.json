@@ -1,0 +1,137 @@
+{
+  "date": "2026-11-16",
+  "issue": 39,
+  "base": "1b4e6c759cb86a677be992c5e1c65def3006866a",
+  "scope": "CPU examples31/32 sequential pilot, not full gallery",
+  "runs": [
+    {
+      "run_id": "c8b3abd945bf4cb2ba57c347e9b7a0c6",
+      "directory": "results/host-pilot-20261116-f",
+      "status": "passed",
+      "failure": null,
+      "completed_examples": 2,
+      "cleanup": [
+        {
+          "sequence": 6,
+          "pending_cleanup": 0,
+          "pending_refreshes": 0,
+          "clean": true,
+          "jobs": 0,
+          "sessions": 0,
+          "workers": []
+        },
+        {
+          "sequence": 14,
+          "pending_cleanup": 0,
+          "pending_refreshes": 0,
+          "clean": true,
+          "jobs": 0,
+          "sessions": 0,
+          "workers": []
+        }
+      ],
+      "images": {
+        "example-32.png": "4c4ec6f4deb176091201784a62184335c453d799a50230b805de5d0122a7ad47",
+        "example-31.png": "f97eaafbc516d1de2b70806e15ac6c5c51b006ebb0738ed4da6d8b04dabed21f"
+      }
+    },
+    {
+      "run_id": "ccaee4de5e5347ec86c411afee86514a",
+      "directory": "results/host-pilot-20261116-g",
+      "status": "passed",
+      "failure": null,
+      "completed_examples": 2,
+      "cleanup": [
+        {
+          "sequence": 7,
+          "pending_cleanup": 0,
+          "pending_refreshes": 0,
+          "clean": true,
+          "jobs": 0,
+          "sessions": 0,
+          "workers": []
+        },
+        {
+          "sequence": 15,
+          "pending_cleanup": 0,
+          "pending_refreshes": 0,
+          "clean": true,
+          "jobs": 0,
+          "sessions": 0,
+          "workers": []
+        }
+      ],
+      "images": {
+        "example-32.png": "4c4ec6f4deb176091201784a62184335c453d799a50230b805de5d0122a7ad47",
+        "example-31.png": "f97eaafbc516d1de2b70806e15ac6c5c51b006ebb0738ed4da6d8b04dabed21f"
+      }
+    },
+    {
+      "run_id": "ab071595f63f4806bca69183117dd3a7",
+      "directory": "results/host-pilot-20261116-h",
+      "status": "failed",
+      "failure": "Cancelled by operator",
+      "completed_examples": 0,
+      "cleanup": [
+        {
+          "sequence": 6,
+          "pending_cleanup": 0,
+          "pending_refreshes": 0,
+          "clean": true,
+          "jobs": 0,
+          "sessions": 0,
+          "workers": []
+        }
+      ],
+      "images": {}
+    }
+  ],
+  "host": {
+    "rhino": "8.37.26307.15002",
+    "os": "macOS-27.2.1-arm64-arm-64bit",
+    "pid": 17334,
+    "installed_files": {
+      "Hawa.Shared": {
+        "path": "/Users/r2d2/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)/Libraries/Hawa/Hawa.Shared.dll",
+        "sha256": "D9D063FBFF40B6A07FFD900A7EA19B6FF30FFBA428609560C733BB430B297044"
+      },
+      "Hawa.Grasshopper": {
+        "path": "/Users/r2d2/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)/Libraries/Hawa/Hawa.Grasshopper.gha",
+        "sha256": "874CB85105DFD32B96A378CE72160B18A62717349455227EACEEC614DF59A956"
+      }
+    },
+    "embedded_sources": {
+      "plugin": {
+        "path": "/Users/r2d2/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)/Libraries/Hawa/python/hawa/plugin.py",
+        "sha256": "f786fabcbe58254dfae48610c1c8fa1a3839e6663cd58b277878f348b634bfc7"
+      },
+      "jobs": {
+        "path": "/Users/r2d2/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)/Libraries/Hawa/python/hawa/jobs.py",
+        "sha256": "0306d097b6d0982cf7e28cf2626f0667f0a61916e0811112d0265455b554d981"
+      }
+    }
+  },
+  "manual_setup": "Original empty native model explicitly designated. Original units restored to millimetres,0objects; dirty flag retained. Original GH GUID f0ff2856-9daa-4829-b909-082f21a0fcb3 active,0objects,unmodified. Native window activation required root recovery after initial Mac filter mismatch; no filter override.",
+  "visual_review": "Codex issue39 inspected all four 1200x800 captures. Perspective zoom extents:31 domain/body/three probe vectors visible;32 domain/moved body/pivot visible. No rendered scalar field or convergence claim.",
+  "cancel_fixture": "Run h overrides only copied31 target to1000000; observed running37steps; cancel without observe response,owned disposal then zero resource audit; terminal failed/Cancelled by operator as expected.",
+  "omissions": [
+    "Other supported examples",
+    "Checkpoint save/load/export actions in31",
+    "Native Undo/Redo and lifecycle harness composition",
+    "Windows/CUDA/MPS pilot qualification"
+  ],
+  "tests": {
+    "focused_python39": 25,
+    "focused_python312": 25,
+    "targeted_line_coverage": "147/147",
+    "targeted_branch_coverage": "62/62",
+    "mutation": {
+      "total": 586,
+      "assertion_kills": 548,
+      "reviewed_survivors": 38,
+      "policy": "tools/mutation/host-acceptance-policy.json",
+      "unresolved": "Case-sensitive filesystem path variants and two diagnostic/help assertion gaps remain explicitly reviewed; no all-killed claim."
+    },
+    "full_measured": "pending"
+  }
+}

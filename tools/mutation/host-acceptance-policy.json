@@ -1,0 +1,207 @@
+{
+  "tool": "mutmut==3.7.0",
+  "scope": "Whole #39 Python developer controller; C# host adapter and top-level embedded audit are outside mutmut function scope and require their separate tests/live evidence.",
+  "sources": {
+    "scripts/host_acceptance.py": "25f9e16c7316d586d906ca302a2afe12d09473aed41c032c23afd25c0c2df5dc",
+    "scripts/host_acceptance.cs": "4cbc91207b944af29fb080e43c2ee7a7251eebdbf215921e15bc94051fb25a29",
+    "scripts/host_acceptance_audit.py": "a0a581c4bc5f90aaa6a4b4c6c5f7912ab8109139c0f5719fb9f448fa6e92bafb",
+    "tests/test_host_acceptance.py": "5e9a15bdecf7e70813a52025d70c249348049bd0dee36be455f357017f59d49f"
+  },
+  "control_test_files": [
+    "tests/test_host_acceptance.py"
+  ],
+  "mutants": 586,
+  "inventory_sha256": "b17df11dc824df14af0df4f2ad5b112ca3c8affc5cfbaf5e917404d84fbc77f5",
+  "reviewed_survivors": {
+    "host_acceptance.x_advance__mutmut_11": {
+      "status": "survived",
+      "diff_sha256": "a88cebc233ce386cb46503a07b941d3b78b2d12e1421ad1338754d57ff9b921c",
+      "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
+    },
+    "host_acceptance.x_advance__mutmut_12": {
+      "status": "survived",
+      "diff_sha256": "12c0447afdee5c0c341d426ded3f0ee858aeb5940d37ebec6d185e7488cba745",
+      "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
+    },
+    "host_acceptance.x_advance__mutmut_145": {
+      "status": "survived",
+      "diff_sha256": "9d161e13609c7470e237b9821863936bbd63607f9fb06950b583c043fbcd8737",
+      "reason": "Equivalent: the same serial/owned value was already validated or assigned before this redundant update; all supported state transitions retain identity."
+    },
+    "host_acceptance.x_advance__mutmut_159": {
+      "status": "survived",
+      "diff_sha256": "ff33be5145aac5016b6b3dda122f724b251866f8137ef2bc66b0064fc11ebbff",
+      "reason": "Equivalent: the same serial/owned value was already validated or assigned before this redundant update; all supported state transitions retain identity."
+    },
+    "host_acceptance.x_advance__mutmut_24": {
+      "status": "survived",
+      "diff_sha256": "85b78378fe9264b159c68df8818a537d6c4ec31abb80adcddfe8c4da2aa7d70c",
+      "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
+    },
+    "host_acceptance.x_advance__mutmut_244": {
+      "status": "survived",
+      "diff_sha256": "0df3da8cf5673c3925792c4a8afa649e0a061d66a4bdf26bfe08fb98dc3d1ff3",
+      "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
+    },
+    "host_acceptance.x_advance__mutmut_25": {
+      "status": "survived",
+      "diff_sha256": "70263e061a9c1bb78c8b24fff3b17f53b9a39d07d939118bcc01b7826291eb7e",
+      "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
+    },
+    "host_acceptance.x_advance__mutmut_60": {
+      "status": "survived",
+      "diff_sha256": "ff43d322e3d9f0147f34b3d6bc796e3e710e45e66b100ea523b0f55a052cc675",
+      "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
+    },
+    "host_acceptance.x_advance__mutmut_61": {
+      "status": "survived",
+      "diff_sha256": "a73bbd6d812471bdc70426e2b0139cff621b24a258f66717db353df685fbdc13",
+      "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
+    },
+    "host_acceptance.x_create__mutmut_19": {
+      "status": "survived",
+      "diff_sha256": "ad58c905bfe2194b9a0545ca5afb8538b1b0f59f86b615f5d9dafa5b45f7b966",
+      "reason": "Unresolved diagnostic assertion gap: invalid timeout still rejects, but this mutant removes the actionable error text; existing tests assert rejection, not this exact message."
+    },
+    "host_acceptance.x_create__mutmut_20": {
+      "status": "survived",
+      "diff_sha256": "7f91933b287ae9e4c6b40408803d3b5ef071af597dc75b691430141493198a42",
+      "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
+    },
+    "host_acceptance.x_create__mutmut_21": {
+      "status": "survived",
+      "diff_sha256": "251c79ec289a627136046d13d151d732bfd8139ed20bcc42777e43edd0893048",
+      "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
+    },
+    "host_acceptance.x_create__mutmut_22": {
+      "status": "survived",
+      "diff_sha256": "5e65043bfd185d897d5de4fb65f10001fcd735a1cdf0dd26934e9d39e0513815",
+      "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
+    },
+    "host_acceptance.x_create__mutmut_36": {
+      "status": "survived",
+      "diff_sha256": "419721336a79caecd0b1416e0e69e17e13a72c0aa57a3d8f7377379796ba6190",
+      "reason": "Equivalent: pathlib mkdir treats None as false; omitting exist_ok uses its false default, preserving exclusive run creation."
+    },
+    "host_acceptance.x_create__mutmut_38": {
+      "status": "survived",
+      "diff_sha256": "a4ac8b259332155f92dd839e1c06b947ce6a15e7fe401ce31eee3a7b8590c5ca",
+      "reason": "Equivalent: pathlib mkdir treats None as false; omitting exist_ok uses its false default, preserving exclusive run creation."
+    },
+    "host_acceptance.x_create__mutmut_8": {
+      "status": "survived",
+      "diff_sha256": "b6be128cc435478378b9eb6c24a5deaff14e681d25b7579f76f76d3a2a474552",
+      "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
+    },
+    "host_acceptance.x_create__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "d18a1603dbac9b728bd4400aad0c95c41aed9095dba8ad62d951fb142a8c385a",
+      "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
+    },
+    "host_acceptance.x_main__mutmut_105": {
+      "status": "survived",
+      "diff_sha256": "809e2cfc0285aaeeccec956fac9b5de9b26aeec3911cfafea0eac0beca2523d8",
+      "reason": "Unresolved portability test gap: this case-only path mutant survives on the case-insensitive macOS evidence filesystem. It is not equivalent on a case-sensitive filesystem; retain a Linux mutation follow-up."
+    },
+    "host_acceptance.x_main__mutmut_116": {
+      "status": "survived",
+      "diff_sha256": "00e11f999a6393fee0e492adc5a4f0e8232ceee317181d979cba6a46491849ac",
+      "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
+    },
+    "host_acceptance.x_main__mutmut_117": {
+      "status": "survived",
+      "diff_sha256": "6a21b619e0362029a7aad90fc3c5f8c1c380ef73aa183bb46a9a96b07d621460",
+      "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
+    },
+    "host_acceptance.x_main__mutmut_16": {
+      "status": "survived",
+      "diff_sha256": "8b48a9c1d0795f6be94873c6e4c6d57d16cf86619ef2289910d1fd8b5a4d8cef",
+      "reason": "Equivalent: start root/output are normalized to Path by create, so argparse may pass either Path or string."
+    },
+    "host_acceptance.x_main__mutmut_19": {
+      "status": "survived",
+      "diff_sha256": "20d4236690e4ed5a505e5cb58192737b2130c04a7a7bef3150ff4ff935248978",
+      "reason": "Equivalent: start root/output are normalized to Path by create, so argparse may pass either Path or string."
+    },
+    "host_acceptance.x_main__mutmut_2": {
+      "status": "survived",
+      "diff_sha256": "b59cd517066bf2d557479bab90c1ffeafa148121f0f20e517f140d717e81eb8b",
+      "reason": "Unresolved help-text assertion gap: command parsing and behavior remain tested, but the long CLI help description is not asserted."
+    },
+    "host_acceptance.x_main__mutmut_25": {
+      "status": "survived",
+      "diff_sha256": "166cfbea081228e5b705e0d74ea70e59a27c70eb7c74971e59a01d050a06045a",
+      "reason": "Equivalent: start root/output are normalized to Path by create, so argparse may pass either Path or string."
+    },
+    "host_acceptance.x_main__mutmut_28": {
+      "status": "survived",
+      "diff_sha256": "5c659f6589fbd349f683aebfe432b1e14cc9b88bc36a453e4b73fc6415c59921",
+      "reason": "Equivalent: start root/output are normalized to Path by create, so argparse may pass either Path or string."
+    },
+    "host_acceptance.x_main__mutmut_90": {
+      "status": "survived",
+      "diff_sha256": "9a245ec3c6c0e008eeb5e07b1f91a46c28c805cc02c02eefd3682f699108ee8d",
+      "reason": "Unresolved portability test gap: this case-only path mutant survives on the case-insensitive macOS evidence filesystem. It is not equivalent on a case-sensitive filesystem; retain a Linux mutation follow-up."
+    },
+    "host_acceptance.x_publish__mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "27e31f39318ad68537ce49206bfb0352178c0645195edc6fbd88d6becf6b3bdf",
+      "reason": "Equivalent for the JSON data contract: indentation is presentation only; consumers parse JSON and no byte-canonical output is promised."
+    },
+    "host_acceptance.x_publish__mutmut_13": {
+      "status": "survived",
+      "diff_sha256": "03cff37384d3aa49972f7cd73e22900f6ab74e6e765a5f4def166cd0f8e7c768",
+      "reason": "Equivalent: private temporary sibling basename is not an interface; replacement still targets the same state file and leaves no temporary file."
+    },
+    "host_acceptance.x_publish__mutmut_14": {
+      "status": "survived",
+      "diff_sha256": "b3c00ed31a9ea362c141c89392115f6bf937187a93bee2e166384a3e4032ba87",
+      "reason": "Equivalent: private temporary sibling basename is not an interface; replacement still targets the same state file and leaves no temporary file."
+    },
+    "host_acceptance.x_publish__mutmut_19": {
+      "status": "survived",
+      "diff_sha256": "1b1d0fc156d0a9d610c6686043abb4d2799a4a252cb0a38374f30c0e4bd7ba41",
+      "reason": "Unresolved portability test gap: this case-only path mutant survives on the case-insensitive macOS evidence filesystem. It is not equivalent on a case-sensitive filesystem; retain a Linux mutation follow-up."
+    },
+    "host_acceptance.x_publish__mutmut_29": {
+      "status": "survived",
+      "diff_sha256": "370eb00d8ea237a35859702af93b51b5aeba1887a07715261025a4820b2d9832",
+      "reason": "Unresolved portability test gap: this case-only path mutant survives on the case-insensitive macOS evidence filesystem. It is not equivalent on a case-sensitive filesystem; retain a Linux mutation follow-up."
+    },
+    "host_acceptance.x_publish__mutmut_35": {
+      "status": "survived",
+      "diff_sha256": "3e9b865f95d57f594e670b84766feb24aa4de8148919b4161a6ccbcbf8a166f7",
+      "reason": "Unresolved portability test gap: this case-only path mutant survives on the case-insensitive macOS evidence filesystem. It is not equivalent on a case-sensitive filesystem; retain a Linux mutation follow-up."
+    },
+    "host_acceptance.x_publish__mutmut_46": {
+      "status": "survived",
+      "diff_sha256": "4def79c428d0ae9775f04901fabdd87be13de84ae92f10cbe7fd56e118d8583b",
+      "reason": "Unresolved portability test gap: this case-only path mutant survives on the case-insensitive macOS evidence filesystem. It is not equivalent on a case-sensitive filesystem; retain a Linux mutation follow-up."
+    },
+    "host_acceptance.x_publish__mutmut_50": {
+      "status": "survived",
+      "diff_sha256": "418af6ab73b1529da428c1b63956c82a2755952185781386450ac43c2fa56f12",
+      "reason": "Unresolved portability test gap: this case-only path mutant survives on the case-insensitive macOS evidence filesystem. It is not equivalent on a case-sensitive filesystem; retain a Linux mutation follow-up."
+    },
+    "host_acceptance.x_publish__mutmut_60": {
+      "status": "survived",
+      "diff_sha256": "b441ef775ad580817c10cc6e1bcc8c96b1b66a8f78bde77f4293761d281a0882",
+      "reason": "Unresolved portability test gap: this case-only path mutant survives on the case-insensitive macOS evidence filesystem. It is not equivalent on a case-sensitive filesystem; retain a Linux mutation follow-up."
+    },
+    "host_acceptance.x_publish__mutmut_65": {
+      "status": "survived",
+      "diff_sha256": "50b37b8377c788aef8e0e072e163da51dbf4cfdd89baebb76c2e2393e37aaa07",
+      "reason": "Unresolved portability test gap: this case-only path mutant survives on the case-insensitive macOS evidence filesystem. It is not equivalent on a case-sensitive filesystem; retain a Linux mutation follow-up."
+    },
+    "host_acceptance.x_publish__mutmut_7": {
+      "status": "survived",
+      "diff_sha256": "47f3eda4ad7239d85b9f2e5806e246101189019723934bdc70f96d2e3f42a49c",
+      "reason": "Equivalent for the JSON data contract: indentation is presentation only; consumers parse JSON and no byte-canonical output is promised."
+    },
+    "host_acceptance.x_publish__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "dcabb9ea791a16cda3828e08dc6f5a53d03833cbb741371e3ed2c905ee4bc268",
+      "reason": "Equivalent for the JSON data contract: indentation is presentation only; consumers parse JSON and no byte-canonical output is promised."
+    }
+  }
+}

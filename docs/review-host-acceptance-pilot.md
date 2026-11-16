@@ -15,7 +15,7 @@ preserved user content.
 | G1 | Codex issue39, root review | PASS for controller | Run/sequence identities, deadlines, explicit scratch serial, durable ownership, no host waits; actual window behavior remains separate. |
 | G2 | Codex issue39 | Pending final gates | Focused asserting tests and actual SDK compile; final measured/mutation evidence below. |
 | G3 | Codex issue39 | NOT APPLICABLE | Tooling only; intended runs are workflow smoke checks. |
-| G4 | Codex issue39 | BLOCKED | Live preflight/failure cleanup exercised, but two successful workflows and visual acceptance are not established. |
+| G4 | Codex issue39 | PASS for declared pilot | Two fresh CPU31/32 runs, four inspected captures, active cancellation and zero-resource cleanup. Full gallery/native coverage remains open. |
 | G5 | Codex issue39 | NOT APPLICABLE | No release/install; existing build includes tool source. |
 | G6 | Codex issue39 | NOT APPLICABLE | No node, archive, field format, shared state or supported-combination change. |
 
@@ -50,7 +50,7 @@ selected the original Untitled tab, found a pending inline File path prompt and
 clicked Cancel. No save, close or discard occurred; original window became active.
 The command had targeted the injected original rather than the visible scratch.
 This is a harness/window-targeting blocker, not a reason to override GH's filter
-or bypass injected-document identity. The two-run criterion remains unverified.
+or bypass injected-document identity. Root subsequently activated the original native window; its GH filter became correct without overrides. The final pilot then completed the two-run criterion, as recorded below.
 
 Original millimetre units were restored; a backup is
 `results/pilot-original-empty-backup.3dm`. Original native serial268435460 and
@@ -67,6 +67,30 @@ Adapter compilation targets.NET7 with installed Rhino/GH references: zero errors
 two System.Drawing platform warnings requiring live capture verification.
 C# maintainer script execution is not credited as product function coverage.
 
-Remaining #39: two successful runs and cancellation recovery on a correctly
-targeted host, numerical/image inspection, full-gallery composition and native
-lifecycle/Undo/Redo harnesses. Keep #39 open.
+Remaining #39: full-gallery composition, native lifecycle/Undo/Redo harnesses, and Windows/device coverage. Checkpoint file actions in31 are not part of this pilot. Keep #39 open.
+
+## Successful bounded host follow-up
+
+After root restored actual native window activation, fresh runs f and g both
+completed sequential CPU31/32 on unchanged final runner source.31:60steps,
+21×16×16,t=1.7320508075688776s,three valid velocities/pressures and lines;
+32:Record40/40,Playback t=1.154701s,valid body54vertices/24faces. Probe values
+agreed across the repeats. All four perspective zoom-extents captures were
+inspected: domain/body/three vectors in31; domain/moved body/pivot in32. These
+are workflow observations, not an accuracy or field-convergence assessment.
+
+Run h changed only its copied31 target to1,000,000, observed running37steps,
+then requested controller cancellation without an observe reply. It disposed
+only the owned graph and ended failed/Cancelled by operator as intended. Fresh
+audits after every example and cancellation found zero jobs,sessions,Hawa
+workers,cleanup requests and refreshes. Original archive hashes stayed equal.
+Original native model returned to millimetres with0objects; its dirty flag was
+retained. Original GH graph returned active,empty and unmodified.
+
+[Compact machine evidence](verification-host-acceptance-pilot.json) retains exact
+run IDs, hashes, cleanup counts, screenshot paths/hashes and scope. Setup recovery
+was external to the runner; no claim that the pilot automatically repairs native
+window targeting.25 focused tests pass on both Python3.9 and3.12; controller/audit
+line coverage147/147 and branch coverage62/62. Mutmut3.7.0:586 mutants,548 assertion
+kills,38 reviewed survivors,zero timeout/error outcomes. The policy explicitly
+retains case-sensitive-filesystem and diagnostic/help gaps; it is not all-killed.
