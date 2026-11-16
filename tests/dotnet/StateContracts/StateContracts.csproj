@@ -1,6 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
   <ItemGroup>
+    <Compile Include="../../../plugin/Hawa.Rhino/HawaCommand.cs" Link="Production/HawaCommand.cs" />
+    <Compile Include="../../../plugin/Hawa.Rhino/HawaPanel.cs" Link="Production/HawaPanel.cs" />
     <Compile Include="../../../plugin/Hawa.Shared/SliceCutCells.cs" Link="Production/SliceCutCells.cs" />
     <Compile Include="../../../plugin/Hawa.Shared/NativeSettings.cs" Link="Production/NativeSettings.cs" />
     <Compile Include="../../../plugin/Hawa.Shared/CaseState.cs" Link="Production/CaseState.cs" />

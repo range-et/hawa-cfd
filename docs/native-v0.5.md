@@ -15,6 +15,12 @@ buttons retain text labels and tooltips.
 
 ## Set up a native case
 
+Opening Hawa in a document without a saved case shows **NO CASE** and does not
+create a domain or block preview. Choose **Select bodies** to start from Rhino
+geometry, or **Block preset** to create the demonstration explicitly. Saved cases
+are shown as restored; opening or reopening the panel does not reset them.
+
+
 1. In **Setup**, select valid closed Rhino meshes or solid Breps. Hawa keeps their
    object IDs and suggests an axis-aligned domain around them. Flow is global +X.
 2. Set domain origin and lengths in **metres**, independent of Rhino display units.

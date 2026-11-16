@@ -11,9 +11,13 @@ var hub = AppDomain.CurrentDomain.GetAssemblies()
 object Call(string method, params object[] args) =>
     hub.GetMethod(method).Invoke(null, args);
 uint document = __rhino_doc__.RuntimeSerialNumber;
-dynamic c = Call("Get", document);
+dynamic c = Call("Find", document);
+if (c == null) { Console.WriteLine("No case; select bodies or explicitly create a block preset."); return; }
 Console.WriteLine(c.Describe());
 ```
+
+`Find(document)` is read-only. `Get(document)` explicitly creates the legacy block
+preset when no case exists; do not use it just to inspect panel startup.
 
 Use `Edit(document, JsonObject patch, (long)c.Version, "panel", true)` to apply a validated change with undo. Supported keys: speed, cell, width, target, device, field, setup, view. Use `Run(document)`, `Pause(document)`, `Cancel(document)`, `Reset(document)` and `Save(document)`. `Restore(document, json)` validates settings and stays idle. Do not write CaseState fields directly. Do not call Tick in a wait loop; the plugin already polls on its timer.
 

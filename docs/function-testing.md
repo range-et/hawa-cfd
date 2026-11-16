@@ -39,6 +39,11 @@ its signature; the tool does not invent a behavioral contract.
   tokens. In linked files, put each lambda body on its own line. Token
   fingerprints ignore whitespace, so this layout does not change a function's
   fingerprint.
+- Native panel/command contracts link `HawaPanel.cs` and `HawaCommand.cs` against
+  event-capable Eto and command/docking doubles. They exercise empty startup,
+  explicit creation, control callbacks, schema-1/schema-2 state restoration and
+  binding preservation. This measures production callback logic, not native Eto
+  layout, `.3dm` archive IO or actual docking.
 - C# host-only code is **unmeasured**, not passed. Abstract declarations and
   compiler-generated auto-accessors have no explicit source body and are marked
   `declaration`. Implicit compiler-generated methods are outside the inventory.

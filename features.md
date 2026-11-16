@@ -616,3 +616,15 @@ test dependency is now in uv.lock. Fresh combined gate: 810 passes/82 skips,
 33 contracts, no ratchet failures; actual bundled source collects all 892 tests.
 These repairs are merged into main through PR #6; they do not establish Windows/host
 qualification. Evidence.
+
+
+### November 16 2026 — Opt-in native startup (#31 / HAWA-029)
+
+The native command and panel now inspect existing state without creating the
+block demonstration. An empty document shows a setup prompt; Select bodies and
+Block preset remain explicit actions. Saved schema-1/schema-2 cases and explicit
+GH creation retain their existing contracts. Production panel/command callbacks
+are linked into automated C# contracts with event-capable host doubles.
+[Review and verification scope](docs/review-panel-startup.md). This is a development
+change, not installed or released; live Rhino acceptance remains pending under
+[issue #31](https://github.com/range-et/hawa-cfd/issues/31).

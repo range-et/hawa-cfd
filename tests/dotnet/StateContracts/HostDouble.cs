@@ -9,6 +9,7 @@ namespace Rhino {
         public uint RuntimeSerialNumber { get; }
         public UnitSystem ModelUnitSystem { get; set; } = UnitSystem.Meters;
         public bool Modified { get; set; }
+        public Rhino.Display.TestViews Views { get; } = new();
         public DocObjects.Tables.ObjectTable Objects { get; } = new();
         public int OpenUndoRecords, EndedUndoRecords;
         public List<EventHandler<Commands.CustomUndoEventArgs>> UndoEvents = new();
