@@ -103,6 +103,7 @@ class StationaryLoads(lt.BounceBackBoundary):
         if type(capacity) is not int or not 1 <= capacity <= 100000:
             raise ValueError('History capacity must be 1..100000')
         origin, transform = world_basis(origin_world_m, basis)
+        # CPU admission also binds allocations under an ambient device context.
         mask = torch.as_tensor(owner > 0, dtype=torch.bool, device='cpu')
         if not torch.equal(mask, flow.solid):
             raise ValueError('Flow solid mask differs from declared ownership')
@@ -137,9 +138,9 @@ class StationaryLoads(lt.BounceBackBoundary):
                 link_mask = (owner == number) & fluid
                 coords = np.argwhere(link_mask)
                 world_position = origin + (coords - .5 * e) * self.dx @ transform
-                arm = torch.tensor(world_position - np.asarray(body.moment_origin_world_m), dtype=torch.float64)
-                vector = torch.tensor(e @ transform, dtype=torch.float64)
-                links.append((i, torch.tensor(link_mask), arm, vector))
+                arm = torch.tensor(world_position - np.asarray(body.moment_origin_world_m), dtype=torch.float64, device='cpu')
+                vector = torch.tensor(e @ transform, dtype=torch.float64, device='cpu')
+                links.append((i, torch.tensor(link_mask, device='cpu'), arm, vector))
             self.links.append((body.body_id, links))
 
     def __call__(self, flow):
@@ -149,8 +150,8 @@ class StationaryLoads(lt.BounceBackBoundary):
             raise ValueError('Measurement history capacity exhausted; no samples discarded')
         loads = []
         for body_id, links in self.links:
-            force = torch.zeros(3, dtype=torch.float64)
-            torque = torch.zeros(3, dtype=torch.float64)
+            force = torch.zeros(3, dtype=torch.float64, device='cpu')
+            torque = torch.zeros(3, dtype=torch.float64, device='cpu')
             for direction, mask, arm, vector in links:
                 # Multiply populations in solver precision, reduce in float64.
                 transfer = (2 * flow.f[direction][mask]).to(torch.float64)[:, None] * vector

@@ -120,6 +120,10 @@ sensitivity screen failed despite accepted stationarity; see the
 [CPU validation follow-up](docs/review-cpu-sweep-validation.md). Public runtime/export adapters, GH graphs,
 device and physical qualification remain open. No Rhino, GPU, install, package or release claim. [Frozen contract](docs/measurement-contract-v1.md),
 [combined review](docs/review-measurement-foundation.md).
+Mutation review additionally reproduced and repaired ambient tensor-device
+leakage in the direct CPU collector ([#120](https://github.com/range-et/hawa-cfd/issues/120)).
+Explicit CPU allocation now survives a non-computing meta-device trap in focused
+regressions; this is allocation isolation, not accelerator qualification or release.
 
 ### November 17, 2026 — Windows verification portability (#117)
 

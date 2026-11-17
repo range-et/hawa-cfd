@@ -56,6 +56,7 @@ def test_real_cpu_result_keeps_aligned_observations_after_close():
     reply=finish(executor,handle)
     assert reply['state']=='completed'
     result=executor.results('a',7)
+    assert reply['reason'] == result['reason'] == ''
     assert result['schema']=='hawa-cpu-sweep-result-1'
     assert result['session'] and result['device']=='cpu' and result['dtype']=='float32'
     assert result['summary']['usable']
@@ -745,3 +746,90 @@ def test_worker_selects_obstacle_among_nonmatching_domain_bounceback_masks():
     reply = finish(executor, handle)
     assert reply['state'] == 'completed', reply['reason']
     assert len(executor.results('a', 7)['load_samples']) == 4
+
+
+def test_last_source_step_admission_includes_exact_roundoff_allowance():
+    data = prepared()
+    dt = .01 * .5 / math.sqrt(3)
+    limit = 3 + 1e-9
+    end = limit * dt
+    assert end / dt == limit
+    data['a']['request']['window']['end_s'] = end
+    executor = CpuSweepExecutor(data)
+    assert executor.audit() == dict(handles=0, live_workers=0, session_ids=[])
+    data['a']['request']['window']['end_s'] = math.nextafter(end, math.inf)
+    assert data['a']['request']['window']['end_s'] / dt > limit
+    with pytest.raises(ValueError, match='window'):
+        CpuSweepExecutor(data)
+
+
+def test_queued_observation_is_valid_before_worker_allocates(monkeypatch):
+    entered, release = threading.Event(), threading.Event()
+    original = CpuSweepExecutor._work
+
+    def gated(executor, run):
+        entered.set()
+        assert release.wait(5)
+        return original(executor, run)
+
+    monkeypatch.setattr(CpuSweepExecutor, '_work', gated)
+    data = prepared(); executor = CpuSweepExecutor(data)
+    handle = executor.start(data['a']['candidate'], 7)
+    try:
+        wait_for(entered.is_set, executor)
+        assert executor.poll(handle) == dict(state='queued', candidate_id='a',
+                                             generation=7, reason='', result=None)
+        assert executor.audit() == dict(handles=1, live_workers=1, session_ids=[])
+        assert executor.results('a', 7) is None
+    finally:
+        executor.cancel(handle)
+        release.set()
+        finish(executor, handle)
+
+
+def test_failure_before_first_capture_preserves_nullable_observations(monkeypatch):
+    def fail_before_capture(session, steps):
+        raise RuntimeError('first numerical step failed')
+
+    monkeypatch.setattr(module.Session, 'advance', fail_before_capture)
+    data = prepared(); executor = CpuSweepExecutor(data)
+    handle = executor.start(data['a']['candidate'], 7)
+    reply = finish(executor, handle)
+    assert reply['state'] == 'failed'
+    result = executor.results('a', 7)
+    assert_retained_envelope(result, data['a'], 'failed', 'first numerical step failed')
+    assert result['session']
+    assert result['last_field'] is None and result['quality'] is None
+    assert result['summary'] is None
+    assert result['load_samples'] == result['probe_samples'] == []
+
+
+def test_cancel_after_last_capture_does_not_publish_a_success_summary(monkeypatch):
+    entered, release = threading.Event(), threading.Event()
+    original = module.Session.advance
+
+    def gate_last_step(session, steps):
+        result = original(session, steps)
+        if session.flow.i == 4:
+            entered.set()
+            assert release.wait(5)
+        return result
+
+    monkeypatch.setattr(module.Session, 'advance', gate_last_step)
+    data = prepared(); executor = CpuSweepExecutor(data)
+    handle = executor.start(data['a']['candidate'], 7)
+    try:
+        wait_for(entered.is_set, executor)
+        executor.cancel(handle)
+        release.set()
+        reply = finish(executor, handle)
+        assert reply['state'] == 'cancelled' and reply['result'] is None
+        result = executor.results('a', 7)
+        assert result['summary'] is None
+        assert len(result['load_samples']) == 4
+        assert len(result['probe_samples']) == 8
+    finally:
+        release.set()
+        if executor.audit()['handles']:
+            executor.cancel(handle)
+            finish(executor, handle)

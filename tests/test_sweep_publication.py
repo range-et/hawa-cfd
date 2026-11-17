@@ -22,7 +22,7 @@ def test_close_preserves_terminal_state_before_details_publication(monkeypatch, 
                 # controller must be free to poll/close while this worker waits.
                 result = super().__exit__(*args)
                 if (threading.current_thread() is run.thread and
-                        run.state == terminal and run.details is None and
+                        run.state == terminal and
                         not reached.is_set()):
                     reached.set()
                     if not release.wait(5):
