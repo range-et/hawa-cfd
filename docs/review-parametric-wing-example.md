@@ -110,3 +110,18 @@ A lifecycle pass can contain zero accepted candidates and cannot establish
 pressure-view acceptance. Root must run the fine protocol and visual checks
 separately. The script uses public ports, timers and public diagnostics; it
 does not inspect private job or solver fields. No host run is claimed here.
+
+## Pending-value scatter correction
+
+Host testing found that Expression arithmetic errors on missing coefficient
+slots, Cull Pattern keeps true rows, and modern variable-arity arithmetic can
+return its second operand when the first list is empty (phantom plot points).
+The graph therefore uses Null Item + NOR for one shared keep mask, Cull Pattern
+on both coordinates, and fixed-arity real Multiply/Add. Those arithmetic nodes
+are registered in the tested Rhino 8 installation but internally marked
+obsolete; compatibility with other Rhino versions is not claimed. The transient
+`verify_wing_scatter_nulls.cs` checks mixed missing pairs, pending lists and
+valid pairs, including actual ConstructPoint count and coordinates. Root has
+observed passing arithmetic cases; the final ConstructPoint assertion still
+needs host execution. Existing archive patching preserves original object IDs
+and unrelated wires, with a backup and explicit plot-input rewire audit.
