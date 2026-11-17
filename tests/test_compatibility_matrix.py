@@ -91,3 +91,9 @@ def test_native_data_inventory_is_complete_and_independent():
 @pytest.mark.parametrize('row',list(native_data_cases()),ids=lambda row:row['id'])
 def test_native_data_product_cpu(row,tmp_path):
     assert exercise_native_data(row,tmp_path,'cpu') is row['expected']
+
+
+@pytest.mark.parametrize('row',list(native_data_cases()),ids=lambda row:row['id'])
+def test_native_data_product_relative_output_directory(row,tmp_path,monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    assert exercise_native_data(row,Path('relative-fixtures'),'cpu') is row['expected']

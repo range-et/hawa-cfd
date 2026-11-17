@@ -2,6 +2,7 @@
 import copy
 import itertools
 import json
+import os
 
 import numpy as np
 
@@ -102,7 +103,9 @@ def exercise_native_data(row, directory, device):
             return False
         assert saved.state == 'completed', saved.error
         result = saved.result
-        assert result['path'] == str(path) and result['format'] == 'npz'
+        # The request may be relative; the public result preserves its lexical
+        # absolute identity (without resolving symlinks).
+        assert result['path'] == os.path.abspath(path) and result['format'] == 'npz'
         assert result['schema'] == 'hawa-native-data-1'
         with np.load(path, allow_pickle=False) as archive:
             assert set(archive.files) == {'populations', 'metadata', 'mean_u', 'mean_p', 'mean_rho'}
