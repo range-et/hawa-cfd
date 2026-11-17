@@ -44,6 +44,7 @@ def test_raw_figures_match_retained_arrays_and_preserve_invalid_gaps(control):
     assert forces.lines[0].get_ydata().tolist() == [r['force_world_n'][0] for r in detail['load_samples']]
     rows = [r for r in detail['probe_samples'] if r['probe_id'] == 'near-inlet']
     assert probes.lines[0].get_ydata().tolist() == [r['pressure_pa'] for r in rows]
+    assert [t.get_text() for t in probes.get_legend().get_texts()] == ['near-inlet', 'solid', 'boundary']
     assert np.isnan(probes.lines[1].get_ydata()).all()  # solid probe is never zero-filled
     arrays = detail['last_field']; j = arrays['pressure'].shape[1] // 2
     rendered = field.images[0].get_array()
@@ -51,10 +52,12 @@ def test_raw_figures_match_retained_arrays_and_preserve_invalid_gaps(control):
     np.testing.assert_array_equal(rendered.data, arrays['pressure'][:,j,:].T)
     changed = deepcopy(detail)
     changed['last_field'] = None
+    changed['probe_samples'] = []
     changed['load_samples'][0]['valid'] = False
     figure = renderer.case_figure(changed, entries['before'])
     assert np.isnan(figure.axes[1].lines[0].get_ydata()[0])
     assert figure.axes[3].texts[0].get_text() == 'No captured field'
+    assert figure.axes[2].get_legend() is None
 
 
 @pytest.mark.parametrize('change,match', [

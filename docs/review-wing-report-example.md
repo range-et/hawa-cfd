@@ -21,11 +21,12 @@ shipped candidates. Each ran 1064 steps (1000 settling, 64 samples); the capture
 field was source step 1063 / 0.4602925021114292 s. CL was 0.13120227473943177 and
 0.17370137599452087; CD was 1.3315546400715705 and 1.3287346632245722. Both windows
 met their existing 0.05 stationarity criterion; zero owned handles/workers/sessions
-remained. The saved report contains exact source/session identities. These values
+remained. A second fresh run after adding explicit probe legends reproduces these coefficients exactly.
+The saved report contains that run's exact source/session identities. These values
 are workflow evidence, not a numerical reference. No threshold changed.
 
 Focused automated checks: **19 passed on each Python 3.9.25 and 3.12.4**, no skips.
-Owned renderer: **110/110 statements, 40/40 branches** measured in coverage.py.
+Owned renderer: **112/112 statements, 42/42 branches** measured in coverage.py.
 Tests use actual four-step CPU controls to check plotted raw numbers, masked
 field arrays, invalid probe gaps, rejection splitting, candidate anchors,
 identity mismatch rejection, escaped HTML, missing/unstarted captures, CLI

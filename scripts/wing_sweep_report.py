@@ -24,7 +24,7 @@ def svg(figure):
     stream = StringIO()
     FigureCanvasSVG(figure).print_svg(stream, metadata={'Date': None})
     text = stream.getvalue()
-    return text[text.index('<svg'):]
+    return '\n'.join(line.rstrip() for line in text[text.index('<svg'):].splitlines())
 
 
 def polar_figure(records):
@@ -67,6 +67,8 @@ def case_figure(detail, entry):
                       [r['pressure_pa'] if r['valid'] else np.nan for r in rows], label=probe_id)
     pressure.set(xlabel='Source time (s)', ylabel='Gauge pressure (Pa)', title='Raw probes — invalid samples are gaps')
     pressure.grid(alpha=.2)
+    if detail['probe_samples']:
+        pressure.legend(fontsize=7)
     arrays = detail['last_field']
     if arrays is not None:
         validate({k: v for k, v in arrays.items() if k != 'snapshot'}, {'case': entry['spec']})
