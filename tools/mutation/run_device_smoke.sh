@@ -6,12 +6,12 @@ source "$(dirname "$0")/lib.sh"
 base=8daf810e0abd75cd417e16bab19fa59a330985e4
 mutate=(scripts/device_smoke.py scripts/benchmark_curved_walls.py scripts/parity_worker.py)
 tests=(tests/test_device_smoke.py tests/test_neutral.py tests/test_motion.py tests/test_kbc_precision.py)
-reviewed=("${mutate[@]}" scripts/device_smoke_policy.json "${tests[@]}")
+reviewed=("${mutate[@]}" scripts/device_smoke_policy.json "${tests[@]}" tools/mutation/cpu_only.py tools/mutation/lib.sh)
 source_paths=(src scripts)
 # parity_worker reads the vendored engine manifest; nothing under vendor is mutated.
-copy=(vendor)
-import_roots=(scripts)
-test_args=(tests/test_device_smoke.py -m 'not production_python')
+copy=(vendor tools/mutation/cpu_only.py tools/mutation/lib.sh)
+import_roots=(scripts tools/mutation)
+test_args=(-p cpu_only tests/test_device_smoke.py -m 'not production_python')
 changed_lines() {
   git cat-file -e "$base^{commit}" || { echo "Full history with $base is required" >&2; return 65; }
   git diff --no-prefix "$base" -- "${mutate[@]}"

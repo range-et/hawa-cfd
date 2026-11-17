@@ -1,0 +1,54 @@
+{
+  "date": "2026-11-16",
+  "scope": "Rhino8.37 Mac CPU example31 explicit Checkpoint CSV and legacy NPZ readback",
+  "iteration": 60,
+  "local_time": 0.0017320508075688776,
+  "time_origin": 0.0,
+  "absolute_time": 0.0017320508075688776,
+  "rows": 5376,
+  "valid_rows": 4677,
+  "invalid_rows": 699,
+  "shape": [
+    21,
+    16,
+    16
+  ],
+  "units": {
+    "position": "m",
+    "velocity": "m/s",
+    "pressure": "Pa",
+    "density": "kg/m^3",
+    "time": "s"
+  },
+  "backend": {
+    "requested": "cpu",
+    "selected": "cpu",
+    "torch": "2.8.0",
+    "cuda_available": false,
+    "mps_available": true,
+    "notes": []
+  },
+  "quality_status": "warning",
+  "case_hash": "f4c96284a6efd1e6671f1195806a5ad7dd30a2781eca722606f788fa9d501e95",
+  "session": "288cc8c6-c825-4c2b-943b-4521fb4a8606",
+  "checks": {
+    "metadata_and_row_count": true,
+    "positions_exact": true,
+    "mask_flags_exact": true,
+    "valid_quantities_match_NPZ_exactly": true,
+    "invalid_quantities_blank": true
+  },
+  "artifacts": {
+    "fields-31.csv": "b3dae548272cb33e0e46d4c2b8b4e601f7d913aa893614c45f633f13df61fc84",
+    "fields-31.npz": "2bf3089bd584b4860fe3630f629707e61ff528ca29795012a0882407b8a2e9e3"
+  },
+  "limits": "Quality warning preserved; not convergence, engineering validation, probe/load export or CUDA/MPS host acceptance.",
+  "cleanup": {
+    "jobs": 0,
+    "sessions": 0,
+    "workers": 0,
+    "original_empty_graphs_restored": 2,
+    "live_native_objects": 0
+  },
+  "grasshopper_sha256": "bf99fd985183443fe4a9181d671a06a9e2c8661635acb8423df355a4e8f08993"
+}

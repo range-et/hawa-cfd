@@ -44,7 +44,17 @@ public sealed class HawaGoo : GH_Goo<string>
 public static class EmbeddedRuntime
 {
     public static string Root => Hawa.Shared.EmbeddedRuntime.Root;
-    public static JsonObject Call(JsonObject request) => Hawa.Shared.EmbeddedRuntime.Call(request);
+    // RhinoCode's first-use loader owns host progress UI and must run on the
+    // host thread. A successful foreground call establishes worker readiness.
+    public static bool IsReady { get; internal set; }
+    public static JsonObject Call(JsonObject request)
+    {
+        if (!IsReady && Rhino.RhinoApp.InvokeRequired)
+            throw new InvalidOperationException("Initialize Hawa Runtime on the host before starting background work.");
+        var result = Hawa.Shared.EmbeddedRuntime.Call(request);
+        IsReady = true;
+        return result;
+    }
 }
 
 public abstract class HawaComponent : GH_Component

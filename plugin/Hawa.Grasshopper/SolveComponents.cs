@@ -105,16 +105,16 @@ public sealed class CheckpointComponent : HawaQueryComponent
     private bool previous;
     private JsonObject? operation;
     private bool first = true;
-    public CheckpointComponent() : base("Hawa Checkpoint", "Checkpoint", "Save/load a numerical checkpoint or export NPZ fields. Actions use a rising edge and pause the solver for checkpoint operations.", "08 Files") { }
+    public CheckpointComponent() : base("Hawa Checkpoint", "Checkpoint", "Save/load a numerical checkpoint or export NPZ or CSV fields. Actions use a rising edge and pause the solver for checkpoint operations.", "08 Files") { }
     public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077110");
-    protected override void RegisterInputParams(GH_InputParamManager p) { p.AddGenericParameter("Solution", "S", "Hawa Solution", GH_ParamAccess.item); p.AddTextParameter("Path", "P", "Local .npz output/input file", GH_ParamAccess.item); p.AddTextParameter("Operation", "O", "save, load or export", GH_ParamAccess.item, "save"); p.AddBooleanParameter("Execute", "E", "Rising edge executes operation", GH_ParamAccess.item, false); }
+    protected override void RegisterInputParams(GH_InputParamManager p) { p.AddGenericParameter("Solution", "S", "Hawa Solution", GH_ParamAccess.item); p.AddTextParameter("Path", "P", "Local .npz file, or .csv output for export csv", GH_ParamAccess.item); p.AddTextParameter("Operation", "O", "save, load, export or export csv", GH_ParamAccess.item, "save"); p.AddBooleanParameter("Execute", "E", "Rising edge executes operation", GH_ParamAccess.item, false); }
     protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddTextParameter("Report", "R", "Operation result", GH_ParamAccess.item); }
     protected override void SolveHawa(IGH_DataAccess da) {
         var s=ReadObject(da,0);string path="",op="save";bool execute=false;
         da.GetData(1,ref path);da.GetData(2,ref op);da.GetData(3,ref execute);
-        if(!new[]{"save","load","export"}.Contains(op))throw new ArgumentException("Use save, load or export");
+        if(!new[]{"save","load","export","export csv"}.Contains(op))throw new ArgumentException("Use save, load, export or export csv");
         if(first){previous=execute;first=false;}
-        if(execute&&!previous){operation=Request(op,s["session"]!.GetValue<string>());operation["path"]=LocalPath(path);operation["request_id"]=Guid.NewGuid().ToString();}
+        if(execute&&!previous){operation=Request(op=="export csv"?"export":op,s["session"]!.GetValue<string>());if(op=="export csv")operation["format"]="csv";operation["path"]=LocalPath(path);operation["request_id"]=Guid.NewGuid().ToString();}
         previous=execute;
         if(operation!=null){var result=View(operation);if(result!=null)da.SetData(0,result.ToJsonString());}
     }

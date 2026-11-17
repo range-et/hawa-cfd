@@ -4,7 +4,8 @@ using System.Collections;
 // documented SDK contracts (runtime messages clear per solution, Message persists,
 // AllData(true) skips nulls, the constructor registers parameters). They make no
 // claim about real GH solution ordering, canvas drawing or scheduling.
-namespace System.Drawing { public sealed class Bitmap(string name) { public string Name { get; } = name; } }
+namespace System.Drawing { public sealed class Bitmap(string name) { public Guid InstanceGuid { get; } = Guid.NewGuid();
+        public string Name { get; } = name; } }
 namespace GH_IO.Serialization {
     public interface GH_IReader { bool ChunkExists(string name, int index); string GetString(string name); }
     public interface GH_IWriter { void SetString(string name, string value); }
@@ -50,7 +51,7 @@ namespace Grasshopper.Kernel {
         public virtual string AuthorContact => "";
         public virtual System.Drawing.Bitmap? Icon => null;
     }
-    public interface IGH_DocumentObject { string NickName { get; } }
+    public interface IGH_DocumentObject { string NickName { get; } Guid InstanceGuid { get; } }
     public interface IGH_Attributes { IGH_Attributes GetTopLevel { get; } IGH_DocumentObject DocObject { get; } bool Selected { get; set; } }
     public sealed class GH_TestAttributes(IGH_DocumentObject owner) : IGH_Attributes { public bool Selected { get; set; } public IGH_Attributes GetTopLevel => this; public IGH_DocumentObject DocObject => owner; }
     public interface IGH_PreviewArgs { Rhino.Display.DisplayPipeline Display { get; } Rhino.Display.RhinoViewport Viewport { get; } }
@@ -71,6 +72,7 @@ namespace Grasshopper.Kernel {
     }
     // One parameter; Owner models Attributes.GetTopLevel.DocObject (the component that owns an output).
     public sealed class GH_TestParam(string name, string nick, string description, GH_ParamAccess access, string kind, object? fallback) : IGH_Param, IGH_Attributes, IGH_DocumentObject {
+        public Guid InstanceGuid { get; } = Guid.NewGuid();
         public string Name { get; } = name;
         public string NickName { get; set; } = nick;
         public string Description { get; } = description;
@@ -128,6 +130,7 @@ namespace Grasshopper.Kernel {
         bool SetDataList(int index, IEnumerable data);
     }
     public class GH_Component : IGH_DocumentObject {
+        public Guid InstanceGuid { get; } = Guid.NewGuid();
         public GH_Document? Document;
         public bool Locked;
         public string Message { get; set; } = null!;

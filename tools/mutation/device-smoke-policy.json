@@ -2,7 +2,7 @@
   "tool": "mutmut==3.7.0",
   "mutants": 1207,
   "inventory_sha256": "4f08d3007d083c6d06df7f299451b36a8c6c6771f1a98bb25949c8635ce5e01b",
-  "scope": "Lines added by the device smoke gate PR only (git diff against the base revision, mutmut3.py changed-lines scope): scripts/device_smoke.py including the loaded-module provenance check, the dtype argument in scripts/benchmark_curved_walls.py and the case filter in scripts/parity_worker.py; not whole-module or whole-codebase mutation coverage; tests marked production_python are deselected on Python 3.12",
+  "scope": "Lines added by the device smoke gate PR only (git diff against the base revision, mutmut3.py changed-lines scope): scripts/device_smoke.py including the loaded-module provenance check, the dtype argument in scripts/benchmark_curved_walls.py and the case filter in scripts/parity_worker.py; not whole-module or whole-codebase mutation coverage; tests marked production_python are deselected on Python 3.12; forked study models CPU-only hardware via cpu_only; measured on case-insensitive macOS filesystem",
   "control_test_files": [
     "tests/test_device_smoke.py"
   ],
@@ -11,10 +11,12 @@
     "scripts/benchmark_curved_walls.py": "018b520b53def8f665597f04c88dc80f2e11578070ac855fea038b2a402589c8",
     "scripts/parity_worker.py": "c21c4eeb9ee4770dd860c9e78547c549463f03274ced89bd8d66198887d1eaeb",
     "scripts/device_smoke_policy.json": "cc3cd8ebfea4e0a4fe970f61522f94d784c7388f3d9f1eaa48f43af09d3ef5ed",
-    "tests/test_device_smoke.py": "7773118a205d9033b4bae4b0c08942481d173d33ef04ab1b5ff042310e07160c",
+    "tests/test_device_smoke.py": "a581e7fc72489c1b7d97ee9eecc4b8e3f2b4db872b73d66b024f6c71c7df0f07",
     "tests/test_neutral.py": "287434b4c666f289a99635f216ef47b8c491ed1867c1bc52a8197969bc857bfa",
     "tests/test_motion.py": "7deee3b86f98d598ba63902e0e7b8d0966f04636c29cd3764b3c5413f3ede048",
-    "tests/test_kbc_precision.py": "79b606b90aa23fe5142882f3e56cf9fc85a3d74636bc845bd4c1a3554ba839f6"
+    "tests/test_kbc_precision.py": "79b606b90aa23fe5142882f3e56cf9fc85a3d74636bc845bd4c1a3554ba839f6",
+    "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c",
+    "tools/mutation/lib.sh": "e76c1f689ed0cc3adc344479a32e859b8466c1b33e1d7709d8927104dc6c3871"
   },
   "reviewed_survivors": {
     "benchmark_curved_walls.x_run__mutmut_1": {
@@ -502,11 +504,6 @@
       "diff_sha256": "924202169c7809cbb7585167adf43aede28240d9fd6aac7cf9289d5b22e15ccb",
       "reason": "Decoration: argparse help and description copy is not part of the manifest or exit contract."
     },
-    "device_smoke.x_main__mutmut_321": {
-      "status": "survived",
-      "diff_sha256": "fb957302dc6663c94279696cece0a957da17db5b36132fefbf9e5dab8fe1d82c",
-      "reason": "Unresolved (test gap): datetime.now(None) records naive local time instead of UTC with an offset; no test asserts the timestamp format."
-    },
     "device_smoke.x_main__mutmut_323": {
       "status": "survived",
       "diff_sha256": "46dfbe88857213f5c8ff3aa38a677553ad1d327459be3eca8def4b6e183215c0",
@@ -941,6 +938,11 @@
       "status": "survived",
       "diff_sha256": "7091e8d4fedc6bd1c447e158240e0a265dc523708704889e705953fc36ddf838",
       "reason": "Reached only by tests/test_device_smoke.py::test_real_builders_pass_their_criteria_on_the_cpu_proxy, which is marked production_python and runs only on Python 3.9 (parity_worker.py refuses other interpreters). This 3.12 study deselects it, so it cannot kill this mutant; the 3.9 suite still runs that test."
+    },
+    "device_smoke.x_provenance__mutmut_11": {
+      "status": "survived",
+      "diff_sha256": "7122b14e99659bf44925c973bbcc1d9a7a3293e35216cb1043a6e6735d7c114a",
+      "reason": "Equivalent on the measured case-insensitive macOS filesystem: executable lookup for GIT resolves the same Git binary as git. This is a bounded platform equivalence, not an assertion kill or qualification of case-sensitive executable lookup."
     },
     "device_smoke.x_provenance__mutmut_26": {
       "status": "survived",

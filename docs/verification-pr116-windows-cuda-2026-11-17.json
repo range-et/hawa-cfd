@@ -1,0 +1,1624 @@
+{
+  "schema": 1,
+  "date": "2026-11-17",
+  "pr": 116,
+  "issue": 117,
+  "tested_commit": "0e219a9a4dd92c412bc17fe30b2dd3c54e1c917b",
+  "scope": "Pre-merge Windows headless verification; no installed Rhino or merged-main qualification",
+  "reviewer": "Codex Windows agent; executed checks independently from Mac implementation",
+  "result": "PASS for requested headless scope",
+  "source": {
+    "commit": "0e219a9a4dd92c412bc17fe30b2dd3c54e1c917b",
+    "dirty": false,
+    "status": [],
+    "index_sha256": "60e94f1ca573801333e09b0d2dafb0e850456964b36aa432a531455b6be2b9aa",
+    "files": 867,
+    "source_sha256": "17df76dd4d4cb9f9d5797cbe5a63cd6aa52e820cf42f26206427e001457f00a7"
+  },
+  "source_unchanged": true,
+  "environment": {
+    "os": "Windows-10-10.0.26300-SP0",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "python": "3.9.25 (main, Oct 31 2025, 22:56:13) [MSC v.1929 64 bit (AMD64)]",
+    "executable": "C:\\Users\\range\\Desktop\\hawa-cfd-pr116-cuda-final\\.venv\\Scripts\\python.exe",
+    "torch": "2.8.0+cu128",
+    "numpy": "2.0.2",
+    "torch_threads": 1,
+    "variables": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "PYTORCH_ENABLE_MPS_FALLBACK": null,
+      "CUDA_VISIBLE_DEVICES": null
+    },
+    "cuda_runtime": "12.8",
+    "gpu": "NVIDIA GeForce RTX 5070 Ti",
+    "capability": [
+      12,
+      0
+    ],
+    "driver": "621.14",
+    "pydantic": "2.13.5"
+  },
+  "backend": {
+    "requested": "cuda:0",
+    "selected": "cuda:0",
+    "torch": "2.8.0+cu128",
+    "cuda_available": true,
+    "mps_available": false,
+    "notes": []
+  },
+  "worktree": "C:\\Users\\range\\Desktop\\hawa-cfd-pr116-cuda-final",
+  "raw_evidence": "C:\\Users\\range\\Desktop\\hawa-cfd-pr116-cuda-final\\results\\pr116-cuda-final-2026-11-17",
+  "jobs": "Sequential: focused tests, full suite, CUDA smoke, G6; no competing Windows compute jobs",
+  "coordination": {
+    "mac_thread": "01a1e69a-e4c6-7963-8178-cf51840a4caa",
+    "direct_message": "Unavailable from this host; no thread found",
+    "agreed_handoff": "https://github.com/range-et/hawa-cfd/pull/116#issuecomment-6939585504",
+    "windows_acknowledgement": "https://github.com/range-et/hawa-cfd/pull/116#issuecomment-6939759243",
+    "rhino": "Never launched, attached to, initialized or run on Windows; Mac retains sole license"
+  },
+  "commands": [
+    "uv sync --python 3.9 --extra test --frozen",
+    "uv pip install --python .venv/Scripts/python.exe torch==2.8.0+cu128 --index-url https://download.pytorch.org/whl/cu128 --no-deps",
+    ".venv/Scripts/python.exe -m pytest tests/test_device_smoke.py tests/test_mutation_policy.py --require-cuda -q -ra --junitxml=results/pr116-cuda-final-2026-11-17/focused.xml",
+    ".venv/Scripts/python.exe scripts/verify_cuda.py --stages suite --repeats 1 --output results/pr116-cuda-final-2026-11-17/suite",
+    ".venv/Scripts/python.exe scripts/device_smoke.py --device cuda --output results/pr116-cuda-final-2026-11-17/device-smoke --overlapping-jobs \"No other Windows compute/test jobs; Mac separately coordinated; Windows Rhino untouched\"",
+    ".venv/Scripts/python.exe scripts/run_compatibility_matrix.py --output results/pr116-cuda-final-2026-11-17/g6"
+  ],
+  "command_environment": {
+    "PYTHONUTF8": "1",
+    "g6_only": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  "portability": {
+    "lf_files_checked": 541,
+    "exact_policy_source_hashes": 91,
+    "hash_normalization": false,
+    "production_python_changed_from_failed_candidate": false,
+    "focused": {
+      "passed": 120,
+      "skipped": 1,
+      "failed": 0
+    },
+    "prior_failures_resolved": 20
+  },
+  "suite": {
+    "total": 2065,
+    "skipped": 92,
+    "failures": 0,
+    "cuda_named": 91,
+    "cuda_skipped": 0,
+    "passed": 1973,
+    "exit_code": 0,
+    "warnings": 213,
+    "pytest_seconds": 273.75,
+    "stage_seconds": 276.32799999999406,
+    "independent_inventory": true,
+    "skipped_reasons": {
+      "MPS unavailable": 9,
+      "Upstream defaults to CUDA when present": 1,
+      "MPS hardware unavailable": 80,
+      "mps hardware unavailable": 1,
+      "needs mutmut 3.7.0 (.venv-dev, Python 3.10+)": 1
+    },
+    "verify_cuda_full_scope": false,
+    "omitted_verify_cuda_stages": [
+      "upstream",
+      "parity",
+      "examples"
+    ]
+  },
+  "smoke": {
+    "result": "pass",
+    "counts": {
+      "pass": 5,
+      "fail": 0,
+      "unsupported-guarded": 0
+    },
+    "seconds": 53.387439699999995,
+    "reference": {
+      "device": "cpu",
+      "dtype": "float64"
+    },
+    "policy": {
+      "path": "C:\\Users\\range\\Desktop\\hawa-cfd-pr116-cuda-final\\scripts\\device_smoke_policy.json",
+      "sha256": "cc3cd8ebfea4e0a4fe970f61522f94d784c7388f3d9f1eaa48f43af09d3ef5ed"
+    },
+    "module_errors": [],
+    "cases": [
+      {
+        "id": "engine-2d",
+        "builder": "engine",
+        "criterion_source": "scripts/compare_engines.py accelerator tolerance (rtol 3e-4, atol 2e-6; the pressure atol is multiplied by the case pressure conversion scale)",
+        "status": "pass",
+        "checks": [
+          {
+            "name": "populations-density-velocity",
+            "comparison_class": "bounded",
+            "arrays": [
+              {
+                "array": "cavity2d-bgk/0_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.311369178859991e-09,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/0_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.220446049250313e-16,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/0_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 0.0,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/10_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.262560186399142e-07,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/10_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.569403763086342e-07,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/10_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 6.887673272294704e-08,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/1_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.602702670577827e-08,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/1_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.220446049250313e-16,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/1_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 5.58793543728453e-09,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/50_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.515142210612886e-07,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/50_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 5.717235502800122e-07,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/50_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.3607663872300998e-07,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/0_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.311369178859991e-09,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/0_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.220446049250313e-16,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/0_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 0.0,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/10_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.3113739472678816e-08,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/10_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.1920928966180355e-07,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/10_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.8626449639624898e-08,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/1_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.3113695674380494e-09,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/1_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.220446049250313e-16,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/1_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 4.529978642198167e-09,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/50_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 4.4278816183074277e-08,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/50_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.1920929032793737e-07,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/50_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 6.434299315571976e-08,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/0_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.0733230526582815e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/0_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.892267148002503e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/0_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.578578912713515e-08,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/10_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.840003311410655e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/10_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 6.608857683332303e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/10_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.7026774124136168e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/1_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.954860432418215e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/1_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.6616662796019597e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/1_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 8.65805666987185e-08,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/50_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 6.859237020595543e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/50_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.33148259251481e-06,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/50_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.4847160968143045e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/0_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.0733230526582815e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/0_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.892267148002503e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/0_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.578578912713515e-08,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/10_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.9493630560040174e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/10_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 6.003201842297301e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/10_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.8489647394398512e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/1_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.954860432418215e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/1_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.660396429821077e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/1_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 8.322670032485935e-08,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/50_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 6.241200546375225e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/50_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.3321602140292654e-06,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/50_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.6335225554452446e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/0_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.0733230526582815e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/0_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.892267148002503e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/0_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.578578912713515e-08,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/10_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.3508306956919753e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/10_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 6.054787952125551e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/10_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.5930208049561023e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/1_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.954860432418215e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/1_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.6616662818224057e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/1_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 9.589379244140384e-08,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/50_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 6.680188655572294e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/50_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.5014712333449864e-06,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/50_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.3498522154150048e-07,
+                "passed": true
+              }
+            ],
+            "passed": true
+          },
+          {
+            "name": "pressure",
+            "comparison_class": "bounded",
+            "arrays": [
+              {
+                "array": "cavity2d-bgk/0_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 8.881784197001251e-14,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/10_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00010277615052339817,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/1_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 8.881784197001251e-14,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/50_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00022868196953139408,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/0_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 8.881784197001251e-14,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/10_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 4.768371586472142e-05,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/1_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 8.881784197001251e-14,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/50_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 4.768371613117495e-05,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/0_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00011569068592007237,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/10_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00026435430733334764,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/1_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00010643684886157967,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/50_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.000532593037005917,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/0_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00011569068592007237,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/10_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.0002401280736918955,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/1_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00010638605487039987,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/50_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.0005328640856116992,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/0_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00011569068592007237,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/10_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00024219151808502199,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/1_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00010643684895045302,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/50_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.0006006033944992439,
+                "passed": true
+              }
+            ],
+            "passed": true
+          }
+        ],
+        "reference_seconds": 0.22541299999999964,
+        "candidate_seconds": 1.5316434
+      },
+      {
+        "id": "kbc-near-equilibrium",
+        "builder": "kbc",
+        "criterion_source": "tests/test_kbc_precision.py::test_kbc_near_equilibrium_matches_double_collision (FP32 output equals the FP64 collision rounded to FP32)",
+        "status": "pass",
+        "checks": [
+          {
+            "name": "post-collision-populations",
+            "comparison_class": "bitwise",
+            "arrays": [
+              {
+                "array": "size-1/populations",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  1,
+                  1
+                ],
+                "mismatches": 0,
+                "passed": true
+              },
+              {
+                "array": "size-8/populations",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  8,
+                  8
+                ],
+                "mismatches": 0,
+                "passed": true
+              }
+            ],
+            "passed": true
+          }
+        ],
+        "reference_seconds": 0.00483369999999983,
+        "candidate_seconds": 0.31608890000000045
+      },
+      {
+        "id": "neutral-shifted-regularized",
+        "builder": "neutral",
+        "criterion_source": "tests/test_neutral.py::test_cpu_mps_reference (velocity atol 3e-5, rtol 3e-4 against CPU FP64; |relative mass change| < 1e-6)",
+        "status": "pass",
+        "checks": [
+          {
+            "name": "velocity",
+            "comparison_class": "bounded",
+            "arrays": [
+              {
+                "array": "velocity",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  3,
+                  12,
+                  12,
+                  12
+                ],
+                "rtol": 0.0003,
+                "atol": 3e-05,
+                "violations": 0,
+                "max_abs_error": 4.0061548776115785e-05,
+                "passed": true
+              }
+            ],
+            "passed": true
+          },
+          {
+            "name": "relative-mass-change",
+            "comparison_class": "bounded",
+            "arrays": [
+              {
+                "array": "relative_mass_change",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float64",
+                "shape": [],
+                "rtol": 0.0,
+                "atol": 1e-06,
+                "violations": 0,
+                "max_abs_error": 0.0,
+                "passed": true
+              }
+            ],
+            "passed": true
+          }
+        ],
+        "reference_seconds": 0.1967345999999992,
+        "candidate_seconds": 0.8431272000000005
+      },
+      {
+        "id": "moving-sphere",
+        "builder": "moving",
+        "criterion_source": "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads (populations rtol 3e-4, atol 3e-6) and the exact solid-mask equality required before comparing moving-body loads (docs/quality-gates.md)",
+        "status": "pass",
+        "checks": [
+          {
+            "name": "solid-mask",
+            "comparison_class": "bitwise",
+            "arrays": [
+              {
+                "array": "solid",
+                "reference_dtype": "bool",
+                "candidate_dtype": "bool",
+                "shape": [
+                  20,
+                  16,
+                  12
+                ],
+                "mismatches": 0,
+                "passed": true
+              }
+            ],
+            "passed": true
+          },
+          {
+            "name": "populations",
+            "comparison_class": "bounded",
+            "arrays": [
+              {
+                "array": "populations",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  19,
+                  20,
+                  16,
+                  12
+                ],
+                "rtol": 0.0003,
+                "atol": 3e-06,
+                "violations": 0,
+                "max_abs_error": 3.198885110688998e-07,
+                "passed": true
+              }
+            ],
+            "passed": true
+          }
+        ],
+        "reference_seconds": 0.27997479999999975,
+        "candidate_seconds": 0.5995403999999995
+      },
+      {
+        "id": "curved-wall-channel",
+        "builder": "wall",
+        "criterion_source": "scripts/verify_cuda_benchmarks.py wall rows (max_speed rtol 3e-4, atol 2e-6)",
+        "status": "pass",
+        "checks": [
+          {
+            "name": "max-speed",
+            "comparison_class": "bounded",
+            "arrays": [
+              {
+                "array": "q-0.25/max_speed",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float64",
+                "shape": [],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 5.193069946136356e-08,
+                "passed": true
+              },
+              {
+                "array": "q-0.75/max_speed",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float64",
+                "shape": [],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.7373155282584666e-08,
+                "passed": true
+              }
+            ],
+            "passed": true
+          }
+        ],
+        "reference_seconds": 9.5548912,
+        "candidate_seconds": 39.1808354
+      }
+    ]
+  },
+  "g6": {
+    "counts": {
+      "passed": 100010,
+      "failed": 0,
+      "blocked": 2449
+    },
+    "rows": 102459,
+    "cuda": {
+      "passed": 2449
+    },
+    "blocked_devices": {
+      "mps": 2449
+    },
+    "seconds": 175.40600000000268,
+    "rows_sha256": "e9cf8980437546abd64f0b6dafd8708c236d27cd20f17a5dc304316c53d6196b",
+    "examples": {
+      "public_nodes": 53,
+      "examples": 31,
+      "unique_edges": 188
+    },
+    "source_and_row_verifier": "PASS",
+    "local_pass": true,
+    "release_pass": false
+  },
+  "artifacts": {
+    "focused.xml": {
+      "bytes": 18333,
+      "sha256": "bcef5753ce69c782a6bdcc061a97d080c7142be46ec2b53e345274fc6bd193c8"
+    },
+    "focused.log": {
+      "bytes": 491,
+      "sha256": "da87cb030b028ba60ed2f5bf79d1eeebde1ae23024ecd32d40dcd0263ba2cb11"
+    },
+    "suite/report.json": {
+      "bytes": 218582,
+      "sha256": "de69fbae4490c15b9d62f7c1c4d1b15134167a86acaf8515911cfd7fe9dac3bc"
+    },
+    "suite/hawa-1-collection.json": {
+      "bytes": 215568,
+      "sha256": "d1095faf6f1e8817d9a4f234add3b8191f352309158efa8b414e144ac02d2ef4"
+    },
+    "suite/hawa-1.json": {
+      "bytes": 542677,
+      "sha256": "4c7d9db8bb8c0bb484763fb8fcd9470be5d47808818bc07cf85004c0f5c8b9d9"
+    },
+    "suite/hawa-1.xml": {
+      "bytes": 298841,
+      "sha256": "91ae2b46806fe23488d41b8e351faa8b32e84d061299c9612df4970af234dd6a"
+    },
+    "suite/hawa-1.log": {
+      "bytes": 18326,
+      "sha256": "0711a4056ac7a5338514ff1fb5c2a537cabe2f8d7c4daf2943493c724ad941d2"
+    },
+    "device-smoke/manifest.json": {
+      "bytes": 69200,
+      "sha256": "4bd9eba31f2d0c20782133fc5e7ee887083173d0c1e6d7a104f3f4c72bcd321f"
+    },
+    "g6/summary.json": {
+      "bytes": 21792,
+      "sha256": "14319a6cd23395f526a93ceae5d0e8e83f31c9efc142d90c982312eb41206fd9"
+    },
+    "g6/rows.jsonl": {
+      "bytes": 21210904,
+      "sha256": "e9cf8980437546abd64f0b6dafd8708c236d27cd20f17a5dc304316c53d6196b"
+    },
+    "policy-source-hashes.json": {
+      "bytes": 18562,
+      "sha256": "8bc36e9961568bd14759d81cc35aa537a5dccc2aa8c86fc15d16cc1e952378e8"
+    }
+  },
+  "omissions": [
+    "MPS unavailable on Windows",
+    "Windows Rhino/GH prohibited by license coordination",
+    "No fresh Windows Python 3.12, mutation execution or measured coverage; Mac records those separate gates",
+    "No plugin build, package, installation, merge or release in this evidence-only increment",
+    "No full-duration physical qualification or generated native CUDA extension checks"
+  ],
+  "raw_archive": {
+    "path": "C:\\Users\\range\\Desktop\\hawa-cfd-pr116-cuda-final\\results\\pr116-cuda-final-2026-11-17.zip",
+    "bytes": 10264640,
+    "sha256": "0622381a25a9321023f563fb6a7d0f061214d0da7db5855e70c58a87e9749421",
+    "integrity": "PASS"
+  }
+}

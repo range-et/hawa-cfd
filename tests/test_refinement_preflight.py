@@ -144,3 +144,86 @@ def test_missing_or_scalar_patch_corner_has_domain_diagnostic(monkeypatch, inval
     monkeypatch.setattr(hawa.plugin, 'Session', unexpected_session)
     with pytest.raises(ValueError, match='fine_case.*parent.*dimension'):
         run_refined(dict(case=coarse, fine_case=fine, steps=1, device='cpu'), lambda n: None)
+
+
+@pytest.mark.parametrize('key,value,reason', [
+    ('refinement_lower', None, 'dimension'),
+    ('refinement_lower', [5., 5, 5], 'integer'),
+    ('refinement_lower', [0, 5, 5], 'clearance'),
+    ('refinement_upper', [18, 11, 11], 'clearance'),
+    ('shape', [12, 13, 13], 'resolution'),
+    ('dx', .6, 'half'),
+    ('origin', [6., 5., 5.], 'origin'),
+    ('basis', [[0., 1., 0.], [-1., 0., 0.], [0., 0., 1.]], 'axes'),
+    ('speed', 1.1, 'physical'),
+    ('collision', 'trt', 'BGK'),
+    ('wall_links', [[1, 2, .5]], 'voxel'),
+    ('moving_bodies', [{}], 'Moving'),
+    ('boundary_set', [{}], 'boundary sets'),
+    ('boundary_field', {'path': 'unused'}, 'Boundary fields'),
+])
+def test_invalid_refinement_never_creates_job_or_grid(monkeypatch, key, value, reason):
+    import hawa.jobs as jobs
+    import hawa.plugin as plugin
+    coarse, fine = cases(0.)
+    fine[key] = value
+    before = dict(jobs.JOBS)
+    def forbidden(*args, **kwargs):
+        pytest.fail('Admission reached job/tensor/solver allocation')
+    monkeypatch.setattr(jobs, 'Job', forbidden)
+    monkeypatch.setattr(plugin, 'Session', forbidden)
+    monkeypatch.setattr(jobs.torch, 'tensor', forbidden)
+    with pytest.raises(ValueError, match=reason):
+        jobs.dispatch_job(dict(op='evaluate_submit', kind='refine', case=coarse,
+                               fine_case=fine, steps=1, device='cpu'))
+    assert jobs.JOBS == before
+
+
+@pytest.mark.parametrize('steps', [0, 10001, 1.5, True])
+def test_invalid_refinement_step_count_never_creates_job(monkeypatch, steps):
+    import hawa.jobs as jobs
+    coarse, fine = cases(0.)
+    def forbidden(*args, **kwargs):
+        pytest.fail('Invalid steps created a job')
+    monkeypatch.setattr(jobs, 'Job', forbidden)
+    with pytest.raises(ValueError, match='steps'):
+        jobs.dispatch_job(dict(op='evaluate_submit', kind='refine', case=coarse,
+                               fine_case=fine, steps=steps))
+
+
+def test_combined_refinement_budget_checked_before_job(monkeypatch):
+    import hawa.jobs as jobs
+    from hawa.plugin import check_case
+    coarse, fine = cases(0.)
+    coarse['memory_limit_mb'] = 4
+    check_case(coarse)
+    check_case(fine)
+    def forbidden(*args, **kwargs):
+        pytest.fail('Combined budget rejection created a job')
+    monkeypatch.setattr(jobs, 'Job', forbidden)
+    with pytest.raises(ValueError, match='Combined'):
+        jobs.dispatch_job(dict(op='evaluate_submit', kind='refine', case=coarse,
+                               fine_case=fine, steps=1))
+
+
+def test_valid_refinement_admission_does_not_allocate_solver_or_tensor(monkeypatch):
+    import hawa.jobs as jobs
+    import hawa.plugin as plugin
+    coarse, fine = cases(1_000_000., [[0., 1., 0.], [-1., 0., 0.], [0., 0., 1.]])
+    started = []
+    from types import SimpleNamespace
+    def make_job(request):
+        assert request['case'] == coarse and request['fine_case'] == fine
+        assert request['kind'] == 'refine' and 'op' not in request
+        return SimpleNamespace(id='admission-only', thread=SimpleNamespace(start=lambda: started.append(True)),
+                               snapshot=lambda: {'job': 'admission-only', 'state': 'queued'})
+    def forbidden(*args, **kwargs):
+        pytest.fail('Admission allocated a solver/tensor')
+    monkeypatch.setattr(jobs, 'Job', make_job)
+    monkeypatch.setattr(jobs, 'JOBS', {})
+    monkeypatch.setattr(plugin, 'Session', forbidden)
+    monkeypatch.setattr(jobs.torch, 'tensor', forbidden)
+    result = jobs.dispatch_job(dict(op='evaluate_submit', kind='refine', case=coarse,
+                                   fine_case=fine, steps=1, device='cpu'))
+    assert result == {'job': 'admission-only', 'state': 'queued'}
+    assert started == [True] and list(jobs.JOBS) == ['admission-only']

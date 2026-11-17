@@ -301,3 +301,18 @@ are not credited by the mutation score. [Pilot review](review-host-acceptance-pi
 PR 112's ownership-corruption follow-up refreshed this study to 642 mutants,
 600 assertion kills and 42 reviewed survivors (46 control tests). See the pilot
 review for the retained filesystem/diagnostic limits and targeted live recovery.
+
+### Numerical field CSV increment (#35)
+
+`bash tools/mutation/run_numerical_export.sh results/export-mutation-NEW` measures
+CSV and explicit routing lines against domain production `0e76b95`, isolating
+the export increment on the combined #30/#35 tree, with `test_csv_export.py` and
+legacy `test_export.py` controls. Check using
+`tools/mutation/numerical-export-policy.json`. The scoped study has 368 mutants,
+353 assertion kills and 15 reviewed equivalent survivors, with 47 passing
+controls on Python 3.12. The separately refreshed combined status-truth study
+has 56 mutants, 55 assertion kills and one reviewed equivalent survivor, with
+143 passing controls; its runner uses the existing `cpu_only` plugin while the
+bounded lock test explicitly enables locking. No timeout/signal is a kill.
+[Combined evidence](verification-combined-export-mutation.json) and
+[export review](review-numerical-export.md).

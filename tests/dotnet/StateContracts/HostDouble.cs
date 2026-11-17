@@ -202,7 +202,7 @@ namespace Eto.Forms {
     public sealed class UITimer : IDisposable {
         public static List<UITimer> Active = new();
         public double Interval { get; set; }
-        public event EventHandler? Elapsed;
+        public event EventHandler<EventArgs>? Elapsed;
         public bool Disposed;
         public void Start() => Active.Add(this);
         public void Stop() => Active.Remove(this);

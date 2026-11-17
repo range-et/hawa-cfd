@@ -20,9 +20,9 @@ if(action=="open"){
   if(example==31){Toggle("Initialize runtime",true);Toggle("Run",true);}else{
    var panel=d.Objects.OfType<GH_Panel>().Single(p=>p.NickName=="Recording directory");panel.UserText=output+"/recording-32";panel.ExpireSolution(false);Toggle("Record",true);
   }d.NewSolution(false);Console.WriteLine("Submitted "+example);
- }else if(new[]{"save","load","export"}.Contains(action)){
+ }else if(new[]{"save","load","export","export csv"}.Contains(action)){
   Toggle("Run",false);Toggle("Execute file action",false);var c=C("Checkpoint");var op=(Param_String)c.Params.Input[2];op.PersistentData.Clear();op.SetPersistentData(action);op.ExpireSolution(false);
-  var panel=d.Objects.OfType<GH_Panel>().Single(p=>p.NickName=="Checkpoint path");panel.UserText=output+(action=="export"?"/fields-31.npz":"/checkpoint-31.npz");panel.ExpireSolution(false);d.NewSolution(false);Console.WriteLine("Armed "+action+"; execute in next call");
+  var panel=d.Objects.OfType<GH_Panel>().Single(p=>p.NickName=="Checkpoint path");panel.UserText=output+(action=="export csv"?"/fields-31.csv":action=="export"?"/fields-31.npz":"/checkpoint-31.npz");panel.ExpireSolution(false);d.NewSolution(false);Console.WriteLine("Armed "+action+"; execute in next call");
  }else if(action=="execute"){Toggle("Execute file action",true);d.NewSolution(false);Console.WriteLine("Executed file action");}
  else if(action=="close"){Grasshopper.Instances.DocumentServer.RemoveDocument(d);d.Dispose();Console.WriteLine("Closed owned "+example);}
  else if(action=="report"||action=="state"){

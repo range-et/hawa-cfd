@@ -13,6 +13,9 @@ def isolated_jobs(monkeypatch):
     monkeypatch.setattr(jobs, 'JOBS', {})
     monkeypatch.setattr(jobs, 'SESSIONS', {})
     monkeypatch.setattr(jobs, 'DEVICE_SLOT', threading.Semaphore(1))
+    # Routing/state tests are device-independent; the lock-contract test below
+    # explicitly enables and instruments device locking with bounded probes.
+    monkeypatch.setattr(jobs, 'SHARE_DEVICE_LOCK', False)
     return jobs
 
 
@@ -189,6 +192,15 @@ def test_dispatch_enforces_capacity_unknown_operations_and_idempotent_close(isol
 def test_jobs_hold_the_shared_device_lock_outside_checkpoints(isolated_jobs, monkeypatch):
     import time
     lock = plugin.DeviceLock()
+    acquire, acquisitions = lock.acquire, []
+    def bounded_acquire(*args, **kwargs):
+        # This deterministic fixture needs fewer than 32 acquisitions. A reversed
+        # successful-acquire loop must fail promptly, not spin until the mutation
+        # process time limit before the worker's wall-clock join can report it.
+        acquisitions.append(True)
+        assert len(acquisitions) < 64, 'Repeated acquisition without advancing the job'
+        return acquire(*args, **kwargs)
+    monkeypatch.setattr(lock, 'acquire', bounded_acquire)
     monkeypatch.setattr(jobs, 'MPS_LOCK', lock); monkeypatch.setattr(jobs, 'SHARE_DEVICE_LOCK', True)
     # Every wait is bounded, so a broken loop fails the test instead of hanging it.
     def run(target):

@@ -25,6 +25,7 @@ example checks.
 | Native panel and GH live binding | Shared settings, direct/computed input ownership, revisions, stale-result handling, undo and saved idle cases. Public operations support agent workflows. | [Architecture](docs/architecture-v0.5.md), [agent operations](docs/agents/native-prototype.md), [state coverage](examples/grasshopper/VERIFICATION.md) |
 | Background work and cooperative lifecycle | Preparation, solve/query jobs, pause/resume/cancel and cleanup; legacy failed-close retry has a scoped follow-up record. | [Cleanup review](docs/review-cleanup-v0.5.md), [architecture](docs/architecture-v0.5.md) |
 | Field visualization | Scalar slices, vectors, streamlines, snapshot planes/contours/isosurfaces, surface sampling and legends. Native/GH capabilities differ; integrated movable vector slices remain HAWA-007. | [Plugin guide](docs/plugin.md), [node catalogue](docs/node-catalog-v0.5.md) |
+| Numerical field CSV | Explicit `export csv` on existing Checkpoint, versioned units/provenance/masks, raw valid values and atomic cancellable publication. NPZ default unchanged. Headless and bounded Rhino CPU readback verified; probe/load CSV and wider host/native UX remain #35. | [Contract](docs/numerical-export.md), [review](docs/review-numerical-export.md) |
 | Record and playback | Field snapshots, physical-time metadata and playback within documented formats and limits. Particles and time-dependent pathlines were removed (see history, November 12, 2026). | [GH examples](examples/grasshopper/README.md), [0.4 report](docs/release-notes-v0.4.0.md) |
 | Asynchronous design search | Completed-candidate objectives, best-result history and cooperative controls. Hull geometry is an example recipe, not a public hull-construction service. | [GH examples (example 10)](examples/grasshopper/README.md), [node boundary](docs/node-catalog-v0.5.md) |
 | Local airfoil and wing tools | Offline coordinates/NACA generation, supplied local polars and attached-flow lifting line. Bundled polar is synthetic format data; no viscous/stall CFD claim. | [Plugin guide](docs/plugin.md), [release limits](docs/release-notes-v0.4.0.md) |
@@ -100,6 +101,17 @@ Evidence: [transfer review](docs/neutral-transfer-review.md),
 qualification failures remain open in HAWA-021/022; these repairs do not close them.
 
 ## History
+
+### November 17, 2026 — Windows verification portability (#117)
+
+PR candidate `0e219a9` now passes the fresh Windows headless rerun: 1,973 tests
+(92 explicit platform/tool skips), 91 CUDA cases with no CUDA skips, all five
+CPU-FP64 device smoke comparisons, and all 2,449 CUDA G6 rows. LF checkout
+attributes and portable verification paths preserve exact-byte policy hashing;
+solver code and tolerances are unchanged. Mac supplied the implementation and
+measured/mutation evidence; Windows independently ran this acceptance. No Windows
+Rhino operation, merged-main qualification or release is claimed.
+[Review and evidence](docs/review-windows-verification-portability.md).
 
 ### November 13, 2026 — Boundary assignment annotations (#38, partial)
 
@@ -385,6 +397,23 @@ scratch candidate was rejected. No production or vendor repair is claimed.
 Diagnosis and limits. Review follow-up
 HAWA-056/057 adds actual loaded-source validation and partial failure evidence.
 HAWA-001 remains open.
+
+### November 17 2026 fixed refinement admission (#30 / HAWA-028)
+
+Fixed 2:1 refinement now checks existing case/relationship metadata before Job
+creation. Cold refinement requires explicit initialization through the existing
+Runtime node; Refined Solve identifies rejecting source/component objects, submits
+through a background task, and retains cleanup ownership across cancellation and
+removal. Independent/composed overlap and offline transfer rules are unchanged;
+solid/interface checks still require constructed grids. Focused Python tests
+(96 passed, four CUDA skips; CPU and MPS exercised), 127 headless contracts and a
+development package pass. Fresh cold/warm Rhino lifecycle and zero-resource
+teardown pass; CPU/MPS finite compatibility passes with CUDA unavailable. Full
+measured and reviewed mutation gates pass. The separate Windows headless rerun
+passes its full suite, CUDA smoke and all CUDA G6 rows. The remaining #30
+acceptance scope is verified; final gates and merge are tracked in
+[PR #116](https://github.com/range-et/hawa-cfd/pull/116). This is not a release or
+Windows-host claim. [Scoped review](docs/review-refinement-admission.md).
 
 ### November 9 2026 domain relationship contracts (HAWA-028 partial / HAWA-052 candidate)
 
@@ -693,6 +722,18 @@ No solver/threshold change or physical-validation claim. Final combined measured
 suites and CPU/MPS compatibility gate pass locally; CUDA remains blocked.
 Not merged to main or released.
 [Review and scope](docs/review-quality-provenance.md).
+
+## November 16, 2026 — bounded numerical CSV export (#35, partial)
+
+HAWA-033 now includes an opt-in instantaneous field CSV contract through the
+existing Checkpoint action and Python export operation. Metadata and raw valid
+values are captured together; independent tests cover units/positions, quoting,
+mask validity, round-trip precision and failed/cancelled atomic writes. Legacy
+NPZ and saved node contracts stay compatible. Fresh Rhino CPU field CSV/NPZ
+readback matches every valid value and mask exactly within the
+[reviewed scope](docs/review-numerical-export.md). No released or broader host
+claim. Probe/load tables and wider native/installed UX remain open
+on [#35](https://github.com/range-et/hawa-cfd/issues/35); baking is #34.
 
 ### November 16 2026 — Parent/child canvas roles (HAWA-034 / #36)
 

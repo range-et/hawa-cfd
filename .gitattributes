@@ -1,0 +1,7 @@
+# Verification policies hash exact source bytes. Keep reviewed text identical
+# across Windows and Unix checkouts, regardless of core.autocrlf.
+*.py text eol=lf
+*.cs text eol=lf
+*.json text eol=lf
+*.patch text eol=lf
+*.sh text eol=lf

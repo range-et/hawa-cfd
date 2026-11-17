@@ -26,3 +26,21 @@ def test_mutation_cpu_guard_blocks_auto_and_explicit_accelerator_probes(monkeypa
         with pytest.raises(RuntimeError, match='unavailable'):
             backends.select_backend(device)
     assert seen == ['cpu', 'cpu']
+
+
+def test_refinement_omitted_steps_runs_default_200_coarse_400_fine():
+    """A small real CPU grid protects the public default after preflight extraction."""
+    from hawa.refinement import run_refined
+    from hawa.fields import get
+    coarse = dict(shape=[11]*3, dx=1., spacing=1., origin=[0., 0., 0.],
+                  speed=1., viscosity=1., density=1.225, mach=.05,
+                  collision='bgk', solid=[],
+                  boundaries=['inlet', 'outlet', 'periodic', 'periodic', 'periodic', 'periodic'])
+    fine = dict(coarse, shape=[9]*3, dx=.5, spacing=.5, origin=[2., 2., 2.],
+                refinement_lower=[2]*3, refinement_upper=[6]*3)
+    result = run_refined(dict(case=coarse, fine_case=fine, device='cpu'), lambda n: None)
+    _, parent = get(result['coarse_frame']['frame'])
+    _, child = get(result['fine_frame']['frame'])
+    assert result['steps'] == parent['iteration'] == 200
+    assert child['iteration'] == 400
+    assert parent['time'] == pytest.approx(child['time'])

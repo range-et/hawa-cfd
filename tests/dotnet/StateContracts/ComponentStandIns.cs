@@ -26,7 +26,7 @@ public abstract class StandInComponent : HawaComponent
 }
 public sealed class EvaluateComponent() : StandInComponent("Evaluate") { protected override int Inputs => 7; protected override int Outputs => 4; }
 public sealed class BoundaryPatchComponent() : StandInComponent("BoundaryPatch") { protected override int Inputs => 6; }
-public sealed class RefinedSolveComponent() : StandInComponent("RefinedSolve");
+
 public sealed class SearchComponent() : StandInComponent("Search");
 public sealed class MotionEvaluateComponent() : StandInComponent("MotionEvaluate");
 

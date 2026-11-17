@@ -2,7 +2,7 @@
 import hashlib
 import importlib.util
 import json
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import subprocess
 import sys
 from types import ModuleType, SimpleNamespace
@@ -27,6 +27,18 @@ def sha(text):
 def write_mutants(output,rows):
     (output/'mutants.json').write_text(json.dumps(
         {name:dict(path='src/hawa/cli.py',exit_code=code,diff=diff) for name,(code,diff) in rows.items()}))
+
+
+@pytest.fixture(autouse=True)
+def exact_artifact_names(tmp_path, monkeypatch):
+    """Exercise canonical artifact names even on case-insensitive filesystems."""
+    original = Path.open
+    temporary = tmp_path.resolve()
+    def open_exact(path, *args, **kwargs):
+        if path.exists() and path.parent.resolve().is_relative_to(temporary):
+            assert path.name in {entry.name for entry in path.parent.iterdir()}, 'Artifact filename case mismatch'
+        return original(path, *args, **kwargs)
+    monkeypatch.setattr(Path, 'open', open_exact)
 
 
 @pytest.fixture
@@ -131,7 +143,7 @@ def test_draft_keeps_reasons_only_for_unchanged_survivor_diffs(evidence,capsys):
     root,output,policy=evidence
     write_mutants(output,{'hawa.cli.x_main__mutmut_1':(33,KILLED_DIFF),'hawa.cli.x_main__mutmut_2':(0,SURVIVOR_DIFF),
                           'hawa.cli.x_main__mutmut_3':(1,KILLED_DIFF)})
-    (output/'src/hawa/cli.py').write_text('edited\n')
+    (output/'src/hawa/cli.py').write_bytes(b'edited\n')
     policy['tool']='mutmut==2.4.5'
     path=output/'policy.json';path.write_text(json.dumps(policy))
     assert policy_tool.main([str(output),'--policy',str(path),'--draft'])==0
@@ -295,12 +307,13 @@ class FakeData:
 
     def __init__(self,path):self.path=path
 
-    def load(self):self.exit_code_by_key=self.codes[str(self.path)]
+    def load(self):self.exit_code_by_key=self.codes[self.path.as_posix()]
 
 
-def test_export_writes_raw_exit_codes_and_diffs(tmp_path):
-    main=SimpleNamespace(walk_mutatable_files=lambda:[Path('src/a.py'),Path('src/b.py')],
-                         get_diff_for_mutant=lambda name,path:'diff of '+name+' in '+str(path))
+@pytest.mark.parametrize('path_type', [Path, PureWindowsPath])
+def test_export_writes_raw_exit_codes_and_diffs(tmp_path, path_type):
+    main=SimpleNamespace(walk_mutatable_files=lambda:[path_type('src/a.py'),path_type('src/b.py')],
+                         get_diff_for_mutant=lambda name,path:'diff of '+name+' in '+path.as_posix())
     assert launcher.export(main,lambda path:FakeData(path),tmp_path)==2
     assert json.loads((tmp_path/'mutants.json').read_text())=={
         'a.x_f__mutmut_1':dict(path='src/a.py',exit_code=1,diff='diff of a.x_f__mutmut_1 in src/a.py'),
@@ -308,6 +321,7 @@ def test_export_writes_raw_exit_codes_and_diffs(tmp_path):
     assert (tmp_path/'mutations.diff').read_text()==(
         '# a.x_f__mutmut_1 exit 1\ndiff of a.x_f__mutmut_1 in src/a.py\n\n'
         '# a.x_f__mutmut_2 exit 0\ndiff of a.x_f__mutmut_2 in src/a.py\n\n')
+    assert {entry.name for entry in tmp_path.iterdir()} == {'mutants.json', 'mutations.diff'}
 
 
 def install_fake_package(monkeypatch,version='3.7.0'):
@@ -335,8 +349,10 @@ def test_launcher_refuses_any_other_mutmut_version(monkeypatch):
     with pytest.raises(SystemExit,match='mutmut==3.7.0'):launcher.load_mutmut()
 
 
-def test_launcher_commands_drive_the_pinned_mutmut(tmp_path,monkeypatch):
+@pytest.mark.parametrize('path_type', [Path, PureWindowsPath])
+def test_launcher_commands_drive_the_pinned_mutmut(tmp_path,monkeypatch,path_type):
     main,calls=install_fake_package(monkeypatch)
+    main.walk_mutatable_files=lambda:[path_type('src/a.py')]
     monkeypatch.chdir(tmp_path)
     monkeypatch.setattr(sys,'path',list(sys.path))
     patch=tmp_path/'p.patch';patch.write_text('--- src/a.py\n+++ src/a.py\n@@ -1 +1 @@\n-x\n+y\n')

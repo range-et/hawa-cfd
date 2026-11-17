@@ -262,13 +262,16 @@ static class ComponentContracts
             assert(Solve(runtime, true).Out<string>(0) == """{"python":"3.9"}""" && Solve(runtime, new object?[] { null }).Outputs.Count == 0, "Runtime report wrong");
             var check = new CheckComponent { Document = doc }; assert(Solve(check, Goo("{}")).Outputs.Count == 0 && check.Message == "running", "Pending check published");
             var point = new CheckpointComponent { Document = doc }; var solution = Goo("""{"session":"s1"}""");
-            Solve(point, solution, "out.npz", "bogus", true); assert(point.Errors.Single() == "Use save, load or export", "Unknown operation accepted");
+            Solve(point, solution, "out.npz", "bogus", true); assert(point.Errors.Single() == "Use save, load, export or export csv", "Unknown operation accepted");
             Solve(point, solution, "out.npz", "save", true); Solve(point, solution, "out.npz", "save", true); assert(bridge.Ops("evaluate_submit").Count() == 1, "Saved Execute true ran on open");
             Solve(point, solution, "out.npz", "save", false); da = Solve(point, solution, "out.npz", "export", true);
             var request = bridge.Ops("evaluate_submit").Last()["request"]!.AsObject();
             assert(request["op"]!.GetValue<string>() == "export" && request["session"]!.GetValue<string>() == "s1" && request["path"]!.GetValue<string>() == "/work/defs/out.npz" && Guid.TryParse(request["request_id"]!.GetValue<string>(), out _) && da.Outputs.Count == 0, "Checkpoint request wrong");
             state = "completed"; da = Solve(point, solution, "out.npz", "export", true); assert(da.Out<string>(0) == """{"saved":true}""" && bridge.Ops("evaluate_submit").Count() == 2, "Checkpoint result missing or repeated");
             Solve(point, new object?[] { null }); assert(bridge.Ops("evaluate_control").Any(r => r["job"]!.GetValue<string>() == "k2"), "Checkpoint job leaked");
+            Solve(point, solution, "out.csv", "export csv", false); Solve(point, solution, "out.csv", "export csv", true);
+            var csvRequest = bridge.Ops("evaluate_submit").Last()["request"]!.AsObject();
+            assert(csvRequest["op"]!.GetValue<string>() == "export" && csvRequest["format"]!.GetValue<string>() == "csv" && csvRequest["path"]!.GetValue<string>() == "/work/defs/out.csv" && !request.ContainsKey("format"), "Explicit CSV routing changed NPZ compatibility");
             assert(runtime.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077107") && check.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077108") && point.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077110"), "GUID changed");
             assert(Names(runtime) == "Initialize|Runtime,Credits" && Names(check) == "Case|Valid,Report" && Names(point) == "Solution,Path,Operation,Execute|Report", "Layout changed");
             Reset();
@@ -437,7 +440,7 @@ static class ComponentContracts
 
 sealed class IdleProbe() : StandInComponent("Idle");
 sealed record GhMany(params object?[] Items);
-sealed record GhNamed(string NickName) : IGH_DocumentObject;
+sealed record GhNamed(string NickName) : IGH_DocumentObject { public Guid InstanceGuid { get; } = Guid.NewGuid(); }
 
 // IGH_DataAccess double: inputs by index (D = registered default), VolatileData
 // mirrored onto the component's parameters as GH would, outputs recorded.

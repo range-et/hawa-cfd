@@ -787,6 +787,9 @@ def dispatch(request):
                 session.quality = assess(session)
         return session.status()
     if op == "export":
+        if request.get("format", "npz") != "npz":
+            from .exports import export_csv
+            return export_csv(session, request)
         path = Path(request["path"])
         path.parent.mkdir(parents=True, exist_ok=True)
         # Capture arrays and metadata together, before touching the destination.

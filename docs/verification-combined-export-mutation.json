@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-16",
+  "reviewer": "Codex numerical_exports agent (self-review)",
+  "production_commit": "5f58de7",
+  "python_production": "3.9.25",
+  "python_mutation": "3.12.4",
+  "mutation_tool": "mutmut==3.7.0",
+  "scope": "Combined issues30/35; explicit CSV field interchange and job query/refinement routing. No engineering validation or full-suite pass claimed here.",
+  "numerical_export": {
+    "command": "MUTMUT_MAX_CHILDREN=4 bash tools/mutation/run_numerical_export.sh results/numerical-export-mutation-combined",
+    "base": "0e76b95",
+    "policy": "tools/mutation/numerical-export-policy.json",
+    "mutants": 368,
+    "assertion_kills": 353,
+    "reviewed_equivalent_survivors": 15,
+    "control_tests": 47,
+    "policy_pass": true
+  },
+  "status_truth": {
+    "command": "MUTMUT_MAX_CHILDREN=4 bash tools/mutation/run_status_truth.sh results/status-truth-mutation-combined-v2",
+    "base": "6b0744abb4ef132936dac310dff023852b0eade6",
+    "policy": "tools/mutation/status-truth-policy.json",
+    "mutants": 56,
+    "assertion_kills": 55,
+    "reviewed_equivalent_survivors": 1,
+    "control_tests": 143,
+    "policy_pass": true,
+    "cpu_only_plugin": true,
+    "explicit_lock_fixture": "test_jobs_hold_the_shared_device_lock_outside_checkpoints explicitly enables SHARE_DEVICE_LOCK and bounds acquisitions",
+    "reversed_acquire_loop_mutant": "hawa.jobs.xǁJobǁtake_device__mutmut_4",
+    "reversed_acquire_loop_exit": 1
+  },
+  "discarded_run": {
+    "directory": "results/status-truth-mutation-combined",
+    "reason": "One SIGXCPU(-24) outcome while CPU routing inherited Mac device-lock availability. This run failed policy and is not a pass. Existing cpu_only pytest plugin isolates final forked study; no production/test change was made."
+  },
+  "production_test_command": ".venv/bin/python -m pytest tests/test_csv_export.py tests/test_runtime_job_contracts.py tests/test_refinement_preflight.py tests/test_export.py -q",
+  "production_tests_passed": 143,
+  "pending": "Domain agent owns validity-foundation refresh. Root owns final complete measured gate, installed Rhino evidence, ready PR, CI/Greptile5/5 and merge. Issue35 remains open for remaining scope."
+}

@@ -75,6 +75,9 @@ class Job:
                 if request['op'] == 'field':
                     from .fields import dispatch_field
                     value = dispatch_field(request, SESSIONS.get(request.get('session')), self.checkpoint)
+                elif request['op'] == 'export' and request.get('format') == 'csv':
+                    from .exports import export_csv
+                    value = export_csv(SESSIONS[request['session']], request, self.checkpoint)
                 elif request['op'] == 'statistics':
                     from .flow_statistics import analyze
                     value=analyze(request['manifest'],request['points'],request.get('start_time',0.),request.get('end_time'),self.checkpoint)
@@ -195,6 +198,9 @@ LOCK = threading.Lock()
 
 def dispatch_job(request):
     if request['op'] == 'evaluate_submit':
+        if request.get('kind') == 'refine':
+            from .refinement import check_refinement
+            check_refinement(request)
         job = Job({k:v for k,v in request.items() if k != 'op'})
         with LOCK:
             if len(JOBS) >= 32:
