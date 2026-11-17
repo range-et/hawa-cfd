@@ -103,8 +103,9 @@ def test_real_2d_benchmark_and_npz_extension_compatibility(tmp_path):
 @pytest.mark.parametrize('options', [{'format': 'bad'}, {'path': None}, {'path': ''}, {'path': '  '}, {'mean': True}])
 def test_bad_request_does_not_touch_destination(snapshot, tmp_path, options):
     path = tmp_path / 'field.csv'
-    with pytest.raises(ValueError, match='CSV export requires'):
+    with pytest.raises(ValueError) as error:
         exports.export_csv(snapshot[0], request(path, **options))
+    assert str(error.value) == 'CSV export requires format=csv and a nonempty path; unsupported options'
     assert not path.exists()
 
 
@@ -125,8 +126,10 @@ def test_failed_publication_preserves_previous_file(snapshot, tmp_path, monkeypa
     elif failure == 'flush': monkeypatch.setattr(exports.os, 'fsync', fail)
     elif failure == 'replace': monkeypatch.setattr(exports.os, 'replace', fail)
     else: monkeypatch.setattr(exports.tempfile, 'NamedTemporaryFile', fail)
-    with pytest.raises((OSError, ValueError)):
+    with pytest.raises((OSError, ValueError)) as error:
         exports.export_csv(session, request(path))
+    if failure == 'size':
+        assert str(error.value) == 'CSV export exceeds 250000 cells; use NPZ or a smaller case'
     assert path.read_text() == 'previous complete result' if existing else not path.exists()
     assert list(tmp_path.iterdir()) == ([path] if existing else [])
 
