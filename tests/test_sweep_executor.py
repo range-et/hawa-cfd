@@ -386,8 +386,14 @@ def test_generation_boundary_runs_but_numeric_lookalikes_do_not(generation):
     data = prepared(); data['a']['request']['identity']['generation'] = generation
     executor = CpuSweepExecutor(data)
     for invalid in (float(generation), bool(generation), str(generation), None):
-        with pytest.raises(ValueError):
-            executor.start(data['a']['candidate'], invalid)
+        unexpected_handle = None
+        try:
+            with pytest.raises(ValueError):
+                unexpected_handle = executor.start(data['a']['candidate'], invalid)
+        finally:
+            if unexpected_handle is not None:
+                executor.cancel(unexpected_handle)
+                finish(executor, unexpected_handle)
         assert executor.audit()['handles'] == 0
     handle = executor.start(data['a']['candidate'], generation)
     assert finish(executor, handle)['state'] == 'completed'
