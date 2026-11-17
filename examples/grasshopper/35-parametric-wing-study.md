@@ -74,9 +74,9 @@ normals, initially at **1.5 cells** offset. Its colours and the fixed **−2 to 
 Pa** legend are approximate sampled pressure. **Black means an invalid sample**;
 the validity panel makes this explicit. Change the pressure-colour sliders to
 inspect the display without changing the solver. This is not a local surface
-force/load-cell result. Turn off preview of the upstream **Actual closed wing
-mesh** parameter after running if its unrotated construction preview overlaps
-the selected pressure surface.
+force/load-cell result. The editable construction mesh is visible only while
+Run is off. A stock NOT / Cull Pattern gate hides it automatically when Run
+is on, so it does not overlap the selected rotated pressure surface.
 
 Solver progress and captured field time are different quantities. Reopening
 the definition stays idle. Set Run off and explicitly re-arm after edits or a

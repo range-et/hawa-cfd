@@ -116,7 +116,7 @@ try{
  var weld=Stock("9f6d85c9-1143-4538-bca7-69dcb11a74ef","Weld mesh seams",2700,110);Connect(join,0,weld,0);
  var angle=(Param_Number)weld.Params.Input[1];angle.PersistentData.Clear();angle.SetPersistentData(Math.PI);
  var normals=Stock("98c2a1f2-5ba6-4be0-8999-c540097406c5","Unify mesh normals",2940,110);Connect(weld,0,normals,0);
- var wing=Add(new Param_Mesh(),3180,110);wing.NickName="Actual closed wing mesh / study input";wing.AddSource(normals.Params.Output[0]);wing.Hidden=false;
+ var wing=Add(new Param_Mesh(),3180,110);wing.NickName="Actual closed wing mesh / study input";wing.AddSource(normals.Params.Output[0]);wing.Hidden=true;
  if(geometryOnly){
   var previous=Grasshopper.Instances.ActiveCanvas.Document;
   var checks=new System.Text.Json.Nodes.JsonArray();
@@ -177,6 +177,8 @@ try{
  var tolerance=Slider("Stationarity tolerance (absolute coefficient)",.05m,.001m,.1m,3,2700,850);
  var selected=Slider("Selected case index",0,0,1,0,2940,650);
  var run=Toggle("Run / explicit re-arm",2940,750);var pause=Toggle("Pause study",2940,850);var cancel=Toggle("Cancel study",2940,950);
+ var idle=Stock("cb2c7d3c-41b4-4c6d-a6bd-9235bd2851bb","Idle wing preview / NOT Run",3420,340);Wire(run,idle,0);
+ var idleWing=Stock("008e9a6f-478a-4813-8c8a-546273bc3a6b","Editable wing preview / Run off only",3680,340);Wire(wing,idleWing,0);Connect(idle,0,idleWing,1);idleWing.Hidden=false;
  var study=Hawa("StationaryStudy",3420,760);
  if(study.ComponentGuid!=new Guid("4823e5ad-f4fb-4b62-96e3-127989a184b5"))throw new Exception("Unexpected Stationary Study identity");
  Named(Output(emptyCase,"Case"),study,"Case");Named(wing,study,"Mesh");Named(angles,study,"Angles");Named(speeds,study,"Speeds");
@@ -204,7 +206,7 @@ try{
  Group("02 / Quarter-chord placement and fixed references",offset,positiveSpan,negativeSpan,area,mac,quarter,pivot);
  Group("03 / Ordinary GH loft, caps and closed mesh",plusVector,minusVector,tipPlus,tipMinus,sections,loft,cap,solid,closed,meshBrep,join,weld,normals,wing,geometryCheck,geometryReport);
  Group("04 / Fixed tunnel and synthetic fluid",runtime,initialize,runtimeReport,domainBox,domain,gridReport,physics,viscosity,boundaries,emptyCase,bounds);
- Group("05 / Explicit stationary study",alphaFirst,alphaSecond,speed,angles,speeds,probes,settling,samples,tolerance,selected,run,pause,cancel,study,progress,identity,cases);
+ Group("05 / Explicit stationary study",alphaFirst,alphaSecond,speed,angles,speeds,probes,settling,samples,tolerance,selected,run,pause,cancel,study,progress,identity,cases,idle,idleWing);
  Group("06 / Total loads and selected pressure",force,drag,lift,sideForce,moment,colors,pressureLow,pressureHigh,offsetDistance,surface,valid,pressure,legend);
  Panel("Hawa guide / purpose","HAWA / 35\nEDITABLE WING STUDY\n\nTwo distinct offline airfoil sections. Edit chord/span/NACA controls; ordinary GH components loft and cap the wing. The resulting closed mesh is the actual study input. Read 35-parametric-wing-study.md.",0,-410,410,340);
  Panel("Hawa guide / operation","START EXPLICITLY\n\nOpen in a metre document. Initialize runtime if needed. Wait for accepted geometry, then enable the study. Pause/cancel cooperatively. Changes invalidate the previous study; re-arm explicitly. Reopen remains idle. Choose a returned candidate to inspect its matching field and identity.",440,-410,410,340);

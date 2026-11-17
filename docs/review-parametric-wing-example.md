@@ -125,3 +125,13 @@ valid pairs, including actual ConstructPoint count and coordinates. Root has
 observed passing arithmetic cases; the final ConstructPoint assertion still
 needs host execution. Existing archive patching preserves original object IDs
 and unrelated wires, with a backup and explicit plot-input rewire audit.
+
+## Automatic idle geometry preview
+
+The generator and separate `patch_wing_idle_preview.cs` add a stock NOT Run /
+Cull Pattern preview gate. The original mesh parameter is hidden but its Study
+and geometry wires remain unchanged. Run off previews the editable geometry;
+Run on withholds that unrotated preview so selected pressure is unobstructed.
+The closed-archive patch backs up original bytes and audits all original IDs
+and component wires, adding two objects. Host execution/visual acceptance is
+owned by root; no run is claimed by the author.
