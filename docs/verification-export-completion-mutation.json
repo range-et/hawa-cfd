@@ -1,0 +1,96 @@
+{
+  "date": "2026-11-17",
+  "reviewer": "Codex numerical_exports agent",
+  "issue": 35,
+  "source_commit": "5ac088b",
+  "base_revision": "0e76b95",
+  "scope": "Issue35 CSV field/probe/load capture and shared export/native-data job routing changed lines versus0e76b95; native_data.py has a dedicated whole-module policy; no solver numerical changes",
+  "command": "MUTMUT_MAX_CHILDREN=4 bash tools/mutation/run_numerical_export.sh results/export-completion-mutation-5",
+  "environment": "macOS CPU; Python3.12.4; mutmut3.7.0; maxchildren4; CPU-only pytest plugin",
+  "result": {
+    "mutants": 1357,
+    "killed": 1264,
+    "reviewed_survivors": 93,
+    "control_tests": 212,
+    "policy_pass": true,
+    "scope": "Issue35 CSV field/probe/load capture and shared export/native-data job routing changed lines versus0e76b95; native_data.py has a dedicated whole-module policy; no solver numerical changes"
+  },
+  "errors": 0,
+  "timeouts": 0,
+  "unchecked": 0,
+  "source_and_test_sha256": {
+    "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
+    "src/hawa/plugin.py": "a54abd1eb7e147432882a6c390528e8976304c4432804b173068f2df1dc0f289",
+    "src/hawa/jobs.py": "c99c593281f82c8fe7968941e1cb4f30fa4ea76a5c370dd3bc04b89db3e55af2",
+    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
+    "tests/test_csv_export.py": "bd7ae21aa9524b2ee5deb8e018f8f7b939e0642a348923c8d5fe939c2d2d3f82",
+    "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
+    "tests/test_csv_tables.py": "3c5bbb6c9b67713dcdd605637142a0d5c239cf020c5c03799ef1f7a38d3b0098",
+    "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090",
+    "tests/test_native_data.py": "78438be3e74991f5c8079df767e7dd5d2fc6516a767ada1c99092e01bd5b7436",
+    "tests/test_runtime_job_contracts.py": "5dc3a5bfdc13d8c3be84d3633c237cdcd8c98ea46d876b76d23c8df7f470582a",
+    "tests/test_native_data_status.py": "e526cd814ebadbf5ca64a94f5979cd76c2af9e3c55174da78453d912492cc1e1",
+    "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c"
+  },
+  "inventory_sha256": "d4dc930af25dd739226592bad087ed90aa6a7bc2ac6ff06a2bddc902f4fcc804",
+  "reviewed_survivor_categories": {
+    "diagnostic spelling": 69,
+    "false flag": 3,
+    "private temporary name": 9,
+    "encoding alias": 1,
+    "already finite metadata": 2,
+    "zero mask dtype": 4,
+    "JSON ID encoding": 3,
+    "already validated request": 2
+  },
+  "review": "Every surviving diff matches the prior reviewed CSV-only survivor exactly, including diff hash. All20 new shared-job routing survivors in study4 were killed by adding the existing frozen runtime-job and native-data-status controls, including default-device forwarding and cancellation during archive admission. No new source/test edits were required for this final refresh.",
+  "iterations": [
+    {
+      "run": 1,
+      "mutants": 1249,
+      "killed": 1080,
+      "survived": 169,
+      "accepted": false,
+      "reason": "Initial assertion gaps; added focused regressions"
+    },
+    {
+      "run": 2,
+      "accepted": false,
+      "reason": "Working test hashes changed during final export; discarded, not claimed as a gate pass"
+    },
+    {
+      "run": 3,
+      "accepted": true,
+      "reason": "Fresh frozen source/tests, exact inventory and policy verified"
+    },
+    {
+      "run": 4,
+      "accepted": false,
+      "reason": "Native-data routing added20 assertion gaps to the broader jobs.py changed-line scope; existing independent controls were added to the runner"
+    },
+    {
+      "run": 5,
+      "accepted": true,
+      "reason": "Fresh final source/tests, exact inventory,212controls and policy verified"
+    }
+  ],
+  "focused_python39": {
+    "command": ".venv/bin/python -m coverage run --data-file results/export-focused-final.coverage --branch --source=hawa.exports -m pytest tests/test_csv_export.py tests/test_csv_tables.py tests/test_export.py tests/test_field_export.py -q",
+    "passed": 159,
+    "skipped": 0,
+    "statements": 194,
+    "covered_statements": 194,
+    "branches": 94,
+    "covered_branches": 94
+  },
+  "omissions": [
+    "Full measured suite and committed function matrix are coordinated separately by root.",
+    "Rhino and GPU qualification are separate gates; these CPU mutation results do not replace them.",
+    "Native archive module has its own native-data-policy.json and verification-native-data-mutation.json."
+  ],
+  "focused_python39_final": {
+    "command": ".venv/bin/python -m pytest tests/test_csv_export.py tests/test_csv_tables.py tests/test_export.py tests/test_native_data.py tests/test_runtime_job_contracts.py tests/test_native_data_status.py -q",
+    "passed": 212,
+    "skipped": 0
+  }
+}

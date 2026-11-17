@@ -102,21 +102,67 @@ public sealed class SolveComponent : HawaComponent
 
 public sealed class CheckpointComponent : HawaQueryComponent
 {
-    private bool previous;
+    private bool previous, querying;
     private JsonObject? operation;
+    private string? inputIdentity, completedReport;
     private bool first = true;
-    public CheckpointComponent() : base("Hawa Checkpoint", "Checkpoint", "Save/load a numerical checkpoint or export NPZ or CSV fields. Actions use a rising edge and pause the solver for checkpoint operations.", "08 Files") { }
+    public CheckpointComponent() : base("Hawa Checkpoint", "Checkpoint", "Save/load checkpoints or export field, probe or load CSV. Execute rising edge submits; false cancels a pending action. Changed inputs require re-arming. Reports identify the actual captured result.", "08 Files") { }
     public override Guid ComponentGuid => new("a7bb3b0a-ae4f-42ae-9301-a3c55f077110");
-    protected override void RegisterInputParams(GH_InputParamManager p) { p.AddGenericParameter("Solution", "S", "Hawa Solution", GH_ParamAccess.item); p.AddTextParameter("Path", "P", "Local .npz file, or .csv output for export csv", GH_ParamAccess.item); p.AddTextParameter("Operation", "O", "save, load, export or export csv", GH_ParamAccess.item, "save"); p.AddBooleanParameter("Execute", "E", "Rising edge executes operation", GH_ParamAccess.item, false); }
-    protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddTextParameter("Report", "R", "Operation result", GH_ParamAccess.item); }
-    protected override void SolveHawa(IGH_DataAccess da) {
-        var s=ReadObject(da,0);string path="",op="save";bool execute=false;
-        da.GetData(1,ref path);da.GetData(2,ref op);da.GetData(3,ref execute);
-        if(!new[]{"save","load","export","export csv"}.Contains(op))throw new ArgumentException("Use save, load, export or export csv");
-        if(first){previous=execute;first=false;}
-        if(execute&&!previous){operation=Request(op=="export csv"?"export":op,s["session"]!.GetValue<string>());if(op=="export csv")operation["format"]="csv";operation["path"]=LocalPath(path);operation["request_id"]=Guid.NewGuid().ToString();}
-        previous=execute;
-        if(operation!=null){var result=View(operation);if(result!=null)da.SetData(0,result.ToJsonString());}
+    protected override void RegisterInputParams(GH_InputParamManager p) {
+        p.AddGenericParameter("Solution", "S", "Hawa Solution", GH_ParamAccess.item);
+        p.AddTextParameter("Path", "P", "Local .npz file, or .csv output for explicit CSV actions", GH_ParamAccess.item);
+        p.AddTextParameter("Operation", "O", "save, load, export, export csv, export probes csv or export loads csv", GH_ParamAccess.item, "save");
+        p.AddBooleanParameter("Execute", "E", "Rising edge executes; false cancels pending work. Re-arm after changing inputs.", GH_ParamAccess.item, false);
+        p.AddPointParameter("Points", "P", "Optional model-coordinate probe locations; required only for export probes csv", GH_ParamAccess.list);
+        p[4].Optional = true;
     }
-    protected override void InputsMissing(){base.InputsMissing();}
+    protected override void RegisterOutputParams(GH_OutputParamManager p) { p.AddTextParameter("Report", "R", "Operation result with actual captured attribution", GH_ParamAccess.item); }
+    protected override void SolveHawa(IGH_DataAccess da) {
+        bool execute=false; da.GetData(3,ref execute);
+        if(first){previous=execute;first=false;}
+        var source=ReadObject(da,0); string path="",op="save";
+        da.GetData(1,ref path); da.GetData(2,ref op);
+        if(!new[]{"save","load","export","export csv","export probes csv","export loads csv"}.Contains(op))
+            throw new ArgumentException("Use save, load, export, export csv, export probes csv or export loads csv");
+        var request=Request(op.StartsWith("export ")?"export":op,source["session"]!.GetValue<string>());
+        request["path"]=LocalPath(path);
+        var points=new List<Rhino.Geometry.Point3d>();
+        if(op.StartsWith("export "))request["format"]="csv";
+        if(op=="export loads csv")request["table"]="loads";
+        if(op=="export probes csv"){
+            da.GetDataList(4,points);
+            if(points.Count>10000 || points.Any(p=>
+                !p.IsValid
+            ))throw new ArgumentException("Probe export requires 1..10000 finite model points");
+            request["table"]="probes";
+            request["points"]=new JsonArray(points.Select(p=>
+                (JsonNode)Coordinates.Grid(source,p)
+            ).ToArray());
+        }
+        // Live progress changes revision/label; it must not replace an in-flight
+        // frozen capture. Session/case/generation changes still invalidate it.
+        var identitySource=source.DeepClone().AsObject();identitySource.Remove("revision");identitySource.Remove("label");
+        string identity=new JsonObject{["source"]=identitySource,["request"]=request.DeepClone()}.ToJsonString();
+        if(inputIdentity!=null && inputIdentity!=identity){bool wasHigh=previous;InputsMissing();previous=wasHigh;}
+        inputIdentity=identity;
+        if(!execute){
+            base.InputsMissing();operation=null;previous=false;
+            Message=completedReport==null?"idle":"completed";
+        }else if(!previous){
+            if(op=="export probes csv" && points.Count==0)throw new ArgumentException("Probe export requires 1..10000 finite model points");
+            operation=request;operation["request_id"]=Guid.NewGuid().ToString();completedReport=null;previous=true;
+        }
+        if(operation!=null){
+            querying=true;
+            try{var result=View(operation);if(result!=null)completedReport=result.ToJsonString();}
+            finally{querying=false;}
+        }
+        else if(execute && completedReport==null)Message="enable again";
+        if(completedReport!=null)da.SetData(0,completedReport);
+    }
+    protected override void InputsMissing(){
+        base.InputsMissing();
+        if(querying)return; // View resets its query ownership before submission.
+        operation=null;completedReport=inputIdentity=null;previous=true;first=false;
+    }
 }

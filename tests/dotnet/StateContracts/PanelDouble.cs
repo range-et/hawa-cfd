@@ -28,6 +28,11 @@ namespace Eto.Forms {
         public Control? Content { get; set; }
         public override IEnumerable<Control> Children => Content == null ? Array.Empty<Control>() : new[] { Content };
     }
+    public class TextBox : Control { public string Text { get; set; } = ""; }
+    public enum DialogResult { Ok, Cancel }
+    public sealed record FileFilter(string Name, string Extension);
+    public sealed class OpenFileDialog : IDisposable { public static DialogResult Result; public static string Chosen = ""; public string Title { get; set; } = ""; public string FileName { get; set; } = ""; public List<FileFilter> Filters { get; } = new(); public DialogResult ShowDialog(Control control) { if(Result == DialogResult.Ok) FileName = Chosen; return Result; } public void Dispose() {} }
+    public sealed class SaveFileDialog : IDisposable { public static DialogResult Result; public static string Chosen = ""; public string Title { get; set; } = ""; public string FileName { get; set; } = ""; public List<FileFilter> Filters { get; } = new(); public DialogResult ShowDialog(Control control) { if(Result == DialogResult.Ok) FileName = Chosen; return Result; } public void Dispose() {} }
     public class Label : Control { public string Text { get; set; } = ""; public WrapMode Wrap { get; set; } public TextAlignment TextAlignment { get; set; } public object? TextColor { get; set; } public Font? Font { get; set; } }
     public class Button : Control {
         public string Text { get; set; } = ""; public object? Image { get; set; } public ButtonImagePosition ImagePosition { get; set; }
@@ -47,7 +52,7 @@ namespace Eto.Forms {
         public object SelectedValue { get => index < 0 ? "" : DataStore[index]; set => SelectedIndex=Array.IndexOf(DataStore,value); }
         public event EventHandler? SelectedIndexChanged;
     }
-    public class CheckBox : Control { public string Text { get; set; } = ""; public bool? Checked { get; set; } }
+    public class CheckBox : Control { public string Text { get; set; } = ""; private bool? current; public bool? Checked { get => current; set { if(current==value)return; current=value; CheckedChanged?.Invoke(this,EventArgs.Empty); } } public event EventHandler? CheckedChanged; }
     public class ProgressBar : Control { public int MinValue { get; set; } public int MaxValue { get; set; } public int Value { get; set; } }
     public class ImageView : Control { public object? Image { get; set; } }
     public class DynamicLayout : Control {
@@ -57,7 +62,7 @@ namespace Eto.Forms {
         public void AddSeparateRow(params Control?[] controls) => children.AddRange(controls.OfType<Control>());
         public void Add(Control? control, bool xscale=false, bool yscale=false) { if(control!=null)children.Add(control); }
     }
-    public class TabControl : Control { public List<TabPage> Pages { get; } = new(); public override IEnumerable<Control> Children => Pages; }
+    public class TabControl : Control { public int SelectedIndex { get; set; } public List<TabPage> Pages { get; } = new(); public override IEnumerable<Control> Children => Pages; }
     public class TabPage : Panel { public string Text { get; set; } = ""; }
     public class Scrollable : Panel { }
 }

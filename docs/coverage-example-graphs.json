@@ -523,30 +523,37 @@
         },
         {
           "name": "Path",
-          "description": "Local .npz file, or .csv output for export csv",
+          "description": "Local .npz file, or .csv output for explicit CSV actions",
           "access": "item",
           "optional": false,
           "parameter_type": "Param_String"
         },
         {
           "name": "Operation",
-          "description": "save, load, export or export csv",
+          "description": "save, load, export, export csv, export probes csv or export loads csv",
           "access": "item",
           "optional": false,
           "parameter_type": "Param_String"
         },
         {
           "name": "Execute",
-          "description": "Rising edge executes operation",
+          "description": "Rising edge executes; false cancels pending work. Re-arm after changing inputs.",
           "access": "item",
           "optional": false,
           "parameter_type": "Param_Boolean"
+        },
+        {
+          "name": "Points",
+          "description": "Optional model-coordinate probe locations; required only for export probes csv",
+          "access": "list",
+          "optional": true,
+          "parameter_type": "Param_Point"
         }
       ],
       "outputs": [
         {
           "name": "Report",
-          "description": "Operation result",
+          "description": "Operation result with actual captured attribution",
           "access": "item",
           "optional": false,
           "parameter_type": "Param_String"

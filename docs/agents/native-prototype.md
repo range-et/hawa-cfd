@@ -76,3 +76,37 @@ requests retry on Rhino Idle even without the native panel. Maintainers can run
 failures and verify recovery after GH disposal. It temporarily changes the
 process transport and stops the native polling timer; do not run it in a user's
 active working session. See `../review-cleanup-v0.5.md` for scope and evidence.
+
+## Completed numerical exports
+
+Use `CaseHub.Export(documentSerial, absoluteCsvPath, "fields", null)` or
+`CaseHub.Export(documentSerial, absoluteCsvPath, "probes", capturedPoint3dArray)`
+only for a healthy paused or completed run. Probe points are document model coordinates;
+the service freezes and maps them through that run's accepted specification projected into current document units.
+Use `CancelExport(documentSerial)` to cancel pending publication. Poll
+`Describe()` fields `export_state`, `export_error`, `export_job`, `export_result`
+on later MCP turns. Require `completed` and the actual result identity; solver
+completion or a preview stamp alone is not export completion. The export result
+carries artifact ID, path/table/row count, session/case hash, capture iteration and
+local/absolute time, plus explicitly caller-declared case/revision/generation/
+version attribution. Read the [table contract](../numerical-export.md) before
+interpreting rows. Native cases do not provide moving-body load histories.
+
+
+## Native checkpoint data
+
+`SaveData(documentSerial, absoluteNpzPath)` saves a paused/completed native run.
+`ImportData(documentSerial, absoluteNpzPath, device)` stages validation and a new
+paused session before replacing the accepted case. `CancelData(documentSerial)`
+cancels pending work. Poll `data_state`, `data_error`, `data_job` and `data_result`
+in `Describe()` on later MCP turns. Imported physics is read-only archived data;
+use View edits for inspection and a higher total target plus `Run` for explicit
+continuation. `UseBlockPreset(documentSerial)` leaves imported-source mode for a
+new editable demonstration. Reopening an imported `.3dm` requires importing its
+NPZ again. See [the format and lifecycle contract](../native-data.md).
+
+Native panel Setup/View controls now submit validated edits directly. Run remains
+explicit. Changing a periodic side updates its opposite face atomically. An
+invalid manual range draft leaves the accepted display intact until corrected;
+an external accepted settings version refreshes stale drafts. `RefreshView`
+remains the explicit recovery operation for a failed field query.

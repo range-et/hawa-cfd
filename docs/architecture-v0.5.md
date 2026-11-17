@@ -148,3 +148,31 @@ prove a worker has exited. Teardown verification must also inspect jobs, session
 and worker threads. A permanently unavailable bridge retains pending work for the
 current process lifetime and reports failures in Rhino's command output. This is
 not persistence across Rhino restarts. Call these APIs on Rhino's UI thread.
+
+## Numerical export ownership
+
+Paused/completed native field/probe exports use a dedicated service-owned query job,
+request stamp, error and result (`CaseExports.cs`), separate from field preview.
+Submission freezes case/revision/generation/version, session, case hash, iteration
+and expected stopped state. Python validates the expected solver identity under
+its capture lock; native polling validates returned identity before accepting the
+artifact. Physical changes, reset and disposal invalidate ownership before cleanup;
+panel closure retains work. Failed cleanup uses the existing retry queue.
+
+The common CSV artifact contract uses a generated artifact ID plus authoritative
+session/case hash/iteration/local and absolute time, units and validity metadata.
+Native attribution is caller-declared context. Future durable Rhino baking (#34)
+can retain those fields, but must define its own geometry/colour-range and save/
+reopen semantics; CSV export does not implement baking. See the
+[export contract](numerical-export.md) and [review](review-export-completion.md).
+
+
+Native checkpoint save/import use separate data-operation ownership. Import
+validates the complete artifact and staged reply before detaching the old case,
+then adopts a fresh job-owned session paused without advancing it. New local
+case/session IDs remain distinct from saved artifact provenance. Native physical
+display settings derive from archived accepted physics; caller presentation
+settings cannot redefine solver geometry. Imported sources are read-only and
+persist only identity/physical bounds in `.3dm`; reopen requires explicit data
+import. Failed empty-document imports remain labelled as no accepted case.
+See [native data](native-data.md) and the completion review for exact scope.

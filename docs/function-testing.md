@@ -317,6 +317,7 @@ bounded lock test explicitly enables locking. No timeout/signal is a kill.
 [Combined evidence](verification-combined-export-mutation.json) and
 [export review](review-numerical-export.md).
 
+
 ### Measurement foundation schema registry (#40)
 
 The internal measurement/sweep schemas extend `test_payload_schemas.py` without
@@ -339,3 +340,27 @@ inventory with `measurement-core-policy.json`; no score threshold is used.
 Decorated Pydantic class validators, CPU worker/collector, geometry recipes and
 host adapters are outside this inventory. See the
 [CPU follow-up](review-cpu-sweep-validation.md) for separate worker-study limits.
+
+### Export and native checkpoint completion (#35)
+
+The expanded increment adds probe/load CSV and paused native checkpoint save/import.
+Fresh frozen-source local Python3.12 mutation studies verify these exact inventories:
+
+| Study | Mutants | Assertion kills | Reviewed survivors | Passing controls |
+| --- | ---: | ---: | ---: | ---: |
+| Native data (`run_native_data.sh`) |1056|946|110|112|
+| Numerical export/routing |1357|1264|93|212|
+| Status truth |155|154|1|192|
+| Validity foundation |2571|2352|219|325|
+
+All four have zero errors, timeouts and unchecked mutants. Survivors are reviewed
+under the existing exact-policy rules; they are not assertion kills. The native
+study covers archive validation, atomic publication and paused restoration; export
+and status studies also cover shared job/dispatch routes. The validity refresh
+kills all nine added native-data dispatch mutants and retains the exact prior
+survivor reasons. Python3.9 remains authoritative for production tests.
+[Native evidence](verification-native-data-mutation.json),
+[export evidence](verification-export-completion-mutation.json),
+[status evidence](verification-native-data-status-mutation.json),
+[validity evidence](verification-native-data-validity-mutation.json).
+

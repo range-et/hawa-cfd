@@ -67,7 +67,7 @@ static class ComponentContracts
             // Archived counts inside [the original count, the current count] hide the appended ports from GH's reader.
             foreach (var (component, inputs, outputs, seen, inRange) in new (GH_Component, int, int, (int, int), bool)[] {
                 (new GeometryComponent(), 2, 2, (2, 2), true), (new GeometryComponent(), 1, 2, (4, 2), false), (new GeometryComponent(), 4, 3, (4, 2), false), (new GeometryComponent(), 2, 1, (4, 2), false), (new GeometryComponent(), 3, 4, (4, 2), false),
-                (new EvaluateComponent(), 6, 4, (6, 4), true), (new BoundaryCaptureComponent(), 4, 3, (4, 3), true), (new BoundaryPatchComponent(), 6, 1, (6, 1), true), (new ProbeComponent(), 1, 1, (1, 1), true) }) {
+                (new CheckpointComponent(), 4, 1, (4, 1), true), (new CheckpointComponent(), 5, 1, (5, 1), true), (new EvaluateComponent(), 6, 4, (6, 4), true), (new BoundaryCaptureComponent(), 4, 3, (4, 3), true), (new BoundaryPatchComponent(), 6, 1, (6, 1), true), (new ProbeComponent(), 1, 1, (1, 1), true) }) {
                 var before = component.Params.Input.ToArray(); var outBefore = component.Params.Output.ToArray();
                 assert(component.Read(new GhArchive(inputs, outputs)), "Read failed");
                 assert(component.BaseReads == 1 && (component.InputsAtBaseRead, component.OutputsAtBaseRead) == seen, $"{component.GetType().Name} {inputs}/{outputs}: base read saw {component.InputsAtBaseRead}/{component.OutputsAtBaseRead}");
@@ -262,7 +262,7 @@ static class ComponentContracts
             assert(Solve(runtime, true).Out<string>(0) == """{"python":"3.9"}""" && Solve(runtime, new object?[] { null }).Outputs.Count == 0, "Runtime report wrong");
             var check = new CheckComponent { Document = doc }; assert(Solve(check, Goo("{}")).Outputs.Count == 0 && check.Message == "running", "Pending check published");
             var point = new CheckpointComponent { Document = doc }; var solution = Goo("""{"session":"s1"}""");
-            Solve(point, solution, "out.npz", "bogus", true); assert(point.Errors.Single() == "Use save, load, export or export csv", "Unknown operation accepted");
+            Solve(point, solution, "out.npz", "bogus", true); assert(point.Errors.Single() == "Use save, load, export, export csv, export probes csv or export loads csv", "Unknown operation accepted");
             Solve(point, solution, "out.npz", "save", true); Solve(point, solution, "out.npz", "save", true); assert(bridge.Ops("evaluate_submit").Count() == 1, "Saved Execute true ran on open");
             Solve(point, solution, "out.npz", "save", false); da = Solve(point, solution, "out.npz", "export", true);
             var request = bridge.Ops("evaluate_submit").Last()["request"]!.AsObject();
@@ -273,7 +273,85 @@ static class ComponentContracts
             var csvRequest = bridge.Ops("evaluate_submit").Last()["request"]!.AsObject();
             assert(csvRequest["op"]!.GetValue<string>() == "export" && csvRequest["format"]!.GetValue<string>() == "csv" && csvRequest["path"]!.GetValue<string>() == "/work/defs/out.csv" && !request.ContainsKey("format"), "Explicit CSV routing changed NPZ compatibility");
             assert(runtime.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077107") && check.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077108") && point.ComponentGuid == new Guid("a7bb3b0a-ae4f-42ae-9301-a3c55f077110"), "GUID changed");
-            assert(Names(runtime) == "Initialize|Runtime,Credits" && Names(check) == "Case|Valid,Report" && Names(point) == "Solution,Path,Operation,Execute|Report", "Layout changed");
+            assert(Names(runtime) == "Initialize|Runtime,Credits" && Names(check) == "Case|Valid,Report" && Names(point) == "Solution,Path,Operation,Execute,Points|Report", "Layout changed");
+            Reset();
+        });
+
+        test("checkpoint probe and load actions preserve coordinates, capture identity and archives", () => {
+            Reset(); using var bridge = new GhBridge(); string state="running";
+            var actual=JsonNode.Parse("""{"path":"/work/defs/probes.csv","format":"csv","table":"probes","rows":2,"artifact_id":"captured-artifact","session":"s1","case_hash":"captured-case","iteration":7,"local_time":0.7,"time_origin":2.0,"absolute_time":2.7,"source_state":"completed","attribution":"captured"}""")!.AsObject();
+            bridge.Respond=r=>r["op"]!.GetValue<string>() switch {"evaluate_submit"=>new(){["job"]="p"+bridge.Ops("evaluate_submit").Count()},"evaluate_poll"=>new(){["state"]=state,["result"]=actual.DeepClone()},_=>null};
+            var c=new CheckpointComponent{Document=doc};
+            var source=Goo("""{"session":"s1","generation":12,"revision":7,"label":"old","case":{"origin":[8.0,12.0,16.0],"spacing":2.0,"dx":0.5,"basis":[[0,1,0],[-1,0,0],[0,0,1]]}}""");
+            var points=new[]{new Point3d(6,16,22),new Point3d(6,16,22)};
+            Solve(c,source,"probes.csv","export probes csv",false,points);Solve(c,source,"probes.csv","export probes csv",true,points);
+            var request=bridge.Ops("evaluate_submit").Single()["request"]!.AsObject();
+            assert(request["op"]!.GetValue<string>()=="export"&&request["format"]!.GetValue<string>()=="csv"&&request["table"]!.GetValue<string>()=="probes"&&request["points"]!.ToJsonString()=="[[2,1,3],[2,1,3]]","Probe routing, duplicate/order or rotated model coordinates wrong");
+            var progressed=source.Data;progressed["revision"]=99;progressed["label"]="running 99";var later=new HawaGoo(progressed);
+            assert(Solve(c,later,"probes.csv","export probes csv",true,points).Outputs.Count==0&&bridge.Ops("evaluate_submit").Count()==1,"Base View internal reset lost request or live progress resubmitted it");
+            state="completed";var da=Solve(c,later,"probes.csv","export probes csv",true,points);
+            assert(da.Out<string>(0)==actual.ToJsonString(),"Completion changed actual captured attribution");
+            assert(Solve(c,later,"probes.csv","export probes csv",false,points).Out<string>(0)==actual.ToJsonString(),"Rearming relabelled completed result");
+            Solve(c,later,"loads.csv","export loads csv",false);Solve(c,later,"loads.csv","export loads csv",true);
+            request=bridge.Ops("evaluate_submit").Last()["request"]!.AsObject();
+            assert(request["table"]!.GetValue<string>()=="loads"&&!request.ContainsKey("points"),"Loads reused probe points");
+            var old=new CheckpointComponent();var ports=old.Params.Input.Take(4).ToArray();assert(old.Read(new GhArchive(4,1))&&old.Params.Input.Take(4).SequenceEqual(ports)&&old.Params.Input[4].Optional,"Old archive reordered ports or made probes mandatory");
+            Reset();
+        });
+
+        test("checkpoint cancellation and changed inputs require a fresh safe edge", () => {
+            Reset();using var bridge=new GhBridge();
+            bridge.Respond=r=>r["op"]!.GetValue<string>() switch {"evaluate_submit"=>new(){["job"]="c"+bridge.Ops("evaluate_submit").Count()},"evaluate_poll"=>new(){["state"]="running"},_=>null};
+            var c=new CheckpointComponent{Document=doc};var source=Goo("""{"session":"s1","generation":1,"case":{"origin":[0,0,0],"spacing":1}}""");var points=new[]{new Point3d(1,2,3)};
+            int Count()=>bridge.Ops("evaluate_submit").Count();
+            Solve(c,source,"a.csv","export probes csv",false,points);Solve(c,source,"a.csv","export probes csv",true,points);assert(Count()==1,"Initial edge absent");
+            Solve(c,source,"a.csv","export probes csv",false,points);assert(bridge.Ops("evaluate_control").Last()["action"]!.GetValue<string>()=="close"&&c.Message=="idle","Execute false did not cancel pending export");
+            Solve(c,source,"a.csv","export probes csv",true,points);assert(Count()==2,"Fresh edge did not submit");
+            var changed=new[]{new Point3d(2,2,3)};assert(Solve(c,source,"a.csv","export probes csv",true,changed).Outputs.Count==0&&Count()==2,"Changed points published or resubmitted");
+            Solve(c,source,"a.csv","export probes csv",true,changed);assert(Count()==2,"Polling silently rearmed changed points");
+            Solve(c,source,"a.csv","export probes csv",false,changed);Solve(c,source,"a.csv","export probes csv",true,changed);assert(Count()==3,"Explicit rearm rejected");
+            Solve(c,source,"b.csv","export probes csv",true,changed);assert(Count()==3,"Changed path auto-ran");
+            Solve(c,source,"b.csv","export loads csv",false);Solve(c,source,"b.csv","export loads csv",true);assert(Count()==4,"Loads edge missing");
+            Solve(c,source,"b.csv","export csv",true);assert(Count()==4,"Changed operation auto-ran");
+            Solve(c,source,"b.csv","export csv",false);Solve(c,source,"b.csv","export csv",true);var replacement=source.Data;replacement["generation"]=2;
+            Solve(c,new HawaGoo(replacement),"b.csv","export csv",true);assert(Count()==5,"Changed generation auto-ran");
+            Solve(c,source,"b.csv","export csv",false);Solve(c,source,"b.csv","export csv",true);
+            Solve(c,new object?[]{null});Solve(c,source,"b.csv","export csv",true);assert(Count()==6,"Missing/reconnected input resurrected operation");
+            Solve(c,source,"b.csv","export csv",false);Solve(c,source,"b.csv","export csv",true);c.DocumentContextChanged(doc,GH_DocumentContext.Unloaded);
+            Solve(c,source,"b.csv","export csv",true);assert(Count()==7,"Document reload resurrected action");
+            c.RemovedFromDocument(doc);Reset();
+        });
+
+        test("checkpoint source changes cancel without borrowing current attribution", () => {
+            Reset();using var bridge=new GhBridge();
+            bridge.Respond=r=>r["op"]!.GetValue<string>() switch {"evaluate_submit"=>new(){["job"]="source"+bridge.Ops("evaluate_submit").Count()},"evaluate_poll"=>new(){["state"]="completed",["result"]=new JsonObject{["session"]="original",["case_hash"]="old",["iteration"]=4}},_=>null};
+            foreach(var key in new[]{"session","case_hash","case"}){
+                var c=new CheckpointComponent{Document=doc};var source=Goo("""{"session":"original","case_hash":"old","case":{"dx":1}}""");
+                Solve(c,source,"s.csv","export csv",false);var da=Solve(c,source,"s.csv","export csv",true);assert(da.Out<string>(0).Contains("original"),"Original attribution absent");
+                int before=bridge.Ops("evaluate_submit").Count();var changed=source.Data;changed[key]=key=="case"?new JsonObject{["dx"]=2}:JsonValue.Create("new");
+                da=Solve(c,new HawaGoo(changed),"s.csv","export csv",true);
+                assert(da.Outputs.Count==0&&c.Message=="enable again"&&bridge.Ops("evaluate_submit").Count()==before,"Changed source retained report or auto-submitted");
+                c.RemovedFromDocument(doc);
+            }
+            Reset();
+        });
+
+        test("checkpoint failed query clears its frozen request and requires rearming", () => {
+            Reset();using var bridge=new GhBridge();
+            bridge.Respond=r=>r["op"]!.GetValue<string>() switch {"evaluate_submit"=>new(){["job"]="failed-export"},"evaluate_poll"=>new(){["state"]="failed",["error"]="disk full"},_=>null};
+            var c=new CheckpointComponent{Document=doc};var source=Goo("""{"session":"s"}""");
+            Solve(c,source,"f.csv","export csv",false);var da=Solve(c,source,"f.csv","export csv",true);
+            assert(c.Errors.Single()=="disk full"&&da.Outputs.Count==0&&bridge.Ops("evaluate_control").Last()["action"]!.GetValue<string>()=="close","Failed export retained result or ownership");
+            Solve(c,source,"f.csv","export csv",true);assert(bridge.Ops("evaluate_submit").Count()==1&&c.Message=="enable again","Failed View left internal-reset guard active or silently retried");
+            c.RemovedFromDocument(doc);Reset();
+        });
+
+        test("checkpoint rejects missing invalid and oversized probes before query submission", () => {
+            Reset();using var bridge=new GhBridge();var source=Goo("""{"session":"s","case":{"origin":[0,0,0],"spacing":1}}""");
+            foreach(var points in new[]{Array.Empty<Point3d>(),new[]{new Point3d(double.NaN,0,0)},Enumerable.Repeat(new Point3d(0,0,0),10001).ToArray()}){
+                var c=new CheckpointComponent{Document=doc};Solve(c,source,"p.csv","export probes csv",false,points);Solve(c,source,"p.csv","export probes csv",true,points);
+                assert(c.Errors.Single()=="Probe export requires 1..10000 finite model points"&&!bridge.Ops("evaluate_submit").Any(),"Invalid probes reached writer");
+            }
             Reset();
         });
 

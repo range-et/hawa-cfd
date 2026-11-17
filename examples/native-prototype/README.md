@@ -17,7 +17,9 @@ width stays disconnected. Right-click a slider for precise values.
 
 The native panel runs without GH. Select bodies and edit domain/fluid settings
 in Setup; choose resolution/backend/target in Solve; choose field/slice/colour
-limits in View. Press Apply setup or Apply display after editing those forms.
+limits in View. Controls apply validated changes directly; Run remains explicit.
+Display edits preserve the solver. The Data tab saves checkpoints and imports
+paused results for viewing or explicit resume; see the [data guide](../../docs/native-data.md).
 Run, pause, cancel and reset remain visible above all tabs. The default 200-step
 run is a workflow demonstration, not a convergence criterion.
 

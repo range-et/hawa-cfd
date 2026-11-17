@@ -70,7 +70,7 @@ public abstract class HawaComponent : GH_Component
             "GeometryComponent" => (2,2), "WindTunnelComponent" => (4,3),
             "EvaluateComponent" => (6,4), "PolarComponent" => (4,6),
             "NeutralPrecursorComponent" => (6,2), "BoundaryCaptureComponent" => (4,3),
-            "BoundaryPatchComponent" => (6,1),
+            "BoundaryPatchComponent" => (6,1), "CheckpointComponent" => (4,1),
             "WingAnalysisComponent" => (6,4), _ => (Params.Input.Count,Params.Output.Count)
         };
         int inputs=0,outputs=0;

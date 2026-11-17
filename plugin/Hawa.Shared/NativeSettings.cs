@@ -54,7 +54,7 @@ public static class NativeSettings
         ).ToArray();
     }
 
-    public static void Validate(JsonObject setup, JsonObject view, double cell)
+    public static void Validate(JsonObject setup, JsonObject view, double cell, int[]? importedShape = null)
     {
         if (setup["mode"]?.GetValue<string>()is not ("block" or "selected"))
             throw new ArgumentException("Choose block or selected geometry");
@@ -117,7 +117,7 @@ public static class NativeSettings
             v!.GetValue<string>()
         ).Distinct().Count() != ids.Count)
             throw new ArgumentException("Select up to 100 distinct Rhino objects");
-        if (setup["mode"]!.GetValue<string>() == "selected")
+        if (setup["mode"]!.GetValue<string>() == "selected" && importedShape == null)
             Shape(setup, cell);
         int axis = view["axis"]!.GetValue<int>();
         double position = view["position"]!.GetValue<double>();
@@ -125,7 +125,7 @@ public static class NativeSettings
             throw new ArgumentException("Slice axis 0..2 and position 0..1 required");
         if (setup["mode"]!.GetValue<string>() == "selected")
         {
-            var shape = Shape(setup, cell);
+            var shape = importedShape ?? Shape(setup, cell);
             if ((long)shape[(axis + 1) % 3] * shape[(axis + 2) % 3] > 65536)
                 throw new ArgumentException("Preview plane exceeds 65,536 samples. Choose another slice axis or increase cell size.");
         }

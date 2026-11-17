@@ -12,7 +12,7 @@ These are mesher controls, not a universal error guarantee. Coordinates are
 converted consistently from model units. Existing meshes retain the supplied
 surface; use the original Brep to recover curved shape lost in a coarse mesh.
 
-Enable **Interpolated stationary walls** in native Setup and Apply setup, or
+Enable **Interpolated stationary walls** in native Setup (the control applies immediately), or
 connect True to **W** on Hawa Geometry in Grasshopper. Connect the original
 closed Brep to the optional **S** input; **M** accepts existing closed meshes. Both paths now share
 D3Q19 link/surface intersection code. The existing stationary Bouzidi treatment
