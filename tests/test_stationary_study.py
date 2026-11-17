@@ -50,7 +50,9 @@ def test_real_study_frame_load_probe_source_and_cleanup():
     before=set(SESSIONS)
     job=submit()
     try:
-        result=finish(job)
+        direct=finish(job)
+        result=dispatch_job(dict(op='evaluate_poll',job=job.id,selected_candidate=0))
+        assert result==direct
         assert result['state']=='completed', result
         selected=result['result']['selected']
         assert 'last_field' not in selected
@@ -73,7 +75,9 @@ def test_real_study_frame_load_probe_source_and_cleanup():
         assert result['cleanup']==dict(handles=0,live_workers=0,session_ids=[])
         assert set(SESSIONS)==before
         assert 'selected' not in dispatch_job(dict(op='evaluate_poll',job=job.id))['result']
-        with pytest.raises(ValueError,match='index'):job.snapshot(True)
+        for invalid in (True, -1, 1):
+            with pytest.raises(ValueError,match='index'):
+                dispatch_job(dict(op='evaluate_poll',job=job.id,selected_candidate=invalid))
         selected['geometry']['vertices_m'].clear()
         assert job.snapshot(0)['result']['selected']['geometry']['vertices_m']
         # Surface-field queries consume the standard frame directly, without a live session.

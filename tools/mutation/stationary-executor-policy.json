@@ -10,7 +10,7 @@
     "tests/test_sweep_publication.py": "e86cb046b742d30021ba082ad1ad5225902b2d820995be5e09298004359205f6",
     "src/hawa/measurements.py": "c467528fc84548c0cb294aa7fd32d3cdf6f5b327336921fad562573ecbba50af",
     "src/hawa/sweeps.py": "45549b20a09a37159e47b86d4470d34f3b62a48b9450410e21a720d9e4785f74",
-    "scripts/wing_solver_recipe.py": "a730a9b00e26ec4c8f0fb37b554e2aaddc908c0e561c7a1dff32fe53db119f92",
+    "scripts/wing_solver_recipe.py": "96acdd7b3be460bfe1ff4ecbe32175313fc3602a1bfe2c28afd4467477a0f6de",
     "scripts/wing_measurement_recipe.py": "de1b43e8ed698aad5c7272d0fc37ba18363c7e0c662141b5fecff56d9d7d60c5",
     "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c"
   },

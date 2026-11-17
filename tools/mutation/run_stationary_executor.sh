@@ -3,7 +3,7 @@
 source "$(dirname "$0")/lib.sh"
 mutate=(src/hawa/stationary_loads.py src/hawa/sweep_executor.py)
 tests=(tests/conftest.py tests/test_stationary_loads.py tests/test_sweep_executor.py tests/test_real_sweep_pipeline.py tests/test_sweep_publication.py)
-reviewed=("${mutate[@]}" "${tests[@]}" src/hawa/measurements.py src/hawa/sweeps.py
+reviewed=("${mutate[@]}" src/hawa/mesh_voxel.py "${tests[@]}" src/hawa/measurements.py src/hawa/sweeps.py
   scripts/wing_solver_recipe.py scripts/wing_measurement_recipe.py tools/mutation/cpu_only.py)
 copy=(scripts/wing_solver_recipe.py scripts/wing_measurement_recipe.py tools/mutation/cpu_only.py)
 import_roots=(. tools/mutation)

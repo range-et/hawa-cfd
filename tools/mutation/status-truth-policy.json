@@ -1,18 +1,19 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 155,
-  "inventory_sha256": "1f1122fcbcf93ab35969506e671b384f285d4fc007337ec48533b99457cf438e",
-  "scope": "Changed job lifecycle, CPU device locking and query/refinement/native-data save/import dispatch lines versus 6b0744a; deterministic CPU-only controls including paused restore, read cancellation and progress.",
+  "mutants": 180,
+  "inventory_sha256": "67db87279852f82aa932a09cf48a3d36df2ae16f30e34d62a3a9505f0491dc28",
+  "scope": "Changed job lifecycle, CPU device locking and query/refinement/native-data save/import dispatch lines versus 6b0744a; deterministic CPU-only controls including paused restore, read cancellation and progress. Includes stationary-study submit/selected-poll routing with real CPU controls; not a whole-module mutation claim for the new study service.",
   "control_test_files": [
     "tests/test_runtime_job_contracts.py",
     "tests/test_refinement_preflight.py",
     "tests/test_csv_export.py",
     "tests/test_export.py",
     "tests/test_native_data.py",
-    "tests/test_native_data_status.py"
+    "tests/test_native_data_status.py",
+    "tests/test_stationary_study.py"
   ],
   "sources": {
-    "src/hawa/jobs.py": "c99c593281f82c8fe7968941e1cb4f30fa4ea76a5c370dd3bc04b89db3e55af2",
+    "src/hawa/jobs.py": "66458c68fdd02c99deada669d57afcf12c118128bebe9180d5ef6ac06ff960d2",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/test_runtime_job_contracts.py": "5dc3a5bfdc13d8c3be84d3633c237cdcd8c98ea46d876b76d23c8df7f470582a",
     "tests/test_refinement_preflight.py": "f97cb47e472c58ed676e0defcaa222da84c523af8bdf5ec22b686078ad90f65c",

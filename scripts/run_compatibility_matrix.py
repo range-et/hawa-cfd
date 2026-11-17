@@ -107,7 +107,8 @@ def run(output, release=False):
             try:accepted=exercise_stationary_study(row)
             except Exception as e:record(row,'failed',error=type(e).__name__+': '+str(e));continue
             record(row,'passed' if accepted==row['expected'] else 'failed',
-                   observed='run' if accepted else 'reject',device=row['device'],steps=4 if accepted else 0)
+                   observed='run' if accepted else 'reject',device=row['device'],
+                   steps=4 if row['device']=='cpu' and row['mode']=='run' else 0)
         save();log.flush()
     expected=len(expected_rows())
     changed=summary['sources']!=source_hashes()
