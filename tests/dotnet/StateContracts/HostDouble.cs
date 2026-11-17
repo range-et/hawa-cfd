@@ -147,7 +147,16 @@ namespace Rhino.Geometry {
     }
     public readonly record struct Point2f(float X,float Y);
     public sealed class Mesh : GeometryBase, IDisposable {
-        public sealed class VertexList : List<Point3d> { public bool FloatIndex; public new Point3d this[int i] { get { var p=base[i];return FloatIndex?new((float)p.X,(float)p.Y,(float)p.Z):p; } set=>base[i]=value; } public Point3d Point3dAt(int i)=>base[i]; public void SetVertex(int i,double x,double y,double z)=>this[i]=new(x,y,z); public new int Add(Point3d point) { base.Add(point); return Count-1; } }
+        public sealed class VertexList : List<Point3d> {
+            public Mesh? Owner;
+            public bool CombineIdentical(bool ignoreNormals,bool ignoreAdditional) {
+                var unique=new List<Point3d>();var map=new int[Count];
+                for(int i=0;i<Count;i++){int j=unique.IndexOf(base[i]);if(j<0){j=unique.Count;unique.Add(base[i]);}map[i]=j;}
+                bool changed=unique.Count!=Count;
+                for(int i=0;i<Owner!.Faces.Count;i++){var f=Owner.Faces[i];Owner.Faces[i]=f.IsQuad?new(map[f.A],map[f.B],map[f.C],map[f.D]):new(map[f.A],map[f.B],map[f.C]);}
+                Clear();AddRange(unique);return changed;
+            }
+            public bool FloatIndex; public new Point3d this[int i] { get { var p=base[i];return FloatIndex?new((float)p.X,(float)p.Y,(float)p.Z):p; } set=>base[i]=value; } public Point3d Point3dAt(int i)=>base[i]; public void SetVertex(int i,double x,double y,double z)=>this[i]=new(x,y,z); public new int Add(Point3d point) { base.Add(point); return Count-1; } }
         public sealed class FaceList : List<MeshFace> {
             public int? ReportedCount;
             public new int Count=>ReportedCount??base.Count;
@@ -169,7 +178,7 @@ namespace Rhino.Geometry {
         }
         public static List<Mesh> Created=new();
         public static Func<Brep,MeshingParameters,Mesh[]> Factory=(_,_)=>Array.Empty<Mesh>();
-        public Mesh(){Created.Add(this);Normals=new(this);}
+        public Mesh(){Created.Add(this);Normals=new(this);Vertices.Owner=this;}
         public void Transform(Transform t) { for(int i=0;i<Vertices.Count;i++) {var p=Vertices[i];Vertices[i]=new(p.X*t.Factor,p.Y*t.Factor,p.Z*t.Factor);} Bounds.Transform(t); }
         public override GeometryBase Duplicate()=>DuplicateMesh();
         public Mesh DuplicateMesh(){var m=new Mesh(){IsValid=IsValid,IsClosed=IsClosed,Bounds=Bounds,Hits=Hits,Closest=Closest,NakedEdges=NakedEdges,NakedProvider=NakedProvider,Nearest=Nearest};m.Vertices.AddRange(Vertices);m.Faces.AddRange(Faces);m.VertexColors.AddRange(VertexColors);m.TextureCoordinates.AddRange(TextureCoordinates);m.SurfaceParameters.AddRange(SurfaceParameters);return m;}

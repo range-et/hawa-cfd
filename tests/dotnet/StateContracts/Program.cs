@@ -420,6 +420,7 @@ QualityContracts.Run(Test, Assert);
 NativeExportContracts.Run(Test, Assert);
 NativeDataContracts.Run(Test, Assert);
 ComponentContracts.Run(Test, Assert);
+StationaryStudyContracts.Run(Test, Assert);
 PreviewContracts.Run(Test, Assert);
 PanelContracts.Run(Test, Assert);
 ObstacleContracts.Run(Test, Assert);
