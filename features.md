@@ -25,6 +25,7 @@ example checks.
 | Native panel and GH live binding | Shared settings, direct/computed input ownership, revisions, stale-result handling, undo and saved idle cases. Public operations support agent workflows. | [Architecture](docs/architecture-v0.5.md), [agent operations](docs/agents/native-prototype.md), [state coverage](examples/grasshopper/VERIFICATION.md) |
 | Background work and cooperative lifecycle | Preparation, solve/query jobs, pause/resume/cancel and cleanup; legacy failed-close retry has a scoped follow-up record. | [Cleanup review](docs/review-cleanup-v0.5.md), [architecture](docs/architecture-v0.5.md) |
 | Field visualization | Scalar slices, vectors, streamlines, snapshot planes/contours/isosurfaces, surface sampling and legends. Native/GH capabilities differ; integrated movable vector slices remain HAWA-007. | [Plugin guide](docs/plugin.md), [node catalogue](docs/node-catalog-v0.5.md) |
+| Numerical field CSV | Explicit `export csv` on existing Checkpoint, versioned units/provenance/masks, raw valid values and atomic cancellable publication. NPZ default unchanged. Headless evidence only; probe/load CSV and host/native UX remain #35. | [Contract](docs/numerical-export.md), [review](docs/review-numerical-export.md) |
 | Record and playback | Field snapshots, physical-time metadata and playback within documented formats and limits. Particles and time-dependent pathlines were removed (see history, November 12, 2026). | [GH examples](examples/grasshopper/README.md), [0.4 report](docs/release-notes-v0.4.0.md) |
 | Asynchronous design search | Completed-candidate objectives, best-result history and cooperative controls. Hull geometry is an example recipe, not a public hull-construction service. | [GH examples (example 10)](examples/grasshopper/README.md), [node boundary](docs/node-catalog-v0.5.md) |
 | Local airfoil and wing tools | Offline coordinates/NACA generation, supplied local polars and attached-flow lifting line. Bundled polar is synthetic format data; no viscous/stall CFD claim. | [Plugin guide](docs/plugin.md), [release limits](docs/release-notes-v0.4.0.md) |
@@ -686,3 +687,14 @@ No solver/threshold change or physical-validation claim. Final combined measured
 suites and CPU/MPS compatibility gate pass locally; CUDA remains blocked.
 Not merged to main or released.
 [Review and scope](docs/review-quality-provenance.md).
+
+## November 16, 2026 — bounded numerical CSV export (#35, partial)
+
+HAWA-033 now includes an opt-in instantaneous field CSV contract through the
+existing Checkpoint action and Python export operation. Metadata and raw valid
+values are captured together; independent tests cover units/positions, quoting,
+mask validity, round-trip precision and failed/cancelled atomic writes. Legacy
+NPZ and saved node contracts stay compatible. This is built/headless-verified
+within the [reviewed scope](docs/review-numerical-export.md), not released or
+fully host-verified. Probe/load tables and wider native/installed UX remain open
+on [#35](https://github.com/range-et/hawa-cfd/issues/35); baking is #34.
