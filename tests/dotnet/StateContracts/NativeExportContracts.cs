@@ -44,11 +44,18 @@ static class NativeExportContracts
                 CaseHub.Tick();assert(f.C.ExportState=="completed","Converted probe capture did not complete");
             }
         });
+        test("paused native captures export without advancing the solver", () =>
+        {
+            using var f=new Fixture();f.C.State="paused";
+            CaseHub.Export(f.Id,"paused.csv","fields");
+            assert(f.Request!["expected"]!["state"]!.GetValue<string>()=="paused","Paused export froze a false completed state");
+            CaseHub.Tick();assert(f.C.ExportState=="completed" && f.C.ExportResult!["source_state"]!.GetValue<string>()=="paused" && f.C.Steps==40,"Paused capture failed or advanced");
+        });
         test("native export admission rejects unavailable states and invalid probes before submission", () =>
         {
             using var f=new Fixture();
             Reject(()=>CaseHub.Export(99999,"a","fields"));
-            foreach(var state in new[]{"running","paused","failed","idle"}) { f.C.State=state;Reject(()=>CaseHub.Export(f.Id,"a","fields")); } f.C.State="completed";
+            foreach(var state in new[]{"running","ready","failed","idle"}) { f.C.State=state;Reject(()=>CaseHub.Export(f.Id,"a","fields")); } f.C.State="completed";
             Reject(()=>CaseHub.Export(f.Id,"a","loads"));Reject(()=>CaseHub.Export(f.Id," ","fields"));
             f.Doc.ModelUnitSystem=UnitSystem.Millimeters;Reject(()=>CaseHub.Export(f.Id,"a","fields"));f.Doc.ModelUnitSystem=UnitSystem.Meters;
             f.C.StatusData=null;Reject(()=>CaseHub.Export(f.Id,"a","fields"));f.C.StatusData=new(){["case_hash"]="hash"};
@@ -93,7 +100,7 @@ static class NativeExportContracts
             using(var panel=new HawaPanel(f.Id)) {
                 var controls=Walk(panel).ToArray();
                 Button Button(string name)=>controls.OfType<Button>().Single(b=>b.Text==name);
-                var path=controls.OfType<TextBox>().Single();
+                var path=controls.OfType<TextBox>().Single(t=>t.ToolTip.StartsWith("CSV destination"));
                 SaveFileDialog.Result=DialogResult.Cancel;Button("Browse CSV").PerformClick();assert(path.Text=="","Cancelled path dialog changed destination");
                 SaveFileDialog.Result=DialogResult.Ok;SaveFileDialog.Chosen="/tmp/"+new string('x',180)+".csv";Button("Browse CSV").PerformClick();assert(path.Text==SaveFileDialog.Chosen,"Chosen path lost");
                 Button("Capture selected probes").PerformClick();
@@ -142,7 +149,7 @@ static class NativeExportContracts
             switch(request["op"]!.GetValue<string>()) {
                 case "evaluate_submit": if(FailSubmit)throw new Exception("submit failed");Request=request["request"]!.DeepClone().AsObject();return new(){["job"]=EmptyJob?"":"export"};
                 case "evaluate_poll":
-                    OnPoll?.Invoke();var r=new JsonObject{["path"]=Request!["path"]!.DeepClone(),["format"]="csv",["table"]=Request["table"]!.DeepClone(),["rows"]=1,["artifact_id"]="artifact",["session"]="session",["case_hash"]="hash",["iteration"]=40,["local_time"]=.4,["time_origin"]=0d,["absolute_time"]=.4,["source_state"]="completed",["attribution"]=Request["attribution"]!.DeepClone()};Corrupt?.Invoke(r);return new(){["state"]=PollState,["result"]=r};
+                    OnPoll?.Invoke();var r=new JsonObject{["path"]=Request!["path"]!.DeepClone(),["format"]="csv",["table"]=Request["table"]!.DeepClone(),["rows"]=1,["artifact_id"]="artifact",["session"]="session",["case_hash"]="hash",["iteration"]=40,["local_time"]=.4,["time_origin"]=0d,["absolute_time"]=.4,["source_state"]=Request["expected"]!["state"]!.DeepClone(),["attribution"]=Request["attribution"]!.DeepClone()};Corrupt?.Invoke(r);return new(){["state"]=PollState,["result"]=r};
                 case "status": return new(){["state"]="completed",["steps"]=40,["case_hash"]="hash"};
                 case "evaluate_control":case "close_async":if(FailClose)throw new Exception("close failed");Closed++;return new();
                 default:throw new Exception("Unexpected fixture operation");

@@ -26,13 +26,13 @@ public sealed partial class HawaPanel
     {
         var layout = Layout();
         exportTable.SelectedIndex = 0;
-        layout.AddSeparateRow(ExportText("Export a healthy completed run. Fields contain all lattice nodes; probes sample captured Rhino point locations. Values are experimental, not convergence evidence."));
+        layout.AddSeparateRow(ExportText("Export a healthy paused or completed run. Fields contain all lattice nodes; probes sample captured Rhino point locations. Values are experimental, not convergence evidence."));
         layout.AddSeparateRow(exportTable);
         layout.AddSeparateRow(exportPath);
         layout.AddSeparateRow(Action("Browse CSV", "field", "Choose the CSV destination.", BrowseExport));
         layout.AddSeparateRow(Action("Capture selected probes", "geometry", "Capture selected point objects in this Rhino document. Later selection changes do not change this list.", CaptureProbes));
         layout.AddSeparateRow(probeCount);
-        exportStart = Action("Export CSV", "field", "Capture and publish in the background. Keep the case completed until capture finishes.", StartExport);
+        exportStart = Action("Export CSV", "field", "Capture and publish in the background. Keep the case paused or completed until capture finishes.", StartExport);
         exportCancel = Action("Cancel export", "cancel", "Cooperatively cancel this export. A file already published cannot be undone.", () =>
         {
             CaseHub.CancelExport(document);
@@ -77,7 +77,7 @@ public sealed partial class HawaPanel
 
     private void RefreshExport(CaseState? c)
     {
-        exportStart.Enabled = c != null && c.State == "completed" && c.Session != null && c.ExportJob == null;
+        exportStart.Enabled = c != null && c.State is "paused" or "completed" && c.Session != null && c.ExportJob == null;
         exportCancel.Enabled = c?.ExportJob != null;
         if (c == null) { exportStatus.Text = "No case."; exportStatus.ToolTip = ""; return; }
         var result = c.ExportResult;

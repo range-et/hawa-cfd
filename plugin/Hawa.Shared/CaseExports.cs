@@ -14,8 +14,8 @@ public static partial class CaseHub
         {
             if (c.ExportJob != null)
                 throw new InvalidOperationException("An export is already pending. Cancel it or wait for completion.");
-            if (c.State != "completed" || c.Session == null || c.SpecData == null || c.RunRevision != c.Revision || c.Fault != null)
-                throw new InvalidOperationException("Export requires a healthy completed run.");
+            if (c.State is not ("paused" or "completed") || c.Session == null || c.SpecData == null || c.RunRevision != c.Revision || c.Fault != null)
+                throw new InvalidOperationException("Export requires a healthy paused or completed run.");
             if (table is not ("fields" or "probes"))
                 throw new ArgumentException("Native export supports fields and probes. Use the Grasshopper moving-body workflow for loads.");
             if (string.IsNullOrWhiteSpace(path))
@@ -27,7 +27,7 @@ public static partial class CaseHub
             {
                 ["op"] = "export", ["format"] = "csv", ["table"] = table,
                 ["session"] = c.Session, ["path"] = Path.GetFullPath(path),
-                ["expected"] = new JsonObject { ["case_hash"] = hash, ["iteration"] = c.Steps, ["state"] = "completed" },
+                ["expected"] = new JsonObject { ["case_hash"] = hash, ["iteration"] = c.Steps, ["state"] = c.State },
                 ["attribution"] = new JsonObject { ["case_id"] = c.Id.ToString(), ["revision"] = c.Revision, ["generation"] = c.Generation, ["version"] = c.Version }
             };
             if (table == "probes")
@@ -112,8 +112,8 @@ public static partial class CaseHub
             foreach (var key in new[] { "session", "path", "format", "table" })
                 if (result[key]?.GetValue<string>() != request[key]!.GetValue<string>())
                     throw new InvalidOperationException("Export capture identity mismatch: " + key);
-            if (result["case_hash"]?.GetValue<string>() != request["expected"]!["case_hash"]!.GetValue<string>() || result["iteration"]?.GetValue<int>() != request["expected"]!["iteration"]!.GetValue<int>() || result["source_state"]?.GetValue<string>() != "completed")
-                throw new InvalidOperationException("Export capture does not match the completed run.");
+            if (result["case_hash"]?.GetValue<string>() != request["expected"]!["case_hash"]!.GetValue<string>() || result["iteration"]?.GetValue<int>() != request["expected"]!["iteration"]!.GetValue<int>() || result["source_state"]?.GetValue<string>() != request["expected"]!["state"]!.GetValue<string>())
+                throw new InvalidOperationException("Export capture does not match the stopped run.");
             var returnedAttribution = result["attribution"]!.AsObject();
             if (returnedAttribution.Count != 4 || returnedAttribution["case_id"]?.GetValue<string>() != attribution["case_id"]!.GetValue<string>())
                 throw new InvalidOperationException("Export attribution mismatch.");

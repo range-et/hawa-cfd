@@ -8,6 +8,14 @@ public sealed record CaseFault(string Area, string Message, bool Retryable);
 // Only CaseHub mutates live state. JSON returned to adapters is a detached copy.
 public sealed class CaseState
 {
+    internal JsonObject? ImportedSourceData, DataRequest, DataResultData;
+    public bool DataPlaceholder => ImportedSourceData?["placeholder"]?.GetValue<bool>() == true;
+    public bool Imported => ImportedSourceData != null;
+    public JsonObject? ImportedSource => Copy(ImportedSourceData);
+    public string DataState { get; internal set; } = "idle";
+    public string DataError { get; internal set; } = "";
+    public string? DataJob { get; internal set; }
+    public JsonObject? DataResult => Copy(DataResultData);
     public string ExportState { get; internal set; } = "idle";
     public string ExportError { get; internal set; } = "";
     public string? ExportJob { get; internal set; }
@@ -29,7 +37,7 @@ public sealed class CaseState
     public JsonObject Setup => Copy(SetupData)!;
     public JsonObject View => Copy(ViewData)!;
     public bool HasInterpolatedWalls => ResultSpecData?["wall_links"] is JsonArray links && links.Count>0;
-    public bool SelectedGeometry => SetupData["mode"]!.GetValue<string>() == "selected";
+    public bool SelectedGeometry => !Imported && SetupData["mode"]!.GetValue<string>() == "selected";
     internal Task<JsonObject>? Preparation;
     internal CancellationTokenSource? PreparationCancel;
     public string GeometryError { get; internal set; } = "";
@@ -64,12 +72,13 @@ public sealed class CaseState
     public bool Outdated => Result != null && (Result.CaseId != Id || Result.Revision != Revision || Result.Generation != Generation || Result.Field != Field);
     private static JsonObject? Copy(JsonObject? value) => value?.DeepClone().AsObject();
     public double Value(string key) => key switch { "speed" => Speed, "cell" => Cell, "width" => Width, _ => throw new ArgumentException("Unknown parameter") };
-    public JsonObject Settings() => new() { ["schema"] = 2, ["setup"] = Setup, ["view"] = View, ["id"] = Id.ToString(), ["speed"] = Speed, ["cell"] = Cell, ["width"] = Width, ["target"] = Target, ["device"] = Device, ["field"] = Field };
+    public JsonObject Settings() => new() { ["schema"] = 2, ["imported_source"] = ImportedSource, ["setup"] = Setup, ["view"] = View, ["id"] = Id.ToString(), ["speed"] = Speed, ["cell"] = Cell, ["width"] = Width, ["target"] = Target, ["device"] = Device, ["field"] = Field };
     public JsonObject Describe() => new() {
         ["id"] = Id.ToString(), ["version"] = Version, ["revision"] = Revision, ["generation"] = Generation,
         ["run_revision"] = RunRevision, ["result_revision"] = ResultRevision, ["result_version"] = ResultVersion,
         ["result_steps"] = Result?.Steps, ["result_time_seconds"] = Result?.PhysicalTime, ["result_field"] = Result?.Field, ["state"] = State, ["steps"] = Steps,
         ["session"] = Session, ["job"] = Job, ["error"] = Error, ["view_error"] = ViewError,
+        ["imported_source"] = ImportedSource, ["data_state"] = DataState, ["data_error"] = DataError, ["data_job"] = DataJob, ["data_result"] = DataResult,
         ["export_state"] = ExportState, ["export_error"] = ExportError, ["export_job"] = ExportJob, ["export_result"] = ExportResult,
         ["geometry_error"] = GeometryError, ["fault_area"] = Fault?.Area, ["retryable"] = Fault?.Retryable,
         ["settings"] = Settings(), ["linked"] = BindingOwner != null, ["outdated"] = Outdated

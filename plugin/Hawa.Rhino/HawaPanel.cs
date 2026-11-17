@@ -144,7 +144,7 @@ public sealed partial class HawaPanel : Panel
         {
             bool creating = CaseHub.Find(document) == null;
             var c = CaseHub.Get(document);
-            CaseHub.Edit(document, new() { ["setup"] = NativeSettings.DefaultSetup(), ["cell"] = .5, ["speed"] = 1d, ["width"] = 1d }, displayedVersion);
+            CaseHub.UseBlockPreset(document);
             if (creating)
             {
                 // Rhino for Mac ignores Modified's setter. A namespaced document
@@ -186,7 +186,7 @@ public sealed partial class HawaPanel : Panel
         for (int i = 0; i < 6; i++)
             setup.AddSeparateRow(new Label { Text = faces[i] + " boundary" }, boundaries[i]);
         setup.AddSeparateRow(Text("Native cases use an X− inlet and X+ outlet. Pair periodic side faces. Moving bodies and refinement remain available through their GH workflows."));
-        setup.AddSeparateRow(Action("Apply setup", "apply", "Validate and apply the complete domain/fluid/boundary edit. A physical change stops the previous run.", ApplySetup));
+        setup.AddSeparateRow(Text("Changes apply automatically and stop the old physical run. Run remains explicit. Periodic faces update as a pair."));
         setup.Add(null);
         var solve = Layout();
         solve.AddSeparateRow(Text("3 / Resolution and run"));
@@ -235,7 +235,7 @@ public sealed partial class HawaPanel : Panel
         view.AddSeparateRow(showBody);
         view.AddSeparateRow(showField);
         view.AddSeparateRow(showAnnotations);
-        view.AddSeparateRow(Action("Apply display", "field", "Change the slice and colour settings without restarting the solver. Use fixed limits for comparisons.", ApplyView));
+
         refresh = Action("Refresh field", "reset", "Retry a failed or stale field query while preserving a healthy run.", () =>
         {
             CaseHub.RefreshView(document);
@@ -253,9 +253,11 @@ public sealed partial class HawaPanel : Panel
         tabs.Pages.Add(new TabPage { Text = "Solve", Content = new Scrollable { Content = solve } });
         tabs.Pages.Add(new TabPage { Text = "View", Content = new Scrollable { Content = view } });
         tabs.Pages.Add(new TabPage { Text = "Export", Content = new Scrollable { Content = ExportControls() } });
+        tabs.Pages.Add(new TabPage { Text = "Save / Import", Content = new Scrollable { Content = DataControls() } });
         root.Add(tabs, true, true);
         root.AddSeparateRow(error);
         Content = root;
+        WireDynamicControls();
         CaseHub.Changed += OnChanged;
         RefreshState(true);
     }
@@ -319,9 +321,7 @@ public sealed partial class HawaPanel : Panel
 
     private void EditView(JsonObject view)
     {
-        var c = CaseHub.Find(document);
-        if (c == null)
-            return;
+        var c = CaseHub.Find(document)!; // All view event handlers reject an absent case.
         long before = c.Version;
         CaseHub.Edit(document, new() { ["view"] = view }, displayedVersion);
         // Mark a persisted display change natively on Mac too (Modified's setter
@@ -368,6 +368,7 @@ public sealed partial class HawaPanel : Panel
         if (origin == "closed")
         {
             RefreshExport(null);
+            RefreshData(null);
             state.Text = "CASE CLOSED";
             link.Text = "Grasshopper: unlinked";
             run.Enabled = pause.Enabled = cancel.Enabled = reset.Enabled = refresh.Enabled = showPreview.Enabled = hidePreview.Enabled = false;
@@ -382,10 +383,14 @@ public sealed partial class HawaPanel : Panel
             return;
         var c = CaseHub.Find(document);
         RefreshExport(c);
+        RefreshData(c);
         empty.Visible = c == null;
-        tabs.Visible = tabs.Enabled = c != null;
+        tabs.Visible = tabs.Enabled = true;
+        for (int i = 0; i < tabs.Pages.Count - 1; i++) tabs.Pages[i].Enabled = c != null;
+        if (c == null) tabs.SelectedIndex = tabs.Pages.Count - 1;
         if (c == null)
         {
+            viewDraftError = "";
             displayedVersion = -1;
             state.Text = "NO CASE";
             progress.Value = 0;
@@ -399,19 +404,21 @@ public sealed partial class HawaPanel : Panel
         {
             if (force || displayedVersion != c.Version)
             {
-                foreach (var p in NativeSettings.Parameters(c.SelectedGeometry))
+                viewDraftError = "";
+                foreach (var p in NativeSettings.Parameters(c.Setup["mode"]!.GetValue<string>() == "selected"))
                 {
                     var input = numbers[p.Key];
                     input.MinValue = p.Minimum;
                     input.MaxValue = p.Maximum;
                     input.Value = c.Value(p.Key);
-                    input.Enabled = !c.Driven.Contains(p.Key) && (!c.SelectedGeometry || p.Key != "width");
+                    input.Enabled = !c.Imported && !c.Driven.Contains(p.Key) && (!c.SelectedGeometry || p.Key != "width");
                 }
 
                 var setup = c.Setup;
                 var view = c.View;
                 curvedWalls.Checked = setup["curved_walls"]?.GetValue<bool>() ?? false;
                 curvedWalls.Enabled = c.SelectedGeometry;
+                viscosity.Enabled = density.Enabled = mach.Enabled = collision.Enabled = device.Enabled = !c.Imported;
                 for (int i = 0; i < 3; i++)
                 {
                     origin[i].Value = setup["origin"]![i]!.GetValue<double>();
@@ -426,7 +433,7 @@ public sealed partial class HawaPanel : Panel
                 for (int i = 0; i < 6; i++)
                 {
                     boundaries[i].SelectedValue = setup["boundaries"]![i]!.GetValue<string>();
-                    boundaries[i].Enabled = i >= 2;
+                    boundaries[i].Enabled = !c.Imported && i >= 2;
                 }
 
                 target.Value = c.Target;
@@ -447,21 +454,21 @@ public sealed partial class HawaPanel : Panel
 
             // Ownership changes do not require a settings version change.
             foreach (var p in CaseHub.Parameters)
-                numbers[p.Key].Enabled = !c.Driven.Contains(p.Key) && (!c.SelectedGeometry || p.Key != "width");
-            state.Text = $"{c.State.ToUpperInvariant()} · {c.Steps:N0} / {c.Target:N0} steps\nQuality: {c.Status?["quality"]?["status"]?.GetValue<string>() ?? "unchecked"}";
+                numbers[p.Key].Enabled = !c.Imported && !c.Driven.Contains(p.Key) && (!c.SelectedGeometry || p.Key != "width");
+            state.Text = c.DataPlaceholder ? "NO ACCEPTED CASE · import data or choose Block preset" : $"{c.State.ToUpperInvariant()} · {c.Steps:N0} / {c.Target:N0} steps\nQuality: {c.Status?["quality"]?["status"]?.GetValue<string>() ?? "unchecked"}";
             if (c.Status?["quality"]?["reasons"] is JsonArray reasons)
                 foreach (var reason in reasons)
                     if (reason is JsonValue value && value.TryGetValue<string>(out var text))
                         state.Text += "\n" + text;
             progress.Value = (int)Math.Clamp(100d * c.Steps / c.Target, 0, 100);
-            geometry.Text = c.SelectedGeometry ? $"{c.Setup["objects"]!.AsArray().Count} referenced Rhino bodies · coordinates in metres" : "Block starter · 8 × 6 × 4 m · demonstration viscosity";
+            geometry.Text = c.DataPlaceholder ? "No accepted geometry" : c.Imported ? "Imported data · physical settings are read-only. Run / Resume is explicit; choose Block preset for a new editable case." : c.SelectedGeometry ? $"{c.Setup["objects"]!.AsArray().Count} referenced Rhino bodies · coordinates in metres" : "Block starter · 8 × 6 × 4 m · demonstration viscosity";
             var shape = CaseGeometry.GridShape(c);
             long cells = (long)shape[0] * shape[1] * shape[2];
-            grid.Text = $"{shape[0]} × {shape[1]} × {shape[2]} · {cells:N0} cells\nD3Q19 FP32 populations alone: {cells * 19 * 4 / 1048576d:F1} MiB; solver needs additional memory.";
+            grid.Text = c.DataPlaceholder ? "No accepted grid" : $"{shape[0]} × {shape[1]} × {shape[2]} · {cells:N0} cells\nD3Q19 FP32 populations alone: {cells * 19 * 4 / 1048576d:F1} MiB; solver needs additional memory.";
             link.Text = c.BindingOwner == null ? "Grasshopper: unlinked" : c.Driven.Count == 0 ? "Grasshopper: linked sliders" : "Grasshopper drives: " + string.Join(", ", c.Driven);
             captured.Text = c.Result == null ? "No field captured" : $"Field {c.Result.Field} · {CaseGeometry.FieldUnits(c.Result.Field)}\nCaptured step {c.Result.Steps}, t={c.Result.PhysicalTime:g5} s" + (c.Outdated ? "\nOUTDATED · run the changed case" : "");
             bool working = c.State is "running" or "preparing" or "voxelizing" or "pausing";
-            run.Enabled = !working;
+            run.Enabled = !working && (!c.Imported || c.Session != null);
             pause.Enabled = c.State is "running" or "preparing" or "voxelizing";
             cancel.Enabled = working || c.Session != null;
             reset.Enabled = true;
@@ -469,7 +476,7 @@ public sealed partial class HawaPanel : Panel
             var visibility = c.View;
             showPreview.Enabled = !visibility["domain"]!.GetValue<bool>() || !visibility["body"]!.GetValue<bool>() || !visibility["field"]!.GetValue<bool>() || !(visibility["annotations"]?.GetValue<bool>() ?? true);
             hidePreview.Enabled = visibility["domain"]!.GetValue<bool>() || visibility["body"]!.GetValue<bool>() || visibility["field"]!.GetValue<bool>() || (visibility["annotations"]?.GetValue<bool>() ?? true);
-            error.Text = c.Error + (c.GeometryError.Length > 0 ? "\n" + c.GeometryError : "") + (c.ViewError.Length > 0 ? "\nField: " + c.ViewError + ". Use Refresh field." : "") + (CaseHub.PendingCleanupCount > 0 ? "\nCleanup pending; Hawa will retry." : "");
+            error.Text = c.Error + (c.GeometryError.Length > 0 ? "\n" + c.GeometryError : "") + (c.ViewError.Length > 0 ? "\nField: " + c.ViewError + ". Use Refresh field." : "") + (CaseHub.PendingCleanupCount > 0 ? "\nCleanup pending; Hawa will retry." : "") + (viewDraftError.Length > 0 ? "\n" + viewDraftError : "");
         }
         finally
         {

@@ -117,6 +117,8 @@ public static partial class CaseHub
         bool changed = false;
         Change(c, () =>
         {
+            if (c.Imported)
+                throw new InvalidOperationException("Imported data has read-only physics; create a native case before linking controls.");
             if (owner == Guid.Empty)
                 throw new ArgumentException("Binding requires a component identity");
             if (c.BindingOwner != null && c.BindingOwner != owner)
@@ -200,6 +202,10 @@ public static partial class CaseHub
         {
             if (c.Version != expectedVersion)
                 throw new InvalidOperationException("Case changed; refresh before applying this edit");
+            if (c.Imported && values.Any(p =>
+                p.Key is not ("target" or "field" or "view")
+            ))
+                throw new InvalidOperationException("Imported physics is read-only. Re-import to change backend, or choose Block preset for a new editable case.");
             var next = c.Settings();
             foreach (var pair in values)
             {
@@ -274,6 +280,8 @@ public static partial class CaseHub
     {
         if (settings["schema"]?.GetValue<int>()is not (1 or 2) || !Guid.TryParse(settings["id"]?.GetValue<string>(), out var id) || id == Guid.Empty)
             throw new ArgumentException("Unsupported case schema or ID");
+        if (settings["imported_source"] is JsonObject imported)
+            ValidateImportedSource(imported);
         var setup = settings["setup"]?.AsObject() ?? NativeSettings.DefaultSetup();
         var view = settings["view"]?.AsObject() ?? NativeSettings.DefaultView();
         foreach (var p in NativeSettings.Parameters(setup["mode"]?.GetValue<string>() == "selected"))
@@ -283,7 +291,10 @@ public static partial class CaseHub
                 throw new ArgumentException($"{p.Label}: {p.Minimum}..{p.Maximum} {p.Unit}");
         }
 
-        NativeSettings.Validate(setup, view, settings["cell"]!.GetValue<double>());
+        var importedShape = settings["imported_source"]?["geometry"]?["shape"]?.AsArray().Select(v =>
+            v!.GetValue<int>()
+        ).ToArray();
+        NativeSettings.Validate(setup, view, settings["cell"]!.GetValue<double>(), importedShape);
         int target = settings["target"]?.GetValue<int>() ?? 0;
         if (target < 1 || target > 100000)
             throw new ArgumentException("Target steps: 1..100000");
@@ -325,6 +336,7 @@ public static partial class CaseHub
         c.Target = n["target"]!.GetValue<int>();
         c.Device = n["device"]!.GetValue<string>();
         c.Field = n["field"]!.GetValue<string>();
+        c.ImportedSourceData = n["imported_source"]?.DeepClone().AsObject();
         c.SetupData = setup;
         c.ViewData = view;
         if (recolor)
@@ -379,6 +391,8 @@ public static partial class CaseHub
 
     public static JsonObject BuildSpec(CaseState c)
     {
+        if (c.Imported)
+            throw new InvalidOperationException("Import the saved data again; imported physics cannot be rebuilt from Rhino objects.");
         if (c.SelectedGeometry)
         {
             var shape = NativeSettings.Shape(c.SetupData, c.Cell);
@@ -456,6 +470,10 @@ public static partial class CaseHub
     public static void Run(uint doc)
     {
         var c = Get(doc);
+        if (c.Imported && c.Session == null)
+            throw new InvalidOperationException("Import the saved data again before Run / Resume.");
+        if (c.Imported && c.Target <= c.Steps)
+            throw new InvalidOperationException("Set total target iterations above the imported capture before resuming.");
         Change(c, () =>
         {
             try
@@ -673,6 +691,9 @@ public static partial class CaseHub
 
     private static void Stop(CaseState c)
     {
+        CloseData(c);
+        c.DataResultData = null;
+        if (c.DataState is "saved" or "imported") c.DataState = "idle";
         CloseExport(c);
         c.ExportResultData = null;
         if (c.ExportState == "completed")
@@ -898,11 +919,12 @@ public static partial class CaseHub
 
                 if (Find(c.Document) != c)
                     continue;
-                var before = (c.State, c.Steps, c.ResultVersion, c.ViewError, c.ExportState, c.ExportError);
+                var before = (c.State, c.Steps, c.ResultVersion, c.ViewError, c.ExportState, c.ExportError, c.DataState, c.DataError);
                 Change(c, () =>
                 {
                     try
                     {
+                        PollData(c);
                         if (c.Preparation != null)
                         {
                             if (!c.Preparation.IsCompleted)
@@ -955,7 +977,7 @@ public static partial class CaseHub
                         Failure(c, "solver", e);
                     }
                 });
-                if (before != (c.State, c.Steps, c.ResultVersion, c.ViewError, c.ExportState, c.ExportError))
+                if (before != (c.State, c.Steps, c.ResultVersion, c.ViewError, c.ExportState, c.ExportError, c.DataState, c.DataError))
                     Notify(c, "progress");
             }
         }

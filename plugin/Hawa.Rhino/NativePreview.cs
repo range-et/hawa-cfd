@@ -13,20 +13,20 @@ public sealed class NativePreview : DisplayConduit, IDisposable
     private void Changed(CaseState c, string origin) { if (origin == "closed" && cache.Remove(c.Document, out var entry)) entry.mesh?.Dispose(); }
     public void Dispose() { Enabled = false; CaseHub.Changed -= Changed; foreach (var entry in cache.Values) entry.mesh?.Dispose(); cache.Clear(); }
     protected override void CalculateBoundingBox(CalculateBoundingBoxEventArgs e) {
-        var c = CaseHub.Find(e.RhinoDoc.RuntimeSerialNumber); if (c == null) return;
+        var c = CaseHub.Find(e.RhinoDoc.RuntimeSerialNumber); if (c == null || c.DataPlaceholder) return;
         var view = c.View;
         if (view["domain"]!.GetValue<bool>() || view["body"]!.GetValue<bool>() || view["field"]!.GetValue<bool>())
             e.IncludeBoundingBox(CaseGeometry.Bounds(c,c.Outdated));
     }
     protected override void PostDrawObjects(DrawEventArgs e) {
-        var c = CaseHub.Find(e.RhinoDoc.RuntimeSerialNumber); if (c == null) return;
+        var c = CaseHub.Find(e.RhinoDoc.RuntimeSerialNumber); if (c == null || c.DataPlaceholder) return;
         var view = c.View;
         if (!view["domain"]!.GetValue<bool>() && !view["body"]!.GetValue<bool>() && !view["field"]!.GetValue<bool>()) return;
         if (view["domain"]!.GetValue<bool>()) {
             e.Display.DrawBox(CaseGeometry.Bounds(c,c.Outdated), Color.FromArgb(65,85,95),2);
         }
         double s = RhinoMath.UnitScale(UnitSystem.Meters,e.RhinoDoc.ModelUnitSystem);
-        if (view["body"]!.GetValue<bool>()) {
+        if (view["body"]!.GetValue<bool>() && !c.Imported) {
             if (!c.SelectedGeometry) {
                 double h = (c.Outdated ? c.ResultSpec?["hawa_block_width"]?.GetValue<double>() ?? c.Width : c.Width)/2;
                 e.Display.DrawBox(new BoundingBox(new Point3d((3-h)*s,(3-h)*s,(2-h)*s),new Point3d((3+h)*s,(3+h)*s,(2+h)*s)),Color.DarkOrange,2);
@@ -41,7 +41,7 @@ public sealed class NativePreview : DisplayConduit, IDisposable
         if (view["field"]!.GetValue<bool>() && entry.mesh != null) e.Display.DrawMeshFalseColors(entry.mesh);
     }
     protected override void DrawForeground(DrawEventArgs e) {
-        var c = CaseHub.Find(e.RhinoDoc.RuntimeSerialNumber); if (c == null) return;
+        var c = CaseHub.Find(e.RhinoDoc.RuntimeSerialNumber); if (c == null || c.DataPlaceholder) return;
         var view = c.View;
         if (!(view["annotations"]?.GetValue<bool>() ?? true)) return;
         if (!view["domain"]!.GetValue<bool>() && !view["body"]!.GetValue<bool>() && !view["field"]!.GetValue<bool>()) return;
