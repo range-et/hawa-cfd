@@ -14,11 +14,11 @@ Changing or disconnecting inputs cancels the retained action and requires anothe
 false → true edge. Execute=false cancels pending work. Ordinary solver progress
 does not replace an in-flight capture.
 
-In Rhino's native **Export** tab, complete a healthy case, choose fields or probes
+In Rhino's native **Export** tab, pause or complete a healthy case, choose fields or probes
 and a destination, then Export CSV. For probes, select Rhino point objects and
 Capture selected probes first; selection changes afterward do not change that
 captured list. Probe coordinates and document units are checked against the
-completed case. Cancel export is separate from solver and field-preview controls.
+accepted stopped case. Cancel export is separate from solver and field-preview controls.
 A panel closure leaves the service-owned export running. Physical changes/reset
 invalidate export ownership. Native cases are stationary; use a moving-body GH
 Solution and `export loads csv` for loads.
@@ -28,7 +28,7 @@ Python callers use `{"op":"export","session":"…","path":"…","format":"csv"}`
 `loads`. Path extensions never select a format. Omitted `format`, or `format=npz`,
 keeps the raw NPZ contract. Unknown CSV options reject. Optional
 `expected={case_hash,iteration,state}` must match exactly under the session lock;
-native exports use this to require the selected completed result. Optional
+native exports use this to require the selected paused/completed result. Optional
 `attribution={case_id,revision,generation,version}` is frozen caller-declared
 context, not solver-authoritative identity. Legacy `request_id` and `revision`
 transport fields do not assert solver identity.
@@ -147,3 +147,5 @@ processes writing the same destination.
 Baking remains separate [#34](https://github.com/range-et/hawa-cfd/issues/34).
 [Completion review and exact verification scope](review-export-completion.md);
 [historical field increment](review-numerical-export.md).
+
+Native resumable data uses the separate [Save/Import data workflow](native-data.md).
