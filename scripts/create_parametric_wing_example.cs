@@ -60,13 +60,17 @@ void Scatter(IGH_Param xs,IGH_Param ys,string title,string xLabel,string yLabel,
  // Cull the SAME paired-row mask before arithmetic: null output slots are not numeric zero.
  var nullX=Stock("c74efd0e-7fe3-4c2d-8c9d-295c5672fb13",title+" / missing X",x,y);Wire(xs,nullX,0);
  var nullY=Stock("c74efd0e-7fe3-4c2d-8c9d-295c5672fb13",title+" / missing Y",x,y+110);Wire(ys,nullY,0);
- var missing=Stock("5cad70f9-5a53-4c5c-a782-54a479b4abe3",title+" / missing either coordinate",x+230,y+220);Connect(nullX,0,missing,0);Connect(nullY,0,missing,1);
+ var missing=Stock("548177c2-d1db-4172-b667-bec979e2d38b",title+" / both coordinates present",x+230,y+220);Connect(nullX,0,missing,0);Connect(nullY,0,missing,1);
  var cleanX=Stock("008e9a6f-478a-4813-8c8a-546273bc3a6b",title+" / paired X",x+260,y);Wire(xs,cleanX,0);Connect(missing,0,cleanX,1);
  var cleanY=Stock("008e9a6f-478a-4813-8c8a-546273bc3a6b",title+" / paired Y",x+260,y+110);Wire(ys,cleanY,0);Connect(missing,0,cleanY,1);
  // Display coordinates only. The returned numerical coefficients are unchanged.
- var px=Expression("x*"+xScale.ToString(System.Globalization.CultureInfo.InvariantCulture)+"+"+originX.ToString(System.Globalization.CultureInfo.InvariantCulture),title+" / display X",x+520,y,cleanX.Params.Output[0]);
- var py=Expression("x*"+yScale.ToString(System.Globalization.CultureInfo.InvariantCulture)+"-1.5",title+" / display Y",x+520,y+110,cleanY.Params.Output[0]);
- var points=Stock("3581f42a-9592-4549-bd6b-1c0fc39d067b",title+" / scatter only",x+800,y);Connect(px,0,points,0);Connect(py,0,points,1);points.Hidden=false;
+ var px=Expression(xScale.ToString(System.Globalization.CultureInfo.InvariantCulture),title+" / display X scale",x+520,y);
+ var py=Expression(yScale.ToString(System.Globalization.CultureInfo.InvariantCulture),title+" / display Y scale",x+520,y+110);
+ var mx=Stock("2f643ab6-b9a4-4923-b3da-f9d52b0cba14",title+" / scale X",x+750,y);Connect(cleanX,0,mx,0);Connect(px,0,mx,1);
+ var my=Stock("2f643ab6-b9a4-4923-b3da-f9d52b0cba14",title+" / scale Y",x+750,y+110);Connect(cleanY,0,my,0);Connect(py,0,my,1);
+ var ax=Stock("58669268-a825-4688-8072-7d3508fcf91c",title+" / offset X",x+950,y);Connect(mx,0,ax,0);Number(ax,1,originX);
+ var ay=Stock("58669268-a825-4688-8072-7d3508fcf91c",title+" / offset Y",x+950,y+110);Connect(my,0,ay,0);Number(ay,1,-1.5);
+ var points=Stock("3581f42a-9592-4549-bd6b-1c0fc39d067b",title+" / scatter only",x+1180,y);Connect(ax,0,points,0);Connect(ay,0,points,1);points.Hidden=false;
  var axes=Add(new Param_Curve(),x+800,y+150);axes.NickName=title+" / axes";
  double lowX=xLabel=="Angle (deg)"?-.3:0,highX=.6;
  axes.SetPersistentData(new LineCurve(new Point3d(originX+lowX,-1.5,0),new Point3d(originX+highX,-1.5,0)),new LineCurve(new Point3d(originX,-1.75,0),new Point3d(originX,-.9,0)));
@@ -75,7 +79,7 @@ void Scatter(IGH_Param xs,IGH_Param ys,string title,string xLabel,string yLabel,
  var labels=Add(new Param_String(),x+520,y+300);labels.NickName=title+" / numeric axes";
  labels.SetPersistentData(title,xLabel,yLabel,"0",(.3/xScale).ToString("G3",System.Globalization.CultureInfo.InvariantCulture),(.3/yScale).ToString("G3",System.Globalization.CultureInfo.InvariantCulture));
  var tags=Stock("ebf4d987-09b9-4825-a735-cac3d4770c19",title+" / labels",x+1070,y+270);Wire(locations,tags,0);Wire(labels,tags,1);Number(tags,2,.035);tags.Hidden=false;
- Group(title+" / display scaling only; points never joined",nullX,nullY,missing,cleanX,cleanY,px,py,points,axes,locations,labels,tags);
+ Group(title+" / display scaling only; points never joined",nullX,nullY,missing,cleanX,cleanY,px,py,mx,my,ax,ay,points,axes,locations,labels,tags);
 }
 try{
  var rootCode=Panel("Root NACA","2418",0,0,220,60);
