@@ -52,6 +52,8 @@ timer.Elapsed+=(_,_)=>{try{
   After<DropDown>("Backend").SelectedValue="cpu";After<NumericStepper>("Total target iterations").Value=6;
   After<NumericStepper>("Kinematic viscosity (m²/s)").Value=.075;
   Check(((JsonObject)c.Setup)["viscosity"].GetValue<double>()==.075,"Fluid event did not commit");
+  After<DropDown>("Y− boundary").SelectedValue="wall";
+  Check(((JsonObject)c.Setup)["boundaries"][2].GetValue<string>()=="wall"&&((JsonObject)c.Setup)["boundaries"][3].GetValue<string>()=="wall","Leaving periodic side pair did not commit atomically");
   After<DropDown>("Y− boundary").SelectedValue="periodic";
   Check(((JsonObject)c.Setup)["boundaries"][2].GetValue<string>()=="periodic"&&((JsonObject)c.Setup)["boundaries"][3].GetValue<string>()=="periodic","Periodic side pair did not commit atomically");
   DynamicView();var accepted=Copy((JsonObject)c.View);var low=After<NumericStepper>("Lower limit (field units)");var high=After<NumericStepper>("Upper limit (field units)");low.Value=high.Value+1;
