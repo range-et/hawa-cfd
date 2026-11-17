@@ -33,9 +33,11 @@ def prepared():
     return {'a':entry}
 
 
-def wait_for(predicate):
+def wait_for(predicate, executor=None):
     deadline=time.monotonic()+10
     while not predicate():
+        if executor is not None and not executor.audit()['live_workers']:
+            pytest.fail('worker terminated before the expected observation')
         if time.monotonic()>deadline:pytest.fail('worker did not reach expected state')
         time.sleep(.001)
 
@@ -94,18 +96,23 @@ def test_pause_ack_resume_cancel_and_retained_worker_ownership(monkeypatch):
     monkeypatch.setattr(module.Session,'advance',gated)
     data=prepared();executor=CpuSweepExecutor(data)
     handle=executor.start(data['a']['candidate'],7)
-    assert entered.wait(10)
-    executor.pause(handle)
-    assert executor.audit()['session_ids']
-    assert executor.poll(handle)['state']=='running'
-    release.set()
-    wait_for(lambda:executor.poll(handle)['state']=='paused')
-    with pytest.raises(ValueError,match='Close'):executor.start(data['a']['candidate'],7)
-    executor.resume(handle)
-    executor.cancel(handle)
-    reply=finish(executor,handle)
-    assert reply['state']=='cancelled' and reply['result'] is None
-    assert executor.results('a',7)['state']=='cancelled'
+    try:
+        wait_for(entered.is_set, executor)
+        executor.pause(handle)
+        assert executor.audit()['session_ids']
+        assert executor.poll(handle)['state']=='running'
+        release.set()
+        wait_for(lambda:executor.poll(handle)['state']=='paused', executor)
+        with pytest.raises(ValueError,match='Close'):executor.start(data['a']['candidate'],7)
+        executor.resume(handle)
+        executor.cancel(handle)
+        reply=finish(executor,handle)
+        assert reply['state']=='cancelled' and reply['result'] is None
+        assert executor.results('a',7)['state']=='cancelled'
+    finally:
+        release.set()
+        executor.close(handle)
+
 
 
 def test_close_requests_cancel_without_joining_running_worker(monkeypatch):
@@ -115,11 +122,16 @@ def test_close_requests_cancel_without_joining_running_worker(monkeypatch):
         entered.set();assert release.wait(10);return original(session,steps)
     monkeypatch.setattr(module.Session,'advance',gated)
     data=prepared();executor=CpuSweepExecutor(data);handle=executor.start(data['a']['candidate'],7)
-    assert entered.wait(10)
-    assert executor.close(handle) is False
-    assert executor.audit()['handles']==1 and executor.audit()['live_workers']==1
-    release.set()
-    assert finish(executor,handle)['state']=='cancelled'
+    try:
+        wait_for(entered.is_set, executor)
+        assert executor.close(handle) is False
+        assert executor.audit()['handles']==1 and executor.audit()['live_workers']==1
+        release.set()
+        assert finish(executor,handle)['state']=='cancelled'
+    finally:
+        release.set()
+        executor.close(handle)
+
 
 
 def test_cancel_before_session_creation(monkeypatch):
@@ -129,10 +141,15 @@ def test_cancel_before_session_creation(monkeypatch):
         entered.set();assert release.wait(10);return original(run)
     monkeypatch.setattr(module._Run,'checkpoint',checkpoint)
     data=prepared();executor=CpuSweepExecutor(data);handle=executor.start(data['a']['candidate'],7)
-    assert entered.wait(10)
-    executor.cancel(handle);release.set()
-    assert finish(executor,handle)['state']=='cancelled'
-    assert executor.results('a',7)['session'] is None
+    try:
+        wait_for(entered.is_set, executor)
+        executor.cancel(handle);release.set()
+        assert finish(executor,handle)['state']=='cancelled'
+        assert executor.results('a',7)['session'] is None
+    finally:
+        release.set()
+        executor.close(handle)
+
 
 
 def test_thread_start_failure_retains_no_resources(monkeypatch):
@@ -313,7 +330,7 @@ def test_terminal_result_does_not_release_a_still_live_worker(monkeypatch):
     executor = CpuSweepExecutor(data)
     handle = executor.start(data['a']['candidate'], 7)
     try:
-        assert published.wait(10)
+        wait_for(published.is_set, executor)
         assert executor.poll(handle)['state'] == 'completed'
         assert executor.close(handle) is False
         assert executor.audit() == dict(handles=1, live_workers=1, session_ids=[])
