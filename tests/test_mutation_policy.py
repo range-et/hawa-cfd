@@ -29,6 +29,18 @@ def write_mutants(output,rows):
         {name:dict(path='src/hawa/cli.py',exit_code=code,diff=diff) for name,(code,diff) in rows.items()}))
 
 
+@pytest.fixture(autouse=True)
+def exact_artifact_names(tmp_path, monkeypatch):
+    """Exercise canonical artifact names even on case-insensitive filesystems."""
+    original = Path.open
+    temporary = tmp_path.resolve()
+    def open_exact(path, *args, **kwargs):
+        if path.exists() and path.parent.resolve().is_relative_to(temporary):
+            assert path.name in {entry.name for entry in path.parent.iterdir()}, 'Artifact filename case mismatch'
+        return original(path, *args, **kwargs)
+    monkeypatch.setattr(Path, 'open', open_exact)
+
+
 @pytest.fixture
 def evidence(tmp_path):
     root=tmp_path/'checkout';output=tmp_path/'evidence';output.mkdir()
@@ -309,6 +321,7 @@ def test_export_writes_raw_exit_codes_and_diffs(tmp_path, path_type):
     assert (tmp_path/'mutations.diff').read_text()==(
         '# a.x_f__mutmut_1 exit 1\ndiff of a.x_f__mutmut_1 in src/a.py\n\n'
         '# a.x_f__mutmut_2 exit 0\ndiff of a.x_f__mutmut_2 in src/a.py\n\n')
+    assert {entry.name for entry in tmp_path.iterdir()} == {'mutants.json', 'mutations.diff'}
 
 
 def install_fake_package(monkeypatch,version='3.7.0'):
