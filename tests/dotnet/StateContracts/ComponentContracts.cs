@@ -437,7 +437,7 @@ static class ComponentContracts
 
 sealed class IdleProbe() : StandInComponent("Idle");
 sealed record GhMany(params object?[] Items);
-sealed record GhNamed(string NickName) : IGH_DocumentObject;
+sealed record GhNamed(string NickName) : IGH_DocumentObject { public Guid InstanceGuid { get; } = Guid.NewGuid(); }
 
 // IGH_DataAccess double: inputs by index (D = registered default), VolatileData
 // mirrored onto the component's parameters as GH would, outputs recorded.

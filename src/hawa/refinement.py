@@ -96,11 +96,13 @@ class RefinedStepper:
         return c.rho().sum()-integral(c.rho()[0][region])+integral(f.rho()[0])/2**self.d
 
 
-def run_refined(request,checkpoint):
-    """Run a fixed two-level physical case and return independent field frames."""
-    import lettuce as lt
-    from .plugin import Session,WindFlow,boundary_nodes,check_case
-    from .fields import store
+def check_refinement(request):
+    """Validate coupled-case metadata before creating a job or allocating grids.
+
+    Mask/interface geometry still requires constructed grids inside run_refined.
+    This CPU check preserves the existing fixed 2:1 contract and tolerances.
+    """
+    from .plugin import check_case
     coarse_spec=request['case'];fine_spec=request['fine_case'];steps=request.get('steps',200)
     if coarse_spec.get('boundary_set') or fine_spec.get('boundary_set'):raise ValueError('General boundary sets cannot yet be combined with refinement')
     if coarse_spec.get('boundary_field') or fine_spec.get('boundary_field'):raise ValueError('Boundary fields cannot yet be combined with refinement')
@@ -122,6 +124,16 @@ def run_refined(request,checkpoint):
     actual=fine_spec.get('origin',[0,0,0])
     if not np.allclose(expected,actual,rtol=0,atol=1e-7):
         raise ValueError('Fine grid origin does not match its parent patch: expected %s, got %s' % (expected.tolist(),actual))
+
+
+def run_refined(request,checkpoint):
+    """Run a fixed two-level physical case and return independent field frames."""
+    import lettuce as lt
+    from .plugin import Session,WindFlow,boundary_nodes
+    from .fields import store
+    check_refinement(request)
+    coarse_spec=request['case'];fine_spec=request['fine_case'];steps=request.get('steps',200)
+    lower=fine_spec['refinement_lower'];upper=fine_spec['refinement_upper']
     checkpoint(0)
     coarse=Session(coarse_spec,request.get('device','auto'))
     class PatchFlow(WindFlow):

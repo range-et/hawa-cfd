@@ -195,6 +195,9 @@ LOCK = threading.Lock()
 
 def dispatch_job(request):
     if request['op'] == 'evaluate_submit':
+        if request.get('kind') == 'refine':
+            from .refinement import check_refinement
+            check_refinement(request)
         job = Job({k:v for k,v in request.items() if k != 'op'})
         with LOCK:
             if len(JOBS) >= 32:

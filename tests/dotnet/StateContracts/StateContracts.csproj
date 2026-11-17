@@ -1,6 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
   <ItemGroup>
+    <Compile Include="../../../plugin/Hawa.Shared/RefinementAdmission.cs" Link="Production/RefinementAdmission.cs" />
+    <Compile Include="../../../plugin/Hawa.Grasshopper/RefinedSolveComponent.cs" Link="Production/RefinedSolveComponent.cs" />
     <Compile Include="../../../plugin/Hawa.Shared/GeometryDomain.cs" Link="Production/GeometryDomain.cs" />
     <Compile Include="../../../plugin/Hawa.Rhino/NativePreparation.cs" Link="Production/NativePreparation.cs" />
     <Compile Include="../../../plugin/Hawa.Grasshopper/GeometryComponent.cs" Link="Production/GeometryComponent.cs" />
