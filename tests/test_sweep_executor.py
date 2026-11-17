@@ -236,6 +236,7 @@ def test_rejected_window_keeps_raw_data(monkeypatch):
     assert finish(executor,handle)['state']=='rejected'
     detail=executor.results('a',7)
     assert detail['summary'] is None and len(detail['load_samples'])==4
+    assert 'insufficient accepted window' in detail['reason']
 
 
 def test_solver_failure_stays_failed_with_partial_history(monkeypatch):
@@ -616,3 +617,131 @@ def test_budget_admits_minimum_shape_without_copying_or_running_solver(monkeypat
         pytest.fail('budget inspection must not copy payloads')
     monkeypatch.setattr(module, 'deepcopy', forbidden_copy)
     module._budget(data)
+
+
+def test_unknown_entry_field_rejected_before_copy(monkeypatch):
+    data = prepared(); data['a']['unexpected'] = 'untrusted payload'
+    def forbidden(*args):
+        pytest.fail('unknown envelope reached deepcopy')
+    monkeypatch.setattr(module, 'deepcopy', forbidden)
+    with pytest.raises(ValueError) as exc:
+        CpuSweepExecutor(data)
+    assert str(exc.value) and str(exc.value) != 'None'
+
+
+def test_exact_step_limit_without_worker_allocation():
+    data = prepared(); data['a'].update(steps=100000, probes=[])
+    executor = CpuSweepExecutor(data)
+    assert executor.audit()['handles'] == 0
+    data['a']['steps'] = 100001
+    with pytest.raises(ValueError):
+        CpuSweepExecutor(data)
+
+
+def test_aggregate_cell_budget_rejects_single_cell_over_limit():
+    data = prepared(); data['b'] = deepcopy(data['a'])
+    data['a']['spec']['shape'] = [4, 7, 53567]
+    data['b']['spec']['shape'] = [5, 5, 5]
+    assert 4*7*53567 + 5*5*5 == 1500001
+    with pytest.raises(ValueError):
+        module._budget(data)
+
+
+def test_unknown_geometry_field_rejected_even_with_matching_digest():
+    data = prepared(); entry = data['a']; entry['geometry']['extra'] = 'untrusted'
+    digest = hashlib.sha256(json.dumps(entry['geometry'], sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+    entry['candidate']['geometry_hash'] = entry['request']['identity']['geometry_hash'] = digest
+    with pytest.raises(ValueError) as exc:
+        CpuSweepExecutor(data)
+    assert str(exc.value) and str(exc.value) != 'None'
+
+
+@pytest.mark.parametrize('field,count', [('vertices_m', 200000), ('triangles', 400000)])
+def test_geometry_hash_accepts_exact_upper_count_without_solver(field, count):
+    geometry = prepared()['a']['geometry']
+    geometry[field] = (geometry[field] * (count // len(geometry[field])))
+    expected = hashlib.sha256(json.dumps(geometry, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+    assert module._geometry_hash(geometry) == expected
+    geometry[field].append(geometry[field][0])
+    with pytest.raises(ValueError):
+        module._geometry_hash(geometry)
+
+
+def test_geometry_vertex_lower_bound_is_independent_of_triangle_count():
+    geometry = dict(vertices_m=[[0., 0., 0.], [1., 0., 0.], [0., 1., 0.]],
+                    triangles=[[0, 1, 2]] * 4)
+    with pytest.raises(ValueError):
+        module._geometry_hash(geometry)
+
+
+def test_candidate_count_limit_with_real_budget_and_preparation():
+    data = {}
+    for i in range(64):
+        entry = prepared()['a']; key = str(i)
+        entry['candidate']['candidate_id'] = entry['request']['identity']['candidate_id'] = key
+        data[key] = entry
+    executor = CpuSweepExecutor(data)
+    assert executor.audit()['handles'] == 0
+    data['64'] = deepcopy(data['0'])
+    data['64']['candidate']['candidate_id'] = data['64']['request']['identity']['candidate_id'] = '64'
+    with pytest.raises(ValueError):
+        CpuSweepExecutor(data)
+
+
+def test_worker_thread_is_daemon_and_owns_target(monkeypatch):
+    captured = []
+    class ThreadSpy:
+        def __init__(self, **kwargs):
+            captured.append(kwargs)
+        def start(self):
+            pass
+        def is_alive(self):
+            return False
+    monkeypatch.setattr(module.threading, 'Thread', ThreadSpy)
+    data = prepared(); executor = CpuSweepExecutor(data)
+    handle = executor.start(data['a']['candidate'], 7)
+    try:
+        assert len(captured) == 1
+        assert captured[0]['daemon'] is True
+        assert captured[0]['target'] == executor._work
+        assert len(captured[0]['args']) == 1
+    finally:
+        assert executor.close(handle)
+
+
+@pytest.mark.parametrize('source_step,offset,accepted', [(0, 5e-13, True), (1, 2e-12, False)])
+def test_capture_timestamp_tolerance_is_strict_and_has_absolute_floor(monkeypatch, source_step, offset, accepted):
+    original = module.Session.fields
+    def fields(session, *args, **kwargs):
+        result = original(session, *args, **kwargs)
+        if result['snapshot']['steps'] == source_step:
+            result['snapshot']['physical_time'] += offset
+        return result
+    monkeypatch.setattr(module.Session, 'fields', fields)
+    data = prepared(); executor = CpuSweepExecutor(data)
+    handle = executor.start(data['a']['candidate'], 7)
+    reply = finish(executor, handle)
+    assert reply['state'] == ('completed' if accepted else 'failed')
+    if not accepted:
+        assert 'phase identity mismatch' in reply['reason']
+
+
+def test_near_zero_window_endpoint_uses_absolute_alignment_tolerance():
+    data = prepared(); dt = .01 * .5 / math.sqrt(3)
+    data['a']['request']['window']['start_s'] = 5e-13 * dt
+    assert CpuSweepExecutor(data).audit()['handles'] == 0
+    data['a']['request']['window']['start_s'] = 2e-12 * dt
+    with pytest.raises(ValueError):
+        CpuSweepExecutor(data)
+
+
+def test_worker_selects_obstacle_among_nonmatching_domain_bounceback_masks():
+    data = prepared(); entry = data['a']
+    entry['spec']['boundaries'] = ['inlet', 'outlet', 'wall', 'wall', 'wall', 'wall']
+    digest = case_key(entry['spec'])
+    entry['candidate']['case_hash'] = entry['request']['identity']['case_hash'] = digest
+    executor = CpuSweepExecutor(data)
+    handle = executor.start(entry['candidate'], 7)
+    reply = finish(executor, handle)
+    assert reply['state'] == 'completed', reply['reason']
+    assert len(executor.results('a', 7)['load_samples']) == 4
