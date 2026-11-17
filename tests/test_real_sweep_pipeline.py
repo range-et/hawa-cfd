@@ -230,6 +230,13 @@ def test_real_worker_pause_and_cleanup_are_cooperative(monkeypatch, finish):
     entry = prepared_cube()
     key = entry['candidate']['candidate_id']
     executor = CpuSweepExecutor({key: entry})
+    handles = []
+    original_start = executor.start
+    def tracked_start(candidate, generation):
+        handle = original_start(candidate, generation)
+        handles.append(handle)
+        return handle
+    monkeypatch.setattr(executor, 'start', tracked_start)
     controller = SweepController([entry['candidate']], executor, GENERATION)
     try:
         controller.run(); controller.tick()
@@ -249,7 +256,7 @@ def test_real_worker_pause_and_cleanup_are_cooperative(monkeypatch, finish):
             controller.cancel()
         else:
             controller.dispose()
-        drive(controller)
+        drive(controller, timeout=1.)
         assert executor.audit() == dict(handles=0, live_workers=0, session_ids=[])
         detail = executor.results(key, GENERATION)
         expected = 'completed' if finish == 'resume' else 'cancelled'
@@ -258,6 +265,16 @@ def test_real_worker_pause_and_cleanup_are_cooperative(monkeypatch, finish):
         assert len(detail['load_samples']) == (4 if finish == 'resume' else 1)
     finally:
         release.set()
+        # A broken close may undo cancellation while paused. Release the worker
+        # through independent public controls before retrying controller disposal;
+        # repeatedly calling the same broken close would hide failure in a timeout.
+        if handles and executor.audit()['handles']:
+            executor.resume(handles[0])
+            executor.cancel(handles[0])
+            deadline = time.monotonic() + 2.
+            while executor.audit()['live_workers'] and time.monotonic() < deadline:
+                time.sleep(.001)
+            assert not executor.audit()['live_workers'], 'worker cleanup did not drain'
         dispose(controller)
 
 
