@@ -106,3 +106,25 @@ Final package checks: ZIP integrity, matching 29 runtime/source Python files,
 legacy 09 definition exclusion and local Markdown link checks pass. Final original
 checkout preservation audit matches all 26 starting file hashes. Issue branches
 remain separate and clean; this integration is local, with no push or main merge.
+
+## PR #112 review follow-up
+
+Greptile's first review (4/5, comment 4595057470) found that corrupt ownership
+JSON prevented cancellation before the host could recover its retained document.
+Integration `6872f1b` fixes atomic ownership publication and CLI recovery, with
+foreign-run rejection and canonical UUID parsing retained. `issue83` independently
+reviewed the repair; `issue39` verified actual corrupt-file cancellation in Rhino
+(run j), zero resources and preservation of both blank GH documents/native model.
+No plugin assembly or numerical source changed; prior G6 source evidence remains
+valid. See the [runner follow-up](review-host-acceptance-pilot.md#pr-112-corrupt-ownership-follow-up).
+
+Fresh combined Python 3.9 measurement after this repair:
+**1919 passed, 87 skipped**, 213 warnings, 280.10 seconds; **121 state contracts**.
+Strict headless and `1b4e6c7` baseline checks pass; refreshed committed matrix:
+1001 covered, 308 unmeasured host functions, 58 declarations. Evidence directory:
+`results/function-coverage-pr112-owner-repair`. Both Python versions pass the
+46 focused controller tests; host-controller mutation policy accepts 600 assertion
+kills and 42 explicitly reviewed survivors from 642 mutants. The preceding full
+Python 3.12 result remains tied to its prior source; PR CI reruns the full suite
+on this repair. Merge additionally requires all repository checks and Greptile
+5/5 approval on the final head; no earlier green check is substituted.
