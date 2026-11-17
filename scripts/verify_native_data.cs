@@ -49,7 +49,7 @@ timer.Elapsed+=(_,_)=>{try{
  case 0:
   Click("Block preset");c=Call("Find",serial);Check(c!=null,"Preset did not create case");
   Check(!Walk(panel).OfType<Button>().Any(b=>b.Text.StartsWith("Apply")),"Obsolete Apply control remains");
-  Choice("cpu").SelectedValue="cpu";After<NumericStepper>("Total target iterations").Value=6;
+  After<DropDown>("Backend").SelectedValue="cpu";After<NumericStepper>("Total target iterations").Value=6;
   After<NumericStepper>("Kinematic viscosity (m²/s)").Value=.075;
   Check(((JsonObject)c.Setup)["viscosity"].GetValue<double>()==.075,"Fluid event did not commit");
   After<DropDown>("Y− boundary").SelectedValue="periodic";
