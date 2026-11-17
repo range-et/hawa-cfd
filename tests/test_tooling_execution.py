@@ -23,6 +23,7 @@ def load(name):
 @pytest.mark.parametrize('failure', ['none','operator','source','inventory'])
 def test_g6_orchestrator_preserves_blocked_failed_and_incomplete_rows(tmp_path,monkeypatch,failure):
     m=load('run_compatibility_matrix')
+    monkeypatch.setattr(m,'stationary_study_cases',lambda:iter([]))
     monkeypatch.setattr(m,'export_cases',lambda:iter([]))
     monkeypatch.setattr(m,'native_data_cases',lambda:iter([]))
     topology=[dict(id='faces/reject',expected=False)]
@@ -205,6 +206,7 @@ def test_aij_reporting_preserves_rejection_and_fixed_averaging_criteria(tmp_path
 @pytest.mark.parametrize('failure',['none','topology','field','solver-reject','nesting-reject','nesting-error'])
 def test_g6_orchestrator_records_each_operator_failure_without_losing_rows(tmp_path,monkeypatch,failure):
     m=load('run_compatibility_matrix')
+    monkeypatch.setattr(m,'stationary_study_cases',lambda:iter([]))
     monkeypatch.setattr(m,'export_cases',lambda:iter([]))
     monkeypatch.setattr(m,'native_data_cases',lambda:iter([]))
     monkeypatch.setattr(m,'DEVICES',['cpu','cuda:0'])
@@ -356,6 +358,7 @@ def test_example_worker_installs_windows_memory_adapter_only_for_affected_projec
 @pytest.mark.parametrize('outcome', ['accept', 'reject', 'error', 'wrong-verdict'])
 def test_g6_export_family_records_rejection_hardware_and_unexpected_failures(tmp_path, monkeypatch, outcome, family):
     m=load('run_compatibility_matrix')
+    monkeypatch.setattr(m,'stationary_study_cases',lambda:iter([]))
     for name in ('topologies','combinations','refinements','field_cases','collection_cases','nesting_cases'):
         monkeypatch.setattr(m,name,lambda:iter([]))
     row=dict(id=family+'/fixture/valid',expected=outcome!='reject')
@@ -380,3 +383,27 @@ def test_g6_export_family_records_rejection_hardware_and_unexpected_failures(tmp
     assert rows[0]['status']==('passed' if outcome in ('accept','reject') else 'failed')
     if outcome=='error':assert 'unexpected fixture error' in rows[0]['error']
     else:assert rows[0]['observed']==('run' if outcome=='accept' else 'reject')
+
+
+@pytest.mark.parametrize('outcome', ['accept','reject','error','wrong-verdict'])
+def test_g6_stationary_backend_guards_run_without_hardware(tmp_path,monkeypatch,outcome):
+    m=load('run_compatibility_matrix')
+    for name in ('topologies','combinations','refinements','field_cases','collection_cases','nesting_cases','export_cases','native_data_cases'):
+        monkeypatch.setattr(m,name,lambda:iter([]))
+    row=dict(id='stationary-study/fixture/mps',expected=outcome!='reject',device='mps')
+    monkeypatch.setattr(m,'stationary_study_cases',lambda:iter([row]))
+    def exercise(row):
+        if outcome=='error':raise RuntimeError('unexpected failure')
+        return outcome=='accept'
+    monkeypatch.setattr(m,'exercise_stationary_study',exercise)
+    monkeypatch.setattr(m,'available',lambda device:False)
+    monkeypatch.setattr(m,'source_hashes',lambda:{'fixture':'stable'})
+    monkeypatch.setattr(m,'environment',lambda:{'fixture':True})
+    monkeypatch.setattr(m,'verify_examples',lambda path:{'fixture':True})
+    monkeypatch.setattr(m,'verify_evidence',lambda path:None)
+    monkeypatch.setattr(m,'expected_rows',lambda:[row])
+    out=tmp_path/'study'
+    assert m.run(out)==(0 if outcome in ('accept','reject') else 1)
+    rows=[json.loads(line) for line in (out/'rows.jsonl').read_text().splitlines()]
+    assert len(rows)==1 and rows[0]['status']!= 'blocked'
+    assert rows[0]['status']==('passed' if outcome in ('accept','reject') else 'failed')

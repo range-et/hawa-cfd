@@ -10,6 +10,7 @@ from .nesting import nesting_cases
 from .collections import collection_cases
 from .exports import export_cases
 from .native_data import native_data_cases
+from .stationary_study import stationary_study_cases
 
 ROOT=Path(__file__).resolve().parents[2]
 
@@ -37,6 +38,7 @@ def expected_rows():
         for device in DEVICES:rows[r['id']+'/'+device]=r['expected']
     for r in native_data_cases():
         for device in DEVICES:rows[r['id']+'/'+device]=r['expected']
+    rows.update((r['id'],r['expected']) for r in stationary_study_cases())
     return rows
 
 

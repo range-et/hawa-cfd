@@ -5,12 +5,25 @@ This is a development gate. It is exhaustive over its versioned finite products;
 it does not enumerate arbitrary Grasshopper graphs, continuous geometries,
 parameter values or all concurrent event sequences.
 
+## Stationary mesh study bridge (#40, bounded infrastructure)
+
+The current inventory is **102,615 rows**, including 33 stationary-study rows.
+Two angles × two speeds × valid/invalid selected index × three requested
+backends add 24 rows; open mesh, rotated domain and cancellation × three
+backends add nine. CPU uses a real four-step cube study and checks source
+identity/time, analytic rotation, selected fields and cleanup. MPS/CUDA requests
+must reject before allocation even when hardware is unavailable: these rows are
+backend-guard evidence, not accelerator simulation passes. The independent oracle
+expects four accepted workflow rows and 29 rejected rows. Full matrix execution
+and live GH example evidence remain separate gates after integration. See
+[the bridge contract](stationary-study.md).
+
 ## Numerical export completion (#35)
 
 The current finite inventory adds 81 rows: three table kinds (fields/probes/loads)
 × three sources (normalized 2D, physical 3D, moving 3D) × three request modes
 (valid, expected-identity mismatch, pre-publication cancellation) × three devices.
-The total is **102,582 rows**, including the 42 native-data rows below. Each row advances a real session four steps; an
+That increment totalled **102,582 rows**, including the 42 native-data rows below. Each row advances a real session four steps; an
 independent readback compares literal schemas, raw arrays/history, translated
 historical pivots, positions/units, validity, capture identity and preserved old
 bytes on rejection. Loads from stationary sources are expected rejections.
