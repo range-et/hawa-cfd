@@ -60,12 +60,12 @@ Python 3.12.4 / mutmut 3.7.0 for CPU mutation; .NET 10 host doubles and .NET 7 p
 | Gate | Reviewer | Decision | Evidence / omissions |
 | --- | --- | --- | --- |
 | G0 research | Codex (self) | PASS, bounded | Existing fixed-refinement contracts, #30/#83 and parent/child operation distinctions; no new numerical method or dependency. |
-| G1 architecture | Codex (self) | BLOCKED | Headless ownership/adverse ordering pass; actual GH scheduling still awaits installed-host verification. |
+| G1 architecture | Codex root + independent agents | PASS | Headless adverse ordering and fresh cold/warm GH lifecycle pass; retained timer ownership and actual zero-worker cleanup verified. |
 | G2 reliability | Codex (self) | BLOCKED | Focused tests/build pass; complete fresh matrix and mutation review pending. |
 | G3 physics | Codex (self) | NOT APPLICABLE | No method/tolerance changes or new physical claim. Existing short refinement regressions exercised; no convergence/engineering validation. |
-| G4 UI/UX | Codex (self) | BLOCKED | Source-identity/activation/output assertions pass in doubles; native workflow pending. |
+| G4 UI/UX | Codex root | PASS | Cold prerequisite and actionable source IDs observed in Rhino; pause/replacement/recovery/cancel/removal pass. |
 | G5 integration | Codex (self) | BLOCKED | Development package builds; combined installation, CI and external review pending. |
-| G6 compatibility | Codex (self) | BLOCKED | GUID/ports retained and operation distinctions preserved; focused native workflow pending, full example inventory not rerun. |
+| G6 compatibility | Codex root | PASS, local | 100,010 rows passed, zero failed, 2,449 CUDA rows blocked; 53-node/31-example archive inventory passes. No arbitrary-graph or all-device qualification. |
 
 Focused commands and results:
 
@@ -82,8 +82,8 @@ Focused commands and results:
 - `scripts/build_plugin.py --output dist/domain-admission --archive dist/domain-admission.zip`:
   development build/package passes. The SDK build exposed a non-generic versus
   generic Eto timer event mismatch; production and its double were corrected.
-  Existing platform analyzer warnings remain. Package is not installed/released
-  by this record.
+  Existing platform analyzer warnings remain. Final combined package was installed and tested as recorded below; no released
+  distribution claim.
 - Fresh mutation and complete function matrix: **pending**. Initial status-truth
   runs timed out on a reversed lock-acquire loop; the deterministic lock fixture
   now bounds acquisitions so this mutation fails without spinning to a process
@@ -110,11 +110,45 @@ the explicit Runtime prerequisite and cold-background bridge guard repair that
 path. The native harness now asserts cold rejection before using the public
 Runtime node, so a prewarmed test cannot hide the original failure. Initial
 harness-only C#9/`CastTo(out)`/persistent-device and null-placeholder assertions
-were also corrected. Fresh installed verification is required for the repair.
+were also corrected. Fresh installed verification of both repairs now passes; see the next section.
+
+## Fresh installed acceptance
+
+Root ran the revised harness in a new Rhino 8.37 Mac process on Apple M3 Max,
+with GH readiness initially false. Final production candidate `ae95b7d` passes
+all nine observations: invalid source identity, cold rejection, explicit public
+Runtime initialization, asynchronous submit, paused invalid replacement,
+valid recovery, both two-step frames, immediate cancellation and removal.
+Invalid and valid submission returned in 4.68 ms and 2.92 ms respectively;
+these are individual observations, not a performance guarantee.
+
+The final [host record](verification-refinement-admission-host.json) includes
+zero pending submissions, refreshes and cleanup. A separate same-process,
+read-only runtime registry/thread audit after disposal found **zero jobs,
+sessions and Hawa workers**. Original two empty GH documents were restored;
+no user geometry or source archive was changed. Cold crash and retained-worker
+failures remain in local `results/refinement-admission-host/` as rejected evidence.
+
+Loaded binary SHA256 values:
+
+- Grasshopper: `bf99fd985183443fe4a9181d671a06a9e2c8661635acb8423df355a4e8f08993`
+- Shared: `0fac588984d9ccd10ce061f9d746692245044338f604b5bbf08f1e16a2f2e41f`
+- Rhino: `b8eb2587caa088835770dadd6dbade53d1b2ea4eb8888611e1618d63f94b0a63`
+
+Codex numerical-exports agent independently reviewed the cold guard and retained
+ownership fixes, found no blocking findings, and reran all 127 state contracts.
+This review does not substitute for the separate installed observations above.
+
+The fresh combined [G6 record](verification-working-30-35-g6.json) covers all
+102,459 declared rows in 378 seconds on available CPU/MPS devices: 100,010 pass,
+zero fail, 2,449 CUDA rows blocked by unavailable hardware. Source hashes did not
+change during the run; `verify_evidence` and the 53-node/31-example/188-edge
+archive checker pass. Raw row evidence remains in `results/working-g6-final/`.
+These are finite contract checks, not a new numerical qualification.
 
 ## Disposition
 
-#30 remains open while installed-host execution, complete measured gates and PR
-review are pending. The implementation addresses fixed coupled-refinement
+#30 remains open while complete measured gates and PR review are pending.
+The declared installed-host checks are now complete. The implementation addresses fixed coupled-refinement
 metadata admission and host object identification only. No unrelated resource,
 physical-qualification, all-device or exhaustive arbitrary-graph claim is made.

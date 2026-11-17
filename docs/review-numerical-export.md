@@ -28,29 +28,47 @@ arrays, 2D/3D lattices and a rotated/translated physical coordinate basis.
 | --- | --- | --- | --- |
 | G0 research | author self-review | PASS, scoped | Standard CSV quoting and NumPy C-order iteration; no new numerical model or dependency. Existing physical-unit conversion and case mapping reused. |
 | G1 architecture | author self-review | PASS, scoped | Explicit opt-in preserves NPZ/path compatibility. One atomic file, detached captured metadata; query checkpoint route avoids holding device lock during CPU file IO. |
-| G2 software/reliability | author self-review | IN PROGRESS | 35 CSV tests, existing NPZ/frame tests and 121 StateContracts pass. Scoped mutation policy passes; measured gate pending. |
+| G2 software/reliability | author self-review | BLOCKED | 35 CSV tests, existing NPZ/frame tests and 121 StateContracts pass. Combined export/status mutation policies pass; final combined measured gate remains pending. |
 | G3 numerical physics | author self-review | NOT APPLICABLE | No solver change. Exact data preservation is tested; engineering accuracy and convergence not claimed. |
-| G4 UI/UX and examples | unassigned | BLOCKED | Headless existing-node action/rising-edge/format mapping passes. Live Checkpoint CSV action and supported-gallery review not yet run. |
-| G5 release/integration | unassigned | BLOCKED | Build, ready PR, CI and Greptile 5/5 pending; no package installed or released. |
-| G6 compatibility/example inventory | root live audit; author self-review | PARTIAL | Installed combined build archive audit passed 53 nodes / 31 examples; only the two Checkpoint input descriptions are refreshed here. Existing public-node GUID/ports unchanged; no new node. Runtime combinations remain separately unverified. |
+| G4 UI/UX and examples | root live verification; author evidence review | PASS, bounded | Existing Checkpoint CSV and legacy NPZ actions passed on example31 in Rhino 8.37/macOS/CPU; exact readback and cleanup verified. Wider gallery, native-panel export UX and CUDA/MPS export acceptance are not covered by this pass. |
+| G5 release/integration | unassigned | BLOCKED | Initial build and combined installed archive audit pass. Final combined build/runtime review, ready PR, CI and Greptile 5/5 remain pending; no release claim. |
+| G6 compatibility/example inventory | root live audit | PASS, local | Final 53-node/31-example archive inventory passes; combined finite matrix has 100,010 passed, zero failed and 2,449 unavailable CUDA rows blocked. No new node or all-device qualification. |
 
 ## Checks and disposition
 
 - `.venv/bin/python -m pytest tests/test_csv_export.py tests/test_export.py tests/test_field_export.py -q`: 62 passed (35 CSV cases).
 - `dotnet run --project tests/dotnet/StateContracts`: 121 passed. Existing nullable warning in FieldTools.cs; host doubles do not prove Rhino scheduling or saved archives.
 - `.venv-dev/bin/ruff check src/hawa/exports.py tests/test_csv_export.py`: passed.
-- `MUTMUT_MAX_CHILDREN=4 bash tools/mutation/run_numerical_export.sh results/numerical-export-mutation-35-v3`: 368 mutants, 353 assertion kills, 15 reviewed equivalent survivors; all 47 Python 3.12 controls passed. `check_results.py` passes the committed [exact policy](../tools/mutation/numerical-export-policy.json). No timeouts/errors count as kills. Survivors concern equivalent temporary names, false-valued optional flags, UTF-8 codec case and zero-mask dtype. Earlier runs exposed missing assertions, which were added before the final run.
+- `MUTMUT_MAX_CHILDREN=4 bash tools/mutation/run_numerical_export.sh results/numerical-export-mutation-combined`: Combined source `5f58de7`, export-only diff against domain production `0e76b95`: 368 mutants, 353 assertion kills, 15 reviewed equivalent survivors; all 47 Python 3.12 controls passed. `check_results.py` passes the committed [exact policy](../tools/mutation/numerical-export-policy.json). No timeouts/errors count as kills. Survivors concern equivalent temporary names, false-valued optional flags, UTF-8 codec case and zero-mask dtype. Earlier runs exposed missing assertions, which were added before the final run.
 - `.venv/bin/python scripts/build_plugin.py --archive dist/Hawa-export-35.zip`: initial build at03b8f78 passed, 0 errors; existing nullable warnings. This binary predates the absolute-time Python follow-up; final combined host build is coordinated by root.
-- First full measurement was intentionally interrupted before completion when review required new tests; it is not a pass. Fresh final measurement is running in `results/function-coverage-export-35-v2`.
-- Historical validity-foundation/status-truth studies are not refreshed claims: their module source hashes changed. This new study measures only this PR's export/routing diff.
+- First full measurement was intentionally interrupted for review fixes. The second (`results/function-coverage-export-35-v2`) finished 1,952 passed / 87 skipped / 2 failed; both failures were stale historical mutation-policy hashes. It is **not** a measured-gate pass and generated no accepted matrix. Root owns the final combined complete measurement after policy refresh.
+- Combined status study: `MUTMUT_MAX_CHILDREN=4 bash tools/mutation/run_status_truth.sh results/status-truth-mutation-combined-v2`, 56 mutants / 55 assertion kills / 1 equivalent false-valued ownership survivor; all 143 controls passed. The [exact status policy](../tools/mutation/status-truth-policy.json) passes. Existing `cpu_only` isolates forked workers; the explicit bounded lock fixture still enables device locking. Its reversed-acquire-loop mutant exits 1 (assertion kill). An earlier SIGXCPU run was discarded, never counted as passing evidence.
+- `.venv/bin/python -m pytest tests/test_csv_export.py tests/test_runtime_job_contracts.py tests/test_refinement_preflight.py tests/test_export.py -q`: 143 passed on combined production in Python 3.9.
+- [Combined machine record](verification-combined-export-mutation.json) records commands, versions, discarded run and exact results. Domain agent separately owns validity-foundation refresh; final complete-suite and live host evidence remain with root.
 
-Sequential host harness: `scripts/verify_coverage_examples.cs`, example31. Use
-separate MCP calls for `open`, `run`, `state`/`report`, `export csv`, `execute`,
-`report`, then `close`. It keeps the source archive and writes only its owned
-output. The CSV's report must match the captured session/iteration and the
-filesystem artifact; verify through the declared parser. Final code tests also
-cover normalized2D output and nonzero absolute time offsets; the host demo does
-not establish those numerical cases by itself.
+## Bounded live host result
+
+Root ran `scripts/verify_coverage_examples.cs` through separate Rhino MCP calls
+for example31, using the existing Checkpoint CSV and legacy NPZ actions. On
+Rhino 8.37/macOS, CPU, PyTorch 2.8.0, the captured result at iteration60 had
+5,376 rows (21×16×16): all 4,677 valid rows matched NPZ quantities exactly,
+positions and mask flags matched exactly, and all 699 invalid rows had blank
+quantities. Units were SI; local and absolute time both equalled
+0.0017320508075688776 seconds at zero time origin. The quality warning remained
+present; this is not convergence or engineering validation.
+
+The [host machine record](verification-numerical-export-host.json) pins the final
+Grasshopper assembly SHA-256
+`bf99fd985183443fe4a9181d671a06a9e2c8661635acb8423df355a4e8f08993`, artifact
+hashes, captured case/session and readback assertions. After disposing the owned
+graph, the runtime audit found zero jobs, sessions and workers, zero live native
+objects, and the two original empty graphs restored.
+
+This passes the scoped existing-node CSV/NPZ host workflow. Normalized 2D cases
+and nonzero time origins have headless regression evidence, not this host run.
+Live cancellation/failure-path injection, CUDA/MPS CSV workflows, wider gallery
+acceptance, probe/load export and native-panel export UX are not established by
+this result.
 
 No tolerance was introduced or relaxed. Quality records are carried through,
 not promoted to validation. Session identity and case hash describe the captured
@@ -63,7 +81,7 @@ installed/native UX need their own scoped contract, round-trip checks and host
 review. #34 is independent baking work. Owner/closure decisions remain with the
 coordinating maintainer after the PR gates.
 
-Root-reported installed audit: integration `1ea7314` (domain `0e76b95` plus
-export production `de2003d`), 53 public nodes / 31 example archives passed.
-This branch copies only the Path/Operation descriptions for Checkpoint; unrelated
-Geometry Check descriptions and example33 changes remain in their own PRs.
+Final installed archive audit passes: 53 public nodes, 31 definitions and 188
+observed port combinations. The [combined G6 record](verification-working-30-35-g6.json)
+pins exact source hashes; zero source changes during measurement. Example 33
+presentation was separately merged in #114 before this combined final check.

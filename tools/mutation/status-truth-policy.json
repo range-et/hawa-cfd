@@ -1,23 +1,29 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 35,
-  "inventory_sha256": "c27b8419d8e25eb8ba292884e4e87730859f1cc071700fa2ff21b6c5ca3189da",
-  "scope": "Lines changed since 6b0744 in src/hawa/jobs.py: queued device-slot state (#74), shared device-lock ownership and query exclusion (#99), and pre-Job fixed-refinement admission (#30). CPU controls cover runtime state/lock contracts and refinement metadata admission; routing fixtures disable device locking while the dedicated lock fixture explicitly enables it and bounds acquisitions. Not whole-module or whole-codebase mutation coverage; CUDA/MPS parametrizations are deselected.",
+  "mutants": 56,
+  "inventory_sha256": "7c64c52524d54c9d417c5015c37337095aa8280fdff5f4302c493640d2f940c1",
+  "scope": "Queued-state, device-lock and query/refinement dispatch changed lines vs6b0744a on combined30+35 production; CPU-only forked study with explicit bounded lock fixture",
   "control_test_files": [
     "tests/test_runtime_job_contracts.py",
-    "tests/test_refinement_preflight.py"
+    "tests/test_refinement_preflight.py",
+    "tests/test_csv_export.py",
+    "tests/test_export.py"
   ],
   "sources": {
-    "src/hawa/jobs.py": "5b6faaf217661696b37762b6ec04019327a5699cd78ec9e1a64d0266b1e02de7",
+    "src/hawa/jobs.py": "f769062de1f7f443e58c41c29b8fa26bae242d313dfa62fb3856865deb196421",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/test_runtime_job_contracts.py": "5dc3a5bfdc13d8c3be84d3633c237cdcd8c98ea46d876b76d23c8df7f470582a",
-    "tests/test_refinement_preflight.py": "f97cb47e472c58ed676e0defcaa222da84c523af8bdf5ec22b686078ad90f65c"
+    "tests/test_refinement_preflight.py": "f97cb47e472c58ed676e0defcaa222da84c523af8bdf5ec22b686078ad90f65c",
+    "tests/test_csv_export.py": "3456542327c5e5fcd8fec5422d3b42c415d74c8eb013f668b197eb62a7bb8db3",
+    "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
+    "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c",
+    "tools/mutation/lib.sh": "e76c1f689ed0cc3adc344479a32e859b8466c1b33e1d7709d8927104dc6c3871"
   },
   "reviewed_survivors": {
     "hawa.jobs.x\u01c1Job\u01c1__init____mutmut_1": {
       "status": "survived",
       "diff_sha256": "6d5b02f51ab9076eb9a797a8b160d6020b22645b17ba129f71d8a2536e5ed8be",
-      "reason": "Equivalent: holds_device is only tested for truth, and None is false like False until take_device sets it to True."
+      "reason": "Equivalent: None and False are both false-valued initial ownership; the field is only truth-tested until acquisition writes True, and drop_device normalizes it to False."
     }
   },
   "base_revision": "6b0744abb4ef132936dac310dff023852b0eade6"

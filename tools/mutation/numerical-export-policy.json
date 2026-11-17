@@ -79,17 +79,17 @@
   "sources": {
     "src/hawa/exports.py": "b80d75463088c398fbd165e6e4b79f51929fa29a4a9b32e37afc03288253acdf",
     "src/hawa/plugin.py": "50ae862f3c5996b96269a194207d9d964e3103215f0a2eb60c572fe5a3804e48",
-    "src/hawa/jobs.py": "e5ecedccbf6665118836c62f67c634295318cce9c1f9da8431306ee1fb2dab14",
+    "src/hawa/jobs.py": "f769062de1f7f443e58c41c29b8fa26bae242d313dfa62fb3856865deb196421",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/test_csv_export.py": "3456542327c5e5fcd8fec5422d3b42c415d74c8eb013f668b197eb62a7bb8db3",
     "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb"
   },
-  "scope": "Issue35 CSV export and routing changed lines vs21bd205; no numerical solver changes",
+  "scope": "Issue35 CSV export and routing changed lines vs domain production0e76b95; combined30+35 source, no numerical solver changes",
   "control_test_files": [
     "tests/test_csv_export.py",
     "tests/test_export.py"
   ],
-  "base_revision": "21bd205",
+  "base_revision": "0e76b95",
   "tool": "mutmut==3.7.0",
   "mutants": 368,
   "inventory_sha256": "520b06b3dac3603e191226c366f0a9d4af81515dd666eeef4d047bed50806baa"

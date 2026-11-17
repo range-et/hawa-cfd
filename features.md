@@ -396,8 +396,9 @@ through a background task, and retains cleanup ownership across cancellation and
 removal. Independent/composed overlap and offline transfer rules are unchanged;
 solid/interface checks still require constructed grids. Focused Python tests
 (96 passed, four CUDA skips; CPU and MPS exercised), 127 headless contracts and a
-development package pass. Full matrix/mutation and installed-host gates remain
-pending; this is not a release or issue closure. [Scoped review](docs/review-refinement-admission.md).
+development package pass. Fresh cold/warm Rhino lifecycle and zero-resource
+teardown pass; CPU/MPS finite compatibility passes with CUDA unavailable. Full
+measured/mutation and PR gates remain pending; this is not a release or issue closure. [Scoped review](docs/review-refinement-admission.md).
 
 ### November 9 2026 domain relationship contracts (HAWA-028 partial / HAWA-052 candidate)
 
@@ -713,9 +714,10 @@ HAWA-033 now includes an opt-in instantaneous field CSV contract through the
 existing Checkpoint action and Python export operation. Metadata and raw valid
 values are captured together; independent tests cover units/positions, quoting,
 mask validity, round-trip precision and failed/cancelled atomic writes. Legacy
-NPZ and saved node contracts stay compatible. This is built/headless-verified
-within the [reviewed scope](docs/review-numerical-export.md), not released or
-fully host-verified. Probe/load tables and wider native/installed UX remain open
+NPZ and saved node contracts stay compatible. Fresh Rhino CPU field CSV/NPZ
+readback matches every valid value and mask exactly within the
+[reviewed scope](docs/review-numerical-export.md). No released or broader host
+claim. Probe/load tables and wider native/installed UX remain open
 on [#35](https://github.com/range-et/hawa-cfd/issues/35); baking is #34.
 
 ### November 16 2026 — Parent/child canvas roles (HAWA-034 / #36)

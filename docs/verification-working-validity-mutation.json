@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "measured_at_utc": "2026-11-17T04:59:54.192882+00:00",
+  "reviewer": "Codex domain-validation agent (self-review)",
+  "source_revision": "ae95b7d7b389313202f068659d1769a4a4b5f38c",
+  "scope": "Lines changed since the base by the validity-foundation PR and the item 5 field-views and item 6 traces PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared MPS device lock (#99: plugin.DeviceLock with suspend and restore, Session construction, per-chunk stepping and pause, and the locked refined set-up, stepping and frames), the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, display_solid, the half-cell isosurface (fields.march, grid_lines, isosurface and FieldCollection.isosurface, with the T-junction seam split in fields.close_seams) and the plane partition (FieldCollection.plane, FieldCollection.lattice and the single-frame plane dispatch) and the streamline traces (fields.trace with its per-point colour sampling, trace_seed, trace_result, FieldCollection.trace, the display mask of FieldCollection.sample; the recording pathlines were removed by owner decision, and the plugin recording dispatch line is included); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host; #98 additionally covers the checkpoint validate_provenance call with public save/load controls. The opt-in cpu_only pytest plugin declares CUDA/MPS unavailable for controls and forked mutants, including default/auto selection. Refreshed for combined #30/#35: fixed-refinement metadata admission before Job creation and CSV export routing; CPU controls add translated/topology admission, the 200-coarse/400-fine default, and CSV/NPZ publication regressions. Export/job dependency hashes are pinned; the separate numerical-export study covers exports.py/job export mutations.",
+  "tool": "mutmut==3.7.0",
+  "python": "3.12.4",
+  "device": "CPU only; cpu_only guard and CUDA/MPS deselection",
+  "study_directory": "results/working-validity-defaults-20261116",
+  "policy": "tools/mutation/validity-foundation-policy.json",
+  "policy_sha256": "76a55620099523319b9913c147e320086aadd80c15a37a3d3b2b22ae45afe19b",
+  "result": {
+    "mutants": 2562,
+    "killed": 2343,
+    "reviewed_survivors": 219,
+    "control_tests": 279,
+    "policy_pass": true,
+    "scope": "Lines changed since the base by the validity-foundation PR and the item 5 field-views and item 6 traces PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared MPS device lock (#99: plugin.DeviceLock with suspend and restore, Session construction, per-chunk stepping and pause, and the locked refined set-up, stepping and frames), the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, display_solid, the half-cell isosurface (fields.march, grid_lines, isosurface and FieldCollection.isosurface, with the T-junction seam split in fields.close_seams) and the plane partition (FieldCollection.plane, FieldCollection.lattice and the single-frame plane dispatch) and the streamline traces (fields.trace with its per-point colour sampling, trace_seed, trace_result, FieldCollection.trace, the display mask of FieldCollection.sample; the recording pathlines were removed by owner decision, and the plugin recording dispatch line is included); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host; #98 additionally covers the checkpoint validate_provenance call with public save/load controls. The opt-in cpu_only pytest plugin declares CUDA/MPS unavailable for controls and forked mutants, including default/auto selection. Refreshed for combined #30/#35: fixed-refinement metadata admission before Job creation and CSV export routing; CPU controls add translated/topology admission, the 200-coarse/400-fine default, and CSV/NPZ publication regressions. Export/job dependency hashes are pinned; the separate numerical-export study covers exports.py/job export mutations."
+  },
+  "controls": {
+    "passed": 279,
+    "deselected": 24,
+    "warnings": 2,
+    "warning_scope": "Vendored Lettuce distribution-metadata deprecations"
+  },
+  "review": {
+    "unchanged_exact_survivor_diffs": 217,
+    "renumbered_equivalent_survivors": [
+      "hawa.refinement.x_run_refined__mutmut_59",
+      "hawa.refinement.x_run_refined__mutmut_117"
+    ],
+    "default_step_regression": "Real CPU 11^3 parent / 9^3 patch verifies omitted steps gives 200 coarse / 400 fine iterations and matching physical time; kills None, removed-default and 201 mutants.",
+    "superseded": "Earlier combined study stopped after identifying default-step test gap; no pass claimed."
+  },
+  "limits": "Bounded changed-line mutation scope, not whole-module coverage, physical qualification, device parity or Rhino host evidence."
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Issue #35: explicit CSV interchange and cooperative publication.
 source "$(dirname "$0")/lib.sh"
-base=21bd205
+base=0e76b95
 mutate=(src/hawa/exports.py src/hawa/plugin.py src/hawa/jobs.py)
 tests=(tests/conftest.py tests/test_csv_export.py tests/test_export.py)
 reviewed=("${mutate[@]}" "${tests[@]}")

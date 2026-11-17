@@ -1,0 +1,122 @@
+{
+  "rhino": "8.37.26307.15002",
+  "device": "cpu",
+  "document": "5f6b9fcf-5f65-4da6-a59a-c0bee0b2e07b",
+  "solve": "64c4f3a8-1416-4bb7-a455-bb6725693989",
+  "parent": "53ef4da7-6fce-400a-b61c-a9d37d4ec2d5",
+  "patch": "9fd0cf00-8a04-4c5a-afbe-99c48afb2d90",
+  "assembly": "/Users/r2d2/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)/Libraries/Hawa/Hawa.Grasshopper.gha",
+  "sha256": "bf99fd985183443fe4a9181d671a06a9e2c8661635acb8423df355a4e8f08993",
+  "state": "passed",
+  "phase": 9,
+  "checks": [
+    "misaligned patch rejected synchronously with input and component IDs",
+    "cold refinement rejected before background initialization",
+    "existing Runtime node explicitly initialized on host thread",
+    "valid submission returned to host; pause requested",
+    "paused run replaced by invalid patch without stale frames",
+    "valid two-step recovery submitted",
+    "valid case recovered and published both completed frame handles",
+    "immediate submit/cancel clears owned output",
+    "document removed immediately after submission"
+  ],
+  "component_state": "",
+  "invalid_submit_ms": 4.68,
+  "valid_submit_ms": 2.9195,
+  "paused_state": "paused: 5/10000",
+  "coarse_frame": {
+    "frame": "f4e016d1-e57a-4af9-bee6-8faeaa9de894",
+    "iteration": 2,
+    "time": 0.05773502691896258,
+    "case": {
+      "shape": [
+        17,
+        17,
+        17
+      ],
+      "dx": 1.0,
+      "spacing": 1.0,
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "speed": 1.0,
+      "viscosity": 1.0,
+      "density": 1.225,
+      "mach": 0.05,
+      "collision": "bgk",
+      "solid": [],
+      "boundaries": [
+        "inlet",
+        "outlet",
+        "periodic",
+        "periodic",
+        "periodic",
+        "periodic"
+      ],
+      "physical_dx": 1.0
+    },
+    "mean": false,
+    "samples": 0,
+    "kind": "Frame"
+  },
+  "fine_frame": {
+    "frame": "a9bebba8-0b65-44f4-9242-efab5949cb96",
+    "iteration": 4,
+    "time": 0.057735026918962595,
+    "case": {
+      "shape": [
+        13,
+        13,
+        13
+      ],
+      "dx": 0.5,
+      "spacing": 0.5,
+      "origin": [
+        5,
+        5,
+        5
+      ],
+      "speed": 1.0,
+      "viscosity": 1.0,
+      "density": 1.225,
+      "mach": 0.05,
+      "collision": "bgk",
+      "solid": [],
+      "boundaries": [
+        "inlet",
+        "outlet",
+        "periodic",
+        "periodic",
+        "periodic",
+        "periodic"
+      ],
+      "refinement_lower": [
+        5,
+        5,
+        5
+      ],
+      "refinement_upper": [
+        11,
+        11,
+        11
+      ],
+      "physical_dx": 0.5
+    },
+    "mean": false,
+    "samples": 0,
+    "kind": "Frame"
+  },
+  "cancel_before_state": "checking refinement",
+  "remove_before_state": "checking refinement",
+  "pending_refreshes": 0,
+  "pending_cleanup": 0,
+  "pending_submissions": 0,
+  "limits": "Public GH lifecycle/cleanup diagnostics only; includes retained submission-drain ownership, but no private worker enumeration. Headless barriers prove deterministic late-result races. No numerical accuracy claim.",
+  "runtime_audit_after_disposal": {
+    "jobs": 0,
+    "sessions": 0,
+    "workers": []
+  }
+}
