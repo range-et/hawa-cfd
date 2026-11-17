@@ -674,6 +674,9 @@ public static partial class CaseHub
     private static void Stop(CaseState c)
     {
         CloseExport(c);
+        c.ExportResultData = null;
+        if (c.ExportState == "completed")
+            c.ExportState = "idle";
         c.PreparationCancel?.Cancel();
         c.PreparationCancel?.Dispose();
         c.PreparationCancel = null;

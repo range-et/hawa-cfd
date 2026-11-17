@@ -26,6 +26,8 @@ static class NativeExportContracts
             assert(f.C.ExportState=="completed" && f.C.ExportJob==null && f.Closed==1,"Completion did not release query");
             assert(f.C.ExportResult!["iteration"]!.GetValue<int>()==40 && f.C.State=="completed" && f.C.Fault==null,"Export damaged solver or lost capture");
             var copy=f.C.ExportResult!;copy["iteration"]=0;assert(f.C.ExportResult!["iteration"]!.GetValue<int>()==40,"Result not detached");
+            CaseHub.Edit(f.Id,new(){["speed"]=1.2},f.C.Version);
+            assert(f.C.ExportResult==null && f.C.ExportState=="idle","Physical edit presents a prior artifact as current");
         });
         test("native export admission rejects unavailable states and invalid probes before submission", () =>
         {
@@ -84,6 +86,15 @@ static class NativeExportContracts
                 f.Doc.Objects.Items[Guid.NewGuid()]=new(new Rhino.Geometry.Point(new(1,2,3))){Selected=true};
                 f.Doc.Objects.Items[Guid.NewGuid()]=new(new Rhino.Geometry.Point(new(9,9,9)));
                 Button("Capture selected probes").PerformClick();assert(controls.OfType<Label>().Any(l=>l.Text.Contains("Captured probes: 1")),"Selection scope lost");
+                var otherDoc=new RhinoDoc(f.Id+10000);
+                try {
+                    var other=CaseHub.Get(otherDoc.RuntimeSerialNumber);other.State="completed";other.Session="other";
+                    using var otherPanel=new HawaPanel(otherDoc.RuntimeSerialNumber);
+                    var otherControls=Walk(otherPanel).ToArray();
+                    assert(otherControls.OfType<Label>().Any(l=>l.Text.StartsWith("Select Rhino point objects")),"Same-unit document inherited captured probes");
+                    otherControls.OfType<Button>().Single(b=>b.Text=="Capture selected probes").PerformClick();
+                    assert(otherControls.OfType<Label>().Any(l=>l.Text.Contains("Select 1..10000")),"Probe capture used another document's selection");
+                } finally {CaseHub.Close(otherDoc.RuntimeSerialNumber);RhinoDoc.Remove(otherDoc.RuntimeSerialNumber);}
                 controls.OfType<DropDown>().Single(d=>d.DataStore.Contains("probes")).SelectedValue="probes";
                 f.Doc.ModelUnitSystem=UnitSystem.Millimeters;Button("Export CSV").PerformClick();assert(f.C.ExportJob==null,"Changed-unit probes submitted");f.Doc.ModelUnitSystem=UnitSystem.Meters;
                 Button("Export CSV").PerformClick();assert(f.C.ExportJob!=null && Button("Cancel export").Enabled,"Panel export not owned");
