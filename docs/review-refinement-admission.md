@@ -61,10 +61,10 @@ Python 3.12.4 / mutmut 3.7.0 for CPU mutation; .NET 10 host doubles and .NET 7 p
 | --- | --- | --- | --- |
 | G0 research | Codex (self) | PASS, bounded | Existing fixed-refinement contracts, #30/#83 and parent/child operation distinctions; no new numerical method or dependency. |
 | G1 architecture | Codex root + independent agents | PASS | Headless adverse ordering and fresh cold/warm GH lifecycle pass; retained timer ownership and actual zero-worker cleanup verified. |
-| G2 reliability | Codex (self) | BLOCKED | Focused tests/build pass; complete fresh matrix and mutation review pending. |
+| G2 reliability | Codex root + agents | PASS | Exact mutation policies; full Python 3.9 suite 1,978 passed/87 skipped; 127 instrumented state contracts; strict headless function/line and trusted-base checks pass. |
 | G3 physics | Codex (self) | NOT APPLICABLE | No method/tolerance changes or new physical claim. Existing short refinement regressions exercised; no convergence/engineering validation. |
 | G4 UI/UX | Codex root | PASS | Cold prerequisite and actionable source IDs observed in Rhino; pause/replacement/recovery/cancel/removal pass. |
-| G5 integration | Codex (self) | BLOCKED | Development package builds; combined installation, CI and external review pending. |
+| G5 integration | Codex root | BLOCKED | Combined package and installed runtime checks pass; ready PR #116 awaits final CI and external review. |
 | G6 compatibility | Codex root | PASS, local | 100,010 rows passed, zero failed, 2,449 CUDA rows blocked; 53-node/31-example archive inventory passes. No arbitrary-graph or all-device qualification. |
 
 Focused commands and results:
@@ -84,7 +84,10 @@ Focused commands and results:
   generic Eto timer event mismatch; production and its double were corrected.
   Existing platform analyzer warnings remain. Final combined package was installed and tested as recorded below; no released
   distribution claim.
-- Fresh mutation and complete function matrix: **pending**. Initial status-truth
+- Fresh combined validity mutation: **2,562 mutants, 2,343 assertion kills,
+  219 reviewed equivalents; 279 controls passed**. The new omitted-step test
+  detects default removal, None and 201-step variants. [Exact evidence](verification-working-validity-mutation.json).
+  Complete measured function matrix now passes on the combined source (below). Initial status-truth
   runs timed out on a reversed lock-acquire loop; the deterministic lock fixture
   now bounds acquisitions so this mutation fails without spinning to a process
   time limit. No timeout is counted as a kill/pass.
@@ -146,9 +149,19 @@ change during the run; `verify_evidence` and the 53-node/31-example/188-edge
 archive checker pass. Raw row evidence remains in `results/working-g6-final/`.
 These are finite contract checks, not a new numerical qualification.
 
+Final measured run: `results/function-coverage-portable-final-20261117`, Python
+3.9.25, **1,978 passed / 87 skipped**, 127 instrumented .NET contracts passed.
+Skips: 85 unavailable CUDA, one unsupported MPS float64 case, one mutmut-only
+Python 3.12 test. Strict headless 100% functions/lines and trusted base `d12fd069`
+checks pass with no failures. Both committed coverage matrices are refreshed:
+497 Python and 521 C# functions covered; 299 host-only C# functions remain
+unmeasured and 60 declarations have no explicit body. Those exclusions are not
+host acceptance passes. The final Python 3.12 complete suite also passes in CI;
+all final-head CI and Greptile review gates still apply before merge.
+
 ## Disposition
 
-#30 remains open while complete measured gates and PR review are pending.
-The declared installed-host checks are now complete. The implementation addresses fixed coupled-refinement
+#30 remains open until final PR gates and merge.
+The declared installed-host and local measured checks are complete. The implementation addresses fixed coupled-refinement
 metadata admission and host object identification only. No unrelated resource,
 physical-qualification, all-device or exhaustive arbitrary-graph claim is made.

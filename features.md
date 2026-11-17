@@ -398,7 +398,8 @@ solid/interface checks still require constructed grids. Focused Python tests
 (96 passed, four CUDA skips; CPU and MPS exercised), 127 headless contracts and a
 development package pass. Fresh cold/warm Rhino lifecycle and zero-resource
 teardown pass; CPU/MPS finite compatibility passes with CUDA unavailable. Full
-measured/mutation and PR gates remain pending; this is not a release or issue closure. [Scoped review](docs/review-refinement-admission.md).
+measured and reviewed mutation gates pass; final PR gates remain pending. This
+is not a release claim. [Scoped review](docs/review-refinement-admission.md).
 
 ### November 9 2026 domain relationship contracts (HAWA-028 partial / HAWA-052 candidate)
 
