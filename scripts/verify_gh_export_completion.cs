@@ -1,4 +1,4 @@
-// Execute once through Rhino MCP after foreground Runtime initialization.
+// Execute once through Rhino MCP after foreground Runtime initialization in an owned metre-unit Rhino document.
 // Operates unique copies of examples 31 and 17 sequentially; never saves sources.
 // Adjust root only. Poll the printed rhino.json; no waits on the GH solution thread.
 using System.IO;
@@ -9,6 +9,7 @@ using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Special;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
+if(Rhino.RhinoDoc.ActiveDoc==null||Rhino.RhinoDoc.ActiveDoc.ModelUnitSystem!=Rhino.UnitSystem.Meters)throw new Exception("Use an owned Rhino test document with model units set to metres before starting this check.");
 var root="/Users/r2d2/Desktop/hawa-issue-35-complete";
 var output=Path.Combine(root,"results","gh-export-host",DateTime.UtcNow.ToString("yyyyMMdd-HHmmss")+"-"+Guid.NewGuid().ToString("N"));Directory.CreateDirectory(output);
 var assembly=AppDomain.CurrentDomain.GetAssemblies().Single(a=>a.GetName().Name=="Hawa.Grasshopper");
@@ -55,7 +56,7 @@ timer.Elapsed+=(_,_)=>{try{
  if((DateTime.UtcNow-began).TotalSeconds>120)throw new Exception("Timed out at phase "+phase+"; "+(checkpoint==null?"":Errors(checkpoint)));
  switch(phase){
  case 0:Open(31);Pass("31 owned copy opened idle; IDs and original wires preserved");break;
- case 1:Bool(solve,3,true);Solution();Pass("31 CPU two-step solve submitted");break;
+ case 1:if(Output(solve,0)==null)return;Bool(solve,3,false);Solution();Bool(solve,3,true);Solution();Pass("31 valid idle source observed and CPU two-step solve explicitly rearmed");break;
  case 2:if(!Completed())return;probes=new[]{World(2,2,2),World(-1000,-1000,-1000),World(2,2,2)};Points(probes);Action("fields.csv","export csv");Pass("31 completed source frozen; field CSV submitted");break;
  case 3:if(Finished("fields.csv","fields")==null)return;Text(checkpoint,1,PathFor("probes.csv"));Text(checkpoint,2,"export probes csv");Solution();Check(Output(checkpoint,0)==null&&!File.Exists(PathFor("probes.csv")),"High Execute silently exported changed input or retained stale report");Action("probes.csv","export probes csv");Pass("31 changed operation withheld stale report; probe CSV explicitly rearmed");break;
  case 4:if(Finished("probes.csv","probes")==null)return;Action("reference.npz","export");Pass("31 probe CSV complete; unchanged NPZ action submitted");break;
@@ -64,7 +65,7 @@ timer.Elapsed+=(_,_)=>{try{
  case 7:if(Errors(checkpoint)=="")return;report["expected_io_failure"]=Errors(checkpoint);Check(File.ReadAllText(PathFor("blocked-parent"))=="unchanged blocker"&&!File.Exists(PathFor("blocked-parent/failed.csv")),"Failed export mutated destination");Action("recovery.csv","export csv");Pass("31 IO failure surfaced without publication; recovery rearmed");break;
  case 8:if(Finished("recovery.csv","fields")==null)return;DisposeOwned();Pass("31 recovery complete and owned document disposed");break;
  case 9:if(Cleanup()!=0||Refreshes()!=0||(DateTime.UtcNow-began).TotalSeconds<2)return;Open(17);Pass("17 owned copy opened idle; existing Checkpoint type added without altering original wires");break;
- case 10:Bool(solve,3,true);Solution();Pass("17 CPU six-step solve submitted");break;
+ case 10:if(Output(solve,0)==null)return;Bool(solve,3,false);Solution();Bool(solve,3,true);Solution();Pass("17 valid idle source observed and CPU six-step solve explicitly rearmed");break;
  case 11:if(!Completed())return;var raw=Call(new JsonObject{["op"]="body_loads",["session"]=source["session"].DeepClone()});Check(raw["history"].AsArray().Count==6,"Unexpected raw retained load history");File.WriteAllText(PathFor("raw-loads.json"),raw.ToJsonString());Action("loads.csv","export loads csv");Pass("17 raw public load history captured; load CSV submitted");break;
  case 12:if(Finished("loads.csv","loads")==null)return;Action("reference.npz","export");Pass("17 load CSV complete; raw NPZ reference submitted");break;
  case 13:if(Finished("reference.npz")==null)return;DisposeOwned();Pass("17 owned document disposed; source archives unchanged");break;
