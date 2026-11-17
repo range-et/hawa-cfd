@@ -75,7 +75,9 @@ public sealed class StationaryStudyComponent : HawaComponent
             throw new ArgumentException("Case spacing and physical dx must be positive finite");
         var origin = spec["origin"] == null ? new double[3] : Triple(spec["origin"]);
         double factor = scale;
-        spec["origin"] = Numbers(origin.Select(v => v * factor)); spec["spacing"] = dx;
+        spec["origin"] = Numbers(origin.Select(v =>
+            v * factor
+        )); spec["spacing"] = dx;
         Mesh mesh = null!; da.GetData(1, ref mesh);
         if (mesh == null || !mesh.IsValid || !mesh.IsClosed || mesh.Vertices.Count < 4 || mesh.Vertices.Count > 26000 || mesh.Faces.Count > 52000)
             throw new ArgumentException("Use one valid closed mesh with at most 26000 vertices and 52000 triangles");
@@ -92,7 +94,11 @@ public sealed class StationaryStudyComponent : HawaComponent
         var angles = new List<double>(); var speeds = new List<double>(); var probes = new List<Point3d>();
         da.GetDataList(2, angles); da.GetDataList(3, speeds); da.GetDataList(7, probes);
         if (angles.Count == 0 || speeds.Count == 0 || (long)angles.Count * speeds.Count > 64 ||
-            angles.Any(v => !double.IsFinite(v)) || speeds.Any(v => !double.IsFinite(v) || v <= 0) || probes.Count > 256)
+            angles.Any(v =>
+                !double.IsFinite(v)
+            ) || speeds.Any(v =>
+                !double.IsFinite(v) || v <= 0
+            ) || probes.Count > 256)
             throw new ArgumentException("Use 1..64 finite angle/speed pairs, positive speeds and at most 256 probes");
         points = new JsonArray();
         foreach (var angle in angles) foreach (var speed in speeds) points.Add(new JsonObject { ["angle_deg"] = angle, ["speed_m_s"] = speed });
@@ -140,7 +146,9 @@ public sealed class StationaryStudyComponent : HawaComponent
         Publish(da, payload, points, selected, scale, state == "completed");
         Message = state;
         da.SetData(8, $"{state}: {status["steps"]}/{status["target"]} candidates. CPU experimental whole-body loads; no aerodynamic qualification. Field is a retained instantaneous capture; loads are window means.");
-        if (state != "completed") { string expected = job!; HawaPollScheduler.Request(this, () => job == expected); }
+        if (state != "completed") { string expected = job!; HawaPollScheduler.Request(this, () =>
+            job == expected
+        ); }
         else HawaPollScheduler.Cancel(this);
     }
 
@@ -193,7 +201,9 @@ public sealed class StationaryStudyComponent : HawaComponent
             var f = Triple(body["force_mean_world_n"]); var m = Triple(body["torque_mean_world_nm"]);
             force = new Vector3d(f[0], f[1], f[2]); moment = new Vector3d(m[0], m[1], m[2]);
             frame = captured.DeepClone().AsObject(); frame["kind"] = "Frame";
-            var displayCase = frame["case"]!.AsObject(); displayCase["origin"] = Numbers(Triple(displayCase["origin"]).Select(v => v / scale));
+            var displayCase = frame["case"]!.AsObject(); displayCase["origin"] = Numbers(Triple(displayCase["origin"]).Select(v =>
+                v / scale
+            ));
             displayCase["spacing"] = Number(displayCase["dx"]) / scale;
             frame["display_metres_per_model_unit"] = scale;
             identity = new JsonObject { ["identity"] = detail["identity"]!.DeepClone(), ["session"] = detail["session"]!.DeepClone(),
@@ -210,8 +220,12 @@ public sealed class StationaryStudyComponent : HawaComponent
                 foreach (var face in geometry["triangles"]!.AsArray())
                 {
                     if (face is not JsonArray indices || indices.Count != 3) throw new InvalidOperationException("Selected mesh requires triangles");
-                    var ids = indices.Select(n => n!.GetValue<int>()).ToArray();
-                    if (ids.Any(i => i < 0 || i >= mesh.Vertices.Count)) throw new InvalidOperationException("Selected mesh index outside vertices");
+                    var ids = indices.Select(n =>
+                        n!.GetValue<int>()
+                    ).ToArray();
+                    if (ids.Any(i =>
+                        i < 0 || i >= mesh.Vertices.Count
+                    )) throw new InvalidOperationException("Selected mesh index outside vertices");
                     mesh.Faces.AddFace(ids[0], ids[1], ids[2]);
                 }
                 mesh.Normals.ComputeNormals();
@@ -219,14 +233,20 @@ public sealed class StationaryStudyComponent : HawaComponent
             catch { mesh.Dispose(); throw; }
         }
         da.SetDataList(4, cl); da.SetDataList(5, cd); da.SetDataList(6, cm); da.SetDataList(7, labels);
-        da.SetDataList(10, points.Select(p => Number(p!["angle_deg"]))); da.SetDataList(11, points.Select(p => Number(p!["speed_m_s"])));
+        da.SetDataList(10, points.Select(p =>
+            Number(p!["angle_deg"])
+        )); da.SetDataList(11, points.Select(p =>
+            Number(p!["speed_m_s"])
+        ));
         if (frame != null) { da.SetData(0, new HawaGoo(frame)); da.SetData(1, mesh); da.SetData(2, force); da.SetData(3, moment); da.SetData(9, identity); da.SetData(12, force.Z); da.SetData(13, force.X); }
     }
 
     private void CheckIdentity(JsonNode identity, JsonNode candidate)
     {
         if (identity["case_id"]?.GetValue<string>() != InstanceGuid.ToString() || identity["generation"]?.GetValue<int>() != generation ||
-            new[] { "candidate_id", "case_hash", "geometry_hash" }.Any(k => string.IsNullOrWhiteSpace(candidate[k]?.GetValue<string>()) || identity[k]?.ToJsonString() != candidate[k]?.ToJsonString()))
+            new[] { "candidate_id", "case_hash", "geometry_hash" }.Any(k =>
+                string.IsNullOrWhiteSpace(candidate[k]?.GetValue<string>()) || identity[k]?.ToJsonString() != candidate[k]?.ToJsonString()
+            ))
             throw new InvalidOperationException("Stale or mixed stationary study result identity");
     }
     protected override void InputsMissing()
