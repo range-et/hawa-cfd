@@ -221,3 +221,93 @@ def test_nonuniform_mass_diagnostic_uses_solver_reduction(payload):
 def test_native_case_requires_solver_constructor_fields(session, key):
     spec = dict(session.spec); spec.pop(key)
     rejects(lambda: data.validate_case(spec))
+
+
+@pytest.mark.parametrize('change', ['time', 'time-relative', 'quality-policy', 'extra-key', 'float-step', 'bool-origin'])
+def test_metadata_invariants_are_independent_of_downstream_checks(payload, change):
+    populations, meta, means = payload
+    if change.startswith('time'):
+        meta['local_time'] += 1e-11 if change == 'time-relative' else .01
+        meta['absolute_time'] = meta['local_time'] + meta['time_origin']
+        meta['quality']['time_seconds'] = meta['local_time']
+    elif change == 'quality-policy': meta['quality']['policy'] = 'other'
+    elif change == 'extra-key': meta['extra'] = 'unexpected'
+    elif change == 'float-step': meta['iteration'] = float(meta['iteration'])
+    else:
+        meta['case']['time_origin_seconds'] = True
+        meta['case_hash'] = case_key(meta['case'])
+        meta['time_origin'] = True
+        meta['absolute_time'] = meta['local_time'] + 1
+    rejects(lambda: data.validate_payload(populations, meta, means))
+
+
+def test_positive_subunit_mass_baseline_is_valid(payload):
+    populations, meta, means = payload
+    meta['initial_mass'] = .5
+    data.validate_payload(populations, meta, means)
+
+
+@pytest.mark.parametrize('member,bad', [('metadata', np.array(['not scalar'])), ('populations', np.ones((19, 4, 4, 4), 'float64')), ('populations', np.ones((19, 4, 4), 'float32'))])
+def test_invalid_member_headers_reject_before_numpy_allocation(session, tmp_path, monkeypatch, member, bad):
+    import io
+    path = tmp_path / 'bad'; data.save(session, request(session, path))
+    with zipfile.ZipFile(path) as z: members = {n: z.read(n) for n in z.namelist()}
+    stream = io.BytesIO(); np.save(stream, bad); members[member + '.npy'] = stream.getvalue()
+    with zipfile.ZipFile(path, 'w') as z:
+        for name, value in members.items(): z.writestr(name, value)
+    monkeypatch.setattr(data.np, 'load', lambda *a, **k: pytest.fail('Invalid header reached array allocation'))
+    rejects(lambda: data.read_archive(path))
+
+
+def test_validation_diagnostics_remain_actionable(session, payload, tmp_path):
+    populations, meta, means = payload
+    rejects(lambda: data.context({'extra': 1}))
+    rejects(lambda: data.restore(session, populations, {**meta, 'case_hash': 'other'}, means))
+    rejects(lambda: data.validate_payload(populations, {**meta, 'native_settings': []}, means))
+    rejects(lambda: data.validate_payload(populations, {**meta, 'schema': 'other'}, means))
+    changed = copy.deepcopy(meta); changed['samples'] = 1; changed['iteration'] = 5
+    changed['local_time'] *= 5/3; changed['absolute_time'] = 10 + changed['local_time']
+    changed['quality']['iteration'] = 5; changed['quality']['time_seconds'] = changed['local_time']
+    bad_means = {name: np.zeros((3 if name == 'mean_u' else 1, *meta['case']['shape']), 'float32') for name in ('mean_u', 'mean_p', 'mean_rho')}
+    rejects(lambda: data.validate_payload(populations, changed, bad_means))
+    path = tmp_path / 'bad'
+    with zipfile.ZipFile(path, 'w') as z: z.writestr('extra.npy', b'wrong')
+    rejects(lambda: data.read_archive(path))
+    data.save(session, request(session, path))
+    with zipfile.ZipFile(path) as z: members = {n: z.read(n) for n in z.namelist()}
+    members['populations.npy'] = b'\x93NUMPY\x03\x00' + members['populations.npy'][8:]
+    with zipfile.ZipFile(path, 'w') as z:
+        for name, value in members.items(): z.writestr(name, value)
+    rejects(lambda: data.read_archive(path))
+
+
+def test_checkpoint_progress_values_are_nonnegative_integers(session, tmp_path):
+    seen = []
+    def checkpoint(n):
+        assert type(n) is int and n >= 0
+        seen.append(n)
+    path = tmp_path / 'progress'
+    data.save(session, request(session, path), checkpoint)
+    data.read_archive(path, checkpoint)
+    assert len(seen) == 5
+
+
+def test_lexical_save_path_and_canonical_alias_reservation(session, tmp_path):
+    import os
+    real = tmp_path / 'RealDestination'; real.mkdir()
+    if os.name == 'nt':
+        # A case alias exercises Windows canonical path identity without requiring
+        # the administrator/developer privilege needed to create a symlink.
+        alias = real.with_name(real.name.swapcase())
+    else:
+        alias = tmp_path / 'alias'; alias.symlink_to(real, target_is_directory=True)
+    chosen = alias / 'data.npz'
+    def checkpoint(n):
+        if n == 0:
+            with pytest.raises(ValueError, match='already being exported'):
+                data.save(session, request(session, real / 'data.npz'))
+    result = data.save(session, request(session, chosen), checkpoint)
+    assert result['path'] == os.path.abspath(str(chosen))
+    assert chosen.is_file() and (real / 'data.npz').is_file()
+    assert data.read_archive(chosen)[1] == result['metadata']
+    assert not data.DESTINATIONS

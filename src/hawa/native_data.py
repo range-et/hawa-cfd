@@ -155,8 +155,8 @@ def save(session, request, checkpoint=lambda n: None):
             expected['state'] not in ('ready', 'paused', 'completed')):
         raise ValueError('Native save requires an exact stopped source stamp')
     attribution = context(request.get('attribution', {}))
-    path = Path(request['path']).resolve()
-    key = str(path).casefold()
+    path = Path(os.path.abspath(request['path']))
+    key = str(path.resolve()).casefold()
     with DESTINATION_LOCK:
         if key in DESTINATIONS:
             raise ValueError('Destination is already being exported')
