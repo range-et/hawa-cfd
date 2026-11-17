@@ -222,3 +222,33 @@ def test_mutated_sample_probe_and_unit_vector_cannot_bypass_validation():
     probe.position_world_m[0] = True
     with pytest.raises(ValueError): sample_probes(data['request'],[probe],0.,lambda point:118.)
     with pytest.raises(ValueError): unit_vector([1,False,0])
+
+
+@pytest.mark.parametrize('density,speed,expected_q', [
+    (1e-200, 1e200, 5e199),
+    (1e200, 1e-200, 5e-201),
+])
+def test_reference_products_keep_valid_scaled_extremes(density, speed, expected_q):
+    """Validation and consumers use the same order; squaring U first is unsafe."""
+    data = fixture()
+    request = data['request']
+    request['references'].update(density_kg_m3=density, speed_m_s=speed,
+                                 area_m2=1., chord_m=1., pressure_pa=0.)
+    validated = validate_request(request)
+    force = [expected_q, 0., 2 * expected_q]
+    moment = [0., expected_q / 4, 0.]
+    result = coefficients(validated, force, moment)
+    assert np.isfinite(result['q_pa']) and result['q_pa'] > 0
+    assert result['q_pa'] / expected_q == pytest.approx(1., rel=1e-15, abs=0.)
+    assert result['CD'] == pytest.approx(1., rel=1e-15, abs=0.)
+    assert result['CL'] == pytest.approx(2., rel=1e-15, abs=0.)
+    assert result['Cm'] == pytest.approx(.25, rel=1e-15, abs=0.)
+    probe = sample_probes(validated, [dict(probe_id='p', position_world_m=[0., 0., 0.])],
+                          1., lambda point: 2 * expected_q)[0]
+    assert probe['Cp'] == pytest.approx(2., rel=1e-15, abs=0.)
+    assert probe['valid'] and probe['pressure_pa'] != 0
+    for sample in data['samples']:
+        sample.update(force_world_n=force, torque_world_nm=moment)
+    summary = summarize(validated, data['samples'])
+    assert summary['usable']
+    assert summary['bodies'][0]['mean']['CD'] == pytest.approx(1., rel=1e-15, abs=0.)
