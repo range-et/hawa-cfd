@@ -178,3 +178,24 @@ limited to 1. Focused CPU checks first; full CPU-only suites and measured gate
 run serially at integration. The CPU-only pytest availability shim means device
 checks are skipped, not qualified. User's CPU/headless restriction overrides live
 host execution for this round; record G4/device omissions, keep #40 open.
+
+## Implementation clarifications from cross-review (November 17)
+
+A clear padding node means fluid, not a wall/slip domain boundary node. The
+collector rejects obstacle links whose source is such a boundary node, even
+when the obstacle index itself is inside the domain. Actual flow specification,
+mask, stencil and physical units must match the declared collector inputs.
+The existing full-way callback observes pre-stream populations; raw collector
+records therefore expose `source_step`/`source_time_s`. A later adapter must
+retain that phase and cannot relabel those loads with a later field capture.
+
+The sweep executor's `close(handle)` returns False while cleanup is pending and
+True/None only when resources are released. Exceptions retain ownership for
+retry. `start` must either return its handle synchronously or fail without
+leaving resources; asynchronous submission requires a future ownership adapter.
+Minimal callback identity is validated before discarding old generations, so a
+malformed obsolete result cannot cancel the current job.
+
+The NASA wing-reference audit and finite-domain limitations of the initial
+Stokes candidate are recorded in the [wing example guide](wing-measurement-example.md).
+Neither supplies a completed physical-qualification protocol for this round.

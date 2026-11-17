@@ -1,0 +1,21 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "candidate_id": {
+      "minLength": 1,
+      "title": "Candidate Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "candidate_id",
+    "generation"
+  ],
+  "title": "CallbackIdentity",
+  "type": "object"
+}

@@ -21,7 +21,16 @@ from typing_extensions import TypedDict, is_typeddict
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'src' / 'hawa'
-SNAPSHOTS = {'moving-body.schema.json': 'Body', 'motion-evaluation.schema.json': 'MotionEvaluation'}
+SNAPSHOTS = {
+    'moving-body.schema.json': ('hawa.motion', 'Body'),
+    'motion-evaluation.schema.json': ('hawa.motion', 'MotionEvaluation'),
+    'measurement-request.schema.json': ('hawa.measurements', 'Request'),
+    'measurement-sample.schema.json': ('hawa.measurements', 'Sample'),
+    'measurement-probe.schema.json': ('hawa.measurements', 'Probe'),
+    'sweep-candidate.schema.json': ('hawa.sweeps', 'Candidate'),
+    'sweep-callback.schema.json': ('hawa.sweeps', 'CallbackIdentity'),
+    'sweep-poll.schema.json': ('hawa.sweeps', 'Poll'),
+}
 # Names whose use would reach a known 2.13 advisory or leave Python-mode BaseModel validation.
 FORBIDDEN_NAMES = {'Fraction', 'TypedDict', 'TypeAdapter', 'model_validate_json', 'validate_json',
                    'model_validate_strings', 'validate_strings', 'parse_raw', 'parse_file'}
@@ -143,15 +152,24 @@ def test_import_refuses_a_different_pydantic_already_loaded(monkeypatch, module,
 
 @pytest.mark.parametrize('name', sorted(SNAPSHOTS))
 def test_json_schema_snapshot_matches_live_model(name):
-    from hawa import motion
     path = ROOT / 'docs' / 'schemas' / name
-    live = getattr(motion, SNAPSHOTS[name]).model_json_schema()
+    module, model = SNAPSHOTS[name]
+    live = getattr(importlib.import_module(module), model).model_json_schema()
     assert json.loads(path.read_text()) == live, 'Regenerate ' + name + ' as described in docs/payload-schemas.md'
 
 
 def test_every_model_with_fields_is_documented_by_a_snapshot():
+    # Class identities matter: motion.Body and measurements.Body are different
+    # contracts even though both JSON schemas use the title "Body".
     documented = set()
-    for name, model in SNAPSHOTS.items():
-        schema = json.loads((ROOT / 'docs' / 'schemas' / name).read_text())
-        documented |= {schema['title'], *schema.get('$defs', {})}
-    assert {m.__name__ for m in hawa_models() if m.model_fields} <= documented
+    pending = [getattr(importlib.import_module(module), model)
+               for module, model in SNAPSHOTS.values()]
+    while pending:
+        model = pending.pop()
+        if model in documented:
+            continue
+        documented.add(model)
+        for field in model.model_fields.values():
+            pending.extend(kind for kind in annotation_types(field.annotation)
+                           if isinstance(kind, type) and issubclass(kind, BaseModel))
+    assert {m for m in hawa_models() if m.model_fields} <= documented

@@ -1,9 +1,9 @@
 # Payload schemas (pydantic)
 
-Status: first migration only ([#68](https://github.com/range-et/hawa-cfd/issues/68)).
-The motion payloads in `src/hawa/motion.py` are validated by pydantic models. Every
-other payload is still validated by hand. Proposed follow-ups and their order are
-recorded on #68; convert them one schema per PR.
+The motion payloads in `src/hawa/motion.py` and the internal headless measurement
+and sweep contracts described below use pydantic models. Existing payload
+migrations remain tracked in [#68](https://github.com/range-et/hawa-cfd/issues/68);
+convert them one schema per PR.
 
 ## Dependency and security rules
 
@@ -34,10 +34,10 @@ the four.
 
 Rhino runs every script venv in one shared interpreter, and the first venv to
 import a module wins. Another plugin or script could therefore load a different
-pydantic before Hawa does, which would void this analysis. `hawa.motion`, the only
-module that imports pydantic, checks for pydantic 2.13.5 with pydantic-core 2.46.5
-before using it and otherwise raises a `RuntimeError` asking the user to restart
-Rhino.
+pydantic before Hawa does, which would void this analysis. `hawa.motion` checks
+for pydantic 2.13.5 with pydantic-core 2.46.5 before defining its models; the
+measurement/sweep modules reuse that guard. A mismatch raises a `RuntimeError`
+asking the user to restart Rhino.
 
 pydantic evaluates annotations at runtime. On Python 3.9, `int | None` fails at
 import even with `from __future__ import annotations`; use `Optional`/`Union`.
@@ -118,3 +118,24 @@ functions the migration changed (`check`, `geometry_type`, `require_pinned_pydan
 `validate_bodies`, `evaluate_motion`) are mutated by the PR study
 `tools/mutation/run_motion_schema.sh` against its reviewed policy
 `tools/mutation/motion-schema-policy.json`.
+
+## Internal measurement and sweep foundation (#40)
+
+[Measurement contract v1](measurement-contract-v1.md) defines the new CPU/headless
+analysis boundary. It is not a new persisted case schema or CSV format. The
+existing moving-body schema and #35 exporters are unchanged.
+
+| Snapshot | Python model |
+| --- | --- |
+| [Measurement request](schemas/measurement-request.schema.json) | `hawa.measurements.Request` |
+| [Load sample](schemas/measurement-sample.schema.json) | `hawa.measurements.Sample` |
+| [Pressure probe](schemas/measurement-probe.schema.json) | `hawa.measurements.Probe` |
+| [Sweep candidate](schemas/sweep-candidate.schema.json) | `hawa.sweeps.Candidate` |
+| [Callback identity](schemas/sweep-callback.schema.json) | `hawa.sweeps.CallbackIdentity` |
+| [Sweep poll/result](schemas/sweep-poll.schema.json) | `hawa.sweeps.Poll` |
+
+The snapshot test resolves module-qualified class identities, so the new
+measurement `Body` cannot accidentally count the existing motion `Body` snapshot
+as its documentation. Nested model constraints are tested through their owning
+payloads. Malformed current callbacks fail; a strictly identified obsolete
+candidate/generation is ignored before reading its old result schema.
