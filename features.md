@@ -646,3 +646,43 @@ with an independent **Annotations and legend** switch in View. Missing flags in
 older archives default to visible. Drawing-order/visibility contracts pass;
 CPU 30-step field captures verify native labels above the mesh. Broader 22/25/08
 legibility remains under [#108](https://github.com/range-et/hawa-cfd/issues/108).
+
+### November 16 2026 — Obstacle admission candidate (#83)
+
+A shared background preflight now checks obstacle topology and bounded transverse
+self-intersections in Geometry, Moving Body and native preparation; Geometry
+Check reports the same result and explicit unsupported-geometry limits. Domain
+structure/clearance checks precede GH voxelization and native case budget checks
+precede preparation. No automatic geometry repair or thin-feature qualification.
+Separate bodies and hollow/cropped cases retain their documented contracts.
+Dedicated adapter source files enable measured headless tests for preparation,
+replacement, cancellation and disposal. This is a local development candidate;
+measured headless checks and bounded live GH/native CPU fixtures passed on the
+combined development candidate. Remaining examples/lifecycle/release gates and
+actual evidence are in the [review record](docs/review-obstacle-preflight.md).
+Not merged or released; #83 remains open for its explicitly recorded remainder.
+
+### November 16 2026 — Sequential host acceptance pilot (#39, partial)
+
+Built a poll-driven developer control plane and Rhino MCP adapter for isolated
+copies of examples 31/32. Requests have fresh run/sequence identities, explicit
+scratch-document opt-in, deadlines and durable owned-document recovery. Failures
+route through cooperative disposal and fresh resource audits. This is tooling,
+not a completed full-gallery pass. After external Mac window/filter recovery,
+two fresh CPU 31/32 runs and active cancellation reached zero owned resources;
+four captures were inspected. Original examples are unchanged. [Guide](docs/host-acceptance-pilot.md)
+and [review](docs/review-host-acceptance-pilot.md). Not released.
+
+### November 16 2026 — Sampled quality provenance (#98, development)
+
+The development report retains the quantity, value, threshold, step and time
+behind sticky warning/rejection status, plus sampled Mach/density peaks. A
+headless CPU/MPS reproduction identifies example 08's step-5 density transient
+(about 5.197%) despite recovered final values. The native panel now includes
+human-readable reasons; legacy checkpoint provenance remains explicitly unknown.
+Live CPU example 08 and a native selected-body case retain the exact warning
+after 300 steps; checkpoint round-trip and native warning wrapping inspected.
+No solver/threshold change or physical-validation claim. Final combined measured
+suites and CPU/MPS compatibility gate pass locally; CUDA remains blocked.
+Not merged to main or released.
+[Review and scope](docs/review-quality-provenance.md).

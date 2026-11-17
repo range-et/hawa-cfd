@@ -274,6 +274,7 @@ need a fresh run and review, never blind regeneration.
 | `run_motion_schema.sh` | #68 lines of `src/hawa/motion.py` against `cc407cc` | `test_motion.py`, `test_payload_schemas.py`, two motion tests in `test_runtime_rejection_edges.py`; CPU cases | local |
 | `run_validity_foundation.sh` | #80/#81/#82/#99 lines (validity foundation, item 5 field views: isosurface and plane partition, item 6 traces, and the shared MPS device lock) of `src/hawa/plugin.py`, `fields.py`, `field_collection.py` and `refinement.py` against `56b0728` (pathlines and their `recording.py` lines were removed by owner decision) | `test_fields.py`, `test_field_collection.py`, `test_plugin_service.py`, `test_recording.py`, `test_refinement.py`; CPU cases | local |
 | `run_status_truth.sh` | #74 queued-state and #99 job device-lock lines of `src/hawa/jobs.py` against `6b0744a` | `test_runtime_job_contracts.py`; CPU cases | local |
+| `run_quality_provenance.sh` | #98 reporting/checkpoint-provenance lines of `src/hawa/quality.py` against `1b4e6c7` | `test_quality_provenance.py`; CPU cases | local |
 
 Commit before running a PR-scoped study: its patch is `git diff BASE` of the
 committed files. PR #66 was squash-merged, so run `git fetch origin refs/pull/66/head`
@@ -286,3 +287,17 @@ The [CLI record](verification-cli-mutation.json) and
 runs. Those policies are kept unchanged in
 [`tools/mutation/mutmut2-historical`](../tools/mutation/mutmut2-historical/) as
 historical evidence; the current tools do not check them.
+
+### Sequential host pilot controller (#39)
+
+`bash tools/mutation/run_host_acceptance.sh results/host-mutation-NEW` measures
+the whole Python control plane against `tests/test_host_acceptance.py`; check it
+with `tools/mutation/host-acceptance-policy.json`. The first reviewed macOS run
+has 590 mutants, 552 assertion kills and 38 reviewed survivors, including explicit
+case-sensitive-filesystem/diagnostic gaps. C# adapter behavior and top-level
+embedded audit require their separate compile/live and execution evidence; they
+are not credited by the mutation score. [Pilot review](review-host-acceptance-pilot.md).
+
+PR 112's ownership-corruption follow-up refreshed this study to 642 mutants,
+600 assertion kills and 42 reviewed survivors (46 control tests). See the pilot
+review for the retained filesystem/diagnostic limits and targeted live recovery.

@@ -18,7 +18,7 @@ public static partial class NativeGeometry
         foreach (var id in ids)
         {
             var obj = doc.Objects.FindId(id) ?? throw new ArgumentException("A selected object no longer exists");
-            CheckGeometry(obj.Geometry);
+            CheckGeometry(obj.Geometry, $"Obstacle {id}");
             bounds.Union(obj.Geometry.GetBoundingBox(true));
         }
 
@@ -61,12 +61,18 @@ public static partial class NativeGeometry
         setup["size"] = new JsonArray(end.X - origin.X, end.Y - origin.Y, end.Z - origin.Z);
     }
 
-    private static void CheckGeometry(GeometryBase geometry)
+    private static void CheckGeometry(GeometryBase geometry, string obstacle)
     {
-        if (geometry is Mesh m && m.IsValid && m.IsClosed)
+        if (geometry is Mesh m)
+        {
+            // Cheap selection check; detailed intersection work runs in Prepare.
+            // Invalid/open meshes get the same safe structural diagnostic as GH.
+            if (!m.IsValid || !m.IsClosed)
+                ObstaclePreflight.Require(m, obstacle);
             return;
+        }
         if (geometry is Brep b && b.IsValid && b.IsSolid)
             return;
-        throw new ArgumentException("Select valid closed meshes or closed solid Breps. Repair open geometry before running.");
+        throw new ArgumentException($"{obstacle}: select valid closed meshes or closed solid Breps. Repair open geometry before running.");
     }
 }

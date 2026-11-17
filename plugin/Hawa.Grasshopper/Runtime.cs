@@ -112,7 +112,7 @@ public abstract class HawaComponent : GH_Component
             return;
         }
         try {
-            if(this is HawaQueryComponent || this is SolveComponent || this is GeometryComponent || this is EvaluateComponent || this is RecordComponent || this is RefinedSolveComponent || this is SearchComponent || this is MovingBodyComponent || this is MotionEvaluateComponent){
+            if(this is HawaQueryComponent || this is SolveComponent || this is GeometryComponent || this is GeometryCheckComponent || this is EvaluateComponent || this is RecordComponent || this is RefinedSolveComponent || this is SearchComponent || this is MovingBodyComponent || this is MotionEvaluateComponent){
                 if(Params.Input.Any(p=>
                     p.Access==GH_ParamAccess.item&&p.VolatileData.AllData(true).Count(v=>
                         v!=null

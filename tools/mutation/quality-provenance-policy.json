@@ -1,0 +1,32 @@
+{
+  "reviewed_survivors": {
+    "hawa.quality.x_assess__mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "7e2a5981e4fabfa29eb47807b26547f3b71c6fd9cc4f5f2c9630cd7516fd03ab",
+      "reason": "Equivalent: a healthy assessment enters the metrics loop but neither measured quantity exceeds the warning limit, so reasons remain empty and trigger remains null. Invalid and warning/rejected paths are unchanged."
+    },
+    "hawa.quality.x_assess__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "d9316c3bf663819a93536020d5492822f8f53ba1f8dbf7797c5213fbcdb572cf",
+      "reason": "Equivalent: a healthy assessment enters the metrics loop but neither measured quantity exceeds the warning limit, so reasons remain empty and trigger remains null. Invalid and warning/rejected paths are unchanged."
+    },
+    "hawa.quality.x_validate_provenance__mutmut_14": {
+      "status": "survived",
+      "diff_sha256": "befd7e76a8a9edfea48f762b72f9a1ca4dff82729743ff37db83437e4dfc095f",
+      "reason": "Equivalent: the default is used only to validate absent optional legacy peaks; both 0 and 1 are valid finite nonnegative values and the validator does not write this default back to history."
+    }
+  },
+  "sources": {
+    "src/hawa/quality.py": "db49c0e52c705177f012da3715eb5b617b7b881a12dce877355133ef85743db3",
+    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
+    "tests/test_quality_provenance.py": "b637d06ceb7815f11d057bc41362b743104ac838b635dc7661224068c4abd0d9"
+  },
+  "scope": "Issue98 changed lines vs 1b4e6c7; reporting and checkpoint provenance only",
+  "control_test_files": [
+    "tests/test_quality_provenance.py"
+  ],
+  "base_revision": "1b4e6c759cb86a677be992c5e1c65def3006866a",
+  "tool": "mutmut==3.7.0",
+  "mutants": 312,
+  "inventory_sha256": "40515a29d947d2ec4c7ad691fd6e0be326ea5c116148343ec6b4b15de95580de"
+}

@@ -490,6 +490,7 @@ public static class CaseHub
                 c.ViewError = "";
                 if (c.SelectedGeometry)
                 {
+                    Transport(new() { ["op"] = "check", ["case"] = c.SpecData.DeepClone() });
                     if (PrepareGeometry == null)
                         throw new InvalidOperationException("Native geometry service is unavailable");
                     c.PreparationCancel = new();

@@ -762,6 +762,8 @@ def dispatch(request):
                 or not math.isfinite(saved_quality['peak_sampled_lattice_mach'])
                 or saved_quality['peak_sampled_lattice_mach'] < 0):
                 raise ValueError('Checkpoint quality history is invalid')
+            from .quality import validate_provenance
+            validate_provenance(saved_quality, int(iteration))
             with session.lock:
                 session.flow.f.copy_(session.flow.context.convert_to_tensor(populations))
                 session.flow.i = int(iteration)

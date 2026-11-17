@@ -94,6 +94,7 @@ namespace Rhino.Geometry {
         public static Vector3d Unset => new(UnsetValue,UnsetValue,UnsetValue);
         public bool IsValid => double.IsFinite(X)&&double.IsFinite(Y)&&double.IsFinite(Z)&&X!=UnsetValue&&Y!=UnsetValue&&Z!=UnsetValue;
         public static Vector3d operator *(Vector3d v,double n)=>n*v;
+        public static Vector3d operator /(Vector3d v,double n)=>new(v.X/n,v.Y/n,v.Z/n);
         public double SquareLength => X*X+Y*Y+Z*Z;
         public double Length => Math.Sqrt(SquareLength);
         public static Vector3d operator *(double n,Vector3d v)=>new(n*v.X,n*v.Y,n*v.Z);
@@ -121,7 +122,7 @@ namespace Rhino.Geometry {
     public record struct Transform(double Factor) { public static Transform Scale(Point3d origin,double factor)=>new(factor); }
     public readonly record struct Line(Point3d From,Point3d To);
     public readonly record struct Point2d(double X,double Y);
-    public class GeometryBase { public BoundingBox Bounds; public virtual BoundingBox GetBoundingBox(bool accurate)=>Bounds; }
+    public class GeometryBase { public BoundingBox Bounds; public virtual uint DataCRC(uint seed)=>(uint)GetHashCode(); public virtual void Dispose() {} public virtual GeometryBase Duplicate()=>throw new NotSupportedException(); public virtual BoundingBox GetBoundingBox(bool accurate)=>Bounds; }
     public abstract class Curve { }
     public readonly record struct Rectangle3d(Point3d Origin, Vector3d X, Vector3d Y) { public Point3d PointAt(double u,double v)=>Origin+(u*X+v*Y); }
     // Plane(origin, normal) picks some perpendicular frame, as RhinoCommon does.
@@ -134,7 +135,7 @@ namespace Rhino.Geometry {
     public readonly record struct MeshFace(int A,int B,int C,int D=-1) { public bool IsQuad=>D>=0; }
     public sealed record MeshPoint(Point3d Point);
     public sealed class Brep : GeometryBase {
-        public bool IsValid=true,IsSolid=true;
+        public bool IsValid=true,IsSolid=true; public bool Disposed; public override void Dispose()=>Disposed=true; public Brep DuplicateBrep()=>new(){IsValid=IsValid,IsSolid=IsSolid,Bounds=Bounds}; public override GeometryBase Duplicate()=>DuplicateBrep();
         public new BoundingBox Bounds=new(new(0,0,0),new(10,0,0));
         public override BoundingBox GetBoundingBox(bool accurate)=>Bounds;
     }
@@ -145,7 +146,7 @@ namespace Rhino.Geometry {
     }
     public readonly record struct Point2f(float X,float Y);
     public sealed class Mesh : GeometryBase, IDisposable {
-        public sealed class VertexList : List<Point3d> { public new int Add(Point3d point) { base.Add(point); return Count-1; } }
+        public sealed class VertexList : List<Point3d> { public bool FloatIndex; public new Point3d this[int i] { get { var p=base[i];return FloatIndex?new((float)p.X,(float)p.Y,(float)p.Z):p; } set=>base[i]=value; } public Point3d Point3dAt(int i)=>base[i]; public void SetVertex(int i,double x,double y,double z)=>this[i]=new(x,y,z); public new int Add(Point3d point) { base.Add(point); return Count-1; } }
         public sealed class FaceList : List<MeshFace> {
             public int? ReportedCount;
             public new int Count=>ReportedCount??base.Count;
@@ -168,7 +169,12 @@ namespace Rhino.Geometry {
         public static List<Mesh> Created=new();
         public static Func<Brep,MeshingParameters,Mesh[]> Factory=(_,_)=>Array.Empty<Mesh>();
         public Mesh(){Created.Add(this);Normals=new(this);}
-        public Mesh DuplicateMesh(){var m=new Mesh();m.Vertices.AddRange(Vertices);m.Faces.AddRange(Faces);m.VertexColors.AddRange(VertexColors);m.TextureCoordinates.AddRange(TextureCoordinates);m.SurfaceParameters.AddRange(SurfaceParameters);return m;}
+        public void Transform(Transform t) { for(int i=0;i<Vertices.Count;i++) {var p=Vertices[i];Vertices[i]=new(p.X*t.Factor,p.Y*t.Factor,p.Z*t.Factor);} Bounds.Transform(t); }
+        public override GeometryBase Duplicate()=>DuplicateMesh();
+        public Mesh DuplicateMesh(){var m=new Mesh(){IsValid=IsValid,IsClosed=IsClosed,Bounds=Bounds,Hits=Hits,Closest=Closest,NakedEdges=NakedEdges,NakedProvider=NakedProvider,Nearest=Nearest};m.Vertices.AddRange(Vertices);m.Faces.AddRange(Faces);m.VertexColors.AddRange(VertexColors);m.TextureCoordinates.AddRange(TextureCoordinates);m.SurfaceParameters.AddRange(SurfaceParameters);return m;}
+        public Func<Point3d,Point3d> Nearest=p=>p;
+        public Point3d ClosestPoint(Point3d p)=>Nearest(p);
+        public Point3d[][]? NakedEdges; public Func<Point3d[][]?>? NakedProvider; public Point3d[][]? GetNakedEdges()=>NakedProvider==null?NakedEdges:NakedProvider();
         public List<Point2f> TextureCoordinates { get; } = new();
         // Stands in for ON_Mesh surface parameters and curvatures, which RhinoCommon only clears.
         public List<Point2f> SurfaceParameters { get; } = new();
@@ -184,9 +190,10 @@ namespace Rhino.Geometry {
         public MeshPoint? ClosestMeshPoint(Point3d p,double tolerance)=>Closest(p,tolerance);
         public override BoundingBox GetBoundingBox(bool accurate)=>Bounds;
         public static Mesh[] CreateFromBrep(Brep b,MeshingParameters p)=>Factory(b,p);
-        public void Append(Mesh part){Vertices.AddRange(part.Vertices);Faces.AddRange(part.Faces);Faces.ReportedCount=part.Faces.ReportedCount;IsValid&=part.IsValid;IsClosed&=part.IsClosed;}
-        public void Dispose()=>Disposed=true;
+        public void Append(Mesh part){int n=Vertices.Count; if(n==0){Bounds=part.Bounds;Closest=part.Closest;Hits=part.Hits;}Vertices.AddRange(part.Vertices);foreach(var f in part.Faces)Faces.Add(f.IsQuad?new(f.A+n,f.B+n,f.C+n,f.D+n):new(f.A+n,f.B+n,f.C+n));Faces.ReportedCount=part.Faces.ReportedCount;IsValid&=part.IsValid;IsClosed&=part.IsClosed;}
+        public override void Dispose()=>Disposed=true;
     }
+    public sealed class VolumeMassProperties { public double Volume=1; public static VolumeMassProperties? Compute(Mesh m)=>m.IsValid?new():null; }
 }
 namespace Rhino.Geometry.Intersect {
     public static class Intersection { public static Rhino.Geometry.Point3d[] MeshLine(Rhino.Geometry.Mesh mesh,Rhino.Geometry.Line line)=>mesh.Hits(line); }

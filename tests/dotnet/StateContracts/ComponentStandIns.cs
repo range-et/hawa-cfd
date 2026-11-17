@@ -24,12 +24,10 @@ public abstract class StandInComponent : HawaComponent
     protected override void RegisterOutputParams(GH_OutputParamManager p) { for (int i = 0; i < Outputs; i++) p.AddGenericParameter("Out" + i, "O" + i, "", GH_ParamAccess.item); }
     protected override void SolveHawa(IGH_DataAccess da) => da.SetData(0, "solved");
 }
-public sealed class GeometryComponent() : StandInComponent("Geometry") { protected override int Inputs => 3; protected override int Outputs => 3; }
 public sealed class EvaluateComponent() : StandInComponent("Evaluate") { protected override int Inputs => 7; protected override int Outputs => 4; }
 public sealed class BoundaryPatchComponent() : StandInComponent("BoundaryPatch") { protected override int Inputs => 6; }
 public sealed class RefinedSolveComponent() : StandInComponent("RefinedSolve");
 public sealed class SearchComponent() : StandInComponent("Search");
-public sealed class MovingBodyComponent() : StandInComponent("MovingBody");
 public sealed class MotionEvaluateComponent() : StandInComponent("MotionEvaluate");
 
 public abstract class StandInQuery : HawaQueryComponent
