@@ -1,0 +1,573 @@
+{
+  "sources": {
+    "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090",
+    "src/hawa/plugin.py": "a54abd1eb7e147432882a6c390528e8976304c4432804b173068f2df1dc0f289",
+    "src/hawa/jobs.py": "c99c593281f82c8fe7968941e1cb4f30fa4ea76a5c370dd3bc04b89db3e55af2",
+    "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
+    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
+    "tests/test_native_data.py": "78438be3e74991f5c8079df767e7dd5d2fc6516a767ada1c99092e01bd5b7436",
+    "tests/test_native_data_mutation.py": "7d452d0f2d21d01f51612256acbc1a0fbffcf696ce15481003de08a85223b754",
+    "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c"
+  },
+  "reviewed_survivors": {
+    "hawa.native_data.x_context__mutmut_27": {
+      "status": "survived",
+      "diff_sha256": "53c0dd1bf190bb8568cfa4745b69fd08b0c10ef44c86d10fc36898367fcf259b",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_context__mutmut_28": {
+      "status": "survived",
+      "diff_sha256": "661de9bed8db8a00ed861d88f87bc285e9f1e6aecefc944be354302ebf6a94c2",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_context__mutmut_29": {
+      "status": "survived",
+      "diff_sha256": "39673706e2137c275927d2296fdaefd43cef4fcf63509d7090da4d503f7effd7",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_frozen__mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "49b90157ccb8477906bab9f9dc9878356aea12194f7d6da9a91e7badcd0d67ec",
+      "reason": "Equivalent: json.dumps treats None as false for allow_nan and still rejects nonfinite JSON."
+    },
+    "hawa.native_data.x_read_archive__mutmut_102": {
+      "status": "survived",
+      "diff_sha256": "5a1a21f47896555b2dab790a98c32a0761f3bbcbdf33ea9663e9af6e647ac685",
+      "reason": "Equivalent for admitted archive members: every member header is checked before np.load; only scalar Unicode metadata or four-dimensional float32 arrays are allowed, and object/structured dtypes reject. No admitted member can take NumPy pickle decoding. None/default also retain false behavior. Production deliberately retains explicit allow_pickle=False as defense in depth; this review does not authorize removing it or claim concurrent in-place archive mutation is supported."
+    },
+    "hawa.native_data.x_read_archive__mutmut_104": {
+      "status": "survived",
+      "diff_sha256": "237f988162366599dfe74f3db3fbe57640a6c41a971ae30d821916ca0e778261",
+      "reason": "Equivalent for admitted archive members: every member header is checked before np.load; only scalar Unicode metadata or four-dimensional float32 arrays are allowed, and object/structured dtypes reject. No admitted member can take NumPy pickle decoding. None/default also retain false behavior. Production deliberately retains explicit allow_pickle=False as defense in depth; this review does not authorize removing it or claim concurrent in-place archive mutation is supported."
+    },
+    "hawa.native_data.x_read_archive__mutmut_105": {
+      "status": "survived",
+      "diff_sha256": "2bf3492562f1f9b7e6dfab1c7f37687dd09e428a6491e839e1a09e5a472da76a",
+      "reason": "Equivalent for admitted archive members: every member header is checked before np.load; only scalar Unicode metadata or four-dimensional float32 arrays are allowed, and object/structured dtypes reject. No admitted member can take NumPy pickle decoding. None/default also retain false behavior. Production deliberately retains explicit allow_pickle=False as defense in depth; this review does not authorize removing it or claim concurrent in-place archive mutation is supported."
+    },
+    "hawa.native_data.x_read_archive__mutmut_123": {
+      "status": "survived",
+      "diff_sha256": "22f744437cf2719fd744602a06f3b0921d07ad5c006db6d789030411856197f9",
+      "reason": "Equivalent for admitted archive members: every member header is checked before np.load; only scalar Unicode metadata or four-dimensional float32 arrays are allowed, and object/structured dtypes reject. No admitted member can take NumPy pickle decoding. None/default also retain false behavior. Production deliberately retains explicit allow_pickle=False as defense in depth; this review does not authorize removing it or claim concurrent in-place archive mutation is supported."
+    },
+    "hawa.native_data.x_read_archive__mutmut_125": {
+      "status": "survived",
+      "diff_sha256": "80801f533596b2d0a61d2e113a9f02c98c6fedda031ecce653aeab29d8776d98",
+      "reason": "Equivalent for admitted archive members: every member header is checked before np.load; only scalar Unicode metadata or four-dimensional float32 arrays are allowed, and object/structured dtypes reject. No admitted member can take NumPy pickle decoding. None/default also retain false behavior. Production deliberately retains explicit allow_pickle=False as defense in depth; this review does not authorize removing it or claim concurrent in-place archive mutation is supported."
+    },
+    "hawa.native_data.x_read_archive__mutmut_126": {
+      "status": "survived",
+      "diff_sha256": "d6e0d45d4c4cf750c5de58d2c487b1fd314d10d63dc49f8dbb718a9ef4fb932d",
+      "reason": "Equivalent for admitted archive members: every member header is checked before np.load; only scalar Unicode metadata or four-dimensional float32 arrays are allowed, and object/structured dtypes reject. No admitted member can take NumPy pickle decoding. None/default also retain false behavior. Production deliberately retains explicit allow_pickle=False as defense in depth; this review does not authorize removing it or claim concurrent in-place archive mutation is supported."
+    },
+    "hawa.native_data.x_read_archive__mutmut_134": {
+      "status": "survived",
+      "diff_sha256": "ced1bbcf83e1c8e3ea8cdcede17e8f0a7b3dc241e69c465a746ba6aeb06f95ef",
+      "reason": "Bounded progress equivalent: 0 versus 1 is a nonnegative integer preparation-stage marker, not imported physical iteration. Callback count, placement and cooperative cancellation remain unchanged; completed job steps and captured iteration are set from validated metadata."
+    },
+    "hawa.native_data.x_read_archive__mutmut_2": {
+      "status": "survived",
+      "diff_sha256": "c85a7ab600d601d2e608e283c0d44e77c6719c1e64a114d072c8d09437cfea9d",
+      "reason": "Bounded progress equivalent: 0 versus 1 is a nonnegative integer preparation-stage marker, not imported physical iteration. Callback count, placement and cooperative cancellation remain unchanged; completed job steps and captured iteration are set from validated metadata."
+    },
+    "hawa.native_data.x_read_archive__mutmut_22": {
+      "status": "survived",
+      "diff_sha256": "ed2e7817833a65dc39aabff88172c700524710cc802835c92401661d3c8eec91",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_read_archive__mutmut_23": {
+      "status": "survived",
+      "diff_sha256": "fc50459b61f5a0c6a72aab5ff3ce0400fa57145f8295a17414428dba64c2c80c",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_read_archive__mutmut_24": {
+      "status": "survived",
+      "diff_sha256": "c8a35db3610bf99bee70960d5a25f89aab97b1f6e1573736d25b1a9f80480ee5",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_read_archive__mutmut_28": {
+      "status": "survived",
+      "diff_sha256": "5a2e3a5d580bcc8adbc86d899578d19a2f4644205f725006d59fc9782e4bd63b",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_read_archive__mutmut_29": {
+      "status": "survived",
+      "diff_sha256": "720695d14abc529dae40df14a23dd9748fdc31f67da4b16cdd20169b652420ff",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_read_archive__mutmut_30": {
+      "status": "survived",
+      "diff_sha256": "d94bc174539ff71b9d77b42a686c43bb99845fd54c55b0b9cd2e58f397bf4571",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_read_archive__mutmut_45": {
+      "status": "survived",
+      "diff_sha256": "466e688b544cb335adf12537fa2caa0b3bafaf8b25b9027b8d828c9c8345b91a",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_read_archive__mutmut_46": {
+      "status": "survived",
+      "diff_sha256": "7e45b431ba41452239f17dcea1cc477540691dcef8fc7721cba16357bc45dd69",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_read_archive__mutmut_47": {
+      "status": "survived",
+      "diff_sha256": "7117a4cac02df23f170b864f135ecba9b7912be53c343c1d44e0edc7b839bc3e",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_read_archive__mutmut_53": {
+      "status": "survived",
+      "diff_sha256": "401ffd2d4000a1295296df1584fb631f77c1f25d3cd305520d7ec7f9bf98b354",
+      "reason": "Equivalent: the same header predicate independently requires Unicode scalar metadata or exact float32 population/mean dtype. Structured and object dtypes cannot satisfy either allowed dtype, even if this earlier rejection conjunction changes."
+    },
+    "hawa.native_data.x_read_archive__mutmut_54": {
+      "status": "survived",
+      "diff_sha256": "148791199eb3dfca6046e19c985bc883b81e49cefc6802a1c4a26653ee142a25",
+      "reason": "Equivalent: the same header predicate independently requires Unicode scalar metadata or exact float32 population/mean dtype. Structured and object dtypes cannot satisfy either allowed dtype, even if this earlier rejection conjunction changes."
+    },
+    "hawa.native_data.x_read_archive__mutmut_81": {
+      "status": "survived",
+      "diff_sha256": "525e4869e7554f004d88339b062eb7798c2a55d464531aa187d4e95e7566e852",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_read_archive__mutmut_82": {
+      "status": "survived",
+      "diff_sha256": "88a4a322a293e3a4a2104e5f8ad380cb1878073d6e38b412f0aa41fe6b40e968",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_read_archive__mutmut_83": {
+      "status": "survived",
+      "diff_sha256": "465885290e10825a00c73b49bfdf9cf105e2b3bb24d3f3a7b010d35073c6de66",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_read_archive__mutmut_85": {
+      "status": "survived",
+      "diff_sha256": "27a1a6922d913b4b8d611453918d174c8301e2f11fd97efa6d6753359a0d71e2",
+      "reason": "Bounded progress equivalent: 0 versus 1 is a nonnegative integer preparation-stage marker, not imported physical iteration. Callback count, placement and cooperative cancellation remain unchanged; completed job steps and captured iteration are set from validated metadata."
+    },
+    "hawa.native_data.x_read_archive__mutmut_93": {
+      "status": "survived",
+      "diff_sha256": "946fa93d8023ea8be95794ceed948eb47ef65a8be109769da50a3f26629042b4",
+      "reason": "Equivalent for admitted archive members: every member header is checked before np.load; only scalar Unicode metadata or four-dimensional float32 arrays are allowed, and object/structured dtypes reject. No admitted member can take NumPy pickle decoding. None/default also retain false behavior. Production deliberately retains explicit allow_pickle=False as defense in depth; this review does not authorize removing it or claim concurrent in-place archive mutation is supported."
+    },
+    "hawa.native_data.x_read_archive__mutmut_95": {
+      "status": "survived",
+      "diff_sha256": "97587d91753be5602aa7910c36d2f86047c8f4f0d577f6bf46b981b0a75435b1",
+      "reason": "Equivalent for admitted archive members: every member header is checked before np.load; only scalar Unicode metadata or four-dimensional float32 arrays are allowed, and object/structured dtypes reject. No admitted member can take NumPy pickle decoding. None/default also retain false behavior. Production deliberately retains explicit allow_pickle=False as defense in depth; this review does not authorize removing it or claim concurrent in-place archive mutation is supported."
+    },
+    "hawa.native_data.x_read_archive__mutmut_96": {
+      "status": "survived",
+      "diff_sha256": "3c09efa05b19af31e92ec352f308df1de1f48117430df7c476d3db9ac8be2feb",
+      "reason": "Equivalent for admitted archive members: every member header is checked before np.load; only scalar Unicode metadata or four-dimensional float32 arrays are allowed, and object/structured dtypes reject. No admitted member can take NumPy pickle decoding. None/default also retain false behavior. Production deliberately retains explicit allow_pickle=False as defense in depth; this review does not authorize removing it or claim concurrent in-place archive mutation is supported."
+    },
+    "hawa.native_data.x_restore__mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "bad015d2c493fcd70cf8148a0319fe12fa3b7022a673361d75b576925702975c",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_restore__mutmut_8": {
+      "status": "survived",
+      "diff_sha256": "0ae954485bbfffcad7352d6be76eee6f737da241e66fa0d2fadaf6ad70e14339",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_restore__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "bc70b511247e805e9c4a296d3b0526bed611c2b57f58348eae555252bb34990b",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_save__mutmut_105": {
+      "status": "survived",
+      "diff_sha256": "e3d31ce37d23fdc760873c2569799fe2e5d78691f868370319973479aece2f89",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_save__mutmut_106": {
+      "status": "survived",
+      "diff_sha256": "a362e6c668ee81b6168140548affc2e1931446139c265bc1b1b889fc0942672b",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_save__mutmut_140": {
+      "status": "survived",
+      "diff_sha256": "c0e4ee12f56a795e2216d0be05159c15df9aa119146723f7537dc42fb6e0b1b7",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_save__mutmut_141": {
+      "status": "survived",
+      "diff_sha256": "810e0aaf6a764df46990cd3f31be48509146489c39fe981c51b9eff70f7566aa",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_save__mutmut_142": {
+      "status": "survived",
+      "diff_sha256": "6e78bba0d1aaaebee2ad63b13a3e25d890db253be5ecd52b6efa44ac4a96d10a",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_save__mutmut_239": {
+      "status": "survived",
+      "diff_sha256": "af8637fd5a5991e513940366f21cc8322018b24061491f4a45a2b8152a9d4eeb",
+      "reason": "Equivalent: json.dumps treats None as false for allow_nan and still rejects nonfinite JSON."
+    },
+    "hawa.native_data.x_save__mutmut_241": {
+      "status": "survived",
+      "diff_sha256": "b210301af2b04fd0bd076af43f75632d01fd88969296e3d2b2979e0bcb646502",
+      "reason": "Equivalent in save: frozen(request), frozen(capture) and validate_payload already reject nonfinite JSON before this second private metadata serialization. Permitting NaN here cannot introduce nonfinite values into the detached snapshot."
+    },
+    "hawa.native_data.x_save__mutmut_242": {
+      "status": "survived",
+      "diff_sha256": "63911f6de2a11759ed688fbf47db7d7386f2f513ed1ab7654feb1bdbe292962c",
+      "reason": "Equivalent in save: frozen(request), frozen(capture) and validate_payload already reject nonfinite JSON before this second private metadata serialization. Permitting NaN here cannot introduce nonfinite values into the detached snapshot."
+    },
+    "hawa.native_data.x_save__mutmut_252": {
+      "status": "survived",
+      "diff_sha256": "7daf57f21fb5bd00cd23ba56046b48b02df17760cf558e6cd6030e4c28781124",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_save__mutmut_253": {
+      "status": "survived",
+      "diff_sha256": "7453ba4512cd206f49b78b889053c43f1443be3ec93ba753e42b3f8677d0e0e6",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_save__mutmut_263": {
+      "status": "survived",
+      "diff_sha256": "dd4ed33eeb89ccaf1f157b3bdb933bf769815d9afa185c9a7007f39162156b1b",
+      "reason": "Equivalent within the contract: temporary basename spelling is private. Same-directory placement, unique allocation, atomic replacement and finally cleanup are unchanged."
+    },
+    "hawa.native_data.x_save__mutmut_264": {
+      "status": "survived",
+      "diff_sha256": "e78f40c9244ae5f54bab7353922cdc29213557be0c580fba350ee89c38eb0974",
+      "reason": "Equivalent within the contract: temporary basename spelling is private. Same-directory placement, unique allocation, atomic replacement and finally cleanup are unchanged."
+    },
+    "hawa.native_data.x_save__mutmut_265": {
+      "status": "survived",
+      "diff_sha256": "0b7cfd82e23abd17fa6399d1c066b7b5a3d8f2a91c4fcc7ffce5c658c0139570",
+      "reason": "Equivalent: tempfile treats delete=None as false; explicit finally cleanup and atomic replacement retain ownership."
+    },
+    "hawa.native_data.x_save__mutmut_266": {
+      "status": "survived",
+      "diff_sha256": "d4dd39702b7988a1f1d02a6c8b9ad82e58449c66e598f4bf3e99017abe2e00ec",
+      "reason": "Equivalent: NamedTemporaryFile defaults to w+b instead of wb. The exporter only writes, flushes and fsyncs this binary stream; the extra read capability changes neither artifact bytes nor publication."
+    },
+    "hawa.native_data.x_save__mutmut_268": {
+      "status": "survived",
+      "diff_sha256": "a18e1adbdae9c291191922f5ccf73bcea393490e53e5333c1c40f40edb76d983",
+      "reason": "Equivalent within the contract: temporary basename spelling is private. Same-directory placement, unique allocation, atomic replacement and finally cleanup are unchanged."
+    },
+    "hawa.native_data.x_save__mutmut_269": {
+      "status": "survived",
+      "diff_sha256": "2c82a99a43842b99ab5e31cb7e55897a2b916b9e6f44ef5f24140c032d68a031",
+      "reason": "Equivalent within the contract: temporary basename spelling is private. Same-directory placement, unique allocation, atomic replacement and finally cleanup are unchanged."
+    },
+    "hawa.native_data.x_save__mutmut_273": {
+      "status": "survived",
+      "diff_sha256": "ec7b05e693e6d997caccad08d4571374a55dc2e93367744ca42f3c76acbdced4",
+      "reason": "Equivalent within the contract: temporary basename spelling is private. Same-directory placement, unique allocation, atomic replacement and finally cleanup are unchanged."
+    },
+    "hawa.native_data.x_save__mutmut_274": {
+      "status": "survived",
+      "diff_sha256": "637aa557611850b45573652bee164adee1d58ea60a5c987f82e4374f74336c2f",
+      "reason": "Equivalent within the contract: temporary basename spelling is private. Same-directory placement, unique allocation, atomic replacement and finally cleanup are unchanged."
+    },
+    "hawa.native_data.x_save__mutmut_275": {
+      "status": "survived",
+      "diff_sha256": "cc2084ae6dda3a889dc0999bbe79cc462bd8d07aaa3189bedec38e3424173772",
+      "reason": "Equivalent within the contract: temporary basename spelling is private. Same-directory placement, unique allocation, atomic replacement and finally cleanup are unchanged."
+    },
+    "hawa.native_data.x_save__mutmut_276": {
+      "status": "survived",
+      "diff_sha256": "6b806ab4b0d3d36c3ef10a44bda17d8d9734228fa41e81b24e03b4be2508eb0a",
+      "reason": "Equivalent within the contract: temporary basename spelling is private. Same-directory placement, unique allocation, atomic replacement and finally cleanup are unchanged."
+    },
+    "hawa.native_data.x_save__mutmut_39": {
+      "status": "survived",
+      "diff_sha256": "e8aa6fdd85eb2e736ab2ff8480e2429060b7e68a60a47ea63575f4f3525a9856",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_save__mutmut_40": {
+      "status": "survived",
+      "diff_sha256": "b8ce8660c5711b439ace0fad38cc90e2d350a1b6db8d71d2ed9920dbb11638ea",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_save__mutmut_41": {
+      "status": "survived",
+      "diff_sha256": "1f5378a806cf2c9ffaf77d5e3863d0036630dc4af5f8387f1e660aa4bd86092f",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_save__mutmut_85": {
+      "status": "survived",
+      "diff_sha256": "cb35210a1ffe6abc4cdedd03b6df0a9a4dcd967351250c3b197957a8a64e09c9",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_save__mutmut_86": {
+      "status": "survived",
+      "diff_sha256": "79a213f7670499394a496b3b1b573296873950c8d5992743fa64b074025f5e7c",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_save__mutmut_87": {
+      "status": "survived",
+      "diff_sha256": "94d198069f12b9fac7239741faa1f1d93311077a45b574756583ad3e6417cd37",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_case__mutmut_100": {
+      "status": "survived",
+      "diff_sha256": "d747c0df5c239303ff5fc308aaf7301b8e335ee23c4c93a78dd5da28fa83c134",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_case__mutmut_101": {
+      "status": "survived",
+      "diff_sha256": "b84a62f1501ecff51179db597b3cbdfc202a05f57b4df066fddb7a03f07dae49",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_case__mutmut_110": {
+      "status": "survived",
+      "diff_sha256": "efac722db89658f8a819b2040b1955afe84951513532a3c9e5ee76de6976d517",
+      "reason": "Equivalent within the supported native case contract of finite JSON numeric origin/link arrays: inferred integer/float NumPy dtype and explicit float dtype yield identical range, integer-coordinate and geometry checks. Coercion of string-valued coordinates is outside this numeric native contract and is not qualified by this review."
+    },
+    "hawa.native_data.x_validate_case__mutmut_112": {
+      "status": "survived",
+      "diff_sha256": "a27ed59a0e7b2e8c9166217835482301474836251621537884b0aa982219f57a",
+      "reason": "Equivalent within the supported native case contract of finite JSON numeric origin/link arrays: inferred integer/float NumPy dtype and explicit float dtype yield identical range, integer-coordinate and geometry checks. Coercion of string-valued coordinates is outside this numeric native contract and is not qualified by this review."
+    },
+    "hawa.native_data.x_validate_case__mutmut_163": {
+      "status": "survived",
+      "diff_sha256": "fa1f581853e00f0baa66fb80b013baae8366ca1f4f89e51aa48269e62888d4dd",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_case__mutmut_164": {
+      "status": "survived",
+      "diff_sha256": "91f2765a3d00decbfe37631500a6d070a4f69645a1a372542b4ed6d0c127ab3a",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_case__mutmut_165": {
+      "status": "survived",
+      "diff_sha256": "5468e7178f79e97678e0e6655b5a32857dfbd545197ac67fe58ed01aeebaaaaf",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_case__mutmut_56": {
+      "status": "survived",
+      "diff_sha256": "9c5723ee52512a80aef761daea19d4748f2293996e13f1478c175a84df42ecbc",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_case__mutmut_57": {
+      "status": "survived",
+      "diff_sha256": "dfb9596886fd3c2774e2a42b20451ee5c7f1f1ed3c9de749ac0a3f196b771892",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_case__mutmut_58": {
+      "status": "survived",
+      "diff_sha256": "41ef37df8951a4a7f043d097cee41f674ee74ac2bab6195d00f242fc4551e503",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_case__mutmut_71": {
+      "status": "survived",
+      "diff_sha256": "7d24375b96dabe8037f74eec6f166a5529725cc798ad97f6230b52b6ebe75ac8",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_case__mutmut_72": {
+      "status": "survived",
+      "diff_sha256": "b9af8de437974451a8fc05cd4e25fb3f29b22c3b0b035924d43bd29aa800b977",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_case__mutmut_73": {
+      "status": "survived",
+      "diff_sha256": "3f363af77dd7187baf1ccef27a227db34d47ede647f386f24f981929aa5b5c66",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_case__mutmut_91": {
+      "status": "survived",
+      "diff_sha256": "90d07aae35b05f9c58cbdf20623d207ecc1cb1c940e6562520aecdd80a99f74d",
+      "reason": "Equivalent within the supported native case contract of finite JSON numeric origin/link arrays: inferred integer/float NumPy dtype and explicit float dtype yield identical range, integer-coordinate and geometry checks. Coercion of string-valued coordinates is outside this numeric native contract and is not qualified by this review."
+    },
+    "hawa.native_data.x_validate_case__mutmut_93": {
+      "status": "survived",
+      "diff_sha256": "fd2b16e436c99f59e6108948531bf2d1af3701c1aed92347b9d4b648286fd3fb",
+      "reason": "Equivalent within the supported native case contract of finite JSON numeric origin/link arrays: inferred integer/float NumPy dtype and explicit float dtype yield identical range, integer-coordinate and geometry checks. Coercion of string-valued coordinates is outside this numeric native contract and is not qualified by this review."
+    },
+    "hawa.native_data.x_validate_case__mutmut_99": {
+      "status": "survived",
+      "diff_sha256": "30b07d9f55db0a9241a3e0f5505fdf1e61e707e11ed31fcdec645b0ff8c3c3f2",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_114": {
+      "status": "survived",
+      "diff_sha256": "0e261af146e975f3fa751ed568da674ced7d536d9dbe69fa285e03a3ee7de96f",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_115": {
+      "status": "survived",
+      "diff_sha256": "bd2bc7d13a7f70152422b3ab6e8bc08e9dc6f4ffb45e598e47ac9cf5a27d315e",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_116": {
+      "status": "survived",
+      "diff_sha256": "767c716f6522aaa44c7deda7558882ae97df72b94a371b85c982bddab3b98108",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_139": {
+      "status": "survived",
+      "diff_sha256": "3e84f6887816a997e8fb5a857a18601174762edbf7c50995b8f62d5ea76c8456",
+      "reason": "Equivalent: validate_case requires speed to be present before this expression; the changed fallback is unreachable."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_141": {
+      "status": "survived",
+      "diff_sha256": "3491cb408fa029aec52a522390b977f9fc1d3c50086a658ba0e0c4d77e366cb0",
+      "reason": "Equivalent: validate_case requires speed to be present before this expression; the changed fallback is unreachable."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_144": {
+      "status": "survived",
+      "diff_sha256": "bc8be885e24ceba9f15fd89025badf7e85b89920a52c81b54d2f614ec10e610c",
+      "reason": "Equivalent: validate_case requires speed to be present before this expression; the changed fallback is unreachable."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_179": {
+      "status": "survived",
+      "diff_sha256": "de08e3d42442e7df15664a18a070b0eb877f31d735d559036651dc3ae5e08fb9",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_180": {
+      "status": "survived",
+      "diff_sha256": "837823bc99228df27c9d79b4062fb4b7afbcde4ea726ab66b7775730da0fbb3f",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_181": {
+      "status": "survived",
+      "diff_sha256": "8766849c3aa840990e1eca6c2ff12554bb1c9e94300fbb821b738ac6e23bab5f",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_206": {
+      "status": "survived",
+      "diff_sha256": "95afd875306401cba5b2d6d6fe8bde8a4b0e711d7c8a5ff5b2eb1873d68867bd",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_207": {
+      "status": "survived",
+      "diff_sha256": "00ea3cbf72d5c7546cd4ccda443fe5065ec01aff1b352e88e0a014050a207dd9",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_208": {
+      "status": "survived",
+      "diff_sha256": "24586e5fa9eed3340d2b034495d295481a76df6d032fb5ce95930d864f57625c",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_236": {
+      "status": "survived",
+      "diff_sha256": "f0681ba574846b49739c1da0274959142dbafd4e2b1672ac3b643fbaf1ef3515",
+      "reason": "Equivalent for native Int32 iteration/count values: an integer samples <= iteration/5 iff samples <= iteration//5. No integer exists between a quotient and its floor; native iteration range stays exactly representable here."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_251": {
+      "status": "survived",
+      "diff_sha256": "6b7a218629c474e1243d875bd571bced7a24ca37910bb9ee44274ef8d623600b",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_252": {
+      "status": "survived",
+      "diff_sha256": "996a28e0fc59f72d817445d85435092ccf6c935ddc5d094313aca24897239aba",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_253": {
+      "status": "survived",
+      "diff_sha256": "10ea0d6d38ea25e152679689bd73f516c53060b713adb0e075a9608af0cd5759",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_279": {
+      "status": "survived",
+      "diff_sha256": "63c24f66940c355b77a0a11adf7a53704c15b82c1abcbf852ebddd9955e5650a",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_280": {
+      "status": "survived",
+      "diff_sha256": "f879e832536d176e5a69f150b9f6e6999dc95f327202ec599789f5126010d91d",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_281": {
+      "status": "survived",
+      "diff_sha256": "18181a81c2dda3863bdf3d5bedd5162950bff338f45481222ca296a8d009bdc1",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_333": {
+      "status": "survived",
+      "diff_sha256": "78c8573f6c2ea25056fb2037496aeac08d5c7b550f2268449f276f6e567dc184",
+      "reason": "Equivalent: the immediately preceding strict type test on quality.get(time_seconds) requires the key and a numeric value. The changed fallback is never consulted."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_335": {
+      "status": "survived",
+      "diff_sha256": "23ee21d01e137dcea8713527125a0fccd9c494d684821421f0514bd4aab782d2",
+      "reason": "Equivalent: the immediately preceding strict type test on quality.get(time_seconds) requires the key and a numeric value. The changed fallback is never consulted."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_338": {
+      "status": "survived",
+      "diff_sha256": "61df10e8f5c78dc4345bee572379c62523295ce35432c08e7920e216ac654363",
+      "reason": "Equivalent: the immediately preceding strict type test on quality.get(time_seconds) requires the key and a numeric value. The changed fallback is never consulted."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_339": {
+      "status": "survived",
+      "diff_sha256": "aae4422e394759acfc06bdb3221a2531fedb3f47cee949b34221cdf5a097e96c",
+      "reason": "Equivalent: the immediately preceding strict type test on quality.get(time_seconds) requires the key and a numeric value. The changed fallback is never consulted."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_345": {
+      "status": "survived",
+      "diff_sha256": "cfdb602150074f0fba00ea8e7dc1976c92aebba875d4d647887f2137e2111b37",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_346": {
+      "status": "survived",
+      "diff_sha256": "3953b8785cd4ab579f22d01887b0b8b5fc7d0b637edea8e409588133c1329156",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_347": {
+      "status": "survived",
+      "diff_sha256": "c1157adb62a58c909df549d734574b43d8d7aedd9145e937920bb6f344f3e4ba",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_356": {
+      "status": "survived",
+      "diff_sha256": "432b0693b384cd840e2baa638e135a06ebc31e7a0beb4fd05a219d44a879e6e3",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_357": {
+      "status": "survived",
+      "diff_sha256": "7ef73dbd43d6fe25fe5ab4ffe81fa765865ff37faaba18208c8d5201fce75f41",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_51": {
+      "status": "survived",
+      "diff_sha256": "3c2e0b5a6eb7d30436962913186fda212877c59032a585f9ab70a9f298027f7d",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_52": {
+      "status": "survived",
+      "diff_sha256": "d3254a7425ed5f0ddeab7d57611108ebda5c8ca10421a1bf0cfe99fc8223c6f2",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_53": {
+      "status": "survived",
+      "diff_sha256": "59b8b8bf771122b7f1713fb9d6a0e8992751203b6fae6b1cf12b5c28ad889674",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_95": {
+      "status": "survived",
+      "diff_sha256": "5eae052332beb8a515ed21a790369f77d3eddba63f7d782711d7b3cda35af0ad",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_96": {
+      "status": "survived",
+      "diff_sha256": "0421a515cc8616f51edb492dd17499094ff8c25af2d5f24d8cb84a8bd273b77a",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_97": {
+      "status": "survived",
+      "diff_sha256": "e6413b9517309ecaa89357c70a168a1c4dbf912766633d49e1d3ab4fdfb506b6",
+      "reason": "Bounded diagnostic equivalent: only letter case or XX decoration changes. The actionable error category, rejection timing, old-state preservation and cleanup remain. Missing/None diagnostics are killed; exact message spelling is not the archive contract."
+    },
+    "hawa.native_data.x_validate_payload__mutmut_99": {
+      "status": "survived",
+      "diff_sha256": "6b66eafcc854b2c058a025eb01ffcd388655333061ab3978753bd4b002cfe3af",
+      "reason": "Equivalent rejection for nonfinite metadata: case/time consistency and the final frozen(meta) serialization with allow_nan=False still reject all NaN/Infinity before a new session or file is published. Nonnegative checks for finite values remain unchanged."
+    }
+  },
+  "control_test_files": [
+    "tests/test_native_data.py",
+    "tests/test_native_data_mutation.py"
+  ],
+  "scope": "Whole new native_data.py: bounded native stationary checkpoint validation, publication and paused restoration; dispatch/job routes are also covered by numerical-export and status-truth studies",
+  "base_revision": "12dc774",
+  "tool": "mutmut==3.7.0",
+  "mutants": 1056,
+  "inventory_sha256": "dd9843b86dfe710cf7442399e83dfc03ff3a0cf8164f9575040d4b13fb8b0917"
+}
