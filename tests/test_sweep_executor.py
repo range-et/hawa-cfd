@@ -263,3 +263,37 @@ def test_aggregate_budget_and_frame_precede_worker_allocation(change):
 def test_probe_per_candidate_limit_is_enforced():
     data=prepared();data['a']['probes']=[dict(probe_id=str(i),position_world_m=[0.,0.,0.]) for i in range(257)]
     with pytest.raises(ValueError,match='Probe capture'):CpuSweepExecutor(data)
+
+
+def test_standalone_preparation_checks_its_own_envelope_and_steps():
+    with pytest.raises(ValueError,match='fields'):
+        module._prepare({})
+    entry=prepared()['a'];entry['steps']=0
+    with pytest.raises(ValueError,match='steps'):
+        module._prepare(entry)
+
+
+def test_translated_rotated_case_frame_matches_real_sampling():
+    baseline=prepared();executor=CpuSweepExecutor(baseline)
+    handle=executor.start(baseline['a']['candidate'],7);finish(executor,handle)
+    original=executor.results('a',7)
+    data=prepared();entry=data['a']
+    basis=np.array([[0.,1.,0.],[-1.,0.,0.],[0.,0.,1.]])
+    entry['spec'].update(origin=[2.,3.,4.],spacing=1.,basis=basis.tolist())
+    origin=np.array([1.,1.5,2.]) # display origin * physical dx / display spacing
+    entry['origin_world_m']=origin.tolist();entry['basis']=basis.tolist()
+    entry['request']['references']['drag_axis_world']=basis[0].tolist()
+    for probe in entry['probes']:
+        probe['position_world_m']=(origin+np.asarray(probe['position_world_m'])@basis).tolist()
+    entry['geometry']['vertices_m']=(origin+np.asarray(entry['geometry']['vertices_m'])@basis).tolist()
+    gh=hashlib.sha256(json.dumps(entry['geometry'],sort_keys=True,separators=(',',':')).encode()).hexdigest()
+    ch=case_key(entry['spec'])
+    entry['candidate'].update(case_hash=ch,geometry_hash=gh)
+    entry['request']['identity'].update(case_hash=ch,geometry_hash=gh)
+    transformed=CpuSweepExecutor(data);handle=transformed.start(entry['candidate'],7)
+    assert finish(transformed,handle)['state']=='completed'
+    result=transformed.results('a',7)
+    for before,after in zip(original['probe_samples'],result['probe_samples']):
+        assert before['pressure_pa']==after['pressure_pa'] and before['valid']==after['valid']
+    for before,after in zip(original['load_samples'],result['load_samples']):
+        np.testing.assert_allclose(after['force_world_n'],np.asarray(before['force_world_n'])@basis,atol=1e-12,rtol=1e-12)
