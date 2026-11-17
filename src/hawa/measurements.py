@@ -171,7 +171,7 @@ def coefficients(request, force, moment):
     ref = request.references
     drag, lift = np.asarray(ref.drag_axis_world), np.asarray(ref.lift_axis_world)
     side = np.cross(lift, drag)
-    q = .5 * ref.density_kg_m3 * ref.speed_m_s ** 2
+    q = .5 * ref.density_kg_m3 * ref.speed_m_s * ref.speed_m_s
     d, y, l = np.asarray([drag, side, lift]) @ values[0]
     load_axis = drag if request.load_axis_world is None else np.asarray(request.load_axis_world)
     return finite_result(dict(q_pa=q, D=float(d), Y=float(y), L=float(l), CD=float(d/(q*ref.area_m2)),
@@ -245,7 +245,7 @@ def sample_probes(request, probes, time_s, sampler):
     ids = {body.body_id for body in req.bodies}
     if any(probe.body_id is not None and probe.body_id not in ids for probe in parsed):
         raise ValueError('Unknown probe body')
-    q = .5 * req.references.density_kg_m3 * req.references.speed_m_s ** 2
+    q = .5 * req.references.density_kg_m3 * req.references.speed_m_s * req.references.speed_m_s
     results = []
     for probe in parsed:
         pressure = sampler(list(probe.position_world_m))

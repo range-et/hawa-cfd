@@ -96,3 +96,24 @@ warnings are asserted by their rejection tests and do not escape the final suite
 full-suite/measured-function gate, device qualification, reference aerodynamic
 studies and live example acceptance remain open. No CSV writer or GH archive was
 introduced. Keep #40 open; partial integration uses `Refs #40`.
+
+## Integration-review follow-up — scaled reference products
+
+Root reproduced an arithmetic mismatch: reference validation used the scaled
+product `0.5*rho*U*U`, while coefficients and probes used `0.5*rho*(U**2)`.
+For rho=1e-200 and U=1e200, the valid q=5e199 failed on the intermediate square;
+for rho=1e200 and U=1e-200, valid q=5e-201 was recomputed as zero. Both new
+regressions failed before the repair. Both consumers now use the exact validated
+multiplication order. The tests assert finite nonzero q with a scaled ratio and
+zero absolute tolerance, and check CD/CL/Cm, Cp and summary usability at both
+extremes. No physical/numerical acceptance tolerance changed.
+
+Reviewed the remaining reference denominator calculations: q*S and q*S*chord
+use the same multiplication order as validation. Stationary force scaling uses
+one expression checked at construction, with explicit overflow/underflow refusal,
+so it does not have this validate/consume mismatch.
+
+Fresh focused CPU results after this follow-up: **86 passed** on Python 3.9.25
+and **86 passed** on Python 3.12.4 (the same two Lettuce metadata deprecation
+warnings). Full suites, measured matrix and mutation evidence are refreshed by
+the integration owner; the earlier 338-statement report above predates this fix.
