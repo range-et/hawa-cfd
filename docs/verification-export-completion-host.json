@@ -1,0 +1,260 @@
+{
+  "date": "2026-11-17",
+  "source_commit": "2c43c74c043cb34513fe35aafe2401207409697b",
+  "production_freeze": "5ac088b",
+  "operator": "root via Rhino MCP; independent native-data readback also reviewed by atmosphere_qualification agent",
+  "host": {
+    "rhino": "8.37.26307.15002",
+    "pid": 16843,
+    "python": "3.9.10",
+    "numpy": "2.0.2",
+    "torch": "2.8.0",
+    "device": "cpu",
+    "license": "Mac only; Windows Rhino not started"
+  },
+  "runs": {
+    "native_data": {
+      "evidence_directory": "results/native-data-host/20261117-071354-a0cd02efbed148c6adc2c3f3903d239d",
+      "state": "passed",
+      "checks": [
+        "Actual panel fluid, periodic-pair and view events accepted; invalid range retained; explicit CPU six-step run",
+        "Completed source unchanged by live view events; Save data button submitted",
+        "Six-step checkpoint saved; invalid import submitted through panel",
+        "Invalid import and immediate cancellation preserved accepted case/session",
+        "Cancelled import cleanup acknowledged; valid import explicitly submitted",
+        "Successful import owns a new paused case/session; read-only physics and dynamic view verified",
+        "Imported view remained paused beyond one second; unit-change probe CSV submitted",
+        "Metres-after-import probe maps exactly lattice2/world1; paused resave submitted",
+        "Paused checkpoint resaved; target12 remains paused until explicit Run button",
+        "Imported session explicitly continued to12; continued checkpoint submitted",
+        "Continued data saved; actual owned Rhino archive written and document closed",
+        "Actual 3dm reopen retains imported read-only identity, idle with no session; Run requires re-import"
+      ],
+      "cleanup": {
+        "pid": 16843,
+        "sessions": 0,
+        "jobs": 0,
+        "workers": []
+      },
+      "files": {
+        "paused-probes.csv": "5021add491caa807b39d2d45cb418371855530426af5cbdedb6f87be7d38536f",
+        "imported-paused-6.npz": "cf75fa5c640607770f5bc5d5b73d6ea9e491b1cc09e75f325654409cbbcc1237",
+        "rhino.json": "8531ed4223fcd3cc8b2907446c4d245107f7d94e5e1d47763fe9ee562b236fb7",
+        "completed-6.npz": "05db647db7be1e339b37dc790f4bcc997905f2aec24c961c72fc4e66d79428c9",
+        "imported.3dm": "d65e65fe2afc343d2917ddd69306b748c32544699c0038f7d1631c3acc8cbf6c",
+        "cleanup.json": "54bc7ca0495047d14d4fcda43fe165b1351c1ef8fbb6e8877f22e42f56e22bce",
+        "invalid.npz": "6bbf954ab0045bc546f16a6db16c95afef820dccd807348411ea924dabb972e9",
+        "readback.json": "cf1dbcafbc1e4fe8a5669bbd5c8a7a0d0a16ac9932c426148593518d1021e5db",
+        "continued-12.npz": "106af32896a19908051b290a1a07c22c05eaa89f6228cc82b7ed309e85ef296b",
+        "readback.py": "435dee7f07448a3783253a3545ffa7c745a809afa7f71de7ef70801176d5ce19"
+      },
+      "independent_readback": {
+        "state": "passed",
+        "backend": "cpu",
+        "steps": [
+          6,
+          12
+        ],
+        "checks": [
+          "Exact saved/resaved populations and all three accumulated mean arrays",
+          "Independent uninterrupted CPU populations/means/quality at6 and12 exactly match Rhino artifacts",
+          "Paused probe CSV exactly matches independent CPU field at lattice2",
+          "Import source session changes and paused resave remains6; artifact IDs distinct",
+          "Time, averaging samples and mass baseline preserved"
+        ],
+        "artifacts": {
+          "paused-probes.csv": "5021add491caa807b39d2d45cb418371855530426af5cbdedb6f87be7d38536f",
+          "imported-paused-6.npz": "cf75fa5c640607770f5bc5d5b73d6ea9e491b1cc09e75f325654409cbbcc1237",
+          "rhino.json": "8531ed4223fcd3cc8b2907446c4d245107f7d94e5e1d47763fe9ee562b236fb7",
+          "completed-6.npz": "05db647db7be1e339b37dc790f4bcc997905f2aec24c961c72fc4e66d79428c9",
+          "imported.3dm": "d65e65fe2afc343d2917ddd69306b748c32544699c0038f7d1631c3acc8cbf6c",
+          "cleanup.json": "54bc7ca0495047d14d4fcda43fe165b1351c1ef8fbb6e8877f22e42f56e22bce",
+          "invalid.npz": "6bbf954ab0045bc546f16a6db16c95afef820dccd807348411ea924dabb972e9",
+          "continued-12.npz": "106af32896a19908051b290a1a07c22c05eaa89f6228cc82b7ed309e85ef296b",
+          "readback.py": "435dee7f07448a3783253a3545ffa7c745a809afa7f71de7ef70801176d5ce19"
+        },
+        "limits": "Bounded implementation check; not physical qualification. GPU evidence separate."
+      }
+    },
+    "native_export": {
+      "evidence_directory": "results/native-export-host/20261117-071433-38db60f33f694e1483db6ab55fc4a7bb",
+      "state": "passed",
+      "checks": [
+        "isolated millimetre native CPU case submitted for two steps",
+        "completed field export submitted independently of preview",
+        "field CSV read back; probes submitted while independent preview field changes",
+        "probe values, units, validity and preview independence verified; immediate cancel submitted",
+        "cancel cleanup acknowledged; destination failure submitted",
+        "destination failure isolated; recovery export submitted",
+        "IO failure recovered; owned document closed with pending export"
+      ],
+      "cleanup": {
+        "pid": 16843,
+        "sessions": 0,
+        "jobs": 0,
+        "workers": []
+      },
+      "files": {
+        "rhino.json": "4e777439dc26c30d562133afcaa0d866dba23906f20018aa8c4705c3ee00559a",
+        "probes.csv": "510452ece33bbb9a14a25ded6a80f66c4ecdce1fc856d018984e4209bd6e4f66",
+        "cleanup.json": "54bc7ca0495047d14d4fcda43fe165b1351c1ef8fbb6e8877f22e42f56e22bce",
+        "recovery.csv": "9bd64f20e30f465bae81321f6568d9136b5af10a58ec0bb041caaf17580028b6",
+        "fields.csv": "291f4e6fc2ea9a25392f04ec3b8754e7986cf77d5cf4abfa0e7dba840b0cc52c"
+      }
+    },
+    "grasshopper_export": {
+      "evidence_directory": "results/gh-export-host/20261117-071450-291b28512b124c8e91a055a5435c8ca5",
+      "state": "passed",
+      "checks": [
+        "31 owned copy opened idle; IDs and original wires preserved",
+        "31 valid idle source observed and CPU two-step solve explicitly rearmed",
+        "31 completed source frozen; field CSV submitted",
+        "31 changed operation withheld stale report; probe CSV explicitly rearmed",
+        "31 probe CSV complete; unchanged NPZ action submitted",
+        "31 pending export immediately cancelled through Execute false",
+        "31 cancellation preserved prior bytes; deliberate IO failure submitted",
+        "31 IO failure surfaced without publication; recovery rearmed",
+        "31 recovery complete and owned document disposed",
+        "17 owned copy opened idle; existing Checkpoint type added without altering original wires",
+        "17 valid idle source observed and CPU six-step solve explicitly rearmed",
+        "17 raw public load history captured; load CSV submitted",
+        "17 load CSV complete; raw NPZ reference submitted",
+        "17 owned document disposed; source archives unchanged"
+      ],
+      "cleanup": {
+        "pid": 16843,
+        "sessions": 0,
+        "jobs": 0,
+        "workers": []
+      },
+      "files": {
+        "31-blocked-parent": "7b5a3ac9b32ee46d68f46b8192f05e49d38df215c29f6ec6deb30cfa0295aaa6",
+        "17-source.gh": "64706da10ef767918884022a9cc28483212f3de47d6c1c9d39432580aba2d7df",
+        "31-cancel.csv": "57ab7077cef98dfede883c8b1d64d4c5db093e4186adf8828fe630ced4ed7a91",
+        "rhino.json": "f8dc68d632c94b5f5a672152fa274e056bb97fc5fba72cb4309ebaa561296687",
+        "31-reference.npz": "a3b67fe1f30f37cd8a174125c4ff8c106088bcf32bf73b9e9a86a76bd204f47a",
+        "31-fields.csv": "7dfed8b1625232d31ada2fab0c0e122f3b578ba1213f5f3916216cb0f7beb505",
+        "31-source.json": "202db1f1b2556a7681013b34b945457e991b9b940467585eef9dbf7dc407585a",
+        "31-source.gh": "868a652fdd6310c71c81e6fc4654e2b19110799f6b5695550c4f813056353599",
+        "cleanup.json": "54bc7ca0495047d14d4fcda43fe165b1351c1ef8fbb6e8877f22e42f56e22bce",
+        "readback.json": "dbde58ec8e53fd85462df6c40d240a7dac4e3e6eba3bb036fcc215826e7ef040",
+        "31-probes.csv": "0b98239a39d240469c72d98860c0b3103ed1f6cc6973c57f32d2ced08922c601",
+        "31-recovery.csv": "e1a62e83f563beadc92cb296e808fa9414522da9cea5ae97ed215cd9359b4d8a",
+        "17-source.json": "7e5cfd3bba8c2f6b0ce2ab42786a331307af90aacf42361d42d8fbd575b0df8c",
+        "17-loads.csv": "0c6a47e8642073a4be50e1659d10343bed10ed151c811f526451589775530461",
+        "17-raw-loads.json": "a5f21a4e62331a1d19c124191aa5ce05d67623e8689f8a40726b0b0f74fb8bca",
+        "17-reference.npz": "707e4695cfa4dc8025f62d092894f1d14ce291d14c9176f9b293fa9034ec9418"
+      },
+      "independent_readback": {
+        "state": "passed",
+        "field_rows": 5376,
+        "valid_rows": 4677,
+        "invalid_rows": 699,
+        "probe_rows": 3,
+        "load_rows": 6,
+        "precision": "exact float64 parsing of raw source values; exact analytic fixture pivot",
+        "checks": [
+          "31 owned copy opened idle; IDs and original wires preserved",
+          "31 valid idle source observed and CPU two-step solve explicitly rearmed",
+          "31 completed source frozen; field CSV submitted",
+          "31 changed operation withheld stale report; probe CSV explicitly rearmed",
+          "31 probe CSV complete; unchanged NPZ action submitted",
+          "31 pending export immediately cancelled through Execute false",
+          "31 cancellation preserved prior bytes; deliberate IO failure submitted",
+          "31 IO failure surfaced without publication; recovery rearmed",
+          "31 recovery complete and owned document disposed",
+          "17 owned copy opened idle; existing Checkpoint type added without altering original wires",
+          "17 valid idle source observed and CPU six-step solve explicitly rearmed",
+          "17 raw public load history captured; load CSV submitted",
+          "17 load CSV complete; raw NPZ reference submitted",
+          "17 owned document disposed; source archives unchanged"
+        ],
+        "artifacts": {
+          "31-blocked-parent": "7b5a3ac9b32ee46d68f46b8192f05e49d38df215c29f6ec6deb30cfa0295aaa6",
+          "17-source.gh": "64706da10ef767918884022a9cc28483212f3de47d6c1c9d39432580aba2d7df",
+          "31-cancel.csv": "57ab7077cef98dfede883c8b1d64d4c5db093e4186adf8828fe630ced4ed7a91",
+          "rhino.json": "f8dc68d632c94b5f5a672152fa274e056bb97fc5fba72cb4309ebaa561296687",
+          "31-reference.npz": "a3b67fe1f30f37cd8a174125c4ff8c106088bcf32bf73b9e9a86a76bd204f47a",
+          "31-fields.csv": "7dfed8b1625232d31ada2fab0c0e122f3b578ba1213f5f3916216cb0f7beb505",
+          "31-source.json": "202db1f1b2556a7681013b34b945457e991b9b940467585eef9dbf7dc407585a",
+          "31-source.gh": "868a652fdd6310c71c81e6fc4654e2b19110799f6b5695550c4f813056353599",
+          "cleanup.json": "54bc7ca0495047d14d4fcda43fe165b1351c1ef8fbb6e8877f22e42f56e22bce",
+          "31-probes.csv": "0b98239a39d240469c72d98860c0b3103ed1f6cc6973c57f32d2ced08922c601",
+          "31-recovery.csv": "e1a62e83f563beadc92cb296e808fa9414522da9cea5ae97ed215cd9359b4d8a",
+          "17-source.json": "7e5cfd3bba8c2f6b0ce2ab42786a331307af90aacf42361d42d8fbd575b0df8c",
+          "17-loads.csv": "0c6a47e8642073a4be50e1659d10343bed10ed151c811f526451589775530461",
+          "17-raw-loads.json": "a5f21a4e62331a1d19c124191aa5ce05d67623e8689f8a40726b0b0f74fb8bca",
+          "17-reference.npz": "707e4695cfa4dc8025f62d092894f1d14ce291d14c9176f9b293fa9034ec9418"
+        },
+        "scope": "CPU export interchange and lifecycle; not convergence or physics qualification"
+      }
+    }
+  },
+  "visual_review": {
+    "surface": "Mac native dock, 3024x1760 screenshot through CUA",
+    "observed": [
+      "Save/Import and Export paths/buttons fit dock width without previous horizontal overflow",
+      "Imported result visibly PAUSED at6/6 with field preview",
+      "Save/Import tab title truncates at this dock width; page actions and explanatory text remain readable; lower content scrolls"
+    ],
+    "omissions": [
+      "Native file-picker dialogs not exercised",
+      "No Windows Rhino UI acceptance",
+      "No fresh run/render of all31 supported example archives; focused31/17 workflows plus read-only archive audit only"
+    ]
+  },
+  "archive_audit": {
+    "public_nodes": 53,
+    "supported_archives": 31,
+    "missing_nodes": 0,
+    "legacy09": "excluded and preserved",
+    "record": "docs/coverage-example-graphs.json"
+  },
+  "preservation": [
+    "Original dirty checkout untouched",
+    "Original Rhino documents reopened from saved preservation copies",
+    "Both original empty GH documents restored with original IDs",
+    "Normal Rhino quit used before replacing installed assemblies",
+    "Final runtime audit:0 sessions,0 jobs,0 workers",
+    "SHA256 audit confirms all26 originally dirty/untracked files unchanged"
+  ],
+  "limits": "Bounded interchange, lifecycle and same-backend continuation evidence; no engineering accuracy, convergence, release or CUDA claim.",
+  "installed_assemblies": {
+    "Hawa.Rhino.rhp": "70e691a516f4216f48ff08332474ca96cc0b0a07d42bfef0fdb9cfce64814df2",
+    "Hawa.Shared.dll": "5d37a586c2819de750c9b4e000badc45ce5a87c66220e537346a169efcbbcce7",
+    "Hawa.Grasshopper.gha": "7535db77cdba8280d70de4d59a73fa525cd0721bb6497b2b7f9a7cf683c7ad0a"
+  },
+  "installed_python_matches_source": {
+    "src/hawa/moving_boundaries.py": "43d185c55a4368a7bcba7ded08f47f1763926054dec576d151c8b309e88b618a",
+    "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
+    "src/hawa/field_collection.py": "8e375ad5b5d9e98bb861a8c01cc4c7351fd9928a0f8d5d5571c3258fbf969a68",
+    "src/hawa/neutral.py": "a409f22e162a9bb726cc4f947d4aaabf4223042c6f640ac11b330e03741039bd",
+    "src/hawa/fields.py": "edb5618ac963f791f01131e30f3c75bafad23b5a5fa0d475b405803c9e40c2f2",
+    "src/hawa/boundary_series.py": "99c09f87b7107281120eebde13cde7951a0844882d12c16030cd0ffd68f47236",
+    "src/hawa/flow_statistics.py": "260ae8055bcc6bea81ac445f304054b6b800cfb79ae281d116e89c79d4654f4e",
+    "src/hawa/boundaries.py": "cd4104704f89f52c40454aaf089d118efa4df24eca82196712ee5a3817317ec6",
+    "src/hawa/recording.py": "eaef9d44916dfcea381df3e5bba0284feb9955a64995d5f5cf669bc6dca034c8",
+    "src/hawa/roughness.py": "fbebbd3fd84f2d0db139afca3c18e4f4faa7802d26848df47b77605002e2b48f",
+    "src/hawa/neutral_external.py": "62c99b509d1a46daab83fa4980ece0bf5fd0715b4ee02c2138693065ea16f14c",
+    "src/hawa/optimization.py": "a7a7f910da56c1de3ad80867f36d8f37480ba7948fb144d1b8bf2de022dac3d9",
+    "src/hawa/__init__.py": "3484c4615e9a7d8c6f9421b9233b0cf8ba70e9a20a554246a80904b9641a40c6",
+    "src/hawa/cases.py": "f8ad136bd78b60b7f21d6b8fb5a911a945fb0e6b9c16ebf9ad649b0be3c643d1",
+    "src/hawa/refinement.py": "22f714685f16b4444df8264f467fb34985bbf4d42dcc0ac580a895103ce055cc",
+    "src/hawa/collision.py": "0ea22217f196832027661c159fa02f0b12ed3b409b138332bfd3639c9da2db78",
+    "src/hawa/boundary_contracts.py": "bd8c268fa77b14389f096eb676de92d0179db2b62ead370c9e51f27b6db71c20",
+    "src/hawa/lbm.py": "058cacba479e8acdd283340c22581eac8ccee15bd92eedbdfd7474b8817df942",
+    "src/hawa/jobs.py": "c99c593281f82c8fe7968941e1cb4f30fa4ea76a5c370dd3bc04b89db3e55af2",
+    "src/hawa/step.py": "e468cbce49f84efe7c1eb89696893ec52cae20dacb746ad2d4d73e623f89ba45",
+    "src/hawa/backends.py": "6bdbf42473b3aa83d8b4497e7731db119d51a7344f1e3246cb64a5186cf42a73",
+    "src/hawa/motion.py": "0ca424128cf35dc9707bffee7ef15b7606673aa9dff7926391d0a554d4ca4359",
+    "src/hawa/engine.py": "5a66e746c8d23c2ad3ac9a5e05596136527437704fba2ade779b99263567d09e",
+    "src/hawa/cli.py": "ddf72cf58607aa78785997486623817aea62f5ccaa1cb766b60b1ba199b86fd6",
+    "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090",
+    "src/hawa/plugin.py": "a54abd1eb7e147432882a6c390528e8976304c4432804b173068f2df1dc0f289",
+    "src/hawa/airfoils.py": "4117731d899c5641817ac7b3145850595b01e4dafa5899489b49ebbb6431af39",
+    "src/hawa/boundary_data.py": "0fa1c8d4f34321bdb9241bd5cc6f47405857626754f2ac0d44e6125fa5079cf9",
+    "src/hawa/quality.py": "db49c0e52c705177f012da3715eb5b617b7b881a12dce877355133ef85743db3",
+    "src/hawa/atmosphere.py": "d00c7dad606da974b3f4a47bffc43a62948b2d95d88368f18d1796616cdde741",
+    "src/hawa/walls.py": "d2c0ac391a689e9b51ee4088c4821fa979eaf72a044f549327a78c8e639ca134"
+  }
+}

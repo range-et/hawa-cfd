@@ -316,3 +316,26 @@ has 56 mutants, 55 assertion kills and one reviewed equivalent survivor, with
 bounded lock test explicitly enables locking. No timeout/signal is a kill.
 [Combined evidence](verification-combined-export-mutation.json) and
 [export review](review-numerical-export.md).
+
+### Export and native checkpoint completion (#35)
+
+The expanded increment adds probe/load CSV and paused native checkpoint save/import.
+Fresh frozen-source local Python3.12 mutation studies verify these exact inventories:
+
+| Study | Mutants | Assertion kills | Reviewed survivors | Passing controls |
+| --- | ---: | ---: | ---: | ---: |
+| Native data (`run_native_data.sh`) |1056|946|110|112|
+| Numerical export/routing |1357|1264|93|212|
+| Status truth |155|154|1|192|
+| Validity foundation |2571|2352|219|325|
+
+All four have zero errors, timeouts and unchecked mutants. Survivors are reviewed
+under the existing exact-policy rules; they are not assertion kills. The native
+study covers archive validation, atomic publication and paused restoration; export
+and status studies also cover shared job/dispatch routes. The validity refresh
+kills all nine added native-data dispatch mutants and retains the exact prior
+survivor reasons. Python3.9 remains authoritative for production tests.
+[Native evidence](verification-native-data-mutation.json),
+[export evidence](verification-export-completion-mutation.json),
+[status evidence](verification-native-data-status-mutation.json),
+[validity evidence](verification-native-data-validity-mutation.json).

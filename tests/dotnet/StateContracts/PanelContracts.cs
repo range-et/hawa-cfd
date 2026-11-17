@@ -33,7 +33,7 @@ static class PanelContracts {
                 var controls=Walk(panel).ToArray();
                 assert(CaseHub.Find(3101)==null && !doc.Modified,"Opening panel created/modified a case");
                 assert(controls.OfType<Label>().Any(x=>x.Text=="NO CASE"),"Empty state not shown");
-                assert(!controls.OfType<TabControl>().Single().Visible,"Case controls shown without a case");
+                assert(controls.OfType<TabControl>().Single().Pages.Where(p=>p.Text!="Save / Import").All(p=>!p.Enabled) && controls.OfType<Button>().Single(b=>b.Text=="Import data").Enabled,"Empty document must offer import without enabling case controls");
                 assert(!controls.OfType<Button>().Single(x=>x.Text=="Run / Resume").Enabled,"Empty case can run");
                 controls.OfType<Button>().Single(x=>x.Text=="Select bodies").PerformClick(); // cancelled picker
                 assert(CaseHub.Find(3101)==null,"Cancelled picker created a case");
@@ -43,7 +43,7 @@ static class PanelContracts {
                 // Programmatic control events while empty must not synthesize a case.
                 foreach(var n in controls.OfType<NumericStepper>())n.Value+=.1;
                 foreach(var d in controls.OfType<DropDown>())d.SelectedIndex=0;
-                controls.OfType<Button>().Single(x=>x.Text=="Apply display").PerformClick();
+
                 assert(CaseHub.Find(3101)==null,"Empty controls created a case");
             }
         });
@@ -65,11 +65,11 @@ static class PanelContracts {
                 assert(c.Speed==1.5,"Panel edit failed");doc.Undo();assert(c.Speed==1,"Undo failed");
                 controls.OfType<NumericStepper>().Single(x=>x.MaxValue==100000).Value=25;
                 assert(c.Target==25,"Target edit failed");
-                var device=controls.OfType<DropDown>().Single(x=>x.DataStore.Contains("cuda:0"));device.SelectedValue="auto";device.SelectedIndex=-1;
+                var device=controls.OfType<DropDown>().Single(x=>x.DataStore.Contains("cuda:0") && !x.ToolTip.StartsWith("Backend for importing"));device.SelectedValue="auto";device.SelectedIndex=-1;
                 assert(c.Device=="auto","Device edit failed");
                 var field=controls.OfType<DropDown>().Single(x=>x.DataStore.Contains("pressure"));field.SelectedValue="pressure";field.SelectedIndex=-1;
                 assert(c.Field=="pressure","Field edit failed");field.SelectedValue="speed";
-                Button("Apply setup").PerformClick();Button("Apply display").PerformClick();Button("Zoom domain").PerformClick();
+                Button("Zoom domain").PerformClick();
                 assert(doc.Views.ActiveView.ActiveViewport.Zoomed!=null,"Zoom failed");
                 Button("Fit domain").PerformClick();assert(controls.OfType<Label>().Any(x=>x.Text.Contains("Use Select bodies") && x.Text.Contains("Adding geometry to Rhino does not assign it")),"Selection guidance not shown");
                 Button("Block preset").PerformClick();assert(c.Id==id,"Preset replaced identity");
@@ -145,9 +145,9 @@ static class PanelContracts {
             var legacy=c.Settings();legacy["view"]!.AsObject().Remove("annotations");CaseHub.Restore(3203,legacy.ToJsonString());
             using var panel=new HawaPanel(3203);
             var toggle=Walk(panel).OfType<CheckBox>().Single(x=>x.Text=="Annotations and legend");
-            var apply=Walk(panel).OfType<Button>().Single(x=>x.Text=="Apply display");
+
             assert(toggle.Checked==true,"Legacy view lost annotations");
-            toggle.Checked=false;apply.PerformClick();
+            toggle.Checked=false;
             assert(doc.Modified && !c.View["annotations"]!.GetValue<bool>() && c.View["field"]!.GetValue<bool>(),"Annotation toggle failed or hid field");
             var saved=CaseHub.Save(3203);CaseHub.Close(3203);CaseHub.Restore(3203,saved);c=CaseHub.Find(3203)!;
             assert(toggle.Checked==false && !c.View["annotations"]!.GetValue<bool>(),"Annotation choice did not survive restore");
@@ -173,7 +173,7 @@ static class PanelContracts {
                     button.PerformClick();
                     assert(CaseHub.Find(3200)==null && !doc.Modified,"Rejected selection published/modified a case");
                     assert(Walk(panel).OfType<Label>().Any(x=>x.Text=="NO CASE"),"Rejected selection replaced empty state");
-                    assert(!Walk(panel).OfType<TabControl>().Single().Visible,"Rejected selection exposed case controls");
+                    assert(Walk(panel).OfType<TabControl>().Single().Pages.Where(p=>p.Text!="Save / Import").All(p=>!p.Enabled),"Rejected selection exposed case controls");
                 }
             } finally { NativeGeometry.PickAction=null; }
             void Reject(Action action){bool rejected=false;try{action();}catch(InvalidOperationException){rejected=true;}catch(ArgumentException){rejected=true;}assert(rejected,"Invalid selection accepted");}

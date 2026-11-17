@@ -72,7 +72,10 @@ class Job:
                 # CPU, and session reads take the session lock. Holding the device
                 # lock for them would make views wait behind Solve and Record (#99).
                 request = self.request['request']
-                if request['op'] == 'field':
+                if request['op'] == 'data':
+                    from .native_data import save
+                    value = save(SESSIONS[request['session']], request, self.checkpoint)
+                elif request['op'] == 'field':
                     from .fields import dispatch_field
                     value = dispatch_field(request, SESSIONS.get(request.get('session')), self.checkpoint)
                 elif request['op'] == 'export' and request.get('format') == 'csv':
@@ -108,10 +111,25 @@ class Job:
                         if self.cancelled:raise Cancelled('Refinement cancelled')
                         self.result=value;self.steps=self.target;self.state='completed'
                     return
-                s = Session(self.request['case'], self.request.get('device', 'auto'))
+                imported = self.request.get('kind') == 'native_data_import'
+                if imported:
+                    from .native_data import read_archive, context, restore
+                    if set(self.request) - {'kind', 'path', 'device', 'context'}:
+                        raise ValueError('Unsupported native import options')
+                    caller = context(self.request.get('context', {}))
+                    populations, metadata, means = read_archive(self.request['path'], self.checkpoint)
+                    spec = metadata['case']
+                else:
+                    spec = self.request['case']
+                s = Session(spec, self.request.get('device', 'auto'))
                 self.session = s
                 self.checkpoint(0)
-                if self.request.get('kind') == 'create':
+                if imported:
+                    restore(s, populations, metadata, means)
+                    self.target = s.flow.i
+                    self.checkpoint(self.target)
+                    value = {'case': metadata['case'], 'metadata': metadata, 'context': caller}
+                elif self.request.get('kind') == 'create':
                     value = {}
                 elif self.request.get('kind') == 'motion_evaluate':
                     from .motion import evaluate_motion

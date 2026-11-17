@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "measured_at_utc": "2026-11-17T07:29:53.307517+00:00",
+  "reviewer": "Codex domain-validation agent (mutation evidence review)",
+  "source_revision": "5ac088b3c8debecd5680d8a69b5312ee3d0e959e",
+  "tool": "mutmut==3.7.0",
+  "python": "3.12.4",
+  "device": "CPU only; cpu_only guard, CUDA/MPS parameterizations deselected; four mutation workers",
+  "study_directory": "results/validity-native-data-mutation-3",
+  "policy": "tools/mutation/validity-foundation-policy.json",
+  "policy_sha256": "6736094a6dca04a63b9a3620ffe5fcd0b199d011bebd149295c1770ef188d7f0",
+  "scope": "Lines changed since the base by the validity-foundation PR and the item 5 field-views and item 6 traces PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared MPS device lock (#99: plugin.DeviceLock with suspend and restore, Session construction, per-chunk stepping and pause, and the locked refined set-up, stepping and frames), the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, display_solid, the half-cell isosurface (fields.march, grid_lines, isosurface and FieldCollection.isosurface, with the T-junction seam split in fields.close_seams) and the plane partition (FieldCollection.plane, FieldCollection.lattice and the single-frame plane dispatch) and the streamline traces (fields.trace with its per-point colour sampling, trace_seed, trace_result, FieldCollection.trace, the display mask of FieldCollection.sample; the recording pathlines were removed by owner decision, and the plugin recording dispatch line is included); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host; #98 additionally covers the checkpoint validate_provenance call with public save/load controls. The opt-in cpu_only pytest plugin declares CUDA/MPS unavailable for controls and forked mutants, including default/auto selection. Refreshed for combined #30/#35: fixed-refinement metadata admission before Job creation and CSV export routing; CPU controls add translated/topology admission, the 200-coarse/400-fine default, and CSV/NPZ publication regressions. Export/job dependency hashes are pinned; the separate numerical-export study covers exports.py/job export mutations. Refreshed for native save/import in #35: the public native-data save dispatch branch in plugin.py is included; native_data.py and its original CPU control suite are pinned dependencies. The separate native-data study covers serialization/restoration and jobs.py native-data ownership; this study does not claim whole-module native-data mutation coverage.",
+  "result": {
+    "mutants": 2571,
+    "killed": 2352,
+    "reviewed_survivors": 219,
+    "control_tests": 325,
+    "policy_pass": true
+  },
+  "controls": {
+    "passed": 325,
+    "deselected": 24,
+    "warnings": 3,
+    "warning_scope": "Two vendored Lettuce distribution-metadata deprecations; one deliberate duplicate metadata.npy archive fixture warning."
+  },
+  "review": {
+    "unchanged_exact_survivor_diffs_and_reasons": 219,
+    "new_or_changed_survivors": [],
+    "previous_mutants": 2562,
+    "new_dispatch_mutants_killed": [
+      "hawa.plugin.x_dispatch__mutmut_1",
+      "hawa.plugin.x_dispatch__mutmut_2",
+      "hawa.plugin.x_dispatch__mutmut_3",
+      "hawa.plugin.x_dispatch__mutmut_4",
+      "hawa.plugin.x_dispatch__mutmut_5",
+      "hawa.plugin.x_dispatch__mutmut_6",
+      "hawa.plugin.x_dispatch__mutmut_7",
+      "hawa.plugin.x_dispatch__mutmut_8",
+      "hawa.plugin.x_dispatch__mutmut_9"
+    ],
+    "new_dispatch_review": "Operation comparison/case changes, removed or null save arguments, and changed session lookup keys all fail the CPU controls. No functional survivor was waived.",
+    "sources_unchanged_during_run": true,
+    "unchecked_or_error_outcomes": 0
+  },
+  "artifacts": {
+    "mutants.json": "9517cf69d8ad70d8c37f0526019c6f3906235cfae0dc309db5b2a720384bbdad",
+    "mutations.diff": "b7c46eb5c9681355619aad696c3a12bc126915bd7fd93739eb7824625eb3bb24",
+    "scope.json": "c4bee01d70fe926c02c7306d2bf0b78a615de28be34e25f6c15605b90a4b9620",
+    "changed-lines.patch": "610d293941eded98f950c36ab424644b807f52d233f28bbeef7ec1889e6778ec",
+    "control.xml": "1b7216a45600730da39956039306b92e1f184de709e1c50d8aecb14b86bba707",
+    "collected.txt": "a501957773a2830fba977877b48e7b51dad3a78d0c1d5dc854819809aebf4263",
+    "working-source-before.sha256": "e9768a8b1ed390080f48be65a968958ac33c3f613c196f7fb82bb005c5c55200",
+    "working-source-after.sha256": "e9768a8b1ed390080f48be65a968958ac33c3f613c196f7fb82bb005c5c55200",
+    "mutation-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  "limits": "Bounded changed-line mutation scope, not whole-codebase coverage, physical qualification, accelerator parity or Rhino host evidence. Superseded interrupted/stale studies supply no pass evidence."
+}

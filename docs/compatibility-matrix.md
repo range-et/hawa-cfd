@@ -5,7 +5,26 @@ This is a development gate. It is exhaustive over its versioned finite products;
 it does not enumerate arbitrary Grasshopper graphs, continuous geometries,
 parameter values or all concurrent event sequences.
 
-## Current transfer and shared-view increment
+## Numerical export completion (#35)
+
+The current finite inventory adds 81 rows: three table kinds (fields/probes/loads)
+× three sources (normalized 2D, physical 3D, moving 3D) × three request modes
+(valid, expected-identity mismatch, pre-publication cancellation) × three devices.
+The total is **102,582 rows**, including the 42 native-data rows below. Each row advances a real session four steps; an
+independent readback compares literal schemas, raw arrays/history, translated
+historical pivots, positions/units, validity, capture identity and preserved old
+bytes on rejection. Loads from stationary sources are expected rejections.
+Unavailable devices remain blocked. This is interchange verification, not a new
+solver or physical qualification. See [the completion review](review-export-completion.md)
+for fresh run results and the updated 53-node/31-archive inventory.
+
+Native data adds voxel/curved cases × seven modes (valid resume, source mismatch,
+save cancellation, import cancellation, truncated archive, unsupported schema,
+corrupt populations) × three devices. Snapshot at step 6 includes averaging
+history; paused views must not advance, and explicit continuation through step 12
+must match uninterrupted same-backend populations, mean fields and mass baseline.
+
+## Historical transfer and shared-view increment
 
 The development run `results/atmosphere-nesting/matrix-trim-final` declares
 **102,459 rows: 100,010 passed, zero failed, 2,449 CUDA rows blocked**. It adds

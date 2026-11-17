@@ -43,6 +43,16 @@ Example **09** is a historical Galapagos definition with user edits. It is prese
 5. Read errors and reports. Require valid output geometry and a completed result before describing a run as successful.
 6. Compare the same physical time and fixed colour limits. Check grid, domain-size and settling sensitivity before using loads.
 
+## Numerical exports
+
+Checkpoint supports `export csv` for fields, `export probes csv` with the optional
+Points input, and `export loads csv` from a moving-body Solution. Use an absolute
+CSV path and toggle Execute false → true. False cancels pending work; changed
+inputs require re-arming. Existing `save`, `load` and `export` retain NPZ behavior.
+Example 31 covers field/probe inputs; connect Checkpoint to Solve in examples
+17–19 for retained load history. Preserve shipped archives and save your variation
+as a copy. Read the [schemas, units, identity and limits](../../docs/numerical-export.md).
+
 ## Recording and moving bodies
 
 Examples 13, 16 and 17–19 include recording controls. Set a **new absolute directory** before starting Record. Use its completed manifest for Playback, then move the Frame slider. Do not point separate runs at the same directory.

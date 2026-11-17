@@ -31,7 +31,8 @@ are shown as restored; opening or reopening the panel does not reset them.
    bodies at least two cells from every domain face.
 3. Set kinematic viscosity, density, lattice Mach and collision model. Native
    cases use an X− inlet and X+ outlet; choose wall/slip/paired periodic side faces.
-   Press **Apply setup** to validate the entire edit.
+   Setup controls validate and apply as you edit. Entering/leaving periodic
+   updates the opposite side as a pair. Physical edits stop the old run; Run stays explicit.
 4. In **Solve**, choose cell size, inlet speed, total target and backend. The grid
    report shows cell count and the storage for FP32 populations alone. Other solver
    allocations need additional memory. Explicit unavailable devices report errors.
@@ -41,8 +42,9 @@ are shown as restored; opening or reopening the panel does not reset them.
    run. **Reset** also clears results and preserves settings.
 6. In **View**, select speed, pressure or density; choose slice orientation and
    relative position; choose blue-green, spectrum or diverging colours. Fixed
-   colour limits support comparisons. Apply display changes without restarting
-   physics. The legend states field units and automatic/fixed range.
+   colour limits support comparisons. Display changes apply immediately without
+   restarting physics. An invalid min/max draft keeps the last accepted view until
+   both limits form a valid increasing pair. The legend states field units and automatic/fixed range.
 
 **Hide preview** at the top of the panel hides the native domain, body bounds,
 field and legend immediately. **Show preview** enables all three again. These
@@ -86,6 +88,23 @@ Closing a panel preserves the case. Closing a GH definition releases its binding
 Closing the Rhino document stops its owned work. Use normal Rhino Undo/Redo for
 case settings. Job history and intermediate fields are not undo records.
 
+## Numerical CSV export
+
+The Export tab writes fields or probes from a healthy completed run. Choose a
+CSV destination, then Export CSV; use Cancel export for pending publication.
+For probes, select Rhino point objects and Capture selected probes before export.
+The result shows artifact, case/revision/generation, session, iteration and time.
+Native cases do not provide moving-body loads; export those through GH Checkpoint.
+Read the [table contract and cancellation limits](numerical-export.md).
+
+## Save and import data
+
+The Data tab saves a complete checkpoint and imports it paused for viewing.
+Choose a higher total target and Run / Resume only when you want to advance it.
+Imported physics is read-only archived geometry; original Rhino objects are not
+required. Keep the data NPZ beside the project: reopening a `.3dm` requires data
+import again. Read the [workflow, format and bounds](native-data.md).
+
 ## Supported scope and limits
 
 Native setup is stationary, single-fluid, isothermal, axis-aligned +X flow, with
@@ -122,7 +141,7 @@ platform exclusions and assembly hashes. The expanded panel is shown below.
 
 Use [23-curved-solid.3dm](../examples/native-prototype/23-curved-solid.3dm)
 for the stationary curved-wall workflow. It opens idle with backend Auto. Select
-**Interpolated stationary walls** in Setup and Apply setup for your own selected
+**Interpolated stationary walls** in Setup for your own selected
 bodies. Brep tessellation now follows cell size and body extent. Read
 [curved-boundaries-v0.5.md](curved-boundaries-v0.5.md) for the measured checks and
 limits. Existing mesh shape is preserved. Grid Preview shows discrete lattice

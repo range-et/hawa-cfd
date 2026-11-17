@@ -1,96 +1,496 @@
 {
   "reviewed_survivors": {
-    "hawa.exports.x_export_csv__mutmut_128": {
+    "hawa.exports.x_capture__mutmut_27": {
       "status": "survived",
-      "diff_sha256": "399685c9dc87442136111c081a99ef63a4ed7b079edb04ab6044e49a68c0c8d2",
-      "reason": "Equivalent: json.dumps treats None as false for allow_nan, so nonfinite metadata is still rejected."
+      "diff_sha256": "04c4127ed4e4da06d3fab94f50b1512fae047fb475d61bb308c9666f044c1c30",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
     },
-    "hawa.exports.x_export_csv__mutmut_212": {
+    "hawa.exports.x_capture__mutmut_275": {
       "status": "survived",
-      "diff_sha256": "170324203810c9513beec6c9b3f751fe9756bee9bff0f4b977703e9300e33845",
-      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement, bounded basename and finally cleanup are unchanged; no code discovers temporary files by name."
+      "diff_sha256": "c733146ec0a8e1eb0f186ec9eb4058191def504dd12f8c55994c5d20cb936bf0",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
     },
-    "hawa.exports.x_export_csv__mutmut_213": {
+    "hawa.exports.x_capture__mutmut_276": {
       "status": "survived",
-      "diff_sha256": "985d118b5423c52a865bda965097ae7ece55f6852d80e8f1a1be630b2e40b1f1",
-      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement, bounded basename and finally cleanup are unchanged; no code discovers temporary files by name."
+      "diff_sha256": "b57d14401ac5e6f39171750aa1574e1d785962c7c322b322a87e9606264886f3",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
     },
-    "hawa.exports.x_export_csv__mutmut_214": {
+    "hawa.exports.x_capture__mutmut_277": {
       "status": "survived",
-      "diff_sha256": "edecaf801de801a05814db35d7b0031144d54d01ba6445fc5f74c8260389e1b2",
-      "reason": "Equivalent: tempfile treats delete=None as false, preserving the same explicit finally cleanup and atomic replacement behavior."
+      "diff_sha256": "4a759f250fef60d723b9820548309aa2bf876220e38b6a1c95f7130446c13251",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
     },
-    "hawa.exports.x_export_csv__mutmut_219": {
+    "hawa.exports.x_capture__mutmut_28": {
       "status": "survived",
-      "diff_sha256": "5136fc17427c2beeb1fe8e3e824b8c9b6289cc1fbb44f09cfb2fb94d6851ef51",
-      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement, bounded basename and finally cleanup are unchanged; no code discovers temporary files by name."
+      "diff_sha256": "67989ca431afe02d29b67e9f717a9c948e3384cc8fb86bd8a03cdf6a75f4c0ae",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
     },
-    "hawa.exports.x_export_csv__mutmut_220": {
+    "hawa.exports.x_capture__mutmut_282": {
       "status": "survived",
-      "diff_sha256": "12a3da64f80fd27b58e67cdcb407810f8e6717d8246d867f651685d597f6f338",
-      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement, bounded basename and finally cleanup are unchanged; no code discovers temporary files by name."
+      "diff_sha256": "0492432c3c10393e4667346a8251191fd8341ac3d479f9a089f1beebbdd5d84e",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
     },
-    "hawa.exports.x_export_csv__mutmut_225": {
+    "hawa.exports.x_capture__mutmut_297": {
       "status": "survived",
-      "diff_sha256": "01f90fe94fa2f0a0b7854fb5f1d576e1981bc53a346cebf1cd7a62af9309b3bb",
-      "reason": "Equivalent: UTF-8 codec names are case-insensitive; both spellings encode identical bytes."
+      "diff_sha256": "f8629e557e8154855b0a45657fcbf356f23164318e32b9149f78c2ee2c793d8d",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
     },
-    "hawa.exports.x_export_csv__mutmut_227": {
+    "hawa.exports.x_capture__mutmut_298": {
       "status": "survived",
-      "diff_sha256": "d7c94096f5bf551fca9830f3816899747d0af52aa2631615c12c96a5fc115a1a",
-      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement, bounded basename and finally cleanup are unchanged; no code discovers temporary files by name."
+      "diff_sha256": "56dcb2a249426df620f52d0514ed08f6bfc5fb536d6435ef2c839c8012bec7d1",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
     },
-    "hawa.exports.x_export_csv__mutmut_228": {
+    "hawa.exports.x_capture__mutmut_299": {
       "status": "survived",
-      "diff_sha256": "c898187b63366b993f65f6bc081624acf5d2a881d86bb6ce1acb1c27e123f524",
-      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement, bounded basename and finally cleanup are unchanged; no code discovers temporary files by name."
+      "diff_sha256": "b6664a08b8d95aca4369f6d951e888af763bca46a7142d25626c8ed94099f5cf",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
     },
-    "hawa.exports.x_export_csv__mutmut_229": {
+    "hawa.exports.x_capture__mutmut_310": {
       "status": "survived",
-      "diff_sha256": "12fe89d448d89644130903159ee87b0a0e156d97b0a23493e995ef8f176419a2",
-      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement, bounded basename and finally cleanup are unchanged; no code discovers temporary files by name."
+      "diff_sha256": "2c9453b63fdc2da7ccecf7ca1422aa5b58f28c641446aea2cb2cfa9554f83506",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
     },
-    "hawa.exports.x_export_csv__mutmut_230": {
+    "hawa.exports.x_capture__mutmut_311": {
       "status": "survived",
-      "diff_sha256": "29c06f6fe16b1c911350aa1c2fff311031d741e0c4ec157636055973e0ee50e8",
-      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement, bounded basename and finally cleanup are unchanged; no code discovers temporary files by name."
+      "diff_sha256": "37388e8ff1c0108d850610e49e66770ff4f3169f06faa6d68b7595049be161a7",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
     },
-    "hawa.exports.x_export_csv__mutmut_246": {
+    "hawa.exports.x_capture__mutmut_312": {
       "status": "survived",
-      "diff_sha256": "284f43bafd81ef4c5411081e24b8cc3842d34217d8b6adea59f7cddefd722b11",
-      "reason": "Equivalent: absent-mask zeros may be float64 instead of bool; only truth testing and int conversion are performed, yielding the identical validity flags. Supplied masks remain validated boolean arrays."
+      "diff_sha256": "21d05fb16245c36e78f5dea8264280f4075b1134b275143d6bb5bf98f86bb4b2",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
     },
-    "hawa.exports.x_export_csv__mutmut_248": {
+    "hawa.exports.x_capture__mutmut_331": {
       "status": "survived",
-      "diff_sha256": "0749402e0202227ae80e4591cc28b0cdd5c8a4149d2949db1f0c26a7acc21ab8",
-      "reason": "Equivalent: absent-mask zeros may be float64 instead of bool; only truth testing and int conversion are performed, yielding the identical validity flags. Supplied masks remain validated boolean arrays."
+      "diff_sha256": "fb5aad1200f2a63f0b183ac4777ac5db22a37fa4c052579e39a29d9e89858a9a",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
     },
-    "hawa.exports.x_export_csv__mutmut_257": {
+    "hawa.exports.x_capture__mutmut_332": {
       "status": "survived",
-      "diff_sha256": "c9afa9b58fb8ee21e4ba4bbda13161bdf8f1d51dc87f4d9f06dad9daea15a7f8",
-      "reason": "Equivalent: absent-mask zeros may be float64 instead of bool; only truth testing and int conversion are performed, yielding the identical validity flags. Supplied masks remain validated boolean arrays."
+      "diff_sha256": "80147cbf779d8b25a0f1f3692944544f1d6cebd39cc16fe0b4bcf7e8d2052981",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
     },
-    "hawa.exports.x_export_csv__mutmut_259": {
+    "hawa.exports.x_capture__mutmut_333": {
       "status": "survived",
-      "diff_sha256": "396f65da10280ec9add23e85c50694e3ddccbcd67dab68474f5656d2d2a0c087",
-      "reason": "Equivalent: absent-mask zeros may be float64 instead of bool; only truth testing and int conversion are performed, yielding the identical validity flags. Supplied masks remain validated boolean arrays."
+      "diff_sha256": "47d3538114250ad63e1c463f5bc3f0ed4904d725ac6c51c111d10a4a79e53c29",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_capture__mutmut_342": {
+      "status": "survived",
+      "diff_sha256": "d318128807f8f902fd09a33629abc80530fb603dd08d98d6769db0d5b680b340",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_capture__mutmut_343": {
+      "status": "survived",
+      "diff_sha256": "218fc9f61c4949002f35770b9d32ca2268442a25bb75e6a344c5bb5144b5d2a7",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_capture__mutmut_344": {
+      "status": "survived",
+      "diff_sha256": "1cdc8ae86005f44ac1fc94b18a136fbac165938d7c0535c82ae0ec00a077b12c",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_capture__mutmut_494": {
+      "status": "survived",
+      "diff_sha256": "efe3c8ff7dd9294d2c8d746ffe2a3d7eb59bd144b36e9906a3ebf621f0f16d12",
+      "reason": "Equivalent: json.dumps treats None as false for allow_nan; nonfinite values remain rejected."
+    },
+    "hawa.exports.x_capture__mutmut_5": {
+      "status": "survived",
+      "diff_sha256": "42c19964e6e1ee43b28c6f3917689685f53aec8a217b0f56703237ec1e27d8d4",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_capture__mutmut_6": {
+      "status": "survived",
+      "diff_sha256": "847f831f8b72af28857aee32be4c7ce6225bee14afd0bd78a460f672d3fccd9e",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_capture__mutmut_78": {
+      "status": "survived",
+      "diff_sha256": "edd68fe61d3f6a732e36bb52f1b9e0ae81b987f82c1363217fb8d086bedb0e89",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_capture__mutmut_79": {
+      "status": "survived",
+      "diff_sha256": "0897259ec16c43755e60f3a6eb136c605ebad041048c6418dd3cbceb218f2945",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_export_csv__mutmut_11": {
+      "status": "survived",
+      "diff_sha256": "9e9596864121da3159ef564f30df395f8cce853cc276bbe1765b641054763aef",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_export_csv__mutmut_115": {
+      "status": "survived",
+      "diff_sha256": "fc013bf1793ff24b4e22609b1e9aeb5f5b3cec58369d2547314c64c21e309342",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_export_csv__mutmut_116": {
+      "status": "survived",
+      "diff_sha256": "5f598ed0fa052971f2fd0d727ceb7a58ef2ac4a09215383b5f4f565ad1f98518",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_export_csv__mutmut_117": {
+      "status": "survived",
+      "diff_sha256": "38583284d3b69287613ddd58e959be7c72e884bf99e9a8463b29e9954e8460cc",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_export_csv__mutmut_12": {
+      "status": "survived",
+      "diff_sha256": "021f5dcc8f7d76691e8eb3b597b0758636aff10fb98b1fafd15dc02825dec743",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_export_csv__mutmut_62": {
+      "status": "survived",
+      "diff_sha256": "c7875de53c944d43c78ae6f55f1ec4b1985b4dbd4ce16c67a6ead647a9ea1bdf",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement and finally cleanup are unchanged; no caller discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_63": {
+      "status": "survived",
+      "diff_sha256": "e848ebe6367ddb5f388f420482e10db3e91ee3900108277a94a1e680da6a2614",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement and finally cleanup are unchanged; no caller discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_64": {
+      "status": "survived",
+      "diff_sha256": "5ba1d753d5d22e79d58e443994a1e8bb97e4c3833442ab1206f072a7301447a6",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement and finally cleanup are unchanged; no caller discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_69": {
+      "status": "survived",
+      "diff_sha256": "93005384a3dbc2f6876a31d8a7a76f23d99e9709dd24a9e731c8133473c59cf7",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement and finally cleanup are unchanged; no caller discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_70": {
+      "status": "survived",
+      "diff_sha256": "d05f0b02276b3105e906f41ce167e24e21a67fa8751278ac19fa789843dbc492",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement and finally cleanup are unchanged; no caller discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_75": {
+      "status": "survived",
+      "diff_sha256": "662f86dc1b046db8c9cfcc8c006c00108680dd0ec92e4886eaaf94458d1dbd57",
+      "reason": "Equivalent: UTF-8 and utf-8 name the same codec."
+    },
+    "hawa.exports.x_export_csv__mutmut_77": {
+      "status": "survived",
+      "diff_sha256": "93ee902173aa752555b9d43cb59166bef64da0007bd3bcebdb5b2d77b816061d",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement and finally cleanup are unchanged; no caller discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_78": {
+      "status": "survived",
+      "diff_sha256": "fc22a8fcbfab447e06daa488115366b3cb6e9c5cc90fd637a3fb9aa155e8c447",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement and finally cleanup are unchanged; no caller discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_79": {
+      "status": "survived",
+      "diff_sha256": "eac5457922639d970fb3296611532f94d78419821217fe034d4be23938bc3590",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement and finally cleanup are unchanged; no caller discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_80": {
+      "status": "survived",
+      "diff_sha256": "9326aa8efa22f24c806d7202880a35822fac5856290e68f84d2b53bd1181ce3f",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement and finally cleanup are unchanged; no caller discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_90": {
+      "status": "survived",
+      "diff_sha256": "89f41c34aa8589cd54895116681b553bc713a440c22ec192b7cef3c5ddcba015",
+      "reason": "Equivalent: json.dumps treats None as false for allow_nan; nonfinite values remain rejected."
+    },
+    "hawa.exports.x_export_csv__mutmut_92": {
+      "status": "survived",
+      "diff_sha256": "79d34b8178ba4de91fc83931777a83af750ec89081d142f011cf576c53f5158b",
+      "reason": "Equivalent in export_csv: capture has already serialized/deserialized metadata with allow_nan=False under the lock. No caller can mutate the detached metadata before this private second serialization; permitting NaN here cannot introduce it."
+    },
+    "hawa.exports.x_export_csv__mutmut_93": {
+      "status": "survived",
+      "diff_sha256": "eecc1643b9fe66c722d43350a3d793d44e3c7fc96473307f278b68b331536e75",
+      "reason": "Equivalent in export_csv: capture has already serialized/deserialized metadata with allow_nan=False under the lock. No caller can mutate the detached metadata before this private second serialization; permitting NaN here cannot introduce it."
+    },
+    "hawa.exports.x_field_rows__mutmut_12": {
+      "status": "survived",
+      "diff_sha256": "9921cb064212afba505d5a9f1eadc89bac6e997e96074d6adcd7f5c853c291dd",
+      "reason": "Equivalent: absent-mask zeros may be float64 instead of bool; only truth testing and int conversion are performed, yielding identical flags. Supplied masks remain validated boolean arrays."
+    },
+    "hawa.exports.x_field_rows__mutmut_14": {
+      "status": "survived",
+      "diff_sha256": "0e6a6eb6da135e6731213ad21641e1a190676a2c23e151c7b02874867c57e22d",
+      "reason": "Equivalent: absent-mask zeros may be float64 instead of bool; only truth testing and int conversion are performed, yielding identical flags. Supplied masks remain validated boolean arrays."
+    },
+    "hawa.exports.x_field_rows__mutmut_23": {
+      "status": "survived",
+      "diff_sha256": "524923c31936f9983966b130bfef0cd9562623e34305e67bd92511748ed63e82",
+      "reason": "Equivalent: absent-mask zeros may be float64 instead of bool; only truth testing and int conversion are performed, yielding identical flags. Supplied masks remain validated boolean arrays."
+    },
+    "hawa.exports.x_field_rows__mutmut_25": {
+      "status": "survived",
+      "diff_sha256": "6458b3bc45c4fee3bfadfcac1a0466bdcd743f140eca78bf3ff3c5a861f8e294",
+      "reason": "Equivalent: absent-mask zeros may be float64 instead of bool; only truth testing and int conversion are performed, yielding identical flags. Supplied masks remain validated boolean arrays."
+    },
+    "hawa.exports.x_field_rows__mutmut_49": {
+      "status": "survived",
+      "diff_sha256": "e8f26bf448747438539f88b8f0744f923c5db61bf37e327d334f31c2415ee4b1",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_field_rows__mutmut_50": {
+      "status": "survived",
+      "diff_sha256": "41cf25ef1892c6c98ad31db066ecee7a546e36adf02ba7beeed1168e00edf8d1",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_load_rows__mutmut_106": {
+      "status": "survived",
+      "diff_sha256": "7c8b46d2af91aa9701fbf39534219c86e6f126fc48bee6afbd54e8094993c63c",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_load_rows__mutmut_107": {
+      "status": "survived",
+      "diff_sha256": "4cf7cd69932d16162b690ec7488321eb06a214e96c92549c99a139f3f572a55f",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_load_rows__mutmut_108": {
+      "status": "survived",
+      "diff_sha256": "b493d39ac76e75154b84b5af884ec437cc7bcd03fddca90e95057b78bb2f66e7",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_load_rows__mutmut_120": {
+      "status": "survived",
+      "diff_sha256": "8b9846b1eba6421f84e208f0c2491edd8cb62b09daeae0a3186c5a8920be9c09",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_load_rows__mutmut_134": {
+      "status": "survived",
+      "diff_sha256": "9bd3b38dab79596d87c712de123f7c68181e22eef7f591d07eb3e1c164311363",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_load_rows__mutmut_135": {
+      "status": "survived",
+      "diff_sha256": "ee677e2c6ee11d4ea5e21eac43aeba8e06ae1f168186dcac2341db29a7d7f7c3",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_load_rows__mutmut_143": {
+      "status": "survived",
+      "diff_sha256": "6b4184daf0d6e42d77bf6a390cba17291898ddc136a600ed7aec1e90ee893d51",
+      "reason": "Equivalent under the documented body_id JSON-cell contract: None acts as false, while default/true escapes Unicode. json.loads returns exactly the original ID in every case; UTF-8 source spelling is not an ID semantic."
+    },
+    "hawa.exports.x_load_rows__mutmut_145": {
+      "status": "survived",
+      "diff_sha256": "38ce5edbbd6fb275510b6bf24af4532a1fa55537b60cc41c9abdaaa6677e1bc5",
+      "reason": "Equivalent under the documented body_id JSON-cell contract: None acts as false, while default/true escapes Unicode. json.loads returns exactly the original ID in every case; UTF-8 source spelling is not an ID semantic."
+    },
+    "hawa.exports.x_load_rows__mutmut_148": {
+      "status": "survived",
+      "diff_sha256": "dd6c5e25c47e71a26e46067a4bdf67647fa4081f5522a255633c6c9f692c6d6b",
+      "reason": "Equivalent under the documented body_id JSON-cell contract: None acts as false, while default/true escapes Unicode. json.loads returns exactly the original ID in every case; UTF-8 source spelling is not an ID semantic."
+    },
+    "hawa.exports.x_load_rows__mutmut_16": {
+      "status": "survived",
+      "diff_sha256": "90602a12d1a900aa9756ff530ecda61e2536af035ee69cf65196b2282c0e3af0",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_load_rows__mutmut_17": {
+      "status": "survived",
+      "diff_sha256": "ff372cadfe91b4e45961a1478490c8a866e50f3ed6cd5dcc9a5a3eea9a24311f",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_load_rows__mutmut_18": {
+      "status": "survived",
+      "diff_sha256": "63eac9cd4bbbb31a419079249660819f8a7fdd9b70834b2ff01c26d3e1088020",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_load_rows__mutmut_44": {
+      "status": "survived",
+      "diff_sha256": "de22993d82bbe342348b87742400bff4f1b364ea492d3fe19239077a2e4f24d3",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_load_rows__mutmut_45": {
+      "status": "survived",
+      "diff_sha256": "2cf842e3d421880925946bca6b6e18a8fec7e4a61f2ebeb7e5e27b4d9ce5afc4",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_load_rows__mutmut_46": {
+      "status": "survived",
+      "diff_sha256": "c5b87955a2297d9600505d139f6528ff3b8c2191f055a778b357660fb4f34caf",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_load_rows__mutmut_73": {
+      "status": "survived",
+      "diff_sha256": "6a647ba3e1cc710654295550965a293291c8c18bc65e41799a305e6564f9c1b1",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_load_rows__mutmut_74": {
+      "status": "survived",
+      "diff_sha256": "e6529d9f40603e024f0419e9f615b1f9ce049fcc0ed7973fd3f82c6fbadefb0e",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_load_rows__mutmut_75": {
+      "status": "survived",
+      "diff_sha256": "9206911a94660a452698d96cc86c5718268eee0d7847a177eed0a9ea32a652b7",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_probe_rows__mutmut_41": {
+      "status": "survived",
+      "diff_sha256": "b006770680b34bc15d9a23cc8a686d8b7fbb511956c4e0df14a356328fc15995",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_probe_rows__mutmut_42": {
+      "status": "survived",
+      "diff_sha256": "1737e2f4e0fbace77db6ed633fa624e4c9f3556adb91319d6e5d2da478075ad9",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_106": {
+      "status": "survived",
+      "diff_sha256": "a95a19815ee8b3a8a346c0ccc924f1cd834aeea53cca06ff1ad606dfdfb5a764",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_107": {
+      "status": "survived",
+      "diff_sha256": "ce020680e54948757bf29251f94e05a7dfb2d9a22adfe4b993fa05c3190fa34c",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_149": {
+      "status": "survived",
+      "diff_sha256": "8d2aad0e43c8741d682a969f333bb547438c593f241b477606264126dec07e64",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_150": {
+      "status": "survived",
+      "diff_sha256": "d420277392bfdd7154ef418ed3429760fa465f12a0f168783370668949c17944",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_171": {
+      "status": "survived",
+      "diff_sha256": "739335f0a253e0b7b28e326e5d8d04d985c565334f1636b0a7e7b97d5f42d616",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_172": {
+      "status": "survived",
+      "diff_sha256": "b2035f2f1979b9e2539661e1fe3eca8571087a6d20113afb38ca2f7418cef8a7",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_192": {
+      "status": "survived",
+      "diff_sha256": "c1eb1dd10cbb907f565b2771114ce3c2ab6edf7f9fb639a6952f6f23ead8074f",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_193": {
+      "status": "survived",
+      "diff_sha256": "486cffe43e41140d53b8853fd0e3ca076f75b090e4ab17111e3a9399def6903d",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_194": {
+      "status": "survived",
+      "diff_sha256": "533fe4b8e00c8c02d47b541a2f80d6fdc608db687465017b78db3034faa53a1b",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_223": {
+      "status": "survived",
+      "diff_sha256": "911e95b91f6d752cfb0a96d1ebb2d6a8f1a39fe295189dfed08485676db37d65",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_224": {
+      "status": "survived",
+      "diff_sha256": "612d1b057c00b8808687857b27b1fc350b60f3d872953f9607d3f6ae7f5afa2b",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_225": {
+      "status": "survived",
+      "diff_sha256": "7d0b0f0a93e404622307a5c543e3fd376064fb6e769484e143086806b61fbfa3",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_230": {
+      "status": "survived",
+      "diff_sha256": "4b22faccbdfd9dcb926cc16dbc6da848ede0fbbf2297d9c5c0a2f02e377903b2",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_231": {
+      "status": "survived",
+      "diff_sha256": "fc8008f1245c069bfb0fb4195e0a447f59be4c005b5bbd4e8ce5185902cd5489",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_232": {
+      "status": "survived",
+      "diff_sha256": "a7f7ed2e1525329956323e1ce25e6769bf9707fe04c289212895842952f9c01f",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_235": {
+      "status": "survived",
+      "diff_sha256": "326a73c5a5fd123208daed60def5d7614b91a512d6cc8c695ad7aed53a70bb3b",
+      "reason": "Equivalent: json.dumps treats None as false for allow_nan; nonfinite values remain rejected."
+    },
+    "hawa.exports.x_validate_request__mutmut_237": {
+      "status": "survived",
+      "diff_sha256": "c2c0f2afe97f7c712449120e67518423bf227a2a2c5fea97075377875a478e58",
+      "reason": "Equivalent in validate_request: the strict allowed-key/type checks and finite coordinate validation exclude every possible nonfinite JSON number before serialization. Removing the secondary allow_nan guard changes no accepted request."
+    },
+    "hawa.exports.x_validate_request__mutmut_242": {
+      "status": "survived",
+      "diff_sha256": "f66476550d4fb540ae4620af3dde7d786975397e333bc28ef2cd0098f1839e8d",
+      "reason": "Equivalent in validate_request: the strict allowed-key/type checks and finite coordinate validation exclude every possible nonfinite JSON number before serialization. Removing the secondary allow_nan guard changes no accepted request."
+    },
+    "hawa.exports.x_validate_request__mutmut_56": {
+      "status": "survived",
+      "diff_sha256": "14955206ff0014d92a1b3c5fc4972622ecb3121c45ae4ea5aa319182bfcf4e52",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_57": {
+      "status": "survived",
+      "diff_sha256": "da1435b6a8def27c662be7c60c35ff186c2e0f35376f2ccf09bbc4f0e8b7fb49",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_58": {
+      "status": "survived",
+      "diff_sha256": "d068beee1cc9dcd01821bbe9f1937f50e9bc7832b0b7e9dfa1d42570af6f6b0b",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_76": {
+      "status": "survived",
+      "diff_sha256": "c5786d6ca0e2b7fb13b26337f74225e895bf8c99b497d35b811666f8d5f3ab99",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_77": {
+      "status": "survived",
+      "diff_sha256": "d07221bb37e73f1e825267008848ec62b6e1571f45c808ac6630af918f973bd6",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_78": {
+      "status": "survived",
+      "diff_sha256": "742d3f7dc3420f981f704857923c488586bd134dd167a1fd5d6473e83dfdd062",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_89": {
+      "status": "survived",
+      "diff_sha256": "09fd006759b7388fcada51e0819700428698de4f1813e3a57d9c62420110b41a",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.exports.x_validate_request__mutmut_90": {
+      "status": "survived",
+      "diff_sha256": "d672f4a30ba1c3af7ade5f769fc634e8b3ffcc99efc89a3b155a150276a43977",
+      "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
     }
   },
   "sources": {
-    "src/hawa/exports.py": "b80d75463088c398fbd165e6e4b79f51929fa29a4a9b32e37afc03288253acdf",
-    "src/hawa/plugin.py": "50ae862f3c5996b96269a194207d9d964e3103215f0a2eb60c572fe5a3804e48",
-    "src/hawa/jobs.py": "f769062de1f7f443e58c41c29b8fa26bae242d313dfa62fb3856865deb196421",
+    "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
+    "src/hawa/plugin.py": "a54abd1eb7e147432882a6c390528e8976304c4432804b173068f2df1dc0f289",
+    "src/hawa/jobs.py": "c99c593281f82c8fe7968941e1cb4f30fa4ea76a5c370dd3bc04b89db3e55af2",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
-    "tests/test_csv_export.py": "3456542327c5e5fcd8fec5422d3b42c415d74c8eb013f668b197eb62a7bb8db3",
-    "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb"
+    "tests/test_csv_export.py": "bd7ae21aa9524b2ee5deb8e018f8f7b939e0642a348923c8d5fe939c2d2d3f82",
+    "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
+    "tests/test_csv_tables.py": "3c5bbb6c9b67713dcdd605637142a0d5c239cf020c5c03799ef1f7a38d3b0098",
+    "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090",
+    "tests/test_native_data.py": "78438be3e74991f5c8079df767e7dd5d2fc6516a767ada1c99092e01bd5b7436",
+    "tests/test_runtime_job_contracts.py": "5dc3a5bfdc13d8c3be84d3633c237cdcd8c98ea46d876b76d23c8df7f470582a",
+    "tests/test_native_data_status.py": "e526cd814ebadbf5ca64a94f5979cd76c2af9e3c55174da78453d912492cc1e1",
+    "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c"
   },
-  "scope": "Issue35 CSV export and routing changed lines vs domain production0e76b95; combined30+35 source, no numerical solver changes",
+  "scope": "Issue35 CSV field/probe/load capture and shared export/native-data job routing changed lines versus0e76b95; native_data.py has a dedicated whole-module policy; no solver numerical changes",
   "control_test_files": [
     "tests/test_csv_export.py",
-    "tests/test_export.py"
+    "tests/test_csv_tables.py",
+    "tests/test_export.py",
+    "tests/test_native_data.py",
+    "tests/test_runtime_job_contracts.py",
+    "tests/test_native_data_status.py"
   ],
   "base_revision": "0e76b95",
   "tool": "mutmut==3.7.0",
-  "mutants": 368,
-  "inventory_sha256": "520b06b3dac3603e191226c366f0a9d4af81515dd666eeef4d047bed50806baa"
+  "mutants": 1357,
+  "inventory_sha256": "d4dc930af25dd739226592bad087ed90aa6a7bc2ac6ff06a2bddc902f4fcc804"
 }

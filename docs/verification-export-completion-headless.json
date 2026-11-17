@@ -1,0 +1,121 @@
+{
+  "date": "2026-11-17",
+  "production_freeze": "5ac088b",
+  "reviewer": "root; mutation policy reviews by numerical_exports, domain_validation and atmosphere_qualification",
+  "python39": {
+    "version": "3.9.25",
+    "passed": 2256,
+    "skipped": 87,
+    "warnings": 214,
+    "evidence": "results/function-coverage-export-complete",
+    "skips": {
+      "CUDA unavailable": 85,
+      "MPS float64 unsupported": 1,
+      "mutmut requires developer Python": 1
+    }
+  },
+  "python312": {
+    "version": "3.12.4",
+    "passed": 2246,
+    "skipped": 97,
+    "warnings": 216,
+    "log": "/tmp/hawa35-full-gates.log"
+  },
+  "state_contracts": {
+    "passed": 146,
+    "host": "NET10 doubles; production plugin targets NET7"
+  },
+  "coverage": {
+    "strict_headless": "PASS functions and executable lines",
+    "base": "12dc774495871e9821c6481f27f84b80c0bd2fe2",
+    "python_functions": 511,
+    "csharp_functions": 582,
+    "unmeasured_host_functions": 299,
+    "committed_matrix": "docs/function-tests/matrix.json"
+  },
+  "smoke": {
+    "cpu": {
+      "result": "pass",
+      "counts": {
+        "pass": 5,
+        "fail": 0,
+        "unsupported-guarded": 0
+      },
+      "manifest": "results/device-smoke-export-complete-cpu/manifest.json",
+      "manifest_sha256": "d29d4a642116b948f74c54e33acda8c1799e7c5ec0ee3f9f07aa7944839e7188",
+      "source_before": {
+        "commit": "ee7dfc01f3fada9730c9ea4df1d6d8c04129ac71",
+        "dirty": true,
+        "status": [
+          " M docs/verification-export-completion-host.json",
+          " M tools/mutation/run_numerical_export.sh"
+        ],
+        "index_sha256": "b518a0e8fe05a4b3e863b921840673e193a631a2a8037044c3eeba2226e94a10",
+        "files": 893,
+        "source_sha256": "299487423f7066364f5817f1732702d7794e0122d86d108a354e232bb599d396"
+      },
+      "source_after": {
+        "commit": "ee7dfc01f3fada9730c9ea4df1d6d8c04129ac71",
+        "dirty": true,
+        "status": [
+          " M docs/verification-export-completion-host.json",
+          " M tools/mutation/run_numerical_export.sh"
+        ],
+        "index_sha256": "b518a0e8fe05a4b3e863b921840673e193a631a2a8037044c3eeba2226e94a10",
+        "files": 893,
+        "source_sha256": "299487423f7066364f5817f1732702d7794e0122d86d108a354e232bb599d396"
+      },
+      "backend": {
+        "requested": "cpu",
+        "selected": "cpu",
+        "torch": "2.8.0",
+        "cuda_available": false,
+        "mps_available": true,
+        "notes": []
+      },
+      "reference": {
+        "device": "cpu",
+        "dtype": "float64"
+      }
+    },
+    "mps": {
+      "result": "pass",
+      "counts": {
+        "pass": 5,
+        "fail": 0,
+        "unsupported-guarded": 0
+      },
+      "manifest": "results/device-smoke-export-complete-mps-v2/manifest.json",
+      "manifest_sha256": "943758e84bd892ac5393ba220b6f865389020b61517c1b865938434fb3a4967d",
+      "source_before": {
+        "commit": "c518edb630177680a7bd9d1aaf9b9e820b9a862e",
+        "dirty": false,
+        "status": [],
+        "index_sha256": "9045ac284a5679e67b3b9f0d58447c06d89479b848718474f3fb1fc8bd67e2d4",
+        "files": 894,
+        "source_sha256": "2fd99faa181815b4852db8a9ea2976c816eeb87854568a8e36eb2d2da2c2e1d7"
+      },
+      "source_after": {
+        "commit": "c518edb630177680a7bd9d1aaf9b9e820b9a862e",
+        "dirty": false,
+        "status": [],
+        "index_sha256": "9045ac284a5679e67b3b9f0d58447c06d89479b848718474f3fb1fc8bd67e2d4",
+        "files": 894,
+        "source_sha256": "2fd99faa181815b4852db8a9ea2976c816eeb87854568a8e36eb2d2da2c2e1d7"
+      },
+      "backend": {
+        "requested": "mps",
+        "selected": "mps",
+        "torch": "2.8.0",
+        "cuda_available": false,
+        "mps_available": true,
+        "notes": []
+      },
+      "reference": {
+        "device": "cpu",
+        "dtype": "float64"
+      }
+    }
+  },
+  "cuda": "BLOCKED locally; Hawa c110p frozen-head verification required before merge"
+}

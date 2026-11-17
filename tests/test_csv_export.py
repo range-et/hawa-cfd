@@ -28,7 +28,7 @@ def snapshot():
                               flow=SimpleNamespace(i=7, units=SimpleNamespace(
                                   convert_length_to_pu=lambda n: n * .5,
                                   convert_time_to_pu=lambda n: n * .125)),
-                              id='s', key='hash', quality={'warnings': ['x,\ny']},
+                              id='s', key='hash', state='paused', quality={'warnings': ['x,\ny']},
                               backend=SimpleNamespace(info=lambda: {'device': 'cpu'}))
     return session, arrays
 
@@ -50,9 +50,10 @@ def request(destination, **options):
 def test_exact_values_coordinates_masks_units_and_escaped_metadata(snapshot, tmp_path):
     session, arrays = snapshot
     path = tmp_path / 'nested' / 'deeper' / 'field.csv'
-    assert exports.export_csv(session, request(path)) == {'path': str(path), 'format': 'csv', 'rows': 36}
+    result = exports.export_csv(session, request(path))
+    assert {key: result[key] for key in ('path', 'format', 'rows')} == {'path': str(path), 'format': 'csv', 'rows': 36}
     meta, rows = read_table(path)
-    assert meta == {
+    legacy = {
         'schema': 'hawa-field-csv-1', 'rows': 36, 'shape': [3, 4, 3], 'columns': exports.HEADER,
         'units': {'position': 'm', 'velocity': 'm/s', 'pressure': 'Pa', 'density': 'kg/m^3', 'time': 's'},
         'unit_system': 'SI', 'session': 's', 'case_hash': 'hash', 'case': session.spec,
@@ -64,6 +65,7 @@ def test_exact_values_coordinates_masks_units_and_escaped_metadata(snapshot, tmp
         'validity': 'valid = not (solid or boundary_node); invalid quantities are empty',
         'precision': 'Python float round-trip decimal; float32 values promoted exactly',
     }
+    assert {key: meta[key] for key in legacy} == legacy
     assert exports.HEADER == ['i', 'j', 'k', 'x', 'y', 'z', 'solid', 'boundary_node', 'valid',
                               'u_domain', 'v_domain', 'w_domain', 'pressure', 'density']
     for index, row in zip(np.ndindex(arrays['pressure'].shape), rows):
@@ -175,7 +177,8 @@ def test_query_job_routes_csv_without_device_lock_and_cancels(snapshot, tmp_path
         raise AssertionError('CPU export took device slot')
     monkeypatch.setattr(job, 'take_device', forbidden)
     job.work()
-    assert job.state == 'completed' and job.result == {'path': str(path), 'format': 'csv', 'rows': 36}
+    assert job.state == 'completed'
+    assert {key: job.result[key] for key in ('path', 'format', 'rows')} == {'path': str(path), 'format': 'csv', 'rows': 36}
     read_table(path)
     before = path.read_bytes()
     job = Job({'kind': 'query', 'request': request(path)})

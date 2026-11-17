@@ -12,14 +12,17 @@ public static class CaseGeometry
             return null;
         double scale = Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Meters, Rhino.RhinoDoc.FromRuntimeSerialNumber(c.Document)!.ModelUnitSystem);
         spec["spacing"] = spec["dx"]!.GetValue<double>() * scale;
-        if (spec["origin_m"] != null)
-            spec["origin"] = new JsonArray(spec["origin_m"]!.AsArray().Select(v =>
+        var physicalOrigin = spec["origin_m"]?.AsArray() ?? c.ImportedSourceData?["geometry"]?["origin_m"]?.AsArray();
+        if (physicalOrigin != null)
+            spec["origin"] = new JsonArray(physicalOrigin.Select(v =>
                 JsonValue.Create(v!.GetValue<double>() * scale)
             ).ToArray());
         return spec;
     }
 
-    public static int[] GridShape(CaseState c) => c.SelectedGeometry ? NativeSettings.Shape(c.SetupData, c.Cell) : new[]
+    public static int[] GridShape(CaseState c) => c.Imported && !c.DataPlaceholder ? c.ImportedSourceData!["geometry"]!["shape"]!.AsArray().Select(v =>
+        v!.GetValue<int>()
+    ).ToArray() : c.SelectedGeometry ? NativeSettings.Shape(c.SetupData, c.Cell) : new[]
     {
         8d,
         6d,
@@ -29,7 +32,7 @@ public static class CaseGeometry
     ).ToArray();
     public static BoundingBox Bounds(CaseState c, bool result = false)
     {
-        var spec = result && c.ResultSpecData != null ? c.ResultSpecData : new JsonObject
+        var spec = result && c.ResultSpecData != null ? c.ResultSpecData : c.Imported && !c.DataPlaceholder ? c.ImportedSourceData!["geometry"]!.AsObject() : new JsonObject
         {
             ["dx"] = c.Cell,
             ["origin_m"] = c.SelectedGeometry ? c.SetupData["origin"]!.DeepClone() : new JsonArray(0d, 0d, 0d),
@@ -38,7 +41,7 @@ public static class CaseGeometry
             ).ToArray())
         };
         double scale = Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Meters, Rhino.RhinoDoc.FromRuntimeSerialNumber(c.Document)!.ModelUnitSystem);
-        var o = spec["origin_m"]?.AsArray().Select(v =>
+        var o = (spec["origin_m"] ?? c.ImportedSourceData?["geometry"]?["origin_m"])?.AsArray().Select(v =>
             v!.GetValue<double>()
         ).ToArray() ?? new double[3];
         double dx = spec["dx"]!.GetValue<double>() * scale;
@@ -99,7 +102,7 @@ public static class CaseGeometry
             return null;
         var(lo, hi) = Range(c);
         double scale = Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Meters, Rhino.RhinoDoc.FromRuntimeSerialNumber(c.Document)!.ModelUnitSystem);
-        var origin = c.ResultSpecData["origin_m"]?.AsArray().Select(v =>
+        var origin = (c.ResultSpecData["origin_m"] ?? c.ImportedSourceData?["geometry"]?["origin_m"])?.AsArray().Select(v =>
             v!.GetValue<double>() * scale
         ).ToArray() ?? new double[3];
         double dx = c.ResultSpecData["dx"]!.GetValue<double>() * scale;
