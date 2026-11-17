@@ -48,10 +48,13 @@ class SweepResult(Payload):
     coefficients: Coefficients
 
 
-class Poll(Payload):
-    state: Literal['queued', 'running', 'paused', 'completed', 'failed', 'cancelled', 'rejected']
+class CallbackIdentity(Payload):
     candidate_id: StrictStr = Field(min_length=1)
     generation: StrictInt = Field(ge=0)
+
+
+class Poll(CallbackIdentity):
+    state: Literal['queued', 'running', 'paused', 'completed', 'failed', 'cancelled', 'rejected']
     result: Optional[SweepResult] = None
     reason: StrictStr = ''
 
@@ -208,11 +211,14 @@ class SweepController:
         if self._handle is not None:
             try:
                 reply = self._executor.poll(self._handle)
-                Poll.model_validate(reply)
+                if not isinstance(reply, dict):
+                    raise ValueError('Poll reply must be a dictionary')
+                identity = CallbackIdentity.model_validate({key: reply[key] for key in ('candidate_id', 'generation')})
                 candidate = self._candidates[self._active]
-                if (reply['candidate_id'] != candidate['candidate_id'] or
-                        reply['generation'] != self.generation):
+                if (identity.candidate_id != candidate['candidate_id'] or
+                        identity.generation != self.generation):
                     return  # Old callbacks are not observations of this handle.
+                Poll.model_validate(reply)
                 state = reply['state']
                 if state == 'completed':
                     state, reason = _completed_result(reply.get('result'), candidate, self.generation)

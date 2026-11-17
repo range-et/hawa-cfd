@@ -339,3 +339,20 @@ def test_plot_segments_preserve_gaps_ids_and_provenance():
 def test_plot_rejects_mismatched_or_invalid_record_generation(generation):
     record = dict(candidate=candidate(), generation=generation, state='completed', result=result())
     assert plot_segments([record]) == []
+
+
+@pytest.mark.parametrize('change', [{'candidate_id': 'old'}, {'generation': 6}])
+def test_stale_malformed_result_does_not_fail_current_job(change):
+    c, ex = controller(1)
+    c.run(); c.tick()
+    complete(ex)
+    ex.reply.update(change)
+    ex.reply['result'] = {'bogus': 'obsolete schema'}
+    c.tick(); c.tick()
+    assert c.records[0]['state'] == 'running'
+    assert 'cancel' not in [name for name, _ in ex.calls]
+    # Identical malformed data with current identity must fail and clean up.
+    ex.reply.update(candidate_id='candidate-0', generation=7)
+    c.tick(); c.tick()
+    assert c.records[0]['state'] == 'failed'
+    assert [name for name, _ in ex.calls][-2:] == ['cancel', 'close']
