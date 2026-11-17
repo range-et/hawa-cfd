@@ -557,3 +557,62 @@ def test_maximum_probe_count_is_admitted_without_starting_worker():
     data['a']['probes'] = [dict(probe_id=str(i), position_world_m=[1., 2., 2.]) for i in range(256)]
     executor = CpuSweepExecutor(data)
     assert executor.audit() == dict(handles=0, live_workers=0, session_ids=[])
+
+
+@pytest.mark.parametrize('field', ['origin', 'basis', 'drag'])
+@pytest.mark.parametrize('offset,accepted', [(5e-11, True), (2e-10, False), (1e-7, False)])
+def test_frame_and_drag_use_absolute_tolerance_at_nonzero_coordinates(field, offset, accepted):
+    data = prepared(); entry = data['a']
+    def rotation(angle):
+        c, s = math.cos(angle), math.sin(angle)
+        return [[c, s, 0.], [-s, c, 0.], [0., 0., 1.]]
+    basis = rotation(.4)
+    entry['spec'].update(origin=[4., 6., 8.], spacing=1., basis=basis)
+    entry['origin_world_m'] = [2., 3., 4.]
+    entry['basis'] = deepcopy(basis)
+    entry['request']['references']['drag_axis_world'] = basis[0]
+    digest = case_key(entry['spec'])
+    entry['candidate']['case_hash'] = entry['request']['identity']['case_hash'] = digest
+    if field == 'origin':
+        entry['origin_world_m'][0] += offset
+    elif field == 'basis':
+        entry['basis'] = rotation(.4 + offset)
+        entry['request']['references']['drag_axis_world'] = entry['basis'][0]
+    else:
+        entry['request']['references']['drag_axis_world'] = rotation(.4 + offset)[0]
+    if accepted:
+        executor = CpuSweepExecutor(data)
+        assert executor.audit() == dict(handles=0, live_workers=0, session_ids=[])
+    else:
+        with pytest.raises(ValueError, match='Drag axis' if field == 'drag' else 'Measurement frame'):
+            CpuSweepExecutor(data)
+
+
+@pytest.mark.parametrize('field,value', [
+    ('shape', (12, 9, 9)), ('shape', [12, 9]), ('shape', [12., 9, 9]),
+    ('shape', [True, 9, 9]), ('shape', [3, 9, 9]),
+    ('spec', []), ('geometry', []), ('body_indices', []), ('probes', ()),
+    ('vertices_m', ()), ('triangles', ()),
+    ('steps', 4.), ('steps', True), ('steps', 3), ('steps', 100001),
+])
+def test_malformed_resource_collections_rejected_before_deepcopy(monkeypatch, field, value):
+    data = prepared(); entry = data['a']
+    if field == 'shape':
+        entry['spec'][field] = value
+    elif field in ('vertices_m', 'triangles'):
+        entry['geometry'][field] = value
+    else:
+        entry[field] = value
+    def forbidden_copy(*args, **kwargs):
+        pytest.fail('resource envelope must be rejected before copying payloads')
+    monkeypatch.setattr(module, 'deepcopy', forbidden_copy)
+    with pytest.raises(ValueError):
+        CpuSweepExecutor(data)
+
+
+def test_budget_admits_minimum_shape_without_copying_or_running_solver(monkeypatch):
+    data = prepared(); data['a']['spec']['shape'] = [4, 4, 4]
+    def forbidden_copy(*args, **kwargs):
+        pytest.fail('budget inspection must not copy payloads')
+    monkeypatch.setattr(module, 'deepcopy', forbidden_copy)
+    module._budget(data)
