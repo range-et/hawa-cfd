@@ -148,3 +148,20 @@ prove a worker has exited. Teardown verification must also inspect jobs, session
 and worker threads. A permanently unavailable bridge retains pending work for the
 current process lifetime and reports failures in Rhino's command output. This is
 not persistence across Rhino restarts. Call these APIs on Rhino's UI thread.
+
+## Numerical export ownership
+
+Completed native field/probe exports use a dedicated service-owned query job,
+request stamp, error and result (`CaseExports.cs`), separate from field preview.
+Submission freezes case/revision/generation/version, session, case hash, iteration
+and expected completed state. Python validates the expected solver identity under
+its capture lock; native polling validates returned identity before accepting the
+artifact. Physical changes, reset and disposal invalidate ownership before cleanup;
+panel closure retains work. Failed cleanup uses the existing retry queue.
+
+The common CSV artifact contract uses a generated artifact ID plus authoritative
+session/case hash/iteration/local and absolute time, units and validity metadata.
+Native attribution is caller-declared context. Future durable Rhino baking (#34)
+can retain those fields, but must define its own geometry/colour-range and save/
+reopen semantics; CSV export does not implement baking. See the
+[export contract](numerical-export.md) and [review](review-export-completion.md).

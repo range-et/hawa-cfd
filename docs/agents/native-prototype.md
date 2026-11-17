@@ -76,3 +76,18 @@ requests retry on Rhino Idle even without the native panel. Maintainers can run
 failures and verify recovery after GH disposal. It temporarily changes the
 process transport and stops the native polling timer; do not run it in a user's
 active working session. See `../review-cleanup-v0.5.md` for scope and evidence.
+
+## Completed numerical exports
+
+Use `CaseHub.Export(documentSerial, absoluteCsvPath, "fields", null)` or
+`CaseHub.Export(documentSerial, absoluteCsvPath, "probes", capturedPoint3dArray)`
+only after a healthy completed run. Probe points are document model coordinates;
+the service freezes and maps them through that run's accepted specification.
+Use `CancelExport(documentSerial)` to cancel pending publication. Poll
+`Describe()` fields `export_state`, `export_error`, `export_job`, `export_result`
+on later MCP turns. Require `completed` and the actual result identity; solver
+completion or a preview stamp alone is not export completion. The export result
+carries artifact ID, path/table/row count, session/case hash, capture iteration and
+local/absolute time, plus explicitly caller-declared case/revision/generation/
+version attribution. Read the [table contract](../numerical-export.md) before
+interpreting rows. Native cases do not provide moving-body load histories.

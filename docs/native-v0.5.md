@@ -86,6 +86,15 @@ Closing a panel preserves the case. Closing a GH definition releases its binding
 Closing the Rhino document stops its owned work. Use normal Rhino Undo/Redo for
 case settings. Job history and intermediate fields are not undo records.
 
+## Numerical CSV export
+
+The Export tab writes fields or probes from a healthy completed run. Choose a
+CSV destination, then Export CSV; use Cancel export for pending publication.
+For probes, select Rhino point objects and Capture selected probes before export.
+The result shows artifact, case/revision/generation, session, iteration and time.
+Native cases do not provide moving-body loads; export those through GH Checkpoint.
+Read the [table contract and cancellation limits](numerical-export.md).
+
 ## Supported scope and limits
 
 Native setup is stationary, single-fluid, isothermal, axis-aligned +X flow, with

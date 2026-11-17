@@ -1,21 +1,39 @@
 # Numerical field exports
 
-The existing Hawa Checkpoint component supports `export csv` as well as `save`,
-`load` and `export`. Give it a local `.csv` path and toggle Execute from false to
-true. It captures instantaneous fields through the background query service;
-cooperative cancellation leaves the previous complete destination intact when
-observed before publication. Cancellation after atomic publication cannot undo a
-completed write. The component's GUID, ports and saved-definition layout do not
-change. Native-panel export controls are not part of this increment.
+Hawa exports instantaneous lattice fields, probe samples and retained moving-body
+loads as explicit, versioned CSV tables. These are interchange files, not solver
+checkpoints. Export does not establish convergence or engineering accuracy.
+
+In Grasshopper, use the existing **Checkpoint** component with an absolute path,
+choose `export csv`, `export probes csv` or `export loads csv`, then toggle Execute
+false → true. Probe export requires 1–10,000 model-coordinate points on the new
+optional Points input. The component retains its GUID, first four inputs and
+Report output; old archives gain the optional input without rewiring. The report
+contains the actual captured session, case hash, iteration, time and artifact ID.
+Changing or disconnecting inputs cancels the retained action and requires another
+false → true edge. Execute=false cancels pending work. Ordinary solver progress
+does not replace an in-flight capture.
+
+In Rhino's native **Export** tab, complete a healthy case, choose fields or probes
+and a destination, then Export CSV. For probes, select Rhino point objects and
+Capture selected probes first; selection changes afterward do not change that
+captured list. Probe coordinates and document units are checked against the
+completed case. Cancel export is separate from solver and field-preview controls.
+A panel closure leaves the service-owned export running. Physical changes/reset
+invalidate export ownership. Native cases are stationary; use a moving-body GH
+Solution and `export loads csv` for loads.
 
 Python callers use `{"op":"export","session":"…","path":"…","format":"csv"}`.
-The path extension never selects the format. Omitted `format`, or `format="npz"`,
-keeps the existing raw NPZ contract even if the path ends in `.csv`. CSV requires
-explicit selection. CSV rejects unknown options, including mean/probe/load
-requests; `request_id` and `revision` are accepted transport identifiers but do
-not assert solver revision identity. The captured case hash is authoritative.
+`table` defaults to `fields`; use `probes` with `points` (lattice coordinates), or
+`loads`. Path extensions never select a format. Omitted `format`, or `format=npz`,
+keeps the raw NPZ contract. Unknown CSV options reject. Optional
+`expected={case_hash,iteration,state}` must match exactly under the session lock;
+native exports use this to require the selected completed result. Optional
+`attribution={case_id,revision,generation,version}` is frozen caller-declared
+context, not solver-authoritative identity. Legacy `request_id` and `revision`
+transport fields do not assert solver identity.
 
-## Version 1 table contract
+## Field table (`hawa-field-csv-1`)
 
 UTF-8 CSV uses standard quoted records (including commas, quotes and newlines
 inside metadata). The first record contains two cells: `hawa-field-csv-1`, then
@@ -59,9 +77,42 @@ engineering validation. No coefficient reference area/length is implied.
 Metadata and arrays are captured under one session lock and JSON is frozen before
 file IO. File output uses a same-directory temporary, flush/fsync and atomic
 replacement. The export checks cancellation before capture, every 1024 rows and
-before replacement. Failed captures, writes and replacements remove the temporary
+before replacement. A process-wide canonical-path reservation rejects competing
+CSV publications from native/GH callers. Failed captures, writes and replacements remove the temporary
 and preserve an existing destination. It does not promise crash durability of
 the parent directory or rollback after a successful replacement.
+
+## Probe table (`hawa-probe-csv-1`)
+
+Columns are `probe_index,i,j,k,x,y,z,valid,u_domain,v_domain,w_domain,pressure,density,speed`.
+Input order and duplicates are preserved. `i,j,k` retain requested lattice
+coordinates; `x,y,z` are physical sample positions using the captured mapping.
+The existing fluid-only trilinear/halfway-wall sampling rule determines validity.
+Outside/invalid samples remain rows with `valid=0` and six blank flow quantities.
+For 2D, the existing sampler projects k to zero; requested k is retained but the
+physical position describes the sampled plane. Sampling is instantaneous and
+bounded to 10,000 points; it is not a new interpolation-accuracy claim.
+
+## Load table (`hawa-load-csv-1`)
+
+Columns are `sample_index,body_id,local_time,absolute_time,pivot_x,pivot_y,pivot_z,valid,force_x_domain,force_y_domain,force_z_domain,torque_x_domain,torque_y_domain,torque_z_domain,power`.
+Export requires a moving-body session advanced at least one step. It includes
+all retained step-end records, up to 10,000 steps and four bodies, in history/body
+order. `body_id` cells are JSON strings: decode each with `json.loads`, preserving
+arbitrary quotes, newlines and formula-prefix characters without interpreting them.
+
+Force is fluid force on the body (N), torque is about its instantaneous pivot
+(N·m), and power is signed fluid work on the body (W), all in domain axes.
+Pivot positions are reconstructed from prescribed motion at each row's time and
+mapped to physical world coordinates; they are not the latest pose copied into
+older rows. Metadata declares first/last retained times, capacity and whether the
+retained start is later than the first step. Earlier or reset history is not
+reconstructed. `valid=1` means complete finite data, not physical qualification.
+Quality is capture-time quality, not a historical quality assessment of each row.
+
+Metadata includes density/speed/pressure context and explicitly absent reference
+area/length. Coefficients are not invented or computed. Raw sign conventions and
+moving-surface limitations remain those of the solver.
 
 ## Readback
 
@@ -73,7 +124,7 @@ import csv, json
 with open(path, encoding="utf-8", newline="") as source:
     reader = csv.reader(source)
     marker, payload = next(reader)
-    assert marker == "hawa-field-csv-1"
+    assert marker in {"hawa-field-csv-1", "hawa-probe-csv-1", "hawa-load-csv-1"}
     metadata = json.loads(payload)
     header = next(reader)
     assert header == metadata["columns"]
@@ -83,10 +134,16 @@ with open(path, encoding="utf-8", newline="") as source:
 ```
 
 Reimport should also reject malformed numeric cells or flags, and never evaluate
-metadata strings as spreadsheet formulas. Table cells are numeric or empty;
-user-provided strings occur only inside the quoted JSON metadata cell.
+metadata strings as spreadsheet formulas. Field/probe cells are numeric or empty; load body IDs use the declared JSON-string
+encoding. Check schema, required columns, finite values, flags, row count and
+identity before accepting an artifact. A truncated file is not a complete export.
 
-Issue [#35 / HAWA-033](https://github.com/range-et/hawa-cfd/issues/35) remains open
-for probe/load exports, native export UX and wider installed-host acceptance.
-Baking is separate [#34](https://github.com/range-et/hawa-cfd/issues/34).
-[Review and verification](review-numerical-export.md).
+Publication is atomic within the destination filesystem. Pre-publication failure
+or cancellation preserves the prior complete file and removes the temporary;
+cancellation after replacement cannot undo publication. This does not promise
+parent-directory crash durability or coordinate separate operating-system
+processes writing the same destination.
+
+Baking remains separate [#34](https://github.com/range-et/hawa-cfd/issues/34).
+[Completion review and exact verification scope](review-export-completion.md);
+[historical field increment](review-numerical-export.md).
