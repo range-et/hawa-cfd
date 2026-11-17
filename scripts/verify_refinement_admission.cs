@@ -24,7 +24,7 @@ var fine=Add(new Param_GenericObject {NickName="Admission patch"});
 var run=Add(new GH_BooleanToggle {Value=false});var pause=Add(new GH_BooleanToggle {Value=false});
 solve.Params.Input[0].AddSource(coarse);solve.Params.Input[1].AddSource(fine);solve.Params.Input[4].AddSource(run);solve.Params.Input[5].AddSource(pause);
 ((Param_String)solve.Params.Input[3]).SetPersistentData("cpu");
-JsonObject Parent()=>JsonNode.Parse("""{"shape":[17,17,17],"dx":1.0,"spacing":1.0,"origin":[0.0,0.0,0.0],"speed":1.0,"viscosity":1.0,"density":1.225,"mach":0.05,"collision":"bgk","solid":[],"boundaries":["inlet","outlet","periodic","periodic","periodic","periodic"]}""")!.AsObject();
+JsonObject Parent()=>JsonNode.Parse(@"{""shape"":[17,17,17],""dx"":1.0,""spacing"":1.0,""origin"":[0.0,0.0,0.0],""speed"":1.0,""viscosity"":1.0,""density"":1.225,""mach"":0.05,""collision"":""bgk"",""solid"":[],""boundaries"":[""inlet"",""outlet"",""periodic"",""periodic"",""periodic"",""periodic""]}")!.AsObject();
 JsonObject Patch(){var f=Parent();f["shape"]=new JsonArray(13,13,13);f["dx"]=.5;f["spacing"]=.5;f["origin"]=new JsonArray(5d,5d,5d);f["refinement_lower"]=new JsonArray(5,5,5);f["refinement_upper"]=new JsonArray(11,11,11);return f;}
 void Data(Param_GenericObject p,JsonObject value){p.PersistentData.Clear();p.PersistentData.Append(new GH_String(value.ToJsonString()));p.ExpireSolution(false);}
 void Steps(int n){var p=(Param_Integer)solve.Params.Input[2];p.PersistentData.Clear();p.SetPersistentData(n);p.ExpireSolution(false);}
@@ -55,7 +55,7 @@ timer.Elapsed+=(_,_)=>{try{
   Check(solve.Params.Output.All(p=>p.VolatileDataCount==0),"Replaced run retained frames");Data(fine,Patch());Steps(2);pause.Value=false;Solve();Pass("valid two-step recovery submitted");break;
  case 4:
   Check(Errors()=="",Errors());if(!State().StartsWith("completed: 2/2"))return;
-  for(int i=0;i<2;i++){string json="";Check(solve.Params.Output[i].VolatileData.AllData(true).Single().CastTo(ref json),"Missing frame JSON");var frame=JsonNode.Parse(json);Check(frame["kind"].GetValue<string>()=="Frame","Wrong output kind");report[i==0?"coarse_frame":"fine_frame"]=frame;}
+  for(int i=0;i<2;i++){string json="";Check(solve.Params.Output[i].VolatileData.AllData(true).Single().CastTo(out json),"Missing frame JSON");var frame=JsonNode.Parse(json);Check(frame["kind"].GetValue<string>()=="Frame","Wrong output kind");report[i==0?"coarse_frame":"fine_frame"]=frame;}
   Pass("valid case recovered and published both completed frame handles");break;
  case 5:
   run.Value=false;Solve();Steps(10000);run.Value=true;Solve();report["cancel_before_state"]=solve.Message;run.Value=false;Solve();Check(solve.Message=="stopped"&&solve.Params.Output.All(p=>p.VolatileDataCount==0),"Immediate cancel retained output");Pass("immediate submit/cancel clears owned output");break;
