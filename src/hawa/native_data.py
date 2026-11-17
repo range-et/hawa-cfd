@@ -36,7 +36,8 @@ def validate_case(spec):
     allowed = {'kind', 'label', 'hawa_block_width', 'shape', 'origin', 'origin_m', 'spacing',
                'dx', 'speed', 'viscosity', 'density', 'mach', 'collision', 'boundaries',
                'solid', 'wall_links', 'basis', 'time_origin_seconds', 'memory_limit_mb'}
-    if not isinstance(spec, dict) or set(spec) - allowed:
+    if (not isinstance(spec, dict) or set(spec) - allowed or
+            not {'shape', 'dx', 'speed', 'viscosity'}.issubset(spec)):
         raise ValueError('Native data supports only self-contained stationary native 3D cases')
     if spec.get('basis', np.eye(3).tolist()) != np.eye(3).tolist():
         raise ValueError('Native data requires an axis-aligned case')
@@ -214,7 +215,7 @@ def restore(session, populations, meta, means):
         session.samples = meta['samples']
         for name in ('mean_u', 'mean_p', 'mean_rho'):
             setattr(session, name, session.flow.context.convert_to_tensor(means[name]) if name in means else None)
-        session.relative_mass_change = (float(populations.sum()) - session.initial_mass) / session.initial_mass
+        session.relative_mass_change = (float(session.flow.rho().sum().cpu()) - session.initial_mass) / session.initial_mass
         session.quality = frozen(meta['quality'])
         session.quality = assess(session)
         session.state = 'paused'
