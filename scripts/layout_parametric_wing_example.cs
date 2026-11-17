@@ -74,10 +74,10 @@ try{
  Place("Local sampled pressure validity / not local force",g,3140,1660,300,110);Place("Sampled surface pressure (Pa)",g,3140,1810,300,130);
  int plot=0;foreach(string title in new[]{"CL versus angle","CD versus angle","CL versus CD"}){
   float x=plot*1200,y=2250;string group=(8+plot).ToString("00")+" / "+title.ToUpperInvariant()+" — DISPLAY ONLY";plot++;
-  Place(title+" / missing X",group,x,y);Place(title+" / missing Y",group,x,y+120);Place(title+" / both coordinates present",group,x+140,y+240);
-  Place(title+" / paired X",group,x+280,y);Place(title+" / paired Y",group,x+280,y+120);Place(title+" / display X scale",group,x+280,y+320);Place(title+" / display Y scale",group,x+280,y+390);
-  Place(title+" / scale X",group,x+480,y);Place(title+" / scale Y",group,x+480,y+120);Place(title+" / offset X",group,x+660,y);Place(title+" / offset Y",group,x+660,y+120);Place(title+" / scatter only",group,x+890,y+50);
-  Place(title+" / axes",group,x+650,y+280);Place(title+" / numeric axes",group,x+450,y+480);Place(title+" / label positions",group,x+650,y+430);Place(title+" / labels",group,x+890,y+410);
+  Place(title+" / missing X",group,x,y);Place(title+" / missing Y",group,x,y+210);Place(title+" / both coordinates present",group,x+140,y+390);
+  Place(title+" / paired X",group,x+280,y);Place(title+" / paired Y",group,x+280,y+210);Place(title+" / display X scale",group,x+280,y+480);Place(title+" / display Y scale",group,x+280,y+560);
+  Place(title+" / scale X",group,x+480,y);Place(title+" / scale Y",group,x+480,y+210);Place(title+" / offset X",group,x+660,y);Place(title+" / offset Y",group,x+660,y+210);Place(title+" / scatter only",group,x+890,y+105);
+  Place(title+" / axes",group,x+650,y+390);Place(title+" / numeric axes",group,x+450,y+730);Place(title+" / label positions",group,x+650,y+650);Place(title+" / labels",group,x+890,y+650);
  }
  var missing=doc.Objects.Where(o=>!(o is GH_Group)&&!assigned.Contains(o.InstanceGuid)).Select(o=>o.Name+" / "+o.NickName).ToArray();if(missing.Length>0)throw new Exception("Unassigned objects; do not silently scatter them: "+string.Join(" | ",missing));
  foreach(var pair in groups){var group=new GH_Group();group.CreateAttributes();group.NickName="HAWA35 / "+pair.Key;group.Colour=Color.FromArgb(40,54,160,151);doc.AddObject(group,false);foreach(var id in pair.Value)group.AddObject(id);group.Attributes.ExpireLayout();group.Attributes.PerformLayout();}
@@ -86,7 +86,7 @@ try{
  var check=new GH_DocumentIO();if(!check.Open(staged))throw new Exception("Cannot reopen staged layout");try{Equal(before,check.Document);if(!wires.SequenceEqual(Wires(check.Document)))throw new Exception("Wire changed on roundtrip");}finally{check.Document.Dispose();}
  if(FileHash(path)!=sourceHash)throw new Exception("Source changed concurrently; refusing replacement");File.Copy(staged,path,true);
  var crops=new JsonArray();void Crop(string name,float x,float y,float w,float h)=>crops.Add(new JsonObject{["name"]=name,["x"]=x,["y"]=y,["width"]=w,["height"]=h});
- Crop("guide-and-sections",-90,-480,1800,1260);Crop("loft-and-meshing",1710,-100,1810,900);Crop("domain-and-controls",-90,790,2310,900);Crop("loads-and-pressure",2240,780,1280,1240);for(int i=0;i<3;i++)Crop("plot-"+i,i*1200-80,2150,1190,660);
+ Crop("guide-and-sections",-90,-480,1800,1260);Crop("loft-and-meshing",1710,-100,1810,900);Crop("domain-and-controls",-90,790,2310,900);Crop("loads-and-pressure",2240,780,1280,1240);for(int i=0;i<3;i++)Crop("plot-"+i,i*1200-80,2150,1190,940);
  var payloads=new JsonObject();foreach(var value in before.OrderBy(p=>p.Key))payloads[value.Key.ToString()]=value.Value;
  File.WriteAllText(Path.Combine(output,"audit.json"),new JsonObject{["source_before_sha256"]=sourceHash,["source_after_sha256"]=FileHash(path),["functional_objects_preserved"]=before.Count,["wires_preserved"]=wires.Length,["old_presentation_groups"]=removedGroups,["new_presentation_groups"]=groups.Count,["non_attribute_serialization_sha256"]=payloads,["staged_roundtrip_checked"]=true,["recommended_canvas_crops"]=crops}.ToJsonString());
  Console.WriteLine("Presentation-only wing layout saved. Backup, identity/value audit and crop bounds: "+output);

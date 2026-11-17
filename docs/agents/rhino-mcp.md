@@ -187,6 +187,12 @@ through `run_csharp` after updating their checkout path. They preserve functiona
 connections; the annotation pass excludes legacy example 09 and keeps backups
 under `results/motion/example-backups`.
 
+For canvas screenshots, use a separate idle archive copy. Assigning a running
+Grasshopper document to a temporary `GH_Canvas`, then detaching it, can emit
+`Unloaded` and cancel that document's owned Hawa jobs. Keep the running study on
+its existing canvas; capturing an idle copy is presentation evidence, not proof
+that the active solver completed.
+
 The `verify_*.cs` scripts are developer harnesses. Some close generated test
 documents, change values in memory, or inspect internal runtime fields. Read a
 harness before running it and use a dedicated test session. They are not a safe
