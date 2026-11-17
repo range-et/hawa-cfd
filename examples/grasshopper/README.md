@@ -62,7 +62,10 @@ the exact configuration and results with [the review template](../../docs/review
 The matrix defines coverage obligations; it does not claim that every combination
 has already been tested.
 
-`annotations.json` contains the example-specific descriptions. Run `scripts/annotate_grasshopper_examples.cs` through Rhino MCP after regenerating definitions. It checks that connections are unchanged and saves local backups. `scripts/capture_example_layouts.cs` renders each supported canvas without running its solver. Adjust the checkout path in either script before use on another machine.
+`annotations.json` contains the example-specific descriptions. Run `scripts/annotate_grasshopper_examples.cs` through Rhino MCP after regenerating definitions. It checks that connections are unchanged and saves local backups. `scripts/capture_example_layouts.cs` renders each supported canvas without running its solver. Adjust the checkout path in either script before use on another machine. After
+regenerating and annotating example 33, run `scripts/clarify_parent_child_example.cs`
+to restore its explicit parent/child headings. It saves a backup and verifies that
+functional archive data, object identities and group membership are unchanged.
 
 The gallery covers selected workflows. It is separate from the sixteen upstream Lettuce entrypoints and does not claim to wrap every upstream example. CPU/MPS PorousMedium parity remains a documented open issue.
 
@@ -118,8 +121,8 @@ node has an example; this does not mean every possible GH assembly is enumerated
 ## 33 — Three-stage neutral boundary transfer (development)
 
 This is an **outer parent → local child → finer child** chain of separate cases.
-The existing canvas calls them city, neighbourhood and pond. Those are application
-labels, not required domain types. Read the [parent/child guide](../../docs/parent-child-domains.md)
+Canvas headings show these roles; functional controls retain the city, neighbourhood
+and pond prefixes. Those are application labels, not required domain types. Read the [parent/child guide](../../docs/parent-child-domains.md)
 for the label/resolution map and the distinction between offline transfer,
 coupled refinement and combined views. The finest region simulates air, not water.
 

@@ -686,3 +686,13 @@ No solver/threshold change or physical-validation claim. Final combined measured
 suites and CPU/MPS compatibility gate pass locally; CUDA remains blocked.
 Not merged to main or released.
 [Review and scope](docs/review-quality-provenance.md).
+
+### November 16 2026 — Parent/child canvas roles (HAWA-034 / #36)
+
+Example 33 now names its outer parent, local child/next parent and finer child
+in group headings and guide panels. All 102 object identities, 92 functional
+archive objects, wires and parameter values are preserved. A fresh Rhino CPU
+copy completed three recordings and two boundary captures, with shared views
+at 1.5 m and 9 m; owned resources returned to zero. No solver qualification or
+release claim. [Review](docs/review-parent-child-canvas.md) and
+[machine evidence](docs/verification-parent-child-canvas.json).
