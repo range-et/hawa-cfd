@@ -80,7 +80,7 @@ static class NativeExportContracts
                 Button Button(string name)=>controls.OfType<Button>().Single(b=>b.Text==name);
                 var path=controls.OfType<TextBox>().Single();
                 SaveFileDialog.Result=DialogResult.Cancel;Button("Browse CSV").PerformClick();assert(path.Text=="","Cancelled path dialog changed destination");
-                SaveFileDialog.Result=DialogResult.Ok;SaveFileDialog.Chosen="/tmp/native-panel.csv";Button("Browse CSV").PerformClick();assert(path.Text==SaveFileDialog.Chosen,"Chosen path lost");
+                SaveFileDialog.Result=DialogResult.Ok;SaveFileDialog.Chosen="/tmp/"+new string('x',180)+".csv";Button("Browse CSV").PerformClick();assert(path.Text==SaveFileDialog.Chosen,"Chosen path lost");
                 Button("Capture selected probes").PerformClick();
                 assert(controls.OfType<Label>().Any(l=>l.Text.Contains("Select 1..10000")),"Empty probes silently accepted");
                 f.Doc.Objects.Items[Guid.NewGuid()]=new(new Rhino.Geometry.Point(new(1,2,3))){Selected=true};
@@ -99,7 +99,10 @@ static class NativeExportContracts
                 f.Doc.ModelUnitSystem=UnitSystem.Millimeters;Button("Export CSV").PerformClick();assert(f.C.ExportJob==null,"Changed-unit probes submitted");f.Doc.ModelUnitSystem=UnitSystem.Meters;
                 Button("Export CSV").PerformClick();assert(f.C.ExportJob!=null && Button("Cancel export").Enabled,"Panel export not owned");
                 Button("Cancel export").PerformClick();assert(f.C.ExportJob==null,"Panel cancel failed");
-                Button("Export CSV").PerformClick();CaseHub.Tick();assert(controls.OfType<Label>().Any(l=>l.Text.Contains("Artifact: artifact")),"Completed capture not shown");
+                Button("Export CSV").PerformClick();CaseHub.Tick();var summary=controls.OfType<Label>().Single(l=>l.Text.Contains("Artifact: artifact"));
+                assert(summary.ToolTip.Contains(SaveFileDialog.Chosen) && summary.ToolTip.Contains("Case:") && summary.ToolTip.Contains("Session: session"),"Full file/capture identity is inaccessible");
+                assert(!summary.Text.Contains(SaveFileDialog.Chosen) && !summary.Text.Contains(new string('x',17)),"Long destination leaks into dock summary");
+                f.FailSubmit=true;Button("Export CSV").PerformClick();assert(summary.Text.Contains("Hover for error details") && summary.ToolTip.Contains("submit failed"),"Failure details lost from compact display");f.FailSubmit=false;
                 Button("Export CSV").PerformClick();
             }
             assert(f.C.ExportJob!=null,"Closing panel cancelled service-owned export");CaseHub.Tick();assert(f.C.ExportState=="completed","Detached panel export did not complete");
