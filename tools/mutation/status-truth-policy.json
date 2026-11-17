@@ -22,7 +22,7 @@
     "tools/mutation/lib.sh": "e76c1f689ed0cc3adc344479a32e859b8466c1b33e1d7709d8927104dc6c3871",
     "tests/test_native_data.py": "78438be3e74991f5c8079df767e7dd5d2fc6516a767ada1c99092e01bd5b7436",
     "tests/test_native_data_status.py": "e526cd814ebadbf5ca64a94f5979cd76c2af9e3c55174da78453d912492cc1e1",
-    "src/hawa/native_data.py": "e93093901b3015db5e12b15f0865f9a9d8a4be550bc28de842367c19baa587f6"
+    "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090"
   },
   "reviewed_survivors": {
     "hawa.jobs.x\u01c1Job\u01c1__init____mutmut_1": {
