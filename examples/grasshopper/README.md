@@ -83,6 +83,17 @@ The gallery covers selected workflows. It is separate from the sixteen upstream 
 
 Native Rhino examples 21 and 22 are in [the native example folder](../native-prototype/README.md). Example 22 combines selected Rhino geometry, editable domains and two-way GH controls.
 
+## 35 — Parametric wing and live study
+
+[35-parametric-wing-study.gh](35-parametric-wing-study.gh) constructs a closed
+loft from distinct root/tip airfoils using ordinary GH components. Chord/span
+sliders feed the actual mesh into an explicit CPU angle/speed study. Inspect
+selected-case surface pressure, total lift/drag, source identity and three
+coefficient scatter plots in Rhino. Read the
+[step-by-step guide](35-parametric-wing-study.md) for its 499,041-node default,
+controls and validity conventions. This is an experimental workflow; the
+grid/domain and physical-reference gates remain open in #40.
+
 Example 10 builds its hull with ordinary Grasshopper expressions, Construct Mesh,
 Mesh Volume, Scale NU and Move. The construction is editable example content; it
 adds no Hawa hull node. The hidden legacy archive reader is retained only so old

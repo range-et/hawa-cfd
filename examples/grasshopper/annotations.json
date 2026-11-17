@@ -143,5 +143,10 @@
     "title": "Neutral city \u2192 neighbourhood \u2192 pond",
     "explore": "Enable the five Record/Capture controls after opening idle. Each waits for its upstream data. Three grids share closed buildings, velocity, pressure, strain and compatible starting state. Move the shared slice height; the finest containing domain supplies the display. Edit pond roughness and inspect quality/statistics.",
     "limits": "Short transfer demonstration; atmospheric/nested statistical qualification still fails. Use new paths and retain parent files. Pond capture skips the first 0.369504 s of neighbourhood startup; its 1792 steps and frame 56 align the final absolute time. Match duration and playback when changing physics/time windows. Display trims halfway solid cells; raw samples retain conservative validity. No waves, currents or buoyancy."
+  },
+  "35": {
+    "title": "Parametric closed wing and live CPU study",
+    "explore": "Use a metre document. Edit distinct root/tip NACA profiles, chords and span. Ordinary GH Loft, Cap Holes and mesh tools make the real closed body. Initialize runtime, check geometry and explicitly Run the angle/speed study. Select a returned case for matching pressure colours and total lift/drag. Three scatter plots retain candidate order; rejected cases have no invented coefficient point. Read 35-parametric-wing-study.md.",
+    "limits": "Experimental CPU float32, uniform BGK, synthetic viscosity. Default 10 mm grid has 499041 nodes and each of two cases takes 3000 settling plus 201 samples. Physical qualification and grid/domain sensitivity remain open. Surface colours are offset sampled pressure, not local force cells. Total lift/drag are integrated whole-body window means. Reopen idle; edits require explicit re-arm."
   }
 }
