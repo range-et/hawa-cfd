@@ -1,0 +1,138 @@
+{
+  "$defs": {
+    "Identity": {
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "minLength": 1,
+          "title": "Case Id",
+          "type": "string"
+        },
+        "candidate_id": {
+          "minLength": 1,
+          "title": "Candidate Id",
+          "type": "string"
+        },
+        "case_hash": {
+          "minLength": 1,
+          "title": "Case Hash",
+          "type": "string"
+        },
+        "geometry_hash": {
+          "minLength": 1,
+          "title": "Geometry Hash",
+          "type": "string"
+        },
+        "revision": {
+          "minimum": 0,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "case_id",
+        "candidate_id",
+        "case_hash",
+        "geometry_hash",
+        "revision",
+        "generation"
+      ],
+      "title": "Identity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "hawa-measurement-1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "identity": {
+      "$ref": "#/$defs/Identity"
+    },
+    "body_id": {
+      "minLength": 1,
+      "title": "Body Id",
+      "type": "string"
+    },
+    "step": {
+      "minimum": 0,
+      "title": "Step",
+      "type": "integer"
+    },
+    "time_s": {
+      "minimum": 0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "force_world_n": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Force World N"
+    },
+    "torque_world_nm": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Torque World Nm"
+    },
+    "valid": {
+      "title": "Valid",
+      "type": "boolean"
+    },
+    "reason": {
+      "title": "Reason",
+      "type": "string"
+    },
+    "quality": {
+      "enum": [
+        "accepted",
+        "warning",
+        "rejected"
+      ],
+      "title": "Quality",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema",
+    "identity",
+    "body_id",
+    "step",
+    "time_s",
+    "force_world_n",
+    "torque_world_nm",
+    "valid",
+    "reason",
+    "quality"
+  ],
+  "title": "Sample",
+  "type": "object"
+}

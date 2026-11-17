@@ -1,0 +1,85 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "probe_id": {
+      "minLength": 1,
+      "title": "Probe Id",
+      "type": "string"
+    },
+    "position_world_m": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "title": "Position World M",
+      "type": "array"
+    },
+    "body_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Body Id"
+    },
+    "surface_point_world_m": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Surface Point World M"
+    },
+    "outward_normal_world": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Outward Normal World"
+    },
+    "offset_m": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Offset M"
+    }
+  },
+  "required": [
+    "probe_id",
+    "position_world_m"
+  ],
+  "title": "Probe",
+  "type": "object"
+}
