@@ -112,3 +112,12 @@ demonstrations, with resolution/domain qualification open. See the
 The [controlled follow-up](review-worker-and-wing-diagnosis.md) identifies strong
 vertical-boundary and coarse body-sampling sensitivity. Longer settling does not
 remove the domain gap. No physical qualification or tolerance relaxation follows.
+
+## Saved, clickable example report
+
+Run `scripts.wing_sweep_report` to produce the self-contained HTML viewing
+artifact described in [the saved example](../examples/headless-wing/README.md).
+A real two-case CPU report is included. Its three coefficient plots link to exact
+candidate mesh, raw histories, retained field and provenance. It does not resume
+sessions or create a second CSV format; the shared exporter/host integration and
+failed numerical qualification remain open in #40.

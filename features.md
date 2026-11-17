@@ -793,3 +793,13 @@ policy (1,564 kills, 193 reviewed survivors). Fresh merged-main CPU suites and
 measured coverage pass. Eight controlled wing runs identify strong vertical-face
 and body-sampling sensitivity; the original grid/domain gate remains failed.
 [Review and limits](docs/review-worker-and-wing-diagnosis.md).
+
+## November 17, 2026 — saved wing-sweep viewing example (#40 partial)
+
+The CPU/headless wing workflow now has a runnable saved HTML example with
+identified CL/CD plots, candidate-linked mesh/load/probe/field views and escaped
+provenance. A real two-angle CPU run is included; rejected points leave gaps.
+Focused Python 3.9/3.12 tests and figure inspection pass. This is a viewing
+artifact, not a checkpoint, public GH workflow, CSV integration or physical
+qualification; #40 remains open. [Example](examples/headless-wing/README.md),
+[review and limits](docs/review-wing-report-example.md).
