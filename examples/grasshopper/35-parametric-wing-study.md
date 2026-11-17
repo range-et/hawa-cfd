@@ -59,7 +59,9 @@ The three ordinary GH scatter plots show **CL versus angle**, **CD versus angle*
 and **CL versus CD** in the Rhino viewport below the tunnel. Their axes are
 labelled; display scaling does not alter the reported numbers. Points are not
 joined into an interpolated curve. Failed/rejected candidates retain their case
-records and empty coefficient slots, rather than invented zeros.
+records and empty coefficient slots, rather than invented zeros. Before display
+arithmetic, stock Null Item / OR / Cull Pattern components apply the same
+missing-coordinate mask to both plot axes, preserving candidate pairing.
 
 The **Total lift** and **Total drag** panels show the selected accepted window's
 whole-body fluid force in **newtons**: +Z is lift and +X is drag. The moment
