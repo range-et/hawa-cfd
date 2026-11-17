@@ -109,7 +109,14 @@ regression evidence for the existing cases, not wing/force qualification.
 | G5 | NOT APPLICABLE | Development source only, no package/install/release or merge claim |
 | G6 | PASS for bounded internal support/rejection tests; host extension BLOCKED | No new public nodes/enums/archive formats or changed existing combinations. No new public example mapping or full G6/device run claimed |
 
-## Remaining scope
+## Follow-up
+
+The [real CPU headless sweep increment](review-real-headless-sweeps.md) implements
+the previously pending private executor and voxelized case path. Its fresh
+evidence supersedes that portion of the remaining-scope list below; public
+runtime/GH, export, host and physical qualification remain open.
+
+## Remaining scope (at this foundation checkpoint)
 
 #40 remains open: real runtime/sweep executor, final case/body/probe geometry
 mapping, #35 export integration, public GH adapters/plots/archives, live lifecycle

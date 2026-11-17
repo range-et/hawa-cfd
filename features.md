@@ -110,8 +110,13 @@ recipe. The collector preserves original populations in a bounded five-step
 CPU control; manufactured measurements exercise candidate identity and plot
 gaps. These are internal, headless building blocks, not a completed wind-tunnel
 workflow. Existing solver/service routes and #35 export work are unchanged.
-Runtime/export adapters, GH graphs, device and physical qualification remain
-open. No Rhino, GPU, install, package or release claim. [Frozen contract](docs/measurement-contract-v1.md),
+The follow-up now runs fresh real CPU sessions through a private sweep executor,
+voxelizes each rotated wing, captures pressure/load histories at the same solver
+phase, and returns attributed plot data with cooperative cleanup. Both demo
+angles passed the declared window/stationarity diagnostic at synthetic viscosity;
+this is not physical wing validation. [Real headless evidence](docs/review-real-headless-sweeps.md),
+[run guide](docs/headless-wing-sweeps.md). Public runtime/export adapters, GH graphs,
+device and physical qualification remain open. No Rhino, GPU, install, package or release claim. [Frozen contract](docs/measurement-contract-v1.md),
 [combined review](docs/review-measurement-foundation.md).
 
 ### November 17, 2026 — Windows verification portability (#117)

@@ -206,3 +206,26 @@ isolation and is not a supported production adapter strategy.
 The NASA wing-reference audit and finite-domain limitations of the initial
 Stokes candidate are recorded in the [wing example guide](wing-measurement-example.md).
 Neither supplies a completed physical-qualification protocol for this round.
+
+## Real CPU executor increment (November 17)
+
+The opt-in `hawa.sweep_executor.CpuSweepExecutor` now implements this controller
+interface with fresh private CPU float32 Sessions. It accepts fully prepared
+candidates with final mesh/case hashes, frame, ownership, request, probe and
+step-budget inputs. The scalar measurement/sweep payloads above are unchanged.
+Detailed results use `hawa-cpu-sweep-result-1`, including actual session identity
+and explicit `after-collision-before-obstacle-reflection-and-stream` capture
+phase. Pressure and loads share that phase; later post-step quality is retained
+separately. Results survive confirmed handle close.
+
+Admission binds the external world frame to the hashed case's physical frame.
+It limits the whole sweep to 100000 retained load/probe rows, 1500000 field
+cells and 200000 geometry vertices/400000 triangles. Float64 is rejected by
+this adapter because the unchanged Session constructor uses float32. These
+are private CPU implementation limits, not new public solver capability claims.
+The wing recipe voxelizes meshes; the executor trusts that internal preparation
+boundary and does not recompute arbitrary mesh-to-mask equivalence.
+
+[Operation and limitations](headless-wing-sweeps.md) ·
+[Fresh integration evidence](review-real-headless-sweeps.md). Export and host
+adapters remain independently owned and are not wired by this increment.
