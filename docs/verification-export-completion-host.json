@@ -1,0 +1,221 @@
+{
+  "date": "2026-11-17",
+  "source_commit": "2c43c74c043cb34513fe35aafe2401207409697b",
+  "production_freeze": "5ac088b",
+  "operator": "root via Rhino MCP; independent native-data readback also reviewed by atmosphere_qualification agent",
+  "host": {
+    "rhino": "8.37.26307.15002",
+    "pid": 16843,
+    "python": "3.9.10",
+    "numpy": "2.0.2",
+    "torch": "2.8.0",
+    "device": "cpu",
+    "license": "Mac only; Windows Rhino not started"
+  },
+  "runs": {
+    "native_data": {
+      "evidence_directory": "results/native-data-host/20261117-071354-a0cd02efbed148c6adc2c3f3903d239d",
+      "state": "passed",
+      "checks": [
+        "Actual panel fluid, periodic-pair and view events accepted; invalid range retained; explicit CPU six-step run",
+        "Completed source unchanged by live view events; Save data button submitted",
+        "Six-step checkpoint saved; invalid import submitted through panel",
+        "Invalid import and immediate cancellation preserved accepted case/session",
+        "Cancelled import cleanup acknowledged; valid import explicitly submitted",
+        "Successful import owns a new paused case/session; read-only physics and dynamic view verified",
+        "Imported view remained paused beyond one second; unit-change probe CSV submitted",
+        "Metres-after-import probe maps exactly lattice2/world1; paused resave submitted",
+        "Paused checkpoint resaved; target12 remains paused until explicit Run button",
+        "Imported session explicitly continued to12; continued checkpoint submitted",
+        "Continued data saved; actual owned Rhino archive written and document closed",
+        "Actual 3dm reopen retains imported read-only identity, idle with no session; Run requires re-import"
+      ],
+      "cleanup": {
+        "pid": 16843,
+        "sessions": 0,
+        "jobs": 0,
+        "workers": []
+      },
+      "files": {
+        "paused-probes.csv": "5021add491caa807b39d2d45cb418371855530426af5cbdedb6f87be7d38536f",
+        "imported-paused-6.npz": "cf75fa5c640607770f5bc5d5b73d6ea9e491b1cc09e75f325654409cbbcc1237",
+        "rhino.json": "8531ed4223fcd3cc8b2907446c4d245107f7d94e5e1d47763fe9ee562b236fb7",
+        "completed-6.npz": "05db647db7be1e339b37dc790f4bcc997905f2aec24c961c72fc4e66d79428c9",
+        "imported.3dm": "d65e65fe2afc343d2917ddd69306b748c32544699c0038f7d1631c3acc8cbf6c",
+        "cleanup.json": "54bc7ca0495047d14d4fcda43fe165b1351c1ef8fbb6e8877f22e42f56e22bce",
+        "invalid.npz": "6bbf954ab0045bc546f16a6db16c95afef820dccd807348411ea924dabb972e9",
+        "readback.json": "cf1dbcafbc1e4fe8a5669bbd5c8a7a0d0a16ac9932c426148593518d1021e5db",
+        "continued-12.npz": "106af32896a19908051b290a1a07c22c05eaa89f6228cc82b7ed309e85ef296b",
+        "readback.py": "435dee7f07448a3783253a3545ffa7c745a809afa7f71de7ef70801176d5ce19"
+      },
+      "independent_readback": {
+        "state": "passed",
+        "backend": "cpu",
+        "steps": [
+          6,
+          12
+        ],
+        "checks": [
+          "Exact saved/resaved populations and all three accumulated mean arrays",
+          "Independent uninterrupted CPU populations/means/quality at6 and12 exactly match Rhino artifacts",
+          "Paused probe CSV exactly matches independent CPU field at lattice2",
+          "Import source session changes and paused resave remains6; artifact IDs distinct",
+          "Time, averaging samples and mass baseline preserved"
+        ],
+        "artifacts": {
+          "paused-probes.csv": "5021add491caa807b39d2d45cb418371855530426af5cbdedb6f87be7d38536f",
+          "imported-paused-6.npz": "cf75fa5c640607770f5bc5d5b73d6ea9e491b1cc09e75f325654409cbbcc1237",
+          "rhino.json": "8531ed4223fcd3cc8b2907446c4d245107f7d94e5e1d47763fe9ee562b236fb7",
+          "completed-6.npz": "05db647db7be1e339b37dc790f4bcc997905f2aec24c961c72fc4e66d79428c9",
+          "imported.3dm": "d65e65fe2afc343d2917ddd69306b748c32544699c0038f7d1631c3acc8cbf6c",
+          "cleanup.json": "54bc7ca0495047d14d4fcda43fe165b1351c1ef8fbb6e8877f22e42f56e22bce",
+          "invalid.npz": "6bbf954ab0045bc546f16a6db16c95afef820dccd807348411ea924dabb972e9",
+          "continued-12.npz": "106af32896a19908051b290a1a07c22c05eaa89f6228cc82b7ed309e85ef296b",
+          "readback.py": "435dee7f07448a3783253a3545ffa7c745a809afa7f71de7ef70801176d5ce19"
+        },
+        "limits": "Bounded implementation check; not physical qualification. GPU evidence separate."
+      }
+    },
+    "native_export": {
+      "evidence_directory": "results/native-export-host/20261117-071433-38db60f33f694e1483db6ab55fc4a7bb",
+      "state": "passed",
+      "checks": [
+        "isolated millimetre native CPU case submitted for two steps",
+        "completed field export submitted independently of preview",
+        "field CSV read back; probes submitted while independent preview field changes",
+        "probe values, units, validity and preview independence verified; immediate cancel submitted",
+        "cancel cleanup acknowledged; destination failure submitted",
+        "destination failure isolated; recovery export submitted",
+        "IO failure recovered; owned document closed with pending export"
+      ],
+      "cleanup": {
+        "pid": 16843,
+        "sessions": 0,
+        "jobs": 0,
+        "workers": []
+      },
+      "files": {
+        "rhino.json": "4e777439dc26c30d562133afcaa0d866dba23906f20018aa8c4705c3ee00559a",
+        "probes.csv": "510452ece33bbb9a14a25ded6a80f66c4ecdce1fc856d018984e4209bd6e4f66",
+        "cleanup.json": "54bc7ca0495047d14d4fcda43fe165b1351c1ef8fbb6e8877f22e42f56e22bce",
+        "recovery.csv": "9bd64f20e30f465bae81321f6568d9136b5af10a58ec0bb041caaf17580028b6",
+        "fields.csv": "291f4e6fc2ea9a25392f04ec3b8754e7986cf77d5cf4abfa0e7dba840b0cc52c"
+      }
+    },
+    "grasshopper_export": {
+      "evidence_directory": "results/gh-export-host/20261117-071450-291b28512b124c8e91a055a5435c8ca5",
+      "state": "passed",
+      "checks": [
+        "31 owned copy opened idle; IDs and original wires preserved",
+        "31 valid idle source observed and CPU two-step solve explicitly rearmed",
+        "31 completed source frozen; field CSV submitted",
+        "31 changed operation withheld stale report; probe CSV explicitly rearmed",
+        "31 probe CSV complete; unchanged NPZ action submitted",
+        "31 pending export immediately cancelled through Execute false",
+        "31 cancellation preserved prior bytes; deliberate IO failure submitted",
+        "31 IO failure surfaced without publication; recovery rearmed",
+        "31 recovery complete and owned document disposed",
+        "17 owned copy opened idle; existing Checkpoint type added without altering original wires",
+        "17 valid idle source observed and CPU six-step solve explicitly rearmed",
+        "17 raw public load history captured; load CSV submitted",
+        "17 load CSV complete; raw NPZ reference submitted",
+        "17 owned document disposed; source archives unchanged"
+      ],
+      "cleanup": {
+        "pid": 16843,
+        "sessions": 0,
+        "jobs": 0,
+        "workers": []
+      },
+      "files": {
+        "31-blocked-parent": "7b5a3ac9b32ee46d68f46b8192f05e49d38df215c29f6ec6deb30cfa0295aaa6",
+        "17-source.gh": "64706da10ef767918884022a9cc28483212f3de47d6c1c9d39432580aba2d7df",
+        "31-cancel.csv": "57ab7077cef98dfede883c8b1d64d4c5db093e4186adf8828fe630ced4ed7a91",
+        "rhino.json": "f8dc68d632c94b5f5a672152fa274e056bb97fc5fba72cb4309ebaa561296687",
+        "31-reference.npz": "a3b67fe1f30f37cd8a174125c4ff8c106088bcf32bf73b9e9a86a76bd204f47a",
+        "31-fields.csv": "7dfed8b1625232d31ada2fab0c0e122f3b578ba1213f5f3916216cb0f7beb505",
+        "31-source.json": "202db1f1b2556a7681013b34b945457e991b9b940467585eef9dbf7dc407585a",
+        "31-source.gh": "868a652fdd6310c71c81e6fc4654e2b19110799f6b5695550c4f813056353599",
+        "cleanup.json": "54bc7ca0495047d14d4fcda43fe165b1351c1ef8fbb6e8877f22e42f56e22bce",
+        "readback.json": "dbde58ec8e53fd85462df6c40d240a7dac4e3e6eba3bb036fcc215826e7ef040",
+        "31-probes.csv": "0b98239a39d240469c72d98860c0b3103ed1f6cc6973c57f32d2ced08922c601",
+        "31-recovery.csv": "e1a62e83f563beadc92cb296e808fa9414522da9cea5ae97ed215cd9359b4d8a",
+        "17-source.json": "7e5cfd3bba8c2f6b0ce2ab42786a331307af90aacf42361d42d8fbd575b0df8c",
+        "17-loads.csv": "0c6a47e8642073a4be50e1659d10343bed10ed151c811f526451589775530461",
+        "17-raw-loads.json": "a5f21a4e62331a1d19c124191aa5ce05d67623e8689f8a40726b0b0f74fb8bca",
+        "17-reference.npz": "707e4695cfa4dc8025f62d092894f1d14ce291d14c9176f9b293fa9034ec9418"
+      },
+      "independent_readback": {
+        "state": "passed",
+        "field_rows": 5376,
+        "valid_rows": 4677,
+        "invalid_rows": 699,
+        "probe_rows": 3,
+        "load_rows": 6,
+        "precision": "exact float64 parsing of raw source values; exact analytic fixture pivot",
+        "checks": [
+          "31 owned copy opened idle; IDs and original wires preserved",
+          "31 valid idle source observed and CPU two-step solve explicitly rearmed",
+          "31 completed source frozen; field CSV submitted",
+          "31 changed operation withheld stale report; probe CSV explicitly rearmed",
+          "31 probe CSV complete; unchanged NPZ action submitted",
+          "31 pending export immediately cancelled through Execute false",
+          "31 cancellation preserved prior bytes; deliberate IO failure submitted",
+          "31 IO failure surfaced without publication; recovery rearmed",
+          "31 recovery complete and owned document disposed",
+          "17 owned copy opened idle; existing Checkpoint type added without altering original wires",
+          "17 valid idle source observed and CPU six-step solve explicitly rearmed",
+          "17 raw public load history captured; load CSV submitted",
+          "17 load CSV complete; raw NPZ reference submitted",
+          "17 owned document disposed; source archives unchanged"
+        ],
+        "artifacts": {
+          "31-blocked-parent": "7b5a3ac9b32ee46d68f46b8192f05e49d38df215c29f6ec6deb30cfa0295aaa6",
+          "17-source.gh": "64706da10ef767918884022a9cc28483212f3de47d6c1c9d39432580aba2d7df",
+          "31-cancel.csv": "57ab7077cef98dfede883c8b1d64d4c5db093e4186adf8828fe630ced4ed7a91",
+          "rhino.json": "f8dc68d632c94b5f5a672152fa274e056bb97fc5fba72cb4309ebaa561296687",
+          "31-reference.npz": "a3b67fe1f30f37cd8a174125c4ff8c106088bcf32bf73b9e9a86a76bd204f47a",
+          "31-fields.csv": "7dfed8b1625232d31ada2fab0c0e122f3b578ba1213f5f3916216cb0f7beb505",
+          "31-source.json": "202db1f1b2556a7681013b34b945457e991b9b940467585eef9dbf7dc407585a",
+          "31-source.gh": "868a652fdd6310c71c81e6fc4654e2b19110799f6b5695550c4f813056353599",
+          "cleanup.json": "54bc7ca0495047d14d4fcda43fe165b1351c1ef8fbb6e8877f22e42f56e22bce",
+          "31-probes.csv": "0b98239a39d240469c72d98860c0b3103ed1f6cc6973c57f32d2ced08922c601",
+          "31-recovery.csv": "e1a62e83f563beadc92cb296e808fa9414522da9cea5ae97ed215cd9359b4d8a",
+          "17-source.json": "7e5cfd3bba8c2f6b0ce2ab42786a331307af90aacf42361d42d8fbd575b0df8c",
+          "17-loads.csv": "0c6a47e8642073a4be50e1659d10343bed10ed151c811f526451589775530461",
+          "17-raw-loads.json": "a5f21a4e62331a1d19c124191aa5ce05d67623e8689f8a40726b0b0f74fb8bca",
+          "17-reference.npz": "707e4695cfa4dc8025f62d092894f1d14ce291d14c9176f9b293fa9034ec9418"
+        },
+        "scope": "CPU export interchange and lifecycle; not convergence or physics qualification"
+      }
+    }
+  },
+  "visual_review": {
+    "surface": "Mac native dock, 3024x1760 screenshot through CUA",
+    "observed": [
+      "Save/Import and Export paths/buttons fit dock width without previous horizontal overflow",
+      "Imported result visibly PAUSED at6/6 with field preview",
+      "Save/Import tab title truncates at this dock width; page actions and explanatory text remain readable; lower content scrolls"
+    ],
+    "omissions": [
+      "Native file-picker dialogs not exercised",
+      "No Windows Rhino UI acceptance",
+      "No fresh run/render of all31 supported example archives; focused31/17 workflows plus read-only archive audit only"
+    ]
+  },
+  "archive_audit": {
+    "public_nodes": 53,
+    "supported_archives": 31,
+    "missing_nodes": 0,
+    "legacy09": "excluded and preserved",
+    "record": "docs/coverage-example-graphs.json"
+  },
+  "preservation": [
+    "Original dirty checkout untouched",
+    "Original Rhino documents reopened from saved preservation copies",
+    "Both original empty GH documents restored with original IDs",
+    "Normal Rhino quit used before replacing installed assemblies",
+    "Final runtime audit:0 sessions,0 jobs,0 workers"
+  ],
+  "limits": "Bounded interchange, lifecycle and same-backend continuation evidence; no engineering accuracy, convergence, release or CUDA claim."
+}

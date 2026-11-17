@@ -46,7 +46,7 @@ must match under that lock before writing. Native document/case/revision/
 generation/version attribution is frozen caller context, not a replacement for
 the backend's actual capture identity.
 
-Native export accepts a healthy completed case, has separate service-owned job,
+Native export accepts a healthy paused or completed case, has separate service-owned job,
 status, error and result state, and does not reuse the preview query. Export/Cancel
 controls, destination selection and selected probe count must be usable without
 blocking Rhino. Cancel/reset/physical edits/disposal invalidate ownership before
@@ -115,3 +115,35 @@ case, stale completion/disposal cleanup, unit conversion, dynamic controls and
 visible imported-state attribution. The final G6, full measured suite, CUDA and
 host checks must include this extension. Earlier export-only passes are bounded
 intermediate evidence, not the final-head gate.
+
+## Final installed Mac host evidence
+
+On production freeze `5ac088b`, root installed the official build after saving
+and normally quitting Rhino. Rhino 8.37 / embedded Python 3.9.10 / torch 2.8.0
+ran the native data, native export and GH export harnesses sequentially on CPU.
+All passed; each cleanup audit found zero jobs, sessions and workers.
+[Machine evidence and artifact hashes](verification-export-completion-host.json).
+
+Native data exercised actual Eto events, dynamic fluid/periodic/view controls,
+invalid range recovery, save, invalid/cancelled import preservation, paused import
+with no advances, unit conversion, explicit resume and real `.3dm` reopen.
+Independent readback matched all populations, mean arrays, quality and time at
+6 and 12 steps against an uninterrupted CPU reference. Native export checked
+1,989 field rows and three probes, cancellation, failed destinations and recovery.
+GH examples31/17 retained original IDs/wires: 5,376 field rows (4,677 valid,
+699 blank invalid), three probes and six load rows matched raw NPZ/history and
+the independently calculated historical torque pivot.
+
+Visual inspection confirmed the Export and Save/Import controls fit the dock;
+the latter tab title truncates at this width, with readable page actions and
+scrollable lower text. Native file pickers, Windows Rhino UI and a fresh full
+31-example run/render gallery remain unverified. The read-only archive audit
+covered all31 supported archives and53 public nodes; legacy09 was excluded.
+Original Rhino/GH documents were restored from preserved copies.
+
+The first complete expanded G6 run retained20 failures from a test-harness
+relative-path assertion: the documented save response is an absolute path.
+`2c43c74` fixes the oracle and adds all14 native-data cases with relative
+fixture directories. No production behavior or tolerance changed; a fresh full
+G6 rerun is required. Full measured coverage, final mutation review, CUDA, CI
+and Greptile remain separate merge gates.
