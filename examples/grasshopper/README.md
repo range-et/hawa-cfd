@@ -184,3 +184,7 @@ does not add or remove simulated cells.
 views. Longer nested mean/RMS and experimental atmospheric checks still fail.
 Read [the acceptance contract](../../docs/atmospheric-nesting-implementation.md)
 and the quality/statistics reports before using results for design decisions.
+
+For a native workflow with a ready-to-import checkpoint, see
+[example34: save, inspect, export and resume](../native-prototype/34-save-import-resume.md).
+It does not require Grasshopper.

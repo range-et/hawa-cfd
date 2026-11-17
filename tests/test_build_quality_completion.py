@@ -36,7 +36,8 @@ def package_tree(tmp_path, monkeypatch):
         "docs/captures/v05/test.png": "image fixture",
         "examples/grasshopper/01-test.gh": "supported archive",
         "examples/grasshopper/09-parametric-hull-galapagos.gh": "preserved user archive",
-        "examples/grasshopper/README.md": "[guide](../../docs/guide.md)",
+        "examples/grasshopper/README.md": "[guide](../../docs/guide.md) [native](../native-prototype/native.3dm)",
+        "examples/grasshopper/VERIFICATION.md": "[native](../native-prototype/native.3dm)",
         "examples/native-prototype/native.3dm": "native model",
         "examples/native-prototype/native.3dmbak": "ignored backup",
         "examples/native-prototype/native.rhl": "ignored lock",
@@ -81,7 +82,9 @@ def test_refresh_build_bundle_and_temporary_install(package_tree, monkeypatch, t
     assert not (output / "examples/native-prototype/native.3dmbak").exists()
     assert not (output / "examples/native-prototype/native.rhl").exists()
     assert (output / "README.md").read_text() == "[capture](docs/captures/test.png) [example](examples/01.gh)"
-    assert (output / "examples/README.md").read_text() == "[guide](../docs/guide.md)"
+    assert (output / "examples/README.md").read_text() == "[guide](../docs/guide.md) [native](native-prototype/native.3dm)"
+    assert (output / "examples/VERIFICATION.md").read_text() == "[native](native-prototype/native.3dm)"
+    assert (output / "examples/native-prototype/native.3dm").is_file()
     assert (output / "docs/guide.md").read_text() == "[example](../examples/01-test.gh)"
     assert (output / "docs/agents/rhino-mcp.md").read_text() == "[example](../../examples/01-test.gh)"
     assert (output / "AGENTS.md").read_text() == "[examples](examples/README.md)"

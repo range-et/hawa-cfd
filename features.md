@@ -25,7 +25,7 @@ example checks.
 | Native panel and GH live binding | Shared settings, direct/computed input ownership, revisions, stale-result handling, undo and saved idle cases. Public operations support agent workflows. | [Architecture](docs/architecture-v0.5.md), [agent operations](docs/agents/native-prototype.md), [state coverage](examples/grasshopper/VERIFICATION.md) |
 | Background work and cooperative lifecycle | Preparation, solve/query jobs, pause/resume/cancel and cleanup; legacy failed-close retry has a scoped follow-up record. | [Cleanup review](docs/review-cleanup-v0.5.md), [architecture](docs/architecture-v0.5.md) |
 | Field visualization | Scalar slices, vectors, streamlines, snapshot planes/contours/isosurfaces, surface sampling and legends. Native/GH capabilities differ; integrated movable vector slices remain HAWA-007. | [Plugin guide](docs/plugin.md), [node catalogue](docs/node-catalog-v0.5.md) |
-| Numerical CSV interchange | Fields, ordered probes and retained moving-body loads with units, masks, time and capture provenance. Existing Checkpoint archives/default NPZ remain compatible. Bounded Mac CPU host readback and PR #119 Windows headless CUDA export checks pass; final #35 merge/release decisions remain separate. | [Contract](docs/numerical-export.md), [completion review](docs/review-export-completion.md) |
+| Numerical CSV interchange | Fields, ordered probes and retained moving-body loads with units, masks, time and capture provenance. Existing Checkpoint archives/default NPZ remain compatible. Bounded Mac CPU host readback and PR #119 Windows headless CUDA export checks pass; #35 closed after PR #119 merged; release qualification remains separate. | [Contract](docs/numerical-export.md), [completion review](docs/review-export-completion.md) |
 | Dynamic native controls and checkpoint data | Setup/View edits apply directly; Run remains explicit. Save data captures a bounded stationary native checkpoint. Import validates before replacement and restores paused for viewing or explicit continuation. Imported physics is read-only; `.3dm` reopen requires data re-import. Bounded Mac CPU host checks and Windows headless CUDA exact continuation pass; Windows UI and release are not claimed. | [Data contract](docs/native-data.md), [host evidence](docs/verification-export-completion-host.json), [CUDA evidence](docs/verification-pr119-windows-cuda-2026-11-17.json) |
 | Record and playback | Field snapshots, physical-time metadata and playback within documented formats and limits. Particles and time-dependent pathlines were removed (see history, November 12, 2026). | [GH examples](examples/grasshopper/README.md), [0.4 report](docs/release-notes-v0.4.0.md) |
 | Asynchronous design search | Completed-candidate objectives, best-result history and cooperative controls. Hull geometry is an example recipe, not a public hull-construction service. | [GH examples (example 10)](examples/grasshopper/README.md), [node boundary](docs/node-catalog-v0.5.md) |
@@ -819,3 +819,11 @@ qualification remains open in #40. The original coarse report is preserved.
 [Protocol](docs/wing-fine-report-protocol.md),
 [pilot](docs/verification-wing-fine-preflight.json),
 [fine-run evidence](docs/verification-wing-fine-report.json).
+## November17,2026 — importable native workflow example
+
+Example34 adds an idle Rhino document, a real CPU60-step checkpoint and a
+walkthrough for dynamic viewing, field/probe CSV, explicit continuation and
+Save data. Mac Rhino import/export/resume and exact same-machine CPU replay
+passed. This is workflow evidence, not numerical qualification or a new release.
+[Example](examples/native-prototype/34-save-import-resume.md) ·
+[Review](docs/review-workflow-examples.md).
