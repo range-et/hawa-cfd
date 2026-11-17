@@ -316,3 +316,15 @@ has 56 mutants, 55 assertion kills and one reviewed equivalent survivor, with
 bounded lock test explicitly enables locking. No timeout/signal is a kill.
 [Combined evidence](verification-combined-export-mutation.json) and
 [export review](review-numerical-export.md).
+
+### Measurement foundation schema registry (#40)
+
+The internal measurement/sweep schemas extend `test_payload_schemas.py` without
+changing motion production code. Its pinned motion-schema mutation study was
+rerun with the expanded snapshots and explicit CPU-only import isolation:
+104 assertion kills, zero survivors/errors, 132 passing controls. The mutant
+inventory is unchanged. The refreshed policy also binds the new schema/model
+files read by the registry. This is motion-regression evidence, not a mutation
+study of the new measurement/sweep implementation. The combined CPU-only function
+measurement and remaining scope are in the
+[foundation review](review-measurement-foundation.md).

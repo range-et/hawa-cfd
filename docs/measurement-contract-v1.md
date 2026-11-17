@@ -81,6 +81,9 @@ Valid vectors are finite triples. Invalid vectors must be null (not zeros).
 Rejected-quality samples cannot produce usable coefficients. No synthetic
 session identity is invented: future live collector adds its actual session ID
 and capture identity in a versioned result envelope, separate from these inputs.
+`time_s` and window endpoints are elapsed physical seconds since this candidate's
+initial state. They are not wall-clock or absolute source time; a future export
+adapter must preserve any case time origin separately rather than add it twice.
 
 Samples per body strictly increase in step and time. The measurement window is
 inclusive [start_s, end_s]; require endpoint coverage within relative 1e-9 and
@@ -195,6 +198,10 @@ retry. `start` must either return its handle synchronously or fail without
 leaving resources; asynchronous submission requires a future ownership adapter.
 Minimal callback identity is validated before discarding old generations, so a
 malformed obsolete result cannot cancel the current job.
+The future runtime owner must allocate a fresh generation when replacing a
+controller and scope executor handles to that generation. Reusing the default
+standalone generation across live replacements cannot establish stale-result
+isolation and is not a supported production adapter strategy.
 
 The NASA wing-reference audit and finite-domain limitations of the initial
 Stokes candidate are recorded in the [wing example guide](wing-measurement-example.md).

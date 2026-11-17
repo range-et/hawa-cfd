@@ -102,6 +102,18 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 17, 2026 — CPU measurement foundation (#40, partial)
+
+Added isolated stationary body force/torque collection, strict SI pressure/load
+analysis, a poll-driven sweep controller and an example-only blended-wing mesh
+recipe. The collector preserves original populations in a bounded five-step
+CPU control; manufactured measurements exercise candidate identity and plot
+gaps. These are internal, headless building blocks, not a completed wind-tunnel
+workflow. Existing solver/service routes and #35 export work are unchanged.
+Runtime/export adapters, GH graphs, device and physical qualification remain
+open. No Rhino, GPU, install, package or release claim. [Frozen contract](docs/measurement-contract-v1.md),
+[combined review](docs/review-measurement-foundation.md).
+
 ### November 17, 2026 — Windows verification portability (#117)
 
 PR candidate `0e219a9` now passes the fresh Windows headless rerun: 1,973 tests
