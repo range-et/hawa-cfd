@@ -88,8 +88,8 @@ def main(argv=None):
     """Print the bounded demo's internal report; no CSV/export service integration."""
     from scripts.wing_solver_recipe import demo_sweep
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--settling-steps', type=int, default=10)
-    parser.add_argument('--sample-steps', type=int, default=8)
+    parser.add_argument('--settling-steps', type=int, default=1000)
+    parser.add_argument('--sample-steps', type=int, default=64)
     parser.add_argument('--stationarity-tolerance', type=float, default=.05)
     parser.add_argument('--timeout', type=float, default=120.)
     args = parser.parse_args(argv)

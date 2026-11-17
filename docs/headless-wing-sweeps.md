@@ -28,8 +28,10 @@ a curve. This is not a new CSV or shared export format.
 
 Controls are `--settling-steps`, `--sample-steps` (at least four),
 `--stationarity-tolerance` (absolute coefficient change) and `--timeout` seconds.
-Defaults are 10 settling steps, 8 samples and tolerance 0.05, deliberately a
-short workflow probe rather than a convergence study. A timeout requests
+Defaults are 1000 settling steps, 64 samples and tolerance 0.05. Both demo
+candidates passed this diagnostic in the recorded CPU run; this is not a
+grid/domain/time convergence study. The initial 10/8 and 200/32 attempts
+retained rejected stationarity results; no criterion was relaxed. A timeout requests
 cooperative cancellation and waits for resource cleanup; it cannot kill a
 numerical step or guarantee a hard wall-clock exit deadline.
 
@@ -44,7 +46,7 @@ from scripts.run_wing_sweep import prepare_entries, run_prepared
 
 recipe = demo_sweep()
 entries = prepare_entries(
-    recipe, settling_steps=10, sample_steps=8, tolerance=0.05,
+    recipe, settling_steps=1000, sample_steps=64, tolerance=0.05,
     case_id='my-wing-study', generation=1,
     probes=[{'probe_id': 'upstream', 'position_world_m': [-0.1, 0., 0.1]}])
 report = run_prepared(entries, timeout_s=120.)
@@ -84,7 +86,13 @@ post-step field snapshot. Solver quality is checked at capture and after each
 step, including sticky warnings/rejections. Accepted quality is an implementation
 envelope check, not evidence of convergence or physical accuracy.
 
-The collector's frozen solver/body/grid limits still apply. The executor rejects
+The collector's frozen solver/body/grid limits still apply. Across a sweep,
+admission additionally caps retained body/probe rows at 100000, total field
+cells at 1500000, and geometry at 200000 vertices/400000 triangles before
+copying inputs. Prepared mappings are an internal trusted adapter boundary:
+hashes bind both mesh and final case, but arbitrary mesh-to-mask equivalence
+is not independently recomputed by the executor. The wing producer performs
+that voxelization. The executor rejects
 non-float32 storage rather than rebuilding a different solver silently. It uses
 only explicit `cpu`; there is no backend auto-selection or accelerator fallback.
 Preparation and this blocking command-line driver belong off a UI thread.

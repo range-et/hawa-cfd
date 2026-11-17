@@ -1,7 +1,6 @@
 """CLI composition preserves explicit windows and drains on interruption."""
 from copy import deepcopy
 import json
-from types import SimpleNamespace
 
 import pytest
 
@@ -131,3 +130,20 @@ def test_cli_reports_actual_acceptance(monkeypatch,capsys,state,timed_out,expect
                         '--timeout','5'])==expected
     assert json.loads(capsys.readouterr().out)['records'][0]['state']==state
     assert observed[0][0]['a']['steps']==8 and observed[0][1]==5.
+
+
+def test_module_entrypoint_prints_compact_report_and_exits(monkeypatch,capsys):
+    import runpy
+    import sys
+    from scripts import wing_solver_recipe
+    monkeypatch.setattr(wing_solver_recipe,'demo_sweep',recipe)
+    entries=driver.prepare_entries(recipe(),1000,64,.05)
+    executor=install(monkeypatch,entries)
+    monkeypatch.setattr(sys,'argv',['run_wing_sweep'])
+    monkeypatch.delitem(sys.modules,'scripts.run_wing_sweep',raising=False)
+    with pytest.raises(SystemExit) as result:
+        runpy.run_module('scripts.run_wing_sweep',run_name='__main__')
+    assert result.value.code==0
+    report=json.loads(capsys.readouterr().out)
+    assert 'details' not in report and report['records'][0]['state']=='completed'
+    assert not executor.open
