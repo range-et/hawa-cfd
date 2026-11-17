@@ -126,7 +126,11 @@ whether the linked issue closes, is re-scoped, or gets a fix-up PR.
 - On contributors' machines, preserve uncommitted work and the current checkout.
   Don't change global Git, package-manager or SSH configuration. Use one-off
   options and the provided authenticated tools (for example `gh` over HTTPS on
-  Windows). Watch line-ending settings (`core.autocrlf`) when hashing sources.
+  Windows). `.gitattributes` requires LF for source and policy text because
+  verification hashes exact bytes. Existing Windows worktrees may retain CRLF
+  until those files are checked out again; preserve edits and use a fresh
+  worktree when verifying a new revision. Do not normalize evidence hashes or
+  change global `core.autocrlf` to conceal a mismatch.
 - Never kill or restart Rhino. Quit through Rhino's normal command if a restart
   is needed, and never replace a loaded plugin assembly.
 - Never print or commit secrets.

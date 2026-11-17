@@ -314,6 +314,8 @@ def test_main_writes_manifest_without_counting_guarded_cases_as_passes(fake_run,
     monkeypatch.setenv('PYTORCH_ENABLE_MPS_FALLBACK', '1')  # Refused only for MPS runs.
     before = time.perf_counter()
     assert smoke.main(arguments) == 0
+    # Preserve the interchange names even on case-insensitive filesystems.
+    assert {entry.name for entry in output.iterdir()} == {'manifest.json', 'cases'}
     elapsed = time.perf_counter() - before
     text = (output / 'manifest.json').read_text()
     manifest = json.loads(text)
@@ -387,7 +389,7 @@ def test_loaded_module_paths_must_be_files_from_this_checkout(tmp_path):
 
 def test_foreign_hawa_before_cases_fails_without_running_them(fake_run, tmp_path, monkeypatch, capsys):
     path, _ = fake_run
-    foreign = '/opt/old-env/site-packages/hawa/backends_v04.py'
+    foreign = str((tmp_path / 'old-env/site-packages/hawa/backends_v04.py').resolve())
     monkeypatch.setitem(sys.modules, 'hawa.backends_v04', SimpleNamespace(__file__=foreign))
     output = tmp_path / 'run'
     assert smoke.main(['--device', 'cpu', '--output', str(output), '--overlapping-jobs', 'none',
@@ -404,7 +406,7 @@ def test_foreign_hawa_before_cases_fails_without_running_them(fake_run, tmp_path
 
 def test_module_loaded_from_elsewhere_during_cases_fails_the_run(fake_run, tmp_path, monkeypatch):
     path, _ = fake_run
-    foreign = '/opt/old-env/site-packages/lettuce/late.py'
+    foreign = str((tmp_path / 'old-env/site-packages/lettuce/late.py').resolve())
     builder = smoke.BUILDERS['fake']
     def loads_foreign_module(*arguments):
         monkeypatch.setitem(sys.modules, 'lettuce.late', SimpleNamespace(__file__=foreign))
