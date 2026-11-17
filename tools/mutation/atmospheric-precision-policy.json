@@ -8,10 +8,10 @@
   ],
   "sources": {
     "src/hawa/neutral.py": "a409f22e162a9bb726cc4f947d4aaabf4223042c6f640ac11b330e03741039bd",
-    "src/hawa/quality.py": "1abbb759cf19cbba8644e85c2e1adfc43fea0ceaf0a6bf4d2998ceb6d19023f0",
+    "src/hawa/quality.py": "db49c0e52c705177f012da3715eb5b617b7b881a12dce877355133ef85743db3",
     "scripts/verify_atmospheric_precision.py": "55ba5bf1e99efc84953d64722aade1b2621a4a3c97a1a8599e288c908c4e55f0",
     "tests/test_atmospheric_precision.py": "9a12a00e3c90978a40d6608f3dcdbaf00c17226947fa4f2466268ba15196bce6",
-    "tools/mutation/atmospheric-precision.patch": "a66d33899b96ed63d2ec13a398936586ee5b0759ffe9a30af70fcda4f47b8fca"
+    "tools/mutation/atmospheric-precision.patch": "d5bb5ab6e684a8475c6ef5b12fffc55739b5a29c19b57e17a67daeab50fa29f0"
   },
   "reviewed_survivors": {
     "hawa.neutral.xǁShiftedRegularizedSGSǁstorage_resolution__mutmut_10": {
@@ -26,13 +26,13 @@
     },
     "hawa.quality.x_assess__mutmut_4": {
       "status": "survived",
-      "diff_sha256": "bb2eed0b67ff58a3bc5a88539105808522cb5e5c22aac784a5adf546f726de27",
-      "reason": "Unresolved (test gap): without the fluid mask, solid cells also weight the dissipation shares; the quality tests have no solid cells with stress, so they cannot see it. Not equivalent with solids."
+      "diff_sha256": "5b43abcdf2e48221eff667c843e5426973465be844a8acb31b3eb51d1a66754d",
+      "reason": "Unresolved (test gap): without the fluid mask, solid cells also weight the dissipation shares; the quality tests have no solid cells with stress, so they cannot see it. Not equivalent with solids. Re-reviewed for #98: same removed fluid argument; only the surrounding line number moved."
     },
     "hawa.quality.x_assess__mutmut_6": {
       "status": "survived",
-      "diff_sha256": "d637b52f4c227ccc73c316b7bd2dc71dd514a999ebf40bc89f7d2b63ed0c6f6e",
-      "reason": "Unresolved (test gap): without the fluid mask, solid cells also weight the dissipation shares; the quality tests have no solid cells with stress, so they cannot see it. Not equivalent with solids."
+      "diff_sha256": "42edfb22a116562db437a88d034011a640efab5b0b0a1da4d105585bff763e6a",
+      "reason": "Unresolved (test gap): without the fluid mask, solid cells also weight the dissipation shares; the quality tests have no solid cells with stress, so they cannot see it. Not equivalent with solids. Re-reviewed for #98: same removed fluid argument; only the surrounding line number moved."
     },
     "verify_atmospheric_precision.x_compare__mutmut_12": {
       "status": "survived",

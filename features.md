@@ -646,3 +646,16 @@ with an independent **Annotations and legend** switch in View. Missing flags in
 older archives default to visible. Drawing-order/visibility contracts pass;
 CPU 30-step field captures verify native labels above the mesh. Broader 22/25/08
 legibility remains under [#108](https://github.com/range-et/hawa-cfd/issues/108).
+
+### November 16 2026 — Sampled quality provenance (#98, development)
+
+The development report retains the quantity, value, threshold, step and time
+behind sticky warning/rejection status, plus sampled Mach/density peaks. A
+headless CPU/MPS reproduction identifies example 08's step-5 density transient
+(about 5.197%) despite recovered final values. The native panel now includes
+human-readable reasons; legacy checkpoint provenance remains explicitly unknown.
+Live CPU example 08 and a native selected-body case retain the exact warning
+after 300 steps; checkpoint round-trip and native warning wrapping inspected.
+No solver/threshold change or physical-validation claim. Final combined measured
+suites and compatibility gate remain pending; not merged or released.
+[Review and scope](docs/review-quality-provenance.md).
