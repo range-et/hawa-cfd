@@ -191,3 +191,74 @@ passed all5 cases with identical before/after source audit and no module-path
 errors. CPU smoke likewise passed5/5. [Final headless evidence](verification-export-completion-headless.json).
 All local required checks are complete. PR#119 is ready/non-draft. Merge remains
 blocked until final CI, explicit Greptile5/5 and Windows CUDA are verified.
+
+## Frozen PR #119 Windows CUDA handoff — 2026-11-17
+
+The Windows operator received the [exact-head handoff on #35](https://github.com/range-et/hawa-cfd/issues/35#issuecomment-6941958822)
+and tested `6eb8a5c0950f4148e39e11bcbbbccf206a4f7858` in a fresh isolated LF worktree.
+Direct chat delivery was unavailable; the agreed GitHub issue channel carried
+acknowledgement, progress and results. Original Windows checkouts, environments
+and previous evidence were preserved. No implementation, test, policy or
+tolerance changes were made during this round.
+
+Environment: Windows build 26300, NVIDIA RTX 5070 Ti, driver 621.14,
+Python 3.9.25, torch 2.8.0+cu128, CUDA runtime 12.8, NumPy 2.0.2 and
+pydantic 2.13.5. A real backend operation selected `cuda:0`; loaded Hawa/Lettuce
+modules came from the tested checkout. GPU jobs ran sequentially.
+
+| Fresh Windows check | Result |
+| --- | --- |
+| Complete Hawa suite | **2,251 passed, 92 skipped, zero failed**; 214 warnings, 262.15 seconds |
+| Explicit CUDA suite cases | **91 passed**, zero failed/skipped |
+| Device smoke vs CPU FP64 | **5/5 passed**, zero guarded; unchanged sources and no foreign modules |
+| Finite G6 | **100,092 passed, zero failed**, 2,490 unavailable MPS rows blocked; 312.52 seconds |
+| CUDA G6 rows | **2,490 passed**, zero failed/blocked |
+| New CUDA export product | **27/27 pass**: seven raw readback successes, 20 expected rejections/cancellations |
+| New CUDA native-data product | **14/14 pass**: two exact continuation successes, 12 expected rejection/cancellation checks |
+| G6 evidence and archive inventory | PASS: 102,582 rows, 53 public nodes, 31 examples, 188 observed port combinations |
+
+The suite's independent collection and outcome/JUnit verifier cover all 2,343
+tests. Skips are 90 unavailable MPS cases, one CPU-default check inapplicable when
+CUDA exists, and one real-mutmut integration requiring developer Python. They
+remain explicit omissions. All 110 mutation-policy source entries match their
+exact raw-byte hashes; no line-ending normalization was applied to evidence.
+
+Export rows compare literal schemas, captured raw fields, ordered/duplicate
+probes, load histories, historical pivots, units, time, validity and provenance
+using the independent matrix oracle. Stationary load export, stale identity and
+pre-publication cancellation preserve the previous destination and reject as
+declared; those are passing rejection contracts, not successful simulations.
+
+Native-data rows cover voxel and curved walls. Valid cases save at step six,
+restore paused with zero advancement, preserve exact populations/fields/means,
+quality and mass baseline, and continue to step twelve matching uninterrupted
+same-backend CUDA state exactly. Other rows verify stale source, save/import
+cancellation, truncated ZIP, unsupported schema and corrupt populations. These
+are headless Python service checks, not Windows native-panel or GH observations.
+
+The [machine record](verification-pr119-windows-cuda-2026-11-17.json) retains exact
+commands, source/index digest, environment, smoke comparisons, all 41 new CUDA
+row outcomes, skip reasons and artifact hashes. Raw manifests, logs, independent
+collection, JUnit, CPU/reference arrays, complete G6 rows and fixtures are under
+`results/pr119-windows-cuda-2026-11-17/` in the isolated Windows worktree
+`C:/Users/range/Desktop/hawa-cfd-pr119-cuda`; the record includes the complete ZIP
+path, size and SHA256. Source/index snapshots stayed unchanged until all checks
+and the final independent verifier completed. The subsequent commit adds only
+documentation/evidence.
+
+Reviewer/operator: Codex Windows agent, independently executing the Mac author's
+frozen source. G2 passes the complete requested Windows suite; G3 passes the
+existing bounded smoke and exact interchange/continuation contracts; G6 passes
+the available CPU/CUDA product with MPS blocked. Existing G0/G1 and Mac measured,
+mutation, C# and host records remain separately attributed above. This evidence
+increment changes no executable functions and does not claim fresh Windows
+coverage instrumentation, mutation execution or C# host qualification.
+
+**Windows Rhino was never launched, attached to, initialized or run.** Mac retains
+the sole license; any Windows host handoff requires explicit Mac-closed
+confirmation. No plugin build, installation, release, merge, generated native
+CUDA extension, long-duration physical qualification or expanded upstream
+example run is claimed. `verify_cuda.py --stages suite --repeats 1` correctly
+records its broader four-stage `full_scope` as false. These results clear the
+requested Windows CUDA hold for this PR candidate; final CI, Greptile review,
+merge and #35 closure remain with the Mac coordinator. Baking #34 is separate.
