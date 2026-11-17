@@ -356,3 +356,106 @@ def test_stale_malformed_result_does_not_fail_current_job(change):
     c.tick(); c.tick()
     assert c.records[0]['state'] == 'failed'
     assert [name for name, _ in ex.calls][-2:] == ['cancel', 'close']
+
+
+def test_initial_and_completed_records_keep_complete_identity_contract():
+    ex=Executor();c=SweepController([candidate()],ex)
+    assert c.generation==0 and c.cleanup_error is None
+    assert c.records==[dict(candidate=candidate(),generation=0,state='queued',reason='',result=None)]
+    c.run();c.tick()
+    assert ex.calls==[('start',(candidate(),0))]
+    ex.reply=dict(state='completed',candidate_id='candidate-0',generation=0,result=result(generation=0))
+    c.tick();c.tick()
+    assert c.records==[dict(candidate=candidate(),generation=0,state='completed',reason='',result=result(generation=0))]
+    assert ex.calls==[('start',(candidate(),0)),('poll',('candidate-0',)),('close',('candidate-0',))]
+    assert len(plot_segments(c.records)[0])==1
+    bad=c.records;bad[0]['generation']=-1
+    assert plot_segments(bad)==[]
+
+
+def test_unique_candidate_count_above_limit_rejects():
+    with pytest.raises(ValueError):validate_candidates([candidate(i) for i in range(65)])
+
+
+def test_controls_forward_actual_handle_and_run_resumes_pause():
+    c,ex=controller(1);c.run();c.tick();c.pause();c.run();c.cancel();c.tick()
+    assert ex.calls==[('start',(candidate(),7)),('pause',('candidate-0',)),('resume',('candidate-0',)),
+                      ('cancel',('candidate-0',)),('close',('candidate-0',))]
+    assert c.records[0]['reason']=='Sweep cancelled'
+
+
+@pytest.mark.parametrize('action',['pause','resume'])
+def test_control_failure_cancels_the_owned_handle_before_close(action):
+    c,ex=controller(1);c.run();c.tick()
+    if action=='resume':c.pause()
+    ex.errors[action]=True
+    getattr(c,action)();c.tick()
+    assert ex.calls[-2:]==[('cancel',('candidate-0',)),('close',('candidate-0',))]
+    assert c.records[0]['reason']==action+' failed: '+action+' injected'
+
+
+def test_disposal_after_a_completed_candidate_preserves_its_result():
+    c,ex=controller(3);c.run();c.tick();complete(ex);c.tick();c.tick();c.tick()
+    before=c.records[0]
+    c.dispose();c.tick();c.pause()
+    assert c.state=='disposed' and c.records[0]==before
+    assert [r['reason'] for r in c.records[1:]]==['Sweep disposed','Sweep disposed']
+    with pytest.raises(ValueError):c.run()
+
+
+@pytest.mark.parametrize('state',['failed','cancelled','rejected'])
+def test_executor_terminal_states_retain_reason_and_generation(state):
+    c,ex=controller(1);c.run();c.tick()
+    ex.reply=dict(state=state,candidate_id='candidate-0',generation=7,reason='specific '+state)
+    c.tick();c.tick()
+    assert c.records==[dict(candidate=candidate(),generation=7,state=state,reason='specific '+state,result=None)]
+
+
+def test_nonterminal_poll_reason_and_missing_reason_are_snapshotted():
+    c,ex=controller(1);c.run();c.tick()
+    ex.reply.update(reason='preparing actual geometry')
+    c.tick();assert c.records[0]['reason']=='preparing actual geometry'
+    del ex.reply['reason']
+    c.tick();assert c.records[0]['reason']==''
+    c.cancel();c.tick()
+
+
+def test_terminal_observation_releases_handle_instead_of_only_changing_label():
+    for state in ('failed','cancelled','rejected'):
+        c,ex=controller(1);c.run();c.tick()
+        ex.reply.update(state=state,reason='terminal observation')
+        c.tick();c.tick()
+        assert ex.calls[-1]==('close',('candidate-0',))
+        count=len(ex.calls);c.tick()
+        assert len(ex.calls)==count
+
+
+def test_plot_rejects_coercive_record_generation_even_when_numerically_equal():
+    record=dict(candidate=candidate(),generation=7.,state='completed',reason='',result=result())
+    assert plot_segments([record])==[]
+
+
+def test_cleanup_and_bad_poll_errors_retain_underlying_cause():
+    c,ex=controller(1);c.run();c.tick();c.cancel()
+    ex.errors['cancel']=True;c.tick()
+    assert c.cleanup_error=='cancel failed: cancel injected'
+    ex.errors.clear();c.tick()
+    c,ex=controller(1);c.run();c.tick();ex.errors['poll']=True
+    c.tick();c.tick()
+    assert c.records[0]['reason']=='poll/result failed: poll injected'
+
+
+@pytest.mark.parametrize('kind',['count','item','blank','duplicate','completion','poll'])
+def test_sweep_rejections_keep_an_actionable_diagnostic(kind):
+    if kind in ('completion','poll'):
+        c,ex=controller(1);c.run();c.tick()
+        if kind=='poll':ex.reply=[]
+        else:
+            complete(ex);ex.reply['result']['identity']['case_hash']='other-case'
+        c.tick();c.tick()
+        assert 'None' not in c.records[0]['reason']
+    else:
+        bad={'count':[], 'item':[3], 'blank':[dict(candidate(),candidate_id=' ')],
+             'duplicate':[candidate(),candidate()]}[kind]
+        with pytest.raises(ValueError) as caught:validate_candidates(bad)
+        assert str(caught.value) and str(caught.value)!='None'

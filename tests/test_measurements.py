@@ -252,3 +252,114 @@ def test_reference_products_keep_valid_scaled_extremes(density, speed, expected_
     summary = summarize(validated, data['samples'])
     assert summary['usable']
     assert summary['bodies'][0]['mean']['CD'] == pytest.approx(1., rel=1e-15, abs=0.)
+
+
+def test_complete_measurement_contract_with_nonzero_side_load_and_fluctuations():
+    data = fixture()
+    data['request']['window']['stationarity_absolute_coefficient_tolerance'] = 0.
+    for sample, factor in zip(data['samples'], [1., 3., 1., 3.]):
+        sample['force_world_n'] = [36*factor, 18*factor, 72*factor]
+        sample['torque_world_nm'] = [0., 18*factor, 0.]
+    output = summarize(data['request'], data['samples'])
+    for key in ('schema', 'identity', 'references', 'window'):
+        assert output[key] == data['request'][key]
+    assert output['statistic'] == 'equal-weight population standard deviation; not confidence bounds'
+    body = output['bodies'][0]
+    assert body['body_id'] == 'wing' and body['quality'] == 'accepted'
+    assert output['usable'] and body['usable']
+    assert body['force_mean_world_n'] == [72.,36.,144.]
+    assert body['torque_mean_world_nm'] == [0.,36.,0.]
+    assert body['force_std_world_n'] == [36.,18.,72.]
+    assert body['torque_std_world_nm'] == [0.,18.,0.]
+    assert body['mean'] == dict(q_pa=9., D=72., Y=36., L=144., CD=2., CY=1., CL=4., Cm=.5, load_cell_n=72.)
+    assert body['coefficient_std'] == dict(CD=1., CY=.5, CL=2., Cm=.25)
+    assert body['stationarity'] == dict(passed=True, absolute_coefficient_change=0., tolerance=0.)
+
+
+def test_probe_output_retains_identity_coordinates_pressure_and_zero_source_time():
+    req = fixture()['request']
+    probes = [dict(probe_id='p'+str(i),position_world_m=[float(i),2.,3.]) for i in range(256)]
+    rows = sample_probes(req, probes, 0., lambda point:118.)
+    assert len(rows) == 256
+    for index,row in enumerate(rows):
+        assert row == dict(schema='hawa-measurement-1', identity=req['identity'], time_s=0.,
+                           probe_id='p'+str(index),position_world_m=[float(index),2.,3.],
+                           body_id=None,surface_point_world_m=None,outward_normal_world=None,offset_m=None,
+                           valid=True,reason='',pressure_pa=118.,Cp=2.,approximate_surface=False)
+    with pytest.raises(ValueError):
+        sample_probes(req,probes+[dict(probe_id='extra',position_world_m=[0.,0.,0.])],0.,lambda point:118.)
+
+
+def test_summary_requires_a_list_and_checks_history_outside_window():
+    data=fixture()
+    with pytest.raises(ValueError):summarize(data['request'],tuple(data['samples']))
+    outside=[dict(data['samples'][0],step=i,time_s=0.) for i in (0,1)]
+    for index,sample in enumerate(data['samples'],2):sample['step']=index
+    with pytest.raises(ValueError,match='strictly increase'):
+        summarize(data['request'],outside+data['samples'])
+
+
+@pytest.mark.parametrize('delta',[2e-10,1e-7])
+def test_unit_axes_do_not_inherit_numpy_default_tolerances(delta):
+    with pytest.raises(ValueError):unit_vector([1.+delta,0.,0.])
+
+
+@pytest.mark.parametrize('duration,perturbation',[(1.,1e-7),(1e-5,1e-10)])
+def test_sample_spacing_does_not_inherit_numpy_default_tolerances(duration,perturbation):
+    data=fixture()
+    data['request']['window'].update(start_s=0.,end_s=3*duration)
+    for i,sample in enumerate(data['samples']):sample['time_s']=i*duration
+    data['samples'][1]['time_s']+=perturbation
+    with pytest.raises(ValueError,match='uniform'):summarize(data['request'],data['samples'])
+
+
+def test_declared_maximum_history_is_accepted_without_truncation():
+    data=fixture()
+    samples=[dict(data['samples'][0],step=i,time_s=float(i)) for i in range(100000)]
+    output=summarize(data['request'],samples)
+    assert output['usable'] and output['bodies'][0]['count']==4
+    with pytest.raises(ValueError,match='bounded'):
+        summarize(data['request'],samples+[dict(samples[-1],step=100000,time_s=100000.)])
+
+
+@pytest.mark.parametrize('scale,delta',[(1.,1e-7),(1e-5,1e-10)])
+def test_endpoints_cannot_use_numpy_looser_default_tolerances(scale,delta):
+    data=fixture();data['request']['window'].update(start_s=scale,end_s=4*scale)
+    for sample,value in zip(data['samples'],np.linspace(scale+delta,4*scale-delta,4)):
+        sample['time_s']=float(value)
+    with pytest.raises(ValueError,match='endpoints'):summarize(data['request'],data['samples'])
+
+
+@pytest.mark.parametrize('scale,delta',[(1.,1e-7),(1e-5,1e-10)])
+def test_nearby_outside_samples_are_not_silently_admitted(scale,delta):
+    data=fixture();data['request']['window'].update(start_s=scale,end_s=4*scale)
+    for i,sample in enumerate(data['samples'],1):sample.update(step=i,time_s=i*scale)
+    outside=[dict(data['samples'][0],step=0,time_s=scale-delta),
+             dict(data['samples'][-1],step=5,time_s=4*scale+delta)]
+    result=summarize(data['request'],[outside[0]]+data['samples']+[outside[1]])
+    assert result['usable'] and result['bodies'][0]['count']==4
+
+
+@pytest.mark.parametrize('kind',['axis','vector-shape','vector-finite','time','probe-count','probe-duplicate','probe-body','sampler'])
+def test_rejections_keep_an_actionable_diagnostic(kind):
+    req=fixture()['request'];probe=dict(probe_id='p',position_world_m=[0.,0.,0.])
+    with pytest.raises(ValueError) as caught:
+        if kind=='axis':unit_vector([2.,0.,0.])
+        elif kind=='vector-shape':finite_vectors([[1.,2.]],1)
+        elif kind=='vector-finite':finite_vectors([[float('nan'),0.,0.]],1)
+        elif kind=='time':sample_probes(req,[probe],-1.,lambda point:0.)
+        elif kind=='probe-count':sample_probes(req,[],0.,lambda point:0.)
+        elif kind=='probe-duplicate':sample_probes(req,[probe,probe],0.,lambda point:0.)
+        elif kind=='probe-body':
+            probe.update(body_id='unknown',surface_point_world_m=[0.,0.,-1.],outward_normal_world=[0.,0.,1.],offset_m=1.)
+            sample_probes(req,[probe],0.,lambda point:0.)
+        else:sample_probes(req,[probe],0.,lambda point:float('inf'))
+    assert str(caught.value) and str(caught.value)!='None'
+
+
+def test_fixed_interval_roundoff_within_declared_tolerance_is_accepted():
+    data=fixture();data['request']['window'].update(start_s=0.,end_s=3.)
+    # Nominal dt=1 s; subsequent intervals deviate by only 0.75e-9 s.
+    for sample,t in zip(data['samples'],[0.,1.,2.+.75e-9,3.]):sample['time_s']=t
+    result=summarize(data['request'],data['samples'])
+    assert result['usable'] and result['bodies'][0]['duration_s']==3.
