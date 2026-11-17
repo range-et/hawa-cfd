@@ -62,10 +62,12 @@ the exact configuration and results with [the review template](../../docs/review
 The matrix defines coverage obligations; it does not claim that every combination
 has already been tested.
 
-`annotations.json` contains the example-specific descriptions. Run `scripts/annotate_grasshopper_examples.cs` through Rhino MCP after regenerating definitions. It checks that connections are unchanged and saves local backups. `scripts/capture_example_layouts.cs` renders each supported canvas without running its solver. Adjust the checkout path in either script before use on another machine. After
-regenerating and annotating example 33, run `scripts/clarify_parent_child_example.cs`
-to restore its explicit parent/child headings. It saves a backup and verifies that
-functional archive data, object identities and group membership are unchanged.
+`annotations.json` contains the example-specific descriptions. Run `scripts/annotate_grasshopper_examples.cs` through Rhino MCP after regenerating definitions. It checks that connections are unchanged and saves local backups. `scripts/capture_example_layouts.cs` renders each supported canvas without running its solver. Adjust the checkout path in either script before use on another machine. For the already shipped example 33, use `scripts/clarify_parent_child_example.cs`
+directly to edit its parent/child wording. Do not run the generic annotation
+script on this archive: it replaces the custom seven-panel, three-group layout.
+The clarification script requires that existing layout, preserves its fonts,
+saves a backup and verifies functional archive data, object identities and group
+membership. It is not a regeneration or layout-repair tool.
 
 The gallery covers selected workflows. It is separate from the sixteen upstream Lettuce entrypoints and does not claim to wrap every upstream example. CPU/MPS PorousMedium parity remains a documented open issue.
 

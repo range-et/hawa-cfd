@@ -1,6 +1,5 @@
 // Run through Rhino MCP. Edit presentation only, then verify the saved archive.
 using System.IO;
-using System.Drawing;
 using System.Xml.Linq;
 using System.Text.Json;
 using Grasshopper.Kernel;
@@ -32,7 +31,7 @@ try{
   var panel=panels["Hawa guide / stage "+i];
   panel.UserText=roles[i]+"\n\n"+flow[i]+"\n\n"+counts[i]+" sample centres; "+spacing[i]+" m cell spacing. These counts are not metres.\nShared closed buildings are reclassified on this grid. The floor is half a cell below its first centre.\n\nA finished recording is not atmospheric qualification.";
  }
- foreach(var panel in panels.Values){panel.Properties.Wrap=true;panel.Properties.Font=new Font("Helvetica",12);}
+ foreach(var panel in panels.Values){panel.Properties.Wrap=true;}
  var candidate=output+"/annotated-33.gh";
  if(!new GH_DocumentIO{Document=d}.SaveQuiet(candidate))throw new Exception("Save failed");
  var reopened=new GH_IO.Serialization.GH_Archive();if(!reopened.ReadFromFile(candidate))throw new Exception("Reopen failed");
