@@ -84,9 +84,9 @@ static class RefinementAdmissionContracts
                 bridge.Respond=r=>{if(r["op"]!.GetValue<string>()=="evaluate_submit"){entered.Set();release.Wait();done.Set();if(fail)throw new ArgumentException("late admission rejection");return new(){["job"]="late-refine"};}return null;};
                 var c=new RefinedSolveComponent();Solve(c,false);Solve(c);assert(entered.Wait(2000),"Submission not entered");
                 if(variant==1||fail)c.RemovedFromDocument(new GH_Document());else if(variant==2)Solve(c,false);else{var invalid=Fine();invalid["dx"]=.8;Solve(c,fine:invalid);assert(c.Errors.Count==1,"Changed invalid input did not detach submission");}
-                foreach(var timer in Eto.Forms.UITimer.Active.ToArray())timer.Pulse();assert(!bridge.Ops("evaluate_control").Any(),"Pending submission prematurely closed");release.Set();assert(done.Wait(2000),"Release timed out");
+                assert(RefinedSolveComponent.PendingSubmissions==1,"Detached submission has no process owner");foreach(var timer in Eto.Forms.UITimer.Active.ToArray())timer.Pulse();assert(!bridge.Ops("evaluate_control").Any(),"Pending submission prematurely closed");release.Set();assert(done.Wait(2000),"Release timed out");
                 for(int i=0;i<1000&&Eto.Forms.UITimer.Active.Any();i++){Thread.Sleep(2);foreach(var timer in Eto.Forms.UITimer.Active.ToArray())timer.Pulse();}
-                assert(!Eto.Forms.UITimer.Active.Any(),"Pending cleanup retained timer");assert(bridge.Ops("evaluate_control").Count()==(fail?0:1),"Late successful job leaked or fault invented job");
+                assert(!Eto.Forms.UITimer.Active.Any()&&RefinedSolveComponent.PendingSubmissions==0,"Pending cleanup retained timer/ownership");assert(bridge.Ops("evaluate_control").Count()==(fail?0:1),"Late successful job leaked or fault invented job");
             }
         });
     }

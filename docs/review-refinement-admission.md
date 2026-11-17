@@ -27,7 +27,7 @@ Hawa Runtime node on the host first. This records GH-bridge readiness, not a
 query of private shared-runtime state: native-only initialization conservatively
 still requires the explicit Runtime action. After that initialization, Python
 admission runs on an owned task. A changed, missing,
-cancelled or removed input detaches the task; a retained UI timer transfers any
+cancelled or removed input detaches the task; a process-rooted UI timer transfers any
 late successful job into CaseHub's retryable cleanup. Faults are observed without
 publishing results. No unfinished task is waited on in the solution thread.
 The node GUID, ports, saved-true guard and frame/report contract are unchanged.
@@ -95,10 +95,15 @@ canvas. It checks invalid placement/source IDs, CPU pause and invalid replacemen
 valid two-step recovery, immediate cancel/removal, and public pending-refresh and
 cleanup counts. Its timer returns between observations. It does not enumerate
 private workers or overwrite user geometry, example 09, or any example archive.
-A zero public scheduler/cleanup count after the observation window does not
-prove that every detached submission timer has completed or that zero workers
-exist; the deterministic headless barriers supply that separate ownership
-evidence. Native results and final package/source hashes must be recorded after
+The public pending-submission count now covers retained detached-task timers
+as well as scheduler/cleanup counts. These are ownership diagnostics, not a
+private worker enumeration. An earlier native candidate passed the superficial
+UI assertions but leaked a refinement worker after removal: the local Eto timer
+had no guaranteed managed GC root, unlike the headless double's global timer
+list. That result is a failed lifecycle gate, not a pass. A process-owned static
+timer set now roots each detached submission until drained, and the harness
+requires its pending count to reach zero. Deterministic headless barriers and
+fresh live removal/worker follow-up remain separate evidence. Native results and final package/source hashes must be recorded after
 execution. The first native candidate exposed a real cold-start crash: RhinoCode
 created host progress UI from the background thread. The candidate was rejected;
 the explicit Runtime prerequisite and cold-background bridge guard repair that

@@ -7,6 +7,10 @@ namespace Hawa.Grasshopper;
 public sealed class RefinedSolveComponent:HawaComponent {
     private string? job,key;private bool first=true,requireOff;
     private Task<string>? submission;
+    // Eto's native timer does not itself guarantee a managed GC root. Keep
+    // detached submissions process-owned until their result has been drained.
+    private static readonly HashSet<UITimer> submissionDrains=new();
+    public static int PendingSubmissions => submissionDrains.Count;
     public RefinedSolveComponent():base("Hawa Refined Solve","Refine","Experimental static two-level BGK solver. Run false cancels. Outputs two field frames on completion.","05 Solve"){}
     public override Guid ComponentGuid=>new("a7bb3b0a-ae4f-42ae-9301-a3c55f077138");
     protected override void RegisterInputParams(GH_InputParamManager p){p.AddGenericParameter("Coarse case","C","Parent case, BGK, voxel walls",GH_ParamAccess.item);p.AddGenericParameter("Fine case","F","Patch case, same physics, voxel walls",GH_ParamAccess.item);p.AddIntegerParameter("Steps","N","Coarse iterations",GH_ParamAccess.item,200);p.AddTextParameter("Device","GPU","auto, mps, cpu, cuda:0",GH_ParamAccess.item,"auto");p.AddBooleanParameter("Run","R","False cancels. Saved true opens idle.",GH_ParamAccess.item,false);p.AddBooleanParameter("Pause","P","Pause at a step boundary",GH_ParamAccess.item,false);}
@@ -61,11 +65,11 @@ public sealed class RefinedSolveComponent:HawaComponent {
             EventHandler<EventArgs>? drain=null;
             drain=(_,_)=>{
                 if(!pending.IsCompleted)return;
-                timer.Stop();timer.Elapsed-=drain;timer.Dispose();
+                timer.Stop();timer.Elapsed-=drain;timer.Dispose();submissionDrains.Remove(timer);
                 if(pending.IsCompletedSuccessfully)CaseHub.ReleaseJob(pending.Result);
                 else _=pending.Exception;
             };
-            timer.Elapsed+=drain;timer.Start();
+            submissionDrains.Add(timer);timer.Elapsed+=drain;timer.Start();
         }
         CaseHub.ReleaseJob(owned);
     }

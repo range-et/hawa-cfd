@@ -14,6 +14,7 @@ var shared=AppDomain.CurrentDomain.GetAssemblies().First(a=>a.GetName().Name=="H
 var hub=shared.GetType("Hawa.Shared.CaseHub");
 var scheduler=assembly.GetType("Hawa.Grasshopper.HawaPollScheduler");
 int Pending()=> (int)scheduler.GetProperty("PendingCount").GetValue(null);
+int Submissions()=> (int)assembly.GetType("Hawa.Grasshopper.RefinedSolveComponent").GetProperty("PendingSubmissions").GetValue(null);
 int Cleanup()=> (int)hub.GetProperty("PendingCleanupCount").GetValue(null);
 if((bool)assembly.GetType("Hawa.Grasshopper.EmbeddedRuntime").GetProperty("IsReady").GetValue(null))throw new Exception("Cold-runtime acceptance requires a fresh loaded candidate before any Hawa Runtime initialization");
 var previous=Grasshopper.Instances.ActiveCanvas.Document;
@@ -69,8 +70,8 @@ timer.Elapsed+=(_,_)=>{try{
  case 8:
   run.Value=true;Solve();report["remove_before_state"]=solve.Message;DisposeOwned();Pass("document removed immediately after submission");break;
  case 9:
-  if(Pending()!=0||Cleanup()!=0||(DateTime.UtcNow-began).TotalSeconds<2)return;
-  report["pending_refreshes"]=Pending();report["pending_cleanup"]=Cleanup();report["limits"]="Public GH lifecycle/cleanup diagnostics only; no private worker enumeration. Headless barriers prove deterministic late-result races. No numerical accuracy claim.";timer.Stop();timer.Dispose();Save("passed");break;
+  if(Pending()!=0||Cleanup()!=0||Submissions()!=0||(DateTime.UtcNow-began).TotalSeconds<2)return;
+  report["pending_refreshes"]=Pending();report["pending_cleanup"]=Cleanup();report["pending_submissions"]=Submissions();report["limits"]="Public GH lifecycle/cleanup diagnostics only; includes retained submission-drain ownership, but no private worker enumeration. Headless barriers prove deterministic late-result races. No numerical accuracy claim.";timer.Stop();timer.Dispose();Save("passed");break;
  }
  }catch(Exception e){report["error"]=e.ToString();timer.Stop();timer.Dispose();try{if(Grasshopper.Instances.DocumentServer.Contains(doc)){run.Value=false;Solve();DisposeOwned();}}catch(Exception cleanup){report["cleanup_error"]=cleanup.ToString();}Save("failed");}};
 Save("running");timer.Start();Console.WriteLine("Started refinement admission check: "+output+"/rhino.json; document "+doc.DocumentID);
