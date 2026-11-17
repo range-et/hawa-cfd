@@ -20,6 +20,7 @@ from matrix.operations import refinements,make_refinement,field_cases,exercise_f
 from matrix.nesting import nesting_cases,exercise_nesting
 from matrix.collections import collection_cases,exercise_collection
 from matrix.exports import export_cases,exercise_export
+from matrix.native_data import native_data_cases,exercise_native_data
 from hawa.refinement import run_refined
 from matrix.contract import source_hashes,expected_rows,verify_evidence,verify_examples,environment
 import numpy as np
@@ -92,13 +93,13 @@ def run(output, release=False):
                 except Exception as e:record(item,'failed',error=type(e).__name__+': '+str(e));continue
                 record(item,'passed' if accepted==row['expected'] else 'failed',observed='run' if accepted else 'reject',error=error)
             if i%30==0:save();log.flush();print('nesting',i,counts,flush=True)
-        for row in export_cases():
+        for row in itertools.chain(export_cases(),native_data_cases()):
             for device in DEVICES:
                 item=dict(row,id=row['id']+'/'+device)
                 if not available(device):record(item,'blocked',reason='device unavailable');continue
-                try:accepted=exercise_export(row,fixtures,device)
+                try:accepted=(exercise_native_data if row['id'].startswith('native-data/') else exercise_export)(row,fixtures,device)
                 except Exception as e:record(item,'failed',error=type(e).__name__+': '+str(e));continue
-                record(item,'passed' if accepted==row['expected'] else 'failed',observed='run' if accepted else 'reject',device=device,steps=4)
+                record(item,'passed' if accepted==row['expected'] else 'failed',observed='run' if accepted else 'reject',device=device,steps=10 if accepted and row['id'].startswith('native-data/') else 4)
             save();log.flush()
     expected=len(expected_rows())
     changed=summary['sources']!=source_hashes()
