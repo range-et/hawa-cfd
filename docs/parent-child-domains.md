@@ -103,10 +103,12 @@ memory pool, so Rhino's own usage counts against the same total.
 
 ## Read example 33 without the geographic names
 
-The existing archive and its canvas retain their original labels. Use this map
-while reading them; the file is still `33-neutral-city-to-pond.gh`.
+The canvas group headings and guide panels identify the outer parent, local child
+and finer child. Functional controls retain their original geographic prefixes
+so saved identities and name-dependent harnesses remain compatible. The file is
+still `33-neutral-city-to-pond.gh`.
 
-| Role | Existing canvas label | Grid sample counts | Cell spacing |
+| Role | Functional control prefix | Grid sample counts | Cell spacing |
 | --- | --- | --- | --- |
 | A: outer parent | `A / city` | 32 × 24 × 16 | 1 m |
 | B: local child of A, parent of C | `B / neighbourhood` | 24 × 24 × 16 | 0.5 m |
