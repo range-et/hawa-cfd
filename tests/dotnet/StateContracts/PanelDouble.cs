@@ -28,6 +28,10 @@ namespace Eto.Forms {
         public Control? Content { get; set; }
         public override IEnumerable<Control> Children => Content == null ? Array.Empty<Control>() : new[] { Content };
     }
+    public class TextBox : Control { public string Text { get; set; } = ""; }
+    public enum DialogResult { Ok, Cancel }
+    public sealed record FileFilter(string Name, string Extension);
+    public sealed class SaveFileDialog : IDisposable { public static DialogResult Result; public static string Chosen = ""; public string Title { get; set; } = ""; public string FileName { get; set; } = ""; public List<FileFilter> Filters { get; } = new(); public DialogResult ShowDialog(Control control) { if(Result == DialogResult.Ok) FileName = Chosen; return Result; } public void Dispose() {} }
     public class Label : Control { public string Text { get; set; } = ""; public WrapMode Wrap { get; set; } public TextAlignment TextAlignment { get; set; } public object? TextColor { get; set; } public Font? Font { get; set; } }
     public class Button : Control {
         public string Text { get; set; } = ""; public object? Image { get; set; } public ButtonImagePosition ImagePosition { get; set; }

@@ -8,6 +8,11 @@ public sealed record CaseFault(string Area, string Message, bool Retryable);
 // Only CaseHub mutates live state. JSON returned to adapters is a detached copy.
 public sealed class CaseState
 {
+    public string ExportState { get; internal set; } = "idle";
+    public string ExportError { get; internal set; } = "";
+    public string? ExportJob { get; internal set; }
+    internal JsonObject? ExportRequest, ExportResultData;
+    public JsonObject? ExportResult => Copy(ExportResultData);
     public uint Document { get; internal init; }
     public Guid Id { get; internal set; } = Guid.NewGuid();
     public long Version { get; internal set; }
@@ -65,6 +70,7 @@ public sealed class CaseState
         ["run_revision"] = RunRevision, ["result_revision"] = ResultRevision, ["result_version"] = ResultVersion,
         ["result_steps"] = Result?.Steps, ["result_time_seconds"] = Result?.PhysicalTime, ["result_field"] = Result?.Field, ["state"] = State, ["steps"] = Steps,
         ["session"] = Session, ["job"] = Job, ["error"] = Error, ["view_error"] = ViewError,
+        ["export_state"] = ExportState, ["export_error"] = ExportError, ["export_job"] = ExportJob, ["export_result"] = ExportResult,
         ["geometry_error"] = GeometryError, ["fault_area"] = Fault?.Area, ["retryable"] = Fault?.Retryable,
         ["settings"] = Settings(), ["linked"] = BindingOwner != null, ["outdated"] = Outdated
     };

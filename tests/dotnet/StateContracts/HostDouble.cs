@@ -33,10 +33,10 @@ namespace Rhino {
     }
 }
 namespace Rhino.DocObjects {
-    public sealed class RhinoObject(Rhino.Geometry.GeometryBase geometry) { public Rhino.Geometry.GeometryBase Geometry { get; } = geometry; }
+    public sealed class RhinoObject(Rhino.Geometry.GeometryBase geometry) { public bool Selected; public Rhino.Geometry.GeometryBase Geometry { get; } = geometry; }
 }
 namespace Rhino.DocObjects.Tables {
-    public sealed class ObjectTable { public readonly Dictionary<Guid, RhinoObject> Items = new(); public RhinoObject? FindId(Guid id) => Items.GetValueOrDefault(id); }
+    public sealed class ObjectTable { public IEnumerable<RhinoObject> GetSelectedObjects(bool includeLights, bool includeGrips) => Items.Values.Where(o => o.Selected); public readonly Dictionary<Guid, RhinoObject> Items = new(); public RhinoObject? FindId(Guid id) => Items.GetValueOrDefault(id); }
 }
 // Recording display doubles: they store draw calls in order. They cannot show
 // legibility, label overlap, depth or real conduit scheduling.
@@ -134,6 +134,7 @@ namespace Rhino.Geometry {
     public sealed class PolylineCurve(IEnumerable<Point3d> points) : Curve { public List<Point3d> Points { get; } = points.ToList(); }
     public readonly record struct MeshFace(int A,int B,int C,int D=-1) { public bool IsQuad=>D>=0; }
     public sealed record MeshPoint(Point3d Point);
+    public sealed class Point(Point3d location) : GeometryBase { public Point3d Location => location; }
     public sealed class Brep : GeometryBase {
         public bool IsValid=true,IsSolid=true; public bool Disposed; public override void Dispose()=>Disposed=true; public Brep DuplicateBrep()=>new(){IsValid=IsValid,IsSolid=IsSolid,Bounds=Bounds}; public override GeometryBase Duplicate()=>DuplicateBrep();
         public new BoundingBox Bounds=new(new(0,0,0),new(10,0,0));

@@ -417,6 +417,7 @@ Test("cut cells replace unresolved crossings with the halfway partition and dedu
 });
 
 QualityContracts.Run(Test, Assert);
+NativeExportContracts.Run(Test, Assert);
 ComponentContracts.Run(Test, Assert);
 PreviewContracts.Run(Test, Assert);
 PanelContracts.Run(Test, Assert);

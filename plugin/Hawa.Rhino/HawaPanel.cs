@@ -7,7 +7,7 @@ using Hawa.Shared;
 
 namespace Hawa.Native;
 [Guid("34472112-31d7-4d1e-98f9-fb6130a50501")]
-public sealed class HawaPanel : Panel
+public sealed partial class HawaPanel : Panel
 {
     private readonly uint document;
     private readonly Dictionary<string, NumericStepper> numbers = new();
@@ -252,6 +252,7 @@ public sealed class HawaPanel : Panel
         tabs.Pages.Add(new TabPage { Text = "Setup", Content = new Scrollable { Content = setup } });
         tabs.Pages.Add(new TabPage { Text = "Solve", Content = new Scrollable { Content = solve } });
         tabs.Pages.Add(new TabPage { Text = "View", Content = new Scrollable { Content = view } });
+        tabs.Pages.Add(new TabPage { Text = "Export", Content = new Scrollable { Content = ExportControls() } });
         root.Add(tabs, true, true);
         root.AddSeparateRow(error);
         Content = root;
@@ -366,6 +367,7 @@ public sealed class HawaPanel : Panel
             return;
         if (origin == "closed")
         {
+            RefreshExport(null);
             state.Text = "CASE CLOSED";
             link.Text = "Grasshopper: unlinked";
             run.Enabled = pause.Enabled = cancel.Enabled = reset.Enabled = refresh.Enabled = showPreview.Enabled = hidePreview.Enabled = false;
@@ -379,6 +381,7 @@ public sealed class HawaPanel : Panel
         if (RhinoDoc.FromRuntimeSerialNumber(document) == null)
             return;
         var c = CaseHub.Find(document);
+        RefreshExport(c);
         empty.Visible = c == null;
         tabs.Visible = tabs.Enabled = c != null;
         if (c == null)

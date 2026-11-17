@@ -3,7 +3,7 @@ using Rhino;
 
 namespace Hawa.Shared;
 // Single UI-thread writer. Adapters submit commands; Python owns numerical work.
-public static class CaseHub
+public static partial class CaseHub
 {
     public static IReadOnlyList<Parameter> Parameters { get; } = Array.AsReadOnly(new[] { new Parameter("speed", "Inlet speed", .1, 3, 1, "m/s"), new Parameter("cell", "Cell size", .25, 1, .5, "m"), new Parameter("width", "Block width", .5, 2, 1, "m") });
 
@@ -673,6 +673,7 @@ public static class CaseHub
 
     private static void Stop(CaseState c)
     {
+        CloseExport(c);
         c.PreparationCancel?.Cancel();
         c.PreparationCancel?.Dispose();
         c.PreparationCancel = null;
@@ -894,7 +895,7 @@ public static class CaseHub
 
                 if (Find(c.Document) != c)
                     continue;
-                var before = (c.State, c.Steps, c.ResultVersion, c.ViewError);
+                var before = (c.State, c.Steps, c.ResultVersion, c.ViewError, c.ExportState, c.ExportError);
                 Change(c, () =>
                 {
                     try
@@ -936,6 +937,7 @@ public static class CaseHub
 
                         if (c.Session == null)
                             return;
+                        PollExport(c);
                         c.StatusData = Request("status", c.Session);
                         c.Steps = c.StatusData["steps"]!.GetValue<int>();
                         c.State = c.StatusData["state"]!.GetValue<string>();
@@ -950,7 +952,7 @@ public static class CaseHub
                         Failure(c, "solver", e);
                     }
                 });
-                if (before != (c.State, c.Steps, c.ResultVersion, c.ViewError))
+                if (before != (c.State, c.Steps, c.ResultVersion, c.ViewError, c.ExportState, c.ExportError))
                     Notify(c, "progress");
             }
         }
