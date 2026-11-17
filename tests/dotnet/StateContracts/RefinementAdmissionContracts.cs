@@ -20,9 +20,13 @@ static class RefinementAdmissionContracts
                 using var bridge=new GhBridge();bridge.Respond=r=>r["op"]!.GetValue<string>()=="info"?new JsonObject{["python"]="3.9"}:null;
                 var c=new RefinedSolveComponent();Solve(c,false);Solve(c);
                 assert(c.Errors.Single().Contains("Initialize Hawa Runtime first")&&!bridge.Calls.Any(),"Cold refinement entered bridge/worker");
-                RhinoApp.InvokeRequired=true;bool rejected=false;
-                try{Hawa.Grasshopper.EmbeddedRuntime.Call(new(){["op"]="info"});}catch(InvalidOperationException e){rejected=e.Message.Contains("on the host");}
-                finally{RhinoApp.InvokeRequired=false;}
+                int hostThread=Environment.CurrentManagedThreadId;bool rejected=false;
+                Task.Run(()=>{
+                    RhinoApp.InvokeRequired=Environment.CurrentManagedThreadId!=hostThread;
+                    assert(RhinoApp.InvokeRequired,"Guard probe did not run on worker");
+                    try{Hawa.Grasshopper.EmbeddedRuntime.Call(new(){["op"]="info"});}catch(InvalidOperationException e){rejected=e.Message.Contains("on the host");}
+                    finally{RhinoApp.InvokeRequired=false;}
+                }).GetAwaiter().GetResult(); // Test process only; never host production code.
                 assert(rejected&&!bridge.Calls.Any()&&!Hawa.Grasshopper.EmbeddedRuntime.IsReady,"Cold worker initialized host runtime");
                 bridge.Respond=_=>throw new InvalidOperationException("setup failed");
                 var runtime=new RuntimeComponent();runtime.Compute(new GhAccess(runtime,new object?[]{true}));

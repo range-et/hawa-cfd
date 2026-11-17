@@ -23,7 +23,9 @@ The existing fixed 2:1 numerical method and tolerances are unchanged.
 
 The GH adapter checks only cheap domain/relationship metadata synchronously.
 Rejections identify its instance GUID and coarse/fine source objects. Cold runtime use is refused with an instruction to initialize the existing
-Hawa Runtime node on the host first. After that explicit initialization, Python
+Hawa Runtime node on the host first. This records GH-bridge readiness, not a
+query of private shared-runtime state: native-only initialization conservatively
+still requires the explicit Runtime action. After that initialization, Python
 admission runs on an owned task. A changed, missing,
 cancelled or removed input detaches the task; a retained UI timer transfers any
 late successful job into CaseHub's retryable cleanup. Faults are observed without
