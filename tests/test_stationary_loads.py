@@ -400,3 +400,33 @@ def test_collector_checks_actual_device_metadata_before_allocating():
                            solid=session.flow.solid, units=session.flow.units)
     with pytest.raises(ValueError, match='explicit cpu'):
         StationaryLoads(flow, spec, sets, bodies)
+
+
+def test_body_references_require_list_even_when_tuple_has_valid_members():
+    spec, sets, bodies = case(); session = Session(spec, 'cpu')
+    with pytest.raises(ValueError, match='body moment references'):
+        StationaryLoads(session.flow, spec, sets, tuple(bodies))
+
+
+def test_zero_force_conversion_from_underflow_is_rejected(monkeypatch):
+    spec, sets, bodies = case(); session = Session(spec, 'cpu')
+    monkeypatch.setattr(session.flow.units, 'characteristic_density_lu', 1e308)
+    monkeypatch.setattr(session.flow.units, 'convert_time_to_pu', lambda step: step * 1e10)
+    # Every input scale remains finite/positive; their combined force scale
+    # underflows to exactly zero and must not silently erase measured loads.
+    with pytest.raises(ValueError, match='positive finite'):
+        StationaryLoads(session.flow, spec, sets, bodies)
+
+
+def test_finite_force_with_overflowing_moment_is_rejected_without_history():
+    spec, sets, bodies = case(); session = Session(spec, 'cpu')
+    bodies[0]['moment_origin_world_m'] = [0., 1e308, 0.]
+    session.flow.f.zero_()
+    direction = next(i for i, e in enumerate(session.flow.stencil.e) if list(e) == [1, 0, 0])
+    session.flow.f[direction, 3, 3, 3] = 2.
+    # The impulse is finite, while its moment about this finite but remote
+    # reference cannot be represented. Neither partial nor nonfinite rows pass.
+    boundary = StationaryLoads(session.flow, spec, sets, bodies)
+    with pytest.raises(ValueError, match='Nonfinite'):
+        boundary(session.flow)
+    assert not boundary.history
