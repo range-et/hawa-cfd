@@ -21,7 +21,7 @@
     "tests/test_optimization.py": "c6b79f44a0b477584316355d6953f6de9ac967c5e456ba78a65202e1157a5a23",
     "docs/schemas/moving-body.schema.json": "9b4c796e5b8673addbd154ae8f1704553aecada130a6bf1399245a3426727324",
     "docs/schemas/motion-evaluation.schema.json": "cf3e1489c682e5bd6cfb9cda4daba956a8c504280317c80a2939c522db3da6b6",
-    "src/hawa/measurements.py": "3095d0cf3da23af57d3bbb68843e64ebfe8d7be05e428ef3e45039cd5e5e68b2",
+    "src/hawa/measurements.py": "c467528fc84548c0cb294aa7fd32d3cdf6f5b327336921fad562573ecbba50af",
     "src/hawa/stationary_loads.py": "df88e7130cfd2742285075cb62aeb0fd9227a32585de92683cdf324c3fc8f502",
     "src/hawa/sweeps.py": "45549b20a09a37159e47b86d4470d34f3b62a48b9450410e21a720d9e4785f74",
     "docs/schemas/measurement-request.schema.json": "d2ac0179bc787329227026ce5a6838553c87df929b364fb404d7391a576b7348",
