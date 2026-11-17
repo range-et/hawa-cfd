@@ -1,19 +1,40 @@
 # Saved CPU wing-sweep example
 
-Open [report.html](report.html) in a browser. It is a self-contained saved result
-from two actual CPU runs on November 17, 2026; no server, JavaScript, network,
-Rhino license or solver is needed to view it. Orange points and case IDs link to
-the corresponding geometry, force/probe histories, retained pressure slice and
-source identity. Expand the metadata beneath each case for references, the
-measurement window and quality diagnostics.
+Open [the finer report](report.html): **81×101×61 = 499041 cells, 0.010 m spacing**.
+It contains two actual CPU runs from November 17, 2026. The report is a
+self-contained viewing artifact: no server, JavaScript, network, Rhino license
+or solver is needed to open it. Orange points and case IDs link to the actual
+candidate mesh, force/probe histories, retained pressure slice and source
+identity. Expand each case's metadata for the grid, references, physical
+averaging window and quality diagnostics.
 
-**This is an experimental software demonstration, not qualified aerodynamics.**
-The predeclared grid/domain sensitivity gate fails. The synthetic viscosity,
-coarse staircase wing and confined boundaries do not represent real-air wing
-performance. Lines only connect the two requested cases; they are not a validated
-polar or interpolation model. Histories include the initial transient, while
-coefficients use the declared final 64-sample window. Pressure is gauge pressure;
-solid and boundary nodes are blank. Field panels use per-case colour limits.
+**Finer does not mean qualified.** The fixed geometry and physical domain now
+have 2.5 times finer spacing than the original demonstration, but the measured
+lift remains sensitive to grid resolution. Synthetic viscosity, full-way
+staircase walls and confined boundaries do not represent qualified real-air wing
+performance. Lines only connect requested cases; they are not a validated polar.
+Histories include settling; coefficients use only the declared averaging window.
+Pressure is gauge pressure; solid/boundary nodes are blank, with per-case colour
+limits. Loads are whole-body fluid force, not per-face pressure forces.
+
+## Matched-time coarse comparison
+
+[Fresh coarse report](report-coarse.html) uses 33×41×25 cells at 0.025 m.
+Both grids measure **0.5196152423…0.5542562584 s**: coarse source steps
+1200…1280 and fine steps 3000…3200. Geometry, fluid, domain extents, reference
+area/chord and the 0.05 stationarity criterion are unchanged. All four candidates
+completed with usable windows and zero owned resources after cleanup.
+
+| Angle | Coarse CL | Fine CL | Absolute CL change | Relative CD change |
+| --- | --- | --- | --- | --- |
+| −3° | 0.11884614 | −0.00895032 | **0.12779646 — fails 0.02** | 1.2603% — within 5% |
+| +3° | 0.16107180 | 0.27610434 | **0.11503255 — fails 0.02** | 0.1046% — within 5% |
+
+Relative CD uses the fine-grid magnitude as denominator. These are bounded
+screening criteria, not engineering error bars. This two-grid comparison also
+does not establish the original three-grid monotonicity or domain-independence
+gates. The [original shorter coarse report](report-coarse-1000.html) is retained
+for history; its 1000…1063 window is **not** used for this comparison.
 
 ## Generate a fresh report
 
@@ -23,39 +44,40 @@ From a developer checkout with its Python 3.9 `.venv` installed:
 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m scripts.wing_sweep_report --output /absolute/new-wing-report.html
 ```
 
-Choose a new path in an existing folder. Existing files are never overwritten.
-The command runs two fresh CPU float32 sessions sequentially and drains their
-workers before writing. It is a blocking developer command, **not** code to run
-on Rhino's UI or Grasshopper's solution thread. A timeout cooperatively cancels;
-it cannot forcibly interrupt a numerical step. A nonzero exit retains the report
-with rejected/failed/cancelled cases visible and gaps in the coefficient plots.
+The default selects the fine grid, 3000 settling steps and 201 samples. This
+recorded two-case fine run took about **20.3 minutes** on a 48 GiB Mac; the full
+fine/coarse study took 21.1 minutes, with at most 769 MiB sampled process RSS.
+Runtime is machine-dependent. To explicitly select the quick coarse comparison:
 
-The frozen demo uses NACA 2418 at the root and 0018 at the tip, full span 0.6 m,
-chords 0.3/0.2 m, angles −3°/+3°, speed 1 m/s, density 1 kg/m³ and kinematic
-viscosity 0.01 m²/s. Each mesh is independently voxelized on a 33×41×25 grid
-with 0.025 m spacing. Each case takes 1000 settling steps then 64 measured steps.
-The final retained field is at source step 1063 / 0.4602925021 s, after collision
-and before obstacle reflection/streaming; it is not a step-end capture.
+```sh
+OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m scripts.wing_sweep_report --coarse --output /absolute/new-coarse-report.html
+```
 
-The stored report's CL values are 0.1312022747 and 0.1737013760; CD values are
-1.3315546401 and 1.3287346632. These are provenance checks, **not acceptance
-thresholds or engineering predictions**. Exact case/session identities and
-quality outcomes are embedded in the report. Other machines may differ within
-an independently reviewed device policy; this example supports explicit CPU only.
+Choose a new path in an existing folder; existing files are never overwritten.
+There is no silent coarse fallback. Each fresh CPU float32 session is sequential
+and workers drain before writing. The one-hour default timeout requests
+cooperative cancellation; it cannot forcibly interrupt a numerical step.
+A nonzero exit retains rejected/failed/cancelled cases and coefficient gaps.
+This is a blocking developer command, not code for Rhino's UI or a Grasshopper
+solution thread.
+
+Both grids use NACA 2418 root / 0018 tip, full span 0.6 m, chords 0.3/0.2 m,
+angles −3°/+3°, speed 1 m/s, density 1 kg/m³ and kinematic viscosity 0.01 m²/s.
+Each mesh is independently voxelized. Captures occur after collision and before
+obstacle reflection/streaming, not at step end. Exact case/session identities
+are embedded in each saved report. This example supports explicit CPU only.
 
 ## Scope still open
 
-The HTML is a viewing artifact, not a checkpoint; it cannot resume a simulation.
-Native checkpoint viewing/resume belongs to the separate native saved-data
-workflow. This example does not add a public GH node or archive.
-
-Stationary load/probe histories cannot be relabelled as the current shared
-moving-body CSV: they have different capture phase, body/frame/moment semantics
-and per-sample validity/quality. A reviewed producer adapter to the existing
-interchange service remains in [#40](https://github.com/range-et/hawa-cfd/issues/40),
-along with the GH workflow and numerical qualification. No parallel CSV format
-is created here.
+The HTML cannot resume a solver and is not numerical CSV interchange. Native
+saved-data viewing/resume is a separate workflow. Stationary pre-reflection
+load/probe histories cannot be relabelled as the current moving-body step-end
+CSV: their phases, frames, moment references and sample validity differ. A
+reviewed shared exporter adapter and physical qualification remain in
+[#40](https://github.com/range-et/hawa-cfd/issues/40); no parallel CSV is added.
+The saved developer report alone does not establish GH/Rhino host acceptance.
 
 [Run contract](../../docs/headless-wing-sweeps.md) ·
-[Measurement contract](../../docs/measurement-contract-v1.md) ·
+[Fixed fine-grid protocol](../../docs/wing-fine-report-protocol.md) ·
+[Fine-run evidence](../../docs/verification-wing-fine-report.json) ·
 [Review](../../docs/review-wing-report-example.md)

@@ -72,3 +72,34 @@ The regenerated artifact was reloaded: all six marker links are exposed, and
 clicking the first orange marker navigated to the matching wing-000 section.
 Both candidate panels and the overview were visually inspected without clipping.
 The pressure legend identifies the upstream probe. No physical claim is added.
+## Requested finer grid and matched-time comparison
+
+The later [fixed protocol](wing-fine-report-protocol.md) raises the CPU per-case
+resource cap to 500000 and ships the 499041-cell, 10 mm report by default, with
+an explicit 25 mm `--coarse` option. The original shorter report is preserved.
+No geometry, fluid, physical-domain extent or acceptance threshold was changed.
+
+All four fresh fine/coarse candidates completed with usable windows. Fine source
+steps 3000…3200 and coarse 1200…1280 measure the same physical endpoints. Fine
+runs took 593.9/625.5 s; the complete four-run study took 1268.3 s. Observed peak
+RSS was 806617088 bytes (769 MiB), below the predeclared 3 GiB pilot stop limit.
+All owned resources drained; tracked Python source, dependency pins and protocol
+hashes remained unchanged. [Committed concise evidence](verification-wing-fine-report.json)
+links the retained local raw observations and field arrays (verification artifacts,
+not a new public interchange/checkpoint format).
+
+The refinement screen **still fails**: absolute CL changes are 0.12779646 and
+0.11503255 (limit 0.02). Relative CD changes are 1.2603% and 0.1046% (limit 5%).
+A sign change in the negative-angle lift is retained, not hidden. These results
+show why the original coarse curves were not qualified; they do not qualify the
+new grid either. The pressure history also remains a raw diagnostic, not a
+pressure-stationarity assertion.
+
+Fresh focused checks for the cap/recipe/report update: **157 passed on each
+Python 3.9/3.12**, 386/386 statements and 174/174 branches across the three changed
+files. Exact 500000-cell acceptance and 500002-cell rejection before allocation
+are asserted; 500001 cannot factor into three dimensions of at least four.
+All three final fine SVG panels were rendered at 1200 px and inspected, with
+unclipped axes, visible probe legends and finer masked pressure cells. Both
+fresh reports contain all six actual SVG candidate anchors. Root owns any live
+GH/Rhino adapter acceptance and final combined gates separately.

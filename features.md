@@ -812,7 +812,10 @@ retaining its existing aggregate sweep budgets. The requested 499041-cell wing
 pilot used about 615 MiB peak RSS, with 0.123 s pause acknowledgement and 0.187 s
 cancel/drain; no owned workers/sessions remained. Exact-cap and preallocation
 rejection tests pass. The report now selects 10 mm cells by default, with an
-explicit 25 mm `--coarse` option and matched physical averaging windows. Full
-fine-run evidence is pending; numerical qualification remains open in #40.
+explicit 25 mm `--coarse` option and matched physical averaging windows. Both fine-grid cases and matched-time coarse comparisons completed with
+usable windows and zero resources after cleanup. The lift refinement screen
+still fails (absolute CL changes 0.12780/0.11503 against 0.02); numerical
+qualification remains open in #40. The original coarse report is preserved.
 [Protocol](docs/wing-fine-report-protocol.md),
-[pilot](docs/verification-wing-fine-preflight.json).
+[pilot](docs/verification-wing-fine-preflight.json),
+[fine-run evidence](docs/verification-wing-fine-report.json).

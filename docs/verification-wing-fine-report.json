@@ -1,0 +1,756 @@
+{
+  "schema": "hawa-fine-wing-report-verification-1",
+  "date": "2026-11-17",
+  "operator": "Codex wing_wrapup agent",
+  "source_commit": "b22db639bd1c69f2b72b6c156635ba2d5d91ef7b",
+  "source_unchanged": true,
+  "source_inventory_sha256": "ca8d87f7500ab74a5ac9ff534dc55639d17faa3c01b5c847817cb7dac2c6c59c",
+  "selected_source_hashes": {
+    "src/hawa/stationary_loads.py": "1042a1898b95996afc1730a3e3a77cb20c5cbb820703887bc21480cf9dd5b1e4",
+    "src/hawa/sweep_executor.py": "ced3a448bae487851e0312ee539701128f292737d9967a838b265b12c823ed38",
+    "scripts/wing_solver_recipe.py": "a730a9b00e26ec4c8f0fb37b554e2aaddc908c0e561c7a1dff32fe53db119f92",
+    "scripts/run_wing_sweep.py": "089fdaa4af74fadd9d25c275107ed15e44a544218bfe819ede92f0a9a9eb305a",
+    "scripts/wing_sweep_report.py": "abe986af5d106abd6c10d7f1548c27bd50d04f98b6eae298e729c88d6e295611",
+    "docs/wing-fine-report-protocol.md": "43d66d1a6d06cd3cabf1de4ebad4fa6b22069d4de04b9853da0581f48a4d4a7d"
+  },
+  "device": "cpu",
+  "dtype": "float32",
+  "omp_threads": 1,
+  "mkl_threads": 1,
+  "host": "macOS arm64; 48 GiB physical RAM",
+  "total_seconds": 1268.3025902499999,
+  "stages": {
+    "fine": [
+      {
+        "candidate": {
+          "candidate_id": "wing-000",
+          "angle_deg": -3.0,
+          "speed_m_s": 1.0,
+          "geometry_hash": "8303480702296483604972a03c58e3594f552cddfc15f9f301bf8115342388c7",
+          "case_hash": "3aa5653db0efd4efe268fa5ef39509957a90b2cc449be200263c385971f0cae9"
+        },
+        "state": "completed",
+        "reason": "",
+        "timed_out": false,
+        "elapsed_seconds": 593.9130574579999,
+        "peak_rss_bytes": 626409472,
+        "shape": [
+          81,
+          101,
+          61
+        ],
+        "dx": 0.01,
+        "solid_nodes": 4665,
+        "window": {
+          "start_s": 0.5196152422706631,
+          "end_s": 0.5542562584220407,
+          "minimum_samples": 201,
+          "stationarity_absolute_coefficient_tolerance": 0.05
+        },
+        "captured_samples": 3201,
+        "summary": {
+          "schema": "hawa-measurement-1",
+          "identity": {
+            "case_id": "wing-demo",
+            "candidate_id": "wing-000",
+            "case_hash": "3aa5653db0efd4efe268fa5ef39509957a90b2cc449be200263c385971f0cae9",
+            "geometry_hash": "8303480702296483604972a03c58e3594f552cddfc15f9f301bf8115342388c7",
+            "revision": 0,
+            "generation": 0
+          },
+          "references": {
+            "density_kg_m3": 1.0,
+            "speed_m_s": 1.0,
+            "area_m2": 0.15,
+            "chord_m": 0.25333333333333335,
+            "pressure_pa": 0.0,
+            "drag_axis_world": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "lift_axis_world": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          "window": {
+            "start_s": 0.5196152422706631,
+            "end_s": 0.5542562584220407,
+            "minimum_samples": 201,
+            "stationarity_absolute_coefficient_tolerance": 0.05
+          },
+          "bodies": [
+            {
+              "body_id": "wing",
+              "count": 201,
+              "duration_s": 0.0346410161513776,
+              "mean": {
+                "q_pa": 0.5,
+                "D": 0.09728605078400474,
+                "Y": 3.4881258386482233e-06,
+                "L": -0.0006712739097933667,
+                "CD": 1.2971473437867298,
+                "CY": 4.650834451530965e-05,
+                "CL": -0.00895031879724489,
+                "Cm": 0.007370151914286725,
+                "load_cell_n": 0.09728605078400474
+              },
+              "force_mean_world_n": [
+                0.09728605078400474,
+                3.4881258386482233e-06,
+                -0.0006712739097933667
+              ],
+              "force_std_world_n": [
+                0.00011425864799762011,
+                8.592595844160039e-07,
+                0.00018540821451911804
+              ],
+              "torque_mean_world_nm": [
+                -1.8945323368067106e-06,
+                0.00014003288637144776,
+                8.261572279391837e-07
+              ],
+              "torque_std_world_nm": [
+                8.36808945058947e-07,
+                1.2937155874127723e-05,
+                1.9716642725229982e-07
+              ],
+              "coefficient_std": {
+                "CD": 0.0015234486399682747,
+                "CY": 1.1456794458880054e-05,
+                "CL": 0.002472109526921574,
+                "Cm": 0.0006809029407435644
+              },
+              "stationarity": {
+                "passed": true,
+                "absolute_coefficient_change": 0.0026135526163089118,
+                "tolerance": 0.05
+              },
+              "usable": true,
+              "quality": "accepted"
+            }
+          ],
+          "usable": true,
+          "statistic": "equal-weight population standard deviation; not confidence bounds"
+        },
+        "last_capture": {
+          "steps": 3200,
+          "session": "378d1b73-75d6-4efb-aeee-4f45987deb74",
+          "physical_time": 0.5542562584220407,
+          "phase": "after-collision-before-obstacle-reflection-and-stream"
+        },
+        "final_quality": {
+          "policy": "hawa-low-mach-v1",
+          "status": "within-tested-envelope",
+          "current_status": "within-tested-envelope",
+          "reasons": [],
+          "trigger": null,
+          "iteration": 3201,
+          "time_seconds": 0.5544294635027976,
+          "max_lattice_mach": 0.037649426609277725,
+          "peak_sampled_lattice_mach": 0.04170029237866402,
+          "peak_sampled_lattice_mach_iteration": 20,
+          "peak_sampled_density_deviation": 0.028040409088134766,
+          "peak_sampled_density_deviation_iteration": 3,
+          "mach_exceedance_cells": 0,
+          "max_density_deviation": 0.0036336183547973633,
+          "boundary_method": "legacy-equilibrium-v1",
+          "boundary_diagnostics": null,
+          "collision_method": "bgk",
+          "finite": true,
+          "positive_density": true,
+          "boundary_flux": {
+            "outward_mass_kg_s": [
+              -0.5694249868392944,
+              0.5982374548912048,
+              0.007832507602870464,
+              0.007832786999642849,
+              0.01962108723819256,
+              0.019602645188570023
+            ],
+            "net_external_mass_kg_s": 0.0837014950811863,
+            "periodic_pairs_excluded_from_net": true,
+            "method": "nodal trapezoidal face estimate; not a discrete conservation proof"
+          },
+          "backflow": {
+            "inlet_cells": 0,
+            "outlet_cells": 0
+          },
+          "physical_model_status": "not-assessed",
+          "wall_diagnostics": null,
+          "dissipation_storage": null,
+          "cadence_steps": 5,
+          "transfer_eligible": true,
+          "transfer_scope": "numerical-envelope",
+          "absolute_time_seconds": 0.5544294635027976,
+          "scope": "Sampled low-Mach envelope only; not convergence, atmospheric validation or conservation certification"
+        },
+        "cleanup": {
+          "handles": 0,
+          "live_workers": 0,
+          "session_ids": []
+        }
+      },
+      {
+        "candidate": {
+          "candidate_id": "wing-001",
+          "angle_deg": 3.0,
+          "speed_m_s": 1.0,
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+          "case_hash": "8dd4bd386e94fc52ae87e6b73e828cd91a1b009f56fc9541951cf843a0ce14e7"
+        },
+        "state": "completed",
+        "reason": "",
+        "timed_out": false,
+        "elapsed_seconds": 625.495834333,
+        "peak_rss_bytes": 739885056,
+        "shape": [
+          81,
+          101,
+          61
+        ],
+        "dx": 0.01,
+        "solid_nodes": 4700,
+        "window": {
+          "start_s": 0.5196152422706631,
+          "end_s": 0.5542562584220407,
+          "minimum_samples": 201,
+          "stationarity_absolute_coefficient_tolerance": 0.05
+        },
+        "captured_samples": 3201,
+        "summary": {
+          "schema": "hawa-measurement-1",
+          "identity": {
+            "case_id": "wing-demo",
+            "candidate_id": "wing-001",
+            "case_hash": "8dd4bd386e94fc52ae87e6b73e828cd91a1b009f56fc9541951cf843a0ce14e7",
+            "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+            "revision": 0,
+            "generation": 0
+          },
+          "references": {
+            "density_kg_m3": 1.0,
+            "speed_m_s": 1.0,
+            "area_m2": 0.15,
+            "chord_m": 0.25333333333333335,
+            "pressure_pa": 0.0,
+            "drag_axis_world": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "lift_axis_world": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          "window": {
+            "start_s": 0.5196152422706631,
+            "end_s": 0.5542562584220407,
+            "minimum_samples": 201,
+            "stationarity_absolute_coefficient_tolerance": 0.05
+          },
+          "bodies": [
+            {
+              "body_id": "wing",
+              "count": 201,
+              "duration_s": 0.0346410161513776,
+              "mean": {
+                "q_pa": 0.5,
+                "D": 0.0982216934103574,
+                "Y": 5.4610161045890545e-06,
+                "L": 0.020707825739338225,
+                "CD": 1.3096225788047653,
+                "CY": 7.28135480611874e-05,
+                "CL": 0.2761043431911763,
+                "Cm": -0.012281490648351379,
+                "load_cell_n": 0.0982216934103574
+              },
+              "force_mean_world_n": [
+                0.0982216934103574,
+                5.4610161045890545e-06,
+                0.020707825739338225
+              ],
+              "force_std_world_n": [
+                0.00010323526397130087,
+                9.478324206667366e-07,
+                0.00022121998416065934
+              ],
+              "torque_mean_world_nm": [
+                -1.986713378791392e-06,
+                -0.00023334832231867617,
+                3.8034743189060007e-06
+              ],
+              "torque_std_world_nm": [
+                1.006704885358547e-06,
+                1.3773602846427514e-05,
+                1.8380057524055028e-07
+              ],
+              "coefficient_std": {
+                "CD": 0.00137647018628401,
+                "CY": 1.2637765608889821e-05,
+                "CL": 0.00294959978880879,
+                "Cm": 0.0007249264656014481
+              },
+              "stationarity": {
+                "passed": true,
+                "absolute_coefficient_change": 0.004852756475917153,
+                "tolerance": 0.05
+              },
+              "usable": true,
+              "quality": "accepted"
+            }
+          ],
+          "usable": true,
+          "statistic": "equal-weight population standard deviation; not confidence bounds"
+        },
+        "last_capture": {
+          "steps": 3200,
+          "session": "c7449dff-f988-4c9e-a113-c342d4552575",
+          "physical_time": 0.5542562584220407,
+          "phase": "after-collision-before-obstacle-reflection-and-stream"
+        },
+        "final_quality": {
+          "policy": "hawa-low-mach-v1",
+          "status": "within-tested-envelope",
+          "current_status": "within-tested-envelope",
+          "reasons": [],
+          "trigger": null,
+          "iteration": 3201,
+          "time_seconds": 0.5544294635027976,
+          "max_lattice_mach": 0.037332165986299515,
+          "peak_sampled_lattice_mach": 0.04086362570524216,
+          "peak_sampled_lattice_mach_iteration": 9,
+          "peak_sampled_density_deviation": 0.026358962059020996,
+          "peak_sampled_density_deviation_iteration": 3,
+          "mach_exceedance_cells": 0,
+          "max_density_deviation": 0.003652334213256836,
+          "boundary_method": "legacy-equilibrium-v1",
+          "boundary_diagnostics": null,
+          "collision_method": "bgk",
+          "finite": true,
+          "positive_density": true,
+          "boundary_flux": {
+            "outward_mass_kg_s": [
+              -0.5693682432174683,
+              0.5983592867851257,
+              0.007859568111598492,
+              0.00785951316356659,
+              0.01986313797533512,
+              0.019597217440605164
+            ],
+            "net_external_mass_kg_s": 0.08417048025876284,
+            "periodic_pairs_excluded_from_net": true,
+            "method": "nodal trapezoidal face estimate; not a discrete conservation proof"
+          },
+          "backflow": {
+            "inlet_cells": 0,
+            "outlet_cells": 0
+          },
+          "physical_model_status": "not-assessed",
+          "wall_diagnostics": null,
+          "dissipation_storage": null,
+          "cadence_steps": 5,
+          "transfer_eligible": true,
+          "transfer_scope": "numerical-envelope",
+          "absolute_time_seconds": 0.5544294635027976,
+          "scope": "Sampled low-Mach envelope only; not convergence, atmospheric validation or conservation certification"
+        },
+        "cleanup": {
+          "handles": 0,
+          "live_workers": 0,
+          "session_ids": []
+        }
+      }
+    ],
+    "coarse": [
+      {
+        "candidate": {
+          "candidate_id": "wing-000",
+          "angle_deg": -3.0,
+          "speed_m_s": 1.0,
+          "geometry_hash": "8303480702296483604972a03c58e3594f552cddfc15f9f301bf8115342388c7",
+          "case_hash": "8e4371ce14e076e7d62fe8bc5b77d7637d6c71eafc6010ed6db04d744bb2c9ef"
+        },
+        "state": "completed",
+        "reason": "",
+        "timed_out": false,
+        "elapsed_seconds": 23.793222917000094,
+        "peak_rss_bytes": 806617088,
+        "shape": [
+          33,
+          41,
+          25
+        ],
+        "dx": 0.025,
+        "solid_nodes": 269,
+        "window": {
+          "start_s": 0.5196152422706632,
+          "end_s": 0.5542562584220407,
+          "minimum_samples": 81,
+          "stationarity_absolute_coefficient_tolerance": 0.05
+        },
+        "captured_samples": 1281,
+        "summary": {
+          "schema": "hawa-measurement-1",
+          "identity": {
+            "case_id": "wing-demo",
+            "candidate_id": "wing-000",
+            "case_hash": "8e4371ce14e076e7d62fe8bc5b77d7637d6c71eafc6010ed6db04d744bb2c9ef",
+            "geometry_hash": "8303480702296483604972a03c58e3594f552cddfc15f9f301bf8115342388c7",
+            "revision": 0,
+            "generation": 0
+          },
+          "references": {
+            "density_kg_m3": 1.0,
+            "speed_m_s": 1.0,
+            "area_m2": 0.15,
+            "chord_m": 0.25333333333333335,
+            "pressure_pa": 0.0,
+            "drag_axis_world": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "lift_axis_world": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          "window": {
+            "start_s": 0.5196152422706632,
+            "end_s": 0.5542562584220407,
+            "minimum_samples": 81,
+            "stationarity_absolute_coefficient_tolerance": 0.05
+          },
+          "bodies": [
+            {
+              "body_id": "wing",
+              "count": 81,
+              "duration_s": 0.03464101615137749,
+              "mean": {
+                "q_pa": 0.5,
+                "D": 0.09851213027205734,
+                "Y": 2.723064564873652e-07,
+                "L": 0.008913460321755075,
+                "CD": 1.313495070294098,
+                "CY": 3.63075275316487e-06,
+                "CL": 0.11884613762340102,
+                "Cm": -0.0010567341759933867,
+                "load_cell_n": 0.09851213027205734
+              },
+              "force_mean_world_n": [
+                0.09851213027205734,
+                2.723064564873652e-07,
+                0.008913460321755075
+              ],
+              "force_std_world_n": [
+                0.00011558615357059851,
+                3.2197364379058575e-06,
+                0.0001215811500661336
+              ],
+              "torque_mean_world_nm": [
+                1.822115370408582e-07,
+                -2.0077949343874347e-05,
+                -2.0837384490990245e-08
+              ],
+              "torque_std_world_nm": [
+                2.5080727016323344e-06,
+                5.081727306528737e-06,
+                5.093675325058813e-07
+              ],
+              "coefficient_std": {
+                "CD": 0.0015411487142746514,
+                "CY": 4.29298191720781e-05,
+                "CL": 0.0016210820008817814,
+                "Cm": 0.0002674593319225651
+              },
+              "stationarity": {
+                "passed": true,
+                "absolute_coefficient_change": 0.0026882261411364933,
+                "tolerance": 0.05
+              },
+              "usable": true,
+              "quality": "accepted"
+            }
+          ],
+          "usable": true,
+          "statistic": "equal-weight population standard deviation; not confidence bounds"
+        },
+        "last_capture": {
+          "steps": 1280,
+          "session": "76921e2c-35fd-4aa4-966d-19c6829b2220",
+          "physical_time": 0.5542562584220407,
+          "phase": "after-collision-before-obstacle-reflection-and-stream"
+        },
+        "final_quality": {
+          "policy": "hawa-low-mach-v1",
+          "status": "within-tested-envelope",
+          "current_status": "within-tested-envelope",
+          "reasons": [],
+          "trigger": null,
+          "iteration": 1281,
+          "time_seconds": 0.554689271123933,
+          "max_lattice_mach": 0.03706644847989082,
+          "peak_sampled_lattice_mach": 0.04386402666568756,
+          "peak_sampled_lattice_mach_iteration": 14,
+          "peak_sampled_density_deviation": 0.019966840744018555,
+          "peak_sampled_density_deviation_iteration": 3,
+          "mach_exceedance_cells": 0,
+          "max_density_deviation": 0.0035636425018310547,
+          "boundary_method": "legacy-equilibrium-v1",
+          "boundary_diagnostics": null,
+          "collision_method": "bgk",
+          "finite": true,
+          "positive_density": true,
+          "boundary_flux": {
+            "outward_mass_kg_s": [
+              -0.5695514678955078,
+              0.5984997749328613,
+              0.007946770638227463,
+              0.00794711522758007,
+              0.02025737054646015,
+              0.020143873989582062
+            ],
+            "net_external_mass_kg_s": 0.08524343743920326,
+            "periodic_pairs_excluded_from_net": true,
+            "method": "nodal trapezoidal face estimate; not a discrete conservation proof"
+          },
+          "backflow": {
+            "inlet_cells": 0,
+            "outlet_cells": 0
+          },
+          "physical_model_status": "not-assessed",
+          "wall_diagnostics": null,
+          "dissipation_storage": null,
+          "cadence_steps": 5,
+          "transfer_eligible": true,
+          "transfer_scope": "numerical-envelope",
+          "absolute_time_seconds": 0.554689271123933,
+          "scope": "Sampled low-Mach envelope only; not convergence, atmospheric validation or conservation certification"
+        },
+        "cleanup": {
+          "handles": 0,
+          "live_workers": 0,
+          "session_ids": []
+        }
+      },
+      {
+        "candidate": {
+          "candidate_id": "wing-001",
+          "angle_deg": 3.0,
+          "speed_m_s": 1.0,
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+          "case_hash": "4c0416344fa23e40b56df19f6110704a51eba1e83cd0999aea1c3a29fde0a03c"
+        },
+        "state": "completed",
+        "reason": "",
+        "timed_out": false,
+        "elapsed_seconds": 21.619742207999934,
+        "peak_rss_bytes": 495009792,
+        "shape": [
+          33,
+          41,
+          25
+        ],
+        "dx": 0.025,
+        "solid_nodes": 249,
+        "window": {
+          "start_s": 0.5196152422706632,
+          "end_s": 0.5542562584220407,
+          "minimum_samples": 81,
+          "stationarity_absolute_coefficient_tolerance": 0.05
+        },
+        "captured_samples": 1281,
+        "summary": {
+          "schema": "hawa-measurement-1",
+          "identity": {
+            "case_id": "wing-demo",
+            "candidate_id": "wing-001",
+            "case_hash": "4c0416344fa23e40b56df19f6110704a51eba1e83cd0999aea1c3a29fde0a03c",
+            "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+            "revision": 0,
+            "generation": 0
+          },
+          "references": {
+            "density_kg_m3": 1.0,
+            "speed_m_s": 1.0,
+            "area_m2": 0.15,
+            "chord_m": 0.25333333333333335,
+            "pressure_pa": 0.0,
+            "drag_axis_world": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "lift_axis_world": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          "window": {
+            "start_s": 0.5196152422706632,
+            "end_s": 0.5542562584220407,
+            "minimum_samples": 81,
+            "stationarity_absolute_coefficient_tolerance": 0.05
+          },
+          "bodies": [
+            {
+              "body_id": "wing",
+              "count": 81,
+              "duration_s": 0.03464101615137749,
+              "mean": {
+                "q_pa": 0.5,
+                "D": 0.09832444319064604,
+                "Y": -1.1104967736412959e-07,
+                "L": 0.01208038479396345,
+                "CD": 1.3109925758752805,
+                "CY": -1.4806623648550613e-06,
+                "CL": 0.161071797252846,
+                "Cm": -0.001076822059594875,
+                "load_cell_n": 0.09832444319064604
+              },
+              "force_mean_world_n": [
+                0.09832444319064604,
+                -1.1104967736412959e-07,
+                0.01208038479396345
+              ],
+              "force_std_world_n": [
+                0.00011959525390986021,
+                2.5375047625244794e-06,
+                0.00015088758653533497
+              ],
+              "torque_mean_world_nm": [
+                1.533041274801663e-08,
+                -2.0459619132302625e-05,
+                4.926332320042972e-08
+              ],
+              "torque_std_world_nm": [
+                1.881445410088674e-06,
+                8.373977937347344e-06,
+                5.935043503273598e-07
+              ],
+              "coefficient_std": {
+                "CD": 0.0015946033854648115,
+                "CY": 3.383339683365972e-05,
+                "CL": 0.0020118344871377994,
+                "Cm": 0.0004407356809130181
+              },
+              "stationarity": {
+                "passed": true,
+                "absolute_coefficient_change": 0.003088137758315207,
+                "tolerance": 0.05
+              },
+              "usable": true,
+              "quality": "accepted"
+            }
+          ],
+          "usable": true,
+          "statistic": "equal-weight population standard deviation; not confidence bounds"
+        },
+        "last_capture": {
+          "steps": 1280,
+          "session": "9e64a6c0-32fb-46eb-b9b5-c808bd900529",
+          "physical_time": 0.5542562584220407,
+          "phase": "after-collision-before-obstacle-reflection-and-stream"
+        },
+        "final_quality": {
+          "policy": "hawa-low-mach-v1",
+          "status": "within-tested-envelope",
+          "current_status": "within-tested-envelope",
+          "reasons": [],
+          "trigger": null,
+          "iteration": 1281,
+          "time_seconds": 0.554689271123933,
+          "max_lattice_mach": 0.036894965916872025,
+          "peak_sampled_lattice_mach": 0.04290369898080826,
+          "peak_sampled_lattice_mach_iteration": 9,
+          "peak_sampled_density_deviation": 0.01979827880859375,
+          "peak_sampled_density_deviation_iteration": 3,
+          "mach_exceedance_cells": 0,
+          "max_density_deviation": 0.0035278797149658203,
+          "boundary_method": "legacy-equilibrium-v1",
+          "boundary_diagnostics": null,
+          "collision_method": "bgk",
+          "finite": true,
+          "positive_density": true,
+          "boundary_flux": {
+            "outward_mass_kg_s": [
+              -0.5696156024932861,
+              0.5985247492790222,
+              0.00793326087296009,
+              0.007933582179248333,
+              0.020249269902706146,
+              0.020101994276046753
+            ],
+            "net_external_mass_kg_s": 0.0851272540166974,
+            "periodic_pairs_excluded_from_net": true,
+            "method": "nodal trapezoidal face estimate; not a discrete conservation proof"
+          },
+          "backflow": {
+            "inlet_cells": 0,
+            "outlet_cells": 0
+          },
+          "physical_model_status": "not-assessed",
+          "wall_diagnostics": null,
+          "dissipation_storage": null,
+          "cadence_steps": 5,
+          "transfer_eligible": true,
+          "transfer_scope": "numerical-envelope",
+          "absolute_time_seconds": 0.554689271123933,
+          "scope": "Sampled low-Mach envelope only; not convergence, atmospheric validation or conservation certification"
+        },
+        "cleanup": {
+          "handles": 0,
+          "live_workers": 0,
+          "session_ids": []
+        }
+      }
+    ]
+  },
+  "refinement_comparisons": [
+    {
+      "candidate_id": "wing-000",
+      "angle_deg": -3.0,
+      "usable_completed_windows": true,
+      "fine_CL": -0.00895031879724489,
+      "coarse_CL": 0.11884613762340102,
+      "fine_CD": 1.2971473437867298,
+      "coarse_CD": 1.313495070294098,
+      "absolute_CL_change": 0.1277964564206459,
+      "relative_CD_change": 0.012602829266600234,
+      "CL_limit": 0.02,
+      "relative_CD_limit": 0.05,
+      "screen_pass": false
+    },
+    {
+      "candidate_id": "wing-001",
+      "angle_deg": 3.0,
+      "usable_completed_windows": true,
+      "fine_CL": 0.2761043431911763,
+      "coarse_CL": 0.161071797252846,
+      "fine_CD": 1.3096225788047653,
+      "coarse_CD": 1.3109925758752805,
+      "absolute_CL_change": 0.11503254593833032,
+      "relative_CD_change": 0.0010461006802170074,
+      "CL_limit": 0.02,
+      "relative_CD_limit": 0.05,
+      "screen_pass": false
+    }
+  ],
+  "claim": "Finer workflow demonstration with retained failed-screen evidence; no physical qualification",
+  "omissions": [
+    "matched physical reference",
+    "three-grid monotonic refinement",
+    "domain independence",
+    "Rhino/GH adapter",
+    "accelerator execution",
+    "shared numerical CSV adapter"
+  ],
+  "raw_evidence_directory": "/Users/r2d2/Desktop/hawa-wing-example-wrapup/results/wing-fine-report"
+}
