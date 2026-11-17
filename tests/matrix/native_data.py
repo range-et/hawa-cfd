@@ -77,12 +77,17 @@ def exercise_native_data(row, directory, device):
         return job
 
     try:
-        session.advance(4)
+        session.advance(6)
         populations = session.flow.f.detach().cpu().numpy().copy()
         fields = session.fields()
         quality = copy.deepcopy(session.quality)
-        local_time = float(session.flow.units.convert_time_to_pu(4))
-        expected = dict(case_hash=session.key, iteration=4, state=session.state)
+        local_time = float(session.flow.units.convert_time_to_pu(6))
+        means = {name: getattr(session, name).detach().cpu().numpy().copy()
+                 for name in ('mean_u', 'mean_p', 'mean_rho')}
+        samples = session.samples
+        assert samples == 1
+        initial_mass = session.initial_mass
+        expected = dict(case_hash=session.key, iteration=6, state=session.state)
         if mode == 'expected-mismatch':
             expected['iteration'] += 1
         request = dict(op='data', action='save', session=session.id, path=str(path),
@@ -100,26 +105,29 @@ def exercise_native_data(row, directory, device):
         assert result['path'] == str(path) and result['format'] == 'npz'
         assert result['schema'] == 'hawa-native-data-1'
         with np.load(path, allow_pickle=False) as archive:
-            assert set(archive.files) == {'populations', 'metadata'}
+            assert set(archive.files) == {'populations', 'metadata', 'mean_u', 'mean_p', 'mean_rho'}
+            for name, values in means.items():
+                np.testing.assert_array_equal(archive[name], values)
             stored = archive['populations'].copy()
             metadata = json.loads(str(archive['metadata']))
         np.testing.assert_array_equal(stored, populations)
         assert stored.dtype == np.float32
         assert metadata == result['metadata']
         for key, value in dict(schema='hawa-native-data-1', case=session.spec,
-                case_hash=session.key, iteration=4, local_time=local_time,
+                case_hash=session.key, iteration=6, local_time=local_time,
                 time_origin=2., absolute_time=local_time+2., source_state=session.state,
                 source_session=session.id, quality=quality, native_settings=settings,
-                attribution=context, population_storage='f').items():
+                attribution=context, population_storage='f', samples=samples,
+                initial_mass=initial_mass).items():
             assert metadata[key] == value
         if mode == 'truncated':
             path.write_bytes(path.read_bytes()[:32])
         elif mode == 'unsupported-schema':
             metadata['schema'] = 'hawa-native-data-999'
-            np.savez_compressed(path, populations=stored, metadata=np.array(json.dumps(metadata)))
+            np.savez_compressed(path, populations=stored, metadata=np.array(json.dumps(metadata)), **means)
         elif mode == 'corrupt-populations':
             stored.flat[0] = np.nan
-            np.savez_compressed(path, populations=stored, metadata=np.array(json.dumps(metadata)))
+            np.savez_compressed(path, populations=stored, metadata=np.array(json.dumps(metadata)), **means)
         import_bytes = path.read_bytes()
         imported = execute(dict(kind='native_data_import', path=str(path), device=device, context=context))
         assert path.read_bytes() == import_bytes
@@ -142,16 +150,21 @@ def exercise_native_data(row, directory, device):
         assert restored.thread is None
         assert value['case'] == session.spec and value['metadata'] == metadata
         assert value['context'] == context
-        assert_state(restored, populations, fields, quality, 4, local_time)
+        assert_state(restored, populations, fields, quality, 6, local_time)
+        assert restored.samples == samples and restored.initial_mass == initial_mass
+        for name, values in means.items():
+            np.testing.assert_array_equal(getattr(restored, name).cpu().numpy(), values)
+        for key, values in session.fields(mean=True).items():
+            np.testing.assert_array_equal(restored.fields(mean=True)[key], values)
         # Repeated public views must not advance a paused imported session.
         for _ in range(2):
-            assert dispatch(dict(op='status', session=restored.id))['steps'] == 4
+            assert dispatch(dict(op='status', session=restored.id))['steps'] == 6
             dispatch(dict(op='slice', session=restored.id, axis=2, index=2))
-        assert_state(restored, populations, fields, quality, 4, local_time)
+        assert_state(restored, populations, fields, quality, 6, local_time)
         session.advance(6)
         restored.advance(6)
         assert_state(restored, session.flow.f.detach().cpu().numpy(), session.fields(),
-                     session.quality, 10, float(session.flow.units.convert_time_to_pu(10)))
+                     session.quality, 12, float(session.flow.units.convert_time_to_pu(12)))
         assert restored.samples == session.samples
         for name in ('mean_u', 'mean_p', 'mean_rho'):
             np.testing.assert_array_equal(getattr(restored, name).cpu().numpy(), getattr(session, name).cpu().numpy())

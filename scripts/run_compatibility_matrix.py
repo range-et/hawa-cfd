@@ -99,7 +99,7 @@ def run(output, release=False):
                 if not available(device):record(item,'blocked',reason='device unavailable');continue
                 try:accepted=(exercise_native_data if row['id'].startswith('native-data/') else exercise_export)(row,fixtures,device)
                 except Exception as e:record(item,'failed',error=type(e).__name__+': '+str(e));continue
-                record(item,'passed' if accepted==row['expected'] else 'failed',observed='run' if accepted else 'reject',device=device,steps=10 if accepted and row['id'].startswith('native-data/') else 4)
+                record(item,'passed' if accepted==row['expected'] else 'failed',observed='run' if accepted else 'reject',device=device,steps=(12 if accepted else 6) if row['id'].startswith('native-data/') else 4)
             save();log.flush()
     expected=len(expected_rows())
     changed=summary['sources']!=source_hashes()
