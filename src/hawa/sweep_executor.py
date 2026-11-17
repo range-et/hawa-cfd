@@ -233,7 +233,8 @@ class CpuSweepExecutor:
     def _work(self, run):
         session = capture = None
         entry = run.entry
-        detail = dict(candidate=deepcopy(entry['candidate']), identity=deepcopy(entry['request']['identity']),
+        detail = dict(schema='hawa-cpu-sweep-result-1', candidate=deepcopy(entry['candidate']),
+                      identity=deepcopy(entry['request']['identity']),
                       dtype='float32', device='cpu', phase=PHASE, load_samples=[], probe_samples=[],
                       summary=None, last_field=None, quality=None, session=None)
         try:

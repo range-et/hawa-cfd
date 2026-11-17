@@ -54,6 +54,7 @@ def test_real_cpu_result_keeps_aligned_observations_after_close():
     reply=finish(executor,handle)
     assert reply['state']=='completed'
     result=executor.results('a',7)
+    assert result['schema']=='hawa-cpu-sweep-result-1'
     assert result['session'] and result['device']=='cpu' and result['dtype']=='float32'
     assert result['summary']['usable']
     assert [s['step'] for s in result['load_samples']]==[0,1,2,3]
