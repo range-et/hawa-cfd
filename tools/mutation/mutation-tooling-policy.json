@@ -1,15 +1,15 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 578,
-  "inventory_sha256": "b565e00e17886286731e75de72cafc40575801b5a73f7715bc8e7b7d2ac01acd",
-  "scope": "#67 PR study: lines this PR changes against origin/main 5f2c899 in tools/mutation/check_results.py and tools/mutation/mutmut3.py; the real-mutmut integration test and the committed-policy test are deselected and run in the full suite",
+  "mutants": 576,
+  "inventory_sha256": "83de6073c9f65bc4cd81314dd6a3b798dcd4fd4b70b8eef6b2e284b67a0034a8",
+  "scope": "#67 PR study: lines this PR changes against origin/main 5f2c899 in tools/mutation/check_results.py and tools/mutation/mutmut3.py; the real-mutmut integration test and the committed-policy test are deselected and run in the full suite; refreshed on macOS for Windows path portability with case-sensitive temporary artifact-name assertions",
   "control_test_files": [
     "tests/test_mutation_policy.py"
   ],
   "sources": {
     "tools/mutation/check_results.py": "baae49e644602a2e9dce8d71775d06f15b78b2804ac9b599485e79d8eabb25fa",
-    "tools/mutation/mutmut3.py": "81a3131a603a319e082b0f01c7f82e7bcd02717f96eac68964dd3c4693984aaa",
-    "tests/test_mutation_policy.py": "dfe590ba3583683c43da60395f337ac0c92104daf2813425659347f4bd697ed8"
+    "tools/mutation/mutmut3.py": "db2918af2fe07a045e4fc98cac3b0a01a62b88d6cf944938e5e55b67473e7b96",
+    "tests/test_mutation_policy.py": "5a63294094f54a7fa2c5ec663cb4df0732101e2d27fbbe34f898f00e7a9b9adc"
   },
   "reviewed_survivors": {
     "check_results.x_main__mutmut_11": {
@@ -117,35 +117,35 @@
       "diff_sha256": "96a2e274be998819ea605c424d542b4231c92994bdb13b922ee843c9c8432341",
       "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
     },
+    "mutmut3.x_export__mutmut_26": {
+      "status": "survived",
+      "diff_sha256": "49e60c8fa8e96765ac0e145a164d5470f4ed9f4135ea3c88db8da5449862f495",
+      "reason": "Formatting only: JSON indentation or key order changes; consumers parse the same object and exact values are asserted."
+    },
     "mutmut3.x_export__mutmut_27": {
       "status": "survived",
-      "diff_sha256": "e7f0246a90760b52e7f6aee6502483df258dc964287a19c8f469404e791f04cb",
-      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+      "diff_sha256": "8253d86004d594fe49c71b9904e275a4882077a960d2a2a8a8553e89506a8c03",
+      "reason": "Formatting only: JSON indentation or key order changes; consumers parse the same object and exact values are asserted."
     },
-    "mutmut3.x_export__mutmut_28": {
+    "mutmut3.x_export__mutmut_29": {
       "status": "survived",
-      "diff_sha256": "795e57572fd8d35f8c46fda4e6556e9285e38bb31303d224fe324f37679db74c",
-      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+      "diff_sha256": "03d4d5c3f288c26b72b7bc4168432d2cc14ba433bf7997572699b7b33cd03526",
+      "reason": "Formatting only: JSON indentation or key order changes; consumers parse the same object and exact values are asserted."
     },
     "mutmut3.x_export__mutmut_30": {
       "status": "survived",
-      "diff_sha256": "bbdbd605fa49591a285cd369b52e515596c730c275d68e275c233726a142f93a",
-      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+      "diff_sha256": "8ecbb73a86b369a4697506ec3e47e87798c9f720d1ecc0c896250884a8047899",
+      "reason": "Formatting only: JSON indentation or key order changes; consumers parse the same object and exact values are asserted."
     },
     "mutmut3.x_export__mutmut_31": {
       "status": "survived",
-      "diff_sha256": "f86be4eb6f7bca1c49832f110c52025d4cd75848ff1f34f362ea1eeb09439324",
-      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+      "diff_sha256": "0d5b4091b4be9171d011e3ccda15f41a0cdad2951ede042c2b1b3d31895bfbdf",
+      "reason": "Formatting only: JSON indentation or key order changes; consumers parse the same object and exact values are asserted."
     },
     "mutmut3.x_export__mutmut_32": {
       "status": "survived",
-      "diff_sha256": "5399ae362085c401f805b8ecfe31239047ea727f59f3bf35061f970eee89c82b",
-      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
-    },
-    "mutmut3.x_export__mutmut_33": {
-      "status": "survived",
-      "diff_sha256": "ad684875bceda195a25025c46b8991ccffcd648020acb21e48e8400dcdee79de",
-      "reason": "Formatting only: the JSON parses to the same data (indent, key order or ASCII escaping), and every consumer parses it."
+      "diff_sha256": "dda27c85a3d1f4b8c56b3f5b36688ae7173cd245895eaa27e31bfe31afa40584",
+      "reason": "Formatting only: JSON indentation or key order changes; consumers parse the same object and exact values are asserted."
     },
     "mutmut3.x_install__mutmut_32": {
       "status": "survived",
@@ -172,25 +172,25 @@
       "diff_sha256": "ee0ef50eed04c5073937676da4857ca1d411d36c137225f953e97f523bbfe7e5",
       "reason": "Diagnostic-string decoration only: the exception type, the rejection decision and the substantive message are unchanged; exact letter case and surrounding decoration of diagnostics are not an API contract."
     },
-    "mutmut3.x_main__mutmut_101": {
+    "mutmut3.x_main__mutmut_100": {
       "status": "survived",
-      "diff_sha256": "64c91fa27d852835aff89142c68310fce566fd1a98399f637a28187c31f91cde",
-      "reason": "Decoration: the \"mutants exported\" log line in export.log is not read by anything; the exported files are asserted."
+      "diff_sha256": "7196164a3bde94a546427d39dd97309d80cbf322d1d74add02fd0cc6701ce53d",
+      "reason": "Console decoration only: the export summary suffix changes; file content, raw outcomes and return code are unchanged and asserted."
     },
-    "mutmut3.x_main__mutmut_103": {
+    "mutmut3.x_main__mutmut_102": {
       "status": "survived",
-      "diff_sha256": "c682a9da2d6e7dc72022ca91049b3c931f9b7c0df0cd88214050b61e60c8d657",
-      "reason": "Decoration: the \"mutants exported\" log line in export.log is not read by anything; the exported files are asserted."
+      "diff_sha256": "e033505eb2b994868527350bbe9f5d240c4a8aba91dd2f683c10c82419a5018f",
+      "reason": "Console decoration only: the export summary suffix changes; file content, raw outcomes and return code are unchanged and asserted."
+    },
+    "mutmut3.x_main__mutmut_110": {
+      "status": "survived",
+      "diff_sha256": "2af65843337519ae2f72e9a296936698fd6e7c81dbe98fc40bc8f8b405385cf4",
+      "reason": "Console decoration only: the export summary suffix changes; file content, raw outcomes and return code are unchanged and asserted."
     },
     "mutmut3.x_main__mutmut_111": {
       "status": "survived",
-      "diff_sha256": "90a2135a686314bccdb1260db0922c4382d545eff82190a77275b870cc25821d",
-      "reason": "Decoration: the \"mutants exported\" log line in export.log is not read by anything; the exported files are asserted."
-    },
-    "mutmut3.x_main__mutmut_112": {
-      "status": "survived",
-      "diff_sha256": "5bf019f47bdc79e6eba7741b9966d85c5836b1f16f168458db396d916a508cf2",
-      "reason": "Decoration: the \"mutants exported\" log line in export.log is not read by anything; the exported files are asserted."
+      "diff_sha256": "725b50af98fb66a47a6e31226bd2aef612184c7bec3a38312ea57cdb054917d2",
+      "reason": "Console decoration only: the export summary suffix changes; file content, raw outcomes and return code are unchanged and asserted."
     },
     "mutmut3.x_main__mutmut_14": {
       "status": "survived",
