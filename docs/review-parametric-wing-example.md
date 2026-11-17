@@ -99,3 +99,14 @@ angle and speed ordering; null rejected plot points; geometry-edit invalidation;
 pause/resume/cancel; save/reopen idle; model-unit conversion; owned cleanup and
 preservation of original Rhino/GH documents. Inspect both canvas and viewport.
 
+## Prepared host lifecycle harness (not yet executed)
+
+`scripts/verify_stationary_study.cs` runs an owned archive copy at 0.025 m,
+1200 settling + 81 samples and unchanged 0.05 tolerance. It checks automatic
+poll completion; accepted identity/capture selection or rejected output
+withholding; geometry-edit invalidation; cooperative pause/cancel; saved-true
+rearm; unchanged source bytes/IDs/wires; and public cleanup/refresh counts.
+A lifecycle pass can contain zero accepted candidates and cannot establish
+pressure-view acceptance. Root must run the fine protocol and visual checks
+separately. The script uses public ports, timers and public diagnostics; it
+does not inspect private job or solver fields. No host run is claimed here.
