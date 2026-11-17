@@ -1,7 +1,7 @@
 # Numerical export completion — #35 / HAWA-033
 
 Date: November 17, 2026. Base: merged main `12dc774`.
-Status: implementation and local verification complete; PR/CI/Greptile and Windows CUDA gates pending. No merge or release claim.
+Status: implementation, Mac verification and frozen-source Windows CUDA verification complete. Final PR-head CI/Greptile gates precede merge; no release claim.
 
 ## Fixed scope and acceptance contract
 
@@ -161,8 +161,8 @@ atmosphere_qualification cross-reviewed the native ownership changes.
 | G2 reliability | numerical_exports, domain_validation, root | PASS |2256 tests passed87 explicit skips;146 C# contracts. Strict headless function/line gate and trusted-base ratchet pass:511 Python and582 C# covered functions;299 host functions remain unmeasured. Python3.12:2246 passed97 skips. All four applicable mutation policies pass. |
 | G3 numerical implementation | numerical_exports, atmosphere_qualification, root | PASS, bounded CPU/MPS implementation | Exact raw CSV/NPZ and independent continuation checks; CPU/MPS compatibility and both5-case smoke gates pass. No physical validation or unrestricted hardware claim; CUDA still required for merge. |
 | G4 UI/UX | root | PASS, focused Mac workflow | Actual dynamic events and dock inspection; file dialogs, Windows UI and full-gallery run/render omitted as listed above. |
-| G5 integration | root | BLOCKED | Official package built/installed; ready PR, final CI/Greptile5/5 and CUDA pending. Not released. |
-| G6 compatibility | atmosphere_qualification, root | PASS locally; CUDA BLOCKED |102,582 rows recorded:100,092 CPU/MPS/structural passes,0 failures,2,490 CUDA rows blocked; source hashes stable.53 public nodes/31 archives audited. [Machine evidence](verification-compatibility.json). |
+| G5 integration | root | Pending final PR-head checks | Official package built/installed; frozen-source CUDA passes. PR #119 is ready; final CI and Greptile5/5 must pass after evidence integration. Not released. |
+| G6 compatibility | atmosphere_qualification, root, Windows operator | PASS across separate device runs | Each full102,582-row inventory has100,092 passes,0 failures and2,490 unavailable-device rows. Mac covers CPU/MPS; Windows covers CPU/CUDA, including all2,490 CUDA rows.53 nodes/31 archives audited. [Mac evidence](verification-compatibility.json), [Windows evidence](verification-pr119-windows-cuda-2026-11-17.json). |
 
 Fresh full G6 rerun `results/compatibility-export-complete-v4` passed every available
 row, including54 CSV and28 native-data CPU/MPS rows. CUDA is explicitly blocked
@@ -262,3 +262,18 @@ example run is claimed. `verify_cuda.py --stages suite --repeats 1` correctly
 records its broader four-stage `full_scope` as false. These results clear the
 requested Windows CUDA hold for this PR candidate; final CI, Greptile review,
 merge and #35 closure remain with the Mac coordinator. Baking #34 is separate.
+
+## Coordinator integration review
+
+Root reviewed Windows evidence commit `c4656d0` and confirmed that its tested
+commit is the exact frozen PR source `6eb8a5c`. The integration changes only
+documentation/evidence; executable source, tests, policies and tooling are
+byte-identical to the tested candidate. The requested CUDA hold is cleared.
+Earlier pending/blocked statements above describe earlier stages, not the
+current device disposition. Final CI and explicit Greptile5/5 must approve the
+evidence-integrated PR head before merge; GitHub records that decision.
+
+Scope for #35 / HAWA-033 closure: field/probe/load interchange, native export
+ownership/UX, and the requested dynamic Setup/View plus paused Save/Import
+workflow. Baking #34, broad Windows installed-host acceptance, full-gallery
+rendering and physical qualification remain separate and are not closed here.

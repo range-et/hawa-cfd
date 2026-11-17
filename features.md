@@ -103,6 +103,21 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 17, 2026 — Numerical exports and native checkpoint workflow (#35 / HAWA-033)
+
+PR #119 completes ordered probe and retained moving-load CSV, native paused or
+completed result export, automatic Setup/View edits, and checkpoint Save/Import
+for paused viewing and explicit continuation. Existing Checkpoint archives and
+default NPZ remain compatible. Mac host readback/lifecycle, strict measured
+coverage and reviewed mutation gates pass. Independent Windows CUDA verification
+on the frozen candidate passes2,251 suite tests,5/5 device smoke and all2,490
+CUDA G6 rows, including exact checkpoint continuation. Original work is preserved
+and Windows Rhino stayed closed. Final merge checks are recorded on PR #119.
+This is bounded implementation verification, not a release, Windows UI acceptance
+or physical qualification; #34 baking remains separate.
+[Completion review](docs/review-export-completion.md) and
+[Windows evidence](docs/verification-pr119-windows-cuda-2026-11-17.json).
+
 ### November 17, 2026 — Windows verification portability (#117)
 
 PR candidate `0e219a9` now passes the fresh Windows headless rerun: 1,973 tests
