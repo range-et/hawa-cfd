@@ -1,0 +1,1697 @@
+{
+  "date": "2026-11-17",
+  "source_commit": "71cae35",
+  "base_commit": "7cd7024",
+  "device": "cpu",
+  "python39": {
+    "passed": 2667,
+    "skipped": 176
+  },
+  "python312": {
+    "passed": 2657,
+    "skipped": 186
+  },
+  "state_contracts": 146,
+  "function_gate": {
+    "covered": 1161,
+    "host_gaps": 299,
+    "declarations": 72,
+    "failures": []
+  },
+  "mutation": {
+    "directory": "results/stationary-executor-mutation-main",
+    "mutants": 1757,
+    "assertion_kills": 1564,
+    "reviewed_survivors": 193,
+    "controls": 233,
+    "errors": 0,
+    "timeouts": 0,
+    "unchecked": 0,
+    "policy_pass": true
+  },
+  "cpu_smoke": {
+    "schema": 1,
+    "tool": "scripts/device_smoke.py",
+    "result": "pass",
+    "started_utc": "2026-11-17T19:23:13.289938+00:00",
+    "device": "cpu",
+    "torch_device": "cpu",
+    "backend": {
+      "requested": "cpu",
+      "selected": "cpu",
+      "torch": "2.8.0",
+      "cuda_available": false,
+      "mps_available": true,
+      "notes": []
+    },
+    "reference": {
+      "device": "cpu",
+      "dtype": "float64"
+    },
+    "candidate_dtype": "float32",
+    "seeds": {
+      "torch": 0,
+      "numpy": 0
+    },
+    "overlapping_jobs": "none",
+    "policy": {
+      "path": "/Users/r2d2/Desktop/hawa-40-integration/scripts/device_smoke_policy.json",
+      "sha256": "cc3cd8ebfea4e0a4fe970f61522f94d784c7388f3d9f1eaa48f43af09d3ef5ed"
+    },
+    "source_before": {
+      "commit": "71cae3569cc8f0cee4adc292ebf8a4822ae6e778",
+      "dirty": true,
+      "status": [
+        " M docs/function-test-matrix.md",
+        " M docs/function-testing.md",
+        " M docs/function-tests/matrix.json",
+        "?? docs/review-worker-and-wing-diagnosis.md",
+        "?? docs/verification-wing-cpu-diagnosis.json",
+        "?? tools/mutation/stationary-executor-policy.json"
+      ],
+      "index_sha256": "882e9f42dec35a7b1c9567922e7f1f44aa92bac8989ee1a365e7c5e0d442392d",
+      "files": 940,
+      "source_sha256": "96238a5319a16a5b72efb59896d35d78cae66c14e822b7340eba5bf01d406119"
+    },
+    "environment": {
+      "os": "macOS-27.2.1-arm64-arm-64bit",
+      "machine": "arm64",
+      "processor": "arm",
+      "python": "3.9.25 (main, Oct 31 2025, 23:01:59) \n[Clang 21.1.4 ]",
+      "executable": "/Users/r2d2/Desktop/hawa-40-integration/.venv/bin/python",
+      "torch": "2.8.0",
+      "numpy": "2.0.2",
+      "torch_threads": 1,
+      "variables": {
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "PYTORCH_ENABLE_MPS_FALLBACK": null,
+        "CUDA_VISIBLE_DEVICES": null
+      }
+    },
+    "loaded_modules_before": {
+      "hawa": "/Users/r2d2/Desktop/hawa-40-integration/src/hawa/__init__.py",
+      "hawa.backends": "/Users/r2d2/Desktop/hawa-40-integration/src/hawa/backends.py",
+      "lettuce": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/__init__.py",
+      "lettuce._context": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/_context.py",
+      "lettuce._flow": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/_flow.py",
+      "lettuce._simulation": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/_simulation.py",
+      "lettuce._stencil": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/_stencil.py",
+      "lettuce._unit": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/_unit.py",
+      "lettuce.cuda_native": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/__init__.py",
+      "lettuce.cuda_native._default_code_gen": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/_default_code_gen.py",
+      "lettuce.cuda_native._generator": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/_generator.py",
+      "lettuce.cuda_native._registry": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/_registry.py",
+      "lettuce.cuda_native._template": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/_template.py",
+      "lettuce.cuda_native._transformer": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/_transformer.py",
+      "lettuce.cuda_native._util": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/_util.py",
+      "lettuce.cuda_native.ext": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/__init__.py",
+      "lettuce.cuda_native.ext._boundary": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_boundary/__init__.py",
+      "lettuce.cuda_native.ext._boundary.bounce_back_boundary": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_boundary/bounce_back_boundary.py",
+      "lettuce.cuda_native.ext._boundary.equilibrium_pu": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_boundary/equilibrium_pu.py",
+      "lettuce.cuda_native.ext._boundary.no_boundary": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_boundary/no_boundary.py",
+      "lettuce.cuda_native.ext._collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_collision/__init__.py",
+      "lettuce.cuda_native.ext._collision.bgk_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_collision/bgk_collision.py",
+      "lettuce.cuda_native.ext._collision.no_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_collision/no_collision.py",
+      "lettuce.cuda_native.ext._equilibrium": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_equilibrium/__init__.py",
+      "lettuce.cuda_native.ext._equilibrium.quadratic_equilibrium": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_equilibrium/quadratic_equilibrium.py",
+      "lettuce.ext": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/__init__.py",
+      "lettuce.ext._boundary": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_boundary/__init__.py",
+      "lettuce.ext._boundary.anti_bounce_back_outlet": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_boundary/anti_bounce_back_outlet.py",
+      "lettuce.ext._boundary.bounce_back_boundary": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_boundary/bounce_back_boundary.py",
+      "lettuce.ext._boundary.equilibrium_boundary_pu": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_boundary/equilibrium_boundary_pu.py",
+      "lettuce.ext._boundary.equilibrium_outlet_p": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_boundary/equilibrium_outlet_p.py",
+      "lettuce.ext._boundary.partially_saturated_boundary": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_boundary/partially_saturated_boundary.py",
+      "lettuce.ext._collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_collision/__init__.py",
+      "lettuce.ext._collision.bgk_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_collision/bgk_collision.py",
+      "lettuce.ext._collision.kbc_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_collision/kbc_collision.py",
+      "lettuce.ext._collision.mrt_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_collision/mrt_collision.py",
+      "lettuce.ext._collision.no_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_collision/no_collision.py",
+      "lettuce.ext._collision.regularized_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_collision/regularized_collision.py",
+      "lettuce.ext._collision.smagorinsky_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_collision/smagorinsky_collision.py",
+      "lettuce.ext._collision.trt_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_collision/trt_collision.py",
+      "lettuce.ext._equilibrium": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_equilibrium/__init__.py",
+      "lettuce.ext._equilibrium.incompressible_quadratic_equilibrium": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_equilibrium/incompressible_quadratic_equilibrium.py",
+      "lettuce.ext._equilibrium.quadratic_equilibrium": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_equilibrium/quadratic_equilibrium.py",
+      "lettuce.ext._equilibrium.quadratic_equilibrium_less_memory": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_equilibrium/quadratic_equilibrium_less_memory.py",
+      "lettuce.ext._flows": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/__init__.py",
+      "lettuce.ext._flows._ext_flow": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/_ext_flow.py",
+      "lettuce.ext._flows._flow_by_name": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/_flow_by_name.py",
+      "lettuce.ext._flows.couette": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/couette.py",
+      "lettuce.ext._flows.decayingturbulence": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/decayingturbulence.py",
+      "lettuce.ext._flows.doublyshear": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/doublyshear.py",
+      "lettuce.ext._flows.lamboseenvortex": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/lamboseenvortex.py",
+      "lettuce.ext._flows.liddrivencavity": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/liddrivencavity.py",
+      "lettuce.ext._flows.obstacle": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/obstacle.py",
+      "lettuce.ext._flows.poiseuille": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/poiseuille.py",
+      "lettuce.ext._flows.taylorgreen": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/taylorgreen.py",
+      "lettuce.ext._force": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_force/__init__.py",
+      "lettuce.ext._force._force": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_force/_force.py",
+      "lettuce.ext._force.guo": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_force/guo.py",
+      "lettuce.ext._force.shan_chen": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_force/shan_chen.py",
+      "lettuce.ext._reporter": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_reporter/__init__.py",
+      "lettuce.ext._reporter.error_reporter": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_reporter/error_reporter.py",
+      "lettuce.ext._reporter.failure_reporter": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_reporter/failure_reporter.py",
+      "lettuce.ext._reporter.observable_reporter": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_reporter/observable_reporter.py",
+      "lettuce.ext._reporter.progress_reporter": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_reporter/progress_reporter.py",
+      "lettuce.ext._reporter.vtk_reporter": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_reporter/vtk_reporter.py",
+      "lettuce.ext._reporter.write_image": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_reporter/write_image.py",
+      "lettuce.ext._stencil": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_stencil/__init__.py",
+      "lettuce.ext._stencil.d1q3": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_stencil/d1q3.py",
+      "lettuce.ext._stencil.d2q9": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_stencil/d2q9.py",
+      "lettuce.ext._stencil.d3q15": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_stencil/d3q15.py",
+      "lettuce.ext._stencil.d3q19": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_stencil/d3q19.py",
+      "lettuce.ext._stencil.d3q27": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_stencil/d3q27.py",
+      "lettuce.util": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/util/__init__.py",
+      "lettuce.util.datautils": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/util/datautils.py",
+      "lettuce.util.utility": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/util/utility.py"
+    },
+    "module_errors": [],
+    "cases": [
+      {
+        "id": "engine-2d",
+        "builder": "engine",
+        "criterion_source": "scripts/compare_engines.py accelerator tolerance (rtol 3e-4, atol 2e-6; the pressure atol is multiplied by the case pressure conversion scale)",
+        "status": "pass",
+        "checks": [
+          {
+            "name": "populations-density-velocity",
+            "comparison_class": "bounded",
+            "arrays": [
+              {
+                "array": "cavity2d-bgk/0_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.311369178859991e-09,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/0_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.220446049250313e-16,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/0_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 0.0,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/10_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.612691126751109e-07,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/10_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.7033378874617995e-07,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/10_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 8.492340597071957e-08,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/1_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.602702670577827e-08,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/1_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.220446049250313e-16,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/1_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 5.58793543728453e-09,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/50_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 5.413219438255013e-07,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/50_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.1914571825810683e-06,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/50_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.947926381548154e-07,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/0_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.311369178859991e-09,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/0_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.220446049250313e-16,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/0_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 0.0,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/10_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.3113739472678816e-08,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/10_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.1920928955078125e-07,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/10_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.4123915464145896e-08,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/1_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.3113695674380494e-09,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/1_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.220446049250313e-16,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/1_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 4.529978642198167e-09,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/50_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 8.609509671853033e-08,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/50_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.3841857843542869e-07,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/50_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.337039168061722e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/0_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 8.651040095397633e-08,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/0_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.892267148002503e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/0_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.3923143910249975e-08,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/10_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.3135348426194255e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/10_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 5.975892272136463e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/10_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.86879355820041e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/1_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.8070538843062423e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/1_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.523641862151038e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/1_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 8.192212941696142e-08,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/50_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 6.642757121033682e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/50_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.4288711578380742e-06,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/50_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.1076721021885967e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/0_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 8.651040095397633e-08,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/0_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.892267148002503e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/0_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.3923143910249975e-08,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/10_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.7671785269033364e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/10_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 5.802637788043796e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/10_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.7908137783448352e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/1_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.8070538843062423e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/1_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.5082898713613133e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/1_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 8.448227300020261e-08,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/50_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 6.788404592894537e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/50_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.4513695040241359e-06,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/50_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.0153648092768465e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/0_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 8.651040095397633e-08,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/0_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.892267148002503e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/0_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.3923143910249975e-08,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/10_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 3.682799610826848e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/10_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 6.756017050246754e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/10_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.7501858571612738e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/1_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.8070538843062423e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/1_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.523641862151038e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/1_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 8.937271004511027e-08,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/50_f",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 6.681637322869527e-07,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/50_rho",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.4681284219442148e-06,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/50_u",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  2,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 2.8543470731272336e-07,
+                "passed": true
+              }
+            ],
+            "passed": true
+          },
+          {
+            "name": "pressure",
+            "comparison_class": "bounded",
+            "arrays": [
+              {
+                "array": "cavity2d-bgk/0_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 8.881784197001251e-14,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/10_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00014813351549847198,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/1_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 8.881784197001251e-14,
+                "passed": true
+              },
+              {
+                "array": "cavity2d-bgk/50_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00047658287303242036,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/0_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 8.881784197001251e-14,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/10_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 4.76837158203125e-05,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/1_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 8.881784197001251e-14,
+                "passed": true
+              },
+              {
+                "array": "poiseuille2d-guo/50_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 9.536743137417147e-05,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/0_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00011569068592007237,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/10_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00023903569088545937,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/1_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00010094567448598601,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-bgk/50_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.0005715484631352435,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/0_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00011569068592007237,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/10_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00023210551152180736,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/1_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00010033159485439702,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-smagorinsky/50_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.0005805478016096474,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/0_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00011569068592007237,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/10_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.0002702406820099257,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/1_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.00010094567448598601,
+                "passed": true
+              },
+              {
+                "array": "tgv2d-trt/50_p",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  1,
+                  32,
+                  32
+                ],
+                "rtol": 0.0003,
+                "atol": 0.0007999999999999998,
+                "violations": 0,
+                "max_abs_error": 0.0005872513687777137,
+                "passed": true
+              }
+            ],
+            "passed": true
+          }
+        ],
+        "reference_seconds": 0.08874508300000006,
+        "candidate_seconds": 0.07461770899999998
+      },
+      {
+        "id": "kbc-near-equilibrium",
+        "builder": "kbc",
+        "criterion_source": "tests/test_kbc_precision.py::test_kbc_near_equilibrium_matches_double_collision (FP32 output equals the FP64 collision rounded to FP32)",
+        "status": "pass",
+        "checks": [
+          {
+            "name": "post-collision-populations",
+            "comparison_class": "bitwise",
+            "arrays": [
+              {
+                "array": "size-1/populations",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  1,
+                  1
+                ],
+                "mismatches": 0,
+                "passed": true
+              },
+              {
+                "array": "size-8/populations",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  9,
+                  8,
+                  8
+                ],
+                "mismatches": 0,
+                "passed": true
+              }
+            ],
+            "passed": true
+          }
+        ],
+        "reference_seconds": 0.0014011669999999254,
+        "candidate_seconds": 0.0012820829999999894
+      },
+      {
+        "id": "neutral-shifted-regularized",
+        "builder": "neutral",
+        "criterion_source": "tests/test_neutral.py::test_cpu_mps_reference (velocity atol 3e-5, rtol 3e-4 against CPU FP64; |relative mass change| < 1e-6)",
+        "status": "pass",
+        "checks": [
+          {
+            "name": "velocity",
+            "comparison_class": "bounded",
+            "arrays": [
+              {
+                "array": "velocity",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  3,
+                  12,
+                  12,
+                  12
+                ],
+                "rtol": 0.0003,
+                "atol": 3e-05,
+                "violations": 0,
+                "max_abs_error": 3.7200525826897035e-05,
+                "passed": true
+              }
+            ],
+            "passed": true
+          },
+          {
+            "name": "relative-mass-change",
+            "comparison_class": "bounded",
+            "arrays": [
+              {
+                "array": "relative_mass_change",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float64",
+                "shape": [],
+                "rtol": 0.0,
+                "atol": 1e-06,
+                "violations": 0,
+                "max_abs_error": 0.0,
+                "passed": true
+              }
+            ],
+            "passed": true
+          }
+        ],
+        "reference_seconds": 0.085681958,
+        "candidate_seconds": 0.08663025000000002
+      },
+      {
+        "id": "moving-sphere",
+        "builder": "moving",
+        "criterion_source": "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads (populations rtol 3e-4, atol 3e-6) and the exact solid-mask equality required before comparing moving-body loads (docs/quality-gates.md)",
+        "status": "pass",
+        "checks": [
+          {
+            "name": "solid-mask",
+            "comparison_class": "bitwise",
+            "arrays": [
+              {
+                "array": "solid",
+                "reference_dtype": "bool",
+                "candidate_dtype": "bool",
+                "shape": [
+                  20,
+                  16,
+                  12
+                ],
+                "mismatches": 0,
+                "passed": true
+              }
+            ],
+            "passed": true
+          },
+          {
+            "name": "populations",
+            "comparison_class": "bounded",
+            "arrays": [
+              {
+                "array": "populations",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float32",
+                "shape": [
+                  19,
+                  20,
+                  16,
+                  12
+                ],
+                "rtol": 0.0003,
+                "atol": 3e-06,
+                "violations": 0,
+                "max_abs_error": 3.875779527873213e-07,
+                "passed": true
+              }
+            ],
+            "passed": true
+          }
+        ],
+        "reference_seconds": 0.11470150000000001,
+        "candidate_seconds": 0.06023774999999998
+      },
+      {
+        "id": "curved-wall-channel",
+        "builder": "wall",
+        "criterion_source": "scripts/verify_cuda_benchmarks.py wall rows (max_speed rtol 3e-4, atol 2e-6)",
+        "status": "pass",
+        "checks": [
+          {
+            "name": "max-speed",
+            "comparison_class": "bounded",
+            "arrays": [
+              {
+                "array": "q-0.25/max_speed",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float64",
+                "shape": [],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 1.4605036900602582e-08,
+                "passed": true
+              },
+              {
+                "array": "q-0.75/max_speed",
+                "reference_dtype": "float64",
+                "candidate_dtype": "float64",
+                "shape": [],
+                "rtol": 0.0003,
+                "atol": 2e-06,
+                "violations": 0,
+                "max_abs_error": 6.63431842641511e-08,
+                "passed": true
+              }
+            ],
+            "passed": true
+          }
+        ],
+        "reference_seconds": 3.654094459,
+        "candidate_seconds": 3.579917000000001
+      }
+    ],
+    "loaded_modules_after": {
+      "hawa": "/Users/r2d2/Desktop/hawa-40-integration/src/hawa/__init__.py",
+      "hawa.atmosphere": "/Users/r2d2/Desktop/hawa-40-integration/src/hawa/atmosphere.py",
+      "hawa.backends": "/Users/r2d2/Desktop/hawa-40-integration/src/hawa/backends.py",
+      "hawa.cases": "/Users/r2d2/Desktop/hawa-40-integration/src/hawa/cases.py",
+      "hawa.collision": "/Users/r2d2/Desktop/hawa-40-integration/src/hawa/collision.py",
+      "hawa.motion": "/Users/r2d2/Desktop/hawa-40-integration/src/hawa/motion.py",
+      "hawa.moving_boundaries": "/Users/r2d2/Desktop/hawa-40-integration/src/hawa/moving_boundaries.py",
+      "hawa.neutral": "/Users/r2d2/Desktop/hawa-40-integration/src/hawa/neutral.py",
+      "hawa.plugin": "/Users/r2d2/Desktop/hawa-40-integration/src/hawa/plugin.py",
+      "hawa.quality": "/Users/r2d2/Desktop/hawa-40-integration/src/hawa/quality.py",
+      "hawa.roughness": "/Users/r2d2/Desktop/hawa-40-integration/src/hawa/roughness.py",
+      "hawa.step": "/Users/r2d2/Desktop/hawa-40-integration/src/hawa/step.py",
+      "hawa.walls": "/Users/r2d2/Desktop/hawa-40-integration/src/hawa/walls.py",
+      "lettuce": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/__init__.py",
+      "lettuce._context": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/_context.py",
+      "lettuce._flow": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/_flow.py",
+      "lettuce._simulation": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/_simulation.py",
+      "lettuce._stencil": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/_stencil.py",
+      "lettuce._unit": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/_unit.py",
+      "lettuce.cuda_native": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/__init__.py",
+      "lettuce.cuda_native._default_code_gen": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/_default_code_gen.py",
+      "lettuce.cuda_native._generator": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/_generator.py",
+      "lettuce.cuda_native._registry": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/_registry.py",
+      "lettuce.cuda_native._template": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/_template.py",
+      "lettuce.cuda_native._transformer": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/_transformer.py",
+      "lettuce.cuda_native._util": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/_util.py",
+      "lettuce.cuda_native.ext": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/__init__.py",
+      "lettuce.cuda_native.ext._boundary": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_boundary/__init__.py",
+      "lettuce.cuda_native.ext._boundary.bounce_back_boundary": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_boundary/bounce_back_boundary.py",
+      "lettuce.cuda_native.ext._boundary.equilibrium_pu": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_boundary/equilibrium_pu.py",
+      "lettuce.cuda_native.ext._boundary.no_boundary": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_boundary/no_boundary.py",
+      "lettuce.cuda_native.ext._collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_collision/__init__.py",
+      "lettuce.cuda_native.ext._collision.bgk_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_collision/bgk_collision.py",
+      "lettuce.cuda_native.ext._collision.no_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_collision/no_collision.py",
+      "lettuce.cuda_native.ext._equilibrium": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_equilibrium/__init__.py",
+      "lettuce.cuda_native.ext._equilibrium.quadratic_equilibrium": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/cuda_native/ext/_equilibrium/quadratic_equilibrium.py",
+      "lettuce.ext": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/__init__.py",
+      "lettuce.ext._boundary": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_boundary/__init__.py",
+      "lettuce.ext._boundary.anti_bounce_back_outlet": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_boundary/anti_bounce_back_outlet.py",
+      "lettuce.ext._boundary.bounce_back_boundary": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_boundary/bounce_back_boundary.py",
+      "lettuce.ext._boundary.equilibrium_boundary_pu": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_boundary/equilibrium_boundary_pu.py",
+      "lettuce.ext._boundary.equilibrium_outlet_p": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_boundary/equilibrium_outlet_p.py",
+      "lettuce.ext._boundary.partially_saturated_boundary": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_boundary/partially_saturated_boundary.py",
+      "lettuce.ext._collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_collision/__init__.py",
+      "lettuce.ext._collision.bgk_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_collision/bgk_collision.py",
+      "lettuce.ext._collision.kbc_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_collision/kbc_collision.py",
+      "lettuce.ext._collision.mrt_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_collision/mrt_collision.py",
+      "lettuce.ext._collision.no_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_collision/no_collision.py",
+      "lettuce.ext._collision.regularized_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_collision/regularized_collision.py",
+      "lettuce.ext._collision.smagorinsky_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_collision/smagorinsky_collision.py",
+      "lettuce.ext._collision.trt_collision": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_collision/trt_collision.py",
+      "lettuce.ext._equilibrium": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_equilibrium/__init__.py",
+      "lettuce.ext._equilibrium.incompressible_quadratic_equilibrium": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_equilibrium/incompressible_quadratic_equilibrium.py",
+      "lettuce.ext._equilibrium.quadratic_equilibrium": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_equilibrium/quadratic_equilibrium.py",
+      "lettuce.ext._equilibrium.quadratic_equilibrium_less_memory": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_equilibrium/quadratic_equilibrium_less_memory.py",
+      "lettuce.ext._flows": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/__init__.py",
+      "lettuce.ext._flows._ext_flow": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/_ext_flow.py",
+      "lettuce.ext._flows._flow_by_name": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/_flow_by_name.py",
+      "lettuce.ext._flows.couette": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/couette.py",
+      "lettuce.ext._flows.decayingturbulence": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/decayingturbulence.py",
+      "lettuce.ext._flows.doublyshear": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/doublyshear.py",
+      "lettuce.ext._flows.lamboseenvortex": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/lamboseenvortex.py",
+      "lettuce.ext._flows.liddrivencavity": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/liddrivencavity.py",
+      "lettuce.ext._flows.obstacle": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/obstacle.py",
+      "lettuce.ext._flows.poiseuille": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/poiseuille.py",
+      "lettuce.ext._flows.taylorgreen": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_flows/taylorgreen.py",
+      "lettuce.ext._force": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_force/__init__.py",
+      "lettuce.ext._force._force": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_force/_force.py",
+      "lettuce.ext._force.guo": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_force/guo.py",
+      "lettuce.ext._force.shan_chen": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_force/shan_chen.py",
+      "lettuce.ext._reporter": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_reporter/__init__.py",
+      "lettuce.ext._reporter.error_reporter": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_reporter/error_reporter.py",
+      "lettuce.ext._reporter.failure_reporter": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_reporter/failure_reporter.py",
+      "lettuce.ext._reporter.observable_reporter": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_reporter/observable_reporter.py",
+      "lettuce.ext._reporter.progress_reporter": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_reporter/progress_reporter.py",
+      "lettuce.ext._reporter.vtk_reporter": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_reporter/vtk_reporter.py",
+      "lettuce.ext._reporter.write_image": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_reporter/write_image.py",
+      "lettuce.ext._stencil": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_stencil/__init__.py",
+      "lettuce.ext._stencil.d1q3": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_stencil/d1q3.py",
+      "lettuce.ext._stencil.d2q9": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_stencil/d2q9.py",
+      "lettuce.ext._stencil.d3q15": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_stencil/d3q15.py",
+      "lettuce.ext._stencil.d3q19": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_stencil/d3q19.py",
+      "lettuce.ext._stencil.d3q27": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/ext/_stencil/d3q27.py",
+      "lettuce.util": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/util/__init__.py",
+      "lettuce.util.datautils": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/util/datautils.py",
+      "lettuce.util.utility": "/Users/r2d2/Desktop/hawa-40-integration/vendor/lettuce/lettuce/util/utility.py"
+    },
+    "source_after": {
+      "commit": "71cae3569cc8f0cee4adc292ebf8a4822ae6e778",
+      "dirty": true,
+      "status": [
+        " M docs/function-test-matrix.md",
+        " M docs/function-testing.md",
+        " M docs/function-tests/matrix.json",
+        "?? docs/review-worker-and-wing-diagnosis.md",
+        "?? docs/verification-wing-cpu-diagnosis.json",
+        "?? tools/mutation/stationary-executor-policy.json"
+      ],
+      "index_sha256": "882e9f42dec35a7b1c9567922e7f1f44aa92bac8989ee1a365e7c5e0d442392d",
+      "files": 940,
+      "source_sha256": "96238a5319a16a5b72efb59896d35d78cae66c14e822b7340eba5bf01d406119"
+    },
+    "source_unchanged": true,
+    "counts": {
+      "pass": 5,
+      "fail": 0,
+      "unsupported-guarded": 0
+    },
+    "seconds": 8.086919083,
+    "finished_utc": "2026-11-17T19:23:21.376863+00:00"
+  },
+  "limits": [
+    "CPU/headless only",
+    "Original grid/domain screen remains failed",
+    "No Rhino/export changes or release",
+    "PR118 remains draft; issues40 and120 remain open pending applicable completion criteria"
+  ]
+}

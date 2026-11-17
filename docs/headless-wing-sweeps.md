@@ -108,3 +108,7 @@ larger domain changed CL 0.075670 and CD 8.21%. These curves remain workflow
 demonstrations, with resolution/domain qualification open. See the
 [protocol](wing-cpu-sensitivity-protocol.md) and
 [review and raw evidence](review-cpu-sweep-validation.md).
+
+The [controlled follow-up](review-worker-and-wing-diagnosis.md) identifies strong
+vertical-boundary and coarse body-sampling sensitivity. Longer settling does not
+remove the domain gap. No physical qualification or tolerance relaxation follows.

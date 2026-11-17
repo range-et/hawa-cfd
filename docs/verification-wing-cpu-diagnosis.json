@@ -1,0 +1,2290 @@
+{
+  "schema": "hawa-wing-diagnosis-1",
+  "protocol_commit": "d66d531",
+  "source_commit": "453b316acfcc199ee0efa27d1f52f6fa8b3ad78b",
+  "source_sha256": {
+    "src/hawa/sweep_executor.py": "ced3a448bae487851e0312ee539701128f292737d9967a838b265b12c823ed38",
+    "src/hawa/measurements.py": "c467528fc84548c0cb294aa7fd32d3cdf6f5b327336921fad562573ecbba50af",
+    "src/hawa/stationary_loads.py": "df88e7130cfd2742285075cb62aeb0fd9227a32585de92683cdf324c3fc8f502",
+    "src/hawa/sweeps.py": "45549b20a09a37159e47b86d4470d34f3b62a48b9450410e21a720d9e4785f74",
+    "src/hawa/plugin.py": "50ae862f3c5996b96269a194207d9d964e3103215f0a2eb60c572fe5a3804e48",
+    "scripts/run_wing_sweep.py": "089fdaa4af74fadd9d25c275107ed15e44a544218bfe819ede92f0a9a9eb305a",
+    "scripts/wing_solver_recipe.py": "8581a6e99ec388fafb945c2a0e6f64186ab46dd6ab41d8628b9d9f69c74f88e9",
+    "scripts/wing_measurement_recipe.py": "de1b43e8ed698aad5c7272d0fc37ba18363c7e0c662141b5fecff56d9d7d60c5",
+    "docs/wing-cpu-diagnostic-protocol.md": "22268d6d253f2006fe8cbe691ba426d4bd98b93c8450779d2f8d07042affa741"
+  },
+  "source_unchanged": true,
+  "environment": {
+    "python": "3.9.25",
+    "torch": "2.8.0",
+    "platform": "macOS-27.2.1-arm64-arm-64bit",
+    "device": "cpu",
+    "dtype": "float32",
+    "omp_threads": 1,
+    "mkl_threads": 1
+  },
+  "elapsed_seconds": 618.79198425,
+  "claim": "Controlled sensitivity diagnosis, not qualification; original failed screen retained",
+  "execution_start_commit": "d66d531",
+  "source_note": "Production unchanged during eight runs; test-only commits integrated. CPU-allocation fix followed this study; separate replay parity attached.",
+  "cases": [
+    {
+      "variant": "base",
+      "shape": [
+        33,
+        41,
+        25
+      ],
+      "origin_world_m": [
+        -0.2,
+        -0.5,
+        -0.2
+      ],
+      "geometry": {
+        "mesh_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+        "mesh_volume_m3": 0.004639095738754597,
+        "mesh_centroid_m": [
+          0.11831218264825966,
+          -5.5847481033986296e-06,
+          0.00021613903991280007
+        ],
+        "voxel_proxy_volume_m3": 0.003890625000000001,
+        "voxel_centroid_m": [
+          0.11656626506024098,
+          2.853585284177109e-17,
+          0.0037148594377510035
+        ],
+        "solid_nodes": 249,
+        "world_nodes_sha256": "f8afa1c256537c58dfc2325b943b5811bdb7302cd44d9c9e86d5ba35faf92987",
+        "voxel_bounds_m": [
+          [
+            0.024999999999999994,
+            -0.3,
+            0.0
+          ],
+          [
+            0.25,
+            0.30000000000000004,
+            0.024999999999999994
+          ]
+        ]
+      },
+      "elapsed_seconds": 61.349180833,
+      "record": {
+        "candidate": {
+          "candidate_id": "wing-000",
+          "angle_deg": 3.0,
+          "speed_m_s": 1.0,
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+          "case_hash": "4c0416344fa23e40b56df19f6110704a51eba1e83cd0999aea1c3a29fde0a03c"
+        },
+        "generation": 1,
+        "state": "completed",
+        "reason": "",
+        "result": {
+          "identity": {
+            "case_id": "diagnosis-base",
+            "candidate_id": "wing-000",
+            "revision": 0,
+            "generation": 1,
+            "case_hash": "4c0416344fa23e40b56df19f6110704a51eba1e83cd0999aea1c3a29fde0a03c",
+            "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8"
+          },
+          "quality": "accepted",
+          "window_valid": true,
+          "stationarity_passed": true,
+          "coefficients": {
+            "CL": 0.14097572257039642,
+            "CD": 1.296745830398201
+          }
+        }
+      },
+      "cleanup": {
+        "handles": 0,
+        "live_workers": 0,
+        "session_ids": []
+      },
+      "timed_out": false,
+      "raw_sha256": "6dd1e562a7cec8a2065673821157ee640410a7ecd50d0441ff1ee5b4e465e436",
+      "session": "404625f5-a126-4020-b935-1a757d744593",
+      "provenance": {
+        "session": "404625f5-a126-4020-b935-1a757d744593",
+        "phase": "after-collision-before-obstacle-reflection-and-stream",
+        "identity": {
+          "case_id": "diagnosis-base",
+          "candidate_id": "wing-000",
+          "revision": 0,
+          "generation": 1,
+          "case_hash": "4c0416344fa23e40b56df19f6110704a51eba1e83cd0999aea1c3a29fde0a03c",
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8"
+        }
+      },
+      "quality_status": "within-tested-envelope",
+      "final_quality_status": "within-tested-envelope",
+      "windows": [
+        {
+          "source_start": 1200,
+          "source_end": 1280,
+          "time_start_s": 0.5196152422706632,
+          "time_end_s": 0.5542562584220407,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137749,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.09832444319064604,
+              "Y": -1.1104967736412959e-07,
+              "L": 0.01208038479396345,
+              "CD": 1.3109925758752805,
+              "CY": -1.4806623648550613e-06,
+              "CL": 0.161071797252846,
+              "Cm": -0.001076822059594875,
+              "load_cell_n": 0.09832444319064604
+            },
+            "force_mean_world_n": [
+              0.09832444319064604,
+              -1.1104967736412959e-07,
+              0.01208038479396345
+            ],
+            "force_std_world_n": [
+              0.00011959525390986021,
+              2.5375047625244794e-06,
+              0.00015088758653533497
+            ],
+            "torque_mean_world_nm": [
+              1.533041274801663e-08,
+              -2.0459619132302625e-05,
+              4.926332320042972e-08
+            ],
+            "torque_std_world_nm": [
+              1.881445410088674e-06,
+              8.373977937347344e-06,
+              5.935043503273598e-07
+            ],
+            "coefficient_std": {
+              "CD": 0.0015946033854648115,
+              "CY": 3.383339683365972e-05,
+              "CL": 0.0020118344871377994,
+              "Cm": 0.0004407356809130181
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 0.003088137758315207,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        },
+        {
+          "source_start": 2400,
+          "source_end": 2480,
+          "time_start_s": 1.0392304845413265,
+          "time_end_s": 1.073871500692704,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137749,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.09727560591197923,
+              "Y": 2.8169633429727405e-08,
+              "L": 0.010586865802023393,
+              "CD": 1.2970080788263898,
+              "CY": 3.755951123963654e-07,
+              "CL": 0.14115821069364526,
+              "Cm": 0.0009677208323086722,
+              "load_cell_n": 0.09727560591197923
+            },
+            "force_mean_world_n": [
+              0.09727560591197923,
+              2.8169633429727405e-08,
+              0.010586865802023393
+            ],
+            "force_std_world_n": [
+              5.125227109247888e-06,
+              2.979644176692845e-06,
+              1.3185023273850253e-05
+            ],
+            "torque_mean_world_nm": [
+              -4.367490870641106e-08,
+              1.838669581386477e-05,
+              2.002535165297113e-08
+            ],
+            "torque_std_world_nm": [
+              1.5554022929605746e-06,
+              8.183000276507665e-07,
+              6.162522211565241e-07
+            ],
+            "coefficient_std": {
+              "CD": 6.833636145663695e-05,
+              "CY": 3.9728589022571274e-05,
+              "CL": 0.00017580031031800327,
+              "Cm": 4.306842250793506e-05
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 7.92185127291567e-05,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        },
+        {
+          "source_start": 4800,
+          "source_end": 4880,
+          "time_start_s": 2.078460969082653,
+          "time_end_s": 2.1131019852340303,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137727,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.09725593727986506,
+              "Y": 2.9424810973705075e-07,
+              "L": 0.010573179192779732,
+              "CD": 1.296745830398201,
+              "CY": 3.923308129827343e-06,
+              "CL": 0.14097572257039642,
+              "Cm": 0.0009699041553975771,
+              "load_cell_n": 0.09725593727986506
+            },
+            "force_mean_world_n": [
+              0.09725593727986506,
+              2.9424810973705075e-07,
+              0.010573179192779732
+            ],
+            "force_std_world_n": [
+              3.6930881189512834e-06,
+              3.2950499291151816e-06,
+              1.1682442216277923e-05
+            ],
+            "torque_mean_world_nm": [
+              9.244238887154464e-08,
+              1.8428178952553965e-05,
+              -2.207579432327749e-08
+            ],
+            "torque_std_world_nm": [
+              2.315333711439317e-06,
+              7.580327462971302e-07,
+              5.80239868867362e-07
+            ],
+            "coefficient_std": {
+              "CD": 4.924117491935956e-05,
+              "CY": 4.3933999054869094e-05,
+              "CL": 0.0001557658962170386,
+              "Cm": 3.98964603314279e-05
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 1.3217082635907929e-05,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        }
+      ]
+    },
+    {
+      "variant": "all-faces",
+      "shape": [
+        49,
+        49,
+        33
+      ],
+      "origin_world_m": [
+        -0.4,
+        -0.6,
+        -0.3
+      ],
+      "geometry": {
+        "mesh_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+        "mesh_volume_m3": 0.004639095738754597,
+        "mesh_centroid_m": [
+          0.11831218264825966,
+          -5.5847481033986296e-06,
+          0.00021613903991280007
+        ],
+        "voxel_proxy_volume_m3": 0.003890625000000001,
+        "voxel_centroid_m": [
+          0.11656626506024095,
+          5.885519648615288e-17,
+          0.003714859437751054
+        ],
+        "solid_nodes": 249,
+        "world_nodes_sha256": "f8afa1c256537c58dfc2325b943b5811bdb7302cd44d9c9e86d5ba35faf92987",
+        "voxel_bounds_m": [
+          [
+            0.025000000000000022,
+            -0.29999999999999993,
+            5.551115123125783e-17
+          ],
+          [
+            0.25,
+            0.30000000000000004,
+            0.025000000000000022
+          ]
+        ]
+      },
+      "elapsed_seconds": 132.61383225,
+      "record": {
+        "candidate": {
+          "candidate_id": "wing-000",
+          "angle_deg": 3.0,
+          "speed_m_s": 1.0,
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+          "case_hash": "576122e22b900e80a8420c15a7c8df57a91ce7cdf2af08c62d2eb4ad488eeca4"
+        },
+        "generation": 1,
+        "state": "completed",
+        "reason": "",
+        "result": {
+          "identity": {
+            "case_id": "diagnosis-all-faces",
+            "candidate_id": "wing-000",
+            "revision": 0,
+            "generation": 1,
+            "case_hash": "576122e22b900e80a8420c15a7c8df57a91ce7cdf2af08c62d2eb4ad488eeca4",
+            "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8"
+          },
+          "quality": "accepted",
+          "window_valid": true,
+          "stationarity_passed": true,
+          "coefficients": {
+            "CL": 0.06852571217570612,
+            "CD": 1.1438164816573984
+          }
+        }
+      },
+      "cleanup": {
+        "handles": 0,
+        "live_workers": 0,
+        "session_ids": []
+      },
+      "timed_out": false,
+      "raw_sha256": "6bc58a0e9c35b33510dfa8e2208f4184f383d900ff5e19190c532189c0e24085",
+      "session": "c09568cd-aa72-403b-992f-c9d62d2d7f69",
+      "provenance": {
+        "session": "c09568cd-aa72-403b-992f-c9d62d2d7f69",
+        "phase": "after-collision-before-obstacle-reflection-and-stream",
+        "identity": {
+          "case_id": "diagnosis-all-faces",
+          "candidate_id": "wing-000",
+          "revision": 0,
+          "generation": 1,
+          "case_hash": "576122e22b900e80a8420c15a7c8df57a91ce7cdf2af08c62d2eb4ad488eeca4",
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8"
+        }
+      },
+      "quality_status": "within-tested-envelope",
+      "final_quality_status": "within-tested-envelope",
+      "windows": [
+        {
+          "source_start": 1200,
+          "source_end": 1280,
+          "time_start_s": 0.5196152422706632,
+          "time_end_s": 0.5542562584220407,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.0346410161513776,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.09025587209734161,
+              "Y": -6.245226894386509e-07,
+              "L": 0.006405099337238342,
+              "CD": 1.2034116279645548,
+              "CY": -8.326969192515346e-06,
+              "CL": 0.08540132449651124,
+              "Cm": -0.0023751903939744795,
+              "load_cell_n": 0.09025587209734161
+            },
+            "force_mean_world_n": [
+              0.09025587209734161,
+              -6.245226894386509e-07,
+              0.006405099337238342
+            ],
+            "force_std_world_n": [
+              0.00016850120749066307,
+              3.673279721530943e-06,
+              0.0004939240386768061
+            ],
+            "torque_mean_world_nm": [
+              3.965067541079559e-08,
+              -4.512861748551511e-05,
+              -1.6276586669621792e-08
+            ],
+            "torque_std_world_nm": [
+              1.9676860414835143e-06,
+              2.529871329396178e-05,
+              5.979264216180924e-07
+            ],
+            "coefficient_std": {
+              "CD": 0.002246682766542162,
+              "CY": 4.8977062953745904e-05,
+              "CL": 0.0065856538490240805,
+              "Cm": 0.0013315112259979886
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 0.0039687252737232726,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        },
+        {
+          "source_start": 2400,
+          "source_end": 2480,
+          "time_start_s": 1.0392304845413265,
+          "time_end_s": 1.073871500692704,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137771,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.08612705956102032,
+              "Y": 3.3908956703335157e-07,
+              "L": 0.005302078631005169,
+              "CD": 1.1483607941469376,
+              "CY": 4.521194227111355e-06,
+              "CL": 0.07069438174673559,
+              "Cm": 5.7475179842915975e-06,
+              "load_cell_n": 0.08612705956102032
+            },
+            "force_mean_world_n": [
+              0.08612705956102032,
+              3.3908956703335157e-07,
+              0.005302078631005169
+            ],
+            "force_std_world_n": [
+              1.7639902097990273e-05,
+              2.5789878323419202e-06,
+              0.00011032851838845474
+            ],
+            "torque_mean_world_nm": [
+              -4.7493139613712556e-08,
+              1.0920284170154036e-07,
+              -6.354935220529307e-09
+            ],
+            "torque_std_world_nm": [
+              1.935215677205943e-06,
+              5.852559696698232e-06,
+              6.032228092996303e-07
+            ],
+            "coefficient_std": {
+              "CD": 0.00023519869463988147,
+              "CY": 3.438650443122561e-05,
+              "CL": 0.0014710469118460639,
+              "Cm": 0.0003080294577209596
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 0.0003328027587317095,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        },
+        {
+          "source_start": 4800,
+          "source_end": 4880,
+          "time_start_s": 2.078460969082653,
+          "time_end_s": 2.1131019852340303,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137771,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.08578623612430487,
+              "Y": -2.8687034860069366e-07,
+              "L": 0.0051394284131779586,
+              "CD": 1.1438164816573984,
+              "CY": -3.8249379813425825e-06,
+              "CL": 0.06852571217570612,
+              "Cm": 0.0001291076680730826,
+              "load_cell_n": 0.08578623612430487
+            },
+            "force_mean_world_n": [
+              0.08578623612430487,
+              -2.8687034860069366e-07,
+              0.0051394284131779586
+            ],
+            "force_std_world_n": [
+              3.991037513914803e-06,
+              3.7097146236642344e-06,
+              1.18894365964597e-05
+            ],
+            "torque_mean_world_nm": [
+              4.4362381957980303e-08,
+              2.4530456933885693e-06,
+              -2.2485403843790656e-08
+            ],
+            "torque_std_world_nm": [
+              2.4768952971037524e-06,
+              7.777773993900477e-07,
+              6.381386483434961e-07
+            ],
+            "coefficient_std": {
+              "CD": 5.321383351887043e-05,
+              "CY": 4.946286164885646e-05,
+              "CL": 0.00015852582128612875,
+              "Cm": 4.0935652599476195e-05
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 4.1844840678914585e-05,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        }
+      ]
+    },
+    {
+      "variant": "inlet",
+      "shape": [
+        41,
+        41,
+        25
+      ],
+      "origin_world_m": [
+        -0.4,
+        -0.5,
+        -0.2
+      ],
+      "geometry": {
+        "mesh_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+        "mesh_volume_m3": 0.004639095738754597,
+        "mesh_centroid_m": [
+          0.11831218264825966,
+          -5.5847481033986296e-06,
+          0.00021613903991280007
+        ],
+        "voxel_proxy_volume_m3": 0.003890625000000001,
+        "voxel_centroid_m": [
+          0.11656626506024095,
+          2.853585284177109e-17,
+          0.0037148594377510035
+        ],
+        "solid_nodes": 249,
+        "world_nodes_sha256": "f8afa1c256537c58dfc2325b943b5811bdb7302cd44d9c9e86d5ba35faf92987",
+        "voxel_bounds_m": [
+          [
+            0.025000000000000022,
+            -0.3,
+            0.0
+          ],
+          [
+            0.25,
+            0.30000000000000004,
+            0.024999999999999994
+          ]
+        ]
+      },
+      "elapsed_seconds": 75.638919166,
+      "record": {
+        "candidate": {
+          "candidate_id": "wing-000",
+          "angle_deg": 3.0,
+          "speed_m_s": 1.0,
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+          "case_hash": "99fd03a30c34bbf49aa010caae255bf59005d9bfd706ab5cee0f9906b8eb8d85"
+        },
+        "generation": 1,
+        "state": "completed",
+        "reason": "",
+        "result": {
+          "identity": {
+            "case_id": "diagnosis-inlet",
+            "candidate_id": "wing-000",
+            "revision": 0,
+            "generation": 1,
+            "case_hash": "99fd03a30c34bbf49aa010caae255bf59005d9bfd706ab5cee0f9906b8eb8d85",
+            "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8"
+          },
+          "quality": "accepted",
+          "window_valid": true,
+          "stationarity_passed": true,
+          "coefficients": {
+            "CL": 0.14137213638330845,
+            "CD": 1.208854340967328
+          }
+        }
+      },
+      "cleanup": {
+        "handles": 0,
+        "live_workers": 0,
+        "session_ids": []
+      },
+      "timed_out": false,
+      "raw_sha256": "1289eb9cd12b03d997064e21190185162e30eb362c1ee18d4f4e540e3b682ba3",
+      "session": "241b88b4-5064-428f-87ed-5bd24d3cfa4f",
+      "provenance": {
+        "session": "241b88b4-5064-428f-87ed-5bd24d3cfa4f",
+        "phase": "after-collision-before-obstacle-reflection-and-stream",
+        "identity": {
+          "case_id": "diagnosis-inlet",
+          "candidate_id": "wing-000",
+          "revision": 0,
+          "generation": 1,
+          "case_hash": "99fd03a30c34bbf49aa010caae255bf59005d9bfd706ab5cee0f9906b8eb8d85",
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8"
+        }
+      },
+      "quality_status": "within-tested-envelope",
+      "final_quality_status": "within-tested-envelope",
+      "windows": [
+        {
+          "source_start": 1200,
+          "source_end": 1280,
+          "time_start_s": 0.5196152422706632,
+          "time_end_s": 0.5542562584220407,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.0346410161513776,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.09199544574697445,
+              "Y": -2.5132295403460926e-07,
+              "L": 0.012195436667206357,
+              "CD": 1.2266059432929928,
+              "CY": -3.350972720461457e-06,
+              "CL": 0.1626058222294181,
+              "Cm": -0.0015310492039333945,
+              "load_cell_n": 0.09199544574697445
+            },
+            "force_mean_world_n": [
+              0.09199544574697445,
+              -2.5132295403460926e-07,
+              0.012195436667206357
+            ],
+            "force_std_world_n": [
+              0.00013121087198864892,
+              2.947487087898425e-06,
+              0.00025116692084648564
+            ],
+            "torque_mean_world_nm": [
+              -5.0295730709945736e-08,
+              -2.9089934874734496e-05,
+              -1.2003234128023243e-08
+            ],
+            "torque_std_world_nm": [
+              2.269378548200888e-06,
+              1.5567784474218836e-05,
+              6.377333847178628e-07
+            ],
+            "coefficient_std": {
+              "CD": 0.0017494782931819948,
+              "CY": 3.9299827838645674e-05,
+              "CL": 0.003348892277953142,
+              "Cm": 0.000819357077590465
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 0.0030078355419804748,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        },
+        {
+          "source_start": 2400,
+          "source_end": 2480,
+          "time_start_s": 1.0392304845413265,
+          "time_end_s": 1.073871500692704,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137749,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.09072682419753493,
+              "Y": -1.9977444115980186e-07,
+              "L": 0.010710632344209608,
+              "CD": 1.2096909893004657,
+              "CY": -2.663659215464025e-06,
+              "CL": 0.1428084312561281,
+              "Cm": 0.0012434959207495925,
+              "load_cell_n": 0.09072682419753493
+            },
+            "force_mean_world_n": [
+              0.09072682419753493,
+              -1.9977444115980186e-07,
+              0.010710632344209608
+            ],
+            "force_std_world_n": [
+              5.381830265959202e-06,
+              2.165132412383983e-06,
+              2.3180972696146632e-05
+            ],
+            "torque_mean_world_nm": [
+              1.8247981924176103e-07,
+              2.3626422494242256e-05,
+              -7.892767175072294e-09
+            ],
+            "torque_std_world_nm": [
+              2.226711824178637e-06,
+              1.474956385496138e-06,
+              6.828032051696774e-07
+            ],
+            "coefficient_std": {
+              "CD": 7.175773687944705e-05,
+              "CY": 2.886843216511978e-05,
+              "CL": 0.00030907963594862164,
+              "Cm": 7.762928344716515e-05
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 0.00022083368192760133,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        },
+        {
+          "source_start": 4800,
+          "source_end": 4880,
+          "time_start_s": 2.078460969082653,
+          "time_end_s": 2.1131019852340303,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137771,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.0906640755725496,
+              "Y": 3.8642221640166925e-07,
+              "L": 0.010602910228748133,
+              "CD": 1.208854340967328,
+              "CY": 5.1522962186889235e-06,
+              "CL": 0.14137213638330845,
+              "Cm": 0.0012806130436830503,
+              "load_cell_n": 0.0906640755725496
+            },
+            "force_mean_world_n": [
+              0.0906640755725496,
+              3.8642221640166925e-07,
+              0.010602910228748133
+            ],
+            "force_std_world_n": [
+              3.766379381123605e-06,
+              2.6708840382663707e-06,
+              1.0691427329652617e-05
+            ],
+            "torque_mean_world_nm": [
+              1.0925793536310086e-07,
+              2.4331647829977957e-05,
+              3.024402987959437e-08
+            ],
+            "torque_std_world_nm": [
+              2.1027731342632203e-06,
+              8.253886353876072e-07,
+              5.215607591915254e-07
+            ],
+            "coefficient_std": {
+              "CD": 5.021839174831679e-05,
+              "CY": 3.561178717688494e-05,
+              "CL": 0.00014255236439536848,
+              "Cm": 4.344150712566353e-05
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 3.0940416241242996e-05,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        }
+      ]
+    },
+    {
+      "variant": "outlet",
+      "shape": [
+        41,
+        41,
+        25
+      ],
+      "origin_world_m": [
+        -0.2,
+        -0.5,
+        -0.2
+      ],
+      "geometry": {
+        "mesh_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+        "mesh_volume_m3": 0.004639095738754597,
+        "mesh_centroid_m": [
+          0.11831218264825966,
+          -5.5847481033986296e-06,
+          0.00021613903991280007
+        ],
+        "voxel_proxy_volume_m3": 0.003890625000000001,
+        "voxel_centroid_m": [
+          0.11656626506024098,
+          2.853585284177109e-17,
+          0.0037148594377510035
+        ],
+        "solid_nodes": 249,
+        "world_nodes_sha256": "f8afa1c256537c58dfc2325b943b5811bdb7302cd44d9c9e86d5ba35faf92987",
+        "voxel_bounds_m": [
+          [
+            0.024999999999999994,
+            -0.3,
+            0.0
+          ],
+          [
+            0.25,
+            0.30000000000000004,
+            0.024999999999999994
+          ]
+        ]
+      },
+      "elapsed_seconds": 74.20678495800001,
+      "record": {
+        "candidate": {
+          "candidate_id": "wing-000",
+          "angle_deg": 3.0,
+          "speed_m_s": 1.0,
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+          "case_hash": "05da09f97286cf7f4630135d0a53f1f292ba1a9c0ed80f62efd5d4b176f45e2a"
+        },
+        "generation": 1,
+        "state": "completed",
+        "reason": "",
+        "result": {
+          "identity": {
+            "case_id": "diagnosis-outlet",
+            "candidate_id": "wing-000",
+            "revision": 0,
+            "generation": 1,
+            "case_hash": "05da09f97286cf7f4630135d0a53f1f292ba1a9c0ed80f62efd5d4b176f45e2a",
+            "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8"
+          },
+          "quality": "accepted",
+          "window_valid": true,
+          "stationarity_passed": true,
+          "coefficients": {
+            "CL": 0.14346253653203833,
+            "CD": 1.3344168755007386
+          }
+        }
+      },
+      "cleanup": {
+        "handles": 0,
+        "live_workers": 0,
+        "session_ids": []
+      },
+      "timed_out": false,
+      "raw_sha256": "dfb8361df5f21371a46fb8f7bf87147b36b3d8cf2d88b2d8538546a4ea9c2ea9",
+      "session": "32a593ae-54db-4d39-ab38-e12a0149e2aa",
+      "provenance": {
+        "session": "32a593ae-54db-4d39-ab38-e12a0149e2aa",
+        "phase": "after-collision-before-obstacle-reflection-and-stream",
+        "identity": {
+          "case_id": "diagnosis-outlet",
+          "candidate_id": "wing-000",
+          "revision": 0,
+          "generation": 1,
+          "case_hash": "05da09f97286cf7f4630135d0a53f1f292ba1a9c0ed80f62efd5d4b176f45e2a",
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8"
+        }
+      },
+      "quality_status": "within-tested-envelope",
+      "final_quality_status": "within-tested-envelope",
+      "windows": [
+        {
+          "source_start": 1200,
+          "source_end": 1280,
+          "time_start_s": 0.5196152422706632,
+          "time_end_s": 0.5542562584220407,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.0346410161513776,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.10373492067902054,
+              "Y": 5.030291683879897e-08,
+              "L": 0.012248732655504607,
+              "CD": 1.383132275720274,
+              "CY": 6.70705557850653e-07,
+              "CL": 0.1633164354067281,
+              "Cm": -0.0013441364243574673,
+              "load_cell_n": 0.10373492067902054
+            },
+            "force_mean_world_n": [
+              0.10373492067902054,
+              5.030291683879897e-08,
+              0.012248732655504607
+            ],
+            "force_std_world_n": [
+              0.00018554823994135325,
+              2.788195852984679e-06,
+              0.00011782686691447203
+            ],
+            "torque_mean_world_nm": [
+              -5.945325713356705e-09,
+              -2.553859206279188e-05,
+              3.6127075753324055e-08
+            ],
+            "torque_std_world_nm": [
+              1.8064083986653966e-06,
+              9.861932370234805e-06,
+              6.672234159205058e-07
+            ],
+            "coefficient_std": {
+              "CD": 0.0024739765325513725,
+              "CY": 3.7175944706462386e-05,
+              "CL": 0.0015710248921929606,
+              "Cm": 0.0005190490721176213
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 0.00414243813472881,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        },
+        {
+          "source_start": 2400,
+          "source_end": 2480,
+          "time_start_s": 1.0392304845413265,
+          "time_end_s": 1.073871500692704,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137749,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.10023943729192752,
+              "Y": -3.209805169713861e-08,
+              "L": 0.01082791613391888,
+              "CD": 1.3365258305590337,
+              "CY": -4.279740226285148e-07,
+              "CL": 0.1443722151189184,
+              "Cm": 0.0009725032655074868,
+              "load_cell_n": 0.10023943729192752
+            },
+            "force_mean_world_n": [
+              0.10023943729192752,
+              -3.209805169713861e-08,
+              0.01082791613391888
+            ],
+            "force_std_world_n": [
+              1.2537135323302076e-05,
+              2.9041318086683925e-06,
+              1.21656356888247e-05
+            ],
+            "torque_mean_world_nm": [
+              -1.740959999651223e-08,
+              1.8477562044642248e-05,
+              -9.203038446341161e-09
+            ],
+            "torque_std_world_nm": [
+              2.1485853346873283e-06,
+              8.560055687148498e-07,
+              7.143752517726299e-07
+            ],
+            "coefficient_std": {
+              "CD": 0.00016716180431068772,
+              "CY": 3.872175744891191e-05,
+              "CL": 0.00016220847585099704,
+              "Cm": 4.505292466920262e-05
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 0.0002650831773030049,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        },
+        {
+          "source_start": 4800,
+          "source_end": 4880,
+          "time_start_s": 2.078460969082653,
+          "time_end_s": 2.1131019852340303,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137771,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.10008126566255539,
+              "Y": -2.0312796894905508e-07,
+              "L": 0.010759690239902874,
+              "CD": 1.3344168755007386,
+              "CY": -2.7083729193207344e-06,
+              "CL": 0.14346253653203833,
+              "Cm": 0.0009999241545157467,
+              "load_cell_n": 0.10008126566255539
+            },
+            "force_mean_world_n": [
+              0.10008126566255539,
+              -2.0312796894905508e-07,
+              0.010759690239902874
+            ],
+            "force_std_world_n": [
+              3.677033878312274e-06,
+              2.8615505492362992e-06,
+              1.138768989408193e-05
+            ],
+            "torque_mean_world_nm": [
+              7.636222314637387e-08,
+              1.8998558935799184e-05,
+              -4.122922877160246e-08
+            ],
+            "torque_std_world_nm": [
+              2.034721655247062e-06,
+              6.656070623126037e-07,
+              6.079553530025953e-07
+            ],
+            "coefficient_std": {
+              "CD": 4.9027118377495886e-05,
+              "CY": 3.815400732315066e-05,
+              "CL": 0.00015183586525442658,
+              "Cm": 3.5031950648031775e-05
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 3.129805420559739e-05,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        }
+      ]
+    },
+    {
+      "variant": "lateral",
+      "shape": [
+        33,
+        49,
+        25
+      ],
+      "origin_world_m": [
+        -0.2,
+        -0.6,
+        -0.2
+      ],
+      "geometry": {
+        "mesh_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+        "mesh_volume_m3": 0.004639095738754597,
+        "mesh_centroid_m": [
+          0.11831218264825966,
+          -5.5847481033986296e-06,
+          0.00021613903991280007
+        ],
+        "voxel_proxy_volume_m3": 0.003890625000000001,
+        "voxel_centroid_m": [
+          0.11656626506024098,
+          5.885519648615288e-17,
+          0.0037148594377510035
+        ],
+        "solid_nodes": 249,
+        "world_nodes_sha256": "f8afa1c256537c58dfc2325b943b5811bdb7302cd44d9c9e86d5ba35faf92987",
+        "voxel_bounds_m": [
+          [
+            0.024999999999999994,
+            -0.29999999999999993,
+            0.0
+          ],
+          [
+            0.25,
+            0.30000000000000004,
+            0.024999999999999994
+          ]
+        ]
+      },
+      "elapsed_seconds": 71.121179542,
+      "record": {
+        "candidate": {
+          "candidate_id": "wing-000",
+          "angle_deg": 3.0,
+          "speed_m_s": 1.0,
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+          "case_hash": "57c315f832def3117fb1c61cc84eed1b7242fc830975536dd969b5f2b0aef234"
+        },
+        "generation": 1,
+        "state": "completed",
+        "reason": "",
+        "result": {
+          "identity": {
+            "case_id": "diagnosis-lateral",
+            "candidate_id": "wing-000",
+            "revision": 0,
+            "generation": 1,
+            "case_hash": "57c315f832def3117fb1c61cc84eed1b7242fc830975536dd969b5f2b0aef234",
+            "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8"
+          },
+          "quality": "accepted",
+          "window_valid": true,
+          "stationarity_passed": true,
+          "coefficients": {
+            "CL": 0.13526553474622172,
+            "CD": 1.295415546607088
+          }
+        }
+      },
+      "cleanup": {
+        "handles": 0,
+        "live_workers": 0,
+        "session_ids": []
+      },
+      "timed_out": false,
+      "raw_sha256": "71bd09dc26b3246c43b69b4568f421a5d03d6a08dcdae73f92c5ec2431d6eaf3",
+      "session": "435e42c2-221f-40cd-a3a0-9c1b33b1e3b0",
+      "provenance": {
+        "session": "435e42c2-221f-40cd-a3a0-9c1b33b1e3b0",
+        "phase": "after-collision-before-obstacle-reflection-and-stream",
+        "identity": {
+          "case_id": "diagnosis-lateral",
+          "candidate_id": "wing-000",
+          "revision": 0,
+          "generation": 1,
+          "case_hash": "57c315f832def3117fb1c61cc84eed1b7242fc830975536dd969b5f2b0aef234",
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8"
+        }
+      },
+      "quality_status": "within-tested-envelope",
+      "final_quality_status": "within-tested-envelope",
+      "windows": [
+        {
+          "source_start": 1200,
+          "source_end": 1280,
+          "time_start_s": 0.5196152422706632,
+          "time_end_s": 0.5542562584220407,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137749,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.09799873736138943,
+              "Y": 2.650245104307009e-07,
+              "L": 0.011551374025305606,
+              "CD": 1.3066498314851924,
+              "CY": 3.533660139076012e-06,
+              "CL": 0.1540183203374081,
+              "Cm": -0.001029674232468427,
+              "load_cell_n": 0.09799873736138943
+            },
+            "force_mean_world_n": [
+              0.09799873736138943,
+              2.650245104307009e-07,
+              0.011551374025305606
+            ],
+            "force_std_world_n": [
+              9.934326782700501e-05,
+              2.7975558533649284e-06,
+              0.00014405886862825672
+            ],
+            "torque_mean_world_nm": [
+              -2.479311002098735e-07,
+              -1.9563810416900114e-05,
+              1.9630114386416458e-08
+            ],
+            "torque_std_world_nm": [
+              2.453074846266855e-06,
+              7.224880578007192e-06,
+              5.186179754817998e-07
+            ],
+            "coefficient_std": {
+              "CD": 0.0013245769043600606,
+              "CY": 3.7300744711532376e-05,
+              "CL": 0.0019207849150434243,
+              "Cm": 0.00038025687252669433
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 0.0022514997085496535,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        },
+        {
+          "source_start": 2400,
+          "source_end": 2480,
+          "time_start_s": 1.0392304845413265,
+          "time_end_s": 1.073871500692704,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137749,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.09719111540818534,
+              "Y": 8.920383919413682e-08,
+              "L": 0.010163904792426057,
+              "CD": 1.2958815387758047,
+              "CY": 1.189384522588491e-06,
+              "CL": 0.13551873056568076,
+              "Cm": 0.0009941098181236432,
+              "load_cell_n": 0.09719111540818534
+            },
+            "force_mean_world_n": [
+              0.09719111540818534,
+              8.920383919413682e-08,
+              0.010163904792426057
+            ],
+            "force_std_world_n": [
+              4.7122296807819965e-06,
+              2.7330968738293136e-06,
+              1.634025146496042e-05
+            ],
+            "torque_mean_world_nm": [
+              1.4650365223152016e-07,
+              1.888808654434922e-05,
+              -4.52774159168278e-08
+            ],
+            "torque_std_world_nm": [
+              2.0141172582531316e-06,
+              1.0870578018918165e-06,
+              5.664571753142307e-07
+            ],
+            "coefficient_std": {
+              "CD": 6.282972907710539e-05,
+              "CY": 3.644129165105752e-05,
+              "CL": 0.0002178700195328054,
+              "Cm": 5.721356852062193e-05
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 9.13802226424898e-05,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        },
+        {
+          "source_start": 4800,
+          "source_end": 4880,
+          "time_start_s": 2.078460969082653,
+          "time_end_s": 2.1131019852340303,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137727,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.0971561659955316,
+              "Y": -1.675805743829704e-07,
+              "L": 0.010144915105966629,
+              "CD": 1.295415546607088,
+              "CY": -2.2344076584396052e-06,
+              "CL": 0.13526553474622172,
+              "Cm": 0.0010000518659333173,
+              "load_cell_n": 0.0971561659955316
+            },
+            "force_mean_world_n": [
+              0.0971561659955316,
+              -1.675805743829704e-07,
+              0.010144915105966629
+            ],
+            "force_std_world_n": [
+              4.436406260321089e-06,
+              3.3338848539062778e-06,
+              1.3384578671827025e-05
+            ],
+            "torque_mean_world_nm": [
+              -1.394420808714726e-07,
+              1.9000985452733027e-05,
+              -8.551495866879092e-09
+            ],
+            "torque_std_world_nm": [
+              2.124395014398357e-06,
+              8.981451706297027e-07,
+              5.460966268881508e-07
+            ],
+            "coefficient_std": {
+              "CD": 5.915208347094112e-05,
+              "CY": 4.4451798052083705e-05,
+              "CL": 0.00017846104895769335,
+              "Cm": 4.72707984541949e-05
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 8.725703802459073e-05,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        }
+      ]
+    },
+    {
+      "variant": "vertical",
+      "shape": [
+        33,
+        41,
+        33
+      ],
+      "origin_world_m": [
+        -0.2,
+        -0.5,
+        -0.3
+      ],
+      "geometry": {
+        "mesh_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+        "mesh_volume_m3": 0.004639095738754597,
+        "mesh_centroid_m": [
+          0.11831218264825966,
+          -5.5847481033986296e-06,
+          0.00021613903991280007
+        ],
+        "voxel_proxy_volume_m3": 0.003890625000000001,
+        "voxel_centroid_m": [
+          0.11656626506024098,
+          2.853585284177109e-17,
+          0.003714859437751054
+        ],
+        "solid_nodes": 249,
+        "world_nodes_sha256": "f8afa1c256537c58dfc2325b943b5811bdb7302cd44d9c9e86d5ba35faf92987",
+        "voxel_bounds_m": [
+          [
+            0.024999999999999994,
+            -0.3,
+            5.551115123125783e-17
+          ],
+          [
+            0.25,
+            0.30000000000000004,
+            0.025000000000000022
+          ]
+        ]
+      },
+      "elapsed_seconds": 79.04623545800001,
+      "record": {
+        "candidate": {
+          "candidate_id": "wing-000",
+          "angle_deg": 3.0,
+          "speed_m_s": 1.0,
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+          "case_hash": "1a9bc4028c1a87984ccd9b3fd46219d13314b6ac887ec6917a81f1bc2a34bcef"
+        },
+        "generation": 1,
+        "state": "completed",
+        "reason": "",
+        "result": {
+          "identity": {
+            "case_id": "diagnosis-vertical",
+            "candidate_id": "wing-000",
+            "revision": 0,
+            "generation": 1,
+            "case_hash": "1a9bc4028c1a87984ccd9b3fd46219d13314b6ac887ec6917a81f1bc2a34bcef",
+            "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8"
+          },
+          "quality": "accepted",
+          "window_valid": true,
+          "stationarity_passed": true,
+          "coefficients": {
+            "CL": 0.06871697568272041,
+            "CD": 1.2384387517580446
+          }
+        }
+      },
+      "cleanup": {
+        "handles": 0,
+        "live_workers": 0,
+        "session_ids": []
+      },
+      "timed_out": false,
+      "raw_sha256": "f4e88d2e951ca2156dc7a244961853dbec2569d2f1375d6953de61f891bc9015",
+      "session": "87cfdf49-8eb7-4627-acc2-d544864446c2",
+      "provenance": {
+        "session": "87cfdf49-8eb7-4627-acc2-d544864446c2",
+        "phase": "after-collision-before-obstacle-reflection-and-stream",
+        "identity": {
+          "case_id": "diagnosis-vertical",
+          "candidate_id": "wing-000",
+          "revision": 0,
+          "generation": 1,
+          "case_hash": "1a9bc4028c1a87984ccd9b3fd46219d13314b6ac887ec6917a81f1bc2a34bcef",
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8"
+        }
+      },
+      "quality_status": "within-tested-envelope",
+      "final_quality_status": "within-tested-envelope",
+      "windows": [
+        {
+          "source_start": 1200,
+          "source_end": 1280,
+          "time_start_s": 0.5196152422706632,
+          "time_end_s": 0.5542562584220407,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137749,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.09436865371686437,
+              "Y": 2.450949738545673e-07,
+              "L": 0.006252342313834668,
+              "CD": 1.2582487162248583,
+              "CY": 3.2679329847275643e-06,
+              "CL": 0.08336456418446224,
+              "Cm": -0.0024958432637678016,
+              "load_cell_n": 0.09436865371686437
+            },
+            "force_mean_world_n": [
+              0.09436865371686437,
+              2.450949738545673e-07,
+              0.006252342313834668
+            ],
+            "force_std_world_n": [
+              0.00011242048367027783,
+              3.0144863608348503e-06,
+              0.00026862304496768626
+            ],
+            "torque_mean_world_nm": [
+              1.9910852639013934e-07,
+              -4.742102201158823e-05,
+              3.889134085864788e-08
+            ],
+            "torque_std_world_nm": [
+              2.5395128418674336e-06,
+              1.4438407232507793e-05,
+              5.052194246192748e-07
+            ],
+            "coefficient_std": {
+              "CD": 0.0014989397822703736,
+              "CY": 4.0193151477797997e-05,
+              "CL": 0.0035816405995691496,
+              "Cm": 0.0007599161701319889
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 0.002445845592131235,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        },
+        {
+          "source_start": 2400,
+          "source_end": 2480,
+          "time_start_s": 1.0392304845413265,
+          "time_end_s": 1.073871500692704,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137749,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.09293630211364955,
+              "Y": -1.6355634103586648e-07,
+              "L": 0.005139719595205146,
+              "CD": 1.2391506948486606,
+              "CY": -2.180751213811553e-06,
+              "CL": 0.06852959460273528,
+              "Cm": -0.0010862747214907536,
+              "load_cell_n": 0.09293630211364955
+            },
+            "force_mean_world_n": [
+              0.09293630211364955,
+              -1.6355634103586648e-07,
+              0.005139719595205146
+            ],
+            "force_std_world_n": [
+              5.984177098730713e-06,
+              2.754686004035361e-06,
+              1.6530592425221834e-05
+            ],
+            "torque_mean_world_nm": [
+              -1.4441009274338825e-07,
+              -2.063921970832432e-05,
+              -1.8808500140585118e-08
+            ],
+            "torque_std_world_nm": [
+              2.189365855533992e-06,
+              1.0307482059372737e-06,
+              4.299002701122136e-07
+            ],
+            "coefficient_std": {
+              "CD": 7.978902798307273e-05,
+              "CY": 3.672914672047148e-05,
+              "CL": 0.00022040789900295776,
+              "Cm": 5.4249905575645994e-05
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 9.438417963036905e-05,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        },
+        {
+          "source_start": 4800,
+          "source_end": 4880,
+          "time_start_s": 2.078460969082653,
+          "time_end_s": 2.1131019852340303,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137727,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.09288290638185334,
+              "Y": 2.9185273274472743e-07,
+              "L": 0.00515377317620403,
+              "CD": 1.2384387517580446,
+              "CY": 3.8913697699297e-06,
+              "CL": 0.06871697568272041,
+              "Cm": -0.0010874988852089932,
+              "load_cell_n": 0.09288290638185334
+            },
+            "force_mean_world_n": [
+              0.09288290638185334,
+              2.9185273274472743e-07,
+              0.00515377317620403
+            ],
+            "force_std_world_n": [
+              5.35540339280717e-06,
+              3.31984348722363e-06,
+              1.0732824929885396e-05
+            ],
+            "torque_mean_world_nm": [
+              7.324344229832612e-08,
+              -2.066247881897087e-05,
+              -2.116076034069353e-08
+            ],
+            "torque_std_world_nm": [
+              2.591414577745204e-06,
+              8.149605143895983e-07,
+              7.7179252661453e-07
+            ],
+            "coefficient_std": {
+              "CD": 7.140537857075658e-05,
+              "CY": 4.42645798296484e-05,
+              "CL": 0.00014310433239847172,
+              "Cm": 4.289265865208412e-05
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 6.426113145301116e-05,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        }
+      ]
+    },
+    {
+      "variant": "phase-plus",
+      "shape": [
+        33,
+        41,
+        25
+      ],
+      "origin_world_m": [
+        -0.2,
+        -0.5,
+        -0.1875
+      ],
+      "geometry": {
+        "mesh_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+        "mesh_volume_m3": 0.004639095738754597,
+        "mesh_centroid_m": [
+          0.11831218264825966,
+          -5.5847481033986296e-06,
+          0.00021613903991280007
+        ],
+        "voxel_proxy_volume_m3": 0.0055625000000000015,
+        "voxel_centroid_m": [
+          0.11973314606741572,
+          0.0002106741573034009,
+          -0.0018258426966291988
+        ],
+        "solid_nodes": 356,
+        "world_nodes_sha256": "7a7cbdf18db82b904f56a5b7d648db5f8c2d357bb5b4803a6e0927b03f1aa537",
+        "voxel_bounds_m": [
+          [
+            0.024999999999999994,
+            -0.3,
+            -0.012499999999999983
+          ],
+          [
+            0.275,
+            0.30000000000000004,
+            0.012500000000000011
+          ]
+        ]
+      },
+      "elapsed_seconds": 61.11555620799993,
+      "record": {
+        "candidate": {
+          "candidate_id": "wing-000",
+          "angle_deg": 3.0,
+          "speed_m_s": 1.0,
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+          "case_hash": "e79c9001d247f503f803e28cee0b8da60ed3e64b62ef2bb2856410cdd14e41e3"
+        },
+        "generation": 1,
+        "state": "completed",
+        "reason": "",
+        "result": {
+          "identity": {
+            "case_id": "diagnosis-phase-plus",
+            "candidate_id": "wing-000",
+            "revision": 0,
+            "generation": 1,
+            "case_hash": "e79c9001d247f503f803e28cee0b8da60ed3e64b62ef2bb2856410cdd14e41e3",
+            "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8"
+          },
+          "quality": "accepted",
+          "window_valid": true,
+          "stationarity_passed": true,
+          "coefficients": {
+            "CL": 0.31906509432118946,
+            "CD": 1.4695506709000539
+          }
+        }
+      },
+      "cleanup": {
+        "handles": 0,
+        "live_workers": 0,
+        "session_ids": []
+      },
+      "timed_out": false,
+      "raw_sha256": "5e543e10d2d77fd3bd9c1957a4e6f901f45e620c30de8d7e2cc8208355e70631",
+      "session": "a212e4c1-4969-4c68-aae6-63523708de8a",
+      "provenance": {
+        "session": "a212e4c1-4969-4c68-aae6-63523708de8a",
+        "phase": "after-collision-before-obstacle-reflection-and-stream",
+        "identity": {
+          "case_id": "diagnosis-phase-plus",
+          "candidate_id": "wing-000",
+          "revision": 0,
+          "generation": 1,
+          "case_hash": "e79c9001d247f503f803e28cee0b8da60ed3e64b62ef2bb2856410cdd14e41e3",
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8"
+        }
+      },
+      "quality_status": "within-tested-envelope",
+      "final_quality_status": "within-tested-envelope",
+      "windows": [
+        {
+          "source_start": 1200,
+          "source_end": 1280,
+          "time_start_s": 0.5196152422706632,
+          "time_end_s": 0.5542562584220407,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137749,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.11102439320182483,
+              "Y": 1.1582893353921395e-05,
+              "L": 0.02632080433591281,
+              "CD": 1.4803252426909979,
+              "CY": 0.00015443857805228528,
+              "CL": 0.3509440578121708,
+              "Cm": -0.010807352546105233,
+              "load_cell_n": 0.11102439320182483
+            },
+            "force_mean_world_n": [
+              0.11102439320182483,
+              1.1582893353921395e-05,
+              0.02632080433591281
+            ],
+            "force_std_world_n": [
+              8.959395173866107e-05,
+              2.9392930181230585e-06,
+              0.00019658618094298868
+            ],
+            "torque_mean_world_nm": [
+              -1.1987910881920176e-05,
+              -0.0002053396983759994,
+              -7.0067196356477155e-06
+            ],
+            "torque_std_world_nm": [
+              2.186378566928766e-06,
+              1.61327806565317e-05,
+              6.479390150400814e-07
+            ],
+            "coefficient_std": {
+              "CD": 0.001194586023182143,
+              "CY": 3.9190573574974106e-05,
+              "CL": 0.002621149079239848,
+              "Cm": 0.0008490937187648265
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 0.003109795488114242,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        },
+        {
+          "source_start": 2400,
+          "source_end": 2480,
+          "time_start_s": 1.0392304845413265,
+          "time_end_s": 1.073871500692704,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137749,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.11023748033668529,
+              "Y": 9.473428559401398e-06,
+              "L": 0.023948551450737224,
+              "CD": 1.4698330711558039,
+              "CY": 0.00012631238079201866,
+              "CL": 0.319314019343163,
+              "Cm": -0.008176679878095085,
+              "load_cell_n": 0.11023748033668529
+            },
+            "force_mean_world_n": [
+              0.11023748033668529,
+              9.473428559401398e-06,
+              0.023948551450737224
+            ],
+            "force_std_world_n": [
+              5.81199945048082e-06,
+              2.506705750046336e-06,
+              1.2139904973410127e-05
+            ],
+            "torque_mean_world_nm": [
+              -1.2125573197707536e-05,
+              -0.00015535691768380663,
+              -7.09665166941625e-06
+            ],
+            "torque_std_world_nm": [
+              1.7417476647058856e-06,
+              8.940611444844795e-07,
+              7.705530425882803e-07
+            ],
+            "coefficient_std": {
+              "CD": 7.749332600640638e-05,
+              "CY": 3.342274333395115e-05,
+              "CL": 0.00016186539964546545,
+              "Cm": 4.7055849709709416e-05
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 7.49378992612737e-05,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        },
+        {
+          "source_start": 4800,
+          "source_end": 4880,
+          "time_start_s": 2.078460969082653,
+          "time_end_s": 2.1131019852340303,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137727,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.11021630031750404,
+              "Y": 1.0396223591924206e-05,
+              "L": 0.02392988207408921,
+              "CD": 1.4695506709000539,
+              "CY": 0.0001386163145589894,
+              "CL": 0.31906509432118946,
+              "Cm": -0.008219919143365789,
+              "load_cell_n": 0.11021630031750404
+            },
+            "force_mean_world_n": [
+              0.11021630031750404,
+              1.0396223591924206e-05,
+              0.02392988207408921
+            ],
+            "force_std_world_n": [
+              4.462890094880017e-06,
+              3.7702597724468487e-06,
+              1.1205353948633591e-05
+            ],
+            "torque_mean_world_nm": [
+              -1.22025833703169e-05,
+              -0.00015617846372394998,
+              -6.978260161532456e-06
+            ],
+            "torque_std_world_nm": [
+              1.944727258988614e-06,
+              8.717218844421009e-07,
+              7.896324812543767e-07
+            ],
+            "coefficient_std": {
+              "CD": 5.9505201265068285e-05,
+              "CY": 5.027013029929133e-05,
+              "CL": 0.00014940471931511264,
+              "Cm": 4.588009918116329e-05
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 2.1702339897956992e-05,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        }
+      ]
+    },
+    {
+      "variant": "phase-minus",
+      "shape": [
+        33,
+        41,
+        25
+      ],
+      "origin_world_m": [
+        -0.2,
+        -0.5,
+        -0.2125
+      ],
+      "geometry": {
+        "mesh_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+        "mesh_volume_m3": 0.004639095738754597,
+        "mesh_centroid_m": [
+          0.11831218264825966,
+          -5.5847481033986296e-06,
+          0.00021613903991280007
+        ],
+        "voxel_proxy_volume_m3": 0.0055625000000000015,
+        "voxel_centroid_m": [
+          0.11973314606741572,
+          0.0002106741573034009,
+          -0.0018258426966291988
+        ],
+        "solid_nodes": 356,
+        "world_nodes_sha256": "7a7cbdf18db82b904f56a5b7d648db5f8c2d357bb5b4803a6e0927b03f1aa537",
+        "voxel_bounds_m": [
+          [
+            0.024999999999999994,
+            -0.3,
+            -0.012499999999999983
+          ],
+          [
+            0.275,
+            0.30000000000000004,
+            0.012500000000000011
+          ]
+        ]
+      },
+      "elapsed_seconds": 61.56243570799995,
+      "record": {
+        "candidate": {
+          "candidate_id": "wing-000",
+          "angle_deg": 3.0,
+          "speed_m_s": 1.0,
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8",
+          "case_hash": "e489cdac04111ab686f3780468befc994df7835be1dce93fea4beeae0abaa742"
+        },
+        "generation": 1,
+        "state": "completed",
+        "reason": "",
+        "result": {
+          "identity": {
+            "case_id": "diagnosis-phase-minus",
+            "candidate_id": "wing-000",
+            "revision": 0,
+            "generation": 1,
+            "case_hash": "e489cdac04111ab686f3780468befc994df7835be1dce93fea4beeae0abaa742",
+            "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8"
+          },
+          "quality": "accepted",
+          "window_valid": true,
+          "stationarity_passed": true,
+          "coefficients": {
+            "CL": 0.2672482276813157,
+            "CD": 1.4197376757267408
+          }
+        }
+      },
+      "cleanup": {
+        "handles": 0,
+        "live_workers": 0,
+        "session_ids": []
+      },
+      "timed_out": false,
+      "raw_sha256": "a2657c001501d45edc48113a6e6c6306f9aa0bd2b0e47c441a7b7e2cb3ad7c9c",
+      "session": "8c2771a4-0c00-44bd-aa7a-380d495c3673",
+      "provenance": {
+        "session": "8c2771a4-0c00-44bd-aa7a-380d495c3673",
+        "phase": "after-collision-before-obstacle-reflection-and-stream",
+        "identity": {
+          "case_id": "diagnosis-phase-minus",
+          "candidate_id": "wing-000",
+          "revision": 0,
+          "generation": 1,
+          "case_hash": "e489cdac04111ab686f3780468befc994df7835be1dce93fea4beeae0abaa742",
+          "geometry_hash": "223c24faa05c9f7ce52f77e657aea56389eebcd562ec8889802e2751eac8bcc8"
+        }
+      },
+      "quality_status": "within-tested-envelope",
+      "final_quality_status": "within-tested-envelope",
+      "windows": [
+        {
+          "source_start": 1200,
+          "source_end": 1280,
+          "time_start_s": 0.5196152422706632,
+          "time_end_s": 0.5542562584220407,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137749,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.10753862862571033,
+              "Y": 9.780515889817305e-06,
+              "L": 0.022357161187493993,
+              "CD": 1.4338483816761378,
+              "CY": 0.0001304068785308974,
+              "CL": 0.2980954824999199,
+              "Cm": -0.010148724037792947,
+              "load_cell_n": 0.10753862862571033
+            },
+            "force_mean_world_n": [
+              0.10753862862571033,
+              9.780515889817305e-06,
+              0.022357161187493993
+            ],
+            "force_std_world_n": [
+              0.00012830688076409454,
+              2.7313649647991724e-06,
+              0.00021113148291926405
+            ],
+            "torque_mean_world_nm": [
+              -1.1645260587006459e-05,
+              -0.000192825756718066,
+              -7.004894358339513e-06
+            ],
+            "torque_std_world_nm": [
+              2.201205955574213e-06,
+              1.0532111320579037e-05,
+              7.136338180342279e-07
+            ],
+            "coefficient_std": {
+              "CD": 0.0017107584101879309,
+              "CY": 3.641819953065563e-05,
+              "CL": 0.0028150864389235217,
+              "Cm": 0.0005543216484515283
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 0.004160350698442616,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        },
+        {
+          "source_start": 2400,
+          "source_end": 2480,
+          "time_start_s": 1.0392304845413265,
+          "time_end_s": 1.073871500692704,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137749,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.10648728262081188,
+              "Y": 8.844115115978099e-06,
+              "L": 0.020045703641089152,
+              "CD": 1.4198304349441584,
+              "CY": 0.00011792153487970799,
+              "CL": 0.26727604854785536,
+              "Cm": -0.007823615744717264,
+              "load_cell_n": 0.10648728262081188
+            },
+            "force_mean_world_n": [
+              0.10648728262081188,
+              8.844115115978099e-06,
+              0.020045703641089152
+            ],
+            "force_std_world_n": [
+              5.3045246911636735e-06,
+              3.674995801499432e-06,
+              1.560759877291532e-05
+            ],
+            "torque_mean_world_nm": [
+              -1.1541752754125544e-05,
+              -0.00014864869914962803,
+              -7.102034081529493e-06
+            ],
+            "torque_std_world_nm": [
+              1.6864794534309659e-06,
+              1.0243998861646883e-06,
+              7.32441309702782e-07
+            ],
+            "coefficient_std": {
+              "CD": 7.072699588217691e-05,
+              "CY": 4.8999944019992436e-05,
+              "CL": 0.0002081013169722007,
+              "Cm": 5.391578348235198e-05
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 3.1971054650581365e-05,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        },
+        {
+          "source_start": 4800,
+          "source_end": 4880,
+          "time_start_s": 2.078460969082653,
+          "time_end_s": 2.1131019852340303,
+          "body": {
+            "body_id": "wing",
+            "count": 81,
+            "duration_s": 0.03464101615137727,
+            "mean": {
+              "q_pa": 0.5,
+              "D": 0.10648032567950555,
+              "Y": 8.734406849729668e-06,
+              "L": 0.020043617076098676,
+              "CD": 1.4197376757267408,
+              "CY": 0.00011645875799639558,
+              "CL": 0.2672482276813157,
+              "Cm": -0.00789518935710258,
+              "load_cell_n": 0.10648032567950555
+            },
+            "force_mean_world_n": [
+              0.10648032567950555,
+              8.734406849729668e-06,
+              0.020043617076098676
+            ],
+            "force_std_world_n": [
+              4.719804699611024e-06,
+              2.624063886444881e-06,
+              1.2538205447659764e-05
+            ],
+            "torque_mean_world_nm": [
+              -1.1645703731769479e-05,
+              -0.00015000859778494904,
+              -6.995082894211582e-06
+            ],
+            "torque_std_world_nm": [
+              2.5694496270207405e-06,
+              8.849097952261331e-07,
+              7.304242873868964e-07
+            ],
+            "coefficient_std": {
+              "CD": 6.293072932814192e-05,
+              "CY": 3.4987518485931735e-05,
+              "CL": 0.0001671760726354635,
+              "Cm": 4.657419974874385e-05
+            },
+            "stationarity": {
+              "passed": true,
+              "absolute_coefficient_change": 2.7935260396905193e-05,
+              "tolerance": 0.05
+            },
+            "usable": true,
+            "quality": "accepted"
+          }
+        }
+      ]
+    }
+  ],
+  "late_comparisons": [
+    {
+      "variant": "all-faces",
+      "signed_CL_change": -0.0724500103946903,
+      "signed_relative_CD_change": -0.11793317175644318,
+      "screen_pass": false
+    },
+    {
+      "variant": "inlet",
+      "signed_CL_change": 0.0003964138129120276,
+      "signed_relative_CD_change": -0.06777850166974003,
+      "screen_pass": false
+    },
+    {
+      "variant": "outlet",
+      "signed_CL_change": 0.0024868139616419094,
+      "signed_relative_CD_change": 0.029050446293681007,
+      "screen_pass": true
+    },
+    {
+      "variant": "lateral",
+      "signed_CL_change": -0.005710187824174706,
+      "signed_relative_CD_change": -0.0010258631722026709,
+      "screen_pass": true
+    },
+    {
+      "variant": "vertical",
+      "signed_CL_change": -0.07225874688767601,
+      "signed_relative_CD_change": -0.044964153555251074,
+      "screen_pass": false
+    },
+    {
+      "variant": "phase-plus",
+      "signed_CL_change": 0.17808937175079304,
+      "signed_relative_CD_change": 0.1332603787503898,
+      "screen_pass": false
+    },
+    {
+      "variant": "phase-minus",
+      "signed_CL_change": 0.12627250511091925,
+      "signed_relative_CD_change": 0.09484653233145306,
+      "screen_pass": false
+    }
+  ],
+  "prefix_reproduction": [
+    {
+      "variant": "base",
+      "source_start": 1200,
+      "previous_variant": "grid-coarse",
+      "mean_exact": true
+    },
+    {
+      "variant": "base",
+      "source_start": 2400,
+      "previous_variant": "settling-long",
+      "mean_exact": true
+    },
+    {
+      "variant": "all-faces",
+      "source_start": 1200,
+      "previous_variant": "domain-large",
+      "mean_exact": true
+    }
+  ],
+  "geometry_audit": [
+    {
+      "dx_m": 0.025,
+      "shape": [
+        33,
+        41,
+        25
+      ],
+      "solid_nodes": 249,
+      "mesh_volume_m3": 0.004639095738754597,
+      "voxel_proxy_volume_m3": 0.003890625000000001,
+      "relative_voxel_proxy_volume_error": -0.161339791395538,
+      "mesh_centroid_m": [
+        0.11831218264825966,
+        -5.5847481033986296e-06,
+        0.00021613903991280007
+      ],
+      "voxel_centroid_m": [
+        0.11656626506024098,
+        2.853585284177109e-17,
+        0.0037148594377510035
+      ],
+      "occupied_z_planes": 2
+    },
+    {
+      "dx_m": 0.02,
+      "shape": [
+        41,
+        51,
+        31
+      ],
+      "solid_nodes": 558,
+      "mesh_volume_m3": 0.004639095738754597,
+      "voxel_proxy_volume_m3": 0.004464000000000001,
+      "relative_voxel_proxy_volume_error": -0.03774350619493827,
+      "mesh_centroid_m": [
+        0.11831218264825966,
+        -5.5847481033986296e-06,
+        0.00021613903991280007
+      ],
+      "voxel_centroid_m": [
+        0.11265232974910394,
+        7.16845878136289e-05,
+        0.0012544802867383456
+      ],
+      "occupied_z_planes": 3
+    },
+    {
+      "dx_m": 0.016666666666666666,
+      "shape": [
+        49,
+        61,
+        37
+      ],
+      "solid_nodes": 1070,
+      "mesh_volume_m3": 0.004639095738754597,
+      "voxel_proxy_volume_m3": 0.004953703703703703,
+      "relative_voxel_proxy_volume_error": 0.06781665709567042,
+      "mesh_centroid_m": [
+        0.11831218264825966,
+        -5.5847481033986296e-06,
+        0.00021613903991280007
+      ],
+      "voxel_centroid_m": [
+        0.11487538940809966,
+        -0.00042056074766355655,
+        -0.0008099688473520332
+      ],
+      "occupied_z_planes": 3
+    }
+  ],
+  "allocation_fix_parity": {
+    "schema": "hawa-cpu-allocation-parity-1",
+    "issue": 120,
+    "source_commit": "9c065b8da435a83d6cd104ef9e2622b145a8732e",
+    "source_sha256": {
+      "src/hawa/stationary_loads.py": "d14a11e9ad562f6da22446d793b6d69ebc73ca20ae505571322fba062c71dd5b",
+      "src/hawa/sweep_executor.py": "ced3a448bae487851e0312ee539701128f292737d9967a838b265b12c823ed38",
+      "src/hawa/measurements.py": "c467528fc84548c0cb294aa7fd32d3cdf6f5b327336921fad562573ecbba50af",
+      "src/hawa/sweeps.py": "45549b20a09a37159e47b86d4470d34f3b62a48b9450410e21a720d9e4785f74",
+      "scripts/wing_solver_recipe.py": "8581a6e99ec388fafb945c2a0e6f64186ab46dd6ab41d8628b9d9f69c74f88e9",
+      "scripts/wing_measurement_recipe.py": "de1b43e8ed698aad5c7272d0fc37ba18363c7e0c662141b5fecff56d9d7d60c5",
+      "scripts/run_wing_sweep.py": "089fdaa4af74fadd9d25c275107ed15e44a544218bfe819ede92f0a9a9eb305a"
+    },
+    "device": "cpu",
+    "dtype": "float32",
+    "steps": 4881,
+    "load_samples": 4881,
+    "probe_samples": 4881,
+    "old_session": "404625f5-a126-4020-b935-1a757d744593",
+    "new_session": "e54cd005-dc3e-45db-b054-5cba80878a4b",
+    "checks": {
+      "load_history_exact": true,
+      "summary_exact": true,
+      "probe_count_equal": true,
+      "probe_values_exact": true,
+      "new_session": true,
+      "completed": true,
+      "drained": true,
+      "source_unchanged": true
+    },
+    "passed": true,
+    "elapsed_seconds": 62.200360959,
+    "claim": "Ordinary CPU numerical parity for allocation isolation repair; not physical qualification"
+  },
+  "original_screen_status": "FAIL; not replaced by this diagnosis"
+}

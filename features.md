@@ -785,3 +785,11 @@ copy completed three recordings and two boundary captures, with shared views
 at 1.5 m and 9 m; owned resources returned to zero. No solver qualification or
 release claim. [Review](docs/review-parent-child-canvas.md) and
 [machine evidence](docs/verification-parent-child-canvas.json).
+
+## November 17, 2026 — worker assertions and sensitivity diagnosis (#40)
+
+CPU worker/collector mutation controls now pass the exact reviewed 1,757-mutant
+policy (1,564 kills, 193 reviewed survivors). Fresh merged-main CPU suites and
+measured coverage pass. Eight controlled wing runs identify strong vertical-face
+and body-sampling sensitivity; the original grid/domain gate remains failed.
+[Review and limits](docs/review-worker-and-wing-diagnosis.md).

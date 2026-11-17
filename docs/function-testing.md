@@ -364,3 +364,11 @@ survivor reasons. Python3.9 remains authoritative for production tests.
 [status evidence](verification-native-data-status-mutation.json),
 [validity evidence](verification-native-data-validity-mutation.json).
 
+### CPU stationary collector and sweep worker (#40)
+
+`run_stationary_executor.sh` and `stationary-executor-policy.json` now bind 233
+controls and the exact 1,757-mutant inventory: 1,564 assertion kills, 193 reviewed
+survivors, zero errors/timeouts/unchecked outcomes. The earlier timeout-bearing
+study is not a pass. The motion-schema source snapshot was also refreshed after
+the explicit CPU allocation repair (104 kills, 132 controls). See the
+[review and limitations](review-worker-and-wing-diagnosis.md).

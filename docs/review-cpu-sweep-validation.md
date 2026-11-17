@@ -115,3 +115,10 @@ screen failed, and no matched experimental drag reference is established. G4/G5
 host, packaging and release work remain omitted under the user's scope. No public
 node, archive or existing solver combination was changed. No Rhino or export
 ownership handoff occurred; combined branch checks belong in a separate worktree.
+
+## Subsequent worker and sensitivity follow-up
+
+The [November 17 diagnosis](review-worker-and-wing-diagnosis.md) records the
+accepted worker mutation policy, current-main checks and controlled boundary/grid
+experiments. It supersedes the open worker assertion-review gap above, while
+retaining the failed original numerical screen and all historical evidence.
