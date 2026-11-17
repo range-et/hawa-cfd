@@ -56,7 +56,13 @@ velocity import (example 24) checks only the child's X− inlet plane, refusing
 with "Child inlet has missing or solid parent coverage", so a v1 child may extend
 past its parent elsewhere. Coupled refinement additionally requires an aligned, integer-cornered
 patch whose resolution is exactly `2*(upper-lower)+1`; it reports the parent and
-fine roles and the offending indices. These rules are covered by
+fine roles and the offending indices. Refined Solve also identifies its GH
+component and connected case-source objects when metadata admission fails.
+Relationship checks run before creating the evaluation Job; embedded initialization
+and Python admission run off the GH solution thread. Geometry-dependent checks of
+the solid/interface stencil still require constructed grids. See the
+[admission review](review-refinement-admission.md) for current verification limits.
+These rules are covered by
 `tests/test_domain_relationships.py`, `tests/test_refinement_preflight.py` and the
 transfer tests; see the domain relationship review.
 

@@ -380,6 +380,17 @@ Diagnosis and limits. Review follow-up
 HAWA-056/057 adds actual loaded-source validation and partial failure evidence.
 HAWA-001 remains open.
 
+### November 16 2026 fixed refinement admission (#30 / HAWA-028, candidate)
+
+Fixed 2:1 refinement now checks existing case/relationship metadata before Job
+creation. Refined Solve identifies rejecting source/component objects, submits
+through a background task, and retains cleanup ownership across cancellation and
+removal. Independent/composed overlap and offline transfer rules are unchanged;
+solid/interface checks still require constructed grids. Focused Python tests
+(96 passed, four CUDA skips; CPU and MPS exercised), 126 headless contracts and a
+development package pass. Full matrix/mutation and installed-host gates remain
+pending; this is not a release or issue closure. [Scoped review](docs/review-refinement-admission.md).
+
 ### November 9 2026 domain relationship contracts (HAWA-028 partial / HAWA-052 candidate)
 
 Independent Python state and intentional view overlap now have explicit relation
