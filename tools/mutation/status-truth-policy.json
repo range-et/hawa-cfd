@@ -1,23 +1,28 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 56,
-  "inventory_sha256": "7c64c52524d54c9d417c5015c37337095aa8280fdff5f4302c493640d2f940c1",
-  "scope": "Queued-state, device-lock and query/refinement dispatch changed lines vs6b0744a on combined30+35 production; CPU-only forked study with explicit bounded lock fixture",
+  "mutants": 155,
+  "inventory_sha256": "1f1122fcbcf93ab35969506e671b384f285d4fc007337ec48533b99457cf438e",
+  "scope": "Changed job lifecycle, CPU device locking and query/refinement/native-data save/import dispatch lines versus 6b0744a; deterministic CPU-only controls including paused restore, read cancellation and progress.",
   "control_test_files": [
     "tests/test_runtime_job_contracts.py",
     "tests/test_refinement_preflight.py",
     "tests/test_csv_export.py",
-    "tests/test_export.py"
+    "tests/test_export.py",
+    "tests/test_native_data.py",
+    "tests/test_native_data_status.py"
   ],
   "sources": {
-    "src/hawa/jobs.py": "f769062de1f7f443e58c41c29b8fa26bae242d313dfa62fb3856865deb196421",
+    "src/hawa/jobs.py": "c99c593281f82c8fe7968941e1cb4f30fa4ea76a5c370dd3bc04b89db3e55af2",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/test_runtime_job_contracts.py": "5dc3a5bfdc13d8c3be84d3633c237cdcd8c98ea46d876b76d23c8df7f470582a",
     "tests/test_refinement_preflight.py": "f97cb47e472c58ed676e0defcaa222da84c523af8bdf5ec22b686078ad90f65c",
-    "tests/test_csv_export.py": "3456542327c5e5fcd8fec5422d3b42c415d74c8eb013f668b197eb62a7bb8db3",
+    "tests/test_csv_export.py": "bd7ae21aa9524b2ee5deb8e018f8f7b939e0642a348923c8d5fe939c2d2d3f82",
     "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
     "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c",
-    "tools/mutation/lib.sh": "e76c1f689ed0cc3adc344479a32e859b8466c1b33e1d7709d8927104dc6c3871"
+    "tools/mutation/lib.sh": "e76c1f689ed0cc3adc344479a32e859b8466c1b33e1d7709d8927104dc6c3871",
+    "tests/test_native_data.py": "78438be3e74991f5c8079df767e7dd5d2fc6516a767ada1c99092e01bd5b7436",
+    "tests/test_native_data_status.py": "e526cd814ebadbf5ca64a94f5979cd76c2af9e3c55174da78453d912492cc1e1",
+    "src/hawa/native_data.py": "1d35829a6c5a11a4770179e33b569cf324c35798f5326b6380f2605a4d8de035"
   },
   "reviewed_survivors": {
     "hawa.jobs.x\u01c1Job\u01c1__init____mutmut_1": {

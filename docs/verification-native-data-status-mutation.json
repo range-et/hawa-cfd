@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-17",
+  "reviewer": "Codex atmosphere_qualification agent",
+  "issue": 35,
+  "source_commit": "edbcbed",
+  "base_revision": "6b0744abb4ef132936dac310dff023852b0eade6",
+  "scope": "Changed job lifecycle, CPU device locking and query/refinement/native-data save/import dispatch lines versus 6b0744a; deterministic CPU-only controls including paused restore, read cancellation and progress.",
+  "command": "MUTMUT_MAX_CHILDREN=4 bash tools/mutation/run_status_truth.sh results/native-data-status-mutation-2",
+  "environment": "macOS CPU; Python3.12; mutmut3.7.0; maxchildren4; cpu_only plugin",
+  "result": {
+    "mutants": 155,
+    "killed": 154,
+    "reviewed_survivors": 1,
+    "control_tests": 192,
+    "policy_pass": true,
+    "scope": "Changed job lifecycle, CPU device locking and query/refinement/native-data save/import dispatch lines versus 6b0744a; deterministic CPU-only controls including paused restore, read cancellation and progress."
+  },
+  "errors": 0,
+  "timeouts": 0,
+  "unchecked": 0,
+  "source_and_test_sha256": {
+    "src/hawa/jobs.py": "c99c593281f82c8fe7968941e1cb4f30fa4ea76a5c370dd3bc04b89db3e55af2",
+    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
+    "tests/test_runtime_job_contracts.py": "5dc3a5bfdc13d8c3be84d3633c237cdcd8c98ea46d876b76d23c8df7f470582a",
+    "tests/test_refinement_preflight.py": "f97cb47e472c58ed676e0defcaa222da84c523af8bdf5ec22b686078ad90f65c",
+    "tests/test_csv_export.py": "bd7ae21aa9524b2ee5deb8e018f8f7b939e0642a348923c8d5fe939c2d2d3f82",
+    "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
+    "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c",
+    "tools/mutation/lib.sh": "e76c1f689ed0cc3adc344479a32e859b8466c1b33e1d7709d8927104dc6c3871",
+    "tests/test_native_data.py": "78438be3e74991f5c8079df767e7dd5d2fc6516a767ada1c99092e01bd5b7436",
+    "tests/test_native_data_status.py": "e526cd814ebadbf5ca64a94f5979cd76c2af9e3c55174da78453d912492cc1e1",
+    "src/hawa/native_data.py": "1d35829a6c5a11a4770179e33b569cf324c35798f5326b6380f2605a4d8de035"
+  },
+  "inventory_sha256": "1f1122fcbcf93ab35969506e671b384f285d4fc007337ec48533b99457cf438e",
+  "review": "Reviewed all seven first-run survivor diffs. Added three asserting job-boundary tests to kill six missing default-device forwarding, archive-read cancellation forwarding and restored-progress mutants. Final sole survivor is the unchanged false-valued False-to-None initial device-ownership equivalent; acquisition writes True and drop normalizes False.",
+  "iterations": [
+    {
+      "run": 1,
+      "mutants": 155,
+      "killed": 148,
+      "survivors": 7,
+      "accepted": false
+    },
+    {
+      "run": 2,
+      "mutants": 155,
+      "killed": 154,
+      "survivors": 1,
+      "accepted": true
+    }
+  ],
+  "omissions": [
+    "Mutation scope is changed jobs.py lines against the historical base, not every backend function.",
+    "Full measured suite, native-data implementation mutation, numerical export mutation and live host/device gates are coordinated separately.",
+    "Raw study artifacts remain local under results/native-data-status-mutation-2."
+  ]
+}
