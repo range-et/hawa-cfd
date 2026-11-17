@@ -96,7 +96,7 @@ def export(main, data_type, directory):
         data = data_type(path=path)
         data.load()
         for name, exit_code in data.exit_code_by_key.items():
-            rows[name] = dict(path=str(path), exit_code=exit_code, diff=main.get_diff_for_mutant(name, path=path))
+            rows[name] = dict(path=path.as_posix(), exit_code=exit_code, diff=main.get_diff_for_mutant(name, path=path))
     directory = Path(directory)
     (directory/'mutants.json').write_text(json.dumps(rows, indent=1, sort_keys=True)+'\n')
     (directory/'mutations.diff').write_text(''.join(
@@ -133,7 +133,8 @@ def main(argv=None):
         return 0
     mutmut_main, file_mutation, data_type = load_mutmut()
     mutmut_main.Config.ensure_loaded()
-    mutated_files = [str(p) for p in mutmut_main.walk_mutatable_files()]
+    # Git patch/scope identities use forward slashes on every platform.
+    mutated_files = [p.as_posix() for p in mutmut_main.walk_mutatable_files()]
     if args.command == 'export':
         print(export(mutmut_main, data_type, '.'), 'mutants exported')
         return 0
