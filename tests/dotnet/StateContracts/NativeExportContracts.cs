@@ -15,7 +15,7 @@ static class NativeExportContracts
         {
             using var f=new Fixture();
             f.Doc.ModelUnitSystem=UnitSystem.Millimeters;f.C.ModelUnits=UnitSystem.Millimeters;
-            f.C.SpecData=new(){["origin"]=new JsonArray(1000d,2000d,3000d),["spacing"]=500d};
+            f.C.SpecData=new(){["origin"]=new JsonArray(1000d,2000d,3000d),["origin_m"]=new JsonArray(1d,2d,3d),["spacing"]=500d,["dx"]=.5};
             var points=new[]{new Point3d(1500,3000,4500)};
             CaseHub.Export(f.Id,"/tmp/native-test.csv","probes",points);points[0]=new(0,0,0);
             assert(f.Request!["points"]!.ToJsonString()=="[[1,2,3]]","Document coordinates not frozen/mapped");
@@ -28,6 +28,21 @@ static class NativeExportContracts
             var copy=f.C.ExportResult!;copy["iteration"]=0;assert(f.C.ExportResult!["iteration"]!.GetValue<int>()==40,"Result not detached");
             CaseHub.Edit(f.Id,new(){["speed"]=1.2},f.C.Version);
             assert(f.C.ExportResult==null && f.C.ExportState=="idle","Physical edit presents a prior artifact as current");
+        });
+        test("completed block probes follow document unit conversions without mutating run geometry", () =>
+        {
+            using var f=new Fixture();
+            f.Doc.ModelUnitSystem=UnitSystem.Millimeters;f.C.ModelUnits=UnitSystem.Millimeters;
+            f.C.SpecData=new(){["origin"]=new JsonArray(0d,0d,0d),["spacing"]=500d,["dx"]=.5};
+            string frozen=f.C.SpecData.ToJsonString();
+            foreach(var units in new[]{UnitSystem.Meters,UnitSystem.Millimeters}) {
+                f.Doc.ModelUnitSystem=units;CaseHub.Tick();
+                double coordinate=units==UnitSystem.Meters?1:1000;
+                CaseHub.Export(f.Id,"unit-change.csv","probes",new[]{new Point3d(coordinate,coordinate,coordinate)});
+                assert(f.Request!["points"]!.ToJsonString()=="[[2,2,2]]","Post-tick probe used the run's old document units");
+                assert(f.C.SpecData.ToJsonString()==frozen && f.C.Session=="session" && f.C.State=="completed","Display unit conversion mutated physical run");
+                CaseHub.Tick();assert(f.C.ExportState=="completed","Converted probe capture did not complete");
+            }
         });
         test("native export admission rejects unavailable states and invalid probes before submission", () =>
         {
@@ -122,7 +137,7 @@ static class NativeExportContracts
         public Action<JsonObject>? Corrupt;
         public Action? OnPoll;
         public Fixture() { Doc=new(Id);C=CaseHub.Get(Id);Ready();CaseHub.Transport=Call; }
-        public void Ready() { C.Session="session";C.State="completed";C.RunRevision=C.Revision;C.Steps=40;C.StatusData=new(){["case_hash"]="hash"};C.SpecData=new(){["origin"]=new JsonArray(0d,0d,0d),["spacing"]=1d};C.SliceData=new();C.SliceSteps=40;C.LastQuery=DateTime.UtcNow; }
+        public void Ready() { C.Session="session";C.State="completed";C.RunRevision=C.Revision;C.Steps=40;C.StatusData=new(){["case_hash"]="hash"};C.SpecData=new(){["origin"]=new JsonArray(0d,0d,0d),["spacing"]=1d,["dx"]=1d};C.SliceData=new();C.SliceSteps=40;C.LastQuery=DateTime.UtcNow; }
         JsonObject Call(JsonObject request) {
             switch(request["op"]!.GetValue<string>()) {
                 case "evaluate_submit": if(FailSubmit)throw new Exception("submit failed");Request=request["request"]!.DeepClone().AsObject();return new(){["job"]=EmptyJob?"":"export"};

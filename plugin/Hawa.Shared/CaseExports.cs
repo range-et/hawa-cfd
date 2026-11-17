@@ -31,7 +31,7 @@ public static partial class CaseHub
                 ["attribution"] = new JsonObject { ["case_id"] = c.Id.ToString(), ["revision"] = c.Revision, ["generation"] = c.Generation, ["version"] = c.Version }
             };
             if (table == "probes")
-                request["points"] = ExportPoints(c.SpecData, points);
+                request["points"] = ExportPoints(CaseGeometry.SpecInModelUnits(c)!, points);
             c.ExportError = "";
             c.ExportResultData = null;
             c.ExportRequest = request;
