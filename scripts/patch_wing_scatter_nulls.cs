@@ -37,8 +37,8 @@ try{
   foreach(var pair in new[]{(component:px,value:xScale),(component:py,value:yScale)}){while(pair.component.Params.Input.Count>0)pair.component.Params.UnregisterInputParameter(pair.component.Params.Input.Last(),true);pair.component.Params.OnParametersChanged();pair.component.GetType().GetProperty("Expression").SetValue(pair.component,pair.value.ToString(System.Globalization.CultureInfo.InvariantCulture));pair.component.NickName+=" scale";edited.Add(pair.component.InstanceGuid);}
   var mx=Stock("3e6383e9-af39-427b-801a-19ca916160fa",title+" / scale X",x+850,y);Wire(cx.Params.Output[0],mx,0);Wire(px.Params.Output[0],mx,1);
   var my=Stock("3e6383e9-af39-427b-801a-19ca916160fa",title+" / scale Y",x+850,y+110);Wire(cy.Params.Output[0],my,0);Wire(py.Params.Output[0],my,1);
-  var ax=Stock("cae37d1c-8146-4e0b-9cf1-14cb3e337b94",title+" / offset X",x+1050,y);Wire(mx.Params.Output[0],ax,0);((Param_Number)ax.Params.Input[1]).SetPersistentData(originX);
-  var ay=Stock("cae37d1c-8146-4e0b-9cf1-14cb3e337b94",title+" / offset Y",x+1050,y+110);Wire(my.Params.Output[0],ay,0);((Param_Number)ay.Params.Input[1]).SetPersistentData(-1.5);
+  var ax=Stock("cae37d1c-8146-4e0b-9cf1-14cb3e337b94",title+" / offset X",x+1050,y);Wire(mx.Params.Output[0],ax,0);var axOffset=(Param_Number)ax.Params.Input[1];axOffset.PersistentData.Clear();axOffset.SetPersistentData(originX);
+  var ay=Stock("cae37d1c-8146-4e0b-9cf1-14cb3e337b94",title+" / offset Y",x+1050,y+110);Wire(my.Params.Output[0],ay,0);var ayOffset=(Param_Number)ay.Params.Input[1];ayOffset.PersistentData.Clear();ayOffset.SetPersistentData(-1.5);
   if(points.Params.Input[0].Sources.Single()!=px.Params.Output[0]||points.Params.Input[1].Sources.Single()!=py.Params.Output[0])throw new Exception("Unexpected scatter wiring");
   points.Params.Input[0].RemoveSource(px.Params.Output[0]);Wire(ax.Params.Output[0],points,0);points.Params.Input[1].RemoveSource(py.Params.Output[0]);Wire(ay.Params.Output[0],points,1);points.Attributes.Pivot=new PointF(x+1280,y);edited.Add(points.InstanceGuid);
   foreach(var c in new[]{nx,ny,mask,cx,cy,mx,my,ax,ay})group.AddObject(c.InstanceGuid);group.Attributes.ExpireLayout();

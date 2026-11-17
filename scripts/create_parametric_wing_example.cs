@@ -116,7 +116,7 @@ try{
  var meshing=Stock("4a0180e5-d8f9-46e7-bd34-ced804601462","Fixed wing tessellation / independent of document mesh",1980,650);
  for(int i=0;i<3;i++){var parameter=(Param_Boolean)meshing.Params.Input[i];parameter.PersistentData.Clear();parameter.SetPersistentData(true);}
  for(int i=3;i<5;i++){var parameter=(Param_Integer)meshing.Params.Input[i];parameter.PersistentData.Clear();parameter.SetPersistentData(0);}
- Number(meshing,5,0);Number(meshing,6,.0005);Number(meshing,7,10);Number(meshing,8,.005);Number(meshing,9,.02);
+ Number(meshing,5,0);Number(meshing,6,.0005);Number(meshing,7,10);Number(meshing,8,.01);Number(meshing,9,.03);
  var meshBrep=Stock("60e7defa-8b21-4ee1-99aa-a9223d6134ff","Mesh the actual loft",2220,110);Connect(cap,0,meshBrep,0);Connect(meshing,0,meshBrep,1);
  var join=Stock("4bc9dbbf-fec8-4348-a3af-e33e7edc8e7b","Join loft and cap meshes",2460,110);Connect(meshBrep,0,join,0);
  var weld=Stock("9f6d85c9-1143-4538-bca7-69dcb11a74ef","Weld mesh seams",2700,110);Connect(join,0,weld,0);

@@ -72,7 +72,7 @@ colours. Coefficients use the fixed area/chord and the declared physical window.
 The stock **Custom Settings** component explicitly controls CAD tessellation:
 stitch seams, simple planes and refinement on; minimum/maximum initial grid
 counts and aspect ratio zero (disabled); maximum surface distance **0.0005 m**,
-maximum angle **10°**, minimum edge **0.005 m** and maximum edge **0.02 m**. This avoids
+maximum angle **10°**, minimum edge **0.01 m** and maximum edge **0.03 m**. This avoids
 depending on Rhino document render-mesh defaults. These settings change the
 actual study mesh, so changing them requires a new study; they are not a display
 reduction and do not change the **0.01 m CFD grid**. Before running edited wings,

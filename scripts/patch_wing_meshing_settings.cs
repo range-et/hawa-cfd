@@ -28,10 +28,10 @@ try{
  if(settings.Params.Input.Count!=10||settings.Params.Output.Count!=1)throw new Exception("Unexpected stock Custom Settings ports");
  for(int i=0;i<3;i++){var parameter=(Param_Boolean)settings.Params.Input[i];parameter.PersistentData.Clear();parameter.SetPersistentData(true);}
  for(int i=3;i<5;i++){var parameter=(Param_Integer)settings.Params.Input[i];parameter.PersistentData.Clear();parameter.SetPersistentData(0);}
- var values=new[]{0d,.0005,10d,.005,.02};
+ var values=new[]{0d,.0005,10d,.01,.03};
  for(int i=5;i<10;i++){var parameter=(Param_Number)settings.Params.Input[i];parameter.PersistentData.Clear();parameter.SetPersistentData(values[i-5]);}
  doc.AddObject(settings,false);mesh.Params.Input[1].AddSource(settings.Params.Output[0]);
- var group=doc.Objects.OfType<GH_Group>().Single(g=>g.NickName=="03 / Ordinary GH loft, caps and closed mesh");group.AddObject(settings.InstanceGuid);
+ var group=doc.Objects.OfType<GH_Group>().Single(g=>g.ObjectIDs.Contains(mesh.InstanceGuid));group.AddObject(settings.InstanceGuid);
  if(!ids.IsSubsetOf(doc.Objects.Select(o=>o.InstanceGuid))||doc.Objects.Count!=ids.Count+1)throw new Exception("Original ID/inventory changed");
  foreach(var c in doc.Objects.OfType<GH_Component>())if(before.ContainsKey(c.InstanceGuid)){
   var after=Wires(c);

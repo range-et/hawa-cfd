@@ -188,3 +188,13 @@ and the quality/statistics reports before using results for design decisions.
 For a native workflow with a ready-to-import checkpoint, see
 [example34: save, inspect, export and resume](../native-prototype/34-save-import-resume.md).
 It does not require Grasshopper.
+
+## 35 — Parametric wing study
+
+Open [35-parametric-wing-study.gh](35-parametric-wing-study.gh) in a metre
+document and follow [the walkthrough](35-parametric-wing-study.md). Edit distinct
+root/tip profiles, chords and span; ordinary GH components create the closed loft
+and mesh. Run starts the explicit CPU angle/speed study. Select a case to see its
+pressure colours, whole-wing force vector, lift/drag and coefficient plots.
+The default is 499,041 cells at 10 mm spacing. Numerical grid/domain qualification
+remains open; this is an experimental workflow example.

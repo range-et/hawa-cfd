@@ -111,3 +111,14 @@ same-time immutable frames, finest-domain priority and physical transforms. Slic
 triangles are clipped at halfway solid boundaries; derivative fields and curved
 links retain conservative validity. The legacy live Slice/Streamlines components
 retain their session contracts. No case-combiner recipe node was introduced.
+
+## Stationary Study development service
+
+Stationary Study is a reusable asynchronous CPU mesh experiment service with
+explicit operating points, fixed references, bounded resources, cooperative
+ownership and candidate-attributed fields and whole-body loads. It does not
+generate wing geometry. Example 35 constructs the wing with existing Airfoil and
+ordinary GH loft/mesh components. See [the contract](stationary-study.md),
+[adapter review](review-stationary-study-component.md) and
+[example review](review-parametric-wing-example.md). Existing node/archive IDs
+are unchanged. New public GUID: `4823e5ad-f4fb-4b62-96e3-127989a184b5`.

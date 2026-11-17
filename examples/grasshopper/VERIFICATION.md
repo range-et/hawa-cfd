@@ -214,3 +214,13 @@ changed its view without advancing, exported1989 field rows and3 ordered probes
 (two valid, one invalid), explicitly resumed120, and reopened the source3dm idle.
 The viewport was inspected; user documents and their empty GH graphs were restored.
 See [review and limits](../../docs/review-workflow-examples.md).
+
+## 35 — Parametric stationary wing study
+
+Require a closed loft and outward mesh across profile/dimension edits; explicit
+Run/rearm and saved-true idle guard; cooperative pause/cancel/disposal; selected
+field/geometry/load identity; metre/millimetre conversion; aligned null candidate
+slots; idle preview gating; and no errors or phantom scatter points while pending.
+Use `test_stationary_study.py`, StateContracts, `verify_stationary_study.cs`,
+`verify_wing_scatter_nulls.cs` and the [live example review](../../docs/review-parametric-wing-example.md).
+Fine-grid completion and pressure rendering do not establish aerodynamic accuracy.

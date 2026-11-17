@@ -135,3 +135,24 @@ Run on withholds that unrotated preview so selected pressure is unobstructed.
 The closed-archive patch backs up original bytes and audits all original IDs
 and component wires, adding two objects. Host execution/visual acceptance is
 owned by root; no run is claimed by the author.
+
+## Live lifecycle and presentation checks
+
+Codex root ran the owned-document harness on Mac Rhino 8.37 with embedded
+Python 3.9.10/PyTorch 2.8.0 CPU. Both 0.025 m cases completed with usable windows
+at 1200 settling + 81 samples, unchanged 0.05 tolerance. All ten lifecycle phases
+passed, including selection identity, geometry invalidation, pause/cancel and
+saved-Run-true idle reopening. A separate MCP Python registry/thread audit found
+zero jobs, sessions and Hawa workers after cleanup; public cleanup/refresh counts
+were also zero. This is coarse lifecycle evidence, not grid qualification.
+
+Live null-plot tests found and repaired pending-value arithmetic errors and
+variable-arity arithmetic generating phantom points. The fixed-arity graph now
+passes mixed-null, all-pending and valid-pair checks, including actual point
+counts/coordinates. Archive patches preserve original functional IDs and all
+unrelated geometry/study wires. Example 35 alone was annotated with a passing
+connection check; the full read-only archive audit reports 54 public nodes and
+32 definitions with none missing.
+
+[Machine record](verification-parametric-wing-host.json) retains scope and raw
+paths. The full 499,041-cell Rhino run and final viewport checks are still pending.

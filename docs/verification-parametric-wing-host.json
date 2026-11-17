@@ -1,0 +1,113 @@
+{
+  "date": "2026-11-17",
+  "operator": "Codex root via Rhino MCP",
+  "rhino": "8.37",
+  "platform": "macOS",
+  "embedded_python": "3.9.10",
+  "torch": "2.8.0",
+  "device": "cpu",
+  "installed_component_source": "9583f3a",
+  "lifecycle": {
+    "state": "passed",
+    "device": "cpu",
+    "source_sha256": "b37f1820a9c00f11f1136612df9623e7dcf528a5a084f91fd90aed5115fa564b",
+    "assembly_sha256": "2e8f4e86caaca35029591507c0da0be6d57e9d65dd86daa6a7ca948963d50da3",
+    "dx_m": 0.025,
+    "settling_steps": 1200,
+    "sample_steps": 81,
+    "tolerance": 0.05,
+    "preserved_document": "f0e9e825-34e5-4552-9d48-64297cc678c4",
+    "phase": 10,
+    "checks": [
+      "Owned coarse study explicitly started; original IDs and wires preserved",
+      "Study completed through automatic polling without manual solution updates",
+      "Selection switched without restarting; accepted identities or rejected withholding checked",
+      "Retained capture unchanged on re-selection; geometry edit invalidated selected data",
+      "Long lifecycle-only job rearmed with pause requested",
+      "Cooperative pause acknowledged without publishing a selected result",
+      "Pause remained stable; Cancel cleared public selected outputs",
+      "Cancelled job drained; owned saved-Run-true archive created without solving",
+      "Saved Run=true reopened idle and requires explicit off/on",
+      "Saved-true guard remained idle; owned document disposed and previous canvas restored"
+    ],
+    "cases": [
+      "study-000: completed; ",
+      "study-001: completed; "
+    ],
+    "accepted_candidates": 2,
+    "paused_report": "paused: 0/2 candidates. CPU experimental whole-body loads; no aerodynamic qualification. Field is a retained instantaneous capture; loads are window means.",
+    "pending_cleanup": 0,
+    "pending_refreshes": 0,
+    "limits": "CPU coarse lifecycle only. Rejected candidates may leave no pressure display; fine 3000+201 at .05 and visual pressure acceptance are separate. Public cleanup counters do not enumerate private backend workers. No convergence/aerodynamic or CUDA qualification."
+  },
+  "post_lifecycle_cleanup": {
+    "jobs": 0,
+    "sessions": 0,
+    "workers": [],
+    "pending_cleanup": 0,
+    "pending_refreshes": 0
+  },
+  "scatter_null_tests": {
+    "passed": true,
+    "cases": [
+      "mixed missing coordinates",
+      "pending coefficients",
+      "both pending",
+      "valid paired values"
+    ],
+    "checks": [
+      "paired X/Y coordinates preserved",
+      "no arithmetic errors",
+      "actual scatter point count zero for pending data"
+    ]
+  },
+  "scatter_archive_patch": {
+    "source_before_sha256": "b37f1820a9c00f11f1136612df9623e7dcf528a5a084f91fd90aed5115fa564b",
+    "source_after_sha256": "f062d5277992f78863357b4423cad0bf8970c01dc16127656bf0aa9ce6c81607",
+    "preserved_original_ids": 106,
+    "added_objects": 27,
+    "intentional_input_rewires": 12,
+    "plots": [
+      {
+        "plot": "CL versus angle",
+        "x_expression": "81c1a05f-e2c1-489d-a947-ffb66d9ef3f4",
+        "y_expression": "7fb956ef-6795-4456-85b8-aeed9400fa18",
+        "original_x_source": "1d495dd1-1af7-4cf9-a3f2-85357f524297",
+        "original_y_source": "c7f366ed-dbe8-44a0-b805-db6dbef687ff"
+      },
+      {
+        "plot": "CD versus angle",
+        "x_expression": "89792f34-5f05-4f31-8624-ed996eb22f5b",
+        "y_expression": "5aaf650a-b00a-4d66-9fac-8740bf72bbe0",
+        "original_x_source": "1d495dd1-1af7-4cf9-a3f2-85357f524297",
+        "original_y_source": "3fca203d-ba4f-4630-a5f3-b90585ddaff5"
+      },
+      {
+        "plot": "CL versus CD",
+        "x_expression": "b4718f49-b219-4152-956c-9777fcee1517",
+        "y_expression": "6edd16ea-5da3-4856-8704-8db5f25f4390",
+        "original_x_source": "3fca203d-ba4f-4630-a5f3-b90585ddaff5",
+        "original_y_source": "c7f366ed-dbe8-44a0-b805-db6dbef687ff"
+      }
+    ]
+  },
+  "idle_preview_archive_patch": {
+    "source_before_sha256": "de6906abb8decde42b7d9ea8d731ecddec1d0bf4f6f1ad03fe7253eb7a3baf4e",
+    "source_after_sha256": "83e736f71b513fb7301632a06bb11b3861a0b966c2b59f6b17739757ef5c5cfd",
+    "preserved_original_ids": 143,
+    "added_objects": 2,
+    "changed_original_wires": 0,
+    "hidden_original_mesh": "914efb84-cb93-45c5-8e59-b2c33ffd9468",
+    "preview_component": "2862555d-ea79-4fcf-8a60-a2c19737d2ae"
+  },
+  "fine_host": {
+    "state": "running",
+    "raw_report": "results/wing-fine-host/20261117-225648/progress.json"
+  },
+  "limits": [
+    "No Windows host acceptance",
+    "CPU-only study: MPS/CUDA requests reject",
+    "Grid/domain and physical-reference qualification remain open in #40",
+    "Full older-gallery numerical rerun not claimed; all supported archives audited"
+  ]
+}
