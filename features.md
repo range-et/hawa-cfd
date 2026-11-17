@@ -115,7 +115,9 @@ voxelizes each rotated wing, captures pressure/load histories at the same solver
 phase, and returns attributed plot data with cooperative cleanup. Both demo
 angles passed the declared window/stationarity diagnostic at synthetic viscosity;
 this is not physical wing validation. [Real headless evidence](docs/review-real-headless-sweeps.md),
-[run guide](docs/headless-wing-sweeps.md). Public runtime/export adapters, GH graphs,
+[run guide](docs/headless-wing-sweeps.md). The follow-up predeclared grid/domain
+sensitivity screen failed despite accepted stationarity; see the
+[CPU validation follow-up](docs/review-cpu-sweep-validation.md). Public runtime/export adapters, GH graphs,
 device and physical qualification remain open. No Rhino, GPU, install, package or release claim. [Frozen contract](docs/measurement-contract-v1.md),
 [combined review](docs/review-measurement-foundation.md).
 

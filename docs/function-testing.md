@@ -328,3 +328,14 @@ files read by the registry. This is motion-regression evidence, not a mutation
 study of the new measurement/sweep implementation. The combined CPU-only function
 measurement and remaining scope are in the
 [foundation review](review-measurement-foundation.md).
+
+### Measurement/sweep analysis mutation follow-up (#40)
+
+`run_measurement_core.sh` now measures `measurements.py` and `sweeps.py` with
+163 passing controls. The fresh Python 3.12 study contains 1,108 mutants:
+1,008 assertion kills and 100 individually reviewed equivalents or diagnostic
+wording changes, with no unchecked/error/timeout outcomes. Check the exact
+inventory with `measurement-core-policy.json`; no score threshold is used.
+Decorated Pydantic class validators, CPU worker/collector, geometry recipes and
+host adapters are outside this inventory. See the
+[CPU follow-up](review-cpu-sweep-validation.md) for separate worker-study limits.

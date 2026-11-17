@@ -199,7 +199,7 @@
     "tests/test_kbc_precision.py": "79b606b90aa23fe5142882f3e56cf9fc85a3d74636bc845bd4c1a3554ba839f6",
     "tests/test_lbm.py": "47308abf2c82d70a0674b41ce48a9c86fff7ef346bea96b5312cacbd818ced4b",
     "tests/test_measurement_pipeline.py": "5772cf1186ab93ab96d87226a7d0b35875179517a746626df93dc30af0a0cab4",
-    "tests/test_measurements.py": "1b74ea17f369d8d708dff8feceb5552f6a1322dbfe0d2fecdffc40071be847bd",
+    "tests/test_measurements.py": "148e8b9561bf17bdf744e7b80cd13683bc4264e2af93b63db93ae9e693343857",
     "tests/test_motion.py": "7deee3b86f98d598ba63902e0e7b8d0966f04636c29cd3764b3c5413f3ede048",
     "tests/test_mutation_cpu.py": "2887ba45d15f4a049be00fe1f337762921915460d67ec714f2d18ca23c77213d",
     "tests/test_mutation_policy.py": "5a63294094f54a7fa2c5ec663cb4df0732101e2d27fbbe34f898f00e7a9b9adc",
@@ -234,8 +234,8 @@
     "tests/test_stationary_failure_reporting.py": "d54a48b73e05656811238d1f2ef544cb3ff06f710b035d01b292115529e51d19",
     "tests/test_stationary_loads.py": "36763e073f9544a13507577c1b75904758a94ca5de5c6d7c567dc01db5bd327d",
     "tests/test_strict_coverage.py": "492412ca7a098036fadfb6d12af546f813ba8bf2ecd8acfdae2f0185d2ebd28b",
-    "tests/test_sweep_executor.py": "f78350c1d41f66356e989fbce69286f5fc84d324213a19121351267dd642645d",
-    "tests/test_sweeps.py": "9aeaea4fb01538f67bd5ae11a867130e2a8085149ddf20c092f424833b978925",
+    "tests/test_sweep_executor.py": "b119480a760b01b7ea5d3065311e87cbe97a0eba4fd7b24275573528685838d9",
+    "tests/test_sweeps.py": "c90241cfbda273417997c7fd953eb1bbab59dbee4aafdf444da740234fe661a5",
     "tests/test_tooling_entrypoints.py": "c5f7d18b05f79493bc45134cf4c463b7a67dc5a8287feb4972c1835525afa2b2",
     "tests/test_tooling_execution.py": "563128113e1deb0e4336e5e65c3a0d0ecca6795c972827d3013f2b4b653d6260",
     "tests/test_tooling_failure_paths.py": "a2b161ede6127f79392f298c85d8aa196c05dbf09b9af0512b5b4d67231abf4e",
@@ -1246,6 +1246,27 @@
       "tests/test_measurements.py::test_mutated_sample_probe_and_unit_vector_cannot_bypass_validation",
       "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e-200-1e+200-5e+199]",
       "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e+200-1e-200-5e-201]",
+      "tests/test_measurements.py::test_complete_measurement_contract_with_nonzero_side_load_and_fluctuations",
+      "tests/test_measurements.py::test_probe_output_retains_identity_coordinates_pressure_and_zero_source_time",
+      "tests/test_measurements.py::test_summary_requires_a_list_and_checks_history_outside_window",
+      "tests/test_measurements.py::test_unit_axes_do_not_inherit_numpy_default_tolerances[2e-10]",
+      "tests/test_measurements.py::test_unit_axes_do_not_inherit_numpy_default_tolerances[1e-07]",
+      "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1.0-1e-07]",
+      "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1e-05-1e-10]",
+      "tests/test_measurements.py::test_declared_maximum_history_is_accepted_without_truncation",
+      "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1.0-1e-07]",
+      "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1e-05-1e-10]",
+      "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1.0-1e-07]",
+      "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1e-05-1e-10]",
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[axis]",
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[vector-shape]",
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[vector-finite]",
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[time]",
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-count]",
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-duplicate]",
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-body]",
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[sampler]",
+      "tests/test_measurements.py::test_fixed_interval_roundoff_within_declared_tolerance_is_accepted",
       "tests/test_motion.py::test_motion_derivative_and_rotation",
       "tests/test_motion.py::test_moving_device_parity_and_nonzero_loads",
       "tests/test_motion.py::test_moving_restart_matches_continuous[cpu]",
@@ -1424,6 +1445,7 @@
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[host-acceptance-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-collision-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-diagnostic-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[measurement-core-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[motion-schema-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mps-mass-budget-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mutation-tooling-policy.json]",
@@ -2331,6 +2353,7 @@
       "tests/test_sweep_executor.py::test_probe_per_candidate_limit_is_enforced",
       "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
       "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
+      "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
       "tests/test_sweeps.py::test_invalid_collection[items0]",
       "tests/test_sweeps.py::test_invalid_collection[items1]",
       "tests/test_sweeps.py::test_invalid_collection[items2]",
@@ -2402,6 +2425,25 @@
       "tests/test_sweeps.py::test_plot_rejects_mismatched_or_invalid_record_generation[-1]",
       "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change0]",
       "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change1]",
+      "tests/test_sweeps.py::test_initial_and_completed_records_keep_complete_identity_contract",
+      "tests/test_sweeps.py::test_unique_candidate_count_above_limit_rejects",
+      "tests/test_sweeps.py::test_controls_forward_actual_handle_and_run_resumes_pause",
+      "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[pause]",
+      "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[resume]",
+      "tests/test_sweeps.py::test_disposal_after_a_completed_candidate_preserves_its_result",
+      "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[failed]",
+      "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[cancelled]",
+      "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[rejected]",
+      "tests/test_sweeps.py::test_nonterminal_poll_reason_and_missing_reason_are_snapshotted",
+      "tests/test_sweeps.py::test_terminal_observation_releases_handle_instead_of_only_changing_label",
+      "tests/test_sweeps.py::test_plot_rejects_coercive_record_generation_even_when_numerically_equal",
+      "tests/test_sweeps.py::test_cleanup_and_bad_poll_errors_retain_underlying_cause",
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[count]",
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[item]",
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[blank]",
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[duplicate]",
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[completion]",
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[poll]",
       "tests/test_tooling_entrypoints.py::test_cli_help_exits_successfully_without_creating_outputs[analyze_neutral_stationary]",
       "tests/test_tooling_entrypoints.py::test_cli_help_exits_successfully_without_creating_outputs[benchmark_rotating_sphere]",
       "tests/test_tooling_entrypoints.py::test_cli_help_exits_successfully_without_creating_outputs[build_plugin]",
@@ -3536,7 +3578,12 @@
       "tests/test_measurements.py::test_bad_windows[order]",
       "tests/test_measurements.py::test_bad_windows[spacing]",
       "tests/test_measurements.py::test_bad_windows[step]",
+      "tests/test_measurements.py::test_complete_measurement_contract_with_nonzero_side_load_and_fluctuations",
+      "tests/test_measurements.py::test_declared_maximum_history_is_accepted_without_truncation",
       "tests/test_measurements.py::test_duplicate_body_and_mutated_model_rejected",
+      "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1.0-1e-07]",
+      "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1e-05-1e-10]",
+      "tests/test_measurements.py::test_fixed_interval_roundoff_within_declared_tolerance_is_accepted",
       "tests/test_measurements.py::test_frozen_algebra_and_origin_translation",
       "tests/test_measurements.py::test_helper_coercion_rejected[vectors0-1]",
       "tests/test_measurements.py::test_helper_coercion_rejected[vectors1-1]",
@@ -3551,10 +3598,21 @@
       "tests/test_measurements.py::test_invalid_sample_schema[patch5]",
       "tests/test_measurements.py::test_invalid_sample_schema[patch6]",
       "tests/test_measurements.py::test_mutated_sample_probe_and_unit_vector_cannot_bypass_validation",
+      "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1.0-1e-07]",
+      "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1e-05-1e-10]",
       "tests/test_measurements.py::test_pressure_probe_and_explicit_surface_offset",
       "tests/test_measurements.py::test_probe_misc_rejections",
+      "tests/test_measurements.py::test_probe_output_retains_identity_coordinates_pressure_and_zero_source_time",
       "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e+200-1e-200-5e-201]",
       "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e-200-1e+200-5e+199]",
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[axis]",
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-body]",
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-count]",
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-duplicate]",
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[sampler]",
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[time]",
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[vector-finite]",
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[vector-shape]",
       "tests/test_measurements.py::test_request_rejections[path0-wrong]",
       "tests/test_measurements.py::test_request_rejections[path1-0]",
       "tests/test_measurements.py::test_request_rejections[path10-value10]",
@@ -3574,7 +3632,12 @@
       "tests/test_measurements.py::test_request_rejections[path8--1]",
       "tests/test_measurements.py::test_request_rejections[path9-nan]",
       "tests/test_measurements.py::test_sample_bounds",
+      "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1.0-1e-07]",
+      "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1e-05-1e-10]",
       "tests/test_measurements.py::test_schema_snapshots",
+      "tests/test_measurements.py::test_summary_requires_a_list_and_checks_history_outside_window",
+      "tests/test_measurements.py::test_unit_axes_do_not_inherit_numpy_default_tolerances[1e-07]",
+      "tests/test_measurements.py::test_unit_axes_do_not_inherit_numpy_default_tolerances[2e-10]",
       "tests/test_measurements.py::test_warning_and_drift_unusable_and_population_statistics",
       "tests/test_measurements.py::test_window_filters_outside_samples_and_multiple_bodies",
       "tests/test_motion.py::test_body_errors_name_the_body_and_ids_stay_unique",
@@ -3687,6 +3750,7 @@
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[host-acceptance-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-collision-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-diagnostic-policy.json]",
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[measurement-core-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[motion-schema-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mps-mass-budget-policy.json]",
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mutation-tooling-policy.json]",
@@ -4532,14 +4596,20 @@
       "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
       "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
       "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+      "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
       "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
       "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
       "tests/test_sweeps.py::test_cancel_before_start_and_dispose_are_idempotent",
       "tests/test_sweeps.py::test_cancel_retains_ownership_until_cancel_and_close_succeed",
+      "tests/test_sweeps.py::test_cleanup_and_bad_poll_errors_retain_underlying_cause",
       "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change0-quality]",
       "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change1-quality]",
       "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change2-window]",
       "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change3-stationarity]",
+      "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[pause]",
+      "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[resume]",
+      "tests/test_sweeps.py::test_controls_forward_actual_handle_and_run_resumes_pause",
+      "tests/test_sweeps.py::test_disposal_after_a_completed_candidate_preserves_its_result",
       "tests/test_sweeps.py::test_dispose_during_pending_completion_drains_without_overwriting_result",
       "tests/test_sweeps.py::test_executor_contract",
       "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[pause]",
@@ -4549,10 +4619,14 @@
       "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[cancelled]",
       "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[failed]",
       "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[rejected]",
+      "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[cancelled]",
+      "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[failed]",
+      "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[rejected]",
       "tests/test_sweeps.py::test_generation_rejects[-1]",
       "tests/test_sweeps.py::test_generation_rejects[1.0]",
       "tests/test_sweeps.py::test_generation_rejects[1]",
       "tests/test_sweeps.py::test_generation_rejects[True]",
+      "tests/test_sweeps.py::test_initial_and_completed_records_keep_complete_identity_contract",
       "tests/test_sweeps.py::test_invalid_candidate[angle_deg-2]",
       "tests/test_sweeps.py::test_invalid_candidate[angle_deg-True]",
       "tests/test_sweeps.py::test_invalid_candidate[angle_deg-nan]",
@@ -4592,8 +4666,10 @@
       "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path7-nan]",
       "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path8-inf]",
       "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path9-True]",
+      "tests/test_sweeps.py::test_nonterminal_poll_reason_and_missing_reason_are_snapshotted",
       "tests/test_sweeps.py::test_ordered_completion_and_idle_reopen",
       "tests/test_sweeps.py::test_pause_before_start_and_while_running_resume_via_run",
+      "tests/test_sweeps.py::test_plot_rejects_coercive_record_generation_even_when_numerically_equal",
       "tests/test_sweeps.py::test_plot_rejects_mismatched_or_invalid_record_generation[-1]",
       "tests/test_sweeps.py::test_plot_rejects_mismatched_or_invalid_record_generation[8]",
       "tests/test_sweeps.py::test_plot_rejects_mismatched_or_invalid_record_generation[True]",
@@ -4603,7 +4679,15 @@
       "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change0]",
       "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change1]",
       "tests/test_sweeps.py::test_start_requires_handle",
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[blank]",
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[completion]",
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[count]",
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[duplicate]",
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[item]",
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[poll]",
       "tests/test_sweeps.py::test_terminal_default_reason",
+      "tests/test_sweeps.py::test_terminal_observation_releases_handle_instead_of_only_changing_label",
+      "tests/test_sweeps.py::test_unique_candidate_count_above_limit_rejects",
       "tests/test_sweeps.py::test_validate_copies_and_accepts_limits",
       "tests/test_tooling_entrypoints.py::test_cli_help_exits_successfully_without_creating_outputs[analyze_neutral_stationary]",
       "tests/test_tooling_entrypoints.py::test_cli_help_exits_successfully_without_creating_outputs[benchmark_rotating_sphere]",
@@ -18568,6 +18652,300 @@
           "passed"
         ]
       ],
+      "tests/test_measurements.py::test_complete_measurement_contract_with_nonzero_side_load_and_fluctuations": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_probe_output_retains_identity_coordinates_pressure_and_zero_source_time": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_summary_requires_a_list_and_checks_history_outside_window": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_unit_axes_do_not_inherit_numpy_default_tolerances[2e-10]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_unit_axes_do_not_inherit_numpy_default_tolerances[1e-07]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1.0-1e-07]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1e-05-1e-10]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_declared_maximum_history_is_accepted_without_truncation": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1.0-1e-07]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1e-05-1e-10]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1.0-1e-07]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1e-05-1e-10]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[axis]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[vector-shape]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[vector-finite]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[time]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-count]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-duplicate]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-body]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[sampler]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_measurements.py::test_fixed_interval_roundoff_within_declared_tolerance_is_accepted": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
       "tests/test_motion.py::test_motion_derivative_and_rotation": [
         [
           "setup",
@@ -20919,6 +21297,20 @@
         ]
       ],
       "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-diagnostic-policy.json]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[measurement-core-policy.json]": [
         [
           "setup",
           "passed"
@@ -33262,6 +33654,20 @@
           "passed"
         ]
       ],
+      "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
       "tests/test_sweeps.py::test_invalid_collection[items0]": [
         [
           "setup",
@@ -34243,6 +34649,272 @@
         ]
       ],
       "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_initial_and_completed_records_keep_complete_identity_contract": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_unique_candidate_count_above_limit_rejects": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_controls_forward_actual_handle_and_run_resumes_pause": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[pause]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[resume]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_disposal_after_a_completed_candidate_preserves_its_result": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[failed]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[cancelled]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[rejected]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_nonterminal_poll_reason_and_missing_reason_are_snapshotted": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_terminal_observation_releases_handle_instead_of_only_changing_label": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_plot_rejects_coercive_record_generation_even_when_numerically_equal": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_cleanup_and_bad_poll_errors_retain_underlying_cause": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[count]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[item]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[blank]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[duplicate]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[completion]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[poll]": [
         [
           "setup",
           "passed"
@@ -64896,6 +65568,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_entrypoints.py::test_stationarity_runner_reports_rejections_and_resumed_history_without_relaxing_targets[late-rejection]",
@@ -65838,6 +66511,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
@@ -66156,6 +66830,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
@@ -66569,6 +67244,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
@@ -66897,6 +67573,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
@@ -67636,6 +68313,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_failure_paths.py::test_nesting_rejects_mid_operation_provenance_and_clock_changes[child-clock]",
@@ -73410,6 +74088,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_recordings.py::test_boundary_transfer_script_retains_same_time_and_cpu_scope"
       ],
@@ -73809,6 +74488,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_recordings.py::test_boundary_transfer_script_retains_same_time_and_cpu_scope"
       ],
@@ -78087,7 +78767,12 @@
         "tests/test_measurements.py::test_bad_windows[order]",
         "tests/test_measurements.py::test_bad_windows[spacing]",
         "tests/test_measurements.py::test_bad_windows[step]",
+        "tests/test_measurements.py::test_complete_measurement_contract_with_nonzero_side_load_and_fluctuations",
+        "tests/test_measurements.py::test_declared_maximum_history_is_accepted_without_truncation",
         "tests/test_measurements.py::test_duplicate_body_and_mutated_model_rejected",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_fixed_interval_roundoff_within_declared_tolerance_is_accepted",
         "tests/test_measurements.py::test_frozen_algebra_and_origin_translation",
         "tests/test_measurements.py::test_invalid_rejected_and_unknown_samples_not_dropped",
         "tests/test_measurements.py::test_invalid_sample_schema[patch0]",
@@ -78098,10 +78783,19 @@
         "tests/test_measurements.py::test_invalid_sample_schema[patch5]",
         "tests/test_measurements.py::test_invalid_sample_schema[patch6]",
         "tests/test_measurements.py::test_mutated_sample_probe_and_unit_vector_cannot_bypass_validation",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1.0-1e-07]",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1e-05-1e-10]",
         "tests/test_measurements.py::test_pressure_probe_and_explicit_surface_offset",
         "tests/test_measurements.py::test_probe_misc_rejections",
+        "tests/test_measurements.py::test_probe_output_retains_identity_coordinates_pressure_and_zero_source_time",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e+200-1e-200-5e-201]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e-200-1e+200-5e+199]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[axis]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-body]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-count]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-duplicate]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[sampler]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[time]",
         "tests/test_measurements.py::test_request_rejections[path0-wrong]",
         "tests/test_measurements.py::test_request_rejections[path1-0]",
         "tests/test_measurements.py::test_request_rejections[path10-value10]",
@@ -78116,6 +78810,11 @@
         "tests/test_measurements.py::test_request_rejections[path3--1]",
         "tests/test_measurements.py::test_request_rejections[path4-]",
         "tests/test_measurements.py::test_sample_bounds",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_summary_requires_a_list_and_checks_history_outside_window",
+        "tests/test_measurements.py::test_unit_axes_do_not_inherit_numpy_default_tolerances[1e-07]",
+        "tests/test_measurements.py::test_unit_axes_do_not_inherit_numpy_default_tolerances[2e-10]",
         "tests/test_measurements.py::test_warning_and_drift_unusable_and_population_statistics",
         "tests/test_measurements.py::test_window_filters_outside_samples_and_multiple_bodies",
         "tests/test_real_sweep_pipeline.py::test_blended_wing_recipe_runs_real_short_cases_without_claiming_settling",
@@ -78172,6 +78871,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -78214,7 +78914,12 @@
         "tests/test_measurements.py::test_bad_windows[order]",
         "tests/test_measurements.py::test_bad_windows[spacing]",
         "tests/test_measurements.py::test_bad_windows[step]",
+        "tests/test_measurements.py::test_complete_measurement_contract_with_nonzero_side_load_and_fluctuations",
+        "tests/test_measurements.py::test_declared_maximum_history_is_accepted_without_truncation",
         "tests/test_measurements.py::test_duplicate_body_and_mutated_model_rejected",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_fixed_interval_roundoff_within_declared_tolerance_is_accepted",
         "tests/test_measurements.py::test_frozen_algebra_and_origin_translation",
         "tests/test_measurements.py::test_invalid_rejected_and_unknown_samples_not_dropped",
         "tests/test_measurements.py::test_invalid_sample_schema[patch0]",
@@ -78225,10 +78930,18 @@
         "tests/test_measurements.py::test_invalid_sample_schema[patch5]",
         "tests/test_measurements.py::test_invalid_sample_schema[patch6]",
         "tests/test_measurements.py::test_mutated_sample_probe_and_unit_vector_cannot_bypass_validation",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1.0-1e-07]",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1e-05-1e-10]",
         "tests/test_measurements.py::test_pressure_probe_and_explicit_surface_offset",
         "tests/test_measurements.py::test_probe_misc_rejections",
+        "tests/test_measurements.py::test_probe_output_retains_identity_coordinates_pressure_and_zero_source_time",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e+200-1e-200-5e-201]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e-200-1e+200-5e+199]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-body]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-count]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-duplicate]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[sampler]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[time]",
         "tests/test_measurements.py::test_request_rejections[path0-wrong]",
         "tests/test_measurements.py::test_request_rejections[path1-0]",
         "tests/test_measurements.py::test_request_rejections[path10-value10]",
@@ -78243,6 +78956,9 @@
         "tests/test_measurements.py::test_request_rejections[path3--1]",
         "tests/test_measurements.py::test_request_rejections[path4-]",
         "tests/test_measurements.py::test_sample_bounds",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_summary_requires_a_list_and_checks_history_outside_window",
         "tests/test_measurements.py::test_warning_and_drift_unusable_and_population_statistics",
         "tests/test_measurements.py::test_window_filters_outside_samples_and_multiple_bodies",
         "tests/test_real_sweep_pipeline.py::test_blended_wing_recipe_runs_real_short_cases_without_claiming_settling",
@@ -78299,6 +79015,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -78341,7 +79058,12 @@
         "tests/test_measurements.py::test_bad_windows[order]",
         "tests/test_measurements.py::test_bad_windows[spacing]",
         "tests/test_measurements.py::test_bad_windows[step]",
+        "tests/test_measurements.py::test_complete_measurement_contract_with_nonzero_side_load_and_fluctuations",
+        "tests/test_measurements.py::test_declared_maximum_history_is_accepted_without_truncation",
         "tests/test_measurements.py::test_duplicate_body_and_mutated_model_rejected",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_fixed_interval_roundoff_within_declared_tolerance_is_accepted",
         "tests/test_measurements.py::test_frozen_algebra_and_origin_translation",
         "tests/test_measurements.py::test_invalid_rejected_and_unknown_samples_not_dropped",
         "tests/test_measurements.py::test_invalid_sample_schema[patch0]",
@@ -78352,10 +79074,18 @@
         "tests/test_measurements.py::test_invalid_sample_schema[patch5]",
         "tests/test_measurements.py::test_invalid_sample_schema[patch6]",
         "tests/test_measurements.py::test_mutated_sample_probe_and_unit_vector_cannot_bypass_validation",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1.0-1e-07]",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1e-05-1e-10]",
         "tests/test_measurements.py::test_pressure_probe_and_explicit_surface_offset",
         "tests/test_measurements.py::test_probe_misc_rejections",
+        "tests/test_measurements.py::test_probe_output_retains_identity_coordinates_pressure_and_zero_source_time",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e+200-1e-200-5e-201]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e-200-1e+200-5e+199]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-body]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-count]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-duplicate]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[sampler]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[time]",
         "tests/test_measurements.py::test_request_rejections[path0-wrong]",
         "tests/test_measurements.py::test_request_rejections[path1-0]",
         "tests/test_measurements.py::test_request_rejections[path10-value10]",
@@ -78374,6 +79104,9 @@
         "tests/test_measurements.py::test_request_rejections[path8--1]",
         "tests/test_measurements.py::test_request_rejections[path9-nan]",
         "tests/test_measurements.py::test_sample_bounds",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_summary_requires_a_list_and_checks_history_outside_window",
         "tests/test_measurements.py::test_warning_and_drift_unusable_and_population_statistics",
         "tests/test_measurements.py::test_window_filters_outside_samples_and_multiple_bodies",
         "tests/test_real_sweep_pipeline.py::test_blended_wing_recipe_runs_real_short_cases_without_claiming_settling",
@@ -78430,6 +79163,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -78472,7 +79206,12 @@
         "tests/test_measurements.py::test_bad_windows[order]",
         "tests/test_measurements.py::test_bad_windows[spacing]",
         "tests/test_measurements.py::test_bad_windows[step]",
+        "tests/test_measurements.py::test_complete_measurement_contract_with_nonzero_side_load_and_fluctuations",
+        "tests/test_measurements.py::test_declared_maximum_history_is_accepted_without_truncation",
         "tests/test_measurements.py::test_duplicate_body_and_mutated_model_rejected",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_fixed_interval_roundoff_within_declared_tolerance_is_accepted",
         "tests/test_measurements.py::test_frozen_algebra_and_origin_translation",
         "tests/test_measurements.py::test_invalid_rejected_and_unknown_samples_not_dropped",
         "tests/test_measurements.py::test_invalid_sample_schema[patch0]",
@@ -78483,12 +79222,23 @@
         "tests/test_measurements.py::test_invalid_sample_schema[patch5]",
         "tests/test_measurements.py::test_invalid_sample_schema[patch6]",
         "tests/test_measurements.py::test_mutated_sample_probe_and_unit_vector_cannot_bypass_validation",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1.0-1e-07]",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1e-05-1e-10]",
         "tests/test_measurements.py::test_pressure_probe_and_explicit_surface_offset",
         "tests/test_measurements.py::test_probe_misc_rejections",
+        "tests/test_measurements.py::test_probe_output_retains_identity_coordinates_pressure_and_zero_source_time",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e+200-1e-200-5e-201]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e-200-1e+200-5e+199]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-body]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-count]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-duplicate]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[sampler]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[time]",
         "tests/test_measurements.py::test_request_rejections[path16-value16]",
         "tests/test_measurements.py::test_sample_bounds",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_summary_requires_a_list_and_checks_history_outside_window",
         "tests/test_measurements.py::test_warning_and_drift_unusable_and_population_statistics",
         "tests/test_measurements.py::test_window_filters_outside_samples_and_multiple_bodies",
         "tests/test_real_sweep_pipeline.py::test_blended_wing_recipe_runs_real_short_cases_without_claiming_settling",
@@ -78545,6 +79295,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -78582,6 +79333,11 @@
         "tests/test_measurements.py::test_bad_windows[order]",
         "tests/test_measurements.py::test_bad_windows[spacing]",
         "tests/test_measurements.py::test_bad_windows[step]",
+        "tests/test_measurements.py::test_complete_measurement_contract_with_nonzero_side_load_and_fluctuations",
+        "tests/test_measurements.py::test_declared_maximum_history_is_accepted_without_truncation",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_fixed_interval_roundoff_within_declared_tolerance_is_accepted",
         "tests/test_measurements.py::test_frozen_algebra_and_origin_translation",
         "tests/test_measurements.py::test_invalid_rejected_and_unknown_samples_not_dropped",
         "tests/test_measurements.py::test_invalid_sample_schema[patch0]",
@@ -78589,9 +79345,14 @@
         "tests/test_measurements.py::test_invalid_sample_schema[patch2]",
         "tests/test_measurements.py::test_invalid_sample_schema[patch3]",
         "tests/test_measurements.py::test_mutated_sample_probe_and_unit_vector_cannot_bypass_validation",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1.0-1e-07]",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1e-05-1e-10]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e+200-1e-200-5e-201]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e-200-1e+200-5e+199]",
         "tests/test_measurements.py::test_sample_bounds",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_summary_requires_a_list_and_checks_history_outside_window",
         "tests/test_measurements.py::test_warning_and_drift_unusable_and_population_statistics",
         "tests/test_measurements.py::test_window_filters_outside_samples_and_multiple_bodies",
         "tests/test_real_sweep_pipeline.py::test_blended_wing_recipe_runs_real_short_cases_without_claiming_settling",
@@ -78602,6 +79363,7 @@
         "tests/test_sweep_executor.py::test_empty_probes_and_detached_preparation",
         "tests/test_sweep_executor.py::test_real_cpu_result_keeps_aligned_observations_after_close",
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
       "lines": {
@@ -78636,8 +79398,12 @@
         "tests/test_measurements.py::test_mutated_sample_probe_and_unit_vector_cannot_bypass_validation",
         "tests/test_measurements.py::test_pressure_probe_and_explicit_surface_offset",
         "tests/test_measurements.py::test_probe_misc_rejections",
+        "tests/test_measurements.py::test_probe_output_retains_identity_coordinates_pressure_and_zero_source_time",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e+200-1e-200-5e-201]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e-200-1e+200-5e+199]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-body]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-duplicate]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[sampler]",
         "tests/test_real_sweep_pipeline.py::test_pressure_and_loads_share_actual_collision_phase_and_world_probe_mapping",
         "tests/test_real_sweep_pipeline.py::test_real_cpu_candidates_use_fresh_sessions_and_repeatable_actual_identity",
         "tests/test_real_sweep_pipeline.py::test_real_warning_is_retained_and_splits_plot_without_fabricated_coefficients",
@@ -78662,6 +79428,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -78704,7 +79471,12 @@
         "tests/test_measurements.py::test_bad_windows[order]",
         "tests/test_measurements.py::test_bad_windows[spacing]",
         "tests/test_measurements.py::test_bad_windows[step]",
+        "tests/test_measurements.py::test_complete_measurement_contract_with_nonzero_side_load_and_fluctuations",
+        "tests/test_measurements.py::test_declared_maximum_history_is_accepted_without_truncation",
         "tests/test_measurements.py::test_duplicate_body_and_mutated_model_rejected",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_fixed_interval_roundoff_within_declared_tolerance_is_accepted",
         "tests/test_measurements.py::test_frozen_algebra_and_origin_translation",
         "tests/test_measurements.py::test_invalid_rejected_and_unknown_samples_not_dropped",
         "tests/test_measurements.py::test_invalid_sample_schema[patch0]",
@@ -78715,10 +79487,18 @@
         "tests/test_measurements.py::test_invalid_sample_schema[patch5]",
         "tests/test_measurements.py::test_invalid_sample_schema[patch6]",
         "tests/test_measurements.py::test_mutated_sample_probe_and_unit_vector_cannot_bypass_validation",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1.0-1e-07]",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1e-05-1e-10]",
         "tests/test_measurements.py::test_pressure_probe_and_explicit_surface_offset",
         "tests/test_measurements.py::test_probe_misc_rejections",
+        "tests/test_measurements.py::test_probe_output_retains_identity_coordinates_pressure_and_zero_source_time",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e+200-1e-200-5e-201]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e-200-1e+200-5e+199]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-body]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-count]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-duplicate]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[sampler]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[time]",
         "tests/test_measurements.py::test_request_rejections[path0-wrong]",
         "tests/test_measurements.py::test_request_rejections[path1-0]",
         "tests/test_measurements.py::test_request_rejections[path10-value10]",
@@ -78738,6 +79518,9 @@
         "tests/test_measurements.py::test_request_rejections[path8--1]",
         "tests/test_measurements.py::test_request_rejections[path9-nan]",
         "tests/test_measurements.py::test_sample_bounds",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_summary_requires_a_list_and_checks_history_outside_window",
         "tests/test_measurements.py::test_warning_and_drift_unusable_and_population_statistics",
         "tests/test_measurements.py::test_window_filters_outside_samples_and_multiple_bodies",
         "tests/test_real_sweep_pipeline.py::test_blended_wing_recipe_runs_real_short_cases_without_claiming_settling",
@@ -78794,6 +79577,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -78836,7 +79620,12 @@
         "tests/test_measurements.py::test_bad_windows[order]",
         "tests/test_measurements.py::test_bad_windows[spacing]",
         "tests/test_measurements.py::test_bad_windows[step]",
+        "tests/test_measurements.py::test_complete_measurement_contract_with_nonzero_side_load_and_fluctuations",
+        "tests/test_measurements.py::test_declared_maximum_history_is_accepted_without_truncation",
         "tests/test_measurements.py::test_duplicate_body_and_mutated_model_rejected",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_fixed_interval_roundoff_within_declared_tolerance_is_accepted",
         "tests/test_measurements.py::test_frozen_algebra_and_origin_translation",
         "tests/test_measurements.py::test_helper_coercion_rejected[vectors0-1]",
         "tests/test_measurements.py::test_helper_coercion_rejected[vectors1-1]",
@@ -78851,10 +79640,21 @@
         "tests/test_measurements.py::test_invalid_sample_schema[patch5]",
         "tests/test_measurements.py::test_invalid_sample_schema[patch6]",
         "tests/test_measurements.py::test_mutated_sample_probe_and_unit_vector_cannot_bypass_validation",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1.0-1e-07]",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1e-05-1e-10]",
         "tests/test_measurements.py::test_pressure_probe_and_explicit_surface_offset",
         "tests/test_measurements.py::test_probe_misc_rejections",
+        "tests/test_measurements.py::test_probe_output_retains_identity_coordinates_pressure_and_zero_source_time",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e+200-1e-200-5e-201]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e-200-1e+200-5e+199]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[axis]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-body]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-count]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-duplicate]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[sampler]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[time]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[vector-finite]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[vector-shape]",
         "tests/test_measurements.py::test_request_rejections[path0-wrong]",
         "tests/test_measurements.py::test_request_rejections[path1-0]",
         "tests/test_measurements.py::test_request_rejections[path10-value10]",
@@ -78869,6 +79669,11 @@
         "tests/test_measurements.py::test_request_rejections[path3--1]",
         "tests/test_measurements.py::test_request_rejections[path4-]",
         "tests/test_measurements.py::test_sample_bounds",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_summary_requires_a_list_and_checks_history_outside_window",
+        "tests/test_measurements.py::test_unit_axes_do_not_inherit_numpy_default_tolerances[1e-07]",
+        "tests/test_measurements.py::test_unit_axes_do_not_inherit_numpy_default_tolerances[2e-10]",
         "tests/test_measurements.py::test_warning_and_drift_unusable_and_population_statistics",
         "tests/test_measurements.py::test_window_filters_outside_samples_and_multiple_bodies",
         "tests/test_real_sweep_pipeline.py::test_blended_wing_recipe_runs_real_short_cases_without_claiming_settling",
@@ -78939,6 +79744,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_wing_solver_recipe.py::test_box_matches_exact_surface_inclusive_analytic_set",
@@ -78980,8 +79786,14 @@
         "tests/test_measurement_pipeline.py::test_speed_changes_reference_coefficients_without_changing_geometry",
         "tests/test_measurements.py::test_arithmetic_overflow_rejects_results",
         "tests/test_measurements.py::test_axis_rotation_sign_and_load_cell",
+        "tests/test_measurements.py::test_complete_measurement_contract_with_nonzero_side_load_and_fluctuations",
+        "tests/test_measurements.py::test_declared_maximum_history_is_accepted_without_truncation",
+        "tests/test_measurements.py::test_fixed_interval_roundoff_within_declared_tolerance_is_accepted",
         "tests/test_measurements.py::test_frozen_algebra_and_origin_translation",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1.0-1e-07]",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1e-05-1e-10]",
         "tests/test_measurements.py::test_pressure_probe_and_explicit_surface_offset",
+        "tests/test_measurements.py::test_probe_output_retains_identity_coordinates_pressure_and_zero_source_time",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e+200-1e-200-5e-201]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e-200-1e+200-5e+199]",
         "tests/test_measurements.py::test_warning_and_drift_unusable_and_population_statistics",
@@ -79011,6 +79823,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -79073,8 +79886,13 @@
         "tests/test_measurement_pipeline.py::test_speed_changes_reference_coefficients_without_changing_geometry",
         "tests/test_measurements.py::test_arithmetic_overflow_rejects_results",
         "tests/test_measurements.py::test_axis_rotation_sign_and_load_cell",
+        "tests/test_measurements.py::test_complete_measurement_contract_with_nonzero_side_load_and_fluctuations",
+        "tests/test_measurements.py::test_declared_maximum_history_is_accepted_without_truncation",
         "tests/test_measurements.py::test_duplicate_body_and_mutated_model_rejected",
+        "tests/test_measurements.py::test_fixed_interval_roundoff_within_declared_tolerance_is_accepted",
         "tests/test_measurements.py::test_frozen_algebra_and_origin_translation",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1.0-1e-07]",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1e-05-1e-10]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e+200-1e-200-5e-201]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e-200-1e+200-5e+199]",
         "tests/test_measurements.py::test_warning_and_drift_unusable_and_population_statistics",
@@ -79087,6 +79905,7 @@
         "tests/test_sweep_executor.py::test_empty_probes_and_detached_preparation",
         "tests/test_sweep_executor.py::test_real_cpu_result_keeps_aligned_observations_after_close",
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
       "lines": {
@@ -79124,6 +79943,11 @@
         "tests/test_measurements.py::test_bad_windows[order]",
         "tests/test_measurements.py::test_bad_windows[spacing]",
         "tests/test_measurements.py::test_bad_windows[step]",
+        "tests/test_measurements.py::test_complete_measurement_contract_with_nonzero_side_load_and_fluctuations",
+        "tests/test_measurements.py::test_declared_maximum_history_is_accepted_without_truncation",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_fixed_interval_roundoff_within_declared_tolerance_is_accepted",
         "tests/test_measurements.py::test_frozen_algebra_and_origin_translation",
         "tests/test_measurements.py::test_invalid_rejected_and_unknown_samples_not_dropped",
         "tests/test_measurements.py::test_invalid_sample_schema[patch0]",
@@ -79134,9 +79958,14 @@
         "tests/test_measurements.py::test_invalid_sample_schema[patch5]",
         "tests/test_measurements.py::test_invalid_sample_schema[patch6]",
         "tests/test_measurements.py::test_mutated_sample_probe_and_unit_vector_cannot_bypass_validation",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1.0-1e-07]",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1e-05-1e-10]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e+200-1e-200-5e-201]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e-200-1e+200-5e+199]",
         "tests/test_measurements.py::test_sample_bounds",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_summary_requires_a_list_and_checks_history_outside_window",
         "tests/test_measurements.py::test_warning_and_drift_unusable_and_population_statistics",
         "tests/test_measurements.py::test_window_filters_outside_samples_and_multiple_bodies",
         "tests/test_real_sweep_pipeline.py::test_blended_wing_recipe_runs_real_short_cases_without_claiming_settling",
@@ -79147,6 +79976,7 @@
         "tests/test_sweep_executor.py::test_empty_probes_and_detached_preparation",
         "tests/test_sweep_executor.py::test_real_cpu_result_keeps_aligned_observations_after_close",
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
       "lines": {
@@ -79181,8 +80011,14 @@
         "tests/test_measurements.py::test_mutated_sample_probe_and_unit_vector_cannot_bypass_validation",
         "tests/test_measurements.py::test_pressure_probe_and_explicit_surface_offset",
         "tests/test_measurements.py::test_probe_misc_rejections",
+        "tests/test_measurements.py::test_probe_output_retains_identity_coordinates_pressure_and_zero_source_time",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e+200-1e-200-5e-201]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e-200-1e+200-5e+199]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-body]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-count]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-duplicate]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[sampler]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[time]",
         "tests/test_real_sweep_pipeline.py::test_pressure_and_loads_share_actual_collision_phase_and_world_probe_mapping",
         "tests/test_real_sweep_pipeline.py::test_real_cpu_candidates_use_fresh_sessions_and_repeatable_actual_identity",
         "tests/test_real_sweep_pipeline.py::test_real_warning_is_retained_and_splits_plot_without_fabricated_coefficients",
@@ -79207,6 +80043,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -79584,7 +80421,12 @@
         "tests/test_measurements.py::test_bad_windows[order]",
         "tests/test_measurements.py::test_bad_windows[spacing]",
         "tests/test_measurements.py::test_bad_windows[step]",
+        "tests/test_measurements.py::test_complete_measurement_contract_with_nonzero_side_load_and_fluctuations",
+        "tests/test_measurements.py::test_declared_maximum_history_is_accepted_without_truncation",
         "tests/test_measurements.py::test_duplicate_body_and_mutated_model_rejected",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_fixed_interval_roundoff_within_declared_tolerance_is_accepted",
         "tests/test_measurements.py::test_frozen_algebra_and_origin_translation",
         "tests/test_measurements.py::test_invalid_rejected_and_unknown_samples_not_dropped",
         "tests/test_measurements.py::test_invalid_sample_schema[patch0]",
@@ -79595,10 +80437,18 @@
         "tests/test_measurements.py::test_invalid_sample_schema[patch5]",
         "tests/test_measurements.py::test_invalid_sample_schema[patch6]",
         "tests/test_measurements.py::test_mutated_sample_probe_and_unit_vector_cannot_bypass_validation",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1.0-1e-07]",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1e-05-1e-10]",
         "tests/test_measurements.py::test_pressure_probe_and_explicit_surface_offset",
         "tests/test_measurements.py::test_probe_misc_rejections",
+        "tests/test_measurements.py::test_probe_output_retains_identity_coordinates_pressure_and_zero_source_time",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e+200-1e-200-5e-201]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e-200-1e+200-5e+199]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-body]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-count]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-duplicate]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[sampler]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[time]",
         "tests/test_measurements.py::test_request_rejections[path0-wrong]",
         "tests/test_measurements.py::test_request_rejections[path1-0]",
         "tests/test_measurements.py::test_request_rejections[path10-value10]",
@@ -79618,6 +80468,9 @@
         "tests/test_measurements.py::test_request_rejections[path8--1]",
         "tests/test_measurements.py::test_request_rejections[path9-nan]",
         "tests/test_measurements.py::test_sample_bounds",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_summary_requires_a_list_and_checks_history_outside_window",
         "tests/test_measurements.py::test_warning_and_drift_unusable_and_population_statistics",
         "tests/test_measurements.py::test_window_filters_outside_samples_and_multiple_bodies",
         "tests/test_motion.py::test_body_errors_name_the_body_and_ids_stay_unique",
@@ -79793,6 +80646,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_recordings.py::test_recording_recipe_steps_initialization_and_progress[record_motion_demo-1000-10-False]",
@@ -83611,6 +84465,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
@@ -84052,6 +84907,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
@@ -84490,6 +85346,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
@@ -84629,6 +85486,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_recordings.py::test_recording_recipe_steps_initialization_and_progress[record_motion_demo-1000-10-False]",
         "tests/test_tooling_recordings.py::test_recording_recipe_steps_initialization_and_progress[record_motion_demo-1000-10-True]",
@@ -84701,6 +85559,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.5]",
@@ -84824,6 +85683,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_recordings.py::test_recording_recipe_steps_initialization_and_progress[record_motion_demo-1000-10-False]",
         "tests/test_tooling_recordings.py::test_recording_recipe_steps_initialization_and_progress[record_motion_demo-1000-10-True]",
@@ -84951,6 +85811,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_recordings.py::test_recording_recipe_steps_initialization_and_progress[record_motion_demo-1000-10-False]",
         "tests/test_tooling_recordings.py::test_recording_recipe_steps_initialization_and_progress[record_motion_demo-1000-10-True]",
@@ -85175,6 +86036,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_recordings.py::test_boundary_transfer_script_retains_same_time_and_cpu_scope",
         "tests/test_tooling_recordings.py::test_recording_recipe_steps_initialization_and_progress[record_cylinder_demo-8000-100-False]",
@@ -85280,6 +86142,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_recordings.py::test_boundary_transfer_script_retains_same_time_and_cpu_scope",
         "tests/test_walls.py::test_fractional_reflection_and_force_parity[0.25]",
@@ -85445,6 +86308,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_recordings.py::test_boundary_transfer_script_retains_same_time_and_cpu_scope",
         "tests/test_tooling_recordings.py::test_recording_recipe_steps_initialization_and_progress[record_cylinder_demo-8000-100-False]",
@@ -85616,6 +86480,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_recordings.py::test_boundary_transfer_script_retains_same_time_and_cpu_scope",
         "tests/test_tooling_recordings.py::test_recording_recipe_steps_initialization_and_progress[record_cylinder_demo-8000-100-False]",
@@ -85935,6 +86800,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
@@ -86135,6 +87001,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[poiseuille]",
@@ -86395,6 +87262,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[poiseuille]",
@@ -86691,6 +87559,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
@@ -87026,6 +87895,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
@@ -87299,6 +88169,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
@@ -87572,6 +88443,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
@@ -87906,6 +88778,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
@@ -88178,6 +89051,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
@@ -88449,6 +89323,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
@@ -88720,6 +89595,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
@@ -88881,6 +89757,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[poiseuille]",
@@ -89194,6 +90071,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[poiseuille]",
@@ -89321,6 +90199,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[poiseuille]",
@@ -89680,6 +90559,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_recordings.py::test_boundary_transfer_script_retains_same_time_and_cpu_scope"
       ],
@@ -90119,6 +90999,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_tooling_execution.py::test_aij_measurements_geometry_and_insufficient_window_are_not_a_pass",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
@@ -91538,6 +92419,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_wing_solver_recipe.py::test_demo_final_angle_geometry_and_spec_identity",
@@ -91626,6 +92508,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -91680,6 +92563,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
       "lines": {
@@ -91730,6 +92614,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
       "lines": {
@@ -92429,6 +93314,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -92501,6 +93387,7 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -92553,6 +93440,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -92635,6 +93523,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -92681,6 +93570,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -92727,6 +93617,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
       "lines": {
@@ -92771,6 +93662,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
       "lines": {
@@ -92814,6 +93706,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
       "lines": {
@@ -92854,6 +93747,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
       "lines": {
@@ -92936,6 +93830,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -92983,6 +93878,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
       "lines": {
@@ -93032,6 +93928,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -93078,6 +93975,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
       "lines": {
@@ -93123,6 +94021,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
       "lines": {
@@ -93238,7 +94137,7 @@
       "fingerprint": "277c6e1b15f62fb8f56d8727c52c91df5aabd0071772c290e7bf275377c7ff51",
       "id": "src/hawa/sweep_executor.py::CpuSweepExecutor.close",
       "branches": {
-        "hit": 5,
+        "hit": 6,
         "total": 6
       },
       "tests": [
@@ -93260,6 +94159,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
       "lines": {
@@ -93302,6 +94202,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
       "lines": {
@@ -93347,6 +94248,7 @@
         "tests/test_sweep_executor.py::test_real_warning_is_retained",
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling"
       ],
@@ -93424,14 +94326,20 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_sweeps.py::test_cancel_before_start_and_dispose_are_idempotent",
         "tests/test_sweeps.py::test_cancel_retains_ownership_until_cancel_and_close_succeed",
+        "tests/test_sweeps.py::test_cleanup_and_bad_poll_errors_retain_underlying_cause",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change0-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change1-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change2-window]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change3-stationarity]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[pause]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[resume]",
+        "tests/test_sweeps.py::test_controls_forward_actual_handle_and_run_resumes_pause",
+        "tests/test_sweeps.py::test_disposal_after_a_completed_candidate_preserves_its_result",
         "tests/test_sweeps.py::test_dispose_during_pending_completion_drains_without_overwriting_result",
         "tests/test_sweeps.py::test_executor_contract",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[pause]",
@@ -93441,10 +94349,14 @@
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[cancelled]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[failed]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[rejected]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[cancelled]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[failed]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[rejected]",
         "tests/test_sweeps.py::test_generation_rejects[-1]",
         "tests/test_sweeps.py::test_generation_rejects[1.0]",
         "tests/test_sweeps.py::test_generation_rejects[1]",
         "tests/test_sweeps.py::test_generation_rejects[True]",
+        "tests/test_sweeps.py::test_initial_and_completed_records_keep_complete_identity_contract",
         "tests/test_sweeps.py::test_invalid_candidate[angle_deg-2]",
         "tests/test_sweeps.py::test_invalid_candidate[angle_deg-True]",
         "tests/test_sweeps.py::test_invalid_candidate[angle_deg-nan]",
@@ -93484,6 +94396,7 @@
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path7-nan]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path8-inf]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path9-True]",
+        "tests/test_sweeps.py::test_nonterminal_poll_reason_and_missing_reason_are_snapshotted",
         "tests/test_sweeps.py::test_ordered_completion_and_idle_reopen",
         "tests/test_sweeps.py::test_pause_before_start_and_while_running_resume_via_run",
         "tests/test_sweeps.py::test_stale_callback_cannot_publish_or_advance[change0]",
@@ -93491,7 +94404,15 @@
         "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change0]",
         "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change1]",
         "tests/test_sweeps.py::test_start_requires_handle",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[blank]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[completion]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[count]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[duplicate]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[item]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[poll]",
         "tests/test_sweeps.py::test_terminal_default_reason",
+        "tests/test_sweeps.py::test_terminal_observation_releases_handle_instead_of_only_changing_label",
+        "tests/test_sweeps.py::test_unique_candidate_count_above_limit_rejects",
         "tests/test_sweeps.py::test_validate_copies_and_accepts_limits"
       ],
       "lines": {
@@ -93533,7 +94454,9 @@
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change1-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change2-window]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change3-stationarity]",
+        "tests/test_sweeps.py::test_disposal_after_a_completed_candidate_preserves_its_result",
         "tests/test_sweeps.py::test_dispose_during_pending_completion_drains_without_overwriting_result",
+        "tests/test_sweeps.py::test_initial_and_completed_records_keep_complete_identity_contract",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path0-wrong]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path1-wrong]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path2-wrong]",
@@ -93542,7 +94465,8 @@
         "tests/test_sweeps.py::test_plot_rejects_mismatched_or_invalid_record_generation[8]",
         "tests/test_sweeps.py::test_plot_segments_preserve_gaps_ids_and_provenance",
         "tests/test_sweeps.py::test_stale_callback_cannot_publish_or_advance[change0]",
-        "tests/test_sweeps.py::test_stale_callback_cannot_publish_or_advance[change1]"
+        "tests/test_sweeps.py::test_stale_callback_cannot_publish_or_advance[change1]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[completion]"
       ],
       "lines": {
         "hit": 13,
@@ -93584,10 +94508,15 @@
         "tests/test_run_wing_sweep.py::test_runner_timeout_and_interrupt_drain",
         "tests/test_sweeps.py::test_cancel_before_start_and_dispose_are_idempotent",
         "tests/test_sweeps.py::test_cancel_retains_ownership_until_cancel_and_close_succeed",
+        "tests/test_sweeps.py::test_cleanup_and_bad_poll_errors_retain_underlying_cause",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change0-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change1-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change2-window]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change3-stationarity]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[pause]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[resume]",
+        "tests/test_sweeps.py::test_controls_forward_actual_handle_and_run_resumes_pause",
+        "tests/test_sweeps.py::test_disposal_after_a_completed_candidate_preserves_its_result",
         "tests/test_sweeps.py::test_dispose_during_pending_completion_drains_without_overwriting_result",
         "tests/test_sweeps.py::test_executor_contract",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[pause]",
@@ -93597,10 +94526,14 @@
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[cancelled]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[failed]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[rejected]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[cancelled]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[failed]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[rejected]",
         "tests/test_sweeps.py::test_generation_rejects[-1]",
         "tests/test_sweeps.py::test_generation_rejects[1.0]",
         "tests/test_sweeps.py::test_generation_rejects[1]",
         "tests/test_sweeps.py::test_generation_rejects[True]",
+        "tests/test_sweeps.py::test_initial_and_completed_records_keep_complete_identity_contract",
         "tests/test_sweeps.py::test_invalid_poll_payload[None]",
         "tests/test_sweeps.py::test_invalid_poll_payload[reply1]",
         "tests/test_sweeps.py::test_invalid_poll_payload[reply2]",
@@ -93619,6 +94552,7 @@
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path7-nan]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path8-inf]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path9-True]",
+        "tests/test_sweeps.py::test_nonterminal_poll_reason_and_missing_reason_are_snapshotted",
         "tests/test_sweeps.py::test_ordered_completion_and_idle_reopen",
         "tests/test_sweeps.py::test_pause_before_start_and_while_running_resume_via_run",
         "tests/test_sweeps.py::test_stale_callback_cannot_publish_or_advance[change0]",
@@ -93626,7 +94560,10 @@
         "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change0]",
         "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change1]",
         "tests/test_sweeps.py::test_start_requires_handle",
-        "tests/test_sweeps.py::test_terminal_default_reason"
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[completion]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[poll]",
+        "tests/test_sweeps.py::test_terminal_default_reason",
+        "tests/test_sweeps.py::test_terminal_observation_releases_handle_instead_of_only_changing_label"
       ],
       "lines": {
         "hit": 15,
@@ -93668,10 +94605,15 @@
         "tests/test_run_wing_sweep.py::test_runner_timeout_and_interrupt_drain",
         "tests/test_sweeps.py::test_cancel_before_start_and_dispose_are_idempotent",
         "tests/test_sweeps.py::test_cancel_retains_ownership_until_cancel_and_close_succeed",
+        "tests/test_sweeps.py::test_cleanup_and_bad_poll_errors_retain_underlying_cause",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change0-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change1-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change2-window]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change3-stationarity]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[pause]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[resume]",
+        "tests/test_sweeps.py::test_controls_forward_actual_handle_and_run_resumes_pause",
+        "tests/test_sweeps.py::test_disposal_after_a_completed_candidate_preserves_its_result",
         "tests/test_sweeps.py::test_dispose_during_pending_completion_drains_without_overwriting_result",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[pause]",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[poll]",
@@ -93680,6 +94622,10 @@
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[cancelled]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[failed]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[rejected]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[cancelled]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[failed]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[rejected]",
+        "tests/test_sweeps.py::test_initial_and_completed_records_keep_complete_identity_contract",
         "tests/test_sweeps.py::test_invalid_poll_payload[None]",
         "tests/test_sweeps.py::test_invalid_poll_payload[reply1]",
         "tests/test_sweeps.py::test_invalid_poll_payload[reply2]",
@@ -93698,6 +94644,7 @@
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path7-nan]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path8-inf]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path9-True]",
+        "tests/test_sweeps.py::test_nonterminal_poll_reason_and_missing_reason_are_snapshotted",
         "tests/test_sweeps.py::test_ordered_completion_and_idle_reopen",
         "tests/test_sweeps.py::test_pause_before_start_and_while_running_resume_via_run",
         "tests/test_sweeps.py::test_stale_callback_cannot_publish_or_advance[change0]",
@@ -93705,6 +94652,8 @@
         "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change0]",
         "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change1]",
         "tests/test_sweeps.py::test_start_requires_handle",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[completion]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[poll]",
         "tests/test_sweeps.py::test_terminal_default_reason"
       ],
       "lines": {
@@ -93747,6 +94696,7 @@
         "tests/test_run_wing_sweep.py::test_runner_timeout_and_interrupt_drain",
         "tests/test_sweeps.py::test_cancel_before_start_and_dispose_are_idempotent",
         "tests/test_sweeps.py::test_cancel_retains_ownership_until_cancel_and_close_succeed",
+        "tests/test_sweeps.py::test_disposal_after_a_completed_candidate_preserves_its_result",
         "tests/test_sweeps.py::test_dispose_during_pending_completion_drains_without_overwriting_result",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[cancelled]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[failed]",
@@ -93823,10 +94773,15 @@
         "tests/test_run_wing_sweep.py::test_runner_timeout_and_interrupt_drain",
         "tests/test_sweeps.py::test_cancel_before_start_and_dispose_are_idempotent",
         "tests/test_sweeps.py::test_cancel_retains_ownership_until_cancel_and_close_succeed",
+        "tests/test_sweeps.py::test_cleanup_and_bad_poll_errors_retain_underlying_cause",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change0-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change1-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change2-window]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change3-stationarity]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[pause]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[resume]",
+        "tests/test_sweeps.py::test_controls_forward_actual_handle_and_run_resumes_pause",
+        "tests/test_sweeps.py::test_disposal_after_a_completed_candidate_preserves_its_result",
         "tests/test_sweeps.py::test_dispose_during_pending_completion_drains_without_overwriting_result",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[pause]",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[poll]",
@@ -93835,6 +94790,10 @@
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[cancelled]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[failed]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[rejected]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[cancelled]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[failed]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[rejected]",
+        "tests/test_sweeps.py::test_initial_and_completed_records_keep_complete_identity_contract",
         "tests/test_sweeps.py::test_invalid_poll_payload[None]",
         "tests/test_sweeps.py::test_invalid_poll_payload[reply1]",
         "tests/test_sweeps.py::test_invalid_poll_payload[reply2]",
@@ -93853,6 +94812,7 @@
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path7-nan]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path8-inf]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path9-True]",
+        "tests/test_sweeps.py::test_nonterminal_poll_reason_and_missing_reason_are_snapshotted",
         "tests/test_sweeps.py::test_ordered_completion_and_idle_reopen",
         "tests/test_sweeps.py::test_pause_before_start_and_while_running_resume_via_run",
         "tests/test_sweeps.py::test_stale_callback_cannot_publish_or_advance[change0]",
@@ -93860,7 +94820,10 @@
         "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change0]",
         "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change1]",
         "tests/test_sweeps.py::test_start_requires_handle",
-        "tests/test_sweeps.py::test_terminal_default_reason"
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[completion]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[poll]",
+        "tests/test_sweeps.py::test_terminal_default_reason",
+        "tests/test_sweeps.py::test_terminal_observation_releases_handle_instead_of_only_changing_label"
       ],
       "lines": {
         "hit": 5,
@@ -93901,10 +94864,15 @@
         "tests/test_run_wing_sweep.py::test_runner_returns_plots_and_waits_for_confirmed_cleanup",
         "tests/test_run_wing_sweep.py::test_runner_timeout_and_interrupt_drain",
         "tests/test_sweeps.py::test_cancel_retains_ownership_until_cancel_and_close_succeed",
+        "tests/test_sweeps.py::test_cleanup_and_bad_poll_errors_retain_underlying_cause",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change0-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change1-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change2-window]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change3-stationarity]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[pause]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[resume]",
+        "tests/test_sweeps.py::test_controls_forward_actual_handle_and_run_resumes_pause",
+        "tests/test_sweeps.py::test_disposal_after_a_completed_candidate_preserves_its_result",
         "tests/test_sweeps.py::test_dispose_during_pending_completion_drains_without_overwriting_result",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[pause]",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[poll]",
@@ -93912,6 +94880,10 @@
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[cancelled]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[failed]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[rejected]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[cancelled]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[failed]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[rejected]",
+        "tests/test_sweeps.py::test_initial_and_completed_records_keep_complete_identity_contract",
         "tests/test_sweeps.py::test_invalid_poll_payload[None]",
         "tests/test_sweeps.py::test_invalid_poll_payload[reply1]",
         "tests/test_sweeps.py::test_invalid_poll_payload[reply2]",
@@ -93930,12 +94902,16 @@
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path7-nan]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path8-inf]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path9-True]",
+        "tests/test_sweeps.py::test_nonterminal_poll_reason_and_missing_reason_are_snapshotted",
         "tests/test_sweeps.py::test_ordered_completion_and_idle_reopen",
         "tests/test_sweeps.py::test_stale_callback_cannot_publish_or_advance[change0]",
         "tests/test_sweeps.py::test_stale_callback_cannot_publish_or_advance[change1]",
         "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change0]",
         "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change1]",
-        "tests/test_sweeps.py::test_terminal_default_reason"
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[completion]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[poll]",
+        "tests/test_sweeps.py::test_terminal_default_reason",
+        "tests/test_sweeps.py::test_terminal_observation_releases_handle_instead_of_only_changing_label"
       ],
       "lines": {
         "hit": 2,
@@ -93966,6 +94942,9 @@
         "tests/test_real_sweep_pipeline.py::test_real_worker_pause_and_cleanup_are_cooperative[cancel]",
         "tests/test_real_sweep_pipeline.py::test_real_worker_pause_and_cleanup_are_cooperative[dispose]",
         "tests/test_real_sweep_pipeline.py::test_real_worker_pause_and_cleanup_are_cooperative[resume]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[pause]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[resume]",
+        "tests/test_sweeps.py::test_controls_forward_actual_handle_and_run_resumes_pause",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[pause]",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[resume]",
         "tests/test_sweeps.py::test_pause_before_start_and_while_running_resume_via_run"
@@ -94000,6 +94979,10 @@
         "tests/test_real_sweep_pipeline.py::test_real_worker_pause_and_cleanup_are_cooperative[dispose]",
         "tests/test_real_sweep_pipeline.py::test_real_worker_pause_and_cleanup_are_cooperative[resume]",
         "tests/test_sweeps.py::test_cancel_before_start_and_dispose_are_idempotent",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[pause]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[resume]",
+        "tests/test_sweeps.py::test_controls_forward_actual_handle_and_run_resumes_pause",
+        "tests/test_sweeps.py::test_disposal_after_a_completed_candidate_preserves_its_result",
         "tests/test_sweeps.py::test_dispose_during_pending_completion_drains_without_overwriting_result",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[pause]",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[resume]",
@@ -94033,6 +95016,8 @@
       "tests": [
         "tests/test_real_sweep_pipeline.py::test_real_worker_pause_and_cleanup_are_cooperative[resume]",
         "tests/test_sweeps.py::test_cancel_before_start_and_dispose_are_idempotent",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[resume]",
+        "tests/test_sweeps.py::test_controls_forward_actual_handle_and_run_resumes_pause",
         "tests/test_sweeps.py::test_dispose_during_pending_completion_drains_without_overwriting_result",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[resume]",
         "tests/test_sweeps.py::test_pause_before_start_and_while_running_resume_via_run"
@@ -94075,7 +95060,11 @@
         "tests/test_run_wing_sweep.py::test_runner_timeout_and_interrupt_drain",
         "tests/test_sweeps.py::test_cancel_before_start_and_dispose_are_idempotent",
         "tests/test_sweeps.py::test_cancel_retains_ownership_until_cancel_and_close_succeed",
-        "tests/test_sweeps.py::test_dispose_during_pending_completion_drains_without_overwriting_result"
+        "tests/test_sweeps.py::test_cleanup_and_bad_poll_errors_retain_underlying_cause",
+        "tests/test_sweeps.py::test_controls_forward_actual_handle_and_run_resumes_pause",
+        "tests/test_sweeps.py::test_disposal_after_a_completed_candidate_preserves_its_result",
+        "tests/test_sweeps.py::test_dispose_during_pending_completion_drains_without_overwriting_result",
+        "tests/test_sweeps.py::test_nonterminal_poll_reason_and_missing_reason_are_snapshotted"
       ],
       "lines": {
         "hit": 8,
@@ -94106,7 +95095,10 @@
         "tests/test_real_sweep_pipeline.py::test_real_worker_pause_and_cleanup_are_cooperative[cancel]",
         "tests/test_run_wing_sweep.py::test_runner_timeout_and_interrupt_drain",
         "tests/test_sweeps.py::test_cancel_before_start_and_dispose_are_idempotent",
-        "tests/test_sweeps.py::test_cancel_retains_ownership_until_cancel_and_close_succeed"
+        "tests/test_sweeps.py::test_cancel_retains_ownership_until_cancel_and_close_succeed",
+        "tests/test_sweeps.py::test_cleanup_and_bad_poll_errors_retain_underlying_cause",
+        "tests/test_sweeps.py::test_controls_forward_actual_handle_and_run_resumes_pause",
+        "tests/test_sweeps.py::test_nonterminal_poll_reason_and_missing_reason_are_snapshotted"
       ],
       "lines": {
         "hit": 1,
@@ -94145,6 +95137,7 @@
         "tests/test_run_wing_sweep.py::test_runner_returns_plots_and_waits_for_confirmed_cleanup",
         "tests/test_run_wing_sweep.py::test_runner_timeout_and_interrupt_drain",
         "tests/test_sweeps.py::test_cancel_before_start_and_dispose_are_idempotent",
+        "tests/test_sweeps.py::test_disposal_after_a_completed_candidate_preserves_its_result",
         "tests/test_sweeps.py::test_dispose_during_pending_completion_drains_without_overwriting_result"
       ],
       "lines": {
@@ -94186,10 +95179,15 @@
         "tests/test_run_wing_sweep.py::test_runner_returns_plots_and_waits_for_confirmed_cleanup",
         "tests/test_run_wing_sweep.py::test_runner_timeout_and_interrupt_drain",
         "tests/test_sweeps.py::test_cancel_retains_ownership_until_cancel_and_close_succeed",
+        "tests/test_sweeps.py::test_cleanup_and_bad_poll_errors_retain_underlying_cause",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change0-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change1-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change2-window]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change3-stationarity]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[pause]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[resume]",
+        "tests/test_sweeps.py::test_controls_forward_actual_handle_and_run_resumes_pause",
+        "tests/test_sweeps.py::test_disposal_after_a_completed_candidate_preserves_its_result",
         "tests/test_sweeps.py::test_dispose_during_pending_completion_drains_without_overwriting_result",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[pause]",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[poll]",
@@ -94197,6 +95195,10 @@
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[cancelled]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[failed]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[rejected]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[cancelled]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[failed]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[rejected]",
+        "tests/test_sweeps.py::test_initial_and_completed_records_keep_complete_identity_contract",
         "tests/test_sweeps.py::test_invalid_poll_payload[None]",
         "tests/test_sweeps.py::test_invalid_poll_payload[reply1]",
         "tests/test_sweeps.py::test_invalid_poll_payload[reply2]",
@@ -94215,12 +95217,16 @@
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path7-nan]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path8-inf]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path9-True]",
+        "tests/test_sweeps.py::test_nonterminal_poll_reason_and_missing_reason_are_snapshotted",
         "tests/test_sweeps.py::test_ordered_completion_and_idle_reopen",
         "tests/test_sweeps.py::test_stale_callback_cannot_publish_or_advance[change0]",
         "tests/test_sweeps.py::test_stale_callback_cannot_publish_or_advance[change1]",
         "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change0]",
         "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change1]",
-        "tests/test_sweeps.py::test_terminal_default_reason"
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[completion]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[poll]",
+        "tests/test_sweeps.py::test_terminal_default_reason",
+        "tests/test_sweeps.py::test_terminal_observation_releases_handle_instead_of_only_changing_label"
       ],
       "lines": {
         "hit": 20,
@@ -94262,10 +95268,15 @@
         "tests/test_run_wing_sweep.py::test_runner_timeout_and_interrupt_drain",
         "tests/test_sweeps.py::test_cancel_before_start_and_dispose_are_idempotent",
         "tests/test_sweeps.py::test_cancel_retains_ownership_until_cancel_and_close_succeed",
+        "tests/test_sweeps.py::test_cleanup_and_bad_poll_errors_retain_underlying_cause",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change0-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change1-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change2-window]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change3-stationarity]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[pause]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[resume]",
+        "tests/test_sweeps.py::test_controls_forward_actual_handle_and_run_resumes_pause",
+        "tests/test_sweeps.py::test_disposal_after_a_completed_candidate_preserves_its_result",
         "tests/test_sweeps.py::test_dispose_during_pending_completion_drains_without_overwriting_result",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[pause]",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[poll]",
@@ -94274,6 +95285,10 @@
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[cancelled]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[failed]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[rejected]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[cancelled]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[failed]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[rejected]",
+        "tests/test_sweeps.py::test_initial_and_completed_records_keep_complete_identity_contract",
         "tests/test_sweeps.py::test_invalid_poll_payload[None]",
         "tests/test_sweeps.py::test_invalid_poll_payload[reply1]",
         "tests/test_sweeps.py::test_invalid_poll_payload[reply2]",
@@ -94292,6 +95307,7 @@
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path7-nan]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path8-inf]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path9-True]",
+        "tests/test_sweeps.py::test_nonterminal_poll_reason_and_missing_reason_are_snapshotted",
         "tests/test_sweeps.py::test_ordered_completion_and_idle_reopen",
         "tests/test_sweeps.py::test_pause_before_start_and_while_running_resume_via_run",
         "tests/test_sweeps.py::test_stale_callback_cannot_publish_or_advance[change0]",
@@ -94299,7 +95315,10 @@
         "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change0]",
         "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change1]",
         "tests/test_sweeps.py::test_start_requires_handle",
-        "tests/test_sweeps.py::test_terminal_default_reason"
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[completion]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[poll]",
+        "tests/test_sweeps.py::test_terminal_default_reason",
+        "tests/test_sweeps.py::test_terminal_observation_releases_handle_instead_of_only_changing_label"
       ],
       "lines": {
         "hit": 39,
@@ -94338,6 +95357,8 @@
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change1-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change2-window]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change3-stationarity]",
+        "tests/test_sweeps.py::test_initial_and_completed_records_keep_complete_identity_contract",
+        "tests/test_sweeps.py::test_plot_rejects_coercive_record_generation_even_when_numerically_equal",
         "tests/test_sweeps.py::test_plot_rejects_mismatched_or_invalid_record_generation[-1]",
         "tests/test_sweeps.py::test_plot_rejects_mismatched_or_invalid_record_generation[8]",
         "tests/test_sweeps.py::test_plot_rejects_mismatched_or_invalid_record_generation[True]",
@@ -95750,7 +96771,12 @@
         "tests/test_measurements.py::test_bad_windows[order]",
         "tests/test_measurements.py::test_bad_windows[spacing]",
         "tests/test_measurements.py::test_bad_windows[step]",
+        "tests/test_measurements.py::test_complete_measurement_contract_with_nonzero_side_load_and_fluctuations",
+        "tests/test_measurements.py::test_declared_maximum_history_is_accepted_without_truncation",
         "tests/test_measurements.py::test_duplicate_body_and_mutated_model_rejected",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_endpoints_cannot_use_numpy_looser_default_tolerances[1e-05-1e-10]",
+        "tests/test_measurements.py::test_fixed_interval_roundoff_within_declared_tolerance_is_accepted",
         "tests/test_measurements.py::test_frozen_algebra_and_origin_translation",
         "tests/test_measurements.py::test_helper_coercion_rejected[vectors0-1]",
         "tests/test_measurements.py::test_helper_coercion_rejected[vectors1-1]",
@@ -95765,10 +96791,21 @@
         "tests/test_measurements.py::test_invalid_sample_schema[patch5]",
         "tests/test_measurements.py::test_invalid_sample_schema[patch6]",
         "tests/test_measurements.py::test_mutated_sample_probe_and_unit_vector_cannot_bypass_validation",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1.0-1e-07]",
+        "tests/test_measurements.py::test_nearby_outside_samples_are_not_silently_admitted[1e-05-1e-10]",
         "tests/test_measurements.py::test_pressure_probe_and_explicit_surface_offset",
         "tests/test_measurements.py::test_probe_misc_rejections",
+        "tests/test_measurements.py::test_probe_output_retains_identity_coordinates_pressure_and_zero_source_time",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e+200-1e-200-5e-201]",
         "tests/test_measurements.py::test_reference_products_keep_valid_scaled_extremes[1e-200-1e+200-5e+199]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[axis]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-body]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-count]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[probe-duplicate]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[sampler]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[time]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[vector-finite]",
+        "tests/test_measurements.py::test_rejections_keep_an_actionable_diagnostic[vector-shape]",
         "tests/test_measurements.py::test_request_rejections[path0-wrong]",
         "tests/test_measurements.py::test_request_rejections[path1-0]",
         "tests/test_measurements.py::test_request_rejections[path10-value10]",
@@ -95788,7 +96825,12 @@
         "tests/test_measurements.py::test_request_rejections[path8--1]",
         "tests/test_measurements.py::test_request_rejections[path9-nan]",
         "tests/test_measurements.py::test_sample_bounds",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1.0-1e-07]",
+        "tests/test_measurements.py::test_sample_spacing_does_not_inherit_numpy_default_tolerances[1e-05-1e-10]",
         "tests/test_measurements.py::test_schema_snapshots",
+        "tests/test_measurements.py::test_summary_requires_a_list_and_checks_history_outside_window",
+        "tests/test_measurements.py::test_unit_axes_do_not_inherit_numpy_default_tolerances[1e-07]",
+        "tests/test_measurements.py::test_unit_axes_do_not_inherit_numpy_default_tolerances[2e-10]",
         "tests/test_measurements.py::test_warning_and_drift_unusable_and_population_statistics",
         "tests/test_measurements.py::test_window_filters_outside_samples_and_multiple_bodies",
         "tests/test_motion.py::test_body_errors_name_the_body_and_ids_stay_unique",
@@ -95901,6 +96943,7 @@
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[host-acceptance-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-collision-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-diagnostic-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[measurement-core-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[motion-schema-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mps-mass-budget-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mutation-tooling-policy.json]",
@@ -96746,14 +97789,20 @@
         "tests/test_sweep_executor.py::test_rejected_window_keeps_raw_data",
         "tests/test_sweep_executor.py::test_solver_failure_stays_failed_with_partial_history",
         "tests/test_sweep_executor.py::test_standalone_preparation_checks_its_own_envelope_and_steps",
+        "tests/test_sweep_executor.py::test_terminal_result_does_not_release_a_still_live_worker",
         "tests/test_sweep_executor.py::test_thread_start_failure_retains_no_resources",
         "tests/test_sweep_executor.py::test_translated_rotated_case_frame_matches_real_sampling",
         "tests/test_sweeps.py::test_cancel_before_start_and_dispose_are_idempotent",
         "tests/test_sweeps.py::test_cancel_retains_ownership_until_cancel_and_close_succeed",
+        "tests/test_sweeps.py::test_cleanup_and_bad_poll_errors_retain_underlying_cause",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change0-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change1-quality]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change2-window]",
         "tests/test_sweeps.py::test_completed_but_unusable_is_rejected[change3-stationarity]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[pause]",
+        "tests/test_sweeps.py::test_control_failure_cancels_the_owned_handle_before_close[resume]",
+        "tests/test_sweeps.py::test_controls_forward_actual_handle_and_run_resumes_pause",
+        "tests/test_sweeps.py::test_disposal_after_a_completed_candidate_preserves_its_result",
         "tests/test_sweeps.py::test_dispose_during_pending_completion_drains_without_overwriting_result",
         "tests/test_sweeps.py::test_executor_contract",
         "tests/test_sweeps.py::test_executor_failure_becomes_failed_record[pause]",
@@ -96763,10 +97812,14 @@
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[cancelled]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[failed]",
         "tests/test_sweeps.py::test_executor_terminal_states_and_reasons[rejected]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[cancelled]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[failed]",
+        "tests/test_sweeps.py::test_executor_terminal_states_retain_reason_and_generation[rejected]",
         "tests/test_sweeps.py::test_generation_rejects[-1]",
         "tests/test_sweeps.py::test_generation_rejects[1.0]",
         "tests/test_sweeps.py::test_generation_rejects[1]",
         "tests/test_sweeps.py::test_generation_rejects[True]",
+        "tests/test_sweeps.py::test_initial_and_completed_records_keep_complete_identity_contract",
         "tests/test_sweeps.py::test_invalid_candidate[angle_deg-2]",
         "tests/test_sweeps.py::test_invalid_candidate[angle_deg-True]",
         "tests/test_sweeps.py::test_invalid_candidate[angle_deg-nan]",
@@ -96806,8 +97859,10 @@
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path7-nan]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path8-inf]",
         "tests/test_sweeps.py::test_malformed_completion_fails_and_cleans[path9-True]",
+        "tests/test_sweeps.py::test_nonterminal_poll_reason_and_missing_reason_are_snapshotted",
         "tests/test_sweeps.py::test_ordered_completion_and_idle_reopen",
         "tests/test_sweeps.py::test_pause_before_start_and_while_running_resume_via_run",
+        "tests/test_sweeps.py::test_plot_rejects_coercive_record_generation_even_when_numerically_equal",
         "tests/test_sweeps.py::test_plot_rejects_mismatched_or_invalid_record_generation[-1]",
         "tests/test_sweeps.py::test_plot_rejects_mismatched_or_invalid_record_generation[8]",
         "tests/test_sweeps.py::test_plot_rejects_mismatched_or_invalid_record_generation[True]",
@@ -96817,7 +97872,15 @@
         "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change0]",
         "tests/test_sweeps.py::test_stale_malformed_result_does_not_fail_current_job[change1]",
         "tests/test_sweeps.py::test_start_requires_handle",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[blank]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[completion]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[count]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[duplicate]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[item]",
+        "tests/test_sweeps.py::test_sweep_rejections_keep_an_actionable_diagnostic[poll]",
         "tests/test_sweeps.py::test_terminal_default_reason",
+        "tests/test_sweeps.py::test_terminal_observation_releases_handle_instead_of_only_changing_label",
+        "tests/test_sweeps.py::test_unique_candidate_count_above_limit_rejects",
         "tests/test_sweeps.py::test_validate_copies_and_accepts_limits",
         "tests/test_tooling_entrypoints.py::test_cli_help_exits_successfully_without_creating_outputs[analyze_neutral_stationary]",
         "tests/test_tooling_entrypoints.py::test_cli_help_exits_successfully_without_creating_outputs[benchmark_rotating_sphere]",
@@ -97426,6 +98489,7 @@
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[host-acceptance-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-collision-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[kbc-diagnostic-policy.json]",
+        "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[measurement-core-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[motion-schema-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mps-mass-budget-policy.json]",
         "tests/test_mutation_policy.py::test_committed_policies_are_complete_and_reviewed[mutation-tooling-policy.json]",

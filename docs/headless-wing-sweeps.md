@@ -99,3 +99,12 @@ Preparation and this blocking command-line driver belong off a UI thread.
 
 [Measurement contract](measurement-contract-v1.md) ·
 [Foundation evidence](review-measurement-foundation.md)
+
+## Sensitivity limit
+
+The November 17 CPU study passed its stationarity checks but failed its
+predeclared grid/domain screen: medium-to-fine CL changed 0.023672, and the
+larger domain changed CL 0.075670 and CD 8.21%. These curves remain workflow
+demonstrations, with resolution/domain qualification open. See the
+[protocol](wing-cpu-sensitivity-protocol.md) and
+[review and raw evidence](review-cpu-sweep-validation.md).
