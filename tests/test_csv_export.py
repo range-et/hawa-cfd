@@ -49,14 +49,14 @@ def request(destination, **options):
 
 def test_exact_values_coordinates_masks_units_and_escaped_metadata(snapshot, tmp_path):
     session, arrays = snapshot
-    path = tmp_path / 'nested' / 'field.csv'
+    path = tmp_path / 'nested' / 'deeper' / 'field.csv'
     assert exports.export_csv(session, request(path)) == {'path': str(path), 'format': 'csv', 'rows': 36}
     meta, rows = read_table(path)
     assert meta == {
         'schema': 'hawa-field-csv-1', 'rows': 36, 'shape': [3, 4, 3], 'columns': exports.HEADER,
         'units': {'position': 'm', 'velocity': 'm/s', 'pressure': 'Pa', 'density': 'kg/m^3', 'time': 's'},
         'unit_system': 'SI', 'session': 's', 'case_hash': 'hash', 'case': session.spec,
-        'hawa_version': '0.5.0', 'backend': {'device': 'cpu'}, 'iteration': 7, 'time': .875,
+        'hawa_version': '0.5.0', 'backend': {'device': 'cpu'}, 'iteration': 7, 'local_time': .875, 'time_origin': 0., 'absolute_time': .875,
         'quality': session.quality, 'sampling': 'instantaneous lattice nodes',
         'origin': [2., 3., 4.], 'basis': session.spec['basis'], 'dx': .5,
         'velocity_axes': 'domain; world vector = domain vector @ basis',
@@ -91,7 +91,7 @@ def test_real_2d_benchmark_and_npz_extension_compatibility(tmp_path):
         assert result['rows'] == 64
         assert meta['unit_system'] == 'benchmark-normalized'
         assert meta['units'] == dict(position='normalized length', velocity='normalized velocity', pressure='normalized pressure', density='normalized density', time='normalized time')
-        assert meta['iteration'] == 0 and meta['time'] == 0
+        assert meta['iteration'] == 0 and meta['local_time'] == meta['absolute_time'] == meta['time_origin'] == 0
         assert all(row[2] == '0' and row[5] == '0.0' and row[11] == '0.0' for row in rows)
         assert meta['dx'] == float(SESSIONS[ident].flow.units.convert_length_to_pu(1))
         with pytest.raises(ValueError, match='format=csv'):
@@ -214,3 +214,69 @@ def test_multi_chunk_checkpoints_and_partial_write_cleanup(snapshot, tmp_path, m
     with pytest.raises(OSError, match='partial write'):
         exports.export_csv(session, request(path))
     assert path.read_bytes() == before and list(tmp_path.iterdir()) == [path]
+
+
+def test_absolute_time_and_transport_identifiers(snapshot, tmp_path):
+    session, _ = snapshot
+    session.spec['time_origin_seconds'] = 12.25
+    path = tmp_path / 'time.csv'
+    exports.export_csv(session, request(path, request_id='transport-only', revision=7))
+    meta, _ = read_table(path)
+    assert meta['time_origin'] == 12.25 and meta['local_time'] == .875 and meta['absolute_time'] == 13.125
+    assert meta['case']['time_origin_seconds'] == 12.25
+    assert 'revision' not in meta and 'request_id' not in meta
+
+
+@pytest.mark.parametrize('has_dx', [False, True])
+def test_fallback_display_spacing_preserves_origin(snapshot, tmp_path, has_dx):
+    session, _ = snapshot
+    del session.spec['spacing']
+    if not has_dx:
+        del session.spec['dx']
+        session.spec['example'] = 'reference'
+    path = tmp_path / 'fallback.csv'
+    exports.export_csv(session, request(path))
+    meta, rows = read_table(path)
+    expected = [8., 12., 16.] if has_dx else [4., 6., 8.]
+    assert meta['origin'] == expected
+    assert list(map(float, rows[0][3:6])) == expected
+
+
+def test_nonfinite_metadata_cannot_publish(snapshot, tmp_path):
+    session, _ = snapshot
+    session.quality['bad'] = float('nan')
+    path = tmp_path / 'bad.csv'
+    path.write_text('previous')
+    with pytest.raises(ValueError, match='JSON compliant'):
+        exports.export_csv(session, request(path))
+    assert path.read_text() == 'previous' and list(tmp_path.iterdir()) == [path]
+
+
+def test_portable_temporary_location_encoding_and_newlines(snapshot, tmp_path, monkeypatch):
+    session, _ = snapshot
+    session.spec['label'] = 'é,中文\nnext'
+    path = tmp_path / 'portable.csv'
+    real_temporary = exports.tempfile.NamedTemporaryFile
+    def temporary(**kwargs):
+        # Same-directory publication must work even when the system temporary
+        # directory is on a different volume. Explicit text settings avoid the
+        # host locale and Windows newline translation changing exported bytes.
+        assert kwargs['dir'] == path.parent
+        assert kwargs['encoding'].lower() == 'utf-8'
+        assert kwargs['newline'] == ''
+        return real_temporary(**kwargs)
+    monkeypatch.setattr(exports.tempfile, 'NamedTemporaryFile', temporary)
+    exports.export_csv(session, request(path))
+    assert read_table(path)[0]['case']['label'] == 'é,中文\nnext'
+    assert b'\r\r\n' not in path.read_bytes()
+
+
+def test_npz_query_is_not_routed_to_csv(snapshot, tmp_path, monkeypatch):
+    session, _ = snapshot
+    monkeypatch.setitem(SESSIONS, 's', session)
+    path = tmp_path / 'still-npz.csv'
+    job = Job({'kind': 'query', 'request': request(path, format='npz')})
+    job.work()
+    assert job.state == 'completed' and job.result == {'path': str(path)}
+    with np.load(path, allow_pickle=False) as data:
+        np.testing.assert_array_equal(data['pressure'], session.fields()['pressure'])

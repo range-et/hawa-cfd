@@ -49,13 +49,16 @@ def export_csv(session, request, checkpoint=None):
                  'pressure': 'normalized pressure' if normalized else 'Pa',
                  'density': 'normalized density' if normalized else 'kg/m^3',
                  'time': 'normalized time' if normalized else 's'}
+        local_time = float(session.flow.units.convert_time_to_pu(session.flow.i))
+        time_origin = float(spec.get('time_origin_seconds', 0.))
         metadata = json.dumps({
             'schema': MARKER, 'rows': rows, 'shape': list(shape), 'columns': HEADER,
             'units': units, 'unit_system': 'benchmark-normalized' if normalized else 'SI',
             'session': session.id, 'case_hash': session.key, 'case': spec,
             'hawa_version': __version__, 'backend': session.backend.info(),
             'iteration': session.flow.i,
-            'time': float(session.flow.units.convert_time_to_pu(session.flow.i)),
+            'local_time': local_time, 'time_origin': time_origin,
+            'absolute_time': time_origin + local_time,
             'quality': session.quality, 'sampling': 'instantaneous lattice nodes',
             'origin': origin.tolist(), 'basis': basis.tolist(), 'dx': dx,
             'velocity_axes': 'domain; world vector = domain vector @ basis',

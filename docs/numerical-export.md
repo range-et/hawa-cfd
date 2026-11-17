@@ -42,8 +42,12 @@ with a float64 parser to recover exported raw values exactly. Transform velocity
 to world axes as `domain_velocity @ basis` only if needed.
 
 Metadata records schema, column names, expected row count, shape, case and hash,
-session, Hawa version, selected backend, captured iteration/time, sampled quality,
-physical origin/basis/dx, units, validity and pressure-reference semantics. Case
+session, Hawa version, selected backend, captured iteration, `local_time`, `time_origin` and `absolute_time`, sampled quality,
+physical origin/basis/dx, units, validity and pressure-reference semantics.
+`local_time` is elapsed solver time; `time_origin` is the case
+`time_origin_seconds` (zero when absent); `absolute_time = time_origin + local_time`.
+Use absolute time to align nested parent/child results. All three use the declared
+time units. Case
 geometry origin in document coordinates is scaled by physical dx / display
 spacing. Ordinary physical wind cases declare metres, seconds, m/s, Pa and kg/m³.
 Built-in benchmark examples instead declare normalized length/time/velocity/
