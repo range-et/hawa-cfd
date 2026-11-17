@@ -556,6 +556,9 @@ def sample_arrays(fields, points):
 
 def dispatch(request):
     op = request["op"]
+    if op == "data":
+        from .native_data import save
+        return save(SESSIONS[request["session"]], request)
     if op == "statistics":
         from .flow_statistics import analyze
         return analyze(request['manifest'],request['points'],request.get('start_time',0.),request.get('end_time'))
