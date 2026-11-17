@@ -147,3 +147,41 @@ relative-path assertion: the documented save response is an absolute path.
 fixture directories. No production behavior or tolerance changed; a fresh full
 G6 rerun is required. Full measured coverage, final mutation review, CUDA, CI
 and Greptile remain separate merge gates.
+
+## Gate disposition
+
+Review roles are actual agents, not independent human sign-off. Root performed
+integration self-review and the live checks; domain_validation and
+atmosphere_qualification cross-reviewed the native ownership changes.
+
+| Gate | Reviewer | Status | Bounded evidence / remaining work |
+| --- | --- | --- | --- |
+| G0 research | root, numerical_exports | PASS | Contract fixed before measurement; existing sampler/load semantics, NPZ arrays and public Rhino/Eto operations reused; no new numerical method or dependency. |
+| G1 architecture | domain_validation, atmosphere_qualification, root | PASS | Transactional import, separate operation ownership, paused/no-advance restore, stale completion and disposal contracts;146 linked state contracts plus live ownership/cleanup/reopen checks. |
+| G2 reliability | numerical_exports, domain_validation, root | PASS |2256 tests passed87 explicit skips;146 C# contracts. Strict headless function/line gate and trusted-base ratchet pass:511 Python and582 C# covered functions;299 host functions remain unmeasured. Python3.12:2246 passed97 skips. All four applicable mutation policies pass. |
+| G3 numerical implementation | numerical_exports, atmosphere_qualification, root | PASS, bounded CPU interchange | Exact raw CSV/NPZ and independent same-backend continuation checks; no solver-method, physical validation or unrestricted hardware claim. Device round still required for merge. |
+| G4 UI/UX | root | PASS, focused Mac workflow | Actual dynamic events and dock inspection; file dialogs, Windows UI and full-gallery run/render omitted as listed above. |
+| G5 integration | root | BLOCKED | Official package built/installed; ready PR, final CI/Greptile5/5 and CUDA pending. Not released. |
+| G6 compatibility | atmosphere_qualification, root | PASS locally; CUDA BLOCKED |102,582 rows recorded:100,092 CPU/MPS/structural passes,0 failures,2,490 CUDA rows blocked; source hashes stable.53 public nodes/31 archives audited. [Machine evidence](verification-compatibility.json). |
+
+Fresh full G6 rerun `results/compatibility-export-complete-v4` passed every available
+row, including54 CSV and28 native-data CPU/MPS rows. CUDA is explicitly blocked
+on this machine. The CPU device smoke also passed all5 comparisons; final MPS
+smoke is queued after the measured suites.
+
+Measured production-parity run: `results/function-coverage-export-complete`,
+Python3.9.25,2256 passed/87 skipped,146 C# contracts. Skips:85 unavailable CUDA,
+one unsupported MPS float64 and one mutmut requiring the3.12 developer environment.
+Warnings include dependency deprecations, the deliberate duplicate-ZIP fixture
+and existing experimental upstream MRT notices; none is silently counted as a pass.
+The strict headless check includes executable lines and used trusted base
+`12dc774`; the refreshed committed matrix preserves299 unmeasured host functions.
+
+Developer Python3.12.4 suite:2246 passed/97 explicit skips (production-Python
+entrypoints remain3.9-only; accelerator availability remains explicit),216
+warnings. The3.9 run above is authoritative. Both suites completed successfully.
+
+The first final MPS smoke executed all5 cases successfully, but its overall gate
+failed because this review record changed during its whole-tree source audit.
+That run is retained as invalid evidence. A fresh run with the entire checkout
+frozen is required; no numerical tolerance or production change is involved.
