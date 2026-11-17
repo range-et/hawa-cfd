@@ -23,6 +23,7 @@ def load(name):
 @pytest.mark.parametrize('failure', ['none','operator','source','inventory'])
 def test_g6_orchestrator_preserves_blocked_failed_and_incomplete_rows(tmp_path,monkeypatch,failure):
     m=load('run_compatibility_matrix')
+    monkeypatch.setattr(m,'export_cases',lambda:iter([]))
     topology=[dict(id='faces/reject',expected=False)]
     rows=[dict(id='solver/accept',expected=True)]
     refinement=[dict(id='refinement/accept',expected=True)]
@@ -203,6 +204,7 @@ def test_aij_reporting_preserves_rejection_and_fixed_averaging_criteria(tmp_path
 @pytest.mark.parametrize('failure',['none','topology','field','solver-reject','nesting-reject','nesting-error'])
 def test_g6_orchestrator_records_each_operator_failure_without_losing_rows(tmp_path,monkeypatch,failure):
     m=load('run_compatibility_matrix')
+    monkeypatch.setattr(m,'export_cases',lambda:iter([]))
     monkeypatch.setattr(m,'DEVICES',['cpu','cuda:0'])
     monkeypatch.setattr(m,'available',lambda device:device=='cpu')
     monkeypatch.setattr(m,'topologies',lambda:iter([dict(id='faces/valid',expected=True)]))
@@ -346,3 +348,30 @@ def test_example_worker_installs_windows_memory_adapter_only_for_affected_projec
     report=json.loads((out/'report.json').read_text())
     assert report['status']=='launcher-only'
     assert report['platform_adaptations']==['Unix resource peak RSS diagnostic supplied by Windows psutil peak_wset']
+
+
+@pytest.mark.parametrize('outcome', ['accept', 'reject', 'error', 'wrong-verdict'])
+def test_g6_export_family_records_rejection_hardware_and_unexpected_failures(tmp_path, monkeypatch, outcome):
+    m=load('run_compatibility_matrix')
+    for name in ('topologies','combinations','refinements','field_cases','collection_cases','nesting_cases'):
+        monkeypatch.setattr(m,name,lambda:iter([]))
+    row=dict(id='exports/probes/physical3D/valid',expected=outcome!='reject')
+    monkeypatch.setattr(m,'export_cases',lambda:iter([row]))
+    monkeypatch.setattr(m,'DEVICES',['cpu','cuda:0'])
+    monkeypatch.setattr(m,'available',lambda device:device=='cpu')
+    def exercise(*args):
+        if outcome=='error':raise ValueError('unexpected fixture error, not a successful rejection')
+        return outcome=='accept'
+    monkeypatch.setattr(m,'exercise_export',exercise)
+    monkeypatch.setattr(m,'source_hashes',lambda:{'fixture':'stable'})
+    monkeypatch.setattr(m,'environment',lambda:{'fixture':True})
+    monkeypatch.setattr(m,'verify_examples',lambda path:{'fixture':True})
+    monkeypatch.setattr(m,'verify_evidence',lambda path:None)
+    monkeypatch.setattr(m,'expected_rows',lambda:[1,2])
+    out=tmp_path/'exports'
+    assert m.run(out)==(0 if outcome in ('accept','reject') else 1)
+    rows=[json.loads(line) for line in (out/'rows.jsonl').read_text().splitlines()]
+    assert len(rows)==2 and rows[1]['status']=='blocked'
+    assert rows[0]['status']==('passed' if outcome in ('accept','reject') else 'failed')
+    if outcome=='error':assert 'unexpected fixture error' in rows[0]['error']
+    else:assert rows[0]['observed']==('run' if outcome=='accept' else 'reject')

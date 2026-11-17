@@ -4,6 +4,7 @@ import numpy as np
 import pytest
 from matrix.cases import topologies,combinations
 from matrix.operations import field_cases,exercise_field
+from matrix.exports import export_cases,exercise_export
 from matrix.contract import expected_rows,verify_rows,verify_examples,ROOT
 
 
@@ -12,7 +13,7 @@ def test_matrix_products_have_unique_complete_ids():
     assert len({r['id'] for r in rows})==len(rows)
     assert sum(r['expected'] for r in rows)==1392
     assert len(list(combinations()))==240
-    assert len(expected_rows())==99291+576*3+1440
+    assert len(expected_rows())==99291+576*3+1440+81
 
 
 def test_evidence_rejects_missing_duplicate_false_pass_and_unknown_rows():
@@ -61,3 +62,17 @@ def test_declared_collision_boundary_and_scalar_options_do_not_drift():
             for value in node.comparators:
                 names.update(n.value for n in ast.walk(value) if isinstance(n,ast.Constant) and isinstance(n.value,str))
     assert names==set(SCALARS)
+
+
+def test_export_inventory_is_complete_and_independent():
+    rows=list(export_cases())
+    assert len(rows)==27 and len({row['id'] for row in rows})==27
+    assert sum(row['expected'] for row in rows)==7
+    inventory=expected_rows()
+    assert len([key for key in inventory if key.startswith('exports/')])==81
+    assert all(inventory[row['id']+'/'+device]==row['expected'] for row in rows for device in ('cpu','mps','cuda:0'))
+
+
+@pytest.mark.parametrize('row',list(export_cases()),ids=lambda row:row['id'])
+def test_export_product_cpu(row,tmp_path):
+    assert exercise_export(row,tmp_path,'cpu') is row['expected']
