@@ -3,8 +3,8 @@
 source "$(dirname "$0")/lib.sh"
 base=0e76b95
 mutate=(src/hawa/exports.py src/hawa/plugin.py src/hawa/jobs.py)
-tests=(tests/conftest.py tests/test_csv_export.py tests/test_export.py)
+tests=(tests/conftest.py tests/test_csv_export.py tests/test_csv_tables.py tests/test_export.py)
 reviewed=("${mutate[@]}" "${tests[@]}")
-test_args=(tests/test_csv_export.py tests/test_export.py)
+test_args=(tests/test_csv_export.py tests/test_csv_tables.py tests/test_export.py)
 changed_lines() { git diff --no-prefix "$base" -- "${mutate[@]}"; }
 run_study "$@"

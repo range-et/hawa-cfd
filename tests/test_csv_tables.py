@@ -163,7 +163,8 @@ def test_expected_guard_and_identity_echo(snapshot, tmp_path, table):
 def test_strict_request_errors_preserve_destination(snapshot, tmp_path, options):
     path = tmp_path / 'strict.csv'
     path.write_text('old')
-    with pytest.raises(ValueError): exports.export_csv(snapshot[0], request(path, **options))
+    with pytest.raises(ValueError) as error: exports.export_csv(snapshot[0], request(path, **options))
+    assert str(error.value) not in ('', 'None')
     assert path.read_text() == 'old' and list(tmp_path.iterdir()) == [path] and not exports.DESTINATIONS
 
 
@@ -190,7 +191,8 @@ def test_invalid_load_sources_fail_without_publication(snapshot, tmp_path, failu
     else: session.spec['moving_bodies'][0]['pivot'] = [float('inf'), 0., 0.]
     path = tmp_path / 'bad.csv'
     path.write_text('old')
-    with pytest.raises(ValueError): exports.export_csv(session, request(path, table='loads'))
+    with pytest.raises(ValueError) as error: exports.export_csv(session, request(path, table='loads'))
+    assert str(error.value) not in ('', 'None')
     assert path.read_text() == 'old' and list(tmp_path.iterdir()) == [path] and not exports.DESTINATIONS
 
 
@@ -210,8 +212,9 @@ def test_publication_failures_release_reservation(snapshot, tmp_path, monkeypatc
     with monkeypatch.context() as patch:
         if failure == 'replace': patch.setattr(exports.os, 'replace', fail)
         if failure == 'partial_rows': patch.setattr(exports, {'fields': 'field_rows', 'probes': 'probe_rows', 'loads': 'load_rows'}[table], lambda *args: iter([]))
-        with pytest.raises((Cancelled, OSError, ValueError)):
+        with pytest.raises((Cancelled, OSError, ValueError)) as error:
             exports.export_csv(session, request(path, **options), checkpoint)
+        assert str(error.value) not in ('', 'None')
     assert path.read_text() == 'old' and list(tmp_path.iterdir()) == [path] and not exports.DESTINATIONS
     exports.export_csv(session, request(path, **options))
     read(path)
@@ -389,3 +392,98 @@ def test_real_cpu_moving_session_round_trips_loads_and_probes(tmp_path):
     finally:
         dispatch(dict(op='close', session=ident))
     assert ident not in SESSIONS and not exports.DESTINATIONS
+
+
+@pytest.mark.parametrize('options', [
+    {'session': 1},
+    {'expected': dict(case_hash=1, iteration=0, state='paused')},
+    {'expected': dict(case_hash='', iteration=0, state='paused')},
+    {'expected': dict(case_hash='hash', iteration=True, state='paused')},
+    {'expected': dict(case_hash='hash', iteration=-1, state='paused')},
+    {'expected': dict(case_hash='hash', iteration=0, state=1)},
+    {'expected': dict(case_hash='hash', iteration=0, state='')},
+    {'table': 'probes', 'points': [(1, 2, 3)]},
+])
+def test_request_validation_rejects_before_capture(tmp_path, options):
+    with pytest.raises(ValueError):
+        exports.validate_request(request(tmp_path / 'table.csv', **options))
+
+
+def test_initial_revision_and_iteration_are_valid(tmp_path):
+    req = request(tmp_path / 'table.csv', revision=0,
+                  expected=dict(case_hash='hash', iteration=0, state='paused'),
+                  attribution=dict(revision=0, generation=0, version=0))
+    assert exports.validate_request(req) == {**req, 'table': 'fields'}
+
+
+def test_table_semantics_and_captured_history_are_detached(snapshot, tmp_path):
+    session, history = moving(snapshot)
+    req = exports.validate_request(request(tmp_path / 'loads.csv', table='loads'))
+    data, meta = exports.capture(session, req)
+    history[0]['loads'][0]['force'][0] = 999
+    assert data[0]['loads'][0]['force'][0] == .125
+    assert meta['sampling'] == 'retained step-end load history'
+    assert meta['validity'] == 'complete finite load sample; not physical qualification'
+    assert meta['force_axes'] == 'domain; force on body by fluid'
+    assert meta['pivot_source'] == 'prescribed motion at row local_time'
+    req = exports.validate_request(request(tmp_path / 'probes.csv', table='probes', points=[[1, 1, 1]]))
+    _, meta = exports.capture(session, req)
+    assert meta['sampling'] == 'fluid-only trilinear interpolation at requested lattice points'
+    assert meta['validity'] == 'existing halfway-fluid sampling rule; invalid quantities are empty'
+    assert meta['two_dimensional'] == 'third lattice coordinate is projected to zero for sampling, as in sample_arrays'
+
+
+@pytest.mark.parametrize('count', [4, 5])
+def test_load_body_count_boundary(snapshot, tmp_path, count):
+    import copy
+    session, history = moving(snapshot)
+    bodies = [dict(copy.deepcopy(session.spec['moving_bodies'][0]), id=str(i)) for i in range(count)]
+    session.spec['moving_bodies'] = bodies
+    for record in history:
+        record['loads'] = [dict(copy.deepcopy(record['loads'][0]), id=b['id']) for b in bodies]
+    req = request(tmp_path / 'bodies.csv', table='loads')
+    if count == 4:
+        assert exports.export_csv(session, req)['rows'] == 8
+    else:
+        with pytest.raises(ValueError): exports.export_csv(session, req)
+
+
+@pytest.mark.parametrize('failure', ['capacity', 'zero', 'boolean', 'nan', 'local_negative', 'bad_id', 'empty_id', 'nonfinite_metadata'])
+def test_capture_and_load_validation_boundaries(snapshot, tmp_path, failure):
+    import copy
+    session, history = moving(snapshot)
+    req = exports.validate_request(request(tmp_path / 'bad.csv', table='loads'))
+    if failure == 'capacity': history[:] = [copy.deepcopy(history[0])] * 10001
+    elif failure == 'zero': history[0]['time'] = 0
+    elif failure == 'boolean': history[0]['time'] = True
+    elif failure == 'nan': history[0]['time'] = float('nan')
+    elif failure == 'local_negative': session.flow.units.convert_time_to_pu = lambda _: -1.
+    elif failure == 'nonfinite_metadata': session.quality['residual'] = float('nan')
+    elif failure in ('bad_id', 'empty_id'):
+        ident = 12 if failure == 'bad_id' else ''
+        session.spec['moving_bodies'][0]['id'] = ident
+        for record in history: record['loads'][0]['id'] = ident
+        with pytest.raises(ValueError): exports.export_csv(session, req)
+        return
+    with pytest.raises(ValueError): exports.capture(session, req)
+
+
+def test_retention_tolerance_boundary_and_last_time_inclusive(snapshot, tmp_path):
+    session, history = moving(snapshot)
+    history[0]['time'] = session.solver.moving.dt * (1 + 1e-9)
+    history[1]['time'] = .875 + session.solver.moving.dt * 1e-9
+    exports.export_csv(session, request(tmp_path / 'boundary.csv', table='loads'))
+    meta, rows = read(tmp_path / 'boundary.csv')
+    assert meta['history']['truncated'] is False
+    assert meta['history']['starts_after_initial_step'] is False
+    assert float(rows[-1][2]) == history[1]['time']
+
+
+def test_internal_history_boolean_time_rejected(snapshot, tmp_path):
+    import copy
+    session, history = moving(snapshot)
+    session.flow.units.convert_time_to_pu = lambda _: 3.
+    history.append(copy.deepcopy(history[-1]))
+    history[-1]['time'] = 2.
+    history[1]['time'] = True
+    with pytest.raises(ValueError): exports.export_csv(session, request(tmp_path / 'bool.csv', table='loads'))

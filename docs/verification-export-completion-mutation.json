@@ -1,0 +1,75 @@
+{
+  "date": "2026-11-17",
+  "reviewer": "Codex numerical_exports agent",
+  "issue": 35,
+  "source_commit": "dc83a6e",
+  "base_revision": "0e76b95",
+  "scope": "Issue 35 field/probe/load CSV capture, serialization and export routing changed lines versus 0e76b95; no solver numerical changes",
+  "command": "MUTMUT_MAX_CHILDREN=4 bash tools/mutation/run_numerical_export.sh results/export-completion-mutation-3",
+  "environment": "macOS CPU; Python 3.12.4; mutmut 3.7.0; max children 4",
+  "result": {
+    "mutants": 1249,
+    "killed": 1156,
+    "reviewed_survivors": 93,
+    "control_tests": 144,
+    "policy_pass": true,
+    "scope": "Issue 35 field/probe/load CSV capture, serialization and export routing changed lines versus 0e76b95; no solver numerical changes"
+  },
+  "errors": 0,
+  "timeouts": 0,
+  "unchecked": 0,
+  "source_and_test_sha256": {
+    "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
+    "src/hawa/plugin.py": "50ae862f3c5996b96269a194207d9d964e3103215f0a2eb60c572fe5a3804e48",
+    "src/hawa/jobs.py": "f769062de1f7f443e58c41c29b8fa26bae242d313dfa62fb3856865deb196421",
+    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
+    "tests/test_csv_export.py": "bd7ae21aa9524b2ee5deb8e018f8f7b939e0642a348923c8d5fe939c2d2d3f82",
+    "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
+    "tests/test_csv_tables.py": "3c5bbb6c9b67713dcdd605637142a0d5c239cf020c5c03799ef1f7a38d3b0098"
+  },
+  "inventory_sha256": "57e43bded2d8ee8ee0fb8a9ccedac5e247318171750858f0efd0bc0b867014de",
+  "reviewed_survivor_categories": {
+    "diagnostic spelling": 69,
+    "false flag": 3,
+    "private temporary name": 9,
+    "encoding alias": 1,
+    "already finite metadata": 2,
+    "zero mask dtype": 4,
+    "JSON ID encoding": 3,
+    "already validated request": 2
+  },
+  "review": "Every final survivor diff reviewed. Functional metadata, strict input and boundary, detachment and missing diagnostic mutants were addressed with asserting tests. Only bounded equivalents remain; raw exit 1 alone counts as a kill.",
+  "iterations": [
+    {
+      "run": 1,
+      "mutants": 1249,
+      "killed": 1080,
+      "survived": 169,
+      "accepted": false,
+      "reason": "Initial assertion gaps; added focused regressions"
+    },
+    {
+      "run": 2,
+      "accepted": false,
+      "reason": "Working test hashes changed during final export; discarded, not claimed as a gate pass"
+    },
+    {
+      "run": 3,
+      "accepted": true,
+      "reason": "Fresh frozen source/tests, exact inventory and policy verified"
+    }
+  ],
+  "focused_python39": {
+    "command": ".venv/bin/python -m coverage run --data-file results/export-focused-final.coverage --branch --source=hawa.exports -m pytest tests/test_csv_export.py tests/test_csv_tables.py tests/test_export.py tests/test_field_export.py -q",
+    "passed": 159,
+    "skipped": 0,
+    "statements": 194,
+    "covered_statements": 194,
+    "branches": 94,
+    "covered_branches": 94
+  },
+  "omissions": [
+    "Full measured suite and committed function matrix are coordinated separately by root.",
+    "Rhino/Grasshopper/native host readback and GPU compatibility are separate gates; this CPU mutation study does not replace them."
+  ]
+}
