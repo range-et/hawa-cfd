@@ -73,8 +73,8 @@ def test_real_cpu_result_keeps_aligned_observations_after_close():
     assert executor.audit()==dict(handles=0,live_workers=0,session_ids=[])
     assert set(SESSIONS)==before
     assert executor.close(handle)
-    with pytest.raises(ValueError):executor.poll(handle)
-    with pytest.raises(ValueError):executor.start(data['a']['candidate'],7)
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):executor.poll(handle)
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):executor.start(data['a']['candidate'],7)
 
 
 def test_empty_probes_and_detached_preparation():
@@ -168,14 +168,14 @@ def test_thread_start_failure_retains_no_resources(monkeypatch):
 @pytest.mark.parametrize('generation',[True,-1,8])
 def test_generation_mismatch(generation):
     data=prepared();executor=CpuSweepExecutor(data)
-    with pytest.raises(ValueError):executor.start(data['a']['candidate'],generation)
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):executor.start(data['a']['candidate'],generation)
 
 
 def test_changed_candidate_refused_before_thread():
     data=prepared();executor=CpuSweepExecutor(data)
     candidate=deepcopy(data['a']['candidate']);candidate['angle_deg']=1.
-    with pytest.raises(ValueError):executor.start(candidate,7)
-    with pytest.raises(ValueError):executor.close('unknown')
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):executor.start(candidate,7)
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):executor.close('unknown')
     assert executor.audit()['handles']==0
 
 
@@ -212,11 +212,11 @@ def test_preparation_rejects_before_allocation(change,monkeypatch):
         entry['request']['identity']['case_hash']=entry['candidate']['case_hash']
     def no_session(*args):pytest.fail('invalid preflight allocated Session')
     monkeypatch.setattr(module,'Session',no_session)
-    with pytest.raises(ValueError):CpuSweepExecutor(data)
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):CpuSweepExecutor(data)
 
 
 def test_empty_map_refused():
-    with pytest.raises(ValueError):CpuSweepExecutor({})
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):CpuSweepExecutor({})
 
 
 def test_real_warning_is_retained(monkeypatch):
@@ -281,7 +281,7 @@ def test_aggregate_budget_and_frame_precede_worker_allocation(change):
     if change=='total_cells':entry['spec']['shape']=[200,200,200]
     if change=='total_vertices':entry['geometry']['vertices_m']=[[0.,0.,0.]]*200001
     if change=='total_faces':entry['geometry']['triangles']=[[0,1,2]]*400001
-    with pytest.raises(ValueError):CpuSweepExecutor(data)
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):CpuSweepExecutor(data)
 
 
 def test_probe_per_candidate_limit_is_enforced():
@@ -390,7 +390,7 @@ def test_generation_boundary_runs_but_numeric_lookalikes_do_not(generation):
     for invalid in (float(generation), bool(generation), str(generation), None):
         unexpected_handle = None
         try:
-            with pytest.raises(ValueError):
+            with pytest.raises(ValueError, match=r'^(?!None$).+'):
                 unexpected_handle = executor.start(data['a']['candidate'], invalid)
         finally:
             if unexpected_handle is not None:
@@ -491,7 +491,7 @@ def test_geometry_admission_rejects_invalid_content_even_with_matching_hash(fiel
     digest = hashlib.sha256(json.dumps(geometry, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
     entry['candidate']['geometry_hash'] = digest
     entry['request']['identity']['geometry_hash'] = digest
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):
         CpuSweepExecutor(data)
 
 
@@ -550,7 +550,7 @@ def test_nonzero_settling_window_and_default_mach_admission():
     for start, end in ((2, 6), (2, 4), (2.1, 5), (2, 5.1)):
         invalid = deepcopy(data)
         invalid['a']['request']['window'].update(start_s=start*dt, end_s=end*dt)
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match=r'^(?!None$).+'):
             CpuSweepExecutor(invalid)
 
 
@@ -608,7 +608,7 @@ def test_malformed_resource_collections_rejected_before_deepcopy(monkeypatch, fi
     def forbidden_copy(*args, **kwargs):
         pytest.fail('resource envelope must be rejected before copying payloads')
     monkeypatch.setattr(module, 'deepcopy', forbidden_copy)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):
         CpuSweepExecutor(data)
 
 
@@ -625,7 +625,7 @@ def test_unknown_entry_field_rejected_before_copy(monkeypatch):
     def forbidden(*args):
         pytest.fail('unknown envelope reached deepcopy')
     monkeypatch.setattr(module, 'deepcopy', forbidden)
-    with pytest.raises(ValueError) as exc:
+    with pytest.raises(ValueError, match=r'^(?!None$).+') as exc:
         CpuSweepExecutor(data)
     assert str(exc.value) and str(exc.value) != 'None'
 
@@ -635,7 +635,7 @@ def test_exact_step_limit_without_worker_allocation():
     executor = CpuSweepExecutor(data)
     assert executor.audit()['handles'] == 0
     data['a']['steps'] = 100001
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):
         CpuSweepExecutor(data)
 
 
@@ -644,7 +644,7 @@ def test_aggregate_cell_budget_rejects_single_cell_over_limit():
     data['a']['spec']['shape'] = [4, 7, 53567]
     data['b']['spec']['shape'] = [5, 5, 5]
     assert 4*7*53567 + 5*5*5 == 1500001
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):
         module._budget(data)
 
 
@@ -652,7 +652,7 @@ def test_unknown_geometry_field_rejected_even_with_matching_digest():
     data = prepared(); entry = data['a']; entry['geometry']['extra'] = 'untrusted'
     digest = hashlib.sha256(json.dumps(entry['geometry'], sort_keys=True, separators=(',', ':')).encode()).hexdigest()
     entry['candidate']['geometry_hash'] = entry['request']['identity']['geometry_hash'] = digest
-    with pytest.raises(ValueError) as exc:
+    with pytest.raises(ValueError, match=r'^(?!None$).+') as exc:
         CpuSweepExecutor(data)
     assert str(exc.value) and str(exc.value) != 'None'
 
@@ -664,14 +664,14 @@ def test_geometry_hash_accepts_exact_upper_count_without_solver(field, count):
     expected = hashlib.sha256(json.dumps(geometry, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
     assert module._geometry_hash(geometry) == expected
     geometry[field].append(geometry[field][0])
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):
         module._geometry_hash(geometry)
 
 
 def test_geometry_vertex_lower_bound_is_independent_of_triangle_count():
     geometry = dict(vertices_m=[[0., 0., 0.], [1., 0., 0.], [0., 1., 0.]],
                     triangles=[[0, 1, 2]] * 4)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):
         module._geometry_hash(geometry)
 
 
@@ -685,7 +685,7 @@ def test_candidate_count_limit_with_real_budget_and_preparation():
     assert executor.audit()['handles'] == 0
     data['64'] = deepcopy(data['0'])
     data['64']['candidate']['candidate_id'] = data['64']['request']['identity']['candidate_id'] = '64'
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):
         CpuSweepExecutor(data)
 
 
@@ -732,7 +732,7 @@ def test_near_zero_window_endpoint_uses_absolute_alignment_tolerance():
     data['a']['request']['window']['start_s'] = 5e-13 * dt
     assert CpuSweepExecutor(data).audit()['handles'] == 0
     data['a']['request']['window']['start_s'] = 2e-12 * dt
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):
         CpuSweepExecutor(data)
 
 

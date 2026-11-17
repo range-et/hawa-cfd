@@ -101,15 +101,15 @@ def test_single_link_torque_halfway_position_and_world_transform():
     {'boundaries':['inlet','outlet','foo','foo','slip','slip']},{'solid':[]},{'solid':[999999]}, {'solid':[True]}])
 def test_preflight_rejections(patch):
     spec,sets,_=case();spec.update(patch)
-    with pytest.raises(ValueError): validate_case(spec,sets)
+    with pytest.raises(ValueError, match=r'^(?!None$).+'): validate_case(spec,sets)
 
 
 def test_preflight_ownership_rejections():
     spec,sets,_=case()
     for device in ('auto','mps','cuda:0'):
-        with pytest.raises(ValueError): validate_case(spec,sets,device)
+        with pytest.raises(ValueError, match=r'^(?!None$).+'): validate_case(spec,sets,device)
     for bad in ({},{'':sets['wing']},{'wing':[]},{'wing':[True]}, {'wing':sets['wing']*2}):
-        with pytest.raises(ValueError): validate_case(spec,bad)
+        with pytest.raises(ValueError, match=r'^(?!None$).+'): validate_case(spec,bad)
     with pytest.raises(ValueError,match='overlap'): validate_case(spec,dict(a=sets['wing'],b=sets['wing']))
     with pytest.raises(ValueError,match='union'): validate_case(spec,dict(a=sets['wing'][:-1]))
     first=sets['wing'][0]
@@ -120,15 +120,15 @@ def test_preflight_ownership_rejections():
 
 @pytest.mark.parametrize('origin,basis', [([0,0],np.eye(3)),([True,0,0],np.eye(3)),([0,0,0],np.diag([1,1,-1])),([0,0,0],np.ones((3,3))),([0,0,0],[['1',0,0],[0,1,0],[0,0,1]])])
 def test_world_basis_rejections(origin,basis):
-    with pytest.raises(ValueError):world_basis(origin,basis)
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):world_basis(origin,basis)
 
 
 def test_collector_identity_dtype_references_and_capacity_guards():
     spec,sets,bodies=case();session=Session(spec,'cpu')
     for bad in ([],[dict(body_id='wrong',moment_origin_world_m=[0,0,0])]):
-        with pytest.raises(ValueError):StationaryLoads(session.flow,spec,sets,bad)
+        with pytest.raises(ValueError, match=r'^(?!None$).+'):StationaryLoads(session.flow,spec,sets,bad)
     for cap in (True,0,100001):
-        with pytest.raises(ValueError):StationaryLoads(session.flow,spec,sets,bodies,capacity=cap)
+        with pytest.raises(ValueError, match=r'^(?!None$).+'):StationaryLoads(session.flow,spec,sets,bodies,capacity=cap)
     mismatch=copy.deepcopy(spec);mismatch['dx']*=2
     with pytest.raises(ValueError,match='specification'):StationaryLoads(session.flow,mismatch,sets,bodies)
     session.flow.solid[5,5,5]=True
@@ -322,7 +322,7 @@ def test_four_body_limit_accepts_four_and_rejects_five():
 def test_admission_rejects_unsupported_exact_boundary_inputs(key, value):
     spec, sets, _ = case()
     spec[key] = value
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r'^(?!None$).+'):
         validate_case(spec, sets)
 
 
