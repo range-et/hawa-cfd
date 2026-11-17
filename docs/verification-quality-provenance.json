@@ -1,0 +1,1806 @@
+{
+  "issue": 98,
+  "date": "2026-11-16",
+  "reviewer": "Codex issue98 agent (self-review)",
+  "python": "3.9.25",
+  "platform": "macOS-27.2.1-arm64-arm-64bit",
+  "source_sha256": "dbcb8389f074b35b39ab0969ac920a2f2aec59eb7134dd709035d97b8dda25e9",
+  "scope": "Headless reproduction of example08 generator settings; not a live GH archive run",
+  "runs": [
+    {
+      "device": "cpu",
+      "torch": "2.8.0",
+      "spec": {
+        "shape": [
+          33,
+          17,
+          17
+        ],
+        "dx": 0.5,
+        "spacing": 0.5,
+        "origin": [
+          0,
+          0,
+          0
+        ],
+        "speed": 1.0,
+        "viscosity": 0.1,
+        "density": 1.225,
+        "mach": 0.05,
+        "collision": "regularized",
+        "solid": [
+          2414,
+          2415,
+          2416,
+          2417,
+          2418,
+          2419,
+          2420,
+          2421,
+          2422,
+          2431,
+          2432,
+          2433,
+          2434,
+          2435,
+          2436,
+          2437,
+          2438,
+          2439,
+          2448,
+          2449,
+          2450,
+          2451,
+          2452,
+          2453,
+          2454,
+          2455,
+          2456,
+          2465,
+          2466,
+          2467,
+          2468,
+          2469,
+          2470,
+          2471,
+          2472,
+          2473,
+          2482,
+          2483,
+          2484,
+          2485,
+          2486,
+          2487,
+          2488,
+          2489,
+          2490,
+          2703,
+          2704,
+          2705,
+          2706,
+          2707,
+          2708,
+          2709,
+          2710,
+          2711,
+          2720,
+          2721,
+          2722,
+          2723,
+          2724,
+          2725,
+          2726,
+          2727,
+          2728,
+          2737,
+          2738,
+          2739,
+          2740,
+          2741,
+          2742,
+          2743,
+          2744,
+          2745,
+          2754,
+          2755,
+          2756,
+          2757,
+          2758,
+          2759,
+          2760,
+          2761,
+          2762,
+          2771,
+          2772,
+          2773,
+          2774,
+          2775,
+          2776,
+          2777,
+          2778,
+          2779,
+          2992,
+          2993,
+          2994,
+          2995,
+          2996,
+          2997,
+          2998,
+          2999,
+          3000,
+          3009,
+          3010,
+          3011,
+          3012,
+          3013,
+          3014,
+          3015,
+          3016,
+          3017,
+          3026,
+          3027,
+          3028,
+          3029,
+          3030,
+          3031,
+          3032,
+          3033,
+          3034,
+          3043,
+          3044,
+          3045,
+          3046,
+          3047,
+          3048,
+          3049,
+          3050,
+          3051,
+          3060,
+          3061,
+          3062,
+          3063,
+          3064,
+          3065,
+          3066,
+          3067,
+          3068,
+          3281,
+          3282,
+          3283,
+          3284,
+          3285,
+          3286,
+          3287,
+          3288,
+          3289,
+          3298,
+          3299,
+          3300,
+          3301,
+          3302,
+          3303,
+          3304,
+          3305,
+          3306,
+          3315,
+          3316,
+          3317,
+          3318,
+          3319,
+          3320,
+          3321,
+          3322,
+          3323,
+          3332,
+          3333,
+          3334,
+          3335,
+          3336,
+          3337,
+          3338,
+          3339,
+          3340,
+          3349,
+          3350,
+          3351,
+          3352,
+          3353,
+          3354,
+          3355,
+          3356,
+          3357,
+          3570,
+          3571,
+          3572,
+          3573,
+          3574,
+          3575,
+          3576,
+          3577,
+          3578,
+          3587,
+          3588,
+          3589,
+          3590,
+          3591,
+          3592,
+          3593,
+          3594,
+          3595,
+          3604,
+          3605,
+          3606,
+          3607,
+          3608,
+          3609,
+          3610,
+          3611,
+          3612,
+          3621,
+          3622,
+          3623,
+          3624,
+          3625,
+          3626,
+          3627,
+          3628,
+          3629,
+          3638,
+          3639,
+          3640,
+          3641,
+          3642,
+          3643,
+          3644,
+          3645,
+          3646
+        ],
+        "boundaries": [
+          "inlet",
+          "outlet",
+          "periodic",
+          "periodic",
+          "wall",
+          "slip"
+        ]
+      },
+      "trigger": {
+        "status": "warning",
+        "iteration": 5,
+        "time_seconds": 0.07216878364870323,
+        "violations": [
+          {
+            "quantity": "max_density_deviation",
+            "value": 0.051969051361083984,
+            "limit": 0.05
+          }
+        ]
+      },
+      "reasons": [
+        "Sampled density deviation 5.19691% > 5% at step 5 (t=0.0721688 s)"
+      ],
+      "assessments": [
+        {
+          "iteration": 0,
+          "time_seconds": 0.0,
+          "status": "within-tested-envelope",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.049999985843896866,
+          "max_density_deviation": 5.960464477539063e-08
+        },
+        {
+          "iteration": 5,
+          "time_seconds": 0.07216878364870323,
+          "status": "warning",
+          "current_status": "warning",
+          "max_lattice_mach": 0.06306619197130203,
+          "max_density_deviation": 0.051969051361083984
+        },
+        {
+          "iteration": 10,
+          "time_seconds": 0.14433756729740646,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07497373968362808,
+          "max_density_deviation": 0.037346482276916504
+        },
+        {
+          "iteration": 15,
+          "time_seconds": 0.21650635094610968,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.08438580483198166,
+          "max_density_deviation": 0.030986905097961426
+        },
+        {
+          "iteration": 20,
+          "time_seconds": 0.2886751345948129,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.08168190717697144,
+          "max_density_deviation": 0.023005008697509766
+        },
+        {
+          "iteration": 25,
+          "time_seconds": 0.36084391824351614,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07852910459041595,
+          "max_density_deviation": 0.02091383934020996
+        },
+        {
+          "iteration": 30,
+          "time_seconds": 0.43301270189221935,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07981473952531815,
+          "max_density_deviation": 0.01881551742553711
+        },
+        {
+          "iteration": 35,
+          "time_seconds": 0.5051814855409226,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07812109589576721,
+          "max_density_deviation": 0.0159071683883667
+        },
+        {
+          "iteration": 40,
+          "time_seconds": 0.5773502691896258,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07659886032342911,
+          "max_density_deviation": 0.01692098379135132
+        },
+        {
+          "iteration": 45,
+          "time_seconds": 0.649519052838329,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07562373578548431,
+          "max_density_deviation": 0.013328969478607178
+        },
+        {
+          "iteration": 50,
+          "time_seconds": 0.7216878364870323,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07597818970680237,
+          "max_density_deviation": 0.008580267429351807
+        },
+        {
+          "iteration": 55,
+          "time_seconds": 0.7938566201357355,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07628268748521805,
+          "max_density_deviation": 0.012017130851745605
+        },
+        {
+          "iteration": 60,
+          "time_seconds": 0.8660254037844387,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07664019614458084,
+          "max_density_deviation": 0.011812210083007812
+        },
+        {
+          "iteration": 65,
+          "time_seconds": 0.938194187433142,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0763292908668518,
+          "max_density_deviation": 0.011694848537445068
+        },
+        {
+          "iteration": 70,
+          "time_seconds": 1.0103629710818451,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07587539404630661,
+          "max_density_deviation": 0.009732186794281006
+        },
+        {
+          "iteration": 75,
+          "time_seconds": 1.0825317547305484,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07474545389413834,
+          "max_density_deviation": 0.008271932601928711
+        },
+        {
+          "iteration": 80,
+          "time_seconds": 1.1547005383792517,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07426569610834122,
+          "max_density_deviation": 0.005661606788635254
+        },
+        {
+          "iteration": 85,
+          "time_seconds": 1.226869322027955,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07455329596996307,
+          "max_density_deviation": 0.01106405258178711
+        },
+        {
+          "iteration": 90,
+          "time_seconds": 1.299038105676658,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07542166113853455,
+          "max_density_deviation": 0.00667572021484375
+        },
+        {
+          "iteration": 95,
+          "time_seconds": 1.3712068893253613,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07562275975942612,
+          "max_density_deviation": 0.008905887603759766
+        },
+        {
+          "iteration": 100,
+          "time_seconds": 1.4433756729740645,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07617046684026718,
+          "max_density_deviation": 0.007965803146362305
+        },
+        {
+          "iteration": 105,
+          "time_seconds": 1.5155444566227678,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07672611624002457,
+          "max_density_deviation": 0.010855257511138916
+        },
+        {
+          "iteration": 110,
+          "time_seconds": 1.587713240271471,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07692170143127441,
+          "max_density_deviation": 0.007918894290924072
+        },
+        {
+          "iteration": 115,
+          "time_seconds": 1.6598820239201741,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0770159438252449,
+          "max_density_deviation": 0.008489131927490234
+        },
+        {
+          "iteration": 120,
+          "time_seconds": 1.7320508075688774,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07681053876876831,
+          "max_density_deviation": 0.008127450942993164
+        },
+        {
+          "iteration": 125,
+          "time_seconds": 1.8042195912175807,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0764840617775917,
+          "max_density_deviation": 0.010596156120300293
+        },
+        {
+          "iteration": 130,
+          "time_seconds": 1.876388374866284,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0761665552854538,
+          "max_density_deviation": 0.006513833999633789
+        },
+        {
+          "iteration": 135,
+          "time_seconds": 1.9485571585149872,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07593145966529846,
+          "max_density_deviation": 0.008693814277648926
+        },
+        {
+          "iteration": 140,
+          "time_seconds": 2.0207259421636903,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07586167007684708,
+          "max_density_deviation": 0.007332265377044678
+        },
+        {
+          "iteration": 145,
+          "time_seconds": 2.0928947258123936,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07580909878015518,
+          "max_density_deviation": 0.010325074195861816
+        },
+        {
+          "iteration": 150,
+          "time_seconds": 2.165063509461097,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07582107931375504,
+          "max_density_deviation": 0.007174849510192871
+        },
+        {
+          "iteration": 155,
+          "time_seconds": 2.2372322931098,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0758524164557457,
+          "max_density_deviation": 0.008922576904296875
+        },
+        {
+          "iteration": 160,
+          "time_seconds": 2.3094010767585034,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07584859430789948,
+          "max_density_deviation": 0.007432520389556885
+        },
+        {
+          "iteration": 165,
+          "time_seconds": 2.3815698604072066,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0757477730512619,
+          "max_density_deviation": 0.010036051273345947
+        },
+        {
+          "iteration": 170,
+          "time_seconds": 2.45373864405591,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07575840502977371,
+          "max_density_deviation": 0.007617354393005371
+        },
+        {
+          "iteration": 175,
+          "time_seconds": 2.525907427704613,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07595829665660858,
+          "max_density_deviation": 0.009105920791625977
+        },
+        {
+          "iteration": 180,
+          "time_seconds": 2.598076211353316,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07613909244537354,
+          "max_density_deviation": 0.0063915252685546875
+        },
+        {
+          "iteration": 185,
+          "time_seconds": 2.6702449950020193,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07609532028436661,
+          "max_density_deviation": 0.009927749633789062
+        },
+        {
+          "iteration": 190,
+          "time_seconds": 2.7424137786507226,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07608053088188171,
+          "max_density_deviation": 0.007186710834503174
+        },
+        {
+          "iteration": 195,
+          "time_seconds": 2.814582562299426,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07612726092338562,
+          "max_density_deviation": 0.009157657623291016
+        },
+        {
+          "iteration": 200,
+          "time_seconds": 2.886751345948129,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0762082040309906,
+          "max_density_deviation": 0.007410764694213867
+        },
+        {
+          "iteration": 205,
+          "time_seconds": 2.9589201295968324,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07637474685907364,
+          "max_density_deviation": 0.009954214096069336
+        },
+        {
+          "iteration": 210,
+          "time_seconds": 3.0310889132455356,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07657408714294434,
+          "max_density_deviation": 0.0073563456535339355
+        },
+        {
+          "iteration": 215,
+          "time_seconds": 3.103257696894239,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07659666240215302,
+          "max_density_deviation": 0.009178996086120605
+        },
+        {
+          "iteration": 220,
+          "time_seconds": 3.175426480542942,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07660424709320068,
+          "max_density_deviation": 0.007589578628540039
+        },
+        {
+          "iteration": 225,
+          "time_seconds": 3.2475952641916455,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07674136757850647,
+          "max_density_deviation": 0.009706735610961914
+        },
+        {
+          "iteration": 230,
+          "time_seconds": 3.3197640478403483,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07686208933591843,
+          "max_density_deviation": 0.007445991039276123
+        },
+        {
+          "iteration": 235,
+          "time_seconds": 3.3919328314890516,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07698188722133636,
+          "max_density_deviation": 0.009409904479980469
+        },
+        {
+          "iteration": 240,
+          "time_seconds": 3.464101615137755,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0770852267742157,
+          "max_density_deviation": 0.006723225116729736
+        },
+        {
+          "iteration": 245,
+          "time_seconds": 3.536270398786458,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0770745649933815,
+          "max_density_deviation": 0.009751558303833008
+        },
+        {
+          "iteration": 250,
+          "time_seconds": 3.6084391824351614,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07704439759254456,
+          "max_density_deviation": 0.006910085678100586
+        },
+        {
+          "iteration": 255,
+          "time_seconds": 3.6806079660838646,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07711341232061386,
+          "max_density_deviation": 0.009386777877807617
+        },
+        {
+          "iteration": 260,
+          "time_seconds": 3.752776749732568,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07727108150720596,
+          "max_density_deviation": 0.0074530839920043945
+        },
+        {
+          "iteration": 265,
+          "time_seconds": 3.824945533381271,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07742010056972504,
+          "max_density_deviation": 0.009758949279785156
+        },
+        {
+          "iteration": 270,
+          "time_seconds": 3.8971143170299745,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07747024297714233,
+          "max_density_deviation": 0.007180154323577881
+        },
+        {
+          "iteration": 275,
+          "time_seconds": 3.9692831006786777,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07745794951915741,
+          "max_density_deviation": 0.009353399276733398
+        },
+        {
+          "iteration": 280,
+          "time_seconds": 4.041451884327381,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07746444642543793,
+          "max_density_deviation": 0.006960809230804443
+        },
+        {
+          "iteration": 285,
+          "time_seconds": 4.113620667976084,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07746261358261108,
+          "max_density_deviation": 0.009713411331176758
+        },
+        {
+          "iteration": 290,
+          "time_seconds": 4.185789451624787,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07746608555316925,
+          "max_density_deviation": 0.006720125675201416
+        },
+        {
+          "iteration": 295,
+          "time_seconds": 4.257958235273491,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0775250494480133,
+          "max_density_deviation": 0.009572505950927734
+        },
+        {
+          "iteration": 300,
+          "time_seconds": 4.330127018922194,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0775303766131401,
+          "max_density_deviation": 0.006582021713256836
+        }
+      ]
+    },
+    {
+      "device": "mps",
+      "torch": "2.8.0",
+      "spec": {
+        "shape": [
+          33,
+          17,
+          17
+        ],
+        "dx": 0.5,
+        "spacing": 0.5,
+        "origin": [
+          0,
+          0,
+          0
+        ],
+        "speed": 1.0,
+        "viscosity": 0.1,
+        "density": 1.225,
+        "mach": 0.05,
+        "collision": "regularized",
+        "solid": [
+          2414,
+          2415,
+          2416,
+          2417,
+          2418,
+          2419,
+          2420,
+          2421,
+          2422,
+          2431,
+          2432,
+          2433,
+          2434,
+          2435,
+          2436,
+          2437,
+          2438,
+          2439,
+          2448,
+          2449,
+          2450,
+          2451,
+          2452,
+          2453,
+          2454,
+          2455,
+          2456,
+          2465,
+          2466,
+          2467,
+          2468,
+          2469,
+          2470,
+          2471,
+          2472,
+          2473,
+          2482,
+          2483,
+          2484,
+          2485,
+          2486,
+          2487,
+          2488,
+          2489,
+          2490,
+          2703,
+          2704,
+          2705,
+          2706,
+          2707,
+          2708,
+          2709,
+          2710,
+          2711,
+          2720,
+          2721,
+          2722,
+          2723,
+          2724,
+          2725,
+          2726,
+          2727,
+          2728,
+          2737,
+          2738,
+          2739,
+          2740,
+          2741,
+          2742,
+          2743,
+          2744,
+          2745,
+          2754,
+          2755,
+          2756,
+          2757,
+          2758,
+          2759,
+          2760,
+          2761,
+          2762,
+          2771,
+          2772,
+          2773,
+          2774,
+          2775,
+          2776,
+          2777,
+          2778,
+          2779,
+          2992,
+          2993,
+          2994,
+          2995,
+          2996,
+          2997,
+          2998,
+          2999,
+          3000,
+          3009,
+          3010,
+          3011,
+          3012,
+          3013,
+          3014,
+          3015,
+          3016,
+          3017,
+          3026,
+          3027,
+          3028,
+          3029,
+          3030,
+          3031,
+          3032,
+          3033,
+          3034,
+          3043,
+          3044,
+          3045,
+          3046,
+          3047,
+          3048,
+          3049,
+          3050,
+          3051,
+          3060,
+          3061,
+          3062,
+          3063,
+          3064,
+          3065,
+          3066,
+          3067,
+          3068,
+          3281,
+          3282,
+          3283,
+          3284,
+          3285,
+          3286,
+          3287,
+          3288,
+          3289,
+          3298,
+          3299,
+          3300,
+          3301,
+          3302,
+          3303,
+          3304,
+          3305,
+          3306,
+          3315,
+          3316,
+          3317,
+          3318,
+          3319,
+          3320,
+          3321,
+          3322,
+          3323,
+          3332,
+          3333,
+          3334,
+          3335,
+          3336,
+          3337,
+          3338,
+          3339,
+          3340,
+          3349,
+          3350,
+          3351,
+          3352,
+          3353,
+          3354,
+          3355,
+          3356,
+          3357,
+          3570,
+          3571,
+          3572,
+          3573,
+          3574,
+          3575,
+          3576,
+          3577,
+          3578,
+          3587,
+          3588,
+          3589,
+          3590,
+          3591,
+          3592,
+          3593,
+          3594,
+          3595,
+          3604,
+          3605,
+          3606,
+          3607,
+          3608,
+          3609,
+          3610,
+          3611,
+          3612,
+          3621,
+          3622,
+          3623,
+          3624,
+          3625,
+          3626,
+          3627,
+          3628,
+          3629,
+          3638,
+          3639,
+          3640,
+          3641,
+          3642,
+          3643,
+          3644,
+          3645,
+          3646
+        ],
+        "boundaries": [
+          "inlet",
+          "outlet",
+          "periodic",
+          "periodic",
+          "wall",
+          "slip"
+        ]
+      },
+      "trigger": {
+        "status": "warning",
+        "iteration": 5,
+        "time_seconds": 0.07216878364870323,
+        "violations": [
+          {
+            "quantity": "max_density_deviation",
+            "value": 0.05196964740753174,
+            "limit": 0.05
+          }
+        ]
+      },
+      "reasons": [
+        "Sampled density deviation 5.19696% > 5% at step 5 (t=0.0721688 s)"
+      ],
+      "assessments": [
+        {
+          "iteration": 0,
+          "time_seconds": 0.0,
+          "status": "within-tested-envelope",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.04999999701976776,
+          "max_density_deviation": 0.0
+        },
+        {
+          "iteration": 5,
+          "time_seconds": 0.07216878364870323,
+          "status": "warning",
+          "current_status": "warning",
+          "max_lattice_mach": 0.06306628882884979,
+          "max_density_deviation": 0.05196964740753174
+        },
+        {
+          "iteration": 10,
+          "time_seconds": 0.14433756729740646,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07497383654117584,
+          "max_density_deviation": 0.037346839904785156
+        },
+        {
+          "iteration": 15,
+          "time_seconds": 0.21650635094610968,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.08438584953546524,
+          "max_density_deviation": 0.030986905097961426
+        },
+        {
+          "iteration": 20,
+          "time_seconds": 0.2886751345948129,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.08168156445026398,
+          "max_density_deviation": 0.023005127906799316
+        },
+        {
+          "iteration": 25,
+          "time_seconds": 0.36084391824351614,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07852881401777267,
+          "max_density_deviation": 0.020914077758789062
+        },
+        {
+          "iteration": 30,
+          "time_seconds": 0.43301270189221935,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07981442660093307,
+          "max_density_deviation": 0.018815338611602783
+        },
+        {
+          "iteration": 35,
+          "time_seconds": 0.5051814855409226,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0781208798289299,
+          "max_density_deviation": 0.015906810760498047
+        },
+        {
+          "iteration": 40,
+          "time_seconds": 0.5773502691896258,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0765983909368515,
+          "max_density_deviation": 0.01692056655883789
+        },
+        {
+          "iteration": 45,
+          "time_seconds": 0.649519052838329,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0756235271692276,
+          "max_density_deviation": 0.013328909873962402
+        },
+        {
+          "iteration": 50,
+          "time_seconds": 0.7216878364870323,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07597803324460983,
+          "max_density_deviation": 0.008580148220062256
+        },
+        {
+          "iteration": 55,
+          "time_seconds": 0.7938566201357355,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0762825608253479,
+          "max_density_deviation": 0.012017309665679932
+        },
+        {
+          "iteration": 60,
+          "time_seconds": 0.8660254037844387,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07664000242948532,
+          "max_density_deviation": 0.011812210083007812
+        },
+        {
+          "iteration": 65,
+          "time_seconds": 0.938194187433142,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07632917165756226,
+          "max_density_deviation": 0.011694848537445068
+        },
+        {
+          "iteration": 70,
+          "time_seconds": 1.0103629710818451,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07587528228759766,
+          "max_density_deviation": 0.00973200798034668
+        },
+        {
+          "iteration": 75,
+          "time_seconds": 1.0825317547305484,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07474520802497864,
+          "max_density_deviation": 0.008271932601928711
+        },
+        {
+          "iteration": 80,
+          "time_seconds": 1.1547005383792517,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07426552474498749,
+          "max_density_deviation": 0.005661606788635254
+        },
+        {
+          "iteration": 85,
+          "time_seconds": 1.226869322027955,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07455315440893173,
+          "max_density_deviation": 0.01106405258178711
+        },
+        {
+          "iteration": 90,
+          "time_seconds": 1.299038105676658,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07542136311531067,
+          "max_density_deviation": 0.0066754817962646484
+        },
+        {
+          "iteration": 95,
+          "time_seconds": 1.3712068893253613,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0756225511431694,
+          "max_density_deviation": 0.008905887603759766
+        },
+        {
+          "iteration": 100,
+          "time_seconds": 1.4433756729740645,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07617006450891495,
+          "max_density_deviation": 0.007965803146362305
+        },
+        {
+          "iteration": 105,
+          "time_seconds": 1.5155444566227678,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0767257884144783,
+          "max_density_deviation": 0.01085519790649414
+        },
+        {
+          "iteration": 110,
+          "time_seconds": 1.587713240271471,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07692140340805054,
+          "max_density_deviation": 0.007919132709503174
+        },
+        {
+          "iteration": 115,
+          "time_seconds": 1.6598820239201741,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07701577246189117,
+          "max_density_deviation": 0.008489251136779785
+        },
+        {
+          "iteration": 120,
+          "time_seconds": 1.7320508075688774,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07681015878915787,
+          "max_density_deviation": 0.008127450942993164
+        },
+        {
+          "iteration": 125,
+          "time_seconds": 1.8042195912175807,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07648385316133499,
+          "max_density_deviation": 0.010596156120300293
+        },
+        {
+          "iteration": 130,
+          "time_seconds": 1.876388374866284,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0761663019657135,
+          "max_density_deviation": 0.006513714790344238
+        },
+        {
+          "iteration": 135,
+          "time_seconds": 1.9485571585149872,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07593119889497757,
+          "max_density_deviation": 0.008693933486938477
+        },
+        {
+          "iteration": 140,
+          "time_seconds": 2.0207259421636903,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07586131989955902,
+          "max_density_deviation": 0.007331907749176025
+        },
+        {
+          "iteration": 145,
+          "time_seconds": 2.0928947258123936,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0758088007569313,
+          "max_density_deviation": 0.010325074195861816
+        },
+        {
+          "iteration": 150,
+          "time_seconds": 2.165063509461097,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0758206844329834,
+          "max_density_deviation": 0.007174849510192871
+        },
+        {
+          "iteration": 155,
+          "time_seconds": 2.2372322931098,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07585200667381287,
+          "max_density_deviation": 0.008922696113586426
+        },
+        {
+          "iteration": 160,
+          "time_seconds": 2.3094010767585034,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0758482962846756,
+          "max_density_deviation": 0.0074326395988464355
+        },
+        {
+          "iteration": 165,
+          "time_seconds": 2.3815698604072066,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07574757188558578,
+          "max_density_deviation": 0.010035991668701172
+        },
+        {
+          "iteration": 170,
+          "time_seconds": 2.45373864405591,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0757581815123558,
+          "max_density_deviation": 0.007617354393005371
+        },
+        {
+          "iteration": 175,
+          "time_seconds": 2.525907427704613,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07595806568861008,
+          "max_density_deviation": 0.009105920791625977
+        },
+        {
+          "iteration": 180,
+          "time_seconds": 2.598076211353316,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07613882422447205,
+          "max_density_deviation": 0.0063912272453308105
+        },
+        {
+          "iteration": 185,
+          "time_seconds": 2.6702449950020193,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0760950818657875,
+          "max_density_deviation": 0.009927988052368164
+        },
+        {
+          "iteration": 190,
+          "time_seconds": 2.7424137786507226,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0760803371667862,
+          "max_density_deviation": 0.007186412811279297
+        },
+        {
+          "iteration": 195,
+          "time_seconds": 2.814582562299426,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07612699270248413,
+          "max_density_deviation": 0.009157657623291016
+        },
+        {
+          "iteration": 200,
+          "time_seconds": 2.886751345948129,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07620801776647568,
+          "max_density_deviation": 0.00741046667098999
+        },
+        {
+          "iteration": 205,
+          "time_seconds": 2.9589201295968324,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07637450844049454,
+          "max_density_deviation": 0.009954333305358887
+        },
+        {
+          "iteration": 210,
+          "time_seconds": 3.0310889132455356,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07657390087842941,
+          "max_density_deviation": 0.007356226444244385
+        },
+        {
+          "iteration": 215,
+          "time_seconds": 3.103257696894239,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0765964463353157,
+          "max_density_deviation": 0.009178996086120605
+        },
+        {
+          "iteration": 220,
+          "time_seconds": 3.175426480542942,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07660387456417084,
+          "max_density_deviation": 0.007589399814605713
+        },
+        {
+          "iteration": 225,
+          "time_seconds": 3.2475952641916455,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07674116641283035,
+          "max_density_deviation": 0.009706735610961914
+        },
+        {
+          "iteration": 230,
+          "time_seconds": 3.3197640478403483,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07686183601617813,
+          "max_density_deviation": 0.0074457526206970215
+        },
+        {
+          "iteration": 235,
+          "time_seconds": 3.3919328314890516,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07698169350624084,
+          "max_density_deviation": 0.009409904479980469
+        },
+        {
+          "iteration": 240,
+          "time_seconds": 3.464101615137755,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07708489149808884,
+          "max_density_deviation": 0.006723284721374512
+        },
+        {
+          "iteration": 245,
+          "time_seconds": 3.536270398786458,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07707443833351135,
+          "max_density_deviation": 0.009751558303833008
+        },
+        {
+          "iteration": 250,
+          "time_seconds": 3.6084391824351614,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07704412192106247,
+          "max_density_deviation": 0.006909847259521484
+        },
+        {
+          "iteration": 255,
+          "time_seconds": 3.6806079660838646,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07711335271596909,
+          "max_density_deviation": 0.009386897087097168
+        },
+        {
+          "iteration": 260,
+          "time_seconds": 3.752776749732568,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.0772707387804985,
+          "max_density_deviation": 0.007453203201293945
+        },
+        {
+          "iteration": 265,
+          "time_seconds": 3.824945533381271,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07742003351449966,
+          "max_density_deviation": 0.009758949279785156
+        },
+        {
+          "iteration": 270,
+          "time_seconds": 3.8971143170299745,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07746996730566025,
+          "max_density_deviation": 0.007179677486419678
+        },
+        {
+          "iteration": 275,
+          "time_seconds": 3.9692831006786777,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07745770364999771,
+          "max_density_deviation": 0.0093536376953125
+        },
+        {
+          "iteration": 280,
+          "time_seconds": 4.041451884327381,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07746414840221405,
+          "max_density_deviation": 0.006960391998291016
+        },
+        {
+          "iteration": 285,
+          "time_seconds": 4.113620667976084,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07746241986751556,
+          "max_density_deviation": 0.009713530540466309
+        },
+        {
+          "iteration": 290,
+          "time_seconds": 4.185789451624787,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07746585458517075,
+          "max_density_deviation": 0.006720066070556641
+        },
+        {
+          "iteration": 295,
+          "time_seconds": 4.257958235273491,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07752469182014465,
+          "max_density_deviation": 0.009572505950927734
+        },
+        {
+          "iteration": 300,
+          "time_seconds": 4.330127018922194,
+          "status": "warning",
+          "current_status": "within-tested-envelope",
+          "max_lattice_mach": 0.07753030210733414,
+          "max_density_deviation": 0.006581544876098633
+        }
+      ]
+    }
+  ],
+  "g6": {
+    "counts": {
+      "passed": 100010,
+      "failed": 0,
+      "blocked": 2449
+    },
+    "expected_rows": 102459,
+    "recorded_rows": 102459,
+    "sources_changed_during_run": false,
+    "local_pass": true,
+    "release_pass": false,
+    "rows_sha256": "6eeeebe451aff394cd83262febe35344ad3a604c17e5503c9e13d4214cd25920",
+    "evidence_directory": "results/g6-issue98",
+    "concurrency": "CPU-only mutation studies and other agents CPU work overlapped. Coordinator reported a briefly started then interrupted #83 test process; exact device reach under review. No timing claim."
+  },
+  "gate_scope": "Experimental reporting/workflow only; no convergence, physical qualification or timing claim.",
+  "live_host": {
+    "combined_commit": "6ed1012",
+    "production_issue98_commit": "99e4197",
+    "rhino_version": "8.37.26307.15002",
+    "backend": "cpu",
+    "loaded_assembly_sha256": {
+      "Hawa.Rhino.rhp": "f507b784a6fc256f500898a6c2b7f3e0956a9e3ce69dfe631152273210ef205f",
+      "Hawa.Shared.dll": "de5220bd9cbacfa487e89d7035787ebb44e3a05cd96a0473b564153870940bb5",
+      "Hawa.Grasshopper.gha": "36c94c17f9339914fbe2cb89ad2136f3c1766bbfe2e055ec842b513e58d87a1c"
+    },
+    "gh08_checkpoint_roundtrip_quality": {
+      "policy": "hawa-low-mach-v1",
+      "status": "warning",
+      "current_status": "within-tested-envelope",
+      "reasons": [
+        "Sampled density deviation 5.19691% > 5% at step 5 (t=0.0721688 s)"
+      ],
+      "trigger": {
+        "status": "warning",
+        "iteration": 5,
+        "time_seconds": 0.07216878364870323,
+        "violations": [
+          {
+            "quantity": "max_density_deviation",
+            "value": 0.051969051361083984,
+            "limit": 0.05
+          }
+        ]
+      },
+      "iteration": 300,
+      "time_seconds": 4.330127018922194,
+      "max_lattice_mach": 0.0775303766131401,
+      "peak_sampled_lattice_mach": 0.08438580483198166,
+      "peak_sampled_lattice_mach_iteration": 15,
+      "peak_sampled_density_deviation": 0.051969051361083984,
+      "peak_sampled_density_deviation_iteration": 5,
+      "mach_exceedance_cells": 0,
+      "max_density_deviation": 0.006582021713256836,
+      "boundary_method": "legacy-equilibrium-v1",
+      "boundary_diagnostics": null,
+      "collision_method": "regularized",
+      "finite": true,
+      "positive_density": true,
+      "boundary_flux": {
+        "outward_mass_kg_s": [
+          -72.6608657836914,
+          76.5442123413086,
+          0.09221354126930237,
+          0.0921507477760315,
+          2.5837128162384033,
+          2.036330223083496
+        ],
+        "net_external_mass_kg_s": 8.503389596939087,
+        "periodic_pairs_excluded_from_net": true,
+        "method": "nodal trapezoidal face estimate; not a discrete conservation proof"
+      },
+      "backflow": {
+        "inlet_cells": 0,
+        "outlet_cells": 0
+      },
+      "physical_model_status": "not-assessed",
+      "wall_diagnostics": null,
+      "dissipation_storage": null,
+      "cadence_steps": 5,
+      "transfer_eligible": false,
+      "transfer_scope": "numerical-envelope",
+      "absolute_time_seconds": 4.330127018922194,
+      "scope": "Sampled low-Mach envelope only; not convergence, atmospheric validation or conservation certification"
+    },
+    "gh08_slice": {
+      "valid": true,
+      "vertices": 681,
+      "faces": 1144
+    },
+    "native_state": {
+      "id": "855c708f-a3ff-47ab-957c-e78ac5397916",
+      "version": 4,
+      "revision": 4,
+      "generation": 7,
+      "run_revision": 4,
+      "result_revision": 4,
+      "result_version": 3,
+      "result_steps": 300,
+      "result_time_seconds": 4.330127018922194,
+      "result_field": "speed",
+      "state": "completed",
+      "steps": 300,
+      "session": "d0847460-f370-4c46-839f-2ff4161d847f",
+      "job": "cd6d2fcb-10ea-4a0b-a58b-b83c257e3f07",
+      "error": "",
+      "view_error": "",
+      "geometry_error": "",
+      "fault_area": null,
+      "retryable": null,
+      "settings": {
+        "schema": 2,
+        "setup": {
+          "mode": "selected",
+          "curved_walls": false,
+          "objects": [
+            "6575d82c-af40-4bd1-acfe-0eb16a972593"
+          ],
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            16,
+            8,
+            8
+          ],
+          "viscosity": 0.1,
+          "density": 1.225,
+          "mach": 0.05,
+          "collision": "regularized",
+          "boundaries": [
+            "inlet",
+            "outlet",
+            "periodic",
+            "periodic",
+            "wall",
+            "slip"
+          ]
+        },
+        "view": {
+          "axis": 2,
+          "position": 0.5,
+          "palette": "blue-green",
+          "auto_range": true,
+          "min": 0,
+          "max": 1,
+          "domain": true,
+          "body": true,
+          "field": true,
+          "annotations": true
+        },
+        "id": "855c708f-a3ff-47ab-957c-e78ac5397916",
+        "speed": 1,
+        "cell": 0.5,
+        "width": 1,
+        "target": 300,
+        "device": "cpu",
+        "field": "speed"
+      },
+      "linked": false,
+      "outdated": false
+    },
+    "native_status": {
+      "session": "d0847460-f370-4c46-839f-2ff4161d847f",
+      "state": "completed",
+      "steps": 300,
+      "target": 300,
+      "error": null,
+      "backend": {
+        "requested": "cpu",
+        "selected": "cpu",
+        "torch": "2.8.0",
+        "cuda_available": false,
+        "mps_available": true,
+        "notes": []
+      },
+      "case_hash": "80f869212234fc99cedb26e182c37dadb48b21cbd2ea2c2182794e1490956e9f",
+      "resolution": [
+        33,
+        17,
+        17
+      ],
+      "physical_time": 4.330127018922194,
+      "relative_mass_change": 0.002039650878614508,
+      "averaging_samples": 60,
+      "updated": 1794873041.6947148,
+      "quality": {
+        "policy": "hawa-low-mach-v1",
+        "status": "warning",
+        "current_status": "within-tested-envelope",
+        "reasons": [
+          "Sampled density deviation 5.21979% > 5% at step 5 (t=0.0721688 s)"
+        ],
+        "trigger": {
+          "status": "warning",
+          "iteration": 5,
+          "time_seconds": 0.07216878364870323,
+          "violations": [
+            {
+              "quantity": "max_density_deviation",
+              "value": 0.052197933197021484,
+              "limit": 0.05
+            }
+          ]
+        },
+        "iteration": 300,
+        "time_seconds": 4.330127018922194,
+        "max_lattice_mach": 0.08207298070192337,
+        "peak_sampled_lattice_mach": 0.0858568474650383,
+        "peak_sampled_lattice_mach_iteration": 20,
+        "peak_sampled_density_deviation": 0.052197933197021484,
+        "peak_sampled_density_deviation_iteration": 5,
+        "mach_exceedance_cells": 0,
+        "max_density_deviation": 0.0066117048263549805,
+        "boundary_method": "legacy-equilibrium-v1",
+        "boundary_diagnostics": null,
+        "collision_method": "regularized",
+        "finite": true,
+        "positive_density": true,
+        "boundary_flux": {
+          "outward_mass_kg_s": [
+            -72.39373016357422,
+            76.42269897460938,
+            0.10254041850566864,
+            0.10257930308580399,
+            2.6655962467193604,
+            2.082794666290283
+          ],
+          "net_external_mass_kg_s": 8.7773597240448,
+          "periodic_pairs_excluded_from_net": true,
+          "method": "nodal trapezoidal face estimate; not a discrete conservation proof"
+        },
+        "backflow": {
+          "inlet_cells": 0,
+          "outlet_cells": 0
+        },
+        "physical_model_status": "not-assessed",
+        "wall_diagnostics": null,
+        "dissipation_storage": null,
+        "cadence_steps": 5,
+        "transfer_eligible": false,
+        "transfer_scope": "numerical-envelope",
+        "absolute_time_seconds": 4.330127018922194,
+        "scope": "Sampled low-Mach envelope only; not convergence, atmospheric validation or conservation certification"
+      }
+    },
+    "limitations": [
+      "Possible initial auto MPS idle preparation before CPU selected; no timing qualification",
+      "Canvas screenshot cropped at existing zoom",
+      "No broad supported example sweep"
+    ],
+    "native_panel_visual": {
+      "reviewer": "Root coordinating agent",
+      "method": "read-only desktop screenshot in conversation tool output",
+      "progress": "COMPLETED 300 / 300 steps",
+      "reason": "Sampled density deviation 5.21979% > 5% at step 5 (t=0.0721688 s)",
+      "wrapping": "time wraps to next line; no clipping or overlap",
+      "viewport_framing": "not assessed"
+    },
+    "cleanup": {
+      "live_rhino_objects": 0,
+      "case_present": false,
+      "pending_cleanup": 0,
+      "pending_gh_poll": 0,
+      "preserved_blank_gh_documents": 2
+    }
+  }
+}

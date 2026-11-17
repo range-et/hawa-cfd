@@ -672,3 +672,16 @@ not a completed full-gallery pass. After external Mac window/filter recovery,
 two fresh CPU 31/32 runs and active cancellation reached zero owned resources;
 four captures were inspected. Original examples are unchanged. [Guide](docs/host-acceptance-pilot.md)
 and [review](docs/review-host-acceptance-pilot.md). Not released.
+
+### November 16 2026 — Sampled quality provenance (#98, development)
+
+The development report retains the quantity, value, threshold, step and time
+behind sticky warning/rejection status, plus sampled Mach/density peaks. A
+headless CPU/MPS reproduction identifies example 08's step-5 density transient
+(about 5.197%) despite recovered final values. The native panel now includes
+human-readable reasons; legacy checkpoint provenance remains explicitly unknown.
+Live CPU example 08 and a native selected-body case retain the exact warning
+after 300 steps; checkpoint round-trip and native warning wrapping inspected.
+No solver/threshold change or physical-validation claim. Final combined measured
+suites and compatibility gate remain pending; not merged or released.
+[Review and scope](docs/review-quality-provenance.md).
