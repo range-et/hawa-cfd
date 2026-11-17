@@ -145,7 +145,11 @@ def test_cancel_before_session_creation(monkeypatch):
         wait_for(entered.is_set, executor)
         executor.cancel(handle);release.set()
         assert finish(executor,handle)['state']=='cancelled'
-        assert executor.results('a',7)['session'] is None
+        detail = executor.results('a', 7)
+        assert_retained_envelope(detail, data['a'], 'cancelled', 'Sweep cancelled')
+        assert detail['session'] is None
+        assert detail['load_samples'] == detail['probe_samples'] == []
+        assert all(detail[key] is None for key in ('summary', 'last_field', 'quality', 'final_quality'))
     finally:
         release.set()
         executor.close(handle)
@@ -342,4 +346,208 @@ def test_terminal_result_does_not_release_a_still_live_worker(monkeypatch):
         wait_for(lambda: not executor.audit()['live_workers'])
         assert executor.close(handle)
     assert executor.results('a', 7)['state'] == 'completed'
+    assert executor.audit() == dict(handles=0, live_workers=0, session_ids=[])
+
+
+def assert_retained_envelope(detail, entry, state, reason):
+    """A failed/cancelled run remains inspectable by the same consumer as success."""
+    assert set(detail) == {'schema', 'candidate', 'identity', 'dtype', 'device', 'phase',
+                           'load_samples', 'probe_samples', 'summary', 'last_field',
+                           'quality', 'session', 'provenance', 'state', 'reason', 'final_quality'}
+    assert detail['schema'] == 'hawa-cpu-sweep-result-1'
+    assert detail['candidate'] == entry['candidate']
+    assert detail['identity'] == entry['request']['identity']
+    assert detail['provenance'] == dict(session=detail['session'], phase=PHASE,
+                                      identity=entry['request']['identity'])
+    assert (detail['device'], detail['dtype'], detail['phase']) == ('cpu', 'float32', PHASE)
+    assert (detail['state'], detail['reason']) == (state, reason)
+
+
+def test_failure_before_session_has_complete_detached_result(monkeypatch):
+    def unavailable(*args):
+        raise RuntimeError('CPU allocation unavailable')
+    monkeypatch.setattr(module, 'Session', unavailable)
+    data = prepared(); executor = CpuSweepExecutor(data)
+    handle = executor.start(data['a']['candidate'], 7)
+    reply = finish(executor, handle)
+    detail = executor.results('a', 7)
+    assert_retained_envelope(detail, data['a'], 'failed', 'CPU allocation unavailable')
+    assert reply['result'] is None
+    assert detail['load_samples'] == detail['probe_samples'] == []
+    for key in ('session', 'summary', 'last_field', 'quality', 'final_quality'):
+        assert detail[key] is None
+    detail['candidate']['angle_deg'] = 90
+    detail['provenance']['identity']['case_id'] = 'changed'
+    assert_retained_envelope(executor.results('a', 7), data['a'], 'failed', reply['reason'])
+
+
+@pytest.mark.parametrize('generation', [0, 1])
+def test_generation_boundary_runs_but_numeric_lookalikes_do_not(generation):
+    data = prepared(); data['a']['request']['identity']['generation'] = generation
+    executor = CpuSweepExecutor(data)
+    for invalid in (float(generation), bool(generation), str(generation), None):
+        with pytest.raises(ValueError):
+            executor.start(data['a']['candidate'], invalid)
+        assert executor.audit()['handles'] == 0
+    handle = executor.start(data['a']['candidate'], generation)
+    assert finish(executor, handle)['state'] == 'completed'
+    assert executor.results('a', generation)['identity']['generation'] == generation
+
+
+@pytest.mark.parametrize('status', ['within-tested-envelope', 'warning', 'rejected'])
+def test_capture_quality_and_provenance_are_retained_for_every_observation(monkeypatch, status):
+    original = module.assess
+    def quality(session):
+        result = original(session)
+        result['status'] = status
+        result['independent_marker'] = {'source_step': session.flow.i}
+        return result
+    monkeypatch.setattr(module, 'assess', quality)
+    data = prepared(); executor = CpuSweepExecutor(data)
+    handle = executor.start(data['a']['candidate'], 7)
+    reply = finish(executor, handle)
+    detail = executor.results('a', 7)
+    assert_retained_envelope(detail, data['a'], reply['state'], reply['reason'])
+    expected = 'accepted' if status == 'within-tested-envelope' else status
+    assert len(detail['load_samples']) == 4
+    assert len(detail['probe_samples']) == 8
+    for sample in detail['load_samples'] + detail['probe_samples']:
+        assert sample['identity'] == data['a']['request']['identity']
+        assert sample['quality'] == expected
+        assert sample['time_s'] == pytest.approx(sample['step'] * .01 * .5 / math.sqrt(3), abs=1e-14)
+    for sample in detail['probe_samples']:
+        assert sample['source_quality']['status'] == status
+        assert sample['source_quality']['independent_marker'] == {'source_step': sample['step']}
+    assert detail['quality']['status'] == status
+    assert detail['quality']['independent_marker'] == {'source_step': 3}
+    assert detail['last_field']['snapshot']['phase'] == PHASE
+
+
+@pytest.mark.parametrize('status', ['warning', 'rejected'])
+def test_final_advance_quality_can_veto_accepted_capture(monkeypatch, status):
+    original = module.Session.advance
+    def advance(session, steps):
+        result = original(session, steps)
+        if session.flow.i == 4:
+            session.quality['status'] = status
+        return result
+    monkeypatch.setattr(module.Session, 'advance', advance)
+    data = prepared(); executor = CpuSweepExecutor(data)
+    handle = executor.start(data['a']['candidate'], 7)
+    reply = finish(executor, handle)
+    detail = executor.results('a', 7)
+    assert detail['summary']['usable']
+    assert detail['quality']['status'] == 'within-tested-envelope'
+    assert detail['final_quality']['status'] == status
+    assert reply['result']['quality'] == status
+
+
+@pytest.mark.parametrize('offset', [1e-7, .1])
+def test_pressure_time_mismatch_with_matching_step_fails(monkeypatch, offset):
+    original = module.Session.fields
+    def fields(session, *args, **kwargs):
+        result = original(session, *args, **kwargs)
+        if result['snapshot']['steps'] == 1:
+            result['snapshot']['physical_time'] += offset
+        return result
+    monkeypatch.setattr(module.Session, 'fields', fields)
+    data = prepared(); executor = CpuSweepExecutor(data)
+    handle = executor.start(data['a']['candidate'], 7)
+    reply = finish(executor, handle)
+    assert reply['state'] == 'failed'
+    assert 'phase identity mismatch' in reply['reason']
+    detail = executor.results('a', 7)
+    assert [s['step'] for s in detail['load_samples']] == [0]
+    assert [s['step'] for s in detail['probe_samples']] == [0, 0]
+
+
+@pytest.mark.parametrize('field,value', [
+    ('vertices_m', [[0., 0., 0.]] * 3),
+    ('triangles', [[0, 1, 2]] * 3),
+    ('vertex', [0., 0.]), ('vertex', (0., 0., 0.)),
+    ('vertex', [True, 0., 0.]), ('vertex', ['0', 0., 0.]),
+    ('vertex', [float('inf'), 0., 0.]), ('vertex', [float('nan'), 0., 0.]),
+    ('triangle', [0, 1, 4]), ('triangle', [-1, 1, 2]),
+    ('triangle', [False, 1, 2]), ('triangle', [0., 1, 2]),
+    ('triangle', [0, 1, 2, 0]), ('triangle', (0, 1, 2)),
+])
+def test_geometry_admission_rejects_invalid_content_even_with_matching_hash(field, value):
+    data = prepared(); entry = data['a']; geometry = entry['geometry']
+    if field == 'vertex':
+        geometry['vertices_m'][0] = value
+    elif field == 'triangle':
+        geometry['triangles'][0] = value
+    else:
+        geometry[field] = value
+    # Match the caller's hash deliberately: validation must reject the content itself.
+    digest = hashlib.sha256(json.dumps(geometry, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+    entry['candidate']['geometry_hash'] = digest
+    entry['request']['identity']['geometry_hash'] = digest
+    with pytest.raises(ValueError):
+        CpuSweepExecutor(data)
+
+
+@pytest.mark.parametrize('resource', ['rows', 'cells', 'vertices', 'faces'])
+def test_aggregate_budget_includes_every_candidate_at_exact_limit(resource):
+    data = prepared(); first = data['a']; second = deepcopy(first)
+    data['b'] = second
+    for entry in data.values():
+        entry['probes'] = []
+    if resource == 'rows':
+        first['steps'] = second['steps'] = 50000
+    elif resource == 'cells':
+        first['spec']['shape'] = second['spec']['shape'] = [100, 100, 75]
+    elif resource == 'vertices':
+        first['geometry']['vertices_m'] = second['geometry']['vertices_m'] = [[0., 0., 0.]] * 100000
+    else:
+        first['geometry']['triangles'] = second['geometry']['triangles'] = [[0, 1, 2]] * 200000
+    # This pre-copy guard deliberately does not inspect mesh or solver validity.
+    module._budget(data)
+    if resource == 'rows':
+        second['steps'] += 1
+    elif resource == 'cells':
+        second['spec']['shape'] = [100, 100, 76]
+    elif resource == 'vertices':
+        second['geometry']['vertices_m'] = second['geometry']['vertices_m'] + [[0., 0., 0.]]
+    else:
+        second['geometry']['triangles'] = second['geometry']['triangles'] + [[0, 1, 2]]
+    with pytest.raises(ValueError, match='aggregate'):
+        module._budget(data)
+
+
+def test_aggregate_row_budget_counts_bodies_and_probes():
+    data = prepared(); entry = data['a']
+    entry['steps'] = 25000
+    entry['body_indices']['second'] = []
+    module._budget(data)  # 25000 * (2 bodies + 2 probes) == 100000.
+    entry['steps'] += 1
+    with pytest.raises(ValueError, match='aggregate'):
+        module._budget(data)
+
+
+def test_nonzero_settling_window_and_default_mach_admission():
+    data = prepared(); entry = data['a']
+    del entry['spec']['mach']
+    ch = case_key(entry['spec'])
+    entry['candidate']['case_hash'] = entry['request']['identity']['case_hash'] = ch
+    dt = .05 * .5 / math.sqrt(3)
+    entry['steps'] = 6
+    entry['request']['window'].update(start_s=2*dt, end_s=5*dt)
+    executor = CpuSweepExecutor(data)
+    handle = executor.start(entry['candidate'], 7)
+    assert finish(executor, handle)['state'] == 'completed'
+    detail = executor.results('a', 7)
+    assert len(detail['load_samples']) == 6
+    assert detail['load_samples'][-1]['time_s'] == pytest.approx(5*dt)
+    for start, end in ((2, 6), (2, 4), (2.1, 5), (2, 5.1)):
+        invalid = deepcopy(data)
+        invalid['a']['request']['window'].update(start_s=start*dt, end_s=end*dt)
+        with pytest.raises(ValueError):
+            CpuSweepExecutor(invalid)
+
+
+def test_maximum_probe_count_is_admitted_without_starting_worker():
+    data = prepared()
+    data['a']['probes'] = [dict(probe_id=str(i), position_world_m=[1., 2., 2.]) for i in range(256)]
+    executor = CpuSweepExecutor(data)
     assert executor.audit() == dict(handles=0, live_workers=0, session_ids=[])
