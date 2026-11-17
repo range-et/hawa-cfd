@@ -69,6 +69,17 @@ vector is in N m about the supplied root quarter-chord pivot. These integrated
 loads come from the solver's momentum exchange; they are not summed pressure
 colours. Coefficients use the fixed area/chord and the declared physical window.
 
+The stock **Custom Settings** component explicitly controls CAD tessellation:
+stitch seams, simple planes and refinement on; minimum/maximum initial grid
+counts and aspect ratio zero (disabled); maximum surface distance **0.0005 m**,
+maximum angle **10°**, minimum edge **0.005 m** and maximum edge **0.02 m**. This avoids
+depending on Rhino document render-mesh defaults. These settings change the
+actual study mesh, so changing them requires a new study; they are not a display
+reduction and do not change the **0.01 m CFD grid**. Before running edited wings,
+check that the combined, triangulated selected mesh stays within Surface Field's
+existing **10,000 vertex samples**. The creator's three-variant geometry preflight
+checks that limit; arbitrary larger or more complex wings are not guaranteed.
+
 **Surface Field** samples pressure outside the selected rotated wing along its
 normals, initially at **1.5 cells** offset. Its colours and the fixed **−2 to +2
 Pa** legend are approximate sampled pressure. **Black means an invalid sample**;

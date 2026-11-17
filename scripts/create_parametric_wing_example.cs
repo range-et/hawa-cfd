@@ -111,7 +111,13 @@ try{
  var cap=Stock("f6409a9c-3d2a-4b14-9f2c-e3c3f2cb72f8","Cap / closed solid",1980,110);Connect(loft,0,cap,0);
  var solid=Add(new Param_Brep(),2220,320);solid.NickName="Closed loft solid / preview before Run";solid.AddSource(cap.Params.Output[0]);solid.Hidden=true;
  var closed=Panel("Loft solid?","",2220,450,230,90);closed.AddSource(cap.Params.Output[2]);
- var meshBrep=Stock("60e7defa-8b21-4ee1-99aa-a9223d6134ff","Mesh the actual loft",2220,110);Connect(cap,0,meshBrep,0);
+ // Explicit stock meshing settings make tessellation independent of Rhino document defaults.
+ // These are CAD mesh controls, not the CFD lattice spacing or numerical tolerances.
+ var meshing=Stock("4a0180e5-d8f9-46e7-bd34-ced804601462","Fixed wing tessellation / independent of document mesh",1980,650);
+ for(int i=0;i<3;i++){var parameter=(Param_Boolean)meshing.Params.Input[i];parameter.PersistentData.Clear();parameter.SetPersistentData(true);}
+ for(int i=3;i<5;i++){var parameter=(Param_Integer)meshing.Params.Input[i];parameter.PersistentData.Clear();parameter.SetPersistentData(0);}
+ Number(meshing,5,0);Number(meshing,6,.0005);Number(meshing,7,10);Number(meshing,8,.005);Number(meshing,9,.02);
+ var meshBrep=Stock("60e7defa-8b21-4ee1-99aa-a9223d6134ff","Mesh the actual loft",2220,110);Connect(cap,0,meshBrep,0);Connect(meshing,0,meshBrep,1);
  var join=Stock("4bc9dbbf-fec8-4348-a3af-e33e7edc8e7b","Join loft and cap meshes",2460,110);Connect(meshBrep,0,join,0);
  var weld=Stock("9f6d85c9-1143-4538-bca7-69dcb11a74ef","Weld mesh seams",2700,110);Connect(join,0,weld,0);
  var angle=(Param_Number)weld.Params.Input[1];angle.PersistentData.Clear();angle.SetPersistentData(Math.PI);
@@ -136,7 +142,9 @@ try{
     if(Math.Abs(bbox.Min.Y+width/2)>1e-6||Math.Abs(bbox.Max.Y-width/2)>1e-6)throw new Exception("Wing span does not match slider");
     double volume=VolumeMassProperties.Compute(mesh).Volume;
     if(!(volume>0))throw new Exception("Mesh must have positive volume");
-    checks.Add(new System.Text.Json.Nodes.JsonObject{["root"]=value.Item1,["tip"]=value.Item2,["root_chord_m"]=(double)value.Item3,["tip_chord_m"]=(double)value.Item4,["span_m"]=width,["brep_solid"]=brep.IsSolid,["mesh_closed"]=mesh.IsClosed,["mesh_vertices"]=mesh.Vertices.Count,["mesh_faces"]=mesh.Faces.Count,["mesh_volume_m3"]=volume,["mesh_crc"]=mesh.DataCRC(0)});
+    using var captured=mesh.DuplicateMesh();captured.Vertices.CombineIdentical(true,true);captured.Faces.ConvertQuadsToTriangles();
+    if(captured.Vertices.Count>10000)throw new Exception("Selected pressure surface would exceed the existing 10000-sample budget");
+    checks.Add(new System.Text.Json.Nodes.JsonObject{["root"]=value.Item1,["tip"]=value.Item2,["root_chord_m"]=(double)value.Item3,["tip_chord_m"]=(double)value.Item4,["span_m"]=width,["brep_solid"]=brep.IsSolid,["mesh_closed"]=mesh.IsClosed,["mesh_vertices"]=mesh.Vertices.Count,["mesh_faces"]=mesh.Faces.Count,["mesh_volume_m3"]=volume,["mesh_crc"]=mesh.DataCRC(0),["selected_vertices"]=captured.Vertices.Count,["selected_triangles"]=captured.Faces.Count,["pressure_sample_limit"]=10000});
    }
    var output=Path.Combine(root,"results/parametric-wing-geometry");Directory.CreateDirectory(output);
    File.WriteAllText(Path.Combine(output,"preflight.json"),checks.ToJsonString(new System.Text.Json.JsonSerializerOptions{WriteIndented=true}));
@@ -204,7 +212,7 @@ try{
  Scatter(Output(study,"CD"),Output(study,"CL"),"CL versus CD","CD","CL",.2,.5,2.2,4900,1200);
  Group("01 / Dimensions and distinct section shapes",rootCode,tipCode,rootChord,tipChord,span,cell,sectionPlane,rootFoil,tipFoil);
  Group("02 / Quarter-chord placement and fixed references",offset,positiveSpan,negativeSpan,area,mac,quarter,pivot);
- Group("03 / Ordinary GH loft, caps and closed mesh",plusVector,minusVector,tipPlus,tipMinus,sections,loft,cap,solid,closed,meshBrep,join,weld,normals,wing,geometryCheck,geometryReport);
+ Group("03 / Ordinary GH loft, caps and closed mesh",plusVector,minusVector,tipPlus,tipMinus,sections,loft,cap,solid,closed,meshing,meshBrep,join,weld,normals,wing,geometryCheck,geometryReport);
  Group("04 / Fixed tunnel and synthetic fluid",runtime,initialize,runtimeReport,domainBox,domain,gridReport,physics,viscosity,boundaries,emptyCase,bounds);
  Group("05 / Explicit stationary study",alphaFirst,alphaSecond,speed,angles,speeds,probes,settling,samples,tolerance,selected,run,pause,cancel,study,progress,identity,cases,idle,idleWing);
  Group("06 / Total loads and selected pressure",force,drag,lift,sideForce,moment,colors,pressureLow,pressureHigh,offsetDistance,surface,valid,pressure,legend);
