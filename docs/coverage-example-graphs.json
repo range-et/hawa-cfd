@@ -523,14 +523,14 @@
         },
         {
           "name": "Path",
-          "description": "Local .npz output/input file",
+          "description": "Local .npz file, or .csv output for export csv",
           "access": "item",
           "optional": false,
           "parameter_type": "Param_String"
         },
         {
           "name": "Operation",
-          "description": "save, load or export",
+          "description": "save, load, export or export csv",
           "access": "item",
           "optional": false,
           "parameter_type": "Param_String"

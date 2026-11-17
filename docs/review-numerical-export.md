@@ -32,7 +32,7 @@ arrays, 2D/3D lattices and a rotated/translated physical coordinate basis.
 | G3 numerical physics | author self-review | NOT APPLICABLE | No solver change. Exact data preservation is tested; engineering accuracy and convergence not claimed. |
 | G4 UI/UX and examples | unassigned | BLOCKED | Headless existing-node action/rising-edge/format mapping passes. Live Checkpoint CSV action and supported-gallery review not yet run. |
 | G5 release/integration | unassigned | BLOCKED | Build, ready PR, CI and Greptile 5/5 pending; no package installed or released. |
-| G6 compatibility/example inventory | author self-review | PARTIAL | Existing public-node GUID/ports unchanged and .NET contract tested; no new public node. Host combinations and installed acceptance remain unverified. |
+| G6 compatibility/example inventory | root live audit; author self-review | PARTIAL | Installed combined build archive audit passed 53 nodes / 31 examples; only the two Checkpoint input descriptions are refreshed here. Existing public-node GUID/ports unchanged; no new node. Runtime combinations remain separately unverified. |
 
 ## Checks and disposition
 
@@ -62,3 +62,8 @@ Issue #35 must remain open after this increment: probe/load interchange and
 installed/native UX need their own scoped contract, round-trip checks and host
 review. #34 is independent baking work. Owner/closure decisions remain with the
 coordinating maintainer after the PR gates.
+
+Root-reported installed audit: integration `1ea7314` (domain `0e76b95` plus
+export production `de2003d`), 53 public nodes / 31 example archives passed.
+This branch copies only the Path/Operation descriptions for Checkpoint; unrelated
+Geometry Check descriptions and example33 changes remain in their own PRs.
