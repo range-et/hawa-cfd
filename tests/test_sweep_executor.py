@@ -298,3 +298,31 @@ def test_translated_rotated_case_frame_matches_real_sampling():
         assert before['pressure_pa']==after['pressure_pa'] and before['valid']==after['valid']
     for before,after in zip(original['load_samples'],result['load_samples']):
         np.testing.assert_allclose(after['force_world_n'],np.asarray(before['force_world_n'])@basis,atol=1e-12,rtol=1e-12)
+
+
+def test_terminal_result_does_not_release_a_still_live_worker(monkeypatch):
+    """Publication is not worker exit; close must preserve completed data."""
+    published, release = threading.Event(), threading.Event()
+    original = module.CpuSweepExecutor._work
+    def delayed_exit(executor, run):
+        original(executor, run)
+        published.set()
+        assert release.wait(10)
+    monkeypatch.setattr(module.CpuSweepExecutor, '_work', delayed_exit)
+    data = prepared()
+    executor = CpuSweepExecutor(data)
+    handle = executor.start(data['a']['candidate'], 7)
+    try:
+        assert published.wait(10)
+        assert executor.poll(handle)['state'] == 'completed'
+        assert executor.close(handle) is False
+        assert executor.audit() == dict(handles=1, live_workers=1, session_ids=[])
+        with pytest.raises(ValueError, match='Close'):
+            executor.start(data['a']['candidate'], 7)
+        assert executor.results('a', 7)['summary']['usable']
+    finally:
+        release.set()
+        wait_for(lambda: not executor.audit()['live_workers'])
+        assert executor.close(handle)
+    assert executor.results('a', 7)['state'] == 'completed'
+    assert executor.audit() == dict(handles=0, live_workers=0, session_ids=[])
