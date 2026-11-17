@@ -17,6 +17,8 @@ public sealed class RefinedSolveComponent:HawaComponent {
             InputsMissing();
             try { RefinementAdmission.Require(coarse,fine); }
             catch(ArgumentException e) { throw new ArgumentException(Identity()+": "+e.Message); }
+            if(!EmbeddedRuntime.IsReady)
+                throw new InvalidOperationException("Initialize Hawa Runtime first: add the existing Runtime component (Hawa / 00 Setup), set Initialize true and wait for its report, then run refinement again.");
             key=signature;
             submission=Task.Run(()=>
                 EmbeddedRuntime.Call(req)["job"]!.GetValue<string>()

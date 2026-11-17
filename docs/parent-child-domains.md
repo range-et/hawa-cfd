@@ -58,8 +58,12 @@ past its parent elsewhere. Coupled refinement additionally requires an aligned, 
 patch whose resolution is exactly `2*(upper-lower)+1`; it reports the parent and
 fine roles and the offending indices. Refined Solve also identifies its GH
 component and connected case-source objects when metadata admission fails.
-Relationship checks run before creating the evaluation Job; embedded initialization
-and Python admission run off the GH solution thread. Geometry-dependent checks of
+Relationship checks run before creating the evaluation Job. Before the first
+Refined Solve, add **Hawa Runtime** (00 Setup), set Initialize true and wait for
+its report. Rhino's first-use Python loader owns host progress UI, so a cold
+Refined Solve refuses with these instructions instead of initializing on a
+worker. After explicit host initialization, Python admission runs off the GH
+solution thread. Geometry-dependent checks of
 the solid/interface stencil still require constructed grids. See the
 [admission review](review-refinement-admission.md) for current verification limits.
 These rules are covered by

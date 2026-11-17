@@ -13,6 +13,26 @@ static class RefinementAdmissionContracts
     static JsonObject Status(string state)=>new(){["state"]=state,["steps"]=2,["target"]=2,["error"]="interface intersects solid",["result"]=new JsonObject{["coarse_frame"]=new JsonObject{["frame"]="coarse"},["fine_frame"]=new JsonObject{["frame"]="fine"},["report"]="experimental",["relative_mass_change"]=.001}};
     public static void Run(Action<string,Action> test,Action<bool,string> assert)
     {
+        test("cold refinement rejects before background work and public Runtime establishes readiness",()=>{
+            var wasReady=Hawa.Grasshopper.EmbeddedRuntime.IsReady;
+            try{
+                Hawa.Grasshopper.EmbeddedRuntime.IsReady=false;
+                using var bridge=new GhBridge();bridge.Respond=r=>r["op"]!.GetValue<string>()=="info"?new JsonObject{["python"]="3.9"}:null;
+                var c=new RefinedSolveComponent();Solve(c,false);Solve(c);
+                assert(c.Errors.Single().Contains("Initialize Hawa Runtime first")&&!bridge.Calls.Any(),"Cold refinement entered bridge/worker");
+                RhinoApp.InvokeRequired=true;bool rejected=false;
+                try{Hawa.Grasshopper.EmbeddedRuntime.Call(new(){["op"]="info"});}catch(InvalidOperationException e){rejected=e.Message.Contains("on the host");}
+                finally{RhinoApp.InvokeRequired=false;}
+                assert(rejected&&!bridge.Calls.Any()&&!Hawa.Grasshopper.EmbeddedRuntime.IsReady,"Cold worker initialized host runtime");
+                bridge.Respond=_=>throw new InvalidOperationException("setup failed");
+                var runtime=new RuntimeComponent();runtime.Compute(new GhAccess(runtime,new object?[]{true}));
+                assert(runtime.Errors.Single()=="setup failed"&&!Hawa.Grasshopper.EmbeddedRuntime.IsReady,"Failed setup marked ready");
+                bridge.Respond=_=>new JsonObject{["python"]="3.9"};var report=new GhAccess(runtime,new object?[]{true});runtime.Compute(report);
+                assert(Hawa.Grasshopper.EmbeddedRuntime.IsReady&&report.Out<string>(0).Contains("3.9"),"Public Runtime did not establish readiness");
+                bridge.Respond=r=>r["op"]!.GetValue<string>() switch{"evaluate_submit"=>new JsonObject{["job"]="warmed"},"evaluate_poll"=>Status("completed"),_=>null};
+                Complete(c);assert(c.Message=="completed"&&c.Errors.Count==0,"Cold rejection did not recover after explicit initialization");c.RemovedFromDocument(new GH_Document());
+            }finally{RhinoApp.InvokeRequired=false;Hawa.Grasshopper.EmbeddedRuntime.IsReady=wasReady;}
+        });
         test("refinement relationship admission rejects unsupported topology with fixed placement tolerance",()=>{
             RefinementAdmission.Require(Coarse(),Fine());
             void Reject(string key,JsonNode? value,string text){var f=Fine();f[key]=value;try{RefinementAdmission.Require(Coarse(),f);throw new Exception("Accepted "+key);}catch(ArgumentException e){assert(e.Message.Contains(text),e.Message);}}

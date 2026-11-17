@@ -22,8 +22,9 @@ and absolute origin placement. It constructs no Session, solver or tensors.
 The existing fixed 2:1 numerical method and tolerances are unchanged.
 
 The GH adapter checks only cheap domain/relationship metadata synchronously.
-Rejections identify its instance GUID and coarse/fine source objects. Embedded
-initialization and Python admission run on an owned task. A changed, missing,
+Rejections identify its instance GUID and coarse/fine source objects. Cold runtime use is refused with an instruction to initialize the existing
+Hawa Runtime node on the host first. After that explicit initialization, Python
+admission runs on an owned task. A changed, missing,
 cancelled or removed input detaches the task; a retained UI timer transfers any
 late successful job into CaseHub's retryable cleanup. Faults are observed without
 publishing results. No unfinished task is waited on in the solution thread.
@@ -35,7 +36,8 @@ Acceptance criteria fixed for this increment:
 - Valid nested, translated and rotated fixed patches remain accepted, including
   the existing absolute origin tolerance of `1e-7`.
 - Invalid wired inputs identify coarse/fine sources and the rejecting component.
-- Submission returns while the bridge is pending; cancellation, replacement and
+- Cold submission refuses before any task/bridge call; existing public Runtime
+  initialization permits later asynchronous submission. Submission returns while the bridge is pending; cancellation, replacement and
   removal cannot publish a stale result or lose ownership of a late job.
 - Existing pause, failure, completion and saved-definition activation behavior
   remains available; fresh measured function/line evidence covers changed code.
@@ -70,7 +72,7 @@ Focused commands and results:
   parametrizations. An initial combined-budget regression failed because the
   existing case budget truncates fractional MiB; corrected the fixture to a
   four-MiB budget and reran. No production tolerance was changed.
-- `dotnet run --project tests/dotnet/StateContracts`: **126 passed**. Real linked
+- `dotnet run --project tests/dotnet/StateContracts`: **127 passed**. Real linked
   Refined Solve replaces its former stand-in. Tests use a bridge barrier to
   prove pending return and late success/fault handling, including invalid input
   replacement, Run=false and document removal. The focused Coverlet pass measured
@@ -95,7 +97,13 @@ A zero public scheduler/cleanup count after the observation window does not
 prove that every detached submission timer has completed or that zero workers
 exist; the deterministic headless barriers supply that separate ownership
 evidence. Native results and final package/source hashes must be recorded after
-execution.
+execution. The first native candidate exposed a real cold-start crash: RhinoCode
+created host progress UI from the background thread. The candidate was rejected;
+the explicit Runtime prerequisite and cold-background bridge guard repair that
+path. The native harness now asserts cold rejection before using the public
+Runtime node, so a prewarmed test cannot hide the original failure. Initial
+harness-only C#9/`CastTo(out)`/persistent-device and null-placeholder assertions
+were also corrected. Fresh installed verification is required for the repair.
 
 ## Disposition
 

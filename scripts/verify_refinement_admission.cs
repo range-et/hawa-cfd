@@ -15,12 +15,14 @@ var hub=shared.GetType("Hawa.Shared.CaseHub");
 var scheduler=assembly.GetType("Hawa.Grasshopper.HawaPollScheduler");
 int Pending()=> (int)scheduler.GetProperty("PendingCount").GetValue(null);
 int Cleanup()=> (int)hub.GetProperty("PendingCleanupCount").GetValue(null);
+if((bool)assembly.GetType("Hawa.Grasshopper.EmbeddedRuntime").GetProperty("IsReady").GetValue(null))throw new Exception("Cold-runtime acceptance requires a fresh loaded candidate before any Hawa Runtime initialization");
 var previous=Grasshopper.Instances.ActiveCanvas.Document;
 var doc=new GH_Document();
 T Add<T>(T item) where T:IGH_DocumentObject {item.CreateAttributes();doc.AddObject(item,false);return item;}
 var solve=Add((GH_Component)Activator.CreateInstance(assembly.GetType("Hawa.Grasshopper.RefinedSolveComponent")));
 var coarse=Add(new Param_GenericObject {NickName="Admission parent"});
 var fine=Add(new Param_GenericObject {NickName="Admission patch"});
+var runtime=Add((GH_Component)Activator.CreateInstance(assembly.GetType("Hawa.Grasshopper.RuntimeComponent")));
 var run=Add(new GH_BooleanToggle {Value=false});var pause=Add(new GH_BooleanToggle {Value=false});
 solve.Params.Input[0].AddSource(coarse);solve.Params.Input[1].AddSource(fine);solve.Params.Input[4].AddSource(run);solve.Params.Input[5].AddSource(pause);
 var device=(Param_String)solve.Params.Input[3];device.PersistentData.Clear();device.SetPersistentData("cpu");
@@ -45,23 +47,28 @@ timer.Elapsed+=(_,_)=>{try{
  case 0:
   var bad=Patch();bad["origin"]=new JsonArray(6d,5d,5d);Data(fine,bad);run.Value=true;var watch=System.Diagnostics.Stopwatch.StartNew();Solve();report["invalid_submit_ms"]=watch.Elapsed.TotalMilliseconds;
   Check(Errors().Contains("origin")&&Errors().Contains(solve.InstanceGuid.ToString())&&Errors().Contains(coarse.InstanceGuid.ToString())&&Errors().Contains(fine.InstanceGuid.ToString()),"Invalid patch lacks actionable source/component identity: "+Errors());
-  Check(solve.Params.Output.All(p=>p.VolatileDataCount==0),"Invalid patch published output");Pass("misaligned patch rejected synchronously with input and component IDs");break;
+  Check(solve.Params.Output.All(p=>!p.VolatileData.AllData(true).Any(v=>v!=null)),"Invalid patch published output");Pass("misaligned patch rejected synchronously with input and component IDs");break;
  case 1:
-  Data(fine,Patch());Steps(10000);pause.Value=true;watch=System.Diagnostics.Stopwatch.StartNew();Solve();report["valid_submit_ms"]=watch.Elapsed.TotalMilliseconds;Pass("valid submission returned to host; pause requested");break;
+  Data(fine,Patch());Solve();Check(Errors().Contains("Initialize Hawa Runtime first"),"Cold refinement did not refuse safely: "+Errors());Check(solve.Params.Output.All(p=>!p.VolatileData.AllData(true).Any(v=>v!=null)),"Cold rejection published frames");Pass("cold refinement rejected before background initialization");break;
  case 2:
+  var initialize=(Param_Boolean)runtime.Params.Input[0];initialize.PersistentData.Clear();initialize.SetPersistentData(true);runtime.ExpireSolution(false);doc.NewSolution(false);
+  Check((bool)assembly.GetType("Hawa.Grasshopper.EmbeddedRuntime").GetProperty("IsReady").GetValue(null),"Public Runtime initialization did not complete");Check(!runtime.RuntimeMessages(GH_RuntimeMessageLevel.Error).Any(),"Public Runtime initialization failed");Pass("existing Runtime node explicitly initialized on host thread");break;
+ case 3:
+  Data(fine,Patch());Steps(10000);pause.Value=true;watch=System.Diagnostics.Stopwatch.StartNew();Solve();report["valid_submit_ms"]=watch.Elapsed.TotalMilliseconds;Pass("valid submission returned to host; pause requested");break;
+ case 4:
   Check(Errors()=="",Errors());if(!State().StartsWith("paused:"))return;report["paused_state"]=State();
   bad=Patch();bad["refinement_lower"]=new JsonArray(0,5,5);Data(fine,bad);Solve();Check(Errors().Contains("clearance"),"Replacement was not rejected");Pass("paused run replaced by invalid patch without stale frames");break;
- case 3:
-  Check(solve.Params.Output.All(p=>p.VolatileDataCount==0),"Replaced run retained frames");Data(fine,Patch());Steps(2);pause.Value=false;Solve();Pass("valid two-step recovery submitted");break;
- case 4:
+ case 5:
+  Check(solve.Params.Output.All(p=>!p.VolatileData.AllData(true).Any(v=>v!=null)),"Replaced run retained frames");Data(fine,Patch());Steps(2);pause.Value=false;Solve();Pass("valid two-step recovery submitted");break;
+ case 6:
   Check(Errors()=="",Errors());if(!State().StartsWith("completed: 2/2"))return;
   for(int i=0;i<2;i++){string json="";Check(solve.Params.Output[i].VolatileData.AllData(true).Single().CastTo(out json),"Missing frame JSON");var frame=JsonNode.Parse(json);Check(frame["kind"].GetValue<string>()=="Frame","Wrong output kind");report[i==0?"coarse_frame":"fine_frame"]=frame;}
   Pass("valid case recovered and published both completed frame handles");break;
- case 5:
-  run.Value=false;Solve();Steps(10000);run.Value=true;Solve();report["cancel_before_state"]=solve.Message;run.Value=false;Solve();Check(solve.Message=="stopped"&&solve.Params.Output.All(p=>p.VolatileDataCount==0),"Immediate cancel retained output");Pass("immediate submit/cancel clears owned output");break;
- case 6:
-  run.Value=true;Solve();report["remove_before_state"]=solve.Message;DisposeOwned();Pass("document removed immediately after submission");break;
  case 7:
+  run.Value=false;Solve();Steps(10000);run.Value=true;Solve();report["cancel_before_state"]=solve.Message;run.Value=false;Solve();Check(solve.Message=="stopped"&&solve.Params.Output.All(p=>!p.VolatileData.AllData(true).Any(v=>v!=null)),"Immediate cancel retained output");Pass("immediate submit/cancel clears owned output");break;
+ case 8:
+  run.Value=true;Solve();report["remove_before_state"]=solve.Message;DisposeOwned();Pass("document removed immediately after submission");break;
+ case 9:
   if(Pending()!=0||Cleanup()!=0||(DateTime.UtcNow-began).TotalSeconds<2)return;
   report["pending_refreshes"]=Pending();report["pending_cleanup"]=Cleanup();report["limits"]="Public GH lifecycle/cleanup diagnostics only; no private worker enumeration. Headless barriers prove deterministic late-result races. No numerical accuracy claim.";timer.Stop();timer.Dispose();Save("passed");break;
  }
