@@ -161,7 +161,12 @@ all final-head CI and Greptile review gates still apply before merge.
 
 ## Disposition
 
-#30 remains open until final PR gates and merge.
+#30's remaining acceptance criteria are satisfied; closure is tied to
+[PR #116](https://github.com/range-et/hawa-cfd/pull/116) passing its final gates
+and merging. The Windows rerun on source-equivalent candidate `0e219a9` passes
+1,973 tests (92 explicit skips), all 91 CUDA cases, five CPU-FP64 smoke cases
+and all 2,449 CUDA G6 rows. [Windows evidence](review-windows-verification-portability.md)
+is headless PR evidence, not installed Windows Rhino or merged-main qualification.
 The declared installed-host and local measured checks are complete. The implementation addresses fixed coupled-refinement
 metadata admission and host object identification only. No unrelated resource,
 physical-qualification, all-device or exhaustive arbitrary-graph claim is made.

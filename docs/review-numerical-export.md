@@ -83,6 +83,14 @@ installed/native UX need their own scoped contract, round-trip checks and host
 review. #34 is independent baking work. Owner/closure decisions remain with the
 coordinating maintainer after the PR gates.
 
+The final [Windows headless rerun](review-windows-verification-portability.md)
+on source-equivalent candidate `0e219a9` passes 1,973 tests (92 explicit skips),
+all 91 CUDA cases, five CPU-FP64 smoke comparisons and all 2,449 CUDA G6 rows.
+The subsequent integration changes only documentation/evidence. These checks
+do not establish Windows Rhino export UI acceptance or close the remaining #35
+scope. Final external CI/review decisions are recorded on
+[PR #116](https://github.com/range-et/hawa-cfd/pull/116).
+
 Final installed archive audit passes: 53 public nodes, 31 definitions and 188
 observed port combinations. The [combined G6 record](verification-working-30-35-g6.json)
 pins exact source hashes; zero source changes during measurement. Example 33

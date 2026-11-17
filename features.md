@@ -398,7 +398,7 @@ Diagnosis and limits. Review follow-up
 HAWA-056/057 adds actual loaded-source validation and partial failure evidence.
 HAWA-001 remains open.
 
-### November 16 2026 fixed refinement admission (#30 / HAWA-028, candidate)
+### November 17 2026 fixed refinement admission (#30 / HAWA-028)
 
 Fixed 2:1 refinement now checks existing case/relationship metadata before Job
 creation. Cold refinement requires explicit initialization through the existing
@@ -409,8 +409,11 @@ solid/interface checks still require constructed grids. Focused Python tests
 (96 passed, four CUDA skips; CPU and MPS exercised), 127 headless contracts and a
 development package pass. Fresh cold/warm Rhino lifecycle and zero-resource
 teardown pass; CPU/MPS finite compatibility passes with CUDA unavailable. Full
-measured and reviewed mutation gates pass; final PR gates remain pending. This
-is not a release claim. [Scoped review](docs/review-refinement-admission.md).
+measured and reviewed mutation gates pass. The separate Windows headless rerun
+passes its full suite, CUDA smoke and all CUDA G6 rows. The remaining #30
+acceptance scope is verified; final gates and merge are tracked in
+[PR #116](https://github.com/range-et/hawa-cfd/pull/116). This is not a release or
+Windows-host claim. [Scoped review](docs/review-refinement-admission.md).
 
 ### November 9 2026 domain relationship contracts (HAWA-028 partial / HAWA-052 candidate)
 
