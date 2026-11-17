@@ -1011,7 +1011,7 @@
       "outputs": [
         {
           "name": "Closed valid",
-          "description": "Basic geometry check",
+          "description": "Passes obstacle admission; self-intersection limits are in Report",
           "access": "list",
           "optional": false,
           "parameter_type": "Param_Boolean"
@@ -1025,7 +1025,7 @@
         },
         {
           "name": "Report",
-          "description": "Dimensions and volume",
+          "description": "Obstacle admission, dimensions, volume and unsupported geometry limits",
           "access": "list",
           "optional": false,
           "parameter_type": "Param_String"
@@ -7067,7 +7067,7 @@
     {
       "file": "examples/grasshopper/33-neutral-city-to-pond.gh",
       "archive_errors": 0,
-      "sha256": "03146c493e5afd2f39010d291f611f0d6037b456210cede419bace8995e6517a",
+      "sha256": "33058a5bdcb8b7b6f997ebfaa55abbf11f11e2d30e3e3a73032a7a4428a94709",
       "nodes": [
         "BoundaryCaptureComponent",
         "BoundaryDataComponent",
