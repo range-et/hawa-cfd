@@ -7,6 +7,7 @@ using System.Text.Json.Nodes;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Special;
 using Grasshopper.Kernel.Parameters;
+using Grasshopper.Kernel.Types;
 var root="/Users/r2d2/Desktop/hawa-parametric-wing-example";
 var path=Path.Combine(root,"examples/grasshopper/35-parametric-wing-study.gh");
 if(Grasshopper.Instances.DocumentServer.Any(d=>string.Equals(d.FilePath,path,StringComparison.OrdinalIgnoreCase)))throw new Exception("Close the source example before patching its archive.");
@@ -34,10 +35,10 @@ try{
   var points=doc.Objects.OfType<GH_Component>().Single(c=>c.NickName==title+" / scatter only");
   double xScale=title=="CL versus CD"?.2:.05,yScale=title=="CD versus angle"?.2:.5,originX=title=="CL versus angle"?0:title=="CD versus angle"?1.2:2.2;
   foreach(var pair in new[]{(component:px,value:xScale),(component:py,value:yScale)}){while(pair.component.Params.Input.Count>0)pair.component.Params.UnregisterInputParameter(pair.component.Params.Input.Last(),true);pair.component.Params.OnParametersChanged();pair.component.GetType().GetProperty("Expression").SetValue(pair.component,pair.value.ToString(System.Globalization.CultureInfo.InvariantCulture));pair.component.NickName+=" scale";edited.Add(pair.component.InstanceGuid);}
-  var mx=Stock("2f643ab6-b9a4-4923-b3da-f9d52b0cba14",title+" / scale X",x+850,y);Wire(cx.Params.Output[0],mx,0);Wire(px.Params.Output[0],mx,1);
-  var my=Stock("2f643ab6-b9a4-4923-b3da-f9d52b0cba14",title+" / scale Y",x+850,y+110);Wire(cy.Params.Output[0],my,0);Wire(py.Params.Output[0],my,1);
-  var ax=Stock("58669268-a825-4688-8072-7d3508fcf91c",title+" / offset X",x+1050,y);Wire(mx.Params.Output[0],ax,0);((Param_Number)ax.Params.Input[1]).SetPersistentData(originX);
-  var ay=Stock("58669268-a825-4688-8072-7d3508fcf91c",title+" / offset Y",x+1050,y+110);Wire(my.Params.Output[0],ay,0);((Param_Number)ay.Params.Input[1]).SetPersistentData(-1.5);
+  var mx=Stock("ce46b74e-00c9-43c4-805a-193b69ea4a11",title+" / scale X",x+850,y);Wire(cx.Params.Output[0],mx,0);Wire(px.Params.Output[0],mx,1);
+  var my=Stock("ce46b74e-00c9-43c4-805a-193b69ea4a11",title+" / scale Y",x+850,y+110);Wire(cy.Params.Output[0],my,0);Wire(py.Params.Output[0],my,1);
+  var ax=Stock("a0d62394-a118-422d-abb3-6af115c75b25",title+" / offset X",x+1050,y);Wire(mx.Params.Output[0],ax,0);((Param_GenericObject)ax.Params.Input[1]).SetPersistentData(new GH_Number(originX));
+  var ay=Stock("a0d62394-a118-422d-abb3-6af115c75b25",title+" / offset Y",x+1050,y+110);Wire(my.Params.Output[0],ay,0);((Param_GenericObject)ay.Params.Input[1]).SetPersistentData(new GH_Number(-1.5));
   if(points.Params.Input[0].Sources.Single()!=px.Params.Output[0]||points.Params.Input[1].Sources.Single()!=py.Params.Output[0])throw new Exception("Unexpected scatter wiring");
   points.Params.Input[0].RemoveSource(px.Params.Output[0]);Wire(ax.Params.Output[0],points,0);points.Params.Input[1].RemoveSource(py.Params.Output[0]);Wire(ay.Params.Output[0],points,1);points.Attributes.Pivot=new PointF(x+1280,y);edited.Add(points.InstanceGuid);
   foreach(var c in new[]{nx,ny,mask,cx,cy,mx,my,ax,ay})group.AddObject(c.InstanceGuid);group.Attributes.ExpireLayout();

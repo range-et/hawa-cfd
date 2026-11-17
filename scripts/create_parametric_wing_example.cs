@@ -66,10 +66,10 @@ void Scatter(IGH_Param xs,IGH_Param ys,string title,string xLabel,string yLabel,
  // Display coordinates only. The returned numerical coefficients are unchanged.
  var px=Expression(xScale.ToString(System.Globalization.CultureInfo.InvariantCulture),title+" / display X scale",x+520,y);
  var py=Expression(yScale.ToString(System.Globalization.CultureInfo.InvariantCulture),title+" / display Y scale",x+520,y+110);
- var mx=Stock("2f643ab6-b9a4-4923-b3da-f9d52b0cba14",title+" / scale X",x+750,y);Connect(cleanX,0,mx,0);Connect(px,0,mx,1);
- var my=Stock("2f643ab6-b9a4-4923-b3da-f9d52b0cba14",title+" / scale Y",x+750,y+110);Connect(cleanY,0,my,0);Connect(py,0,my,1);
- var ax=Stock("58669268-a825-4688-8072-7d3508fcf91c",title+" / offset X",x+950,y);Connect(mx,0,ax,0);Number(ax,1,originX);
- var ay=Stock("58669268-a825-4688-8072-7d3508fcf91c",title+" / offset Y",x+950,y+110);Connect(my,0,ay,0);Number(ay,1,-1.5);
+ var mx=Stock("ce46b74e-00c9-43c4-805a-193b69ea4a11",title+" / scale X",x+750,y);Connect(cleanX,0,mx,0);Connect(px,0,mx,1);
+ var my=Stock("ce46b74e-00c9-43c4-805a-193b69ea4a11",title+" / scale Y",x+750,y+110);Connect(cleanY,0,my,0);Connect(py,0,my,1);
+ var ax=Stock("a0d62394-a118-422d-abb3-6af115c75b25",title+" / offset X",x+950,y);Connect(mx,0,ax,0);((Param_GenericObject)ax.Params.Input[1]).SetPersistentData(new GH_Number(originX));
+ var ay=Stock("a0d62394-a118-422d-abb3-6af115c75b25",title+" / offset Y",x+950,y+110);Connect(my,0,ay,0);((Param_GenericObject)ay.Params.Input[1]).SetPersistentData(new GH_Number(-1.5));
  var points=Stock("3581f42a-9592-4549-bd6b-1c0fc39d067b",title+" / scatter only",x+1180,y);Connect(ax,0,points,0);Connect(ay,0,points,1);points.Hidden=false;
  var axes=Add(new Param_Curve(),x+800,y+150);axes.NickName=title+" / axes";
  double lowX=xLabel=="Angle (deg)"?-.3:0,highX=.6;

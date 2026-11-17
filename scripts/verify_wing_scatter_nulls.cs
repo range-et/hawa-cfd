@@ -16,8 +16,8 @@ var cx=Stock("008e9a6f-478a-4813-8c8a-546273bc3a6b");Wire(x,cx,0);Wire(mask.Para
 var cy=Stock("008e9a6f-478a-4813-8c8a-546273bc3a6b");Wire(y,cy,0);Wire(mask.Params.Output[0],cy,1);
 GH_Component Scale(GH_Component source){
  var scale=Stock("9df5e896-552d-4c8c-b9ca-4fc147ffa022");while(scale.Params.Input.Count>0)scale.Params.UnregisterInputParameter(scale.Params.Input.Last(),true);scale.Params.OnParametersChanged();scale.GetType().GetProperty("Expression").SetValue(scale,"2");
- var c=Stock("2f643ab6-b9a4-4923-b3da-f9d52b0cba14");Wire(source.Params.Output[0],c,0);Wire(scale.Params.Output[0],c,1);
- var add=Stock("58669268-a825-4688-8072-7d3508fcf91c");Wire(c.Params.Output[0],add,0);((Param_Number)add.Params.Input[1]).SetPersistentData(0d);return add;
+ var c=Stock("ce46b74e-00c9-43c4-805a-193b69ea4a11");Wire(source.Params.Output[0],c,0);Wire(scale.Params.Output[0],c,1);
+ var add=Stock("a0d62394-a118-422d-abb3-6af115c75b25");Wire(c.Params.Output[0],add,0);((Param_GenericObject)add.Params.Input[1]).SetPersistentData(new GH_Number(0d));return add;
 }
 var sx=Scale(cx);var sy=Scale(cy);
 void Set(Param_Number p,double?[] values){p.PersistentData.Clear();foreach(var v in values)p.PersistentData.Append(v.HasValue?new GH_Number(v.Value):null,new GH_Path(0));p.ExpireSolution(false);}
