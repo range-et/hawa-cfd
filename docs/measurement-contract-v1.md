@@ -37,14 +37,17 @@ No fallback from another backend or wall model. Validate before constructing a
 session. Force calculations use the solver's dtype, reduction/analysis float64;
 report both. CPU float32/float64 are implementation checks, not device parity.
 
-At most 4 named bodies, 150000 grid cells, 256 probes, 100000 retained samples
+At most 4 named bodies, 500000 grid cells, 256 probes, 100000 retained samples
 per body/probe, 64 sweep candidates, 100000 solver steps per candidate. Body
 solid-index sets must be nonempty, unique, disjoint, and their union must equal
 the case obstacle set. Reject differently named bodies touching along any
 D3Q19 link; each obstacle must have at least one lattice-node layer of clear
 padding at every domain face. Group mesh inputs into one ID before voxelization
 when one physical body is desired. This module does not implement CAD union.
-Bounds are development limits, not performance promises.
+Bounds are development limits, not performance promises. The per-case grid cap
+was increased from 150000 to 500000 for the finer CPU example after the
+[resource/lifecycle pilot](wing-fine-report-protocol.md); aggregate retained-sweep
+budgets and all other guards remain unchanged.
 
 ## Request shape (all keys required unless explicitly optional)
 

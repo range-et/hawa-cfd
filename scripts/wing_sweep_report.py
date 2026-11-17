@@ -126,6 +126,8 @@ def report_html(report, prepared):
                 raise ValueError('Retained field source differs from candidate')
             metadata = dict(identity=detail['identity'], session=detail['session'], phase=detail['phase'],
                             field_capture=stamp, references=entry['request']['references'],
+                            grid={key: entry['spec'][key] for key in ('shape', 'dx', 'origin', 'basis')},
+                            fluid={key: entry['spec'][key] for key in ('density', 'viscosity', 'mach')},
                             measurement_window=entry['request']['window'],
                             summary=detail['summary'], final_quality=detail.get('final_quality'))
             section += svg(case_figure(detail, entry))
@@ -152,12 +154,14 @@ def main(argv=None):
     """Run the declared demo; refuse overwrites and retain failed runs for review."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', required=True, type=Path)
-    parser.add_argument('--timeout', type=float, default=120.)
+    parser.add_argument('--timeout', type=float, default=3600.)
+    parser.add_argument('--coarse', action='store_true', help='Explicit quick 25 mm grid; default is 10 mm')
     args = parser.parse_args(argv)
     if args.output.exists():
         raise FileExistsError('Choose a new report path; existing results are preserved')
-    recipe = demo_sweep()
-    entries = prepare_entries(recipe, 1000, 64, .05,
+    recipe = demo_sweep(refined=not args.coarse)
+    settling, samples = (1200, 81) if args.coarse else (3000, 201)
+    entries = prepare_entries(recipe, settling, samples, .05,
                               probes=[dict(probe_id='upstream', position_world_m=[-.1, 0., .1])])
     report = run_prepared(entries, args.timeout)
     html = report_html(report, entries)

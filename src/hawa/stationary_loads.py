@@ -9,6 +9,9 @@ import torch
 from .measurements import Body, finite_vectors
 from .motion import check
 
+# One sequential CPU worker; retained-sweep budgets remain separately enforced.
+MAX_GRID_CELLS = 500000
+
 
 def validate_case(spec, body_indices, device='cpu'):
     """Validate supported ownership before allocating a solver/session."""
@@ -19,8 +22,8 @@ def validate_case(spec, body_indices, device='cpu'):
     if not isinstance(spec, dict) or any(key in spec for key in forbidden) or spec.get('collision') != 'bgk':
         raise ValueError('Only physical uniform BGK full-way stationary cases are supported')
     shape = spec.get('shape')
-    if not isinstance(shape, list) or len(shape) != 3 or any(type(n) is not int or n < 4 for n in shape) or math.prod(shape) > 150000:
-        raise ValueError('Measurement grid requires 3 dimensions and at most 150000 cells')
+    if not isinstance(shape, list) or len(shape) != 3 or any(type(n) is not int or n < 4 for n in shape) or math.prod(shape) > MAX_GRID_CELLS:
+        raise ValueError('Measurement grid requires 3 dimensions and at most {} cells'.format(MAX_GRID_CELLS))
     for key in ('dx', 'speed', 'viscosity', 'density'):
         value = spec.get(key)
         if type(value) not in (int, float) or not math.isfinite(value) or value <= 0:

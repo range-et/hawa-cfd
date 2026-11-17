@@ -227,3 +227,30 @@ def test_aligned_domain_expansions_preserve_world_solid_nodes(
     # ravel ordering preserves the lexicographic XYZ order under translation.
     assert worlds[0].shape == worlds[1].shape
     np.testing.assert_allclose(worlds[0], worlds[1], rtol=0., atol=1e-14)
+
+
+def test_refined_demo_preserves_geometry_physics_bounds_and_references():
+    coarse, fine = demo_sweep(), demo_sweep(refined=True)
+    for key in coarse['prepared']:
+        a, b = coarse['prepared'][key], fine['prepared'][key]
+        assert a['geometry'] == b['geometry']
+        assert a['references'] == b['references']
+        assert a['candidate']['geometry_hash'] == b['candidate']['geometry_hash']
+        assert a['candidate']['case_hash'] != b['candidate']['case_hash']
+        assert b['case']['shape'] == [81, 101, 61]
+        assert b['case']['dx'] == b['case']['spacing'] == .01
+        assert np.prod(b['case']['shape']) == 499041
+        for field in ('origin', 'basis', 'speed', 'density', 'viscosity', 'mach', 'boundaries'):
+            assert a['case'][field] == b['case'][field]
+        np.testing.assert_allclose((np.array(a['case']['shape']) - 1) * a['case']['dx'],
+                                   (np.array(b['case']['shape']) - 1) * b['case']['dx'], rtol=0, atol=1e-15)
+        assert len(b['case']['solid']) > len(a['case']['solid'])
+    with pytest.raises(ValueError, match='boolean'):
+        demo_sweep(refined=1)
+
+
+def test_recipe_grid_limit_agrees_and_rejects_before_mesh_access():
+    from scripts.wing_solver_recipe import _domain
+    assert _domain(dict(shape=[100, 100, 50], dx=.01, origin_world_m=[0., 0., 0.]))[0] == [100, 100, 50]
+    with pytest.raises(ValueError, match='500000'):
+        voxelize_mesh(None, dict(shape=[106, 53, 89], dx=.01, origin_world_m=[0., 0., 0.]))

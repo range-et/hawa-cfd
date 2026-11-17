@@ -86,7 +86,8 @@ post-step field snapshot. Solver quality is checked at capture and after each
 step, including sticky warnings/rejections. Accepted quality is an implementation
 envelope check, not evidence of convergence or physical accuracy.
 
-The collector's frozen solver/body/grid limits still apply. Across a sweep,
+The collector's solver/body restrictions still apply; the per-case grid cap is
+now 500000 cells after the [fine-report resource pilot](wing-fine-report-protocol.md). Across a sweep,
 admission additionally caps retained body/probe rows at 100000, total field
 cells at 1500000, and geometry at 200000 vertices/400000 triangles before
 copying inputs. Prepared mappings are an internal trusted adapter boundary:

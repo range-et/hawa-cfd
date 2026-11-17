@@ -803,3 +803,15 @@ Focused Python 3.9/3.12 tests and figure inspection pass. This is a viewing
 artifact, not a checkpoint, public GH workflow, CSV integration or physical
 qualification; #40 remains open. [Example](examples/headless-wing/README.md),
 [review and limits](docs/review-wing-report-example.md).
+
+## November 17, 2026 — finer wing resource admission (#40 partial)
+
+The explicit CPU collector/recipe now admits up to 500000 cells per case while
+retaining its existing aggregate sweep budgets. The requested 499041-cell wing
+pilot used about 615 MiB peak RSS, with 0.123 s pause acknowledgement and 0.187 s
+cancel/drain; no owned workers/sessions remained. Exact-cap and preallocation
+rejection tests pass. The report now selects 10 mm cells by default, with an
+explicit 25 mm `--coarse` option and matched physical averaging windows. Full
+fine-run evidence is pending; numerical qualification remains open in #40.
+[Protocol](docs/wing-fine-report-protocol.md),
+[pilot](docs/verification-wing-fine-preflight.json).

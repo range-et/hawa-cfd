@@ -281,7 +281,7 @@ def test_corner_only_contact_is_not_a_d3q19_link():
     assert sorted(owner[owner > 0].tolist()) == [1, 2]
 
 
-@pytest.mark.parametrize('shape', [[4, 4, 4], [60, 50, 50]])
+@pytest.mark.parametrize('shape', [[4, 4, 4], [60, 50, 50], [100, 100, 50]])
 def test_exact_grid_admission_limits(shape):
     spec, _, _ = case()
     spec['shape'] = shape
@@ -454,3 +454,13 @@ def test_explicit_cpu_collection_ignores_ambient_allocation_device(construct_und
              * spec['dx']**4 / session.flow.units.convert_time_to_pu(1)**2)
     np.testing.assert_allclose(load['force_world_n'], [.5 * scale, 0., 0.], atol=1e-12)
     assert np.isfinite(load['torque_world_nm']).all()
+
+
+def test_grid_over_500000_rejects_before_allocating_owner(monkeypatch):
+    spec, _, _ = case()
+    spec['shape'] = [106, 53, 89]
+    def forbidden(*args, **kwargs):
+        pytest.fail('Oversized grid reached allocation')
+    monkeypatch.setattr(np, 'zeros', forbidden)
+    with pytest.raises(ValueError, match='500000'):
+        validate_case(spec, {'wing': spec['solid']})

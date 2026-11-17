@@ -85,7 +85,7 @@ and confirm NTRS reuse terms before packaging digitized data.
 
 A higher-Re row has lower Mach, but that does not solve the unresolved boundary-
 layer/transition and full-way-wall grid requirements. Raising viscosity to fit
-this branch's 150000-cell limit would change the experiment. A bare blended wing
+the original 150000-cell limit (now 500000 after a bounded CPU resource pilot) would change the experiment. A bare blended wing
 also differs from these supported rectangular test models. The wing numerical
 gate is BLOCKED pending selection of a matched lift/drag dataset and a budgeted
 resolution/transition method. No comparison thresholds or experimental accuracy
@@ -100,7 +100,7 @@ gives the isolated creeping-flow sphere drag `6*pi*mu*R*U`. This is a candidate
 force check, not a finite-box exact answer. A sphere at Re_D=0.01 with radii
 resolved by 4/6/8 cells and outer distances 10/20/40 radii would separate grid and
 boundary effects, but the largest uniform box at R/dx=8 requires roughly 640³
-cells, far above the frozen 150000-cell cap. Therefore the unbounded Stokes
+cells, far above both the original 150000-cell cap and current 500000-cell cap. Therefore the unbounded Stokes
 qualification is also BLOCKED for this restricted collector; do not relax that
 cap or accept a small-box result as an unbounded reference. A later scoped study
 may select an independently solved finite-domain reference or a separately

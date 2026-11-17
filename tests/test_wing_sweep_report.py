@@ -101,22 +101,26 @@ def test_escaping_unstarted_and_no_capture(control):
     assert 'Candidate did not start' in text and '<script>' not in text
 
 
-@pytest.mark.parametrize('failed', [False, True])
-def test_command_preserves_existing_report_and_returns_failure(control, tmp_path, monkeypatch, failed):
+@pytest.mark.parametrize('failed,coarse', [(False, False), (True, False), (False, True), (True, True)])
+def test_command_preserves_existing_report_and_returns_failure(control, tmp_path, monkeypatch, failed, coarse):
     report, entries = deepcopy(control)
     report['records'] = [report['records'][0]]
     report['details'] = {'before': report['details']['before']}
     entries = {'before': entries['before']}
     report['timed_out'] = failed
-    monkeypatch.setattr(renderer, 'demo_sweep', lambda: {'fixture': 'real CPU'})
+    def recipe(refined):
+        assert refined is not coarse
+        return {'fixture': 'real CPU'}
+    monkeypatch.setattr(renderer, 'demo_sweep', recipe)
     def prepare(recipe, settling, sample, tolerance, probes):
-        assert recipe == {'fixture': 'real CPU'} and (settling, sample, tolerance) == (1000, 64, .05)
+        assert recipe == {'fixture': 'real CPU'}
+        assert (settling, sample, tolerance) == ((1200, 81, .05) if coarse else (3000, 201, .05))
         assert probes == [dict(probe_id='upstream', position_world_m=[-.1, 0., .1])]
         return entries
     monkeypatch.setattr(renderer, 'prepare_entries', prepare)
     monkeypatch.setattr(renderer, 'run_prepared', lambda prepared, timeout: report)
     path = tmp_path / 'report.html'
-    assert renderer.main(['--output', str(path), '--timeout', '5']) == int(failed)
+    assert renderer.main(['--output', str(path), '--timeout', '5'] + (['--coarse'] if coarse else [])) == int(failed)
     original = path.read_bytes()
     assert b'Grid/domain sensitivity FAILS' in original
     with pytest.raises(FileExistsError): renderer.main(['--output', str(path)])

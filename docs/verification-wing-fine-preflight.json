@@ -1,0 +1,36 @@
+{
+  "available_before_bytes": 23121166336,
+  "peak_rss_bytes": 644759552,
+  "preparation_seconds": 0.053499916000000036,
+  "ten_step_seconds": 2.008617625,
+  "estimated_two_case_seconds": 1285.917003525,
+  "ten_step_state": "rejected",
+  "ten_step_samples": 10,
+  "pause_ack_seconds": 0.12304591700000023,
+  "cancel_drain_seconds": 0.18661670899999994,
+  "lifecycle_state": "cancelled",
+  "lifecycle_samples": 3,
+  "cleanup": {
+    "handles": 0,
+    "live_workers": 0,
+    "session_ids": []
+  },
+  "candidate": {
+    "candidate_id": "wing-000",
+    "angle_deg": -3.0,
+    "speed_m_s": 1.0,
+    "geometry_hash": "8303480702296483604972a03c58e3594f552cddfc15f9f301bf8115342388c7",
+    "case_hash": "3aa5653db0efd4efe268fa5ef39509957a90b2cc449be200263c385971f0cae9"
+  },
+  "shape": [
+    81,
+    101,
+    61
+  ],
+  "dx": 0.01,
+  "source_hashes": {
+    "src/hawa/stationary_loads.py": "1042a1898b95996afc1730a3e3a77cb20c5cbb820703887bc21480cf9dd5b1e4",
+    "scripts/wing_solver_recipe.py": "a730a9b00e26ec4c8f0fb37b554e2aaddc908c0e561c7a1dff32fe53db119f92",
+    "src/hawa/sweep_executor.py": "ced3a448bae487851e0312ee539701128f292737d9967a838b265b12c823ed38"
+  }
+}

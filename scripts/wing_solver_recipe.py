@@ -10,7 +10,7 @@ import numpy as np
 
 from hawa.plugin import case_key, check_case
 from hawa.measurements import finite_vectors
-from hawa.stationary_loads import validate_case
+from hawa.stationary_loads import MAX_GRID_CELLS, validate_case
 from scripts.wing_measurement_recipe import _hash, _number, wing_mesh
 
 
@@ -19,8 +19,8 @@ def _domain(domain):
         raise ValueError('domain requires shape, dx and origin_world_m only')
     shape = domain['shape']
     if (not isinstance(shape, list) or len(shape) != 3 or
-            any(type(n) is not int or n < 4 for n in shape) or math.prod(shape) > 150000):
-        raise ValueError('domain requires three dimensions with 4..150000 total cells')
+            any(type(n) is not int or n < 4 for n in shape) or math.prod(shape) > MAX_GRID_CELLS):
+        raise ValueError('domain requires three dimensions and at most {} cells'.format(MAX_GRID_CELLS))
     dx = _number(domain['dx'], 'dx', True)
     origin = domain['origin_world_m']
     if not isinstance(origin, list) or len(origin) != 3:
@@ -161,11 +161,14 @@ def prepare_sweep(wing_parameters, operating_points, domain, fluid):
                 claim='Coarse synthetic workflow only; no aerodynamic qualification')
 
 
-def demo_sweep():
-    """Two modest CPU cases at explicit synthetic viscosity; no execution here."""
+def demo_sweep(refined=False):
+    """Two CPU cases at fixed physical bounds; optional 10 mm rather than 25 mm grid."""
+    if type(refined) is not bool:
+        raise ValueError('refined must be a boolean')
     return prepare_sweep(
         dict(root='2418', tip='0018', span_m=.6, root_chord_m=.3, tip_chord_m=.2,
              section_points=41, span_stations=5),
         [dict(angle_deg=-3., speed_m_s=1.), dict(angle_deg=3., speed_m_s=1.)],
-        dict(shape=[33, 41, 25], dx=.025, origin_world_m=[-.2, -.5, -.2]),
+        dict(shape=[81, 101, 61] if refined else [33, 41, 25],
+             dx=.01 if refined else .025, origin_world_m=[-.2, -.5, -.2]),
         dict(density=1., viscosity=.01, mach=.03, pressure_pa=0.))
