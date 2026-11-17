@@ -430,3 +430,27 @@ def test_finite_force_with_overflowing_moment_is_rejected_without_history():
     with pytest.raises(ValueError, match='Nonfinite'):
         boundary(session.flow)
     assert not boundary.history
+
+
+@pytest.mark.parametrize('construct_under_trap', [False, True])
+def test_explicit_cpu_collection_ignores_ambient_allocation_device(construct_under_trap):
+    """Meta is an allocation trap only; no accelerator hardware is touched."""
+    spec, sets, bodies = case(); session = Session(spec, 'cpu')
+    session.flow.f.zero_()
+    direction = next(i for i, e in enumerate(session.flow.stencil.e) if list(e) == [1, 0, 0])
+    session.flow.f[direction, 3, 3, 3] = .25
+    with torch.device('meta' if construct_under_trap else 'cpu'):
+        boundary = StationaryLoads(session.flow, spec, sets, bodies)
+    assert boundary.make_no_collision_mask(session.flow.resolution, session.flow.context).device.type == 'cpu'
+    for _, links in boundary.links:
+        for _, mask, arm, vector in links:
+            assert mask.device.type == arm.device.type == vector.device.type == 'cpu'
+    # Also covers a caller changing allocation context after construction.
+    with torch.device('meta'):
+        reflected = boundary(session.flow)
+    assert reflected.device.type == 'cpu'
+    load = boundary.history[-1]['loads'][0]
+    scale = (spec['density'] / session.flow.units.characteristic_density_lu
+             * spec['dx']**4 / session.flow.units.convert_time_to_pu(1)**2)
+    np.testing.assert_allclose(load['force_world_n'], [.5 * scale, 0., 0.], atol=1e-12)
+    assert np.isfinite(load['torque_world_nm']).all()
