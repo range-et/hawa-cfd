@@ -1,0 +1,43 @@
+{
+  "date": "2026-11-17",
+  "operator": "Codex root",
+  "source": "7cd702483cb068a98b8e3379734e75b620d1b3d3",
+  "device": "Mac CPU",
+  "rhino": "8.37",
+  "python": "3.9.25",
+  "scope": "Native example34 only; no numerical qualification",
+  "checks": {
+    "host_phases": 9,
+    "idle_template_reopen": "idle",
+    "paused_import_step": 60,
+    "paused_view_capture_step": 60,
+    "resume_step": 120,
+    "field_rows": 1989,
+    "probe_rows": 3,
+    "independent_fresh60_populations": "exact",
+    "independent_fresh120_populations": "exact",
+    "cleanup": 0,
+    "visual": "Actual Rhino speed slice at60 inspected; boundary overlays hidden for clarity",
+    "original_documents": "Two original Rhino tabs unchanged; two original empty GH archives restored after owned-tab close",
+    "field_numeric_readback": {
+      "rows": 1989,
+      "valid": 1520,
+      "raw_values": "exact",
+      "invalid_quantities": "empty"
+    }
+  },
+  "artifacts": {
+    "examples/native-prototype/34-save-import-resume.3dm": {
+      "sha256": "7851bec0232a847fd9331face205495a3227ed1b0af0ad52e057f1fab6db9f77",
+      "bytes": 20799
+    },
+    "examples/native-prototype/34-block-at-60.npz": {
+      "sha256": "4939a11b7e191924240130fa83333da076d3be0e5cdbfd6c5cdb05a21148255f",
+      "bytes": 124763
+    },
+    "examples/native-prototype/images/34-paused-60.png": {
+      "sha256": "d9933e60d29a3f20815ff998ce77577af4cec0be7d39a8e94a932a58ddd397ad",
+      "bytes": 86927
+    }
+  }
+}
