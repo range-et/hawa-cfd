@@ -138,9 +138,27 @@ def main(argv=None):
         reply_path = args.output / ("reply-%04d.json" % state["sequence"])
         reply = json.loads(reply_path.read_text()) if reply_path.exists() and not args.cancel else None
         owner_path = args.output / "ownership.json"
-        owner = json.loads(owner_path.read_text()) if owner_path.exists() else None
-        if owner is not None and owner["run_id"] != state["run_id"]:
-            raise ValueError("Wrong ownership record")
+        owner = None
+        owner_error = False
+        try:
+            if owner_path.exists():
+                owner = json.loads(owner_path.read_text())
+                if not isinstance(owner, dict) or not isinstance(owner.get("run_id"), str):
+                    raise ValueError("Malformed ownership record")
+        except (OSError, UnicodeError, ValueError):
+            owner, owner_error = None, True
+        if owner is not None:
+            if owner["run_id"] != state["run_id"]:
+                raise ValueError("Wrong ownership record")
+            try:
+                owner["owned"] = str(uuid.UUID(owner["owned"]))
+            except (KeyError, TypeError, AttributeError, ValueError):
+                owner, owner_error = None, True
+        # The host retains its per-run reference independently of this file.
+        # Stop new work, but let close/cleanup acknowledgements finish recovery.
+        if owner_error and not args.cancel and state["phase"] not in ("close", "cleanup"):
+            reply = dict(run_id=state["run_id"], sequence=state["sequence"],
+                         phase=state["phase"], error="Unreadable ownership record")
         state = advance(state, reply, cancel=args.cancel,
                         recovered_owned=owner["owned"] if owner is not None else None)
         publish(state)

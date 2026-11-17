@@ -297,3 +297,7 @@ has 590 mutants, 552 assertion kills and 38 reviewed survivors, including explic
 case-sensitive-filesystem/diagnostic gaps. C# adapter behavior and top-level
 embedded audit require their separate compile/live and execution evidence; they
 are not credited by the mutation score. [Pilot review](review-host-acceptance-pilot.md).
+
+PR 112's ownership-corruption follow-up refreshed this study to 642 mutants,
+600 assertion kills and 42 reviewed survivors (46 control tests). See the pilot
+review for the retained filesystem/diagnostic limits and targeted live recovery.

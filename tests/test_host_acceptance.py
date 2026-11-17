@@ -136,7 +136,7 @@ def test_cli_start_reply_and_durable_owner(run, monkeypatch, capsys):
     state = json.loads((output / 'state.json').read_text())
     (output / 'reply-0000.json').write_text(json.dumps(ack(state, safe=True, rhino_serial=8, original_gh=None)))
     assert host.main(['poll', '--output', str(output)]) == 0
-    (output / 'ownership.json').write_text(json.dumps(dict(run_id=state['run_id'], owned='durable')))
+    (output / 'ownership.json').write_text(json.dumps(dict(run_id=state['run_id'], owned='00000000-0000-0000-0000-000000000001')))
     assert host.main(['poll', '--output', str(output), '--cancel']) == 0
     assert json.loads((output / 'state.json').read_text())['phase'] == 'close'
 
@@ -229,10 +229,10 @@ def test_operator_cancel_ignores_corrupt_reply_and_retains_owned_id(run, monkeyp
     monkeypatch.setattr(host.time, 'time', lambda: 101)
     output = Path(run['output'])
     (output / 'reply-0000.json').write_text('corrupt response')
-    (output / 'ownership.json').write_text(json.dumps(dict(run_id=run['run_id'], owned='owned')))
+    (output / 'ownership.json').write_text(json.dumps(dict(run_id=run['run_id'], owned='00000000-0000-0000-0000-000000000001')))
     assert host.main(['poll', '--output', str(output), '--cancel']) == 0
     state = json.loads((output / 'state.json').read_text())
-    assert state['phase'] == 'close' and state['owned'] == 'owned'
+    assert state['phase'] == 'close' and state['owned'] == '00000000-0000-0000-0000-000000000001'
 
 
 def test_explicit_scratch_serial_required(run):
@@ -281,3 +281,61 @@ def test_cancel_open_before_ownership_requires_late_cleanup(run):
     assert final['failure'] == 'Cancelled by operator'
     expired = host.advance(opening, None, now=111)
     assert expired['phase'] == 'close' and expired['status'] == 'running'
+
+
+@pytest.mark.parametrize('cancel', [False, True])
+@pytest.mark.parametrize('payload', ['{"run_id":', 'null', '{}', '{"run_id": 3, "owned": "x"}', 'missing-owned', 'bad-guid', 'nonstring-owned', 'empty-owned'])
+def test_cli_corrupt_ownership_recovers_through_close_and_cleanup(run, monkeypatch, cancel, payload):
+    monkeypatch.setattr(host.time, 'time', lambda: 101)
+    output = Path(run['output'])
+    state = step(run, safe=True, rhino_serial=8, original_gh=None)
+    host.publish(state)
+    if payload in ('missing-owned', 'bad-guid', 'nonstring-owned', 'empty-owned'):
+        record = {'run_id': state['run_id']}
+        if payload != 'missing-owned':
+            record['owned'] = {'bad-guid': 'not-a-guid', 'nonstring-owned': 5, 'empty-owned': ''}[payload]
+        payload = json.dumps(record)
+    (output / 'ownership.json').write_text(payload)
+    flags = ['--cancel'] if cancel else []
+    assert host.main(['poll', '--output', str(output)] + flags) == 0
+    state = json.loads((output / 'state.json').read_text())
+    assert state['phase'] == 'close' and state['owned'] is None
+    assert state['failure'] == ('Cancelled by operator' if cancel else 'Unreadable ownership record')
+    for phase, extra in [('close', {}), ('cleanup', {'clean': True})]:
+        assert state['phase'] == phase
+        (output / ('reply-%04d.json' % state['sequence'])).write_text(json.dumps(ack(state, **extra)))
+        code = host.main(['poll', '--output', str(output)])
+        state = json.loads((output / 'state.json').read_text())
+    assert code == 1 and state['status'] == 'failed'
+    assert not (output / 'request.cs').exists()
+
+
+def test_cli_unreadable_ownership_and_foreign_identity(run, monkeypatch):
+    monkeypatch.setattr(host.time, 'time', lambda: 101)
+    output = Path(run['output'])
+    state = step(run, safe=True, rhino_serial=8, original_gh=None)
+    host.publish(state)
+    owner = output / 'ownership.json'
+    owner.mkdir()  # read_text raises OSError, as with an unreadable file.
+    assert host.main(['poll', '--output', str(output), '--cancel']) == 0
+    assert json.loads((output / 'state.json').read_text())['phase'] == 'close'
+    owner.rmdir()
+    host.publish(state)
+    owner.write_text(json.dumps(dict(run_id='foreign', owned='foreign-document')))
+    before = (output / 'state.json').read_bytes()
+    with pytest.raises(ValueError, match='Wrong ownership record'):
+        host.main(['poll', '--output', str(output), '--cancel'])
+    assert (output / 'state.json').read_bytes() == before
+
+
+@pytest.mark.parametrize('text', ['urn:uuid:00112233-4455-6677-8899-AABBCCDDEEFF', '{00112233-4455-6677-8899-aabbccddeeff}', '00112233445566778899aabbccddeeff'])
+def test_cli_owner_guid_normalized_for_host_parser(run, monkeypatch, text):
+    monkeypatch.setattr(host.time, 'time', lambda: 101)
+    output = Path(run['output'])
+    state = step(run, safe=True, rhino_serial=8, original_gh=None)
+    host.publish(state)
+    (output / 'ownership.json').write_text(json.dumps(dict(run_id=state['run_id'], owned=text)))
+    assert host.main(['poll', '--output', str(output), '--cancel']) == 0
+    state = json.loads((output / 'state.json').read_text())
+    assert state['owned'] == '00112233-4455-6677-8899-aabbccddeeff'
+    assert state['phase'] == 'close'

@@ -132,3 +132,32 @@ Python 3.12 suite is delegated to the combined integration gate; 26 focused
 The [final integration review](review-issue-batch-98-83-39.md) records the delegated
 full Python 3.12 pass and combined coverage; the branch measurements above retain
 their original scope and counts.
+
+## PR 112 corrupt ownership follow-up
+
+Greptile comment 4595057470 identified direct ownership publication as a
+cancellation blocker if its JSON was interrupted. The adapter now writes a
+same-directory temporary file and atomically renames it. The CLI treats unreadable
+or malformed same-run ownership as uncertain, stops normal work through close,
+and lets close/cleanup finish using the retained host reference. Foreign run IDs
+still reject without changing state. Recovered UUIDs are validated and normalized
+for the .NET parser. Independent issue83 review caught malformed GUID and URN
+format cases, both repaired; final re-review found no remaining concrete finding.
+
+46 focused tests passed on Python 3.9 and 3.12, including actual CLI cancellation
+and normal polling, malformed files/IDs, foreign identity, and cleanup completion.
+Targeted coverage is 162/162 lines and 70/70 branches. Actual SDK compilation
+passed with the same two drawing-platform warnings. Fresh mutation f: 642 total,
+600 assertion kills, 42 reviewed survivors, no errors/timeouts. The discarded e
+run detected a changed source hash during review and is not counted. The full
+measured suite and committed matrix will be refreshed on the integrated branch.
+
+Live run j (`869bb748daf342b9baf4a51786043764`) verified valid atomic ownership
+publication, then deliberately truncated that file before actual CLI `poll
+--cancel`. The close request had no owned ID, recovered the per-run host reference,
+and disposed its copied CPU graph. Subsequent CLI polling completed while the
+file remained corrupt; the fresh audit found zero jobs, sessions, Hawa workers,
+cleanup requests and refreshes. Terminal failed/Cancelled by operator was expected.
+No Run toggle was enabled. Native serial 268435457 returned to millimetres with
+its dirty flag retained and zero live objects. Both original blank GH documents
+remained unmodified and the original canvas was restored. No installation changed.

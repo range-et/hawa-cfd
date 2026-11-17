@@ -86,3 +86,8 @@ Sources: [official GH DocumentServer API](https://developer.rhino3d.com/api/gh1/
 and [GH Document API](https://developer.rhino3d.com/api/grasshopper/html/T_Grasshopper_Kernel_GH_Document.htm).
 Those web references are newer than Rhino 8; the adapter is also compiled against
 actual installed SDK references. See [review and omissions](review-host-acceptance-pilot.md).
+
+Ownership records are published by same-directory atomic rename. If that record
+is unreadable or malformed, normal polling stops new work and cancellation still
+reaches owned cleanup using the host's per-run reference. A valid foreign run ID
+remains an error; do not replace it with another document's identity.

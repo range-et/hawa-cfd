@@ -71,7 +71,9 @@ try{
   owned=io.Document;owned.FilePath=path;r["owned"]=owned.DocumentID.ToString();
   AppDomain.CurrentDomain.SetData("HawaAcceptance:"+run,owned);
   // Persist ownership before adding/solving, so a lost MCP reply can still cancel.
-  File.WriteAllText(Path.Combine(output,"ownership.json"),new JsonObject{["run_id"]=run,["owned"]=owned.DocumentID.ToString()}.ToJsonString());
+  string ownerPath=Path.Combine(output,"ownership.json"),ownerPending=Path.Combine(output,"ownership.tmp");
+  File.WriteAllText(ownerPending,new JsonObject{["run_id"]=run,["owned"]=owned.DocumentID.ToString()}.ToJsonString());
+  File.Move(ownerPending,ownerPath,true);
   if(owned.Objects.OfType<GH_BooleanToggle>().Any(t=>t.Value))throw new Exception("Copied definition must start idle");
   // Override only unconnected device values on this owned copy; never rewire.
   var devices=owned.Objects.OfType<GH_Component>().SelectMany(c=>c.Params.Input).Where(p=>p.Name=="Device").ToArray();

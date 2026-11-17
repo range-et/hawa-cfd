@@ -2,16 +2,16 @@
   "tool": "mutmut==3.7.0",
   "scope": "Whole #39 Python developer controller; C# host adapter and top-level embedded audit are outside mutmut function scope and require their separate tests/live evidence.",
   "sources": {
-    "scripts/host_acceptance.py": "bf6746ce6bd0cd27a3b9efe287a75519a2149408f87cb0e61adab4e81f3b65a4",
-    "scripts/host_acceptance.cs": "8ea10bba49b6bc80cb6a82ac7f7ae5c6fe008b4fa28db8a2aaceb8d97dbdf520",
+    "scripts/host_acceptance.py": "06277023d16872a8f5bad3611b4f15c43cdd7371be49cf0ddc8e950e838a0cb8",
+    "scripts/host_acceptance.cs": "568107470547ba97a6b96e2ec805fa55785e851ae31df40dffe742810b2a60ba",
     "scripts/host_acceptance_audit.py": "a0a581c4bc5f90aaa6a4b4c6c5f7912ab8109139c0f5719fb9f448fa6e92bafb",
-    "tests/test_host_acceptance.py": "feef148345669f3a58efebe7c7b1614cee9bfa0d85df182f3edc7a984f314206"
+    "tests/test_host_acceptance.py": "38292ef35b00dcf9ead1999bb6d7721ad38efe1e67b608ebb7c58acb35b6d906"
   },
   "control_test_files": [
     "tests/test_host_acceptance.py"
   ],
-  "mutants": 590,
-  "inventory_sha256": "4b36bcc7bcc183f6016bac2b073d14805687abbad33f0111d541054dec166525",
+  "mutants": 642,
+  "inventory_sha256": "22a7d6ee55c112412c5e2445f34a53850735040d0dd0658d74e086af6a78b44e",
   "reviewed_survivors": {
     "host_acceptance.x_advance__mutmut_11": {
       "status": "survived",
@@ -100,18 +100,38 @@
     },
     "host_acceptance.x_main__mutmut_105": {
       "status": "survived",
-      "diff_sha256": "809e2cfc0285aaeeccec956fac9b5de9b26aeec3911cfafea0eac0beca2523d8",
-      "reason": "Unresolved portability test gap: this case-only path mutant survives on the case-insensitive macOS evidence filesystem. It is not equivalent on a case-sensitive filesystem; retain a Linux mutation follow-up."
+      "diff_sha256": "fb381bba70bc6298312e17338a6cdc9d6f0e48cb828c0ffa64414d6b1f111f0f",
+      "reason": "Unresolved case-sensitive filesystem path variant: macOS test volume treats OWNERSHIP.JSON as ownership.json. Must qualify on a case-sensitive filesystem; not an assertion kill."
+    },
+    "host_acceptance.x_main__mutmut_107": {
+      "status": "survived",
+      "diff_sha256": "39d4c82bb34d362cadc1f8870e2c4ba52973eea173d301ceef87fbe1ed3d76ff",
+      "reason": "Equivalent: owner_error is used only as a Boolean condition; None and False are both false until the same exception branch assigns True."
+    },
+    "host_acceptance.x_main__mutmut_114": {
+      "status": "survived",
+      "diff_sha256": "9b6a8d608d49eb6b23a1b218299796556351921caf951a8d9512cc191b540459",
+      "reason": "Equivalent: this internal ValueError is immediately caught and replaced with the same recovery flag; its message is never emitted or persisted."
+    },
+    "host_acceptance.x_main__mutmut_115": {
+      "status": "survived",
+      "diff_sha256": "4978aa5d4732e8cfa1c6f83dc9b3876129a0416b3816536f923e03e68324d03e",
+      "reason": "Equivalent: this internal ValueError is immediately caught and replaced with the same recovery flag; its message is never emitted or persisted."
     },
     "host_acceptance.x_main__mutmut_116": {
       "status": "survived",
-      "diff_sha256": "00e11f999a6393fee0e492adc5a4f0e8232ceee317181d979cba6a46491849ac",
-      "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
+      "diff_sha256": "88c5e8c555c3341f9aafebe03234f85322ab785e4475f799e97b85d7d866b7ae",
+      "reason": "Equivalent: this internal ValueError is immediately caught and replaced with the same recovery flag; its message is never emitted or persisted."
     },
     "host_acceptance.x_main__mutmut_117": {
       "status": "survived",
-      "diff_sha256": "6a21b619e0362029a7aad90fc3c5f8c1c380ef73aa183bb46a9a96b07d621460",
-      "reason": "Reviewed diagnostic wording variation: exception type and actionable error category remain the same; case/XX decoration is not checked as an exact-text contract. This is not an assertion kill."
+      "diff_sha256": "73024cec7ee0fb00cea342de0610d411d263bbff8bb0c7f87cb0efea1dd5fb27",
+      "reason": "Equivalent: this internal ValueError is immediately caught and replaced with the same recovery flag; its message is never emitted or persisted."
+    },
+    "host_acceptance.x_main__mutmut_127": {
+      "status": "survived",
+      "diff_sha256": "12663cc435ff418d8d51a370d01ffaf3262753821f5b2eba9651042398f2061c",
+      "reason": "Reviewed diagnostic wording variant: exact exception type and Wrong ownership record category are asserted; added XX decoration is not an exact-text contract. Not an assertion kill."
     },
     "host_acceptance.x_main__mutmut_16": {
       "status": "survived",
