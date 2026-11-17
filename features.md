@@ -102,6 +102,17 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+### November 17, 2026 — Windows verification portability (#117)
+
+PR candidate `0e219a9` now passes the fresh Windows headless rerun: 1,973 tests
+(92 explicit platform/tool skips), 91 CUDA cases with no CUDA skips, all five
+CPU-FP64 device smoke comparisons, and all 2,449 CUDA G6 rows. LF checkout
+attributes and portable verification paths preserve exact-byte policy hashing;
+solver code and tolerances are unchanged. Mac supplied the implementation and
+measured/mutation evidence; Windows independently ran this acceptance. No Windows
+Rhino operation, merged-main qualification or release is claimed.
+[Review and evidence](docs/review-windows-verification-portability.md).
+
 ### November 13, 2026 — Boundary assignment annotations (#38, partial)
 
 Built and live-checked once, not released. One shared `BoundaryAnnotations`
