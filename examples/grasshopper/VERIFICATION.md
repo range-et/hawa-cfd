@@ -205,3 +205,12 @@ valid pressure isosurface. Final scope, hashes, lifecycle checks and remaining
 numerical failures are in [the transfer review](../../docs/neutral-transfer-review.md).
 31 supported archives round-trip with original IDs/wires and migrated frame-list
 inputs. Example 09 remains excluded. This is not a rerun of every old simulation.
+
+## November17,2026 — native example34
+
+[Native example34](../native-prototype/34-save-import-resume.md) adds no GH nodes
+or archives. Mac Rhino CPU generated the shipped checkpoint, imported paused60,
+changed its view without advancing, exported1989 field rows and3 ordered probes
+(two valid, one invalid), explicitly resumed120, and reopened the source3dm idle.
+The viewport was inspected; user documents and their empty GH graphs were restored.
+See [review and limits](../../docs/review-workflow-examples.md).

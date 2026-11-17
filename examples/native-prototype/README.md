@@ -46,3 +46,11 @@ Compare equal physical times and fixed colour limits; equal iteration counts
 represent different times. The viscosity is the demonstration value 0.1 m²/s.
 For a GH assembly of the same operation, use example 14 and its optional S input.
 See [curved-solid verification](../../docs/curved-boundaries-v0.5.md).
+
+## 34 / Save, import and resume
+
+Start with [the walkthrough](34-save-import-resume.md), the idle
+[Rhino document](34-save-import-resume.3dm) and the bundled
+[60-step checkpoint](34-block-at-60.npz). Import paused, change View dynamically,
+export fields/probes, then explicitly resume to step120 and save your own data.
+This is a small CPU workflow example, not physical qualification.
