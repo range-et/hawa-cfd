@@ -61,3 +61,14 @@ shared export captures live sessions and its load table describes moving-body
 step-end histories; the stationary collector's pre-reflection world-frame data
 requires an explicit reviewed adapter. #40 remains open for that integration,
 public GH workflow, matched references and numerical qualification.
+
+## Integrator browser acceptance
+
+Codex root opened the saved report in the desktop in-app browser on November17.
+Case-table links, Back to all cases and expanded identity details worked.
+The initial orange markers failed actual navigation despite stored Matplotlib
+artist URLs; the renderer was repaired and its test now parses real SVG anchors.
+The regenerated artifact was reloaded: all six marker links are exposed, and
+clicking the first orange marker navigated to the matching wing-000 section.
+Both candidate panels and the overview were visually inspected without clipping.
+The pressure legend identifies the upstream probe. No physical claim is added.
