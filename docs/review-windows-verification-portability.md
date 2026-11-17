@@ -70,6 +70,70 @@ pass; the committed matrices are refreshed from
 `results/function-coverage-portable-final-20261117`. The 299 host-only C# functions
 remain unmeasured and 60 declarations remain explicit, not credited as passes.
 
-The final Windows rerun remains pending.
+## Final Windows rerun
+
+The Windows operator used the Mac coordinator's final-candidate handoff on
+[PR #116](https://github.com/range-et/hawa-cfd/pull/116#issuecomment-6939585504):
+`0e219a9a4dd92c412bc17fe30b2dd3c54e1c917b`. Direct cross-chat delivery was
+unavailable from Windows; the operator acknowledged the agreed source on the PR
+before proceeding. No competing source edits were made. A new isolated worktree
+preserved the earlier failed checkout, evidence and original development setup.
+
+On Windows build 26300, RTX 5070 Ti, driver 621.14, Python 3.9.25,
+torch 2.8.0+cu128, CUDA 12.8, NumPy 2.0.2 and pydantic 2.13.5:
+
+| Fresh check | Result |
+| --- | --- |
+| LF checkout / exact policy hashes | All 541 attribute-covered text files use LF; all 91 policy source entries match raw bytes |
+| Focused smoke/mutation tests | 120 passed, one Python 3.12-only integration skipped |
+| Complete Hawa suite | **1,973 passed, 92 skipped, zero failed**, 213 warnings; 273.75 seconds |
+| Named CUDA suite cases | **91 passed**, zero failed/skipped |
+| CUDA smoke against CPU FP64 | **5/5 passed**, zero guarded; 53.39 seconds |
+| G6 finite matrix | **100,010 passed, zero failed**, 2,449 unavailable MPS rows blocked; 175.41 seconds |
+| CUDA G6 rows | **2,449 passed**, zero failed/blocked |
+| G6 source/row/archive verification | PASS; 102,459 rows, 53 public nodes, 31 examples, 188 observed port combinations |
+
+The complete suite uses an independent collection and exact outcome/JUnit
+inventory through `verify_cuda.py --stages suite --repeats 1`; it includes all
+2,065 tests, not a filtered subset. Its 92 skips are 90 unavailable MPS cases,
+one CPU-default check inapplicable on CUDA hardware and one real-mutmut test
+requiring the developer Python environment. Warning categories include upstream
+MRT/plotting deprecations and intentional invalid-input numeric warnings; the
+complete log is retained. No skipped case counts as a pass.
+
+GPU jobs ran sequentially: focused tests, complete suite, smoke, then G6. Actual
+selected backend was `cuda:0`; imports came from the isolated worktree. Source
+and index snapshots stayed unchanged through all checks and final verification.
+No production Python blob differs from the original failed candidate `1cc3a80`.
+The mutation tooling and test repairs are the already reviewed Mac commits above.
+No numerical tolerance, provenance guard or assertion was relaxed.
+
+[Machine record](verification-pr116-windows-cuda-2026-11-17.json) includes commands,
+versions, fixed smoke policy, each comparison, source/index hashes, skips,
+artifact hashes and the integrity-checked raw evidence ZIP location/SHA256.
+Raw logs, JUnit, independent inventory, reference/candidate arrays, G6 rows and
+fixtures remain in `results/pr116-cuda-final-2026-11-17/` in the Windows worktree
+`C:/Users/range/Desktop/hawa-cfd-pr116-cuda-final`.
+
+Reviewer: Codex Windows operator, executing these checks independently from the
+Mac implementation. G0/G1 retain the scoped method/contracts already reviewed;
+G2 now passes this Windows full-suite check, G3 passes the bounded smoke policy,
+and G6 passes the available CPU/CUDA finite product with MPS explicitly blocked.
+The separate Mac measured/mutation records above remain Mac evidence; they were
+not rerun as Windows instrumentation. This evidence-only increment changes no
+executable function and does not refresh their matrices as if Windows measured
+them. G4 Windows host and G5 installed/release qualification are **not run**.
+
+Windows Rhino was never launched, attached to, initialized or run. Mac retains
+the sole license; a future Windows host handoff requires explicit Mac-closed
+confirmation. No plugin build/install, release, merge, full-duration physical
+qualification or generated native CUDA extension claim follows from this round.
+The old upstream-suite/example/benchmark stages were not part of this requested
+rerun; `verify_cuda.py` correctly records its broader `full_scope` as false.
+
+The #117 Windows acceptance criteria now pass on this exact PR candidate.
+Merge remains the coordinating maintainer's decision. These are pre-merge
+headless results, not merged-main or installed-host CUDA qualification.
+
 Original failed evidence is retained separately from reruns;
 none of these failures or unavailable-device skips count as passes.
