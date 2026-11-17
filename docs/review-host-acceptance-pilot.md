@@ -128,3 +128,7 @@ measurement. MPS access was exclusively leased; concurrent other-agent CPU
 mutation/host checks mean these timings are not performance evidence. The full
 Python 3.12 suite is delegated to the combined integration gate; 26 focused
 3.12 controls passed here. Final developer ZIP built successfully without install.
+
+The [final integration review](review-issue-batch-98-83-39.md) records the delegated
+full Python 3.12 pass and combined coverage; the branch measurements above retain
+their original scope and counts.

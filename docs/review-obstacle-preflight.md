@@ -79,7 +79,7 @@ OCE as a fault, and normal removal/replacement while kernel work is blocked.
 | G3 | PASS for unchanged numerical method scope | No solver, viscosity, collision, field or load arithmetic changes; intentionally rejects invalid geometry earlier. Kernel/solid classification acceptance remains G4 |
 | G4 | PASS for listed live fixtures; broader acceptance BLOCKED | Combined candidate real-kernel, GH Geometry/Check and native CPU fixtures passed; no full example sweep or live Moving Body/lifecycle audit |
 | G5 | BLOCKED for release | Local build passed; coordinating agent installed combined development candidate for acceptance, hashes verified. No release, Windows or CUDA claim |
-| G6 | BLOCKED pending final checks | Existing node IDs and ports preserved; final matrix/archive checks and host omissions to be recorded |
+| G6 | PASS on integrated CPU/MPS; CUDA BLOCKED | Final combined matrix: 100010 passed, zero failed, 2449 unavailable CUDA rows; archive inventory passes. Broader host omissions remain G4. |
 
 ## Fixture specification and remaining acceptance
 
@@ -156,3 +156,5 @@ No viewport or canvas screenshots were captured or visually inspected. The live
 checks inspected actual volatile outputs/runtime messages and public native
 Describe/Spec data. Visual presentation and the complete example gallery remain
 explicitly unverified.
+
+Final combined suites and matrix: [integration review](review-issue-batch-98-83-39.md).

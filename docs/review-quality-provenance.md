@@ -54,20 +54,20 @@ this agent holds the exclusive MPS test lease.
 | --- | --- | --- | --- |
 | G0 | Codex self-review | PASS | Existing policy and issue reproduction define the reporting contract; no new method claim. |
 | G1 | Codex self-review | PASS | Additive report data; legacy load tests; reject malformed new persisted fields before mutation; no ownership changes. |
-| G2 | Codex self-review | BLOCKED | Focused CPU and 109 C# contracts pass; fresh mutation policies pass; final measured suites delegated to the combined candidate. |
+| G2 | Codex issue98 and root | PASS for local automated scope | Combined source `02d51d9`: 1899 Python 3.9 / 1889 Python 3.12 tests pass; 121 C# contracts; strict headless/base checks and fresh reviewed mutation policies pass. |
 | G3 | Codex self-review | PASS for reporting scope | CPU/MPS reproduction above; thresholds and dynamics unchanged. No physical validation claim. |
 | G4 | Issue98 agent live MCP; root visual review | PASS for targeted issue scope | CPU GH08 and native warning after recovery; root inspected full reason wrapping and progress. Broad supported-example sweep not run. |
-| G5 | Codex self-review | BLOCKED | Development ZIP built; combined6ed1012 installed for targeted CPU host checks. Final validated integration package pending; not released. |
-| G6 | Codex self-review | BLOCKED pending final-source rerun | Earlier source: 102,459 rows recorded, 100,010 passes, zero failures, 2,449 CUDA-unavailable rows. Final near-threshold formatting change postdates that run. |
+| G5 | Codex issue98 and root | Development package only | Final integrated build/ZIP checks pass; combined6ed1012 installed for targeted CPU host checks. Not released or clean-machine qualified. |
+| G6 | Codex root | PASS on CPU/MPS; CUDA BLOCKED | Final integrated source: 102,459 rows, 100,010 passes, zero failures, 2,449 CUDA-unavailable rows. Exact matrix/archive and full-test inventories verified. |
 
 ## Verification and omissions
 
-Final measured Python 3.9/3.12 suites and final G6 will run on the parent
-combined candidate after policy integration; they are pending, not branch
-passes. The earlier branch measured run had 1,856 passes, 87 skips and two stale
+Final combined evidence is in the [integration review](review-issue-batch-98-83-39.md):
+Python 3.9 has 1899 passes/87 skips, Python 3.12 has 1889 passes/97 skips,
+121 state contracts pass and the committed matrix is refreshed. These are
+combined-source results, not a relabeling of earlier branch failures. The earlier branch measured run had 1,856 passes, 87 skips and two stale
 mutation-policy hash failures (atmospheric precision and validity foundation);
-no matrix was generated from that failed run. Parent will refresh the committed
-function matrix using final combined measurements.
+no matrix was generated from that failed run. The parent refreshed the committed function matrix from final combined measurements.
 
 - Focused CPU provenance tests: 49 passed after mutation-driven additions.
 - Scoped #98 mutation: 312 mutants, 309 assertion kills, three reviewed equivalents.

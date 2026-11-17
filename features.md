@@ -683,5 +683,6 @@ human-readable reasons; legacy checkpoint provenance remains explicitly unknown.
 Live CPU example 08 and a native selected-body case retain the exact warning
 after 300 steps; checkpoint round-trip and native warning wrapping inspected.
 No solver/threshold change or physical-validation claim. Final combined measured
-suites and compatibility gate remain pending; not merged or released.
+suites and CPU/MPS compatibility gate pass locally; CUDA remains blocked.
+Not merged to main or released.
 [Review and scope](docs/review-quality-provenance.md).
