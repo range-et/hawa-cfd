@@ -1,0 +1,96 @@
+{
+  "reviewed_survivors": {
+    "hawa.exports.x_export_csv__mutmut_128": {
+      "status": "survived",
+      "diff_sha256": "399685c9dc87442136111c081a99ef63a4ed7b079edb04ab6044e49a68c0c8d2",
+      "reason": "Equivalent: json.dumps treats None as false for allow_nan, so nonfinite metadata is still rejected."
+    },
+    "hawa.exports.x_export_csv__mutmut_212": {
+      "status": "survived",
+      "diff_sha256": "170324203810c9513beec6c9b3f751fe9756bee9bff0f4b977703e9300e33845",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement, bounded basename and finally cleanup are unchanged; no code discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_213": {
+      "status": "survived",
+      "diff_sha256": "985d118b5423c52a865bda965097ae7ece55f6852d80e8f1a1be630b2e40b1f1",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement, bounded basename and finally cleanup are unchanged; no code discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_214": {
+      "status": "survived",
+      "diff_sha256": "edecaf801de801a05814db35d7b0031144d54d01ba6445fc5f74c8260389e1b2",
+      "reason": "Equivalent: tempfile treats delete=None as false, preserving the same explicit finally cleanup and atomic replacement behavior."
+    },
+    "hawa.exports.x_export_csv__mutmut_219": {
+      "status": "survived",
+      "diff_sha256": "5136fc17427c2beeb1fe8e3e824b8c9b6289cc1fbb44f09cfb2fb94d6851ef51",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement, bounded basename and finally cleanup are unchanged; no code discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_220": {
+      "status": "survived",
+      "diff_sha256": "12a3da64f80fd27b58e67cdcb407810f8e6717d8246d867f651685d597f6f338",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement, bounded basename and finally cleanup are unchanged; no code discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_225": {
+      "status": "survived",
+      "diff_sha256": "01f90fe94fa2f0a0b7854fb5f1d576e1981bc53a346cebf1cd7a62af9309b3bb",
+      "reason": "Equivalent: UTF-8 codec names are case-insensitive; both spellings encode identical bytes."
+    },
+    "hawa.exports.x_export_csv__mutmut_227": {
+      "status": "survived",
+      "diff_sha256": "d7c94096f5bf551fca9830f3816899747d0af52aa2631615c12c96a5fc115a1a",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement, bounded basename and finally cleanup are unchanged; no code discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_228": {
+      "status": "survived",
+      "diff_sha256": "c898187b63366b993f65f6bc081624acf5d2a881d86bb6ce1acb1c27e123f524",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement, bounded basename and finally cleanup are unchanged; no code discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_229": {
+      "status": "survived",
+      "diff_sha256": "12fe89d448d89644130903159ee87b0a0e156d97b0a23493e995ef8f176419a2",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement, bounded basename and finally cleanup are unchanged; no code discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_230": {
+      "status": "survived",
+      "diff_sha256": "29c06f6fe16b1c911350aa1c2fff311031d741e0c4ec157636055973e0ee50e8",
+      "reason": "Equivalent within the export contract: temporary basename prefix/suffix is private. Same-directory uniqueness, atomic replacement, bounded basename and finally cleanup are unchanged; no code discovers temporary files by name."
+    },
+    "hawa.exports.x_export_csv__mutmut_246": {
+      "status": "survived",
+      "diff_sha256": "284f43bafd81ef4c5411081e24b8cc3842d34217d8b6adea59f7cddefd722b11",
+      "reason": "Equivalent: absent-mask zeros may be float64 instead of bool; only truth testing and int conversion are performed, yielding the identical validity flags. Supplied masks remain validated boolean arrays."
+    },
+    "hawa.exports.x_export_csv__mutmut_248": {
+      "status": "survived",
+      "diff_sha256": "0749402e0202227ae80e4591cc28b0cdd5c8a4149d2949db1f0c26a7acc21ab8",
+      "reason": "Equivalent: absent-mask zeros may be float64 instead of bool; only truth testing and int conversion are performed, yielding the identical validity flags. Supplied masks remain validated boolean arrays."
+    },
+    "hawa.exports.x_export_csv__mutmut_257": {
+      "status": "survived",
+      "diff_sha256": "c9afa9b58fb8ee21e4ba4bbda13161bdf8f1d51dc87f4d9f06dad9daea15a7f8",
+      "reason": "Equivalent: absent-mask zeros may be float64 instead of bool; only truth testing and int conversion are performed, yielding the identical validity flags. Supplied masks remain validated boolean arrays."
+    },
+    "hawa.exports.x_export_csv__mutmut_259": {
+      "status": "survived",
+      "diff_sha256": "396f65da10280ec9add23e85c50694e3ddccbcd67dab68474f5656d2d2a0c087",
+      "reason": "Equivalent: absent-mask zeros may be float64 instead of bool; only truth testing and int conversion are performed, yielding the identical validity flags. Supplied masks remain validated boolean arrays."
+    }
+  },
+  "sources": {
+    "src/hawa/exports.py": "b80d75463088c398fbd165e6e4b79f51929fa29a4a9b32e37afc03288253acdf",
+    "src/hawa/plugin.py": "50ae862f3c5996b96269a194207d9d964e3103215f0a2eb60c572fe5a3804e48",
+    "src/hawa/jobs.py": "e5ecedccbf6665118836c62f67c634295318cce9c1f9da8431306ee1fb2dab14",
+    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
+    "tests/test_csv_export.py": "3456542327c5e5fcd8fec5422d3b42c415d74c8eb013f668b197eb62a7bb8db3",
+    "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb"
+  },
+  "scope": "Issue35 CSV export and routing changed lines vs21bd205; no numerical solver changes",
+  "control_test_files": [
+    "tests/test_csv_export.py",
+    "tests/test_export.py"
+  ],
+  "base_revision": "21bd205",
+  "tool": "mutmut==3.7.0",
+  "mutants": 368,
+  "inventory_sha256": "520b06b3dac3603e191226c366f0a9d4af81515dd666eeef4d047bed50806baa"
+}
