@@ -23,7 +23,7 @@ var coarse=Add(new Param_GenericObject {NickName="Admission parent"});
 var fine=Add(new Param_GenericObject {NickName="Admission patch"});
 var run=Add(new GH_BooleanToggle {Value=false});var pause=Add(new GH_BooleanToggle {Value=false});
 solve.Params.Input[0].AddSource(coarse);solve.Params.Input[1].AddSource(fine);solve.Params.Input[4].AddSource(run);solve.Params.Input[5].AddSource(pause);
-((Param_String)solve.Params.Input[3]).SetPersistentData("cpu");
+var device=(Param_String)solve.Params.Input[3];device.PersistentData.Clear();device.SetPersistentData("cpu");
 JsonObject Parent()=>JsonNode.Parse(@"{""shape"":[17,17,17],""dx"":1.0,""spacing"":1.0,""origin"":[0.0,0.0,0.0],""speed"":1.0,""viscosity"":1.0,""density"":1.225,""mach"":0.05,""collision"":""bgk"",""solid"":[],""boundaries"":[""inlet"",""outlet"",""periodic"",""periodic"",""periodic"",""periodic""]}")!.AsObject();
 JsonObject Patch(){var f=Parent();f["shape"]=new JsonArray(13,13,13);f["dx"]=.5;f["spacing"]=.5;f["origin"]=new JsonArray(5d,5d,5d);f["refinement_lower"]=new JsonArray(5,5,5);f["refinement_upper"]=new JsonArray(11,11,11);return f;}
 void Data(Param_GenericObject p,JsonObject value){p.PersistentData.Clear();p.PersistentData.Append(new GH_String(value.ToJsonString()));p.ExpireSolution(false);}
