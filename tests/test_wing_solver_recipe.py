@@ -149,3 +149,81 @@ def test_overlapping_closed_shells_cannot_silently_publish_partial_winding():
                 triangles=first['triangles'] + [[i + 8 for i in face] for face in second['triangles']])
     with pytest.raises(ValueError, match='ray did not close'):
         voxelize_mesh(mesh, domain())
+
+
+@pytest.fixture(scope='module')
+def sensitivity_wing_geometry():
+    """Original sensitivity mesh; this fixture constructs no solver/session."""
+    from scripts.wing_measurement_recipe import wing_mesh
+    mesh = wing_mesh(root='2418', tip='0018', span_m=.6, root_chord_m=.3,
+                     tip_chord_m=.2, section_points=41, span_stations=5,
+                     angle_deg=3.)
+    return {key: mesh[key] for key in ('vertices_m', 'triangles')}
+
+
+@pytest.mark.parametrize('dx,shape', [(.025, [33, 41, 25]),
+                                     (.02, [41, 51, 31]),
+                                     (1 / 60, [49, 61, 37])])
+def test_sensitivity_wing_voxels_match_independent_solid_angle_winding(
+        sensitivity_wing_geometry, dx, shape):
+    """Audit off-surface nodes using solid angles, independent of X-ray casting.
+
+    For triangle vectors a,b,c from the query point, its oriented solid angle
+    is 2*atan2(det(a,b,c), |a||b||c| + a.b|c| + b.c|a| + c.a|b|).
+    A closed oriented surface sums to magnitude 4*pi inside and zero outside.
+    Conservatively exclude ALL triangle-plane ties (even plane extensions).
+    Surface-inclusive behavior is covered separately by the analytic box test;
+    this test does not certify wing surface ties or general CAD meshes.
+    """
+    geometry = sensitivity_wing_geometry
+    origin = np.array([-.2, -.5, -.2])
+    spec = dict(shape=shape, dx=dx, origin_world_m=origin.tolist())
+    solid = set(voxelize_mesh(geometry, spec))
+    vertices = np.asarray(geometry['vertices_m'])
+    triangles = vertices[np.asarray(geometry['triangles'])]
+    normals = np.cross(triangles[:, 1] - triangles[:, 0],
+                       triangles[:, 2] - triangles[:, 0])
+    normals /= np.linalg.norm(normals, axis=1)[:, None]
+    low = np.maximum(0, np.floor((vertices.min(0) - origin) / dx).astype(int))
+    high = np.minimum(np.array(shape) - 1,
+                      np.ceil((vertices.max(0) - origin) / dx).astype(int))
+    inside_count = outside_count = skipped_plane_ties = 0
+    for offset in np.ndindex(tuple(high - low + 1)):
+        ijk = low + offset
+        point = origin + ijk * dx
+        distances = np.einsum('ij,ij->i', point - triangles[:, 0], normals)
+        if np.any(abs(distances) < 1e-10):
+            skipped_plane_ties += 1
+            continue
+        a, b, c = (triangles[:, i] - point for i in range(3))
+        an, bn, cn = (np.linalg.norm(v, axis=1) for v in (a, b, c))
+        numerator = np.einsum('ij,ij->i', a, np.cross(b, c))
+        denominator = (an * bn * cn + np.einsum('ij,ij->i', a, b) * cn
+                       + np.einsum('ij,ij->i', b, c) * an
+                       + np.einsum('ij,ij->i', c, a) * bn)
+        winding = abs((2 * np.arctan2(numerator, denominator)).sum())
+        inside = winding > 2 * np.pi
+        assert winding == pytest.approx(4 * np.pi if inside else 0., abs=1e-8)
+        assert (int(np.ravel_multi_index(ijk, shape)) in solid) == inside, ijk
+        inside_count += int(inside)
+        outside_count += int(not inside)
+    # Prevent accidental vacuous coverage without freezing observed voxel counts.
+    assert inside_count > 0 and outside_count > 0 and skipped_plane_ties > 0
+
+
+@pytest.mark.parametrize('shape,origin', [([49, 49, 33], [-.4, -.6, -.3]),
+    ([41, 41, 25], [-.4, -.5, -.2]), ([41, 41, 25], [-.2, -.5, -.2]),
+    ([33, 49, 25], [-.2, -.6, -.2]), ([33, 41, 33], [-.2, -.5, -.3])])
+def test_aligned_domain_expansions_preserve_world_solid_nodes(
+        sensitivity_wing_geometry, shape, origin):
+    """Isolate boundary placement from geometry sampling for diagnostic cases."""
+    base = dict(shape=[33, 41, 25], dx=.025, origin_world_m=[-.2, -.5, -.2])
+    enlarged = dict(shape=shape, dx=.025, origin_world_m=origin)
+    worlds = []
+    for spec in (base, enlarged):
+        solid = voxelize_mesh(sensitivity_wing_geometry, spec)
+        ijk = np.asarray(np.unravel_index(solid, spec['shape'])).T
+        worlds.append(np.asarray(spec['origin_world_m']) + ijk * spec['dx'])
+    # ravel ordering preserves the lexicographic XYZ order under translation.
+    assert worlds[0].shape == worlds[1].shape
+    np.testing.assert_allclose(worlds[0], worlds[1], rtol=0., atol=1e-14)
