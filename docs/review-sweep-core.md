@@ -1,6 +1,6 @@
 # Sweep controller foundation — issue #40
 
-November 17, 2026. Author/reviewer: Codex sweep-lane agent, self-review only.
+November 17, 2026. Author: Codex sweep-lane agent. Review: self-review plus read-only review by the wing-example agent, which found the stale malformed-callback defect below.
 Base: frozen [measurement contract v1](measurement-contract-v1.md), commit
 `895975b`, on `codex/40-sweeps`. This is an internal headless implementation;
 no public component, live solver adapter, export format or completed CFD study.
@@ -75,11 +75,11 @@ Environment: macOS arm64, isolated uv.lock environments, CPython 3.9.25 and
 3.12.4, PyTorch 2.8.0 installed but no solver/device work. OMP/MKL threads 1.
 Imports verified in this worktree for Hawa and vendored Lettuce.
 
-- Focused Python 3.9 tests: **69 passed**, no skips.
-- Coverage.py 7.10.7 focused measurement: **216/216 executable statements** in
+- Focused Python 3.9 tests: **71 passed**, no skips.
+- Coverage.py 7.10.7 focused measurement: **220/220 executable statements** in
   sweeps.py, 100%; intended results and adverse paths asserted. This is local
   module line evidence, not a replacement for the repository function matrix.
-- Focused Python 3.12 tests: **69 passed**, no skips; ruff Python 3.9 syntax guard passed.
+- Focused Python 3.12 tests: **71 passed**, no skips; ruff Python 3.9 syntax guard passed.
 - Repository payload-model safety scan: passed on the new models.
 - Tests cover serial start/poll ordering, pause/resume, cancel/disposal, failed
   start/poll/control, stale IDs/generations, result/reference identity, quality
@@ -99,3 +99,12 @@ Imports verified in this worktree for Hawa and vendored Lettuce.
 Existing runtime, export and native UI files are untouched. CPU-only checks do
 not qualify MPS/CUDA or live Rhino. #40 stays open for measurement integration,
 real executor, host workflow, export handoff and numerical reference acceptance.
+
+## Independent review follow-up
+
+The wing-example agent reproduced an old malformed result failing the current
+job because full payload validation preceded stale-identity filtering. The fix
+validates only the callback's typed identity first, discards stale callbacks, then
+validates the complete current result. Two regressions cover old candidate and
+old generation with malformed data; the same malformed data at current identity
+still fails and cleans up. Fresh counts above include this repair.
