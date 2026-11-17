@@ -1,18 +1,20 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 28,
-  "inventory_sha256": "d5bc4dbee724d6bfb691813361cfac6cffc2e7f032c42ba82d15dfbe997ac9b2",
-  "scope": "Lines changed by the #74 status PR only (git diff against the base revision, mutmut3.py changed-lines scope): the queued state while a job waits for the device slot in src/hawa/jobs.py, and the shared MPS lock an evaluation job holds outside its checkpoints, which field, statistics and boundary queries do not take (#99); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host",
+  "mutants": 35,
+  "inventory_sha256": "c27b8419d8e25eb8ba292884e4e87730859f1cc071700fa2ff21b6c5ca3189da",
+  "scope": "Lines changed since 6b0744 in src/hawa/jobs.py: queued device-slot state (#74), shared device-lock ownership and query exclusion (#99), and pre-Job fixed-refinement admission (#30). CPU controls cover runtime state/lock contracts and refinement metadata admission; routing fixtures disable device locking while the dedicated lock fixture explicitly enables it and bounds acquisitions. Not whole-module or whole-codebase mutation coverage; CUDA/MPS parametrizations are deselected.",
   "control_test_files": [
-    "tests/test_runtime_job_contracts.py"
+    "tests/test_runtime_job_contracts.py",
+    "tests/test_refinement_preflight.py"
   ],
   "sources": {
-    "src/hawa/jobs.py": "0306d097b6d0982cf7e28cf2626f0667f0a61916e0811112d0265455b554d981",
+    "src/hawa/jobs.py": "5b6faaf217661696b37762b6ec04019327a5699cd78ec9e1a64d0266b1e02de7",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
-    "tests/test_runtime_job_contracts.py": "19c534672629f061bbd2bd255d31efa1e21d062c0adb5b2219d406506250ff33"
+    "tests/test_runtime_job_contracts.py": "5dc3a5bfdc13d8c3be84d3633c237cdcd8c98ea46d876b76d23c8df7f470582a",
+    "tests/test_refinement_preflight.py": "f97cb47e472c58ed676e0defcaa222da84c523af8bdf5ec22b686078ad90f65c"
   },
   "reviewed_survivors": {
-    "hawa.jobs.xǁJobǁ__init____mutmut_1": {
+    "hawa.jobs.x\u01c1Job\u01c1__init____mutmut_1": {
       "status": "survived",
       "diff_sha256": "6d5b02f51ab9076eb9a797a8b160d6020b22645b17ba129f71d8a2536e5ed8be",
       "reason": "Equivalent: holds_device is only tested for truth, and None is false like False until take_device sets it to True."

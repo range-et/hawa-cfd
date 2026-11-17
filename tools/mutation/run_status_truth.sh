@@ -6,9 +6,9 @@ source "$(dirname "$0")/lib.sh"
 # PR base: origin/main after #89.
 base=6b0744abb4ef132936dac310dff023852b0eade6
 mutate=(src/hawa/jobs.py)
-tests=(tests/conftest.py tests/test_runtime_job_contracts.py)
+tests=(tests/conftest.py tests/test_runtime_job_contracts.py tests/test_refinement_preflight.py)
 reviewed=("${mutate[@]}" "${tests[@]}")
-test_args=(tests/test_runtime_job_contracts.py -k 'not cuda and not mps')
+test_args=(tests/test_runtime_job_contracts.py tests/test_refinement_preflight.py -k 'not cuda and not mps')
 changed_lines() {
   git cat-file -e "$base^{commit}" || { echo "Missing $base: run git fetch origin first" >&2; return 65; }
   git diff --no-prefix "$base" -- "${mutate[@]}"
