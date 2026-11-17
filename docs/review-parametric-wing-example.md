@@ -61,3 +61,41 @@ and the three-variant run above passed. No numerical tolerance was changed.
 The existing grid/domain screen fails and the matched physical reference remains
 open. Finer sampling and a solid CAD loft are not engineering qualification.
 This review does not close #40 or claim CUDA/MPS/Windows host verification.
+
+## Contract and acceptance before host execution
+
+Geometry uses ordinary Grasshopper components and the existing Airfoil reader.
+The new reusable stationary-study adapter accepts a closed mesh, rather than
+generating a wing. Its CPU-only uniform BGK service reuses the reviewed momentum
+exchange collector. Unsupported devices/configurations must reject explicitly.
+See [the service contract](stationary-study.md) and
+[measurement contract](measurement-contract-v1.md).
+
+The command path is GH input collection → bounded submission → background mesh
+classification → sequential independent candidate workers → immutable selected
+frame and load records → existing surface/field views. Only explicit Run starts
+work. Physical edits invalidate the previous job and require rearming. A selected
+case or view edit must not advance physics. Saved Run=true must reopen idle.
+Pause, cancellation, missing inputs, document lock/unload/close and disposal must
+release owned workers and frames without blocking the GH solution thread.
+
+The field, rotated mesh and loads must share candidate/generation identities.
+Rhino model coordinates are normalized to world metres at submission and restored
+consistently for display, retaining physical spacing and solver provenance.
+Integrated force is projected onto declared wind axes: drag along +X and lift
+along +Z for the example. Torque is about the declared pivot. Surface colours
+are pressure sampled at a stated outward offset, with invalid samples visible;
+they are not wall traction or an alternative force integration.
+
+The shipped wing uses a finer flow grid. The independent, frozen-source
+[fine-run protocol](wing-fine-report-protocol.md) compares equal physical windows;
+its results do not automatically qualify different loft tessellation. Finer
+display tessellation alone does not refine flow. Existing failed grid/domain
+sensitivity and missing physical-reference qualification remain open in #40.
+
+Host acceptance must verify: solid loft and closed positive-volume mesh; explicit
+start and automatic completion polling; selected pressure/geometry/load identity;
+angle and speed ordering; null rejected plot points; geometry-edit invalidation;
+pause/resume/cancel; save/reopen idle; model-unit conversion; owned cleanup and
+preservation of original Rhino/GH documents. Inspect both canvas and viewport.
+
