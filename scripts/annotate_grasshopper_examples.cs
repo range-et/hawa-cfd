@@ -13,6 +13,11 @@ foreach(var file in System.IO.Directory.GetFiles(root+"/examples/grasshopper","*
  IEnumerable<IGH_Param> Inputs(IGH_DocumentObject o)=>o is GH_Component c?c.Params.Input:o is IGH_Param p?new[]{p}:Array.Empty<IGH_Param>();
  string[] Wires()=>d.Objects.SelectMany(o=>Inputs(o).SelectMany(p=>p.Sources.Select(s=>s.InstanceGuid+">"+p.InstanceGuid))).OrderBy(x=>x).ToArray();
  var before=Wires();
+ // Example35 has an audited semantic layout: generic topological columns would
+ // pull plot-axis parameters to the start and destroy its readable stage rows.
+ if(number==35&&d.Objects.OfType<GH_Group>().Any(g=>g.NickName.StartsWith("HAWA35 / "))){
+  report.Add(new JsonObject{["file"]=System.IO.Path.GetFileName(file),["wires"]=before.Length,["connections_preserved"]=true,["layout_preserved"]=true});d.Dispose();continue;
+ }
  // Replace old presentation notes, including notes from a previous cleanup run.
  foreach(var o in d.Objects.Where(o=>o is GH_Group||o is GH_Panel p&&p.Sources.Count==0&&p.Recipients.Count==0&&(p.UserText.Length>80||p.NickName.StartsWith("Hawa guide"))).ToArray())d.RemoveObject(o,false);
  var objects=d.Objects.ToArray();var rank=objects.ToDictionary(o=>o.InstanceGuid,o=>0);
