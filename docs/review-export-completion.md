@@ -1,7 +1,7 @@
 # Numerical export completion — #35 / HAWA-033
 
 Date: November 17, 2026. Base: merged main `12dc774`.
-Status: implementation and verification in progress; no completion or release claim.
+Status: implementation and local verification complete; PR/CI/Greptile and Windows CUDA gates pending. No merge or release claim.
 
 ## Fixed scope and acceptance contract
 
@@ -159,7 +159,7 @@ atmosphere_qualification cross-reviewed the native ownership changes.
 | G0 research | root, numerical_exports | PASS | Contract fixed before measurement; existing sampler/load semantics, NPZ arrays and public Rhino/Eto operations reused; no new numerical method or dependency. |
 | G1 architecture | domain_validation, atmosphere_qualification, root | PASS | Transactional import, separate operation ownership, paused/no-advance restore, stale completion and disposal contracts;146 linked state contracts plus live ownership/cleanup/reopen checks. |
 | G2 reliability | numerical_exports, domain_validation, root | PASS |2256 tests passed87 explicit skips;146 C# contracts. Strict headless function/line gate and trusted-base ratchet pass:511 Python and582 C# covered functions;299 host functions remain unmeasured. Python3.12:2246 passed97 skips. All four applicable mutation policies pass. |
-| G3 numerical implementation | numerical_exports, atmosphere_qualification, root | PASS, bounded CPU interchange | Exact raw CSV/NPZ and independent same-backend continuation checks; no solver-method, physical validation or unrestricted hardware claim. Device round still required for merge. |
+| G3 numerical implementation | numerical_exports, atmosphere_qualification, root | PASS, bounded CPU/MPS implementation | Exact raw CSV/NPZ and independent continuation checks; CPU/MPS compatibility and both5-case smoke gates pass. No physical validation or unrestricted hardware claim; CUDA still required for merge. |
 | G4 UI/UX | root | PASS, focused Mac workflow | Actual dynamic events and dock inspection; file dialogs, Windows UI and full-gallery run/render omitted as listed above. |
 | G5 integration | root | BLOCKED | Official package built/installed; ready PR, final CI/Greptile5/5 and CUDA pending. Not released. |
 | G6 compatibility | atmosphere_qualification, root | PASS locally; CUDA BLOCKED |102,582 rows recorded:100,092 CPU/MPS/structural passes,0 failures,2,490 CUDA rows blocked; source hashes stable.53 public nodes/31 archives audited. [Machine evidence](verification-compatibility.json). |
@@ -185,3 +185,9 @@ The first final MPS smoke executed all5 cases successfully, but its overall gate
 failed because this review record changed during its whole-tree source audit.
 That run is retained as invalid evidence. A fresh run with the entire checkout
 frozen is required; no numerical tolerance or production change is involved.
+
+The frozen-checkout MPS rerun `results/device-smoke-export-complete-mps-v2`
+passed all5 cases with identical before/after source audit and no module-path
+errors. CPU smoke likewise passed5/5. [Final headless evidence](verification-export-completion-headless.json).
+All local required checks are complete. PR#119 is ready/non-draft. Merge remains
+blocked until final CI, explicit Greptile5/5 and Windows CUDA are verified.
