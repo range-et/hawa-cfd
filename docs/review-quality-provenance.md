@@ -54,7 +54,7 @@ this agent holds the exclusive MPS test lease.
 | --- | --- | --- | --- |
 | G0 | Codex self-review | PASS | Existing policy and issue reproduction define the reporting contract; no new method claim. |
 | G1 | Codex self-review | PASS | Additive report data; legacy load tests; reject malformed new persisted fields before mutation; no ownership changes. |
-| G2 | Codex self-review | BLOCKED | Focused CPU and 109 C# contracts pass; fresh guarded validity mutation pending; final measured suites delegated to the combined candidate. |
+| G2 | Codex self-review | BLOCKED | Focused CPU and 109 C# contracts pass; fresh mutation policies pass; final measured suites delegated to the combined candidate. |
 | G3 | Codex self-review | PASS for reporting scope | CPU/MPS reproduction above; thresholds and dynamics unchanged. No physical validation claim. |
 | G4 | Issue98 agent live MCP; root visual review | PASS for targeted issue scope | CPU GH08 and native warning after recovery; root inspected full reason wrapping and progress. Broad supported-example sweep not run. |
 | G5 | Codex self-review | BLOCKED | Development ZIP built; combined6ed1012 installed for targeted CPU host checks. Final validated integration package pending; not released. |
@@ -138,4 +138,12 @@ asserts default/auto select CPU and explicit accelerator requests fail before
 probing. Production backend code and qualification runs do not load this plugin.
 The shared runner exposes declared import roots to both controls and mutant
 processes. Docker was considered, but the local daemon was unavailable.
-Final evidence must come from the new guarded run, not the interrupted results.
+The fresh guarded run `results/validity-foundation-issue98-final` completed with
+2,526 mutants: 2,307 assertion kills, 219 reviewed survivors, zero errors,
+timeouts or signals; all 154 CPU controls passed (24 device cases deselected).
+All 219 survivor names/statuses/diff hashes exactly match prior reviewed entries;
+one previous seam-splitting survivor was killed in this run. The five added
+checkpoint validation-call mutants were all killed. Scope and source hashes now
+include the new provenance controls and CPU guard; policy verification passes.
+Two workers were retained throughout; final combined G6 overlapped CPU work.
+No performance claim. The interrupted run supplies no acceptance evidence.
