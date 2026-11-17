@@ -7,6 +7,11 @@ disabled transfer. The development v2 path now accepts neutral external data;
 physical qualification remains open. HAWA-021 tracks the complete workflow. This record
 supersedes the earlier implication that passing separate operators completed nesting.
 
+[November 16 CPU triage](review-atmospheric-triage-2026-11-16.md) freshly reproduces
+the RMS and reference-stationarity blockers on `21bd205`, checks capture cadence,
+and records a diagnostic outlet-placement sensitivity control. The fixed
+qualification geometry and criteria below remain unchanged; #21/#26/#27 stay open.
+
 ## Implementation and acceptance fixed before measurement
 
 - BoundarySeries v2: immutable local file, SI world mapping, velocity **and pressure**

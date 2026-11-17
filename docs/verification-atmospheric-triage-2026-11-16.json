@@ -1,0 +1,827 @@
+{
+  "schema": 1,
+  "date": "2026-11-16",
+  "tested_commit": "21bd2056824f84bf4d26dcb559f122a6bed58833",
+  "author_reviewer": "Codex atmosphere_qualification agent, self-review",
+  "scope": "CPU diagnostic reproduction; no solver change or atmospheric qualification",
+  "hardware": "Apple M3 Max",
+  "environment": {
+    "python": "3.9.25 (main, Oct 31 2025, 23:01:59) \n[Clang 21.1.4 ]",
+    "torch": "2.8.0",
+    "numpy": "2.0.2",
+    "platform": "macOS-27.2.1-arm64-arm-64bit"
+  },
+  "threads": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "thresholds": {
+    "mean_relative_l2": 0.05,
+    "rms_relative_l2": 0.1,
+    "cp_rmse": 0.1,
+    "reference_stationarity": 0.05
+  },
+  "source_hashes": {
+    "pyproject.toml": "1c17295039a5e2c8709ad43f69308af524cc04c022a0d9d2d44a7880ae93c60b",
+    "scripts/verify_neutral_nesting.py": "44135f45a7606fce8cee3ca6d47ed3a126b5643e921301777295436c9faf5e44",
+    "src/hawa/__init__.py": "3484c4615e9a7d8c6f9421b9233b0cf8ba70e9a20a554246a80904b9641a40c6",
+    "src/hawa/airfoils.py": "4117731d899c5641817ac7b3145850595b01e4dafa5899489b49ebbb6431af39",
+    "src/hawa/atmosphere.py": "d00c7dad606da974b3f4a47bffc43a62948b2d95d88368f18d1796616cdde741",
+    "src/hawa/backends.py": "6bdbf42473b3aa83d8b4497e7731db119d51a7344f1e3246cb64a5186cf42a73",
+    "src/hawa/boundaries.py": "cd4104704f89f52c40454aaf089d118efa4df24eca82196712ee5a3817317ec6",
+    "src/hawa/boundary_contracts.py": "bd8c268fa77b14389f096eb676de92d0179db2b62ead370c9e51f27b6db71c20",
+    "src/hawa/boundary_data.py": "0fa1c8d4f34321bdb9241bd5cc6f47405857626754f2ac0d44e6125fa5079cf9",
+    "src/hawa/boundary_series.py": "99c09f87b7107281120eebde13cde7951a0844882d12c16030cd0ffd68f47236",
+    "src/hawa/cases.py": "f8ad136bd78b60b7f21d6b8fb5a911a945fb0e6b9c16ebf9ad649b0be3c643d1",
+    "src/hawa/cli.py": "ddf72cf58607aa78785997486623817aea62f5ccaa1cb766b60b1ba199b86fd6",
+    "src/hawa/collision.py": "0ea22217f196832027661c159fa02f0b12ed3b409b138332bfd3639c9da2db78",
+    "src/hawa/engine.py": "5a66e746c8d23c2ad3ac9a5e05596136527437704fba2ade779b99263567d09e",
+    "src/hawa/field_collection.py": "8e375ad5b5d9e98bb861a8c01cc4c7351fd9928a0f8d5d5571c3258fbf969a68",
+    "src/hawa/fields.py": "edb5618ac963f791f01131e30f3c75bafad23b5a5fa0d475b405803c9e40c2f2",
+    "src/hawa/flow_statistics.py": "260ae8055bcc6bea81ac445f304054b6b800cfb79ae281d116e89c79d4654f4e",
+    "src/hawa/jobs.py": "0306d097b6d0982cf7e28cf2626f0667f0a61916e0811112d0265455b554d981",
+    "src/hawa/lbm.py": "058cacba479e8acdd283340c22581eac8ccee15bd92eedbdfd7474b8817df942",
+    "src/hawa/motion.py": "0ca424128cf35dc9707bffee7ef15b7606673aa9dff7926391d0a554d4ca4359",
+    "src/hawa/moving_boundaries.py": "43d185c55a4368a7bcba7ded08f47f1763926054dec576d151c8b309e88b618a",
+    "src/hawa/neutral.py": "a409f22e162a9bb726cc4f947d4aaabf4223042c6f640ac11b330e03741039bd",
+    "src/hawa/neutral_external.py": "62c99b509d1a46daab83fa4980ece0bf5fd0715b4ee02c2138693065ea16f14c",
+    "src/hawa/optimization.py": "a7a7f910da56c1de3ad80867f36d8f37480ba7948fb144d1b8bf2de022dac3d9",
+    "src/hawa/plugin.py": "89dfa8446c8b804e64a8de1eed414d1dd18b8f3ed43cc89906946ac2e6d3c26b",
+    "src/hawa/quality.py": "db49c0e52c705177f012da3715eb5b617b7b881a12dce877355133ef85743db3",
+    "src/hawa/recording.py": "eaef9d44916dfcea381df3e5bba0284feb9955a64995d5f5cf669bc6dca034c8",
+    "src/hawa/refinement.py": "f6da784b1d0f023b49194a56e3778017e613967848db0982d42293971be73584",
+    "src/hawa/roughness.py": "fbebbd3fd84f2d0db139afca3c18e4f4faa7802d26848df47b77605002e2b48f",
+    "src/hawa/step.py": "e468cbce49f84efe7c1eb89696893ec52cae20dacb746ad2d4d73e623f89ba45",
+    "src/hawa/walls.py": "d2c0ac391a689e9b51ee4088c4821fa979eaf72a044f549327a78c8e639ca134",
+    "uv.lock": "a4854f555d476776db07a174bd46a55ee1c039bcf539f1797d2c29eaea920732",
+    "vendor/lettuce/lettuce/__init__.py": "7a8f742cf72cfa211817dd732e8c4c15e6f7d42dd846b0aaa30cc70f8c29dead",
+    "vendor/lettuce/lettuce/_context.py": "3bc00cc8a3d4e6220ff3a6eff0bb813d6c0d2fe1e7343b3e4386bb343a71ff7f",
+    "vendor/lettuce/lettuce/_flow.py": "fc286c25c89056ac7a02fc2d4a011bd9f39e22c85bc4d6cbfb29708b455a07cc",
+    "vendor/lettuce/lettuce/_simulation.py": "17f71ec906f5a67e4bcc6ebcf2f6a51f846841c638bf5b16f8aca2e42e9ddae0",
+    "vendor/lettuce/lettuce/_stencil.py": "12053033db0f49f1a72460091a7ae1a5a00550d4a818e4677f71c48c4f7e2ae5",
+    "vendor/lettuce/lettuce/_unit.py": "e447a9fca1f93e4ac062df0cd6a008d29f9a31e3fac6be99871fb41aea226d02",
+    "vendor/lettuce/lettuce/base.py": "4339e842edf6e77eec6492973d7ad3356646f3ed6ea4d827b913e9311611e6a5",
+    "vendor/lettuce/lettuce/cli.py": "0f885177881e3dc91c4e86ecfb0b8dedffba868f6a4c62c7b125092947e6f991",
+    "vendor/lettuce/lettuce/cuda_native/__init__.py": "3ab0fe0f557c5ae475b73debae8de016b8ba69bdeb3e93cf17f235ae35d59263",
+    "vendor/lettuce/lettuce/cuda_native/_default_code_gen.py": "cb88d237409d3856e5a43e6d6de52d57be5fa2cd885c21e6953bba81cdeed921",
+    "vendor/lettuce/lettuce/cuda_native/_generator.py": "a95a1251b79890b41b87af254a8c62753eefc94a1fa6184463f06f9d026c29ec",
+    "vendor/lettuce/lettuce/cuda_native/_registry.py": "5b39ddc591c6b0296626e3b5d505c619a0721a247c53f4a6af49fd9acd7fb7c5",
+    "vendor/lettuce/lettuce/cuda_native/_template.py": "7bbae840395173db7f3c88dbc38e5e8728fcce60916a15cc7d6751db85eeaaf8",
+    "vendor/lettuce/lettuce/cuda_native/_transformer.py": "a1844ecb23f4242ed9fcbde143b87efb5319057e78ad68c88a34dadc0c26037c",
+    "vendor/lettuce/lettuce/cuda_native/_util.py": "ee8f4f453097957828c4e749f4a6a995e791a6b171d191a8851255c7034120af",
+    "vendor/lettuce/lettuce/cuda_native/ext/__init__.py": "eef531ad95bec0092ac1f53913871ceae7236e1ea2307b52226c5007d8ff0ebc",
+    "vendor/lettuce/lettuce/cuda_native/ext/_boundary/__init__.py": "eb1808ac6f827d189563b720eda860475cdeef086cbf36236526bb37557e07e7",
+    "vendor/lettuce/lettuce/cuda_native/ext/_boundary/bounce_back_boundary.py": "712c4991707cef6fd5af78399529a42996147c675a07c167dc10aa53021b9bdd",
+    "vendor/lettuce/lettuce/cuda_native/ext/_boundary/equilibrium_pu.py": "8b84f5af67b7b61eacca30c9e044471e816e164f176e1aa38553776fe8719b8e",
+    "vendor/lettuce/lettuce/cuda_native/ext/_boundary/no_boundary.py": "9fde631afd7fb474d916316918f12b8dd49e189b266a4fcf2ae4c02d91184541",
+    "vendor/lettuce/lettuce/cuda_native/ext/_collision/__init__.py": "a5d38472943ab6a9fa96ddcb95034ecb136fb02ba800467aa1a43dcbb280187a",
+    "vendor/lettuce/lettuce/cuda_native/ext/_collision/bgk_collision.py": "4294d721dfd0bae63b3e6dab5079361fa9eea957d4d28e3ce2cf18feebf58db7",
+    "vendor/lettuce/lettuce/cuda_native/ext/_collision/no_collision.py": "3ecea74b27fa5f948ebbe9061c847d3bc2dd2725f565bdbbe771a2e13de5f8c6",
+    "vendor/lettuce/lettuce/cuda_native/ext/_equilibrium/__init__.py": "8e8d4be7676727c5758d8bd5377cb96ce6e75bbba0f008b0b51e6388f13f6c36",
+    "vendor/lettuce/lettuce/cuda_native/ext/_equilibrium/quadratic_equilibrium.py": "2efc351d4b4d785d72e6166a61acde9c06b017638e1b45f0e47cba25ee272d42",
+    "vendor/lettuce/lettuce/cuda_native/ext/_force/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "vendor/lettuce/lettuce/cuda_native/ext/_force/_force.py": "032e8b1efb5e39148b63de557f5f5686be7a4ea598d4ebdc32103bf580e62ef6",
+    "vendor/lettuce/lettuce/ext/__init__.py": "aeb146a78484c413b3a3544247b89f76b0b328122c13cf365fe2b26bab6a2f36",
+    "vendor/lettuce/lettuce/ext/_boundary/__init__.py": "796c086a767356fe63a7dd1d7bd1c1fc95419bc913a5a6f4f1ef7376ce403eac",
+    "vendor/lettuce/lettuce/ext/_boundary/anti_bounce_back_outlet.py": "6b431f99a37463470c9dbc2107769bb0ddf9985d84467d9a8cd969fac51cdaff",
+    "vendor/lettuce/lettuce/ext/_boundary/bounce_back_boundary.py": "9f7afdcee5636f64d787b1557cfb8b4d8beb879f712fd009ae546ce993c5e7f0",
+    "vendor/lettuce/lettuce/ext/_boundary/equilibrium_boundary_pu.py": "9767723ff4dd45cfe27ce2570678066d4947804b1feda68af8d741bafc299c2b",
+    "vendor/lettuce/lettuce/ext/_boundary/equilibrium_outlet_p.py": "7ab6e24d8c177549c8dfbb70cdd855852688e89f6d8a604fd989231ca6eafabf",
+    "vendor/lettuce/lettuce/ext/_boundary/partially_saturated_boundary.py": "2e721955e49da9bd521353c2ffa15234af8fd29b3f6765b6566f71ac47b97d48",
+    "vendor/lettuce/lettuce/ext/_collision/__init__.py": "f088752ddccb29a4d4387d5be1db5105b4b43cee6d497b1f920396ff80da04e8",
+    "vendor/lettuce/lettuce/ext/_collision/bgk_collision.py": "c08b77ce4990dc62426ad3673363e9c68a6564afa5b9ce50da710d1b4a9b87a7",
+    "vendor/lettuce/lettuce/ext/_collision/kbc_collision.py": "9722ee7daa68d378e47b4323ee281db1ef6a580c892e67bec1a6215904e115d4",
+    "vendor/lettuce/lettuce/ext/_collision/mrt_collision.py": "81fc6c19c696d48843ee76daaa4c9a1221f591c7e7cc58dba2109e18347f2646",
+    "vendor/lettuce/lettuce/ext/_collision/no_collision.py": "736325ec8297a68f2c6d55d6a01a212cc321de7d4dd5bd481120fd9b20271223",
+    "vendor/lettuce/lettuce/ext/_collision/regularized_collision.py": "3c1a1e9c1209c39d21fc3d61fc8ed7b378dc2611a1874a2f00ba182c7d1fb726",
+    "vendor/lettuce/lettuce/ext/_collision/smagorinsky_collision.py": "7e5fdcfecd5588a87b59dd34a0bed3761b5a246c9704ba5ffbb194acc9d2c951",
+    "vendor/lettuce/lettuce/ext/_collision/trt_collision.py": "f5a7b8a12f04e51cb164f55a1e40cb79d59863a3a2a066fc97f1b40f95456aed",
+    "vendor/lettuce/lettuce/ext/_equilibrium/__init__.py": "b7b92a02ca545be8a4a3428bd5b35923331a0d9369b1ecd17c7f33352233097b",
+    "vendor/lettuce/lettuce/ext/_equilibrium/incompressible_quadratic_equilibrium.py": "8ab919150eb9b906b9584b7e9bb5ed96548c56f15cf4087c8809bf17bffa6fe6",
+    "vendor/lettuce/lettuce/ext/_equilibrium/quadratic_equilibrium.py": "3f123660e6d6f93107531c3fb106aabcc209744998358427d32285beb0d6b7e8",
+    "vendor/lettuce/lettuce/ext/_equilibrium/quadratic_equilibrium_less_memory.py": "4001f2542a8c8077cfb8c51048e8ace8eec075c1cad79ca5ffbd103638d24aa0",
+    "vendor/lettuce/lettuce/ext/_flows/__init__.py": "059c8cdf5bf3306a3f24389b1b2786591751c5f0db3515b10998c37687c8ab4f",
+    "vendor/lettuce/lettuce/ext/_flows/_ext_flow.py": "4b992b6a979116c9007d8e542ec9ac06257d90530707eaab9402ea84e5fde362",
+    "vendor/lettuce/lettuce/ext/_flows/_flow_by_name.py": "aa10f13359339ea702d9aa20953adbe607c5d611b47e49c23db8287b0e85bd66",
+    "vendor/lettuce/lettuce/ext/_flows/couette.py": "993b00f5058874a55cf37180f93bac26853b53a8af0b2f0160d766a8c6521095",
+    "vendor/lettuce/lettuce/ext/_flows/decayingturbulence.py": "d6d99779b18b725acdbd214267874da1701bc7022abb6d69f908be8355bfbc3c",
+    "vendor/lettuce/lettuce/ext/_flows/doublyshear.py": "73ecb95759500b59b79a072137c47e7d695a3e1a703ab3ce7a4da2606b106c09",
+    "vendor/lettuce/lettuce/ext/_flows/lamboseenvortex.py": "85dfd6081f4ddab55748fd9c15ef7fde8a8821fd19aacfc0e5844847ab94e7b8",
+    "vendor/lettuce/lettuce/ext/_flows/liddrivencavity.py": "39c9ac8f8968e8775a9e750fabfac98990cd6cd3fcd4407dcc09bd5c7d9893df",
+    "vendor/lettuce/lettuce/ext/_flows/obstacle.py": "02b3e27a25a9a7a73e891f83a1c4ffcce0644c7bf2623347e3c3c52a98dcc180",
+    "vendor/lettuce/lettuce/ext/_flows/poiseuille.py": "1e6140b8f2e390a46989b3336ba87989be43cc0df80ba9cc97f68db667ae3c88",
+    "vendor/lettuce/lettuce/ext/_flows/taylorgreen.py": "7765ab7de0568a026473810e851d9212d6c7ff8904f14957f2200bba930a29c2",
+    "vendor/lettuce/lettuce/ext/_force/__init__.py": "4258c469d25263810ff6aa94de2324d02be26012c5102a5a22855a7cc0205d06",
+    "vendor/lettuce/lettuce/ext/_force/_force.py": "93455ecee79441771b1a876dc233225659358aafc89d01c1e2e5703662c91d65",
+    "vendor/lettuce/lettuce/ext/_force/guo.py": "4f1cb394b0f281f7e274a9cfcb6d21c2fe67397b11be55c6ae817a7b7edffa05",
+    "vendor/lettuce/lettuce/ext/_force/shan_chen.py": "14a570fbd10ad2fb124cd5bd58219d0bedbfb7532878b99f3b2842fc3baa1658",
+    "vendor/lettuce/lettuce/ext/_reporter/__init__.py": "c2c59f9a63416d3f74ec99e28ba5ddf247fcf07bb98f322c2903a0ca8bd9ea9b",
+    "vendor/lettuce/lettuce/ext/_reporter/error_reporter.py": "88c39d5b88f20a2a91f2c6b433a921b791e4b7d79b783696dfa5787ae0bf017a",
+    "vendor/lettuce/lettuce/ext/_reporter/failure_reporter.py": "8eb71d5eace74087e195086912f38bc783b6a39097f74edf750562d3618c09dd",
+    "vendor/lettuce/lettuce/ext/_reporter/observable_reporter.py": "4bf2bc537198056bcb24dc9f2ba5aa7eaba420a923be144f292906e8f12f3d78",
+    "vendor/lettuce/lettuce/ext/_reporter/progress_reporter.py": "1551e642e0029ead1adaf211af0e153be483547df3ad0b99d02a3bb6575bf8c0",
+    "vendor/lettuce/lettuce/ext/_reporter/vtk_reporter.py": "d090b8d5f8da0ed1f7b1d242afe1c6345e2562553993c1d8dca2b6ac6e6cf047",
+    "vendor/lettuce/lettuce/ext/_reporter/write_image.py": "d93e589643c677ae91159b96c646a29e934ecc74ead48adc4d72d432650b18e6",
+    "vendor/lettuce/lettuce/ext/_stencil/__init__.py": "8f175563fe90d72b7a6e75808afff1d285623766f2df4302d660bab70c07347c",
+    "vendor/lettuce/lettuce/ext/_stencil/d1q3.py": "f09b87afe61c42c704f2c651fafc9fcd1bcd48efe4ccc95d8a17aa1a6717145f",
+    "vendor/lettuce/lettuce/ext/_stencil/d2q9.py": "8d34464e2fcd5996372529228c6cb01a4daca2b44494a5b1b93d5bb6763256a4",
+    "vendor/lettuce/lettuce/ext/_stencil/d3q15.py": "dddc75c014df8f91ab81034470a5b452075ffcc5a029e6757ec4175e88f86eb5",
+    "vendor/lettuce/lettuce/ext/_stencil/d3q19.py": "dd6d690235c0245338c3c608063741b31af35eb6dc05d0c5ae962728293fb7b8",
+    "vendor/lettuce/lettuce/ext/_stencil/d3q27.py": "460ffc4faf7705bca2bc8098710f6fe32dd6822f96fce8874e2156ed41ea7c96",
+    "vendor/lettuce/lettuce/util/__init__.py": "5440bb05fae807820f1cf969b3604fe923aa493a7f819ae6d49679199653a507",
+    "vendor/lettuce/lettuce/util/datautils.py": "a185a533a463e9d995a33493ccd63590295570f857bea1e5048c64881d7a5949",
+    "vendor/lettuce/lettuce/util/moments.py": "c6e39599dc2968a027e61e818f71cfeb4a8edb20e37b10a2d5bbb7023c450256",
+    "vendor/lettuce/lettuce/util/utility.py": "f85ad4b78842ad3fd65fe9f61d9c7e0c3e9f19014599db6f80d53cd77df84a57"
+  },
+  "runs": {
+    "baseline": {
+      "result": "results/nesting-cpu-baseline-21bd205/result.json",
+      "result_sha256": "8df47aac6ecdb0a9beeb4400d7cab2ab1359171cea1bc0c1e27e0a9641b7f68e",
+      "comparison": "results/nesting-cpu-baseline-21bd205/comparison-1.npz",
+      "comparison_sha256": "2b6d185af7248259551cf9004d693c1e66bbfe3c890c66bf754d1c09b53950e6",
+      "reference_sha256": "ac60ebfae0f94bf602101cc7c4192ab1d498afda978f9215242480989315f48f",
+      "config": {
+        "warmup": 1000,
+        "steps": 1000,
+        "interval": 10,
+        "ratios": [
+          1
+        ],
+        "fine_reference": false
+      },
+      "wall_seconds": 20.737852291,
+      "metrics": {
+        "mean_velocity_relative_l2": 0.006867797197870265,
+        "fluctuation_rms_relative_l2": 0.1402429749970037,
+        "cp_rmse": 0.03655731139230213,
+        "reference_stationarity_change": 0.021416132556662287,
+        "child_stationarity_change": 0.02017297345281011,
+        "reference_rms_m_s": [
+          [
+            0.020999236072057677,
+            0.007322890650188133,
+            0.0077131933491911666
+          ],
+          [
+            0.046919989801245086,
+            0.00853582854695795,
+            0.007078975372729648
+          ],
+          [
+            0.06124636796962629,
+            0.006280557272639668,
+            0.06504722206704928
+          ],
+          [
+            0.07157568247140307,
+            0.013976174662238383,
+            0.0301336355666598
+          ],
+          [
+            0.05719840517520147,
+            0.04095090599149239,
+            0.018285274678177917
+          ],
+          [
+            0.02698028484611448,
+            0.010761444306017779,
+            0.019416366518386893
+          ],
+          [
+            0.031391949214938965,
+            0.0068003448563346645,
+            0.015729145148199283
+          ]
+        ],
+        "child_rms_m_s": [
+          [
+            0.01908706694549013,
+            0.005958824325725135,
+            0.004902014735586247
+          ],
+          [
+            0.04785367069348851,
+            0.011417801459054832,
+            0.005128257806213038
+          ],
+          [
+            0.05809266814672322,
+            0.002243922273281403,
+            0.0665259807171967
+          ],
+          [
+            0.07260124999582818,
+            0.015357319658979626,
+            0.020523920192687808
+          ],
+          [
+            0.054411944648449034,
+            0.023896405550728046,
+            0.018251025564013926
+          ],
+          [
+            0.026663284852074854,
+            0.0113857127991332,
+            0.01684775349829602
+          ],
+          [
+            0.036733494836613624,
+            0.0053623048783528054,
+            0.01759400877212452
+          ]
+        ],
+        "mean_velocity_error_m_s": [
+          [
+            0.013413410560757733,
+            0.009910892037784391,
+            0.0016440445301579287
+          ],
+          [
+            0.03638210016138421,
+            0.019089966428046112,
+            -0.02154204687651466
+          ],
+          [
+            -0.015398938281863339,
+            -0.010833493882719446,
+            0.005296258365406703
+          ],
+          [
+            -0.01681119203567505,
+            0.004249911934083701,
+            -0.0051857893373452035
+          ],
+          [
+            -0.013972859756619327,
+            0.027463551371029637,
+            -0.005894316177742165
+          ],
+          [
+            0.002300514894373329,
+            0.006489765702509413,
+            0.01842217176568274
+          ],
+          [
+            -0.014328526515586582,
+            -0.012445127310296383,
+            0.001265515299404385
+          ]
+        ],
+        "analysis_start": 8.660254037844389,
+        "analysis_end": 11.547005383792518,
+        "samples": 51,
+        "passed": false,
+        "ratio": 1,
+        "reference": "parent",
+        "backend": {
+          "requested": "cpu",
+          "selected": "cpu",
+          "torch": "2.8.0",
+          "cuda_available": false,
+          "mps_available": true,
+          "notes": []
+        }
+      },
+      "full_nesting_passed": false
+    },
+    "cadence2": {
+      "result": "results/nesting-cpu-cadence2-21bd205/result.json",
+      "result_sha256": "6e3b35c04f35155dc473f3f0ce5627e9df4b01e63bfab8c1dc03744d0f152d7e",
+      "comparison": "results/nesting-cpu-cadence2-21bd205/comparison-1.npz",
+      "comparison_sha256": "ed64e50f895855df0a9b2534e23dfd962b3cd0b2a93c7946e0a0c1fff2ed8146",
+      "reference_sha256": "8b68c3d8b20cccde362c9507b75c04972aa4bd5a875ebc782d2156d0547e30cb",
+      "config": {
+        "warmup": 1000,
+        "steps": 1000,
+        "interval": 2,
+        "ratios": [
+          1
+        ],
+        "fine_reference": false
+      },
+      "wall_seconds": 43.450053083,
+      "metrics": {
+        "mean_velocity_relative_l2": 0.006873956044389878,
+        "fluctuation_rms_relative_l2": 0.1402301862508586,
+        "cp_rmse": 0.036244557489085984,
+        "reference_stationarity_change": 0.021155578429710702,
+        "child_stationarity_change": 0.019920643224269046,
+        "reference_rms_m_s": [
+          [
+            0.020699861080657758,
+            0.007186085248702724,
+            0.007480166826394279
+          ],
+          [
+            0.04619487071915793,
+            0.008486075389842116,
+            0.007003168084996061
+          ],
+          [
+            0.060461883544379987,
+            0.006193729243371502,
+            0.06408321888893091
+          ],
+          [
+            0.07073085528155715,
+            0.013749969167390875,
+            0.029746705793095785
+          ],
+          [
+            0.056467693415314144,
+            0.0403409054530941,
+            0.018111673853971562
+          ],
+          [
+            0.02693502262116014,
+            0.010472385671733479,
+            0.019240600865183276
+          ],
+          [
+            0.031434907038957856,
+            0.006607673463195756,
+            0.015705640965011237
+          ]
+        ],
+        "child_rms_m_s": [
+          [
+            0.01998410056875123,
+            0.006258245887993117,
+            0.005294084389508301
+          ],
+          [
+            0.04810156702016749,
+            0.011204816228718295,
+            0.0055117004152523946
+          ],
+          [
+            0.05737756680341654,
+            0.0017496999575631492,
+            0.06567463850183816
+          ],
+          [
+            0.07171538640809301,
+            0.015131919656008323,
+            0.020299595615864342
+          ],
+          [
+            0.05385650126275232,
+            0.023556310797780776,
+            0.017777200018855147
+          ],
+          [
+            0.027212787530141776,
+            0.011525890010544357,
+            0.01700939105821089
+          ],
+          [
+            0.03701837349178271,
+            0.005061018165932002,
+            0.01816854766398101
+          ]
+        ],
+        "mean_velocity_error_m_s": [
+          [
+            0.013404893685146746,
+            0.009918432311707637,
+            0.0015309353273703086
+          ],
+          [
+            0.03633343651000276,
+            0.01910146049769279,
+            -0.02166047178772816
+          ],
+          [
+            -0.015402412747006988,
+            -0.010858021967201837,
+            0.005298025817035201
+          ],
+          [
+            -0.016685371795498505,
+            0.004269280126299783,
+            -0.0052413719583792595
+          ],
+          [
+            -0.014065090878551345,
+            0.027475988242146282,
+            -0.00611096905522146
+          ],
+          [
+            0.0023192162532730265,
+            0.006605306855473385,
+            0.018526281270966588
+          ],
+          [
+            -0.014341494951589873,
+            -0.012438520911103864,
+            0.0011662668678390498
+          ]
+        ],
+        "analysis_start": 8.660254037844389,
+        "analysis_end": 11.547005383792518,
+        "samples": 251,
+        "passed": false,
+        "ratio": 1,
+        "reference": "parent",
+        "backend": {
+          "requested": "cpu",
+          "selected": "cpu",
+          "torch": "2.8.0",
+          "cuda_available": false,
+          "mps_available": true,
+          "notes": []
+        }
+      },
+      "full_nesting_passed": false
+    },
+    "window5000": {
+      "result": "results/nesting-cpu-window5000-21bd205/result.json",
+      "result_sha256": "178c9b3ef3c7e9c81253a1d9f7bc45e869f17fba5fbbaf82fa0f7beb854d0b2d",
+      "comparison": "results/nesting-cpu-window5000-21bd205/comparison-1.npz",
+      "comparison_sha256": "044622a97bd481ba6d897dc78c6c9a837a21d707d29a1b50d781f161b6d94223",
+      "reference_sha256": "8e829bbe51fcc63c6d6ce7eb8b1c04215150e2efde652dcbb751b704f3c94b71",
+      "config": {
+        "warmup": 5000,
+        "steps": 5000,
+        "interval": 10,
+        "ratios": [
+          1
+        ],
+        "fine_reference": false
+      },
+      "wall_seconds": 100.85179966599999,
+      "metrics": {
+        "mean_velocity_relative_l2": 0.009969154928265988,
+        "fluctuation_rms_relative_l2": 0.03288912458648777,
+        "cp_rmse": 0.009423851546398795,
+        "reference_stationarity_change": 0.27651694978993047,
+        "child_stationarity_change": 0.2816594085982247,
+        "reference_rms_m_s": [
+          [
+            0.018065764160409496,
+            0.014325449690008355,
+            0.011259021206686275
+          ],
+          [
+            0.09108597463178597,
+            0.007245847090039916,
+            0.03404129492894703
+          ],
+          [
+            0.2659393409775982,
+            0.09086483546845113,
+            0.6611598454734544
+          ],
+          [
+            1.0197804878574925,
+            0.10982207309816745,
+            0.18879187034764908
+          ],
+          [
+            1.0604832036852183,
+            0.09372033640244283,
+            0.3543962694676162
+          ],
+          [
+            0.05630373890975866,
+            0.12207377008071113,
+            0.06907839554406615
+          ],
+          [
+            0.07621433651593268,
+            0.17612794281579863,
+            0.2975936384323069
+          ]
+        ],
+        "child_rms_m_s": [
+          [
+            0.019223908215059978,
+            0.011806597252220991,
+            0.00965996925973507
+          ],
+          [
+            0.09494724312827164,
+            0.0074294149074429225,
+            0.03614432514149921
+          ],
+          [
+            0.2806024220717813,
+            0.09055754387833982,
+            0.6579388516216452
+          ],
+          [
+            1.0613840386836262,
+            0.11230697646101757,
+            0.20002868947022312
+          ],
+          [
+            1.0626726473508539,
+            0.09431043156612738,
+            0.35044459298376235
+          ],
+          [
+            0.05795433289004262,
+            0.10399755108041667,
+            0.06826811755171068
+          ],
+          [
+            0.0892555337716103,
+            0.15107978153700868,
+            0.29648168180389606
+          ]
+        ],
+        "mean_velocity_error_m_s": [
+          [
+            -0.004667027538040713,
+            0.004731004456599797,
+            -0.0058017776781819075
+          ],
+          [
+            -0.013614200500853268,
+            -0.0018043680732469092,
+            0.005829130510884906
+          ],
+          [
+            0.024682357135521915,
+            -0.02682367522075617,
+            0.05179300402783671
+          ],
+          [
+            0.04897559615245406,
+            0.0349150921187486,
+            -0.058214827485421866
+          ],
+          [
+            0.0045611359683639385,
+            0.004739926521530914,
+            -0.007736972980275453
+          ],
+          [
+            0.0018441876567214521,
+            -0.0017275645200949818,
+            -0.006814715871772958
+          ],
+          [
+            0.004319719109401987,
+            -0.0007388354354469356,
+            -0.025170268865665868
+          ]
+        ],
+        "analysis_start": 43.30127018922194,
+        "analysis_end": 57.73502691896259,
+        "samples": 251,
+        "passed": false,
+        "ratio": 1,
+        "reference": "parent",
+        "backend": {
+          "requested": "cpu",
+          "selected": "cpu",
+          "torch": "2.8.0",
+          "cuda_available": false,
+          "mps_available": true,
+          "notes": []
+        }
+      },
+      "full_nesting_passed": false
+    },
+    "outlet-plus4-v2": {
+      "result": "results/nesting-cpu-outlet-plus4-v2-21bd205/result.json",
+      "result_sha256": "1840a88944ddc8c0e8945609d6c122f9cfbe6a6ca4187f10a86fb8619eee9143",
+      "comparison": "results/nesting-cpu-outlet-plus4-v2-21bd205/comparison-1.npz",
+      "comparison_sha256": "2ae4df16c52942a202e45eb88c560ef09e77540100cb2e6e594f915b2093daa2",
+      "reference_sha256": "ac60ebfae0f94bf602101cc7c4192ab1d498afda978f9215242480989315f48f",
+      "config": {
+        "warmup": 1000,
+        "steps": 1000,
+        "interval": 10,
+        "ratios": [
+          1
+        ],
+        "fine_reference": false
+      },
+      "wall_seconds": 7.606219959000001,
+      "metrics": {
+        "mean_velocity_relative_l2": 0.006864631035456922,
+        "fluctuation_rms_relative_l2": 0.10172954261790301,
+        "cp_rmse": 0.03675700064150382,
+        "reference_stationarity_change": 0.021416132556662287,
+        "child_stationarity_change": 0.021587131604098402,
+        "reference_rms_m_s": [
+          [
+            0.020999236072057677,
+            0.007322890650188133,
+            0.0077131933491911666
+          ],
+          [
+            0.046919989801245086,
+            0.00853582854695795,
+            0.007078975372729648
+          ],
+          [
+            0.06124636796962629,
+            0.006280557272639668,
+            0.06504722206704928
+          ],
+          [
+            0.07157568247140307,
+            0.013976174662238383,
+            0.0301336355666598
+          ],
+          [
+            0.05719840517520147,
+            0.04095090599149239,
+            0.018285274678177917
+          ],
+          [
+            0.02698028484611448,
+            0.010761444306017779,
+            0.019416366518386893
+          ],
+          [
+            0.031391949214938965,
+            0.0068003448563346645,
+            0.015729145148199283
+          ]
+        ],
+        "child_rms_m_s": [
+          [
+            0.018958791727754085,
+            0.005905013272648879,
+            0.006139700831496981
+          ],
+          [
+            0.04808448941153434,
+            0.010582958211700706,
+            0.0056721657535884935
+          ],
+          [
+            0.06110946138300465,
+            0.0036503064907589954,
+            0.06646761947101677
+          ],
+          [
+            0.07902687520686938,
+            0.015535812717708944,
+            0.023223089700709364
+          ],
+          [
+            0.060975038183241154,
+            0.032783603734951185,
+            0.01890461322320164
+          ],
+          [
+            0.026080126459582846,
+            0.010776482108315152,
+            0.015114827504140817
+          ],
+          [
+            0.035574010731887616,
+            0.004155801603653989,
+            0.017070550954131854
+          ]
+        ],
+        "mean_velocity_error_m_s": [
+          [
+            0.0124850740619733,
+            0.010100212751650517,
+            0.0018663470651589242
+          ],
+          [
+            0.035152327780630266,
+            0.018255905193441058,
+            -0.020601985793487695
+          ],
+          [
+            -0.012304632102741908,
+            -0.007880605707588771,
+            0.0018450617790222168
+          ],
+          [
+            -0.007655255934771399,
+            0.0021668719590011536,
+            -0.013594087432412527
+          ],
+          [
+            -0.028992959097319915,
+            0.006621297697682737,
+            -0.019742190837860107
+          ],
+          [
+            0.0005321409188070447,
+            0.009316821600876601,
+            0.015385098609269829
+          ],
+          [
+            -0.017691677691890284,
+            -0.015196992442332545,
+            0.0031154897867464726
+          ]
+        ],
+        "analysis_start": 8.660254037844389,
+        "analysis_end": 11.547005383792518,
+        "samples": 51,
+        "passed": false
+      },
+      "full_nesting_passed": false
+    }
+  },
+  "focused_tests": {
+    "command": ".venv/bin/python -m pytest tests/test_neutral_nesting_verification.py -q",
+    "passed": 49,
+    "wall_seconds": 21.65
+  },
+  "omissions": [
+    "MPS",
+    "CUDA",
+    "Rhino",
+    "ratio2",
+    "AIJ experimental comparison",
+    "full suite",
+    "fresh function coverage",
+    "mutation study",
+    "build/package"
+  ],
+  "common_time_cadence_control": {
+    "samples": 51,
+    "parent_velocity_and_pressure_bitwise_equal": true,
+    "rms_relative_l2_interval2": 0.14019752101272753,
+    "analysis_start": 8.660254037844389,
+    "analysis_end": 11.547005383792518
+  },
+  "baseline_rms_squared_error_contributions": {
+    "points": [
+      [
+        6.5,
+        6.5,
+        2.5
+      ],
+      [
+        10.5,
+        6.5,
+        2.5
+      ],
+      [
+        14.5,
+        10.5,
+        2.5
+      ],
+      [
+        18.5,
+        10.5,
+        2.5
+      ],
+      [
+        22.5,
+        10.5,
+        2.5
+      ],
+      [
+        14.5,
+        14.5,
+        6.5
+      ],
+      [
+        18.5,
+        10.5,
+        8.5
+      ]
+    ],
+    "components_xyz_fraction": [
+      [
+        0.007463197050294675,
+        0.0037978978480681705,
+        0.016130550347755696
+      ],
+      [
+        0.0017793822203524146,
+        0.01695321593380444,
+        0.007767139305150581
+      ],
+      [
+        0.020300793429108795,
+        0.03325915931416414,
+        0.004463411219993863
+      ],
+      [
+        0.002146845666146697,
+        0.0038935957002798494,
+        0.18849218724683142
+      ],
+      [
+        0.015848132553902827,
+        0.5936771173570743,
+        2.394258241158653e-06
+      ],
+      [
+        0.00020511187880285252,
+        0.0007954541241311319,
+        0.013466962905876049
+      ],
+      [
+        0.05823796467444866,
+        0.004220989036328529,
+        0.007098497929243724
+      ]
+    ]
+  }
+}
