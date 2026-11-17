@@ -70,7 +70,7 @@ def main():
     for guide in (*list((output / "examples").glob("*.md")), *list(docs_output.glob("*.md")), *list((docs_output / "agents").glob("*.md"))):
         content = guide.read_text()
         if guide.parent.name == "examples":
-            content = content.replace("../../docs/", "../docs/")
+            content = content.replace("../../docs/", "../docs/").replace("../native-prototype/", "native-prototype/")
         else:
             content = content.replace("examples/grasshopper/", "examples/")
         guide.write_text(content)

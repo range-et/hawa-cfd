@@ -48,3 +48,14 @@ is separately recorded, without widening a cross-device tolerance.
 The wing report is a separate change atop PR118. Neither example closes #40's
 grid/domain qualification, physical reference, live GH or stationary CSV adapter
 requirements. #35 remains completed by PR119; baking remains #34.
+
+Greptile identified two installed-bundle walkthrough links that retained the
+repository-relative parent prefix after Grasshopper guides were flattened. The
+package rewrite now handles native-prototype links in both README and verification
+guides; fixture packaging tests assert those destinations. This is a packaging
+repair only, with no runtime or numerical change. Fresh full coverage and final
+CI/review are rerun after the fix. The fresh Python 3.9 run passed 2,257 tests
+(87 skips), with 1,093 measured covered functions and no strict headless/base
+ratchet failures. ZIP integrity and both installed guide destinations pass;
+the legacy 09 archive is absent. The rebuilt ZIP SHA-256 is
+`8414ca1771556a269e10d65b57943bab70f7eb3d60c0e66c6f04cab76ac78ae8`.
