@@ -82,6 +82,37 @@ temporary driver initially rejected a relative module path before running any
 solver; the corrected driver used the resolved harness path and a fresh
 `results/nesting-cpu-outlet-plus4-v2-21bd205` directory.
 
+The exact corrected driver is below. Run it from the repository root after the
+baseline command; its output directory must not already exist. This calls the
+unchanged harness and does not introduce a new qualification mode.
+
+```sh
+OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python - <<'PY'
+import importlib.util,json,time
+from pathlib import Path
+import numpy as np
+s=importlib.util.spec_from_file_location('study',str(Path('scripts/verify_neutral_nesting.py').resolve()))
+m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
+out=Path('results/nesting-cpu-outlet-plus4-v2-21bd205');out.mkdir(exist_ok=False)
+started=time.monotonic();before=m.sources()
+ref=Path('results/nesting-cpu-baseline-21bd205/reference.json')
+bundle,paths=m.load_reference(ref)
+child=m.case([24,16,12],1.,np.array([4.5,4.5,.5]));child['origin']=child['origin'].tolist()
+mapped=m.capture(paths['parent'],child,out/'boundary-1.npz')
+recording=m.create_recording(mapped['case'],0,1000,10,out/'child-1','cpu')
+t,u,p,q=m.series(paths['parent'],m.POINTS)
+ct,cu,cp,cq=m.series(recording['manifest'],m.POINTS)
+assert np.allclose(t,ct,atol=1e-10,rtol=0)
+assert all(x=='within-tested-envelope' for x in q+cq)
+row=m.metrics(t,u,p,cu,cp,'within-tested-envelope')
+np.savez_compressed(out/'comparison-1.npz',points=m.POINTS,times=t,parent_velocity=u,child_velocity=cu,parent_pressure=p,child_pressure=cp,reference_velocity=u,reference_pressure=p)
+m.load_reference(ref);assert before==m.sources()
+report=dict(scope='Diagnostic outlet-placement control only; fixed qualification geometry unchanged',full_nesting_passed=False,passed=row['passed'],rows=[row],thresholds=m.THRESHOLDS,environment=m.runtime(),device='cpu',source_before=before,source_after=m.sources(),reference=dict(path=str(ref),sha256=bundle['_descriptor_sha256'],config=bundle['config']),child_case=child,backend=recording['backend'],child_recording=m.recording_identity(recording['manifest']),wall_seconds=time.monotonic()-started)
+(out/'result.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
+print(json.dumps(row,indent=2))
+PY
+```
+
 `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m pytest
 tests/test_neutral_nesting_verification.py -q`: **49 passed in 21.65 s**.
 No production/test function changed; no fresh full-suite, function-coverage,
