@@ -12,6 +12,8 @@ from pathlib import Path
 import numpy as np
 from matplotlib.backends.backend_svg import FigureCanvasSVG
 from matplotlib.figure import Figure
+from matplotlib.offsetbox import AnnotationBbox, DrawingArea
+from matplotlib.patches import Circle
 
 from hawa.fields import validate
 from hawa.sweeps import plot_segments
@@ -37,8 +39,11 @@ def polar_figure(records):
         for segment in plot_segments(records, kind):
             axis.plot([p['x'] for p in segment], [p['y'] for p in segment], color='#327c93')
             for point in segment:
-                artist, = axis.plot(point['x'], point['y'], 'o', color='#cb5a35', markersize=7)
-                artist.set_url('#candidate-' + str(indices[point['candidate']['candidate_id']]))
+                marker = DrawingArea(14, 14)
+                marker.add_artist(Circle((7, 7), 3.5, color='#cb5a35',
+                    url='#candidate-' + str(indices[point['candidate']['candidate_id']])))
+                axis.add_artist(AnnotationBbox(marker, (point['x'], point['y']),
+                                               frameon=False, pad=0, zorder=3))
         axis.set(xlabel=xlabel, ylabel=ylabel)
         axis.grid(alpha=.2)
     return figure

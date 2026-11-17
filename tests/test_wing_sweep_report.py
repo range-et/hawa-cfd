@@ -20,9 +20,9 @@ def control():
 def test_real_report_and_clickable_segments(control):
     report, entries = control
     figure = renderer.polar_figure(report['records'])
-    assert [len(ax.lines) for ax in figure.axes] == [4, 4, 4]
-    assert [line.get_url() for line in figure.axes[0].lines] == [None, '#candidate-0', None, '#candidate-2']
-    assert [line.get_xdata().tolist() for line in figure.axes[0].lines] == [[0.], [0.], [0.], [0.]]
+    assert [len(ax.lines) for ax in figure.axes] == [2, 2, 2]
+    assert [artist.offsetbox.get_children()[0].get_url() for artist in figure.axes[0].artists] == ['#candidate-0', '#candidate-2']
+    assert [line.get_xdata().tolist() for line in figure.axes[0].lines] == [[0.], [0.]]
     assert figure.axes[0].lines[0].get_ydata()[0] == report['records'][0]['result']['coefficients']['CL']
     text = renderer.report_html(report, entries)
     assert 'Grid/domain sensitivity FAILS' in text
@@ -32,7 +32,12 @@ def test_real_report_and_clickable_segments(control):
     assert 'after-collision-before-obstacle-reflection-and-stream' in text
     assert 'cannot resume a solver' in text
     assert '<script' not in text and 'href="https://' not in text and 'src="https://' not in text
-    ET.fromstring(renderer.svg(figure))
+    root = ET.fromstring(renderer.svg(figure))
+    links = [a.attrib['{http://www.w3.org/1999/xlink}href']
+             for a in root.iter('{http://www.w3.org/2000/svg}a')]
+    assert links == ['#candidate-0', '#candidate-2'] * 3
+    for a in root.iter('{http://www.w3.org/2000/svg}a'):
+        assert list(a), 'Every candidate link must wrap a rendered marker'
 
 
 def test_raw_figures_match_retained_arrays_and_preserve_invalid_gaps(control):

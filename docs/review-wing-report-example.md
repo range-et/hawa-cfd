@@ -21,12 +21,12 @@ shipped candidates. Each ran 1064 steps (1000 settling, 64 samples); the capture
 field was source step 1063 / 0.4602925021114292 s. CL was 0.13120227473943177 and
 0.17370137599452087; CD was 1.3315546400715705 and 1.3287346632245722. Both windows
 met their existing 0.05 stationarity criterion; zero owned handles/workers/sessions
-remained. A second fresh run after adding explicit probe legends reproduces these coefficients exactly.
+remained. Fresh runs after adding explicit probe legends and correcting SVG marker links reproduce these coefficients exactly.
 The saved report contains that run's exact source/session identities. These values
 are workflow evidence, not a numerical reference. No threshold changed.
 
 Focused automated checks: **19 passed on each Python 3.9.25 and 3.12.4**, no skips.
-Owned renderer: **112/112 statements, 42/42 branches** measured in coverage.py.
+Owned renderer: **115/115 statements, 42/42 branches** measured in coverage.py.
 Tests use actual four-step CPU controls to check plotted raw numbers, masked
 field arrays, invalid probe gaps, rejection splitting, candidate anchors,
 identity mismatch rejection, escaped HTML, missing/unstarted captures, CLI
@@ -35,8 +35,13 @@ Matplotlib/pyparsing and test runpy warnings remain; no test failure.
 
 All three actual SVG panels were rasterized with `rsvg-convert` at 1200 px and
 visually inspected: axes/labels fit, mesh/load/probe curves and masked pressure
-slice are visible. HTML navigation targets and SVG links are asserted; a full
-interactive browser inspection was not performed in this lane.
+slice are visible. Root browser review then found the initial orange points did not navigate:
+Matplotlib marker-only Line2D (and its single-point scatter optimization) dropped
+URL attributes from rendered SVG. Fixed-size Circle patches now emit actual
+SVG anchors. The regression parses the final SVG and requires all six links to
+wrap rendered markers, including singleton segments separated by a rejected
+case; merely checking artist URL properties is insufficient. Root owns the
+post-fix browser click acceptance.
 
 | Gate | Disposition |
 | --- | --- |
