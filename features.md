@@ -53,6 +53,13 @@ supported workflows, numbers and images for maintainer acceptance.
 
 ## Atmospheric transfer development (November 9, 2026)
 
+Fresh November 16 CPU triage at `21bd205` reproduces the remaining qualification
+gap: the short same-grid window has 14.02% RMS error (10% maximum), denser capture
+does not repair it, and a longer window fails reference stationarity at 27.65%
+(5% maximum). A diagnostic downstream-domain extension reduces RMS error to
+10.17%, still failing. No solver change or atmospheric qualification is claimed;
+#21/#26/#27 remain open. [Evidence and next experiment](docs/review-atmospheric-triage-2026-11-16.md).
+
 BoundarySeries v2 now carries timed multi-face velocity, gauge pressure, kinetic
 strain, initial fields, geometry hashes and absolute source time. Neutral
 recordings include the stress data required for LBM reconstruction. Spatial
