@@ -200,8 +200,8 @@ try{
  var lift=Panel("Total lift +Z (N) / selected window mean","",4450,1240,350,100);lift.AddSource(Output(study,"Lift"));
  var sideForce=Panel("Total side force +Y (N)","",4180,1270,230,90);sideForce.AddSource(Output(force,"Y component"));
  var moment=Panel("Moment about pivot (N m) / world axes","",4450,1380,350,100);moment.AddSource(Output(study,"Moment"));
- var colors=Hawa("ColorMap",3680,1400);Text(colors,0,"diverging");Number(colors,1,-2);Number(colors,2,2);Text(colors,3,"Pa");
- var pressureLow=Slider("Pressure colour lower (Pa)",-2,-20,0,2,3420,1400);var pressureHigh=Slider("Pressure colour upper (Pa)",2,0,20,2,3420,1490);Wire(pressureLow,colors,1);Wire(pressureHigh,colors,2);
+ var colors=Hawa("ColorMap",3680,1400);Text(colors,0,"diverging");Number(colors,1,0);Number(colors,2,4);Text(colors,3,"Pa");
+ var pressureLow=Slider("Pressure colour lower (Pa)",0,-20,0,2,3420,1400);var pressureHigh=Slider("Pressure colour upper (Pa)",4,0,20,2,3420,1490);Wire(pressureLow,colors,1);Wire(pressureHigh,colors,2);
  var offsetDistance=Expression("1.5*x","Pressure sample offset (m)",3420,1600,cell);
  var surface=Hawa("SurfaceField",4180,1570);Wire(Output(study,"Field"),surface,0);Wire(Output(study,"Selected mesh"),surface,1);Connect(offsetDistance,0,surface,3);Connect(colors,0,surface,4);surface.Hidden=false;
  var valid=Panel("Local sampled pressure validity / not local force","",4450,1590,400,150);valid.AddSource(Output(surface,"Valid"));

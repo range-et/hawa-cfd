@@ -81,9 +81,10 @@ existing **10,000 vertex samples**. The creator's three-variant geometry preflig
 checks that limit; arbitrary larger or more complex wings are not guaranteed.
 
 **Surface Field** samples pressure outside the selected rotated wing along its
-normals, initially at **1.5 cells** offset. Its colours and the fixed **−2 to +2
-Pa** legend are approximate sampled pressure. **Black means an invalid sample**;
-the validity panel makes this explicit. Change the pressure-colour sliders to
+normals, initially at **1.5 cells** offset. Its colours and the fixed **0 to 4 Pa** legend are approximate sampled pressure. **Black means an invalid sample**;
+the validity panel makes this explicit. The verified default cases sampled
+2.66–3.87 Pa; the shared 0–4 Pa range includes gauge zero and avoids clipping
+that positive offset. Change the pressure-colour sliders to
 inspect the display without changing the solver. This is not a local surface
 force/load-cell result. The editable construction mesh is visible only while
 Run is off. A stock NOT / Cull Pattern gate hides it automatically when Run
