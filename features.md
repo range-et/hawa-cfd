@@ -29,6 +29,7 @@ example checks.
 | Dynamic native controls and checkpoint data | Setup/View edits apply directly; Run remains explicit. Save data captures a bounded stationary native checkpoint. Import validates before replacement and restores paused for viewing or explicit continuation. Imported physics is read-only; `.3dm` reopen requires data re-import. Bounded Mac CPU host checks and Windows headless CUDA exact continuation pass; Windows UI and release are not claimed. | [Data contract](docs/native-data.md), [host evidence](docs/verification-export-completion-host.json), [CUDA evidence](docs/verification-pr119-windows-cuda-2026-11-17.json) |
 | Record and playback | Field snapshots, physical-time metadata and playback within documented formats and limits. Particles and time-dependent pathlines were removed (see history, November 12, 2026). | [GH examples](examples/grasshopper/README.md), [0.4 report](docs/release-notes-v0.4.0.md) |
 | Asynchronous design search | Completed-candidate objectives, best-result history and cooperative controls. Hull geometry is an example recipe, not a public hull-construction service. | [GH examples (example 10)](examples/grasshopper/README.md), [node boundary](docs/node-catalog-v0.5.md) |
+| CPU stationary mesh study bridge | Bounded asynchronous mesh rotation/voxelization, sequential measured cases, selected immutable field and integrated load/probe histories. Headless CPU lifecycle/identity tests and ten coarse Mac Grasshopper lifecycle phases pass. The exact-double seam/queued repairs pass 155 linked contracts plus native serializer and ten-phase lifecycle checks on the newly installed assembly. Two fine-grid cases and the video retain the earlier assembly provenance; exact default-mesh payload equality supports their scoped reuse. Numerical qualification remains open. Pressure colours are not local face forces. | [Bridge contract](docs/stationary-study.md), [measurement contract](docs/measurement-contract-v1.md) |
 | Local airfoil and wing tools | Offline coordinates/NACA generation, supplied local polars and attached-flow lifting line. Bundled polar is synthetic format data; no viscous/stall CFD claim. | [Plugin guide](docs/plugin.md), [release limits](docs/release-notes-v0.4.0.md) |
 | Curved stationary walls and fixed refinement | Experimental curved links and one fixed 2:1 BGK patch with explicit unsupported combinations. Multiple-region refinement remains HAWA-009. | [0.4 numerical evidence](docs/release-notes-v0.4.0.md), [coverage](examples/grasshopper/VERIFICATION.md) |
 | Prescribed rigid motion and cycle objectives | Translation/rotation/oscillation, raw loads and complete-cycle search. No force-driven body response, free surface, buoyancy or validated propeller prediction. | [Motion guide](docs/moving-surfaces-v0.4.md), [motion evidence](docs/verification-motion-v0.4.json) |
@@ -36,7 +37,7 @@ example checks.
 | Shared boundary foundation | Physical patch schema plus bounded LBM NEE wall/slip/velocity/open reconstruction; corrected closure is explicitly versioned. Full reversing/cropped/atmospheric capability is not established. | [Boundary guide](docs/general-boundaries.md), [gate record](docs/general-boundaries-review.md) |
 | Experimental neutral flow | Shifted-population regularized SGS with molecular-air input viscosity (FP32 storage does not represent molecular dissipation at 0.1–10 m; runtime `dissipation_storage` diagnostic, [#13](https://github.com/range-et/hawa-cfd/issues/13)), sampled/filtered planar rough-floor stress and restart state. External mode adds halo-classified cropped buildings, side/top velocity or open faces, pressure reference and measured link mass budget. Pressure-backflow open faces now pass a pressure-driven reversal test; open faces of both boundary methods reflect acoustic pulses and fail the declared vortex-exit criterion ([HAWA-004 record](docs/boundary-reflection-review.md)). Analytic wall, convected-disturbance, stationary-channel and scoped CPU/MPS/Rhino checks pass. Full atmospheric accuracy and nesting qualification remain open. | [Coupling review](docs/neutral-coupling-review.md), [verification](docs/verification-neutral-coupling.json); HAWA-003/004/011 in [GitHub Issues](https://github.com/range-et/hawa-cfd/issues) |
 | Device smoke gate | Five short existing cases (compatibility engine, KBC collision, neutral precursor, moving sphere, curved-wall channel) compared with a CPU FP64 reference under a committed bitwise/bounded policy, with a per-run manifest. The CPU mode runs in CI. CUDA (RTX 5070 Ti) and MPS (M3 Max) each passed 5/5 on merged main `71625aa`, so #57 is complete; other devices are not qualified. | [Gate guide](docs/device-smoke.md), [#57](https://github.com/range-et/hawa-cfd/issues/57) |
-| Compatibility and example coverage gate | G6 enumerates 102,582 finite contract rows, rejects incomplete/stale evidence and audits public nodes against GH workflows. Expanded Mac CPU/MPS and separate Windows CPU/CUDA candidate runs each pass 100,092 rows with zero failures and 2,490 unavailable-device rows blocked. All 2,490 CUDA rows pass on PR #119. Arbitrary graphs and continuous inputs are not exhaustively enumerated. | [G6 guide](docs/compatibility-matrix.md), [Mac machine report](docs/verification-compatibility.json), [Windows machine report](docs/verification-pr119-windows-cuda-2026-11-17.json) |
+| Compatibility and example coverage gate | G6 enumerates 102,615 finite contract rows, rejects incomplete/stale evidence and audits public nodes against GH workflows. Fresh Mac CPU/MPS integration passes 100,125 rows with zero failures and 2,490 CUDA rows blocked. PR #119's Windows CUDA evidence remains historical for its source; the new CPU-only stationary study guards accelerator requests. Arbitrary graphs and continuous inputs are not exhaustively enumerated. | [G6 guide](docs/compatibility-matrix.md), [current Mac report](docs/verification-wing-gh-compatibility.json), [historical Windows report](docs/verification-pr119-windows-cuda-2026-11-17.json) |
 | Boundary assignment annotations (display only) | Ephemeral viewport labels for accepted faces: IDs/types, inlet and prescribed-velocity arrows, inward normal ticks for pressure (solid) and open/outlet (dotted) faces labelled "open/pressure reference" or "open, extrapolated", wall/slip labels and periodic pair lines. Native: with a case and Domain wireframe on; hidden while a result is outdated. GH: Case and Boundary Set, only while selected. No picking, editing, baked geometry or physics change. Arrows show direction only. Labels sit off the face centre and draw without depth testing; GH annotations draw in Rhino's foreground after GH preview meshes. Live-checked on macOS (#38, #108): native on cbcd81c, GH on 9d6f4c5; the native outlet tick is faint at domain-fit zoom and some labels nearly touch. | [History](#november-13-2026--boundary-assignment-annotations-38-partial), [coverage](examples/grasshopper/VERIFICATION.md) |
 
 ## Headless testing expansion (November 9, 2026)
@@ -103,6 +104,30 @@ qualification failures remain open in HAWA-021/022; these repairs do not close t
 
 ## History
 
+
+### November 17, 2026 — CPU measurement foundation (#40, partial)
+
+Added isolated stationary body force/torque collection, strict SI pressure/load
+analysis, a poll-driven sweep controller and an example-only blended-wing mesh
+recipe. The collector preserves original populations in a bounded five-step
+CPU control; manufactured measurements exercise candidate identity and plot
+gaps. These are internal, headless building blocks, not a completed wind-tunnel
+workflow. Existing solver/service routes and #35 export work are unchanged.
+The follow-up now runs fresh real CPU sessions through a private sweep executor,
+voxelizes each rotated wing, captures pressure/load histories at the same solver
+phase, and returns attributed plot data with cooperative cleanup. Both demo
+angles passed the declared window/stationarity diagnostic at synthetic viscosity;
+this is not physical wing validation. [Real headless evidence](docs/review-real-headless-sweeps.md),
+[run guide](docs/headless-wing-sweeps.md). The follow-up predeclared grid/domain
+sensitivity screen failed despite accepted stationarity; see the
+[CPU validation follow-up](docs/review-cpu-sweep-validation.md). Public runtime/export adapters, GH graphs,
+device and physical qualification remain open. No Rhino, GPU, install, package or release claim. [Frozen contract](docs/measurement-contract-v1.md),
+[combined review](docs/review-measurement-foundation.md).
+Mutation review additionally reproduced and repaired ambient tensor-device
+leakage in the direct CPU collector ([#120](https://github.com/range-et/hawa-cfd/issues/120)).
+Explicit CPU allocation now survives a non-computing meta-device trap in focused
+regressions; this is allocation isolation, not accelerator qualification or release.
+
 ### November 17, 2026 — Numerical exports and native checkpoint workflow (#35 / HAWA-033)
 
 PR #119 completes ordered probe and retained moving-load CSV, native paused or
@@ -117,6 +142,7 @@ This is bounded implementation verification, not a release, Windows UI acceptanc
 or physical qualification; #34 baking remains separate.
 [Completion review](docs/review-export-completion.md) and
 [Windows evidence](docs/verification-pr119-windows-cuda-2026-11-17.json).
+
 
 ### November 17, 2026 — Windows verification portability (#117)
 
@@ -761,6 +787,38 @@ at 1.5 m and 9 m; owned resources returned to zero. No solver qualification or
 release claim. [Review](docs/review-parent-child-canvas.md) and
 [machine evidence](docs/verification-parent-child-canvas.json).
 
+## November 17, 2026 — worker assertions and sensitivity diagnosis (#40)
+
+CPU worker/collector mutation controls now pass the exact reviewed 1,757-mutant
+policy (1,564 kills, 193 reviewed survivors). Fresh merged-main CPU suites and
+measured coverage pass. Eight controlled wing runs identify strong vertical-face
+and body-sampling sensitivity; the original grid/domain gate remains failed.
+[Review and limits](docs/review-worker-and-wing-diagnosis.md).
+
+## November 17, 2026 — saved wing-sweep viewing example (#40 partial)
+
+The CPU/headless wing workflow now has a runnable saved HTML example with
+identified CL/CD plots, candidate-linked mesh/load/probe/field views and escaped
+provenance. A real two-angle CPU run is included; rejected points leave gaps.
+Focused Python 3.9/3.12 tests and figure inspection pass. This is a viewing
+artifact, not a checkpoint, public GH workflow, CSV integration or physical
+qualification; #40 remains open. [Example](examples/headless-wing/README.md),
+[review and limits](docs/review-wing-report-example.md).
+
+## November 17, 2026 — finer wing resource admission (#40 partial)
+
+The explicit CPU collector/recipe now admits up to 500000 cells per case while
+retaining its existing aggregate sweep budgets. The requested 499041-cell wing
+pilot used about 615 MiB peak RSS, with 0.123 s pause acknowledgement and 0.187 s
+cancel/drain; no owned workers/sessions remained. Exact-cap and preallocation
+rejection tests pass. The report now selects 10 mm cells by default, with an
+explicit 25 mm `--coarse` option and matched physical averaging windows. Both fine-grid cases and matched-time coarse comparisons completed with
+usable windows and zero resources after cleanup. The lift refinement screen
+still fails (absolute CL changes 0.12780/0.11503 against 0.02); numerical
+qualification remains open in #40. The original coarse report is preserved.
+[Protocol](docs/wing-fine-report-protocol.md),
+[pilot](docs/verification-wing-fine-preflight.json),
+[fine-run evidence](docs/verification-wing-fine-report.json).
 ## November17,2026 — importable native workflow example
 
 Example34 adds an idle Rhino document, a real CPU60-step checkpoint and a

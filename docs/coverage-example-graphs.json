@@ -2560,6 +2560,219 @@
       ]
     },
     {
+      "type": "StationaryStudyComponent",
+      "guid": "4823e5ad-f4fb-4b62-96e3-127989a184b5",
+      "name": "Hawa Stationary Study",
+      "category": "05 Solve",
+      "inputs": [
+        {
+          "name": "Case",
+          "description": "Empty-solid, world-axis uniform physical BGK case",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_GenericObject"
+        },
+        {
+          "name": "Mesh",
+          "description": "Closed reference body mesh in model coordinates",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_Mesh"
+        },
+        {
+          "name": "Angles",
+          "description": "Degrees about world \u002BY; ordered outer loop",
+          "access": "list",
+          "optional": false,
+          "parameter_type": "Param_Number"
+        },
+        {
+          "name": "Speeds",
+          "description": "Positive inlet speeds in m/s; ordered inner loop",
+          "access": "list",
+          "optional": false,
+          "parameter_type": "Param_Number"
+        },
+        {
+          "name": "Reference area",
+          "description": "Fixed physical reference area in m\u00B2",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_Number"
+        },
+        {
+          "name": "Reference chord",
+          "description": "Physical reference chord in m",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_Number"
+        },
+        {
+          "name": "Pivot",
+          "description": "Rotation and moment origin in model coordinates",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_Point"
+        },
+        {
+          "name": "Probes",
+          "description": "Optional fixed-world pressure probes in model coordinates",
+          "access": "list",
+          "optional": true,
+          "parameter_type": "Param_Point"
+        },
+        {
+          "name": "Settling steps",
+          "description": "Discard before the averaging window",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_Integer"
+        },
+        {
+          "name": "Sample steps",
+          "description": "At least four samples per candidate",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_Integer"
+        },
+        {
+          "name": "Stationarity tolerance",
+          "description": "Absolute coefficient drift criterion",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_Number"
+        },
+        {
+          "name": "Selected case",
+          "description": "Zero-based completed result to view; does not restart",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_Integer"
+        },
+        {
+          "name": "Run",
+          "description": "False cancels; saved true opens idle; off/on after input edits",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_Boolean"
+        },
+        {
+          "name": "Pause",
+          "description": "Cooperatively pause at a step boundary",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_Boolean"
+        },
+        {
+          "name": "Cancel",
+          "description": "Cancel and clear this study; set Run off/on to restart",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_Boolean"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Field",
+          "description": "Selected accepted immutable field capture",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_GenericObject"
+        },
+        {
+          "name": "Selected mesh",
+          "description": "Same selected candidate mesh in model coordinates",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_Mesh"
+        },
+        {
+          "name": "Force",
+          "description": "Whole-body mean fluid force in world axes, N",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_Vector"
+        },
+        {
+          "name": "Moment",
+          "description": "Whole-body mean moment about Pivot, world axes, N m",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_Vector"
+        },
+        {
+          "name": "CL",
+          "description": "Aligned coefficients; null for unusable cases",
+          "access": "list",
+          "optional": false,
+          "parameter_type": "Param_Number"
+        },
+        {
+          "name": "CD",
+          "description": "Aligned coefficients; null for unusable cases",
+          "access": "list",
+          "optional": false,
+          "parameter_type": "Param_Number"
+        },
+        {
+          "name": "CM",
+          "description": "Aligned pitching coefficients; null for unusable cases",
+          "access": "list",
+          "optional": false,
+          "parameter_type": "Param_Number"
+        },
+        {
+          "name": "Cases",
+          "description": "Ordered candidate IDs, state and rejection reason",
+          "access": "list",
+          "optional": false,
+          "parameter_type": "Param_String"
+        },
+        {
+          "name": "Report",
+          "description": "Study progress and limitations",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_String"
+        },
+        {
+          "name": "Identity",
+          "description": "Selected candidate, capture and mean-window provenance",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_String"
+        },
+        {
+          "name": "Angles",
+          "description": "Aligned operating angles in degrees",
+          "access": "list",
+          "optional": false,
+          "parameter_type": "Param_Number"
+        },
+        {
+          "name": "Speeds",
+          "description": "Aligned operating speeds in m/s",
+          "access": "list",
+          "optional": false,
+          "parameter_type": "Param_Number"
+        },
+        {
+          "name": "Lift",
+          "description": "Whole-body mean force projected on world \u002BZ, N",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_Number"
+        },
+        {
+          "name": "Drag",
+          "description": "Whole-body mean force projected on world \u002BX, N",
+          "access": "item",
+          "optional": false,
+          "parameter_type": "Param_Number"
+        }
+      ]
+    },
+    {
       "type": "StreamlinesComponent",
       "guid": "a7bb3b0a-ae4f-42ae-9301-a3c55f077114",
       "name": "Hawa Streamlines",
@@ -7649,6 +7862,767 @@
         }
       ],
       "guide_panels": 7,
+      "true_toggles": []
+    },
+    {
+      "file": "examples/grasshopper/35-parametric-wing-study.gh",
+      "archive_errors": 0,
+      "sha256": "bb293360a6406a93d7fc545996dd9b0e3be5a7445a6b3981e1525da9b35d5580",
+      "nodes": [
+        "AirfoilComponent",
+        "BoundariesComponent",
+        "CaseComponent",
+        "ColorMapComponent",
+        "DomainComponent",
+        "DomainPreviewComponent",
+        "GeometryCheckComponent",
+        "LegendComponent",
+        "PhysicsComponent",
+        "RuntimeComponent",
+        "StationaryStudyComponent",
+        "SurfaceFieldComponent"
+      ],
+      "edges": [
+        {
+          "from_type": "GH_Panel",
+          "from_port": 0,
+          "to_type": "AirfoilComponent",
+          "to_port": 0
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "AirfoilComponent",
+          "to_port": 1
+        },
+        {
+          "from_type": "Param_Plane",
+          "from_port": 0,
+          "to_type": "AirfoilComponent",
+          "to_port": 2
+        },
+        {
+          "from_type": "GH_Panel",
+          "from_port": 0,
+          "to_type": "AirfoilComponent",
+          "to_port": 0
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "AirfoilComponent",
+          "to_port": 1
+        },
+        {
+          "from_type": "Param_Plane",
+          "from_port": 0,
+          "to_type": "AirfoilComponent",
+          "to_port": 2
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "Component_Expression",
+          "to_port": 0
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "Component_Expression",
+          "to_port": 1
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "Component_Expression",
+          "to_port": 0
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "Component_Expression",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Expression",
+          "from_port": 0,
+          "to_type": "Component_ConstructVector",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Expression",
+          "from_port": 0,
+          "to_type": "Component_ConstructVector",
+          "to_port": 1
+        },
+        {
+          "from_type": "Component_Expression",
+          "from_port": 0,
+          "to_type": "Component_ConstructVector",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Expression",
+          "from_port": 0,
+          "to_type": "Component_ConstructVector",
+          "to_port": 1
+        },
+        {
+          "from_type": "AirfoilComponent",
+          "from_port": 0,
+          "to_type": "Component_Move",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_ConstructVector",
+          "from_port": 0,
+          "to_type": "Component_Move",
+          "to_port": 1
+        },
+        {
+          "from_type": "AirfoilComponent",
+          "from_port": 0,
+          "to_type": "Component_Move",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_ConstructVector",
+          "from_port": 0,
+          "to_type": "Component_Move",
+          "to_port": 1
+        },
+        {
+          "from_type": "Param_Curve",
+          "from_port": 0,
+          "to_type": "Component_LoftSurface",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_LoftSurface",
+          "from_port": 0,
+          "to_type": "Component_CapHoles",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_CapHoles",
+          "from_port": 0,
+          "to_type": "Component_MeshBRep",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_MeshSettingsCustom",
+          "from_port": 0,
+          "to_type": "Component_MeshBRep",
+          "to_port": 1
+        },
+        {
+          "from_type": "Component_MeshBRep",
+          "from_port": 0,
+          "to_type": "Component_MeshJoin",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_MeshJoin",
+          "from_port": 0,
+          "to_type": "Component_MeshWeld",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_MeshWeld",
+          "from_port": 0,
+          "to_type": "GH_Component_UnifyMeshNormals",
+          "to_port": 0
+        },
+        {
+          "from_type": "Param_Mesh",
+          "from_port": 0,
+          "to_type": "GeometryCheckComponent",
+          "to_port": 0
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "GeometryCheckComponent",
+          "to_port": 1
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "Component_Expression",
+          "to_port": 0
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "Component_Expression",
+          "to_port": 1
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "Component_Expression",
+          "to_port": 2
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "Component_Expression",
+          "to_port": 0
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "Component_Expression",
+          "to_port": 1
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "Component_Expression",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Expression",
+          "from_port": 0,
+          "to_type": "Component_ConstructPoint",
+          "to_port": 0
+        },
+        {
+          "from_type": "GH_BooleanToggle",
+          "from_port": 0,
+          "to_type": "RuntimeComponent",
+          "to_port": 0
+        },
+        {
+          "from_type": "Param_Box",
+          "from_port": 0,
+          "to_type": "DomainComponent",
+          "to_port": 0
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "DomainComponent",
+          "to_port": 1
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "PhysicsComponent",
+          "to_port": 1
+        },
+        {
+          "from_type": "DomainComponent",
+          "from_port": 0,
+          "to_type": "CaseComponent",
+          "to_port": 0
+        },
+        {
+          "from_type": "PhysicsComponent",
+          "from_port": 0,
+          "to_type": "CaseComponent",
+          "to_port": 2
+        },
+        {
+          "from_type": "BoundariesComponent",
+          "from_port": 0,
+          "to_type": "CaseComponent",
+          "to_port": 3
+        },
+        {
+          "from_type": "DomainComponent",
+          "from_port": 0,
+          "to_type": "DomainPreviewComponent",
+          "to_port": 0
+        },
+        {
+          "from_type": "CaseComponent",
+          "from_port": 0,
+          "to_type": "StationaryStudyComponent",
+          "to_port": 0
+        },
+        {
+          "from_type": "Param_Mesh",
+          "from_port": 0,
+          "to_type": "StationaryStudyComponent",
+          "to_port": 1
+        },
+        {
+          "from_type": "Param_Number",
+          "from_port": 0,
+          "to_type": "StationaryStudyComponent",
+          "to_port": 2
+        },
+        {
+          "from_type": "Param_Number",
+          "from_port": 0,
+          "to_type": "StationaryStudyComponent",
+          "to_port": 3
+        },
+        {
+          "from_type": "Component_Expression",
+          "from_port": 0,
+          "to_type": "StationaryStudyComponent",
+          "to_port": 4
+        },
+        {
+          "from_type": "Component_Expression",
+          "from_port": 0,
+          "to_type": "StationaryStudyComponent",
+          "to_port": 5
+        },
+        {
+          "from_type": "Component_ConstructPoint",
+          "from_port": 0,
+          "to_type": "StationaryStudyComponent",
+          "to_port": 6
+        },
+        {
+          "from_type": "Param_Point",
+          "from_port": 0,
+          "to_type": "StationaryStudyComponent",
+          "to_port": 7
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "StationaryStudyComponent",
+          "to_port": 8
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "StationaryStudyComponent",
+          "to_port": 9
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "StationaryStudyComponent",
+          "to_port": 10
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "StationaryStudyComponent",
+          "to_port": 11
+        },
+        {
+          "from_type": "GH_BooleanToggle",
+          "from_port": 0,
+          "to_type": "StationaryStudyComponent",
+          "to_port": 12
+        },
+        {
+          "from_type": "GH_BooleanToggle",
+          "from_port": 0,
+          "to_type": "StationaryStudyComponent",
+          "to_port": 13
+        },
+        {
+          "from_type": "GH_BooleanToggle",
+          "from_port": 0,
+          "to_type": "StationaryStudyComponent",
+          "to_port": 14
+        },
+        {
+          "from_type": "StationaryStudyComponent",
+          "from_port": 2,
+          "to_type": "Component_DeconstructVector",
+          "to_port": 0
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "ColorMapComponent",
+          "to_port": 1
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "ColorMapComponent",
+          "to_port": 2
+        },
+        {
+          "from_type": "GH_NumberSlider",
+          "from_port": 0,
+          "to_type": "Component_Expression",
+          "to_port": 0
+        },
+        {
+          "from_type": "StationaryStudyComponent",
+          "from_port": 0,
+          "to_type": "SurfaceFieldComponent",
+          "to_port": 0
+        },
+        {
+          "from_type": "StationaryStudyComponent",
+          "from_port": 1,
+          "to_type": "SurfaceFieldComponent",
+          "to_port": 1
+        },
+        {
+          "from_type": "Component_Expression",
+          "from_port": 0,
+          "to_type": "SurfaceFieldComponent",
+          "to_port": 3
+        },
+        {
+          "from_type": "ColorMapComponent",
+          "from_port": 0,
+          "to_type": "SurfaceFieldComponent",
+          "to_port": 4
+        },
+        {
+          "from_type": "ColorMapComponent",
+          "from_port": 0,
+          "to_type": "LegendComponent",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Summation_OBSOLETE",
+          "from_port": 0,
+          "to_type": "Component_ConstructPoint",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Summation_OBSOLETE",
+          "from_port": 0,
+          "to_type": "Component_ConstructPoint",
+          "to_port": 1
+        },
+        {
+          "from_type": "Param_Point",
+          "from_port": 0,
+          "to_type": "GH_TextTag3DComponent_OBSOLETE",
+          "to_port": 0
+        },
+        {
+          "from_type": "Param_String",
+          "from_port": 0,
+          "to_type": "GH_TextTag3DComponent_OBSOLETE",
+          "to_port": 1
+        },
+        {
+          "from_type": "Component_Summation_OBSOLETE",
+          "from_port": 0,
+          "to_type": "Component_ConstructPoint",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Summation_OBSOLETE",
+          "from_port": 0,
+          "to_type": "Component_ConstructPoint",
+          "to_port": 1
+        },
+        {
+          "from_type": "Param_Point",
+          "from_port": 0,
+          "to_type": "GH_TextTag3DComponent_OBSOLETE",
+          "to_port": 0
+        },
+        {
+          "from_type": "Param_String",
+          "from_port": 0,
+          "to_type": "GH_TextTag3DComponent_OBSOLETE",
+          "to_port": 1
+        },
+        {
+          "from_type": "Component_Summation_OBSOLETE",
+          "from_port": 0,
+          "to_type": "Component_ConstructPoint",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Summation_OBSOLETE",
+          "from_port": 0,
+          "to_type": "Component_ConstructPoint",
+          "to_port": 1
+        },
+        {
+          "from_type": "Param_Point",
+          "from_port": 0,
+          "to_type": "GH_TextTag3DComponent_OBSOLETE",
+          "to_port": 0
+        },
+        {
+          "from_type": "Param_String",
+          "from_port": 0,
+          "to_type": "GH_TextTag3DComponent_OBSOLETE",
+          "to_port": 1
+        },
+        {
+          "from_type": "StationaryStudyComponent",
+          "from_port": 10,
+          "to_type": "Component_IsNullOrInvalid",
+          "to_port": 0
+        },
+        {
+          "from_type": "StationaryStudyComponent",
+          "from_port": 4,
+          "to_type": "Component_IsNullOrInvalid",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_IsNullOrInvalid",
+          "from_port": 0,
+          "to_type": "Component_NorGate",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_IsNullOrInvalid",
+          "from_port": 0,
+          "to_type": "Component_NorGate",
+          "to_port": 1
+        },
+        {
+          "from_type": "StationaryStudyComponent",
+          "from_port": 10,
+          "to_type": "Component_CullPattern",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_NorGate",
+          "from_port": 0,
+          "to_type": "Component_CullPattern",
+          "to_port": 1
+        },
+        {
+          "from_type": "StationaryStudyComponent",
+          "from_port": 4,
+          "to_type": "Component_CullPattern",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_NorGate",
+          "from_port": 0,
+          "to_type": "Component_CullPattern",
+          "to_port": 1
+        },
+        {
+          "from_type": "Component_CullPattern",
+          "from_port": 0,
+          "to_type": "Component_Multiplication_OBSOLETE",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Expression",
+          "from_port": 0,
+          "to_type": "Component_Multiplication_OBSOLETE",
+          "to_port": 1
+        },
+        {
+          "from_type": "Component_CullPattern",
+          "from_port": 0,
+          "to_type": "Component_Multiplication_OBSOLETE",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Expression",
+          "from_port": 0,
+          "to_type": "Component_Multiplication_OBSOLETE",
+          "to_port": 1
+        },
+        {
+          "from_type": "Component_Multiplication_OBSOLETE",
+          "from_port": 0,
+          "to_type": "Component_Summation_OBSOLETE",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Multiplication_OBSOLETE",
+          "from_port": 0,
+          "to_type": "Component_Summation_OBSOLETE",
+          "to_port": 0
+        },
+        {
+          "from_type": "StationaryStudyComponent",
+          "from_port": 10,
+          "to_type": "Component_IsNullOrInvalid",
+          "to_port": 0
+        },
+        {
+          "from_type": "StationaryStudyComponent",
+          "from_port": 5,
+          "to_type": "Component_IsNullOrInvalid",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_IsNullOrInvalid",
+          "from_port": 0,
+          "to_type": "Component_NorGate",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_IsNullOrInvalid",
+          "from_port": 0,
+          "to_type": "Component_NorGate",
+          "to_port": 1
+        },
+        {
+          "from_type": "StationaryStudyComponent",
+          "from_port": 10,
+          "to_type": "Component_CullPattern",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_NorGate",
+          "from_port": 0,
+          "to_type": "Component_CullPattern",
+          "to_port": 1
+        },
+        {
+          "from_type": "StationaryStudyComponent",
+          "from_port": 5,
+          "to_type": "Component_CullPattern",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_NorGate",
+          "from_port": 0,
+          "to_type": "Component_CullPattern",
+          "to_port": 1
+        },
+        {
+          "from_type": "Component_CullPattern",
+          "from_port": 0,
+          "to_type": "Component_Multiplication_OBSOLETE",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Expression",
+          "from_port": 0,
+          "to_type": "Component_Multiplication_OBSOLETE",
+          "to_port": 1
+        },
+        {
+          "from_type": "Component_CullPattern",
+          "from_port": 0,
+          "to_type": "Component_Multiplication_OBSOLETE",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Expression",
+          "from_port": 0,
+          "to_type": "Component_Multiplication_OBSOLETE",
+          "to_port": 1
+        },
+        {
+          "from_type": "Component_Multiplication_OBSOLETE",
+          "from_port": 0,
+          "to_type": "Component_Summation_OBSOLETE",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Multiplication_OBSOLETE",
+          "from_port": 0,
+          "to_type": "Component_Summation_OBSOLETE",
+          "to_port": 0
+        },
+        {
+          "from_type": "StationaryStudyComponent",
+          "from_port": 5,
+          "to_type": "Component_IsNullOrInvalid",
+          "to_port": 0
+        },
+        {
+          "from_type": "StationaryStudyComponent",
+          "from_port": 4,
+          "to_type": "Component_IsNullOrInvalid",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_IsNullOrInvalid",
+          "from_port": 0,
+          "to_type": "Component_NorGate",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_IsNullOrInvalid",
+          "from_port": 0,
+          "to_type": "Component_NorGate",
+          "to_port": 1
+        },
+        {
+          "from_type": "StationaryStudyComponent",
+          "from_port": 5,
+          "to_type": "Component_CullPattern",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_NorGate",
+          "from_port": 0,
+          "to_type": "Component_CullPattern",
+          "to_port": 1
+        },
+        {
+          "from_type": "StationaryStudyComponent",
+          "from_port": 4,
+          "to_type": "Component_CullPattern",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_NorGate",
+          "from_port": 0,
+          "to_type": "Component_CullPattern",
+          "to_port": 1
+        },
+        {
+          "from_type": "Component_CullPattern",
+          "from_port": 0,
+          "to_type": "Component_Multiplication_OBSOLETE",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Expression",
+          "from_port": 0,
+          "to_type": "Component_Multiplication_OBSOLETE",
+          "to_port": 1
+        },
+        {
+          "from_type": "Component_CullPattern",
+          "from_port": 0,
+          "to_type": "Component_Multiplication_OBSOLETE",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Expression",
+          "from_port": 0,
+          "to_type": "Component_Multiplication_OBSOLETE",
+          "to_port": 1
+        },
+        {
+          "from_type": "Component_Multiplication_OBSOLETE",
+          "from_port": 0,
+          "to_type": "Component_Summation_OBSOLETE",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_Multiplication_OBSOLETE",
+          "from_port": 0,
+          "to_type": "Component_Summation_OBSOLETE",
+          "to_port": 0
+        },
+        {
+          "from_type": "GH_BooleanToggle",
+          "from_port": 0,
+          "to_type": "Component_NotGate",
+          "to_port": 0
+        },
+        {
+          "from_type": "Param_Mesh",
+          "from_port": 0,
+          "to_type": "Component_CullPattern",
+          "to_port": 0
+        },
+        {
+          "from_type": "Component_NotGate",
+          "from_port": 0,
+          "to_type": "Component_CullPattern",
+          "to_port": 1
+        }
+      ],
+      "guide_panels": 3,
       "true_toggles": []
     },
     {

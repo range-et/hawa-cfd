@@ -1,0 +1,218 @@
+{
+  "$defs": {
+    "Body": {
+      "additionalProperties": false,
+      "properties": {
+        "body_id": {
+          "minLength": 1,
+          "title": "Body Id",
+          "type": "string"
+        },
+        "moment_origin_world_m": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Moment Origin World M",
+          "type": "array"
+        }
+      },
+      "required": [
+        "body_id",
+        "moment_origin_world_m"
+      ],
+      "title": "Body",
+      "type": "object"
+    },
+    "Identity": {
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "minLength": 1,
+          "title": "Case Id",
+          "type": "string"
+        },
+        "candidate_id": {
+          "minLength": 1,
+          "title": "Candidate Id",
+          "type": "string"
+        },
+        "case_hash": {
+          "minLength": 1,
+          "title": "Case Hash",
+          "type": "string"
+        },
+        "geometry_hash": {
+          "minLength": 1,
+          "title": "Geometry Hash",
+          "type": "string"
+        },
+        "revision": {
+          "minimum": 0,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "case_id",
+        "candidate_id",
+        "case_hash",
+        "geometry_hash",
+        "revision",
+        "generation"
+      ],
+      "title": "Identity",
+      "type": "object"
+    },
+    "References": {
+      "additionalProperties": false,
+      "properties": {
+        "density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Density Kg M3",
+          "type": "number"
+        },
+        "speed_m_s": {
+          "exclusiveMinimum": 0,
+          "title": "Speed M S",
+          "type": "number"
+        },
+        "area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Area M2",
+          "type": "number"
+        },
+        "chord_m": {
+          "exclusiveMinimum": 0,
+          "title": "Chord M",
+          "type": "number"
+        },
+        "pressure_pa": {
+          "title": "Pressure Pa",
+          "type": "number"
+        },
+        "drag_axis_world": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Drag Axis World",
+          "type": "array"
+        },
+        "lift_axis_world": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Lift Axis World",
+          "type": "array"
+        }
+      },
+      "required": [
+        "density_kg_m3",
+        "speed_m_s",
+        "area_m2",
+        "chord_m",
+        "pressure_pa",
+        "drag_axis_world",
+        "lift_axis_world"
+      ],
+      "title": "References",
+      "type": "object"
+    },
+    "Window": {
+      "additionalProperties": false,
+      "properties": {
+        "start_s": {
+          "minimum": 0,
+          "title": "Start S",
+          "type": "number"
+        },
+        "end_s": {
+          "exclusiveMinimum": 0,
+          "title": "End S",
+          "type": "number"
+        },
+        "minimum_samples": {
+          "maximum": 100000,
+          "minimum": 4,
+          "title": "Minimum Samples",
+          "type": "integer"
+        },
+        "stationarity_absolute_coefficient_tolerance": {
+          "minimum": 0,
+          "title": "Stationarity Absolute Coefficient Tolerance",
+          "type": "number"
+        }
+      },
+      "required": [
+        "start_s",
+        "end_s",
+        "minimum_samples",
+        "stationarity_absolute_coefficient_tolerance"
+      ],
+      "title": "Window",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "hawa-measurement-1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "identity": {
+      "$ref": "#/$defs/Identity"
+    },
+    "references": {
+      "$ref": "#/$defs/References"
+    },
+    "bodies": {
+      "items": {
+        "$ref": "#/$defs/Body"
+      },
+      "maxItems": 4,
+      "minItems": 1,
+      "title": "Bodies",
+      "type": "array"
+    },
+    "window": {
+      "$ref": "#/$defs/Window"
+    },
+    "load_axis_world": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Load Axis World"
+    }
+  },
+  "required": [
+    "schema",
+    "identity",
+    "references",
+    "bodies",
+    "window"
+  ],
+  "title": "Request",
+  "type": "object"
+}

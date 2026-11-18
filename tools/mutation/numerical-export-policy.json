@@ -469,7 +469,7 @@
   "sources": {
     "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
     "src/hawa/plugin.py": "a54abd1eb7e147432882a6c390528e8976304c4432804b173068f2df1dc0f289",
-    "src/hawa/jobs.py": "c99c593281f82c8fe7968941e1cb4f30fa4ea76a5c370dd3bc04b89db3e55af2",
+    "src/hawa/jobs.py": "66458c68fdd02c99deada669d57afcf12c118128bebe9180d5ef6ac06ff960d2",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/test_csv_export.py": "bd7ae21aa9524b2ee5deb8e018f8f7b939e0642a348923c8d5fe939c2d2d3f82",
     "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
@@ -480,17 +480,18 @@
     "tests/test_native_data_status.py": "e526cd814ebadbf5ca64a94f5979cd76c2af9e3c55174da78453d912492cc1e1",
     "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c"
   },
-  "scope": "Issue35 CSV field/probe/load capture and shared export/native-data job routing changed lines versus0e76b95; native_data.py has a dedicated whole-module policy; no solver numerical changes",
+  "scope": "Issue35 CSV field/probe/load capture and shared export/native-data job routing changed lines versus0e76b95; native_data.py has a dedicated whole-module policy; no solver numerical changes Includes stationary-study submit/selected-poll routing with real CPU controls; not a whole-module mutation claim for the new study service.",
   "control_test_files": [
     "tests/test_csv_export.py",
     "tests/test_csv_tables.py",
     "tests/test_export.py",
     "tests/test_native_data.py",
     "tests/test_runtime_job_contracts.py",
-    "tests/test_native_data_status.py"
+    "tests/test_native_data_status.py",
+    "tests/test_stationary_study.py"
   ],
   "base_revision": "0e76b95",
   "tool": "mutmut==3.7.0",
-  "mutants": 1357,
-  "inventory_sha256": "d4dc930af25dd739226592bad087ed90aa6a7bc2ac6ff06a2bddc902f4fcc804"
+  "mutants": 1382,
+  "inventory_sha256": "21fe909dd3acccae2d6aefe9276aca7899ac514296b00b75c01d32dfc18a3986"
 }

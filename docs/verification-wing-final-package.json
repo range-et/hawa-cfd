@@ -1,0 +1,24 @@
+{
+  "archive": "dist/Hawa-wing-exact-weld-installed.zip",
+  "sha256": "758b14b93af354461b01863a553d4c9e84be9337bf30c86c0df8c83a4630d1ef",
+  "zip_integrity": true,
+  "legacy09_absent": true,
+  "extracted_source_renderer": {
+    "renderer": "/Users/r2d2/Desktop/hawa-wing-wrapup-integration/results/package-exact-weld-readback/Hawa/source/scripts/wing_sweep_report.py",
+    "hawa": "/Users/r2d2/Desktop/hawa-wing-wrapup-integration/results/package-exact-weld-readback/Hawa/source/src/hawa/__init__.py",
+    "offline_css": true,
+    "font_tokens": true
+  },
+  "video_sha256": "33edb183a7dcb8750b6b5d844ac96d036a0575e9a6936333e5822f1a519299e3",
+  "video_bytes": 895059,
+  "binaries": {
+    "Hawa.Rhino.rhp": "948dda2e4b4e8ec763821eea13e291fe4860b3b257ffc26aa4523d4fc8cafa5d",
+    "Hawa.Grasshopper.gha": "eba06c834781dabb96ff12b494ba14f38bd47119af10bfb037a673652e7b2469",
+    "Hawa.Shared.dll": "5eef4a56a175a04c2f110eb3ff9492b9f2c8213397a103b9564c1cbfef420bae"
+  },
+  "schema": 1,
+  "reviewer": "Codex root package readback; wing_wrapup evidence reconciliation",
+  "readback_sha256": "c51ff9a90234670467c404ee0929731feca52f4fb40f41f242b754725f40aa40",
+  "status": "Tested exact-weld installed development candidate passed; final documentation-only repack is root-owned",
+  "scope": "ZIP integrity, expected binaries/video, excluded legacy09 and real renderer executed from extracted corresponding source. Final repack preserves these tested binaries and incorporates final documentation. No circular hash of the archive containing this record is asserted."
+}

@@ -219,7 +219,13 @@ def dispatch_job(request):
         if request.get('kind') == 'refine':
             from .refinement import check_refinement
             check_refinement(request)
-        job = Job({k:v for k,v in request.items() if k != 'op'})
+        payload = {k:v for k,v in request.items() if k != 'op'}
+        if request.get('kind') == 'stationary_study':
+            from .stationary_study import StationaryStudyJob, validate_submission
+            validate_submission(payload)
+            job = StationaryStudyJob(payload)
+        else:
+            job = Job(payload)
         with LOCK:
             if len(JOBS) >= 32:
                 raise ValueError('Close unused evaluation jobs before submitting more')
@@ -238,4 +244,6 @@ def dispatch_job(request):
                 JOBS.pop(job.id, None)
     elif request['op'] != 'evaluate_poll':
         raise ValueError('Unknown evaluation operation')
+    if job.request.get('kind') == 'stationary_study':
+        return job.snapshot(request.get('selected_candidate'))
     return job.snapshot()

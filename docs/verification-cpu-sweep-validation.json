@@ -1,0 +1,62 @@
+{
+  "schema": "hawa-cpu-sweep-validation-1",
+  "date": "2026-11-17",
+  "operator": "Codex root",
+  "device": "cpu",
+  "source_test_commit": "bbba4e8",
+  "core_mutation": {
+    "mutants": 1108,
+    "killed": 1008,
+    "reviewed_survivors": 100,
+    "control_tests": 163,
+    "policy_pass": true,
+    "scope": "measurement SI analysis and sequential sweep ownership; excludes decorated Pydantic class validators, worker/collector, recipes and host adapters"
+  },
+  "worker_mutation": {
+    "mutants": 1736,
+    "raw_exit_counts": {
+      "1": 1277,
+      "0": 459
+    },
+    "inventory_sha256": "53203506151b14169d3145b67be44ff7628d70bb88806603dc5ae8928c9c16d8",
+    "control_tests": 92,
+    "policy_pass": false,
+    "disposition": "Exploratory: 459 survivors require assertion improvements and exact-diff review; not a gate pass",
+    "source_unchanged": true
+  },
+  "standalone": {
+    "python39": {
+      "passed": 2239,
+      "skipped": 176
+    },
+    "covered_functions": 1086,
+    "unmeasured_host_functions": 299,
+    "state_contracts": 127,
+    "executor_lines": "280/280",
+    "executor_branches": "96/96"
+  },
+  "combined": {
+    "source_test_commit": "40f9a14",
+    "export_head": "6eb8a5c",
+    "python39": {
+      "passed": 2517,
+      "skipped": 176
+    },
+    "python312": {
+      "passed": 2507,
+      "skipped": 186
+    },
+    "covered_functions": 1161,
+    "unmeasured_host_functions": 299,
+    "state_contracts": 146
+  },
+  "numerical_screen": "FAIL: grid and domain sensitivity",
+  "omissions": [
+    "Rhino",
+    "MPS",
+    "CUDA",
+    "packaging",
+    "release",
+    "engineering accuracy"
+  ]
+}

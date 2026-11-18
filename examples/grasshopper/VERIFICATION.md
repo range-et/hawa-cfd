@@ -214,3 +214,28 @@ changed its view without advancing, exported1989 field rows and3 ordered probes
 (two valid, one invalid), explicitly resumed120, and reopened the source3dm idle.
 The viewport was inspected; user documents and their empty GH graphs were restored.
 See [review and limits](../../docs/review-workflow-examples.md).
+
+## 35 — Parametric stationary wing study
+
+Require a closed loft and outward mesh across profile/dimension edits; explicit
+Run/rearm and saved-true idle guard; cooperative pause/cancel/disposal; selected
+field/geometry/load identity; metre/millimetre conversion; aligned null candidate
+slots; idle preview gating; and no errors or phantom scatter points while pending.
+Use `test_stationary_study.py`, StateContracts, `verify_stationary_study.cs`,
+`verify_wing_scatter_nulls.cs` and the [live example review](../../docs/review-parametric-wing-example.md).
+Fine-grid completion and pressure rendering do not establish aerodynamic accuracy.
+
+The final owned fine run `235231` completed both CPU cases at 499041 cells,
+3000 settling + 201 samples and unchanged 0.05 stationarity tolerance. Both
+selected meshes produced 5288/5288 valid pressure samples; the shared display
+range changes from -2…2 to 0…4 Pa to avoid clipping. See the
+[host machine evidence](../../docs/verification-parametric-wing-host.json).
+This run used the earlier installed `300dd62` assembly. A read-only audit found
+zero coordinate differences between float enumeration and Point3dAt for this
+specific original/normalized mesh. The final installed 717e997 production serializer passes the native far-origin
+fixture and returns geometry JSON exactly equal to the legacy default wing.
+All ten fresh coarse lifecycle phases, idle preview/empty plots and zero-resource
+cleanup pass; original empty documents are restored. The final 28-second video
+is verified, with its earlier fine-run provenance preserved. Final package/merge
+approval remains separate. The existing
+numerical qualification failures remain open in #40.

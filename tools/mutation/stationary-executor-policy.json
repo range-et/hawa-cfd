@@ -1,0 +1,988 @@
+{
+  "scope": "CPU-only stationary full-way BGK load collector and private sequential CPU sweep executor; exact function mutation inventory and four control modules. Excludes geometry recipe algorithms, decorated schema validators, public runtime/host/export adapters and physical accuracy.",
+  "sources": {
+    "src/hawa/stationary_loads.py": "1042a1898b95996afc1730a3e3a77cb20c5cbb820703887bc21480cf9dd5b1e4",
+    "src/hawa/sweep_executor.py": "ced3a448bae487851e0312ee539701128f292737d9967a838b265b12c823ed38",
+    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
+    "tests/test_stationary_loads.py": "d7bfa21404217f781e00a2b76f91c20b23b4bfd172784d26fbaba1a960d258a9",
+    "tests/test_sweep_executor.py": "37be0378cea2de27bad603c61594eeb3f93f5d2522317c7cc005b78d230b8870",
+    "tests/test_real_sweep_pipeline.py": "99ce9dd3fe3653eed70358a8181885a8143eef9cb0207e17b4a9e80a600aa1ac",
+    "tests/test_sweep_publication.py": "e86cb046b742d30021ba082ad1ad5225902b2d820995be5e09298004359205f6",
+    "src/hawa/measurements.py": "c467528fc84548c0cb294aa7fd32d3cdf6f5b327336921fad562573ecbba50af",
+    "src/hawa/sweeps.py": "45549b20a09a37159e47b86d4470d34f3b62a48b9450410e21a720d9e4785f74",
+    "scripts/wing_solver_recipe.py": "96acdd7b3be460bfe1ff4ecbe32175313fc3602a1bfe2c28afd4467477a0f6de",
+    "scripts/wing_measurement_recipe.py": "de1b43e8ed698aad5c7272d0fc37ba18363c7e0c662141b5fecff56d9d7d60c5",
+    "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c"
+  },
+  "control_test_files": [
+    "tests/test_stationary_loads.py",
+    "tests/test_sweep_executor.py",
+    "tests/test_real_sweep_pipeline.py",
+    "tests/test_sweep_publication.py"
+  ],
+  "reviewed_survivors": {
+    "hawa.stationary_loads.x_validate_case__mutmut_106": {
+      "status": "survived",
+      "diff_sha256": "d979a31c63c55772124bb7ffdf34e9143e9dffa57de10e538ca50d50a5d2e13e",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Use legacy X inlet/outlet boundaries') becomes raise ValueError('XXUse legacy X inlet/outlet boundariesXX')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_107": {
+      "status": "survived",
+      "diff_sha256": "129688f977e90d0d564a5b73f933bbfa34dbfa89aa1902357173297940e49070",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Use legacy X inlet/outlet boundaries') becomes raise ValueError('use legacy x inlet/outlet boundaries')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_108": {
+      "status": "survived",
+      "diff_sha256": "fbd9fe6c633d915076d8a964cec726c9a76a883f1f36a4bdc9c88ea4e62baec0",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Use legacy X inlet/outlet boundaries') becomes raise ValueError('USE LEGACY X INLET/OUTLET BOUNDARIES')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_112": {
+      "status": "survived",
+      "diff_sha256": "6ff1ad58be91f7b2e5f05e08a4274eb9aaed5d1bb62d4af0546c5a9826800eca",
+      "reason": "equivalent: Admission already enforces exactly six boundary entries; slicing [4:7] and [4:6] returns the same final pair."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_132": {
+      "status": "survived",
+      "diff_sha256": "ba7865fc31cbbff6d76d701ca97b056e917eef936d5a908b49067ad57603c527",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Use paired periodic or wall/slip transverse boundaries') becomes raise ValueError('XXUse paired periodic or wall/slip transverse boundariesXX')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_133": {
+      "status": "survived",
+      "diff_sha256": "ba674d22b0d0db3e749a1c1b785adb9bc506d9dfb61c946233ad6dbed58e34bb",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Use paired periodic or wall/slip transverse boundaries') becomes raise ValueError('use paired periodic or wall/slip transverse boundaries')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_134": {
+      "status": "survived",
+      "diff_sha256": "ca16541616c5d740524911e4c44371f7141d1c594e04ce4a3913b945a536ea2c",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Use paired periodic or wall/slip transverse boundaries') becomes raise ValueError('USE PAIRED PERIODIC OR WALL/SLIP TRANSVERSE BOUNDARIES')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_156": {
+      "status": "survived",
+      "diff_sha256": "72aef24d809e617c2d99aced97a763813ab2b9660a78118d1367a9072adf4f17",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Case solid indices must be unique, nonempty and inside the grid') becomes raise ValueError('XXCase solid indices must be unique, nonempty and inside the gridXX')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_167": {
+      "status": "survived",
+      "diff_sha256": "4249638582dacb0b75d02e83a6f7fcd6fc3c2baeb3dfe4cfeceb18b9e5df3f59",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Provide 1..4 named body index sets') becomes raise ValueError('XXProvide 1..4 named body index setsXX')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_168": {
+      "status": "survived",
+      "diff_sha256": "0b7223b9b9731ed24a850992fac70e2999b1a2359d823faeaabb4423a52b6d07",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Provide 1..4 named body index sets') becomes raise ValueError('provide 1..4 named body index sets')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_169": {
+      "status": "survived",
+      "diff_sha256": "688d8b68665981f81c279424865560a91dc28d2b84d457da00b7a6ef91ca8fe7",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Provide 1..4 named body index sets') becomes raise ValueError('PROVIDE 1..4 NAMED BODY INDEX SETS')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_199": {
+      "status": "survived",
+      "diff_sha256": "172f405a064892e0ae7afa0bfc338ffd8f54f169e14dbb1b9b69abfdb9e2ff8f",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Body IDs and solid index sets must be nonempty, unique and valid') becomes raise ValueError('XXBody IDs and solid index sets must be nonempty, unique and validXX')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_218": {
+      "status": "survived",
+      "diff_sha256": "4637aeea6276326b880f066dc4ca2f4bf56fce47e01d4b43016eab177a058ace",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Bodies need one clear node layer at every domain face') becomes raise ValueError('XXBodies need one clear node layer at every domain faceXX')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_219": {
+      "status": "survived",
+      "diff_sha256": "be672471fd6d06fc81e8abf5b494b1ed3bc388ee9887f4e9e069fa2e9dfc76fc",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Bodies need one clear node layer at every domain face') becomes raise ValueError('bodies need one clear node layer at every domain face')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_224": {
+      "status": "survived",
+      "diff_sha256": "b80241b52bc6b0d6326e081dd6d5ac8b19cb28466bf4aa580ac95cadc90b22ee",
+      "reason": "equivalent: NumPy reshape accepts one arbitrary negative dimension as inferred size; both -1 and -2 flatten the same owner array."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_227": {
+      "status": "survived",
+      "diff_sha256": "f6570df008e51fcf27e48bee49e785d1814d23486bc7e96b39d4dc3e2a337397",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Body solid sets overlap') becomes raise ValueError('XXBody solid sets overlapXX')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_228": {
+      "status": "survived",
+      "diff_sha256": "ba37354df61981a49071d5b371e3c2f7243a0798de75e50c0628b5de5f19c0e3",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Body solid sets overlap') becomes raise ValueError('body solid sets overlap')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_236": {
+      "status": "survived",
+      "diff_sha256": "28b9832fbb424f791857f5f89998360724f206100963500e63daed3d9c554e6f",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Body union must equal the case obstacle set') becomes raise ValueError('XXBody union must equal the case obstacle setXX')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_237": {
+      "status": "survived",
+      "diff_sha256": "0871c8c8f32ae75445305cf972e69f26da51c7553d7c5449b9884e5afa838e75",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Body union must equal the case obstacle set') becomes raise ValueError('body union must equal the case obstacle set')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_284": {
+      "status": "survived",
+      "diff_sha256": "8898b038f56d9d44e2036132b305f7dc0d6bc9f60090770a759a8a7ac1d7e678",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Bodies require fluid padding, not wall/slip boundary nodes') becomes raise ValueError('XXBodies require fluid padding, not wall/slip boundary nodesXX')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_285": {
+      "status": "survived",
+      "diff_sha256": "df5afb63b91be597999ae3297c23f6704203512f31f1a38c4a4031ce436accfd",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Bodies require fluid padding, not wall/slip boundary nodes') becomes raise ValueError('bodies require fluid padding, not wall/slip boundary nodes')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_301": {
+      "status": "survived",
+      "diff_sha256": "f6562f555d38d5f7981df03572ee5163d19a6002a8af4c9c0800640ecb01861a",
+      "reason": "equivalent: For every contact between distinct positive IDs at least one ID exceeds 1; symmetric D3Q19 directions visit both orientations, so testing owner>1 still rejects every contact."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_303": {
+      "status": "survived",
+      "diff_sha256": "17263ebc7e38e3900d8f5e8e6987a593d7a2421f867fb31586b699dddd423668",
+      "reason": "equivalent: For every contact between distinct positive IDs at least one ID exceeds 1; symmetric D3Q19 directions visit both orientations, so testing neighbour>1 still rejects every contact."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_306": {
+      "status": "survived",
+      "diff_sha256": "ae986194f0e3f55cfdc40ca2400773d4649f668c38addfe52e25fc9d12bd99fa",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Differently named bodies touch along a D3Q19 link') becomes raise ValueError('XXDifferently named bodies touch along a D3Q19 linkXX')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_307": {
+      "status": "survived",
+      "diff_sha256": "7c34107a15b53b74dcb30c3d3f915a887b91eb90597942941e1e12b3ba3bf20f",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Differently named bodies touch along a D3Q19 link') becomes raise ValueError('differently named bodies touch along a d3q19 link')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_41": {
+      "status": "survived",
+      "diff_sha256": "7f2834ee01ab2c8b2d94a111cfa748a8c89c85e9e4575761b4e12f34c203dc35",
+      "reason": "Diagnostic-only: inspected exact diff changes only padding or capitalization of a nonempty ValueError message; admission guard, exception type, grid cap and allocation behavior are unchanged."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_42": {
+      "status": "survived",
+      "diff_sha256": "dfe75a3bda3faf9352feaa3a236d25d780423c2c398c9ee53a68477a9db8e7cb",
+      "reason": "Diagnostic-only: inspected exact diff changes only padding or capitalization of a nonempty ValueError message; admission guard, exception type, grid cap and allocation behavior are unchanged."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_43": {
+      "status": "survived",
+      "diff_sha256": "65578306f9ee00cbeaeac0d76f80064205f016a38da4dbd8984dd2c4407ac7ce",
+      "reason": "Diagnostic-only: inspected exact diff changes only padding or capitalization of a nonempty ValueError message; admission guard, exception type, grid cap and allocation behavior are unchanged."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_64": {
+      "status": "survived",
+      "diff_sha256": "bb2a8bd7c4133bd88b2d4b78f3b5bda7677080834b4c215fb80734ee8df4c9bc",
+      "reason": "Diagnostic-only: inspected exact diff changes only padding or capitalization of a nonempty ValueError message; admission guard, exception type, grid cap and allocation behavior are unchanged."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_65": {
+      "status": "survived",
+      "diff_sha256": "45ccec82b99b0aed770da1168076b66be0ccd56c08ba38b3ff584795e5463949",
+      "reason": "Diagnostic-only: inspected exact diff changes only padding or capitalization of a nonempty ValueError message; admission guard, exception type, grid cap and allocation behavior are unchanged."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_66": {
+      "status": "survived",
+      "diff_sha256": "e7098f80a43bd332808c97deaeebc12aa74040f699f88a8a06833c741a4b6cba",
+      "reason": "Diagnostic-only: inspected exact diff changes only padding or capitalization of a nonempty ValueError message; admission guard, exception type, grid cap and allocation behavior are unchanged."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_7": {
+      "status": "survived",
+      "diff_sha256": "199dc74fcbeda5dcb2561d3110e40ef34c39bbad46041e470a232ceb46117bb0",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Stationary measurements require explicit cpu') becomes raise ValueError('XXStationary measurements require explicit cpuXX')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_8": {
+      "status": "survived",
+      "diff_sha256": "e5748634929e52c9cebccd1f59a32e60efea2a70e3f84f96c4fe661277cfaf3a",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Stationary measurements require explicit cpu') becomes raise ValueError('stationary measurements require explicit cpu')."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_87": {
+      "status": "survived",
+      "diff_sha256": "afe476e53b5342754f57eaaf45750cf79bb4850b919622b9e025a10dc9502add",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Measurement case requires positive finite ' + key) becomes raise ValueError('XXMeasurement case requires positive finite XX' + key)."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_88": {
+      "status": "survived",
+      "diff_sha256": "7854d54f9d7e83780e6d55b58925d1fed241d169db944f6cc2aa9a3f66f7e24a",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Measurement case requires positive finite ' + key) becomes raise ValueError('measurement case requires positive finite ' + key)."
+    },
+    "hawa.stationary_loads.x_validate_case__mutmut_89": {
+      "status": "survived",
+      "diff_sha256": "396578afe9eb39fd1b7fdd028137d6c61242566dd4fbf9db4d54b30053763262",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Measurement case requires positive finite ' + key) becomes raise ValueError('MEASUREMENT CASE REQUIRES POSITIVE FINITE ' + key)."
+    },
+    "hawa.stationary_loads.x_world_basis__mutmut_42": {
+      "status": "survived",
+      "diff_sha256": "fc4d7636cb9c60632ced76edb66143fd921c7ad03fba7c76c330af77736c6793",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('World basis must be orthonormal and right handed') becomes raise ValueError('XXWorld basis must be orthonormal and right handedXX')."
+    },
+    "hawa.stationary_loads.x_world_basis__mutmut_43": {
+      "status": "survived",
+      "diff_sha256": "4cf1576d0d6278b3943d0ca7f1b00c3f6ef3fdb3720bbb1d725880513455a8dd",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('World basis must be orthonormal and right handed') becomes raise ValueError('world basis must be orthonormal and right handed')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__call____mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "5965ce6a0c88e8166195c1d894ebe70eecb485daaff5ca17b166536cc6c15e25",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Collector belongs to a different flow') becomes raise ValueError('XXCollector belongs to a different flowXX')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__call____mutmut_34": {
+      "status": "survived",
+      "diff_sha256": "a36b804d5330673b0d8d68af0798c32335c0f6e577448d96617aaa57a7690932",
+      "reason": "equivalent: Both versions first multiply the population by 2 in solver precision. Multiplication by the explicitly float64 vector promotes the subsequent transfer to float64 even when .to(None) is a no-op."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__call____mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "02b778d0a9c8e6e979a6038aa15fa3f941b1ddabd4d6f81ed8ea1852ab33685f",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Collector belongs to a different flow') becomes raise ValueError('collector belongs to a different flow')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__call____mutmut_49": {
+      "status": "survived",
+      "diff_sha256": "d443d0c60d68081e88e9241044c46cc572a02a936037e75811071589b604b4f0",
+      "reason": "equivalent: torch.linalg.cross defaults to dim=-1, exactly the omitted argument."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__call____mutmut_50": {
+      "status": "survived",
+      "diff_sha256": "591cf3133d14191d024e1490b20f3b2a6734ecc14e184479a00db79946ece90f",
+      "reason": "equivalent: arm and transfer always have Nx3 rank-two shape, so dimension +1 and -1 identify the same vector axis."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__call____mutmut_65": {
+      "status": "survived",
+      "diff_sha256": "4aff72cef667ee0afa89e00bfcfec0624932baf56eb0eea50ffa0a01b38e8657",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Nonfinite population-derived loads') becomes raise ValueError('XXNonfinite population-derived loadsXX')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__call____mutmut_8": {
+      "status": "survived",
+      "diff_sha256": "86baf3c45d1a3caf5d8fcb2c213822f11f278f1d8121e1d9d4751023dd299e75",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Measurement history capacity exhausted; no samples discarded') becomes raise ValueError('XXMeasurement history capacity exhausted; no samples discardedXX')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__call____mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "a9ac5705fbfc79772c43410ffa2dd5e3288f72d3427ffaef93a5cbf6fa195d9f",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Measurement history capacity exhausted; no samples discarded') becomes raise ValueError('measurement history capacity exhausted; no samples discarded')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_103": {
+      "status": "survived",
+      "diff_sha256": "5c3fe84369f850307ffdaa34a5582801253f3432eb21988de8ec713293f9d92a",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Flow solid mask differs from declared ownership') becomes raise ValueError('XXFlow solid mask differs from declared ownershipXX')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_104": {
+      "status": "survived",
+      "diff_sha256": "f2fe900282aeadecb30dcb2d581352966880f5597da42dcf112b2b8699f04132",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Flow solid mask differs from declared ownership') becomes raise ValueError('flow solid mask differs from declared ownership')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_135": {
+      "status": "survived",
+      "diff_sha256": "215a1f7515c8d48062811212426da4bb6d8fbf9143bba0ff8d05752bc1b8195d",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Force conversion scales must be positive finite') becomes raise ValueError('XXForce conversion scales must be positive finiteXX')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_136": {
+      "status": "survived",
+      "diff_sha256": "a05bfa487ee8263cc37ff55d3fc99fb2c162eafd6e8149c74b104d7447a48956",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Force conversion scales must be positive finite') becomes raise ValueError('force conversion scales must be positive finite')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_158": {
+      "status": "survived",
+      "diff_sha256": "5199b4d312e17c0c27c4132b47110c5cd0c009f30fd5cb3e85f72504b854ad5a",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Flow units differ from declared physical case') becomes raise ValueError('XXFlow units differ from declared physical caseXX')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_159": {
+      "status": "survived",
+      "diff_sha256": "c4b6eb038d5f6c322a237c940b00907ef0713bf537946daf7d1fd649877f80c6",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Flow units differ from declared physical case') becomes raise ValueError('flow units differ from declared physical case')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_170": {
+      "status": "survived",
+      "diff_sha256": "28cfb2218860d4da24868ff26e935493d6ef5f9708767672b0a56c97a00b3a10",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Force conversion overflow or underflow') from error becomes raise ValueError('XXForce conversion overflow or underflowXX') from error."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_171": {
+      "status": "survived",
+      "diff_sha256": "5d018893faae67845b78a8f8ae5bc9db9bd3dce9561ec30abef1cb484e2cf49d",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Force conversion overflow or underflow') from error becomes raise ValueError('force conversion overflow or underflow') from error."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_179": {
+      "status": "survived",
+      "diff_sha256": "bccafce3800bf8bd84cec8801ee564c6752a8f75eb28538fa2df47094b6326b1",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Force conversion scale must be positive finite') becomes raise ValueError('XXForce conversion scale must be positive finiteXX')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_180": {
+      "status": "survived",
+      "diff_sha256": "04f488d9af68121ec11b75fa9604d13a41c1537e0a72270b1c7a70dc054a2818",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Force conversion scale must be positive finite') becomes raise ValueError('force conversion scale must be positive finite')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_19": {
+      "status": "survived",
+      "diff_sha256": "2b5ba53c16e5105c81594db22b6b6ad1888b8a314bf8ce88f4385bf3377f8a2c",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Collector case must match actual flow specification') becomes raise ValueError('XXCollector case must match actual flow specificationXX')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_195": {
+      "status": "survived",
+      "diff_sha256": "08559b687cd0086c591d99c89fd39e4efa39a1c88a1f07d2a5e1ee944104b89d",
+      "reason": "equivalent: Actual D3Q19 stencil directions are integer arrays; numpy.asarray infers the same integer dtype without dtype=int. No direction or offset changes for the supported stencil."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_197": {
+      "status": "survived",
+      "diff_sha256": "ff95bdea240677da6e83a457eb61144df14e1b7bde772f42a3278d92d482927d",
+      "reason": "equivalent: Actual D3Q19 stencil directions are integer arrays; numpy.asarray infers the same integer dtype without dtype=int. No direction or offset changes for the supported stencil."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_20": {
+      "status": "survived",
+      "diff_sha256": "b9303c9f997e4038bc047a6c62f78b106aa9b35544e18141fa27018299bdbe5f",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Collector case must match actual flow specification') becomes raise ValueError('collector case must match actual flow specification')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_220": {
+      "status": "survived",
+      "diff_sha256": "c6e5f72fe222d6c8d8a6921b03aae28f01cfedd4171b5ebca070da0f8aeca3e8",
+      "reason": "equivalent_mathematical: Moves link application position only along its transformed lattice direction. Link impulse is parallel to that direction, so added arm cross impulse is zero. Force unchanged; torque algebraically unchanged. This is numerical equivalence, not a claim of bitwise equality under extreme rounding."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_222": {
+      "status": "survived",
+      "diff_sha256": "a54c7b589fc21735523aa89f1e2a5cf37a6e50c6ae15c92302ba17b28e515fc0",
+      "reason": "equivalent_mathematical: Moves link application position only along its transformed lattice direction. Link impulse is parallel to that direction, so added arm cross impulse is zero. Force unchanged; torque algebraically unchanged. This is numerical equivalence, not a claim of bitwise equality under extreme rounding."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_225": {
+      "status": "survived",
+      "diff_sha256": "e7578f56aa094c613c1faca5293a24325c44e82446a90b3cca45802c10030a17",
+      "reason": "equivalent: world_position minus moment origin is already a numpy float64 array. torch.tensor infers float64 for that array with dtype=None or omitted."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_228": {
+      "status": "survived",
+      "diff_sha256": "0aedb5f2b99dcad128371014763855c7bbea3be82346931d2270bb30ecb9b1fe",
+      "reason": "equivalent: world_position minus moment origin is already a numpy float64 array. torch.tensor infers float64 for that array with dtype=None or omitted."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_236": {
+      "status": "survived",
+      "diff_sha256": "54e64529830f0a55ef84a7ac0a0a6cf4580c5007cdc9123b4ad15a984c6edfcc",
+      "reason": "equivalent: e @ transform is a numpy float64 array because world_basis parses float64 vectors. torch.tensor infers float64 with dtype=None or omitted."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_239": {
+      "status": "survived",
+      "diff_sha256": "b37432ee3f73ac7e537ebb1c647d5109af81426a6de7dbbfef08e4b5b6fa6bc4",
+      "reason": "equivalent: e @ transform is a numpy float64 array because world_basis parses float64 vectors. torch.tensor infers float64 with dtype=None or omitted."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_34": {
+      "status": "survived",
+      "diff_sha256": "af7b104e9c5194d5b651f49e9568686548072770705a142522d63f9940e18126",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Collector requires matching D3Q19 flow') becomes raise ValueError('XXCollector requires matching D3Q19 flowXX')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_36": {
+      "status": "survived",
+      "diff_sha256": "f5dace705716059812e63de604729e6895819b3a5608925f5ae970f5271491b6",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Collector requires matching D3Q19 flow') becomes raise ValueError('COLLECTOR REQUIRES MATCHING D3Q19 FLOW')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_39": {
+      "status": "survived",
+      "diff_sha256": "722ca327df624a8b77140b2604c5ddf1f896fcc075e363c9919398e51ca3917e",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Collector supports CPU float32 or float64') becomes raise ValueError('XXCollector supports CPU float32 or float64XX')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_40": {
+      "status": "survived",
+      "diff_sha256": "490aa6a6db8f7d7767ba33d151dbdf9f9b0b6825a55ccd4d1c3a8ae96538544e",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Collector supports CPU float32 or float64') becomes raise ValueError('collector supports cpu float32 or float64')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_48": {
+      "status": "survived",
+      "diff_sha256": "c8183fe85c8608c0081dd76aa794b7c71760d4f7ceaee1e6a894838a79d35be4",
+      "reason": "equivalent_admission_diagnostic_changed: A fifth reference can proceed through parsing, but validate_case already bounds ownership to four IDs and exact reference-ID/order comparison rejects five references. No newly admitted collection; rejection diagnostic can differ."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_50": {
+      "status": "survived",
+      "diff_sha256": "103ac06735b31224ada1c64b6c94f043d9967a2120ace44595403a8edf79f4f9",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Provide body moment references') becomes raise ValueError('XXProvide body moment referencesXX')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_51": {
+      "status": "survived",
+      "diff_sha256": "80343e73b3bc10dd79fbf1cba3438125093784ff503a9f4f5c31f951b522da3e",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Provide body moment references') becomes raise ValueError('provide body moment references')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_56": {
+      "status": "survived",
+      "diff_sha256": "a36027915632d627faaafe3770bdbd35b6a6ccf1c1985854019767605b59f036",
+      "reason": "diagnostic_only: Only changes check() diagnostic label for invalid Body references; Body validation and parsed output are unchanged. Exact error wording is not a numerical/admission oracle."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_60": {
+      "status": "survived",
+      "diff_sha256": "ba72cde954b388bf830dc70c7ece1a686941e5cc13f6a9babcb6f82d13b4f74e",
+      "reason": "diagnostic_only: Only changes check() diagnostic label for invalid Body references; Body validation and parsed output are unchanged. Exact error wording is not a numerical/admission oracle."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_61": {
+      "status": "survived",
+      "diff_sha256": "0b8d477a05f19a8ff7bd5621782b965586e447b9b895920d72339fef582483e4",
+      "reason": "diagnostic_only: Only changes check() diagnostic label for invalid Body references; Body validation and parsed output are unchanged. Exact error wording is not a numerical/admission oracle."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_62": {
+      "status": "survived",
+      "diff_sha256": "ee002e5d5c3b36ed1fc37ec12d356cab7f871c26cb120ae50d419eb5f589986c",
+      "reason": "diagnostic_only: Only changes check() diagnostic label for invalid Body references; Body validation and parsed output are unchanged. Exact error wording is not a numerical/admission oracle."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_66": {
+      "status": "survived",
+      "diff_sha256": "9c64042b5bd6427f0de60945d073c237d1c19379236774f03fe3b11e68286e79",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Body reference order must match ownership IDs') becomes raise ValueError('XXBody reference order must match ownership IDsXX')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_67": {
+      "status": "survived",
+      "diff_sha256": "2e8c712b7096318be48fa1098d200912d422f20a41a33a10cf1cb4f0434fdc57",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Body reference order must match ownership IDs') becomes raise ValueError('body reference order must match ownership ids')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_68": {
+      "status": "survived",
+      "diff_sha256": "41aa023ac2d116ae6935b78d9370823bd69079a5ad0d736dfb649e7a9f84e7ae",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('Body reference order must match ownership IDs') becomes raise ValueError('BODY REFERENCE ORDER MUST MATCH OWNERSHIP IDS')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_78": {
+      "status": "survived",
+      "diff_sha256": "8fc2c6ae3082037bb2bd206a280cb9dec0ef1432b327b8ccff36fdc3ca8f4b43",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('History capacity must be 1..100000') becomes raise ValueError('XXHistory capacity must be 1..100000XX')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_79": {
+      "status": "survived",
+      "diff_sha256": "ddc804362356582d10c97dda0bf2a813e077dd5097bc234af0125dca94f5d127",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('History capacity must be 1..100000') becomes raise ValueError('history capacity must be 1..100000')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_80": {
+      "status": "survived",
+      "diff_sha256": "7e5542f094357feb8873888c09b5e8fc4958b0edbc7be1e023f463fb52bc3040",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise ValueError('History capacity must be 1..100000') becomes raise ValueError('HISTORY CAPACITY MUST BE 1..100000')."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_88": {
+      "status": "survived",
+      "diff_sha256": "a96ea5de07a5879f84adaf042903f34193216c23cccb94833831495e0c3696d3",
+      "reason": "equivalent: owner>0 is already a numpy bool array; torch.as_tensor infers bool with dtype=None or omitted, retaining explicit CPU placement."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1__init____mutmut_91": {
+      "status": "survived",
+      "diff_sha256": "2ce59c9fdaadf736fcc5b56ea5dbca92024abfc822bf3558864593136e4ed022",
+      "reason": "equivalent: owner>0 is already a numpy bool array; torch.as_tensor infers bool with dtype=None or omitted, retaining explicit CPU placement."
+    },
+    "hawa.stationary_loads.x\u01c1StationaryLoads\u01c1native_generator__mutmut_2": {
+      "status": "survived",
+      "diff_sha256": "d07426c37bd00dac2b5d31705db32b4bd23d0ba145edac0e827cca1d233c4e59",
+      "reason": "Diagnostic-only: same guard and exception type; only nonempty exception-message spelling/capitalization/padding changes. No input-admission, force, torque, source-time or ownership change. raise NotImplementedError('Stationary load collection requires portable CPU tensors') becomes raise NotImplementedError('XXStationary load collection requires portable CPU tensorsXX')."
+    },
+    "hawa.sweep_executor.x__budget__mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "22816966d70ce0bed4268d5fd7ad7ae00bb5eb7d6f9850d481e5879e2fe5e7b2",
+      "reason": "Diagnostic wording only: raise ValueError('Prepared candidate fields do not match the executor contract') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__budget__mutmut_20": {
+      "status": "survived",
+      "diff_sha256": "100408353a4b235853a87bf79e921a4e5cc69016d85f3309fa9a77c8b7c3c50e",
+      "reason": "Diagnostic wording only: raise ValueError('Case and geometry must be dictionaries') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__budget__mutmut_21": {
+      "status": "survived",
+      "diff_sha256": "4a38ac7479c3d93434e9fd8db63be36e7846da12e3ff5be2cce63579acc3e3f1",
+      "reason": "Diagnostic wording only: raise ValueError('Case and geometry must be dictionaries') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__budget__mutmut_22": {
+      "status": "survived",
+      "diff_sha256": "a3f5c086d89204992e086920834ff15bc7c6f21c87302ef83843affe480ee175",
+      "reason": "Diagnostic wording only: raise ValueError('Case and geometry must be dictionaries') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__budget__mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "e1f20214a4769e9aa21dae7d53f40394297ae9f2b3f5cbbaec13f59b675dfd06",
+      "reason": "Redundant admission guard: _prepare repeats exact entry-dictionary/key-set validation before deepcopy. Extra fields remain rejected before copying or allocation. For arbitrary non-dict objects the mutated preliminary guard may change the exception class; no input is newly admitted."
+    },
+    "hawa.sweep_executor.x__budget__mutmut_39": {
+      "status": "survived",
+      "diff_sha256": "b5a509e53ead632cbdcdcc36f99e98fe5ea841b201dcebd80d46f9b0df5209bf",
+      "reason": "Diagnostic wording only: raise ValueError('Case shape must contain three integer dimensions') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__budget__mutmut_40": {
+      "status": "survived",
+      "diff_sha256": "3430d8e3c002a3a0cbda5d38596c3c378fc92767497366c44715b2a78fb8e895",
+      "reason": "Diagnostic wording only: raise ValueError('Case shape must contain three integer dimensions') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__budget__mutmut_41": {
+      "status": "survived",
+      "diff_sha256": "5f541d15b33ac9d17aa92914c021e15bbe31e6f0328b4cfccd364820d804f7c2",
+      "reason": "Diagnostic wording only: raise ValueError('Case shape must contain three integer dimensions') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__budget__mutmut_57": {
+      "status": "survived",
+      "diff_sha256": "644f05ffed6c246c6b90c8b59d733ee812c3c299a6988ccaa6e237d2d7fb906c",
+      "reason": "Steps=100001 with any valid body ownership exceeds the aggregate 100000 retained-row limit before copying. Empty ownership cannot produce an admissible case and _prepare also retains the strict step bound."
+    },
+    "hawa.sweep_executor.x__budget__mutmut_63": {
+      "status": "survived",
+      "diff_sha256": "57361b321ed9385d989ec7902a98ba1b4cf35832f2454ecac19e58a679f4dc9c",
+      "reason": "Diagnostic wording only: raise ValueError('Prepared candidate counts must be bounded collections') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__budget__mutmut_64": {
+      "status": "survived",
+      "diff_sha256": "d4344f03f73ac8a465a01420afa4836135c1f52afa975df2e8f269c15cb9fe51",
+      "reason": "Diagnostic wording only: raise ValueError('Prepared candidate counts must be bounded collections') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__budget__mutmut_65": {
+      "status": "survived",
+      "diff_sha256": "6b51767d4cbb427ce9b09546184cd5f513a7008fb05625df7ffaf5e0a5aaee56",
+      "reason": "Diagnostic wording only: raise ValueError('Prepared candidate counts must be bounded collections') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__budget__mutmut_8": {
+      "status": "survived",
+      "diff_sha256": "9e68be885610e48bd6a74958c0e1f1617f453640cfa626e3e14b28652fe51dbf",
+      "reason": "Diagnostic wording only: raise ValueError('Prepared candidate fields do not match the executor contract') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__budget__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "a7d8bb42c327cb40d14a706ab0e255658f3b0b395a674b4920806312cb7d2c5e",
+      "reason": "Diagnostic wording only: raise ValueError('Prepared candidate fields do not match the executor contract') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__budget__mutmut_91": {
+      "status": "survived",
+      "diff_sha256": "0206c823dc0d7054c177eac4f973fd1ae64f9ed3d46f455fa20b44849e1576c4",
+      "reason": "Diagnostic wording only: raise ValueError('Sweep exceeds aggregate retained-row/grid/mesh budget') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__budget__mutmut_92": {
+      "status": "survived",
+      "diff_sha256": "d03bea5adbcf178009b4a9b1ceafbf4855f01776a57bf5695a125b9f581df247",
+      "reason": "Diagnostic wording only: raise ValueError('Sweep exceeds aggregate retained-row/grid/mesh budget') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__geometry_hash__mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "4bd331a70d7210a43a03f2164bde42f34d9a92d050024647d36dc6c3e30d4c8f",
+      "reason": "Diagnostic wording only: raise ValueError('Geometry requires vertices_m and triangles') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__geometry_hash__mutmut_11": {
+      "status": "survived",
+      "diff_sha256": "b7492410126846dd0692cbd54e209d4fc7d1571c41fd4f3aecffcf57e1e2d738",
+      "reason": "Diagnostic wording only: raise ValueError('Geometry requires vertices_m and triangles') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__geometry_hash__mutmut_12": {
+      "status": "survived",
+      "diff_sha256": "88361505499624f8cec48842cda85dad976f11961a56310dd147e5e48464e398",
+      "reason": "Diagnostic wording only: raise ValueError('Geometry requires vertices_m and triangles') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__geometry_hash__mutmut_34": {
+      "status": "survived",
+      "diff_sha256": "ccdf2ca2c3de7b485ce40f0e04aba332a53bcfbd2577c757088b0f37e137b5b2",
+      "reason": "Diagnostic wording only: raise ValueError('Geometry must contain a bounded nonempty triangle mesh') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__geometry_hash__mutmut_35": {
+      "status": "survived",
+      "diff_sha256": "5b50d93c80af588cdfe324f6806893737ced6d3f03cb6bfe46f7bd525b60a5f2",
+      "reason": "Diagnostic wording only: raise ValueError('Geometry must contain a bounded nonempty triangle mesh') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__geometry_hash__mutmut_36": {
+      "status": "survived",
+      "diff_sha256": "0ceb66d2cc68bb420bcf2efdbbe2b7b9038b7ee8d8e64c67620a404b85e32910",
+      "reason": "Diagnostic wording only: raise ValueError('Geometry must contain a bounded nonempty triangle mesh') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__geometry_hash__mutmut_50": {
+      "status": "survived",
+      "diff_sha256": "edbf136428df619b8badbe3dd1120afd4811035cc312ad9ea83eda6010273b64",
+      "reason": "Diagnostic wording only: raise ValueError('Geometry vertices must be finite numeric triples') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__geometry_hash__mutmut_51": {
+      "status": "survived",
+      "diff_sha256": "5ef086e4d8344863c64af16af0f395a3e3b6ac126f39deb7f7a15f056daa3061",
+      "reason": "Diagnostic wording only: raise ValueError('Geometry vertices must be finite numeric triples') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__geometry_hash__mutmut_52": {
+      "status": "survived",
+      "diff_sha256": "785cdd24eb7ea7d68f6e1d1c617f03c5c088a92fa14310ae986129269c7dae28",
+      "reason": "Diagnostic wording only: raise ValueError('Geometry vertices must be finite numeric triples') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__geometry_hash__mutmut_71": {
+      "status": "survived",
+      "diff_sha256": "cb0e059bb124045b1242880112fbf6fbcf9041c163b1fca645576e86b34dff46",
+      "reason": "Diagnostic wording only: raise ValueError('Geometry triangles require three distinct valid integer indices') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__geometry_hash__mutmut_72": {
+      "status": "survived",
+      "diff_sha256": "25bfb08a13d1b0d95611016ff52423c663edac2215aa295001770a0e6d962f25",
+      "reason": "Diagnostic wording only: raise ValueError('Geometry triangles require three distinct valid integer indices') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__geometry_hash__mutmut_73": {
+      "status": "survived",
+      "diff_sha256": "d786c649387a2e92810721d7c2aa093b17aa36e8ef7d82c4b18cfbf6595c4992",
+      "reason": "Diagnostic wording only: raise ValueError('Geometry triangles require three distinct valid integer indices') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__geometry_hash__mutmut_78": {
+      "status": "survived",
+      "diff_sha256": "694366d9fd012da7c3fe448f85cefdbcb95dbe9f10a2749e02f9ba3072bf264f",
+      "reason": "allow_nan=None remains falsey; prior finite numeric vertex and integer triangle validation already excludes NaN/infinity."
+    },
+    "hawa.sweep_executor.x__geometry_hash__mutmut_82": {
+      "status": "survived",
+      "diff_sha256": "17162df005ccdfff0694460fb3cb0bb41995c5d00ff03b9254d2c46f9de3f6d1",
+      "reason": "JSON allow_nan default differs, but all vertices are validated finite and triangle indices strict integers before serialization; no nonfinite payload reaches dumps."
+    },
+    "hawa.sweep_executor.x__geometry_hash__mutmut_86": {
+      "status": "survived",
+      "diff_sha256": "0ef224dc0bb74c68f94308c6ffb178d9d0dfa300db098c3a60e8ed95b493e555",
+      "reason": "Permissive JSON NaN serialization is unreachable after finite vertex/integer triangle validation."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_107": {
+      "status": "survived",
+      "diff_sha256": "aa14bdcadac30f3185b95edc598fd0ea32d33447a3146c2dd54e39dce997f8cb",
+      "reason": "Diagnostic wording only: raise ValueError('Prepared geometry/case/measurement identity mismatch') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_108": {
+      "status": "survived",
+      "diff_sha256": "efaf70b9e651c50d2286ffbf2b333ae2a285247829b03c7d014e8eb1f5f5f1be",
+      "reason": "Diagnostic wording only: raise ValueError('Prepared geometry/case/measurement identity mismatch') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_124": {
+      "status": "survived",
+      "diff_sha256": "d79687cb883ff8c5c271816e579a0a96a9ac88da6a7bec5a9ec28bec0afd7034",
+      "reason": "Diagnostic wording only: raise ValueError('Coefficient reference speed/density must match the physical case') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_125": {
+      "status": "survived",
+      "diff_sha256": "85367eec2642af6d5b32c24bb5b212901b64b52091e965378b073fdfd4e43773",
+      "reason": "Diagnostic wording only: raise ValueError('Coefficient reference speed/density must match the physical case') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_126": {
+      "status": "survived",
+      "diff_sha256": "89629f7ce90800840e072d378349e8060386dd4ac4fe985650b1efb69f8e8dd3",
+      "reason": "Diagnostic wording only: raise ValueError('Coefficient reference speed/density must match the physical case') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_140": {
+      "status": "survived",
+      "diff_sha256": "b15d99c1db1b3971a02b2b6487bd8c3334893e08552c79bd83fc5758707ff3ff",
+      "reason": "Diagnostic wording only: raise ValueError('Drag axis must follow the actual +X inlet direction') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_154": {
+      "status": "survived",
+      "diff_sha256": "cb3a0f1313b4adbfcdbf43f142818873fd7d526e21d914f85d71f85c3ed2c48e",
+      "reason": "Diagnostic wording only: raise ValueError('Measurement body ownership/selection mismatch') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_155": {
+      "status": "survived",
+      "diff_sha256": "bb38e82cde70eb95388db8244d8e8999a71a8c0e5e24c2e05a751413dfae3cc4",
+      "reason": "Diagnostic wording only: raise ValueError('Measurement body ownership/selection mismatch') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_156": {
+      "status": "survived",
+      "diff_sha256": "6adbb2b59e068db97d77b6e8d9b45b515066370460df8609ed1e320fad1254f2",
+      "reason": "Diagnostic wording only: raise ValueError('Measurement body ownership/selection mismatch') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_160": {
+      "status": "survived",
+      "diff_sha256": "8125f5a8727602567a5b0bddca6811bde4436f32ad345108599f6eaee22e8c85",
+      "reason": "Public constructor _budget rejects noninteger or out-of-range steps before _prepare; redundant private guard weakening changes no admitted executor input."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_167": {
+      "status": "survived",
+      "diff_sha256": "9ba878d813ebf85beea3b23139ddbf03e6f9a563d6ede5ebb017cc399662b13b",
+      "reason": "Public constructor _budget enforces steps<=100000 and aggregate retained rows first; relaxed private upper limit cannot admit a public input."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_169": {
+      "status": "survived",
+      "diff_sha256": "4c196dc167fd51d357a628c78474a9d375563bdefceb9ca4ce89f707b7fa0060",
+      "reason": "Diagnostic wording only: raise ValueError('Sweep steps must be an integer from 4 to 100000') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_170": {
+      "status": "survived",
+      "diff_sha256": "591685b5cab2dc691e204ec576dab4a9e641b52f27bca33c71751a04b2f8d837",
+      "reason": "Diagnostic wording only: raise ValueError('Sweep steps must be an integer from 4 to 100000') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_181": {
+      "status": "survived",
+      "diff_sha256": "f7d4e6920e3492603d5d7544759c319af604c6bbedcd5386fcf98faf3601687c",
+      "reason": "Valid case has at least one body: probes*steps==100000 implies total retained rows including body samples exceeds100000. Thus exact probe-only boundary is excluded by prior aggregate budget."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_182": {
+      "status": "survived",
+      "diff_sha256": "81053638da18342bf796641a415bd916dff46c2bd20ba2cae5be298410435c38",
+      "reason": "Probe rows above100000 are already excluded by aggregate body+probe row budget before _prepare."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_184": {
+      "status": "survived",
+      "diff_sha256": "870351d92445555c629657cbb3e502b927c29e2066b7141a439c42a76dc9b5bb",
+      "reason": "Diagnostic wording only: raise ValueError('Probe capture exceeds the bounded 100000-row budget') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_196": {
+      "status": "survived",
+      "diff_sha256": "49ecd79bd0fef081f8991160607df433dd7437b0abc15e91c499f80df17f97ce",
+      "reason": "Preflight sample_probes result is discarded; nonnegative time1 instead of0 does not affect uniqueness/body-attachment validation. Actual worker timestamps are generated separately."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_197": {
+      "status": "survived",
+      "diff_sha256": "7560495b41feb385f5ace57de4123a9e1af7831e31bdf42995e323e773a2c44c",
+      "reason": "Preflight sampler result is discarded; finite pressure0 versus missing pressure changes only unused synthetic result, preserving probe uniqueness/attachment validation."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_221": {
+      "status": "survived",
+      "diff_sha256": "2627a09dd96c4328bbccc6b69e0876b11b9362a4b439988803a7495b0d5f1ae0",
+      "reason": "Diagnostic wording only: raise ValueError('Candidate physical timestep must be finite and positive') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_222": {
+      "status": "survived",
+      "diff_sha256": "7ec9ee5ace71b9a7fce6e6c9d0583cd8476f8e3137948322535c3c3ab59ceb6d",
+      "reason": "Diagnostic wording only: raise ValueError('Candidate physical timestep must be finite and positive') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_223": {
+      "status": "survived",
+      "diff_sha256": "82fab79ca8a8178d9ed02edea017b69bf10d32ba735d3b2ec65eb6053405878f",
+      "reason": "Diagnostic wording only: raise ValueError('Candidate physical timestep must be finite and positive') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_240": {
+      "status": "survived",
+      "diff_sha256": "dc3fc0ec519349bc9f8d1a1e4beb28c050c5f7c1381007ddc1e5ba28517421d7",
+      "reason": "math.isclose default rel_tol is exactly1e-9, equal to removed explicit argument; absolute tolerance remains unchanged."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_26": {
+      "status": "survived",
+      "diff_sha256": "74865e936836e925d747b90e010fcbca4111dc1ed4e9db3dc1b5bb8fad0efc02",
+      "reason": "Diagnostic wording only: raise ValueError('CPU Session sweeps currently support dtype=float32 only') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_260": {
+      "status": "survived",
+      "diff_sha256": "8b5e2096b86a7eefa665e92547b31f62db81ee653241abf5a59d5b1a1a1f58a4",
+      "reason": "Diagnostic wording only: raise ValueError('Measurement window must cover enough exact source steps within the run') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_261": {
+      "status": "survived",
+      "diff_sha256": "d754c841b70e0c4456576e927864af5b747f0539c3d06c3997884b36c04f4de3",
+      "reason": "Diagnostic wording only: raise ValueError('Measurement window must cover enough exact source steps within the run') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_264": {
+      "status": "survived",
+      "diff_sha256": "44b3d1df4998f4e15548a0f2332511ae0c6eec2eecc4d9ecfedcbdd5b7d4c4dd",
+      "reason": "Extra private key leaves original validated origin_world_m intact. world_basis converts validated numeric coordinates without changing their values; downstream world_basis/sample operations convert the original again. No public result includes this prepared dictionary."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_265": {
+      "status": "survived",
+      "diff_sha256": "769a0308272c51621bc8ed408079b2f7b599f98e9d96198c6f2b2dd5f7ef1478",
+      "reason": "Uppercase private key leaves original validated origin_world_m intact; float-list normalization is semantically redundant for downstream numeric conversion. Prepared dictionary is not public result provenance."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_266": {
+      "status": "survived",
+      "diff_sha256": "55eb617ce1434d0ff9c60e63ae32395b98f216cb9c472f0868a90f118b71ef2e",
+      "reason": "Extra private key leaves original validated basis intact. Downstream world_basis/NumPy conversion produces the same numeric basis; this prepared dictionary is not exposed in results."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_267": {
+      "status": "survived",
+      "diff_sha256": "94af575e4d90bfb6b39fbac0b35d38ed74b2a2667dfd6255cbe4c2cf10642a03",
+      "reason": "Uppercase private key leaves original validated basis intact; list-of-float normalization does not change the downstream numeric frame."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_27": {
+      "status": "survived",
+      "diff_sha256": "7717a994b77ec9744d99e2703dc6e08d6ec6d6d82fe614c528497baf87c82b88",
+      "reason": "Diagnostic wording only: raise ValueError('CPU Session sweeps currently support dtype=float32 only') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_28": {
+      "status": "survived",
+      "diff_sha256": "b9fc68aa99e541115d6b37a35738d6d85717061886666022ae26b47d3068d26c",
+      "reason": "Diagnostic wording only: raise ValueError('CPU Session sweeps currently support dtype=float32 only') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_34": {
+      "status": "survived",
+      "diff_sha256": "40e883bf5172f5c27393877d7707a0ad414eb61795a0320f01aeaa5c295cbc14",
+      "reason": "validate_case device default is cpu, exactly the omitted explicit argument."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_6": {
+      "status": "survived",
+      "diff_sha256": "f0e70d81958b5d0735475216956855921d6869eaad3cf4b187d7374ab50de394",
+      "reason": "Diagnostic wording only: raise ValueError('Prepared candidate fields do not match the executor contract') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_7": {
+      "status": "survived",
+      "diff_sha256": "a0a1b1c5178281e23b363f6ca88e56ddc41d24b5f02195920125e7820e902813",
+      "reason": "Diagnostic wording only: raise ValueError('Prepared candidate fields do not match the executor contract') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x__prepare__mutmut_79": {
+      "status": "survived",
+      "diff_sha256": "67d8cd50e1cf35b4e909bd7eee137bd92681057bf07f399c55adef7489dc26d1",
+      "reason": "Diagnostic wording only: raise ValueError('Measurement frame must match the case physical origin and basis') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1__init____mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "531fd84e6b962b787c21800fe5aa303539be37e8890d050ace17aafdaf04f5f1",
+      "reason": "Diagnostic wording only: raise ValueError('Executor requires 1..64 prepared candidates') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1__init____mutmut_11": {
+      "status": "survived",
+      "diff_sha256": "4cfb0df1a786234bbafdc3ac6eb37ad693d4d4a12fb3a51248a8c1c20e7f5ab6",
+      "reason": "Diagnostic wording only: raise ValueError('Executor requires 1..64 prepared candidates') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1__init____mutmut_22": {
+      "status": "survived",
+      "diff_sha256": "8692eae21c01c650e0339c2f0fbbf6feefa5c3b0d3fee8e70aebe69147d75826",
+      "reason": "Diagnostic wording only: raise ValueError('Prepared mapping keys must match candidate IDs') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1__init____mutmut_23": {
+      "status": "survived",
+      "diff_sha256": "f1222c8458e561d3dd56a5b725b84e559ae2a3256c0fea19a2d0a6efdc1b6ae9",
+      "reason": "Diagnostic wording only: raise ValueError('Prepared mapping keys must match candidate IDs') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1__init____mutmut_24": {
+      "status": "survived",
+      "diff_sha256": "6b5b139ddbbd9fbcba4a8a4c5a861683006bf274375af795b276cdf02afc15e2",
+      "reason": "Diagnostic wording only: raise ValueError('Prepared mapping keys must match candidate IDs') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1__init____mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "f1d1e4fc1efcdf8944e73e9d3f73131b4f28f80de62ac9a22c45d1f2ec04bf9f",
+      "reason": "Diagnostic wording only: raise ValueError('Executor requires 1..64 prepared candidates') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1_run__mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "ea1121aeb48a7853e372292b175c1322c15a2c03c98365af48dcf737db3ad283",
+      "reason": "Diagnostic wording only: raise ValueError('Unknown or closed executor handle') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1_run__mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "23f949a84e969732dd6b51a55bc7da1a5c1925373510317b89ef7c00124afe3d",
+      "reason": "Diagnostic wording only: raise ValueError('Unknown or closed executor handle') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1_run__mutmut_5": {
+      "status": "survived",
+      "diff_sha256": "b7f7eeccbd7800a5fdf25087a4ef6668298cc826cb48c02525d3ad8b9e3af8a0",
+      "reason": "Diagnostic wording only: raise ValueError('Unknown or closed executor handle') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1_work__mutmut_184": {
+      "status": "survived",
+      "diff_sha256": "14811dbcde4d1679945f3bf8b84d1d9c2089d3b6e439e5a09ba089614bad9e50",
+      "reason": "Both None and empty string drop the capture-to-session reference after capture finishes; no later code reads capture.session. Ownership cycle is broken in either case."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1_work__mutmut_219": {
+      "status": "survived",
+      "diff_sha256": "7c5cc2a44ee6514fbf3449f13f3e7e3e8ab906a80ee71c6dd0dd9134e84447c3",
+      "reason": "run.details is not consumed by public poll/results/close/audit. Public retained details are independently stored in _results; changing unused private duplicate assignment does not remove results."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1_work__mutmut_61": {
+      "status": "survived",
+      "diff_sha256": "7139b3ae7dcd386b3762363aa251cc342ac3b70ede8ef878c76a50acfb4d1328",
+      "reason": "Backend selection lowercases requested device, so CPU and cpu select the same explicit CPU backend."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1_work__mutmut_78": {
+      "status": "survived",
+      "diff_sha256": "ce22ebe8e1b301b35b0e2eb3004b0244916004479d997b525e6a6ba65e0bcd60",
+      "reason": "Pinned BounceBackBoundary.make_no_collision_mask returns stored _mask and ignores shape argument. Only BounceBackBoundary instances reach this expression."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1_work__mutmut_79": {
+      "status": "survived",
+      "diff_sha256": "d587a11784756b6fce747e917ee267623fcb16e3f120181629f169594af36834",
+      "reason": "Pinned BounceBackBoundary.make_no_collision_mask returns stored _mask and ignores context argument; no changed allocation or device selection occurs."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1_work__mutmut_85": {
+      "status": "survived",
+      "diff_sha256": "5a3f776c514174583fe3aed4b45463aae63b8867ef27fe6e9d6510006f12489a",
+      "reason": "Diagnostic wording only: raise ValueError('Expected exactly one matching full-way obstacle boundary') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1_work__mutmut_86": {
+      "status": "survived",
+      "diff_sha256": "1522feba7bb5c27e680cdd9862ddd9e3f7ef274afff47e9abbd47f9d58c88dfb",
+      "reason": "Diagnostic wording only: raise ValueError('Expected exactly one matching full-way obstacle boundary') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1_work__mutmut_94": {
+      "status": "survived",
+      "diff_sha256": "abb2c1e96c4647672b88bccc3d860df07f926e1b1d7429cd35428ddcacdc8507",
+      "reason": "On checkpoint cancellation, return still executes finally. Skipped code only reads cancelled and bypasses summarize; finally retains partial history and publishes cancelled state in both paths."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1close__mutmut_12": {
+      "status": "survived",
+      "diff_sha256": "9b3d236ef740f5327752e9ff6c1d615c75bfa04a8fe991b01cdaca8e648a195a",
+      "reason": "Cancelled terminal state is assigned only with cancellation already truthy. Extra close assignment sets it True again and notifies; cannot change published outcome or resume work."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1close__mutmut_13": {
+      "status": "survived",
+      "diff_sha256": "5648553d5600c5738e2c1526fe7ecf5c5df604042736e6a9c9f02922779a14e5",
+      "reason": "Cancelled state implies cancellation already true; treating it as nonterminal merely reasserts cancellation and notifies, retaining close ownership until thread exit."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1resume__mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "2bb5555fc9c1f823010396eb41046cbade258d1834b1f5bf0d6a48ad5773e0b3",
+      "reason": "paused is used only as a truthy checkpoint predicate; None and False both release pause. No public output exposes its raw type."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1start__mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "d4f18c813c10fefa1940240b902768229fc16c06feaa8212911abad4f3d18ce9",
+      "reason": "Diagnostic wording only: raise ValueError('Generation must be a nonnegative integer') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1start__mutmut_29": {
+      "status": "survived",
+      "diff_sha256": "eefd19c4527340cd8c7f0a86c7591fe473c9094e96819eebd227237349bccd8f",
+      "reason": "Diagnostic wording only: raise ValueError('Candidate/generation does not match prepared inputs') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1start__mutmut_30": {
+      "status": "survived",
+      "diff_sha256": "986d0e92b1c35a79c4efa61e8bd29af3634aafd3ce702f162957c9eee8bf8ae3",
+      "reason": "Diagnostic wording only: raise ValueError('Candidate/generation does not match prepared inputs') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1start__mutmut_31": {
+      "status": "survived",
+      "diff_sha256": "4a7e75a4f39cecfc6a3724bc010dfa0a71b3896f848ebaa54faf2ae7a155b7d5",
+      "reason": "Diagnostic wording only: raise ValueError('Candidate/generation does not match prepared inputs') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1start__mutmut_38": {
+      "status": "survived",
+      "diff_sha256": "ab36c480b06bee7a7ba8d8bf19e6e6ae8c0099aec7b1ff7bdea6978d44d38c06",
+      "reason": "Diagnostic wording only: raise ValueError('Close the current handle; each prepared generation runs only once') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1start__mutmut_50": {
+      "status": "survived",
+      "diff_sha256": "8c9c13636455638e0525356286bf4ce3baa15af0bc554ec855e61bbbd3568ae8",
+      "reason": "Diagnostic thread-name policy: default generated name replaces descriptive Hawa prefix. Worker target, daemon flag, identity, ownership and control behavior are unchanged; exact thread label is not public API."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1start__mutmut_54": {
+      "status": "survived",
+      "diff_sha256": "c21b949bcbf0e77577c544a4eb238b4df28c74bc2e68eac827555f887e6f7281",
+      "reason": "Diagnostic thread-name policy: default generated name replaces descriptive Hawa prefix. Worker target, daemon flag, identity, ownership and control behavior are unchanged; exact thread label is not public API."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1start__mutmut_57": {
+      "status": "survived",
+      "diff_sha256": "d2f0cfd660a11241625ad9944fa68088939972d3b9fb4663458102968a7d5748",
+      "reason": "Diagnostic thread-name policy: prefix spelling or UUID truncation length changes. Worker target, daemon flag, identity, ownership and control behavior are unchanged; exact thread label is not public API."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1start__mutmut_58": {
+      "status": "survived",
+      "diff_sha256": "7f6e192c78ff6df44a07d9bb8cfebbfd49cfd663fd517f96f03cde19f97232d5",
+      "reason": "Diagnostic thread-name policy: prefix spelling or UUID truncation length changes. Worker target, daemon flag, identity, ownership and control behavior are unchanged; exact thread label is not public API."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1start__mutmut_59": {
+      "status": "survived",
+      "diff_sha256": "7c8f38dfdbb0dfc5fcd601c134580e8f1e4a7cf3a84bac01046d3db51548f2c3",
+      "reason": "Diagnostic thread-name policy: prefix spelling or UUID truncation length changes. Worker target, daemon flag, identity, ownership and control behavior are unchanged; exact thread label is not public API."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1start__mutmut_60": {
+      "status": "survived",
+      "diff_sha256": "bc6e6005802115c1ff65027524278ee5b86352faf934ba6c9f54badff56b02bb",
+      "reason": "Diagnostic thread-name policy: prefix spelling or UUID truncation length changes. Worker target, daemon flag, identity, ownership and control behavior are unchanged; exact thread label is not public API."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1start__mutmut_8": {
+      "status": "survived",
+      "diff_sha256": "eadbe453899f2db7ba4dc5b413443ab1c0957486022fa01de40a417b13a6dbfb",
+      "reason": "Diagnostic wording only: raise ValueError('Generation must be a nonnegative integer') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1CpuSweepExecutor\u01c1start__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "a393adadb2c241aa53bff1410b5e7dc79a0898242be2d2604d3581ba0f4fa801",
+      "reason": "Diagnostic wording only: raise ValueError('Generation must be a nonnegative integer') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1_Capture\u01c1__call____mutmut_42": {
+      "status": "survived",
+      "diff_sha256": "bbbb6405f9d5d1373d1819029958e499b33500b3f258d58a3a072721851e402a",
+      "reason": "Diagnostic wording only: raise RuntimeError('Pressure/load capture phase identity mismatch') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1_Capture\u01c1__call____mutmut_43": {
+      "status": "survived",
+      "diff_sha256": "f4b16c0c8ca5ca3922541cbc4e1001d779869b3eda39f5a4df96933de66745d8",
+      "reason": "Diagnostic wording only: raise RuntimeError('Pressure/load capture phase identity mismatch') keeps its exception type, rejection condition, and actionable cause; mutation changes capitalization or adds XX decoration. Exact wording is not a contract; nonempty/non-None cause is tested."
+    },
+    "hawa.sweep_executor.x\u01c1_Capture\u01c1__init____mutmut_14": {
+      "status": "survived",
+      "diff_sha256": "630655c38e0852f1f03faaaa4445ead878404a3700f78d0c2c8e844ce99a893a",
+      "reason": "Collector default capacity100000 is >=every admitted steps value. History appends lazily and worker performs at most steps captures; larger unused capacity does not allocate storage or change retained samples."
+    },
+    "hawa.sweep_executor.x\u01c1_Run\u01c1__init____mutmut_15": {
+      "status": "survived",
+      "diff_sha256": "4505f4a93b63950e6e3470c89dc067b2721a61085c34230cd92401e0b28f68c2",
+      "reason": "Initial thread placeholder is overwritten by Thread before registration/start and before public handle is returned; empty string is never observed by executor lifecycle."
+    },
+    "hawa.sweep_executor.x\u01c1_Run\u01c1__init____mutmut_16": {
+      "status": "survived",
+      "diff_sha256": "33fa1cb3943e3748957c6a097181e5c48884797de352f81a20d8f80705d2fbc0",
+      "reason": "Initial private details placeholder has no production readers; completed data uses _results and is assigned independently. Publication test correctly does not use this incidental field."
+    },
+    "hawa.sweep_executor.x\u01c1_Run\u01c1__init____mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "8319d07081af6aea8cd005b8bda9ed1d2a548fcc594b569eefb3a37723021ead",
+      "reason": "Initial paused flag is used only for truthiness; None and False both allow first checkpoint and carry no public type contract."
+    },
+    "hawa.sweep_executor.x\u01c1_Run\u01c1__init____mutmut_6": {
+      "status": "survived",
+      "diff_sha256": "3e060a10b3cf13a9955aafa268fd5c4dfcd40d9378213ad0fa9e94b083288d12",
+      "reason": "Initial cancelled flag is used only for truthiness; None and False both permit work until explicit cancellation sets True."
+    }
+  },
+  "tool": "mutmut==3.7.0",
+  "mutants": 1757,
+  "inventory_sha256": "279fdb2e9093a8bfc24bfd462306917ec78d044dc6ba635264bdc118c1dd06f1"
+}

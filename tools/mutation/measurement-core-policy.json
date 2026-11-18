@@ -1,0 +1,524 @@
+{
+  "scope": "measurement SI analysis and sequential sweep ownership; excludes decorated Pydantic class validators, worker/collector, recipes and host adapters",
+  "sources": {
+    "src/hawa/measurements.py": "c467528fc84548c0cb294aa7fd32d3cdf6f5b327336921fad562573ecbba50af",
+    "src/hawa/sweeps.py": "45549b20a09a37159e47b86d4470d34f3b62a48b9450410e21a720d9e4785f74",
+    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
+    "tests/test_measurements.py": "148e8b9561bf17bdf744e7b80cd13683bc4264e2af93b63db93ae9e693343857",
+    "tests/test_sweeps.py": "c90241cfbda273417997c7fd953eb1bbab59dbee4aafdf444da740234fe661a5",
+    "tests/fixtures/measurements/measurement-v1.json": "ecc203ce0bbea99f3e8e491891891e70e55048582a1ac86fde4ead494b3fa141",
+    "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c",
+    "docs/schemas/measurement-request.schema.json": "d2ac0179bc787329227026ce5a6838553c87df929b364fb404d7391a576b7348",
+    "docs/schemas/measurement-sample.schema.json": "d44e2061dee699d9ea8cfd4eaa906e21622885f6ce6d6eb4137599ac63140cce",
+    "docs/schemas/measurement-probe.schema.json": "7c1a18dd75961a072da9d4aaf4c7d618000fb34f03eb27aca2603f39ca96c2cf"
+  },
+  "control_test_files": [
+    "tests/test_measurements.py",
+    "tests/test_sweeps.py"
+  ],
+  "reviewed_survivors": {
+    "hawa.measurements.x_finite_result__mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "b0f41dcf50cd67efb74cb54bafd797303bea416c4844ce0315e0324019ffb450",
+      "reason": "Equivalent: JSON allow_nan uses truthiness; None and False both reject nonfinite floats."
+    },
+    "hawa.measurements.x_finite_vectors__mutmut_13": {
+      "status": "survived",
+      "diff_sha256": "8c54c515e1bdd887437d2fb5985bfeb3377ea2e3b5d21f85766f8feb11bb89e9",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_finite_vectors__mutmut_14": {
+      "status": "survived",
+      "diff_sha256": "e71c1868cf8376726401c4b5f7558bf7390997737cd58f611578b45d725c18f0",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_finite_vectors__mutmut_15": {
+      "status": "survived",
+      "diff_sha256": "5292027dade00b6dac95636b4d4daada4b33be8ebdd3b9b0036f088b73456a60",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_finite_vectors__mutmut_24": {
+      "status": "survived",
+      "diff_sha256": "c733db0f9863c17a5a78bfc545fdabcd4e2606e8ed4458183fe9133a66309959",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_finite_vectors__mutmut_25": {
+      "status": "survived",
+      "diff_sha256": "5477682972c88895f51966594e4c34a2b270612652167e338a1338771b8988e4",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_finite_vectors__mutmut_26": {
+      "status": "survived",
+      "diff_sha256": "a8454082b81f1c00721efced2be7a4050fbb98e0278603e16f7da4111b8ef930",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_12": {
+      "status": "survived",
+      "diff_sha256": "5344f3e9133349a736b057a816df0f9b04da3cd1ebc5e1abbd9fc825c0a2a832",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_13": {
+      "status": "survived",
+      "diff_sha256": "2769cfe1522a4e595c00c9aac8b3f67c1cfb212da99f144555dec040ca0f61b6",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_14": {
+      "status": "survived",
+      "diff_sha256": "94c13c5498567f87df56acaf7890f52f1698c90dcd6c2f05bc6729ac407ab035",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_23": {
+      "status": "survived",
+      "diff_sha256": "a4d2a6399c3ad9b51e8817d1a0875bb86e43541c379a55397fdafa98a3350710",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_24": {
+      "status": "survived",
+      "diff_sha256": "0c1557d9bca3991993ed9a82ebe36ab6a4092a290c32ae07c4dc2039a3db57eb",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_25": {
+      "status": "survived",
+      "diff_sha256": "3c10c0f53ca0930cf25b3fadced5fc63298e898b5222a91fda04a0d696316590",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_33": {
+      "status": "survived",
+      "diff_sha256": "173c5b1929c59016dc698246819ddd0ba2ab66cc013f2ea30e69ec452c7d18b2",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_34": {
+      "status": "survived",
+      "diff_sha256": "9182e6d1cb529e5e214166658682e08d0e645bbccb2e8346a09a4a09887d1650",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_35": {
+      "status": "survived",
+      "diff_sha256": "764811a885a487e61941abdb81e0e4098cbd030880af05935e79f51ff72deb0a",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_38": {
+      "status": "survived",
+      "diff_sha256": "15ccb8bf95b35b7f6d24bdd44fefb1b70c7ba8be0d60b911845f004b43c56ac2",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_39": {
+      "status": "survived",
+      "diff_sha256": "f30ebd0b87a890df1d2467b8ee8dae4f81c2eecfc448c07d8602cce8ff0dd886",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_40": {
+      "status": "survived",
+      "diff_sha256": "9716e09ae7ad0e3dab1d60cb2d356a5e6eec0a6c8149f06eb10e3513150c10fd",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_47": {
+      "status": "survived",
+      "diff_sha256": "94608ade69429e8efc5148399db896a718d71cecb71e44e4253a26b4f47d2d26",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_48": {
+      "status": "survived",
+      "diff_sha256": "5dd1f107212eea2d01e3fb9ce54ea53e404c45bdb6cb47567871db244397b89e",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_49": {
+      "status": "survived",
+      "diff_sha256": "f722081e86aabee0422aef7b1be14fb0a9e8644e01f12a2cded07d1ec69651e8",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_67": {
+      "status": "survived",
+      "diff_sha256": "452a9d5862e97ae5df66d96c09f61a9a3bc3f918a67eb09cb4692a3efe833b84",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_68": {
+      "status": "survived",
+      "diff_sha256": "753293b9ee5d854eb78846ccd2a09ba670c67eccc09f525edd0bdf33bb366eb8",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_69": {
+      "status": "survived",
+      "diff_sha256": "834feb726c7d5e3ce6710607d9098bb371091fbed59f9708888b1224d5198796",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_95": {
+      "status": "survived",
+      "diff_sha256": "da6df960fe8914cb96e67ec12ad8b35078a6ed7ef23687acc308674a6c779daa",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_sample_probes__mutmut_96": {
+      "status": "survived",
+      "diff_sha256": "d5417f17229a913b933a4c60c99020f50b15efeee5d2515e1fb5ef4509a7151e",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_summarize__mutmut_108": {
+      "status": "survived",
+      "diff_sha256": "8be5204406d600501ff138a8680f73229d6068207a7def072fdff166fb6054ce",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_summarize__mutmut_109": {
+      "status": "survived",
+      "diff_sha256": "dde6fcee7e1543592c3fbb9f80a3f7353ce8e3f9fa892a0b74700816bd891197",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_summarize__mutmut_11": {
+      "status": "survived",
+      "diff_sha256": "fa936bfd4911fcfbaa7fb749468f6ae964f198bbe3a925ed64b961178382307c",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_summarize__mutmut_12": {
+      "status": "survived",
+      "diff_sha256": "3e5ea8bb585bbb71ce68c0ff4bd971bceda0f3ec2080dbbb09c1fbbd0282fe18",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_summarize__mutmut_126": {
+      "status": "survived",
+      "diff_sha256": "a85c6d8ddf63c1b4c8d5163a48f227ef7177e7d16723fb5c8f1afe43a33ee85a",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_summarize__mutmut_127": {
+      "status": "survived",
+      "diff_sha256": "749a9f1ddfcb5cd69104eaf4607c17e70e0bd0dbdd0b0431be59852c60a945fa",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_summarize__mutmut_136": {
+      "status": "survived",
+      "diff_sha256": "1d48aa55936a5acb5bece3fc264bea236838e91ef11cd456d926f675af76a2da",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_summarize__mutmut_21": {
+      "status": "survived",
+      "diff_sha256": "947ea40a498d5216d9cb8fa6eaafc984c25992ff77c28aa5c79644ae4a2f41fd",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_summarize__mutmut_22": {
+      "status": "survived",
+      "diff_sha256": "43d9699642c4adef4acbe28e752469b32b5a1e8445172ffe699a2bae0254c942",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_summarize__mutmut_23": {
+      "status": "survived",
+      "diff_sha256": "9209183e5e48bd3b85fed2b4a89fec7702ac89511c5e361e4840cbf851b153c9",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_summarize__mutmut_30": {
+      "status": "survived",
+      "diff_sha256": "bc57769a365cc419ab4b18c221e0b5a9a92b0095ccb8a3140262b3fc9f7b4e58",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_summarize__mutmut_31": {
+      "status": "survived",
+      "diff_sha256": "13ef35b348fbfdb8149f1a52ea852802e29d7586c5ea6befe05e25e1e91ecbd8",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_summarize__mutmut_39": {
+      "status": "survived",
+      "diff_sha256": "88f0c564bc2b08be38bb097e4ad7238994c195445dba903ea30866d67fc4a4c2",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_summarize__mutmut_56": {
+      "status": "survived",
+      "diff_sha256": "f291ecc59e5a6c008f1590073c37215abda28b6ebc482d5ce26d1157d1d6b9a2",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_summarize__mutmut_57": {
+      "status": "survived",
+      "diff_sha256": "257fdf59d46d1336c23b629d46f3f54b47d1acc2a6119d7c2d665fe87512c804",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_summarize__mutmut_63": {
+      "status": "survived",
+      "diff_sha256": "4fcc399a2d9aef19783a148d71a48dec4c84d4af9ff6d0b936f76a257a4901fa",
+      "reason": "Equivalent: the adjacent OR np.isclose includes exact endpoint equality, making strict and inclusive comparison equivalent."
+    },
+    "hawa.measurements.x_summarize__mutmut_75": {
+      "status": "survived",
+      "diff_sha256": "797dacf3f91106e9e35e3b9da258afa94fdf55e6e2370a645052c5ff93c8d3f1",
+      "reason": "Equivalent: the adjacent OR np.isclose includes exact endpoint equality, making strict and inclusive comparison equivalent."
+    },
+    "hawa.measurements.x_summarize__mutmut_88": {
+      "status": "survived",
+      "diff_sha256": "8d694cb903f5fcb0eb618333bd7816fa33777a6b426a0c9e8146fb4a7eec8cf4",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_unit_vector__mutmut_22": {
+      "status": "survived",
+      "diff_sha256": "f07b6999d72620f9364e4780ecd9a2f1bf60b8d901bc52d8ceae2e0135dcd36c",
+      "reason": "Equivalent: finite_vectors already produces a float ndarray, so omitted/None dtype preserves the same values and dtype."
+    },
+    "hawa.measurements.x_unit_vector__mutmut_23": {
+      "status": "survived",
+      "diff_sha256": "3ce0b699a50cb2cc75e620bd01c5a285ba5871c943ed3a97cb9ae2c398efee39",
+      "reason": "Equivalent: finite_vectors already produces a float ndarray, so omitted/None dtype preserves the same values and dtype."
+    },
+    "hawa.measurements.x_unit_vector__mutmut_24": {
+      "status": "survived",
+      "diff_sha256": "0941a96f897f3f53bcc53a043ccc7d8ddf0300b7c8174a7007eeb0a7092265c1",
+      "reason": "Equivalent: finite_vectors already produces a float ndarray, so omitted/None dtype preserves the same values and dtype."
+    },
+    "hawa.measurements.x_unit_vector__mutmut_26": {
+      "status": "survived",
+      "diff_sha256": "fc1a17d4bd9e61c4e0e39d6094378feb68807fbbb5518ba061f736dc3438af97",
+      "reason": "Equivalent: finite_vectors already produces a float ndarray, so omitted/None dtype preserves the same values and dtype."
+    },
+    "hawa.measurements.x_unit_vector__mutmut_28": {
+      "status": "survived",
+      "diff_sha256": "864e6a93b63870aedeeeb62fec5c41ab8b7e7914045326e61253ffaa624a7975",
+      "reason": "Equivalent: finite_vectors already produces a float ndarray, so omitted/None dtype preserves the same values and dtype."
+    },
+    "hawa.measurements.x_validate_request__mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "4472a5dc8240b80c451f0533c377223eb1fac17aca23e5e10b459e75579d7759",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_validate_request__mutmut_11": {
+      "status": "survived",
+      "diff_sha256": "f191d17ed9973eac905a5969a6a5dbce5d807900729b5c9a3a71ef29d4bb026b",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.measurements.x_validate_request__mutmut_12": {
+      "status": "survived",
+      "diff_sha256": "f06c6828104cd64854674f506d9143bcd6833054865231d4a5e4869321ac15f8",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x__completed_result__mutmut_18": {
+      "status": "survived",
+      "diff_sha256": "53be5c613257592010cdda424c3ab73af36233cc025b4766d738591792edb5bf",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x__completed_result__mutmut_19": {
+      "status": "survived",
+      "diff_sha256": "90b70846b66bb1dbdd6fd8d49fa3f8ccb1e579e32aaf5509e682b2fbb8d97143",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x__completed_result__mutmut_20": {
+      "status": "survived",
+      "diff_sha256": "8e9061934fc57707ae200de2a047ff39982c11c5c59b2cf45aac464dffea7839",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x__completed_result__mutmut_29": {
+      "status": "survived",
+      "diff_sha256": "55752184705d094b51be91200283342ddd62c54e550b3d8c3c8c8624c217bbe0",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x__completed_result__mutmut_30": {
+      "status": "survived",
+      "diff_sha256": "a2579120a2f571302454d2859598bf419810972e480f50fa96b9d7b7506fd336",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x__completed_result__mutmut_39": {
+      "status": "survived",
+      "diff_sha256": "1abdb0cf0cc0f267f4acda1cb6a3553ed8bc617423887dc644850a0a26e17058",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x__completed_result__mutmut_40": {
+      "status": "survived",
+      "diff_sha256": "aca392d07e269b9386517a3c56a3d118127d1176e546e11e229cb9bcf930d060",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x__completed_result__mutmut_47": {
+      "status": "survived",
+      "diff_sha256": "3fa31bee8acc2c4780fce2b2288cbc3fce2139161fa787dc78833c0c0189e780",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x__completed_result__mutmut_48": {
+      "status": "survived",
+      "diff_sha256": "fe06f38900d2740c7a473e501b366a4b60b161a2c73867d744dfb418ea1679dd",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x_plot_segments__mutmut_11": {
+      "status": "survived",
+      "diff_sha256": "e2f2ccf06b5d043dcdaee435e29f65cf172a6129a9cd8bde9023d47d8dfbf372",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x_plot_segments__mutmut_38": {
+      "status": "survived",
+      "diff_sha256": "b7b8ccb914f774192e0c837f136aca227cefc0931bba31e05faba62aa8a771ec",
+      "reason": "Equivalent externally: this local ValueError is caught within plot_segments; its message is not exposed, and the invalid generation still splits the segment."
+    },
+    "hawa.sweeps.x_plot_segments__mutmut_39": {
+      "status": "survived",
+      "diff_sha256": "0ad408223fcffa30cccc4a50180fcf5ff27231e90d0d55b8c37f52bdc40da342",
+      "reason": "Equivalent externally: this local ValueError is caught within plot_segments; its message is not exposed, and the invalid generation still splits the segment."
+    },
+    "hawa.sweeps.x_plot_segments__mutmut_40": {
+      "status": "survived",
+      "diff_sha256": "6b1cbecee58ffdc8f68f6b3f9868ab083bb8b384e484580bd74c11892aa41237",
+      "reason": "Equivalent externally: this local ValueError is caught within plot_segments; its message is not exposed, and the invalid generation still splits the segment."
+    },
+    "hawa.sweeps.x_plot_segments__mutmut_41": {
+      "status": "survived",
+      "diff_sha256": "ead6ca34a5e7b7f066e3ff773a4f89dd5446863055bfdd6713acefdaea3d8939",
+      "reason": "Equivalent externally: this local ValueError is caught within plot_segments; its message is not exposed, and the invalid generation still splits the segment."
+    },
+    "hawa.sweeps.x_plot_segments__mutmut_55": {
+      "status": "survived",
+      "diff_sha256": "ec4ad7290b45d0936ca0df023477edba0f0f502eb40487754e58bc192798b432",
+      "reason": "Equivalent falsey local: only the immediately following if not usable observes it and splits the plot segment."
+    },
+    "hawa.sweeps.x_validate_candidates__mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "35921b6081a012613e22e960b388a10c1c64f39dfb45ea6331a5b51217329691",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x_validate_candidates__mutmut_11": {
+      "status": "survived",
+      "diff_sha256": "5fe0e299b7e0287bfe10710d3e7f31288f8c1abe86e5a5e24bc6c37f29374fb4",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x_validate_candidates__mutmut_14": {
+      "status": "survived",
+      "diff_sha256": "ed36c993f2ff32d16f0a4a079005b319fa55d4d04f39aafec41a95077883242b",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x_validate_candidates__mutmut_15": {
+      "status": "survived",
+      "diff_sha256": "ee4b2a783b2ca964a645a25465a1efeace020bf52093bc87880dea1f772686ce",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x_validate_candidates__mutmut_16": {
+      "status": "survived",
+      "diff_sha256": "43bb21ad9e1b463f0a86eb7a4e3a1f7a1cb1102fe94c8828534d8f69378ee8ee",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x_validate_candidates__mutmut_27": {
+      "status": "survived",
+      "diff_sha256": "4ffad3d825a2e6a760fc8f6654a3463511a013030771f64b612c8c2bb25f92a8",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x_validate_candidates__mutmut_28": {
+      "status": "survived",
+      "diff_sha256": "3bf8a4cae9a0894ca77c9c3c52ef528b5dcd7a9cb8dfed1604f595c76799b8e2",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x_validate_candidates__mutmut_29": {
+      "status": "survived",
+      "diff_sha256": "bb1908d2b2bda57d3c42fa6321e1859179b4b39faedd1ba64b9d6b6b637b1803",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x_validate_candidates__mutmut_32": {
+      "status": "survived",
+      "diff_sha256": "f1d8ce8d34dff42182faeb8af1fd9f590298500f023db558f4fe577c001fa57a",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x_validate_candidates__mutmut_33": {
+      "status": "survived",
+      "diff_sha256": "4819b6de1f3bef9a521c029ffaf79714dd7a43b0c9db1cbe88c85a9f5f2d8304",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x_validate_candidates__mutmut_34": {
+      "status": "survived",
+      "diff_sha256": "6e38f9f7a623e7f6c746963249cf147be27508eaf947613dffe4b8224b648ccb",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.x_validate_candidates__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "0f501a34bb859661a7d97fb6af5a682ce22342b7df54ef600f94634884595432",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.xǁSweepControllerǁ__init____mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "78b2a7659ff55cbbe342fc5b46dbe4df98d610358f2254aeaab59157cbef9e65",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.xǁSweepControllerǁ__init____mutmut_34": {
+      "status": "survived",
+      "diff_sha256": "eb1a06dbafb5725e9fceee80df84cad77774e31cf0e18f3851ca06e202f9b647",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.xǁSweepControllerǁ__init____mutmut_35": {
+      "status": "survived",
+      "diff_sha256": "fee3f015d8589b44a2a24a6e25db22a1ae5293e8a3f88eb6bd53381c630371a5",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.xǁSweepControllerǁ__init____mutmut_36": {
+      "status": "survived",
+      "diff_sha256": "f7ae143c249793d5d570f16328ccca0304c200817fc34d33b7b365b51332b010",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.xǁSweepControllerǁ__init____mutmut_42": {
+      "status": "survived",
+      "diff_sha256": "e5f7e832d2a85399a8851fcbec4951a9cdca70b034619f192f13140aee7c4731",
+      "reason": "Equivalent inactive sentinel here: no handle/pending result exists and start assigns the integer candidate index before active use."
+    },
+    "hawa.sweeps.xǁSweepControllerǁ__init____mutmut_45": {
+      "status": "survived",
+      "diff_sha256": "b0b0477bcc2e305f3076352e92363f88ff91231d1bcb6ce4077096a790582e61",
+      "reason": "Equivalent initialization: every pending result is created through _terminal, which assigns _needs_cancel before _drain can observe it."
+    },
+    "hawa.sweeps.xǁSweepControllerǁ__init____mutmut_46": {
+      "status": "survived",
+      "diff_sha256": "67b7ece76c1085d256c4a9f2770faca937443e97488d77376f1bd2aa3e6e7689",
+      "reason": "Equivalent initialization: every pending result is created through _terminal, which assigns _needs_cancel before _drain can observe it."
+    },
+    "hawa.sweeps.xǁSweepControllerǁ_drain__mutmut_21": {
+      "status": "survived",
+      "diff_sha256": "c13818e526bc32bc03426a2124b4c789fa64fb471b12a78374a9483fbd92e616",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.xǁSweepControllerǁ_drain__mutmut_22": {
+      "status": "survived",
+      "diff_sha256": "e03dceb249c5c122a459ff236629fcf7bc875c5740e2523f6f5d7c1be1bb473d",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.xǁSweepControllerǁ_drain__mutmut_26": {
+      "status": "survived",
+      "diff_sha256": "3deb2a68448cc2ed7ff2b934304e557de5aa333dbce8bcf1087f29069727e6cb",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.xǁSweepControllerǁ_drain__mutmut_7": {
+      "status": "survived",
+      "diff_sha256": "3328a52933d1c32434a07b7625a7be7580ecdfaf13a3e935334bf0363734bb26",
+      "reason": "Equivalent falsey value after cancellation; subsequent drain uses truthiness and a new terminal transition assigns it again."
+    },
+    "hawa.sweeps.xǁSweepControllerǁrun__mutmut_7": {
+      "status": "survived",
+      "diff_sha256": "93e205c39fdbb5757179f9a9f522c3fb54f63052b0b345d46704f98a6761aba1",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.xǁSweepControllerǁrun__mutmut_8": {
+      "status": "survived",
+      "diff_sha256": "dbbf61b2431b5c1e3d544d9801f596e2f9c63e7fc74371c90919c25d121a56fb",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.xǁSweepControllerǁtick__mutmut_116": {
+      "status": "survived",
+      "diff_sha256": "ee77b802725936340fefee41f53001a4ddb4329c3912b06603ef1c40caaf6bfb",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.xǁSweepControllerǁtick__mutmut_131": {
+      "status": "survived",
+      "diff_sha256": "b037e73dae132798adfd444b75aa8740d9b678671134c5703e745cbd056bb583",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.xǁSweepControllerǁtick__mutmut_132": {
+      "status": "survived",
+      "diff_sha256": "109f2f325940a1b037506fc2c567fa60ce0e5734730b4340790662c93a75d75a",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.xǁSweepControllerǁtick__mutmut_134": {
+      "status": "survived",
+      "diff_sha256": "e6cca7dde3384fde1379106690da2f66a3368ece28c5f5dadcc42fdbb8ce57d8",
+      "reason": "Equivalent inactive sentinel here: no handle/pending result exists and start assigns the integer candidate index before active use."
+    },
+    "hawa.sweeps.xǁSweepControllerǁtick__mutmut_7": {
+      "status": "survived",
+      "diff_sha256": "957829ec343741c093b9fff8fb3f6dcaa51d9c0d8395e5ce88ea12bd6fa6cc53",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.xǁSweepControllerǁtick__mutmut_8": {
+      "status": "survived",
+      "diff_sha256": "127e16d394aa3dc96ed88ea27f0cf21b94fbbb1b538883911d23669580bed1b9",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    },
+    "hawa.sweeps.xǁSweepControllerǁtick__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "08352be6bfec123e62944830bf91243ab664c40d082ce5a91c5c93f97c2f5ba0",
+      "reason": "Reviewed diagnostic wording limitation: this exact diff only changes message case/padding or a validation label. Rejection, identities, numeric data and cleanup behavior are unchanged; exact diagnostic spelling is not asserted."
+    }
+  },
+  "tool": "mutmut==3.7.0",
+  "mutants": 1108,
+  "inventory_sha256": "8e3263a4357f49bd75aa2e7dca50049943e61f6d40ff4a20bb9188bc3bf6c740"
+}

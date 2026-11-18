@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "reviewer": "Codex wing_wrapup agent: manifest review",
+  "study_directory": "results/device-smoke-wing-queued",
+  "manifest_sha256": "4856e3fe9dd3b6c988a12c6f43483351df441d664d9a23f1321f5770deb8cec1",
+  "source_before": {
+    "commit": "17704103f1de15145f6dbbe36d68925e2e2b402e",
+    "dirty": false,
+    "status": [],
+    "index_sha256": "2b2128c1dbf2836dd40901e4d28fbdc39761aa783d8f135f426526e9c955be29",
+    "files": 981,
+    "source_sha256": "d164e69c4a36264e07538898f14b98cd5ada327846f68e768044bd76219e233e"
+  },
+  "source_after": {
+    "commit": "17704103f1de15145f6dbbe36d68925e2e2b402e",
+    "dirty": false,
+    "status": [],
+    "index_sha256": "2b2128c1dbf2836dd40901e4d28fbdc39761aa783d8f135f426526e9c955be29",
+    "files": 981,
+    "source_sha256": "d164e69c4a36264e07538898f14b98cd5ada327846f68e768044bd76219e233e"
+  },
+  "source_unchanged": true,
+  "environment": {
+    "os": "macOS-27.2.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm",
+    "python": "3.9.25 (main, Oct 31 2025, 23:01:59) \n[Clang 21.1.4 ]",
+    "executable": "/Users/r2d2/Desktop/hawa-wing-wrapup-integration/.venv/bin/python",
+    "torch": "2.8.0",
+    "numpy": "2.0.2",
+    "torch_threads": 1,
+    "variables": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "PYTORCH_ENABLE_MPS_FALLBACK": null,
+      "CUDA_VISIBLE_DEVICES": null
+    }
+  },
+  "device": "cpu",
+  "reference": {
+    "device": "cpu",
+    "dtype": "float64"
+  },
+  "candidate_dtype": "float32",
+  "policy": {
+    "path": "/Users/r2d2/Desktop/hawa-wing-wrapup-integration/scripts/device_smoke_policy.json",
+    "sha256": "cc3cd8ebfea4e0a4fe970f61522f94d784c7388f3d9f1eaa48f43af09d3ef5ed"
+  },
+  "counts": {
+    "pass": 5,
+    "fail": 0,
+    "unsupported-guarded": 0
+  },
+  "cases": [
+    {
+      "id": "engine-2d",
+      "status": "pass"
+    },
+    {
+      "id": "kbc-near-equilibrium",
+      "status": "pass"
+    },
+    {
+      "id": "neutral-shifted-regularized",
+      "status": "pass"
+    },
+    {
+      "id": "moving-sphere",
+      "status": "pass"
+    },
+    {
+      "id": "curved-wall-channel",
+      "status": "pass"
+    }
+  ],
+  "started_utc": "2026-11-18T00:45:15.495092+00:00",
+  "finished_utc": "2026-11-18T00:45:24.226524+00:00",
+  "seconds": 8.731411209000001,
+  "overlapping_jobs": "Rhino embedded CPU fine wing study and final compatibility matrix on this Mac",
+  "limits": "Five existing short CPU float32 cases compared to CPU float64 under the pinned smoke policy. This is not MPS/CUDA parity, stationary-wing convergence, new installed-host validation or package/release approval."
+}

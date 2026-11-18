@@ -1,0 +1,38 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "candidate_id": {
+      "minLength": 1,
+      "title": "Candidate Id",
+      "type": "string"
+    },
+    "angle_deg": {
+      "title": "Angle Deg",
+      "type": "number"
+    },
+    "speed_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Speed M S",
+      "type": "number"
+    },
+    "geometry_hash": {
+      "minLength": 1,
+      "title": "Geometry Hash",
+      "type": "string"
+    },
+    "case_hash": {
+      "minLength": 1,
+      "title": "Case Hash",
+      "type": "string"
+    }
+  },
+  "required": [
+    "candidate_id",
+    "angle_deg",
+    "speed_m_s",
+    "geometry_hash",
+    "case_hash"
+  ],
+  "title": "Candidate",
+  "type": "object"
+}

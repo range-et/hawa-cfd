@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "reviewer": "Codex wing_wrapup agent: manifest review",
+  "study_directory": "results/device-smoke-wing-final",
+  "manifest_sha256": "9e023d68782d1a55ce7add5e1b58893a501b26bbe87fc3a48d13a6612c6216ec",
+  "source_before": {
+    "commit": "f5c420597fa2968ce7ed7d414865990334bb2df6",
+    "dirty": false,
+    "status": [],
+    "index_sha256": "922a663d054977fc432842b169e1605243e2991227c9510d62f8a1aa29ef9d15",
+    "files": 988,
+    "source_sha256": "9919793bb4b6616bced6cf0e3c3e48b6f12d47c4433f25fbc8296118c424444d"
+  },
+  "source_after": {
+    "commit": "f5c420597fa2968ce7ed7d414865990334bb2df6",
+    "dirty": false,
+    "status": [],
+    "index_sha256": "922a663d054977fc432842b169e1605243e2991227c9510d62f8a1aa29ef9d15",
+    "files": 988,
+    "source_sha256": "9919793bb4b6616bced6cf0e3c3e48b6f12d47c4433f25fbc8296118c424444d"
+  },
+  "source_unchanged": true,
+  "environment": {
+    "os": "macOS-27.2.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm",
+    "python": "3.9.25 (main, Oct 31 2025, 23:01:59) \n[Clang 21.1.4 ]",
+    "executable": "/Users/r2d2/Desktop/hawa-wing-wrapup-integration/.venv/bin/python",
+    "torch": "2.8.0",
+    "numpy": "2.0.2",
+    "torch_threads": 1,
+    "variables": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "PYTORCH_ENABLE_MPS_FALLBACK": null,
+      "CUDA_VISIBLE_DEVICES": null
+    }
+  },
+  "device": "cpu",
+  "reference": {
+    "device": "cpu",
+    "dtype": "float64"
+  },
+  "candidate_dtype": "float32",
+  "policy": {
+    "path": "/Users/r2d2/Desktop/hawa-wing-wrapup-integration/scripts/device_smoke_policy.json",
+    "sha256": "cc3cd8ebfea4e0a4fe970f61522f94d784c7388f3d9f1eaa48f43af09d3ef5ed"
+  },
+  "counts": {
+    "pass": 5,
+    "fail": 0,
+    "unsupported-guarded": 0
+  },
+  "cases": [
+    {
+      "id": "engine-2d",
+      "status": "pass"
+    },
+    {
+      "id": "kbc-near-equilibrium",
+      "status": "pass"
+    },
+    {
+      "id": "neutral-shifted-regularized",
+      "status": "pass"
+    },
+    {
+      "id": "moving-sphere",
+      "status": "pass"
+    },
+    {
+      "id": "curved-wall-channel",
+      "status": "pass"
+    }
+  ],
+  "started_utc": "2026-11-18T01:44:39.245484+00:00",
+  "finished_utc": "2026-11-18T01:44:47.410671+00:00",
+  "seconds": 8.16516575,
+  "overlapping_jobs": "None; Rhino idle, no solver jobs",
+  "limits": "Five existing short CPU float32 cases passed against CPU float64 on clean f5c4205, with unchanged source hashes. This is not accelerator parity or aerodynamic qualification. Final evidence-only documentation and package manifest commits follow this measured snapshot."
+}

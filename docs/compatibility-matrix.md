@@ -5,12 +5,37 @@ This is a development gate. It is exhaustive over its versioned finite products;
 it does not enumerate arbitrary Grasshopper graphs, continuous geometries,
 parameter values or all concurrent event sequences.
 
+## Stationary mesh study bridge (#40, bounded infrastructure)
+
+The current inventory is **102,615 rows**, including 33 stationary-study rows.
+Two angles × two speeds × valid/invalid selected index × three requested
+backends add 24 rows; open mesh, rotated domain and cancellation × three
+backends add nine. CPU uses a real four-step cube study and checks source
+identity/time, analytic rotation, selected fields and cleanup. MPS/CUDA requests
+must reject before allocation even when hardware is unavailable: these rows are
+backend-guard evidence, not accelerator simulation passes. The independent oracle
+expects four accepted workflow rows and 29 rejected rows. The fresh Mac Python 3.9
+CPU/MPS run passed **100,125 rows**, failed none, and blocked **2,490 CUDA rows**.
+All 33 study rows passed; source hashes remained unchanged. The final run
+`results/compatibility-wing-exact-weld` (exact-double seam repair `717e997`,
+after queued-startup repair `0fdc363`) passes the independent evidence and current
+archive checks, including 54 public nodes, 32 definitions and 242 unique edges. This is a local
+contract pass, not a release or physical-accuracy pass. See
+[the machine evidence](verification-wing-gh-compatibility.json) and
+[the bridge contract](stationary-study.md). Live host evidence is recorded separately.
+The later example-35 pressure-range change is presentation only: a fresh Rhino
+archive audit and `verify_examples` pass for its new bytes with the same
+54/32/242 counts. The subsequent exact-weld numerical run passes
+`verify_evidence(current_sources=True)` with the same current archive audit;
+no original source pins or row hashes were edited. The machine record
+distinguishes the archive audit from the fresh numerical run.
+
 ## Numerical export completion (#35)
 
 The current finite inventory adds 81 rows: three table kinds (fields/probes/loads)
 × three sources (normalized 2D, physical 3D, moving 3D) × three request modes
 (valid, expected-identity mismatch, pre-publication cancellation) × three devices.
-The total is **102,582 rows**, including the 42 native-data rows below. Each row advances a real session four steps; an
+That increment totalled **102,582 rows**, including the 42 native-data rows below. Each row advances a real session four steps; an
 independent readback compares literal schemas, raw arrays/history, translated
 historical pivots, positions/units, validity, capture identity and preserved old
 bytes on rejection. Loads from stationary sources are expected rejections.
@@ -34,8 +59,8 @@ scalars and five consumers. The test suite has **600 passed, 32 skipped** (CUDA)
 with four upstream MRT warnings; 33 state contracts pass. Full test-ID and source
 hash checks pass. See [the transfer review](neutral-transfer-review.md).
 
-The current archive inventory covers **54 public nodes, 31 definitions and 191
-observed port combinations**. An additional round-trip checks the original port
+The measured integrated archive inventory covers **54 public nodes, 32 definitions
+and 242 observed unique edges**. An additional round-trip checks the original port
 GUIDs/wires and migration to list inputs. The table at the end uses this inventory.
 The earlier evidence below remains historical. Numerical atmospheric qualification
 still fails; these discrete compatibility rows cannot certify turbulence statistics.
@@ -195,39 +220,42 @@ and broader refinement remain in [GitHub Issues](https://github.com/range-et/haw
 
 ## Public node-to-example map
 
+Fresh archive audit: 54 public nodes, 32 definitions, no missing node examples.
+This is archive/wiring coverage; live acceptance is recorded separately.
+
 | Public node | Annotated GH examples |
 | --- | --- |
-| Hawa Airfoil | 12, 18 |
+| Hawa Airfoil | 12, 18, 35 |
 | Hawa Body Loads | 17, 18, 19, 20, 32 |
 | Hawa Body Preview | 17, 18, 19, 20, 32 |
-| Hawa Boundaries | 08, 10, 11, 14, 16, 24 |
+| Hawa Boundaries | 08, 10, 11, 14, 16, 24, 35 |
 | Hawa Boundary Capture | 24, 33 |
 | Hawa Boundary Data | 24, 33 |
 | Hawa Boundary Patch | 25, 26, 27, 30, 33 |
 | Hawa Boundary Set | 25, 26, 27 |
-| Hawa Case | 08, 10, 11, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33 |
+| Hawa Case | 08, 10, 11, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35 |
 | Hawa Check Case | 17, 18, 19, 20 |
 | Hawa Checkpoint | 31 |
-| Hawa Color Map | 11, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 29, 30, 33 |
-| Hawa Domain | 08, 10, 11, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 29, 30, 32, 33 |
-| Hawa Domain Preview | 10, 11, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33 |
+| Hawa Color Map | 11, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 29, 30, 33, 35 |
+| Hawa Domain | 08, 10, 11, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 29, 30, 32, 33, 35 |
+| Hawa Domain Preview | 10, 11, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35 |
 | Hawa Evaluate | 10 |
 | Hawa Example | 01, 02, 03, 04, 05, 06, 07, 13 |
 | Hawa Field Snapshot | 11, 14, 17, 18, 19, 20, 24, 25, 26, 27, 28, 29, 30 |
 | Hawa Flow Display | 11, 14, 16 |
 | Hawa Flow Statistics | 33 |
 | Hawa Geometry | 08, 10, 11, 14, 15, 16, 24, 27, 30, 31, 33 |
-| Hawa Geometry Check | 14 |
+| Hawa Geometry Check | 14, 35 |
 | Hawa Grid Preview | 14 |
 | Hawa Isosurface | 11, 13, 14 |
-| Hawa Legend | 11, 14, 24, 25, 26, 27, 28, 29, 30, 33 |
+| Hawa Legend | 11, 14, 24, 25, 26, 27, 28, 29, 30, 33, 35 |
 | Hawa Linked Case | 21, 22 |
 | Hawa Motion Case | 17, 18, 19, 20, 32 |
 | Hawa Motion Evaluate | 20 |
 | Hawa Moving Body | 17, 18, 19, 20, 32 |
 | Hawa Neutral Flow | 28, 29, 30, 33 |
 | Hawa Oscillation | 17, 18, 20 |
-| Hawa Physics | 08, 10, 11, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33 |
+| Hawa Physics | 08, 10, 11, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35 |
 | Hawa Plane Field | 11, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 29, 30, 33 |
 | Hawa Playback | 13, 16, 17, 18, 19, 20, 32, 33 |
 | Hawa Polar Data | 12 |
@@ -236,14 +264,15 @@ and broader refinement remain in [GitHub Issues](https://github.com/range-et/haw
 | Hawa Refinement Patch | 15 |
 | Hawa Result Quality | 24, 25, 26, 27, 28, 29, 30, 31, 33 |
 | Hawa Rotation | 19 |
-| Hawa Runtime | 31 |
+| Hawa Runtime | 31, 35 |
 | Hawa Sample | 31 |
 | Hawa Search | 10, 20 |
 | Hawa Seed Points | 11, 14, 16 |
 | Hawa Slice | 01, 02, 03, 04, 05, 06, 07, 08, 10, 14, 24 |
 | Hawa Solve | 01, 02, 03, 04, 05, 06, 07, 08, 11, 14, 17, 18, 19, 24, 25, 26, 27, 28, 29, 30, 31 |
+| Hawa Stationary Study | 35 |
 | Hawa Streamlines | 08, 10 |
-| Hawa Surface Field | 14 |
+| Hawa Surface Field | 14, 35 |
 | Hawa Translation | 32 |
 | Hawa Vectors | 31 |
 | Hawa Wall Roughness | 33 |

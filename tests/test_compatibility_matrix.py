@@ -6,6 +6,7 @@ from matrix.cases import topologies,combinations
 from matrix.operations import field_cases,exercise_field
 from matrix.exports import export_cases,exercise_export
 from matrix.native_data import native_data_cases,exercise_native_data
+from matrix.stationary_study import stationary_study_cases,exercise_stationary_study
 from matrix.contract import expected_rows,verify_rows,verify_examples,ROOT
 
 
@@ -14,7 +15,7 @@ def test_matrix_products_have_unique_complete_ids():
     assert len({r['id'] for r in rows})==len(rows)
     assert sum(r['expected'] for r in rows)==1392
     assert len(list(combinations()))==240
-    assert len(expected_rows())==99291+576*3+1440+81+42
+    assert len(expected_rows())==99291+576*3+1440+81+42+33
 
 
 def test_evidence_rejects_missing_duplicate_false_pass_and_unknown_rows():
@@ -97,3 +98,16 @@ def test_native_data_product_cpu(row,tmp_path):
 def test_native_data_product_relative_output_directory(row,tmp_path,monkeypatch):
     monkeypatch.chdir(tmp_path)
     assert exercise_native_data(row,Path('relative-fixtures'),'cpu') is row['expected']
+
+
+def test_stationary_study_matrix_inventory():
+    rows=list(stationary_study_cases())
+    assert len(rows)==33 and len({r['id'] for r in rows})==33
+    assert sum(r['expected'] for r in rows)==4
+    expected=expected_rows()
+    assert all(expected[r['id']]==r['expected'] for r in rows)
+
+
+@pytest.mark.parametrize('row',list(stationary_study_cases()),ids=lambda row:row['id'])
+def test_stationary_study_product(row):
+    assert exercise_stationary_study(row) is row['expected']

@@ -21,6 +21,7 @@ from matrix.nesting import nesting_cases,exercise_nesting
 from matrix.collections import collection_cases,exercise_collection
 from matrix.exports import export_cases,exercise_export
 from matrix.native_data import native_data_cases,exercise_native_data
+from matrix.stationary_study import stationary_study_cases,exercise_stationary_study
 from hawa.refinement import run_refined
 from matrix.contract import source_hashes,expected_rows,verify_evidence,verify_examples,environment
 import numpy as np
@@ -101,6 +102,14 @@ def run(output, release=False):
                 except Exception as e:record(item,'failed',error=type(e).__name__+': '+str(e));continue
                 record(item,'passed' if accepted==row['expected'] else 'failed',observed='run' if accepted else 'reject',device=device,steps=(12 if accepted else 6) if row['id'].startswith('native-data/') else 4)
             save();log.flush()
+        # Unsupported study backends are admission checks and need no hardware.
+        for row in stationary_study_cases():
+            try:accepted=exercise_stationary_study(row)
+            except Exception as e:record(row,'failed',error=type(e).__name__+': '+str(e));continue
+            record(row,'passed' if accepted==row['expected'] else 'failed',
+                   observed='run' if accepted else 'reject',device=row['device'],
+                   steps=4 if row['device']=='cpu' and row['mode']=='run' else 0)
+        save();log.flush()
     expected=len(expected_rows())
     changed=summary['sources']!=source_hashes()
     summary.update(state='complete',expected_rows=expected,recorded_rows=sum(counts.values()),sources_changed_during_run=changed,

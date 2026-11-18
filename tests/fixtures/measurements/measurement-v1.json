@@ -1,0 +1,175 @@
+{
+  "request": {
+    "schema": "hawa-measurement-1",
+    "identity": {
+      "case_id": "manufactured-case",
+      "candidate_id": "alpha-0",
+      "case_hash": "fixture-case",
+      "geometry_hash": "fixture-wing",
+      "revision": 0,
+      "generation": 1
+    },
+    "references": {
+      "density_kg_m3": 2.0,
+      "speed_m_s": 3.0,
+      "area_m2": 4.0,
+      "chord_m": 2.0,
+      "pressure_pa": 100.0,
+      "drag_axis_world": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "lift_axis_world": [
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "bodies": [
+      {
+        "body_id": "wing",
+        "moment_origin_world_m": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "window": {
+      "start_s": 1.0,
+      "end_s": 4.0,
+      "minimum_samples": 4,
+      "stationarity_absolute_coefficient_tolerance": 0.01
+    }
+  },
+  "samples": [
+    {
+      "schema": "hawa-measurement-1",
+      "identity": {
+        "case_id": "manufactured-case",
+        "candidate_id": "alpha-0",
+        "case_hash": "fixture-case",
+        "geometry_hash": "fixture-wing",
+        "revision": 0,
+        "generation": 1
+      },
+      "body_id": "wing",
+      "step": 1,
+      "time_s": 1.0,
+      "force_world_n": [
+        36.0,
+        0.0,
+        72.0
+      ],
+      "torque_world_nm": [
+        0.0,
+        18.0,
+        0.0
+      ],
+      "valid": true,
+      "reason": "",
+      "quality": "accepted"
+    },
+    {
+      "schema": "hawa-measurement-1",
+      "identity": {
+        "case_id": "manufactured-case",
+        "candidate_id": "alpha-0",
+        "case_hash": "fixture-case",
+        "geometry_hash": "fixture-wing",
+        "revision": 0,
+        "generation": 1
+      },
+      "body_id": "wing",
+      "step": 2,
+      "time_s": 2.0,
+      "force_world_n": [
+        36.0,
+        0.0,
+        72.0
+      ],
+      "torque_world_nm": [
+        0.0,
+        18.0,
+        0.0
+      ],
+      "valid": true,
+      "reason": "",
+      "quality": "accepted"
+    },
+    {
+      "schema": "hawa-measurement-1",
+      "identity": {
+        "case_id": "manufactured-case",
+        "candidate_id": "alpha-0",
+        "case_hash": "fixture-case",
+        "geometry_hash": "fixture-wing",
+        "revision": 0,
+        "generation": 1
+      },
+      "body_id": "wing",
+      "step": 3,
+      "time_s": 3.0,
+      "force_world_n": [
+        36.0,
+        0.0,
+        72.0
+      ],
+      "torque_world_nm": [
+        0.0,
+        18.0,
+        0.0
+      ],
+      "valid": true,
+      "reason": "",
+      "quality": "accepted"
+    },
+    {
+      "schema": "hawa-measurement-1",
+      "identity": {
+        "case_id": "manufactured-case",
+        "candidate_id": "alpha-0",
+        "case_hash": "fixture-case",
+        "geometry_hash": "fixture-wing",
+        "revision": 0,
+        "generation": 1
+      },
+      "body_id": "wing",
+      "step": 4,
+      "time_s": 4.0,
+      "force_world_n": [
+        36.0,
+        0.0,
+        72.0
+      ],
+      "torque_world_nm": [
+        0.0,
+        18.0,
+        0.0
+      ],
+      "valid": true,
+      "reason": "",
+      "quality": "accepted"
+    }
+  ],
+  "expected": {
+    "q_pa": 9.0,
+    "CD": 1.0,
+    "CY": 0.0,
+    "CL": 2.0,
+    "Cm": 0.25,
+    "force_std_world_n": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "shifted_moment_world_nm": [
+      0.0,
+      90.0,
+      0.0
+    ],
+    "probe_pressure_pa": 118.0,
+    "probe_Cp": 2.0
+  }
+}

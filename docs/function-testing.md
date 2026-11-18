@@ -317,6 +317,30 @@ bounded lock test explicitly enables locking. No timeout/signal is a kill.
 [Combined evidence](verification-combined-export-mutation.json) and
 [export review](review-numerical-export.md).
 
+
+### Measurement foundation schema registry (#40)
+
+The internal measurement/sweep schemas extend `test_payload_schemas.py` without
+changing motion production code. Its pinned motion-schema mutation study was
+rerun with the expanded snapshots and explicit CPU-only import isolation:
+104 assertion kills, zero survivors/errors, 132 passing controls. The mutant
+inventory is unchanged. The refreshed policy also binds the new schema/model
+files read by the registry. This is motion-regression evidence, not a mutation
+study of the new measurement/sweep implementation. The combined CPU-only function
+measurement and remaining scope are in the
+[foundation review](review-measurement-foundation.md).
+
+### Measurement/sweep analysis mutation follow-up (#40)
+
+`run_measurement_core.sh` now measures `measurements.py` and `sweeps.py` with
+163 passing controls. The fresh Python 3.12 study contains 1,108 mutants:
+1,008 assertion kills and 100 individually reviewed equivalents or diagnostic
+wording changes, with no unchecked/error/timeout outcomes. Check the exact
+inventory with `measurement-core-policy.json`; no score threshold is used.
+Decorated Pydantic class validators, CPU worker/collector, geometry recipes and
+host adapters are outside this inventory. See the
+[CPU follow-up](review-cpu-sweep-validation.md) for separate worker-study limits.
+
 ### Export and native checkpoint completion (#35)
 
 The expanded increment adds probe/load CSV and paused native checkpoint save/import.
@@ -339,3 +363,12 @@ survivor reasons. Python3.9 remains authoritative for production tests.
 [export evidence](verification-export-completion-mutation.json),
 [status evidence](verification-native-data-status-mutation.json),
 [validity evidence](verification-native-data-validity-mutation.json).
+
+### CPU stationary collector and sweep worker (#40)
+
+`run_stationary_executor.sh` and `stationary-executor-policy.json` now bind 233
+controls and the exact 1,757-mutant inventory: 1,564 assertion kills, 193 reviewed
+survivors, zero errors/timeouts/unchecked outcomes. The earlier timeout-bearing
+study is not a pass. The motion-schema source snapshot was also refreshed after
+the explicit CPU allocation repair (104 kills, 132 controls). See the
+[review and limitations](review-worker-and-wing-diagnosis.md).

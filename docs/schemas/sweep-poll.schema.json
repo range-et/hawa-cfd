@@ -1,0 +1,168 @@
+{
+  "$defs": {
+    "Coefficients": {
+      "additionalProperties": false,
+      "properties": {
+        "CL": {
+          "title": "Cl",
+          "type": "number"
+        },
+        "CD": {
+          "title": "Cd",
+          "type": "number"
+        }
+      },
+      "required": [
+        "CL",
+        "CD"
+      ],
+      "title": "Coefficients",
+      "type": "object"
+    },
+    "Identity": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_id": {
+          "minLength": 1,
+          "title": "Candidate Id",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        },
+        "geometry_hash": {
+          "minLength": 1,
+          "title": "Geometry Hash",
+          "type": "string"
+        },
+        "case_hash": {
+          "minLength": 1,
+          "title": "Case Hash",
+          "type": "string"
+        },
+        "case_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Case Id"
+        },
+        "revision": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Revision"
+        }
+      },
+      "required": [
+        "candidate_id",
+        "generation",
+        "geometry_hash",
+        "case_hash"
+      ],
+      "title": "Identity",
+      "type": "object"
+    },
+    "SweepResult": {
+      "additionalProperties": false,
+      "properties": {
+        "identity": {
+          "$ref": "#/$defs/Identity"
+        },
+        "quality": {
+          "enum": [
+            "accepted",
+            "warning",
+            "rejected"
+          ],
+          "title": "Quality",
+          "type": "string"
+        },
+        "window_valid": {
+          "title": "Window Valid",
+          "type": "boolean"
+        },
+        "stationarity_passed": {
+          "title": "Stationarity Passed",
+          "type": "boolean"
+        },
+        "coefficients": {
+          "$ref": "#/$defs/Coefficients"
+        }
+      },
+      "required": [
+        "identity",
+        "quality",
+        "window_valid",
+        "stationarity_passed",
+        "coefficients"
+      ],
+      "title": "SweepResult",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "candidate_id": {
+      "minLength": 1,
+      "title": "Candidate Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    },
+    "state": {
+      "enum": [
+        "queued",
+        "running",
+        "paused",
+        "completed",
+        "failed",
+        "cancelled",
+        "rejected"
+      ],
+      "title": "State",
+      "type": "string"
+    },
+    "result": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SweepResult"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "reason": {
+      "default": "",
+      "title": "Reason",
+      "type": "string"
+    }
+  },
+  "required": [
+    "candidate_id",
+    "generation",
+    "state"
+  ],
+  "title": "Poll",
+  "type": "object"
+}

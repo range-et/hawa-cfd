@@ -1,0 +1,292 @@
+{
+  "schema": 1,
+  "reviewed_at_utc": "2026-11-17T23:38:32.656555+00:00",
+  "reviewer": "Codex wing_wrapup agent",
+  "change": "Whitespace-only separation of ten lambda bodies onto distinct executable source lines; unchanged coverage rules and test suite.",
+  "source_path": "plugin/Hawa.Grasshopper/StationaryStudyComponent.cs",
+  "before_revision": "36abdc649c92a4b0b23dd85cf7db6114622da978",
+  "installed_host_revision": "9583f3a441b1d1cb485633f389df2b464406ecee",
+  "after_revision": "7a5719d7c2a4bddadbf9a601378919d74aeeddc3",
+  "before_source_sha256": "153b8bd7dd371ac516204d5359c7e32dde8780cf98edd3313521940e37fc3240",
+  "after_source_sha256": "6851d41f5d9f1d02cd30ac1a0be0f574f061ed67b50229ca66768454811e8346",
+  "installed_host_component_source_matches_before": true,
+  "environment": {
+    "dotnet_sdk": "10.0.403",
+    "test_target": "net10.0",
+    "coverlet": "10.1.0",
+    "platform": "macOS arm64"
+  },
+  "token_comparison": {
+    "functions": 23,
+    "all_identical": true,
+    "fingerprints": {
+      "Hawa.Grasshopper.StationaryStudyComponent.public StationaryStudyComponent() : base(\"Hawa Stationary Study\", \"Study\", \"Experimental CPU body-load and pressure study. Each angle/speed starts fresh. Run off/on after edits. Forces are whole-body fluid loads, not per-face pressure or qualified aerodynamics.\", \"05 Solve\")": "ee29b64324727c6b8f30335efa7fa8b1ba5b4ae0561831540fcfbfaa108540e3",
+      "Hawa.Grasshopper.StationaryStudyComponent.public override Guid ComponentGuid": "07251562d58d7e25764c66c961aeef02ddd15e6d4577b2f79e53dd67506103ed",
+      "Hawa.Grasshopper.StationaryStudyComponent.protected override void RegisterInputParams(GH_InputParamManager p)": "2a044cf2827fad2c87ec818d91487335d5ec6140cec04dc504951cfa0836535e",
+      "Hawa.Grasshopper.StationaryStudyComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)": "84839672402aa1cec38c3fb49fd133d72f6278913be83110adf4be17bd81e916",
+      "Hawa.Grasshopper.StationaryStudyComponent.private static double Number(JsonNode? value)": "c688fad21e8e96acdf68df9b47e5ce3c465caec9b89ec55f26a334957bfb52a1",
+      "Hawa.Grasshopper.StationaryStudyComponent.private static double[] Triple(JsonNode? value)": "0311a19dbb2354176a059ad59cf1b8682365966527cc79de37005b933e53543e",
+      "Hawa.Grasshopper.StationaryStudyComponent.private static JsonArray Point(Point3d point, double scale)": "182303ea77d9914e30f72e6c7a7926f6e9d645a5378bbd7a77f45a787bef9b94",
+      "Hawa.Grasshopper.StationaryStudyComponent.private JsonObject Submission(IGH_DataAccess da, out double scale, out JsonArray points)": "c902fd6d1f337f1a88eaebd426af64db9cbea71c1c645722761c0fe6c364be36",
+      "Hawa.Grasshopper.StationaryStudyComponent.Submission(IGH_DataAccess da, out double scale, out JsonArray points).lambda#0 v =>": "ce361aa1d5b4f0a59b95e97fa5c90a7fdc91e2fd361c39571acd1ea89e0f50d0",
+      "Hawa.Grasshopper.StationaryStudyComponent.Submission(IGH_DataAccess da, out double scale, out JsonArray points).lambda#1 v =>": "b4ae0afcc283db5a3fc406562832415eddc0100593e66da4ebbcc2a64fd04f43",
+      "Hawa.Grasshopper.StationaryStudyComponent.Submission(IGH_DataAccess da, out double scale, out JsonArray points).lambda#2 v =>": "7909dff1c1af8030e8566bad9d7be010c0037d5c31bc48ef562d242098a768b0",
+      "Hawa.Grasshopper.StationaryStudyComponent.protected override void SolveHawa(IGH_DataAccess da)": "d5671f0cae2279640023004d2a3054f58baeb55612e15a0a87740afb0d0ff6d7",
+      "Hawa.Grasshopper.StationaryStudyComponent.SolveHawa(IGH_DataAccess da).lambda#0 () =>": "5c963e8d76fa4e0564aa82c25f533974418a28a3b0955c8d65a5631373aa5a97",
+      "Hawa.Grasshopper.StationaryStudyComponent.private void Publish(IGH_DataAccess da, JsonObject? payload, JsonArray points, int selected, double scale, bool completed)": "902ecb7afc1342e010aeed5bd6b96a851556b702db3242687ba9c4bc71cff336",
+      "Hawa.Grasshopper.StationaryStudyComponent.Publish(IGH_DataAccess da, JsonObject? payload, JsonArray points, int selected, double scale, bool completed).lambda#0 v =>": "8dd0bc544facc48a4feaf57d2ea44ee267165cccfafc44adf8ffb07155c0e44b",
+      "Hawa.Grasshopper.StationaryStudyComponent.Publish(IGH_DataAccess da, JsonObject? payload, JsonArray points, int selected, double scale, bool completed).lambda#1 n =>": "b18ed3e8b6ec250d4731a06802a00834a5e422f711a8747350db0b7361bb9d21",
+      "Hawa.Grasshopper.StationaryStudyComponent.Publish(IGH_DataAccess da, JsonObject? payload, JsonArray points, int selected, double scale, bool completed).lambda#2 i =>": "e1ec88d2b854be61503c89861956b8f75d599ce4b0d85786913d24cc3861c3c8",
+      "Hawa.Grasshopper.StationaryStudyComponent.Publish(IGH_DataAccess da, JsonObject? payload, JsonArray points, int selected, double scale, bool completed).lambda#3 p =>": "855eec75825641650222308b21541da8576cad28afd883295955211539432e05",
+      "Hawa.Grasshopper.StationaryStudyComponent.Publish(IGH_DataAccess da, JsonObject? payload, JsonArray points, int selected, double scale, bool completed).lambda#4 p =>": "dfc37028afb8d9ea1d6ddac1f23a5b864932df36d0d4270d8fe42a21438170d2",
+      "Hawa.Grasshopper.StationaryStudyComponent.private void CheckIdentity(JsonNode identity, JsonNode candidate)": "19cefa321030729fbd78c4d12fef99b987b6a62dccf7c36dbd292d69d3db9ad8",
+      "Hawa.Grasshopper.StationaryStudyComponent.CheckIdentity(JsonNode identity, JsonNode candidate).lambda#0 k =>": "a5df24442b58ee35743b0335fdf8df99d1b76ed1a04b11dac283064b48aa7b56",
+      "Hawa.Grasshopper.StationaryStudyComponent.protected override void InputsMissing()": "65bf82a59ffc3962681ba12dd7442b15042d9328b77a7452ee545bbd88d4cbf4",
+      "Hawa.Grasshopper.StationaryStudyComponent.public override void RemovedFromDocument(GH_Document document)": "a070b6ff24826469ce90d7f0203821a175d2801fa3c6d7a35c72f75a02b28a61"
+    }
+  },
+  "il_comparison": {
+    "methods": 29,
+    "all_identical": true,
+    "method_il_sha256": {
+      "StationaryStudyComponent::.ctor:200001": "0BA337E93D03A183038E0B446B6B512C835B3A9FC2194E434A67F100569D4903",
+      "StationaryStudyComponent::get_ComponentGuid:2000118095": "15CE1C9E5C585DC0F0A9A465782EFF50BBE77817C0E9D7C2141ECACD18E5A869",
+      "StationaryStudyComponent::RegisterInputParams:2001011281B4": "E67F9AFCA66BD3643F51DF1444CAEE8BB79D1BC1B1651FB2F677F988A1394ABE",
+      "StationaryStudyComponent::RegisterOutputParams:2001011281B8": "AB3451892E9267156D5CBC7712F77BB68E6EC4C580146D9A58C0891A312B2DBE",
+      "StationaryStudyComponent::Number:00010D1265": "74712AD3CA91B904EACCBA835435584E8EAADBD6ADA842E73A4C9C66F76AD81D",
+      "StationaryStudyComponent::Triple:00011D0D1265": "E5F991545F3D173C67DEB900889042FA27BF30887272515A56E0031FE3E99CA1",
+      "StationaryStudyComponent::Point:00021280ED1180F00D": "CCE25568BB8BC78C2063283DBA0074974B420245F88D96E2974A6D9D4D691E57",
+      "StationaryStudyComponent::Submission:2003126D1281BC100D101280ED": "1E4046D79ADC1CEF08925408FFB3C27D9D1C8B12446A21A4129C84CBB7DBB4D9",
+      "StationaryStudyComponent::SolveHawa:2001011281BC": "5965E537FBBB4218D3022FF89CAF58B7353A876045D9F2DE070297D99BECCE77",
+      "StationaryStudyComponent::Publish:2006011281BC126D1280ED080D02": "9BD0D56EA63060587077A01D56F9F63B2BC8F12D2BD3D29AC66D2C559D7B5988",
+      "StationaryStudyComponent::CheckIdentity:20020112651265": "F9E2A2810158BC95704B6A9420599BA317A24727EC7390EBDDECE2BDEA69C253",
+      "StationaryStudyComponent::InputsMissing:200001": "040C4E83CEFBB5E56C6DD27B68F5180947481BE730575A66548FCF610C6618E3",
+      "StationaryStudyComponent::RemovedFromDocument:200101128188": "0FA274545F026D0816FC9DDDD2D75E26301A2900701295887D13F0513955ED0D",
+      "StationaryStudyComponent/<>c::.cctor:000001": "77504FDE51922B00406E005D39B8CBC52887DD78CDCD0BB337AF1C93CBEE54D6",
+      "StationaryStudyComponent/<>c::.ctor:200001": "79496F6DF3551E1DE9CA8FE66402088AB4B9860619E37B0EBB2527705E661BE8",
+      "StationaryStudyComponent/<>c::<Submission>b__13_1:2001020D": "140882833610BEB40D5B6CBB6F95C84D057598B20AA0BC28A3836253E4796D2B",
+      "StationaryStudyComponent/<>c::<Submission>b__13_2:2001020D": "36B4B62C74F2692878DE6D63B2332B41962E924AD9563E90E938B830473096D0",
+      "StationaryStudyComponent/<>c::<Publish>b__15_3:2001081265": "630A25134CB3BAAAFB0D15D84D9F20A2FE730581E720B4E81176CBBB2C673CB8",
+      "StationaryStudyComponent/<>c::<Publish>b__15_0:20010D1265": "1C7DFBB2C5C95769B9F784D50C774ED76A5D784AC62CAC8D2B5006921943FDE8",
+      "StationaryStudyComponent/<>c::<Publish>b__15_1:20010D1265": "25831DDAF0FA5BA3DDED8E6ECCE2B0E0DC19CBF73928E8AE6B0B70327F5DD455",
+      "StationaryStudyComponent/<>c__DisplayClass13_0::.ctor:200001": "79496F6DF3551E1DE9CA8FE66402088AB4B9860619E37B0EBB2527705E661BE8",
+      "StationaryStudyComponent/<>c__DisplayClass13_0::<Submission>b__0:20010D0D": "1D499F571AEAB054286AC67D38FD9F91F8447C7B32F672973166D3A8A6DC3C65",
+      "StationaryStudyComponent/<>c__DisplayClass14_0::.ctor:200001": "79496F6DF3551E1DE9CA8FE66402088AB4B9860619E37B0EBB2527705E661BE8",
+      "StationaryStudyComponent/<>c__DisplayClass14_0::<SolveHawa>b__0:200002": "E0095E1A1F1F85A362A485D9BA8F664F04FB27952B4236A6DD655381DD235FE5",
+      "StationaryStudyComponent/<>c__DisplayClass15_0::.ctor:200001": "79496F6DF3551E1DE9CA8FE66402088AB4B9860619E37B0EBB2527705E661BE8",
+      "StationaryStudyComponent/<>c__DisplayClass15_0::<Publish>b__2:20010D0D": "DDA89697F49410199A06038C1DF3C6512BF7FCF13F37ED9EA768B28F3EDBE8C5",
+      "StationaryStudyComponent/<>c__DisplayClass15_0::<Publish>b__4:20010208": "5E745DA358582AB27B1679D0BC0665150E53C2655B773E87AC2E640C2A230722",
+      "StationaryStudyComponent/<>c__DisplayClass16_0::.ctor:200001": "79496F6DF3551E1DE9CA8FE66402088AB4B9860619E37B0EBB2527705E661BE8",
+      "StationaryStudyComponent/<>c__DisplayClass16_0::<CheckIdentity>b__0:2001020E": "7FB7A8C693CAEBDFE513B74A98FB5F7AF0C477044D655CEDE6CB5085D7999F7F"
+    },
+    "before_assembly": "/Users/r2d2/Desktop/hawa-wing-wrapup-integration/results/function-coverage-wing-final/state/StateContracts.dll",
+    "after_assembly": "/tmp/hawa-wing-lambda-state/StateContracts.dll",
+    "comparison": "System.Reflection.Metadata PEReader: identical method signature keys and SHA256 of GetMethodBody(...).GetILBytes(), including generated closures; compared uninstrumented/restored assemblies."
+  },
+  "measurement": {
+    "state_contracts_passed": 152,
+    "functions_covered": 23,
+    "lambda_functions_covered": 10,
+    "source_lines_hit": 227,
+    "source_lines_total": 227,
+    "gate": "Unmodified tools/function_coverage.py csharp_lines + annotate; uniquely owned executable line required for every function.",
+    "functions": [
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.public StationaryStudyComponent() : base(\"Hawa Stationary Study\", \"Study\", \"Experimental CPU body-load and pressure study. Each angle/speed starts fresh. Run off/on after edits. Forces are whole-body fluid loads, not per-face pressure or qualified aerodynamics.\", \"05 Solve\")",
+        "status": "covered",
+        "lines": {
+          "hit": 1,
+          "total": 1
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.public override Guid ComponentGuid",
+        "status": "covered",
+        "lines": {
+          "hit": 1,
+          "total": 1
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.protected override void RegisterInputParams(GH_InputParamManager p)",
+        "status": "covered",
+        "lines": {
+          "hit": 15,
+          "total": 15
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.protected override void RegisterOutputParams(GH_OutputParamManager p)",
+        "status": "covered",
+        "lines": {
+          "hit": 14,
+          "total": 14
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.private static double Number(JsonNode? value)",
+        "status": "covered",
+        "lines": {
+          "hit": 3,
+          "total": 3
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.private static double[] Triple(JsonNode? value)",
+        "status": "covered",
+        "lines": {
+          "hit": 2,
+          "total": 2
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.private static JsonArray Point(Point3d point, double scale)",
+        "status": "covered",
+        "lines": {
+          "hit": 2,
+          "total": 2
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.private JsonObject Submission(IGH_DataAccess da, out double scale, out JsonArray points)",
+        "status": "covered",
+        "lines": {
+          "hit": 41,
+          "total": 41
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.Submission(IGH_DataAccess da, out double scale, out JsonArray points).lambda#0 v =>",
+        "status": "covered",
+        "lines": {
+          "hit": 1,
+          "total": 1
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.Submission(IGH_DataAccess da, out double scale, out JsonArray points).lambda#1 v =>",
+        "status": "covered",
+        "lines": {
+          "hit": 1,
+          "total": 1
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.Submission(IGH_DataAccess da, out double scale, out JsonArray points).lambda#2 v =>",
+        "status": "covered",
+        "lines": {
+          "hit": 1,
+          "total": 1
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.protected override void SolveHawa(IGH_DataAccess da)",
+        "status": "covered",
+        "lines": {
+          "hit": 28,
+          "total": 28
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.SolveHawa(IGH_DataAccess da).lambda#0 () =>",
+        "status": "covered",
+        "lines": {
+          "hit": 1,
+          "total": 1
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.private void Publish(IGH_DataAccess da, JsonObject? payload, JsonArray points, int selected, double scale, bool completed)",
+        "status": "covered",
+        "lines": {
+          "hit": 67,
+          "total": 67
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.Publish(IGH_DataAccess da, JsonObject? payload, JsonArray points, int selected, double scale, bool completed).lambda#0 v =>",
+        "status": "covered",
+        "lines": {
+          "hit": 1,
+          "total": 1
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.Publish(IGH_DataAccess da, JsonObject? payload, JsonArray points, int selected, double scale, bool completed).lambda#1 n =>",
+        "status": "covered",
+        "lines": {
+          "hit": 1,
+          "total": 1
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.Publish(IGH_DataAccess da, JsonObject? payload, JsonArray points, int selected, double scale, bool completed).lambda#2 i =>",
+        "status": "covered",
+        "lines": {
+          "hit": 1,
+          "total": 1
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.Publish(IGH_DataAccess da, JsonObject? payload, JsonArray points, int selected, double scale, bool completed).lambda#3 p =>",
+        "status": "covered",
+        "lines": {
+          "hit": 1,
+          "total": 1
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.Publish(IGH_DataAccess da, JsonObject? payload, JsonArray points, int selected, double scale, bool completed).lambda#4 p =>",
+        "status": "covered",
+        "lines": {
+          "hit": 1,
+          "total": 1
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.private void CheckIdentity(JsonNode identity, JsonNode candidate)",
+        "status": "covered",
+        "lines": {
+          "hit": 4,
+          "total": 4
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.CheckIdentity(JsonNode identity, JsonNode candidate).lambda#0 k =>",
+        "status": "covered",
+        "lines": {
+          "hit": 1,
+          "total": 1
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.protected override void InputsMissing()",
+        "status": "covered",
+        "lines": {
+          "hit": 1,
+          "total": 1
+        }
+      },
+      {
+        "name": "Hawa.Grasshopper.StationaryStudyComponent.public override void RemovedFromDocument(GH_Document document)",
+        "status": "covered",
+        "lines": {
+          "hit": 1,
+          "total": 1
+        }
+      }
+    ]
+  },
+  "artifacts": {
+    "wing-original-inventory.json": "fb06ad90c3829e9799b553a78221023b9b94275180cec6bb6ed588dfe144a341",
+    "wing-formatted-inventory.json": "7a3e3660c3fca6af309fc39f9d4c038e29ef2566baf9b4de0de5609250028fc1",
+    "wing-il-comparison.json": "6616810d1e8dc5fa0546bbc6a57cca7445d62b75369c59d247f014ed907a8560",
+    "wing-formatted-state.json": "7531af437fefa4f6fef7e7112cdd6918188249b9743d53080aaeae6f60b1cd9b",
+    "wing-formatted-coverlet.log": "57a66bf94b1cc9c359355beb96125f6ed66d885a864f8cf1651172bf41f3b8a3"
+  },
+  "limits": [
+    "Coverlet originally merged lambda line hits into enclosing method records; shared source lines could not independently establish lambda execution, so the gate correctly refused coverage. Distinct body lines now establish execution without relaxing attribution.",
+    "IL equality is scoped to the linked StateContracts component and generated closures. It is not an installed Rhino assembly binary comparison, host verification, full branch coverage or physical qualification.",
+    "Root owns fresh whole-project coverage, compatibility, packaging and installed-host evidence after this formatting change."
+  ]
+}
