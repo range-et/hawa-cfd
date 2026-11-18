@@ -4,7 +4,7 @@ November 17, 2026. Geometry/example author: Codex `examples_review` agent.
 Live geometry/lifecycle operator: Codex root via Rhino MCP. Evidence reconciliation:
 Codex `wing_wrapup` agent. Root owns final fine-host, viewport, package and merge
 acceptance. The fine run, pressure sampling, video and scoped new-assembly host checks
-completed. Final package and exact-head merge approval remain separate.
+completed. The final development package is verified; exact-head merge approval remains separate.
 
 ## Product and measurement boundary
 
@@ -151,8 +151,11 @@ explicitly retained; no user geometry was replaced.
 
 ## Remaining package and scientific scope
 
-The final package-only artifact refresh and exact-head CI/Greptile approval
-remain integration steps. Host and video checks above are complete within their
+The final development package passed integrity, corresponding-source, license,
+legacy09-exclusion and tested-binary checks. Its exact artifact identity is
+recorded externally in `results/package-wing-workflow-final.json` and the PR
+record, avoiding a self-referential archive hash. Exact-head CI/Greptile approval
+remains the merge gate. Host and video checks above are complete within their
 stated scopes; previous failed presentation/native-welding attempts remain
 historical evidence.
 

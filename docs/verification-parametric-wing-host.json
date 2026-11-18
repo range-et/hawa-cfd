@@ -544,7 +544,7 @@
       "results/wing-pressure-defaults/20261118-012213-439d2de0d14b425ea36b020a6091360b/audit.json": "847d2094ba00e9dbb487be4e3104018d54bd4274b7d35798ab2262948dbf625e"
     },
     "pending": [
-      "Final package-only artifact refresh and exact-head hosted CI/Greptile merge approval"
+      "Exact-head hosted CI/Greptile merge approval"
     ],
     "limits": "Finite accepted windows and valid offset pressure samples do not establish grid/domain independence or aerodynamic accuracy. #40 remains open. No accelerator simulation or Windows host evidence.",
     "selection_roundtrip": {
@@ -600,7 +600,7 @@
       ],
       "frames_per_orbit": 72,
       "scatter_capture": "rhino-cl-cd-plots.png",
-      "scope": "Capture inputs for offline video assembly; final edited video acceptance pending. Initial case1 orbit had clipped legend and is excluded."
+      "scope": "Accepted inputs for the verified final edited video; initial case1 orbit had clipped legend and is excluded. See the final video record."
     },
     "default_mesh_reuse_basis": "Actual installed 717e997 production serializer returns geometry JSON exactly equal to legacy output for this 5288-vertex metre-scaled default mesh, source CRC3226656946 unchanged. Fine results remain a recorded 300dd62 run; general far-origin CFD equivalence is not claimed."
   },

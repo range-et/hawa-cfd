@@ -60,7 +60,8 @@ performed. Production is CPU-only guarded. No parallel numerical CSV is added:
 shared export captures live sessions and its load table describes moving-body
 step-end histories; the stationary collector's pre-reflection world-frame data
 requires an explicit reviewed adapter. #40 remains open for that integration,
-public GH workflow, matched references and numerical qualification.
+matched references and numerical qualification. The later public GH workflow
+is delivered in example35; see [its completed host review](review-parametric-wing-example.md).
 
 ## Integrator browser acceptance
 
