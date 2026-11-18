@@ -1,158 +1,101 @@
 # Parametric wing example — geometry and integration review
 
-November 17, 2026. Geometry/example author and source reviewer:
-Codex `examples_review` agent. Live geometry operator: Codex root via Rhino MCP.
-Root owns the installed Study adapter, final archive, UI/solver acceptance,
-coverage matrices, combined tests, CI and merge decisions.
+November 17, 2026. Geometry/example author: Codex `examples_review` agent.
+Live geometry/lifecycle operator: Codex root via Rhino MCP. Evidence reconciliation:
+Codex `wing_wrapup` agent. Root owns final fine-host, viewport, package and merge
+acceptance. The current fine run is pending; no pressure/video pass is claimed.
 
-## Product boundary
+## Product and measurement boundary
 
-The example uses existing Airfoil nodes for distinct root/tip NACA sections and
-ordinary Grasshopper expressions, vectors, Move, Loft, Cap Holes Ex, Mesh Brep,
-Mesh Join, Weld and Mesh Unify Normals. No new Hawa wing-geometry component is
-introduced. The capped solid and resulting closed mesh are actual graph data;
-there is no precomputed replacement wing hidden in the study.
+Example 35 uses existing Airfoil nodes and ordinary Grasshopper expressions,
+vectors, Move, Loft, Cap Holes Ex, Mesh Brep, Mesh Join, Weld and Mesh Unify Normals.
+The capped solid and closed mesh are graph data, not a precomputed replacement.
+Quarter-chords align at root chord/4; analytic planform area and MAC remain fixed
+across operating angles. No Hawa wing-construction component was introduced.
 
-Quarter-chords align at root chord/4. Planform area and MAC are analytic,
-angle-independent expression outputs. The separate Stationary Study receives
-the mesh, fixed empty-solid domain/fluid case, references, explicit angle/speed
-lists and controls. Field display uses the returned selected rotated mesh and
-matching snapshot, not the upstream unrotated construction. Surface Field is
-offset pressure sampling with invalid samples black. Lift/drag are total
-selected-body window means from the study, not local pressure-derived forces.
+The reusable CPU-only Stationary Study receives that mesh, an empty-solid
+world-axis physical BGK case, SI references, angle/speed lists and explicit Run.
+Background classification and sequential independent candidates retain immutable
+selected snapshots and whole-body loads. Physical edits invalidate results and
+require Run off/on; selection alone does not advance physics. See the
+[service contract](stationary-study.md) and [measurement contract](measurement-contract-v1.md).
 
-Three stock-GH scatter plots use returned angle/coefficient lists rather than
-the shorter input angle list, preserving cross-product indexing. They do not
-join points across rejected candidates. Display-coordinate scaling is separate
-from the reported coefficients; axes and units are labelled.
+Selected mesh, field and window means share candidate/generation identities.
+Model coordinates convert to metres for submission and back for display. Drag
+and lift project whole-body force onto +X and +Z; torque is about the specified
+pivot. Surface Field samples pressure at an outward offset, with invalid samples
+black. These colours are not local traction or another force integration.
+Three stock-GH scatter plots use returned angle/coefficient lists, preserve
+cross-product indexing and omit rejected pairs. Plot scaling does not change
+reported coefficients.
 
-## Fresh geometry evidence
+## Final explicit-mesh geometry preflight
 
-Root executed the generator with `geometryOnly=true` in one transient owned GH
-document. Existing Rhino/GH files were not written. All three variants produced
-a valid solid Brep and valid closed outward mesh, positive volume and the exact
-requested span. The graph changed root/tip codes, chords and span between solves.
-The prior GH canvas was restored and the owned document removed/disposed.
+Root's transient owned-document preflight passed three actual loft variants.
+`results/parametric-wing-geometry/preflight.json` records solid Breps, closed
+meshes and positive volumes with explicit meshing independent of document defaults:
+minimum edge 0.01 m, maximum edge 0.03 m, distance 0.0005 m and angle 10 degrees.
 
-| Root / tip | Chords (m) | Span (m) | Mesh vertices / faces | Volume (m³) |
-| --- | --- | --- | --- | --- |
-| 2418 / 0018 | 0.3 / 0.2 | 0.6 | 3485 / 4694 | 0.005283826501279579 |
-| 0012 / 2412 | 0.35 / 0.18 | 0.7 | 5610 / 6724 | 0.005062144002764061 |
-| 2418 / 0018 | 0.25 / 0.15 | 0.5 | 4475 / 5499 | 0.002926430487420114 |
+| Root / tip | Chords (m) | Span (m) | Vertices / mesh faces | Selected triangles | Volume (m³) |
+| --- | --- | --- | --- | --- | --- |
+| 2418 / 0018 | 0.3 / 0.2 | 0.6 | 5288 / 5409 | 10572 | 0.005293200448810192 |
+| 0012 / 2412 | 0.35 / 0.18 | 0.7 | 6528 / 6854 | 13052 | 0.005063569125053551 |
+| 2418 / 0018 | 0.25 / 0.15 | 0.5 | 5281 / 5382 | 10558 | 0.0029302017002051004 |
 
-Evidence is `results/parametric-wing-geometry/preflight.json` in the example
-worktree. This is Rhino geometry execution, not a solver, surface-pressure,
-plot, archive or installed Study acceptance pass. The first compile attempt
-rejected a local-variable name collision before execution; it was corrected
-and the three-variant run above passed. No numerical tolerance was changed.
+Selected vertex counts are respectively 5288, 6528 and 5281, below the existing
+10000-point Surface Field request cap. This establishes geometry/resource
+admission, not successful pressure sampling. Earlier implicit-mesh runs had
+different vertex counts and volumes; those are historical and do not describe
+the final archive. The solver grid remains 499041 cells at 0.01 m: changing CAD
+tessellation does not itself refine the flow grid.
 
-## Integration checklist still owned by root
+## Verified host lifecycle and graph behavior
 
-- Generate the complete archive after installing the verified Study assembly.
-- Check idle opening, closed-solid/mesh outputs and all named port wires.
-- Run the scoped annotation/connection check on example 35 only; preserve 09
-  and every existing supported archive.
-- Inspect actual canvas, selected pressure surface, legend, lift/drag readouts,
-  scatter axes and candidate selection. Confirm invalid coefficients remain gaps.
-- Exercise geometry edit/re-arm, pause/cancel, selected-case changes, disposal
-  and save/reopen, with zero owned workers/sessions/refresh callbacks after cleanup.
-- Record package/source identity and update public-node/example G6 mapping.
+The [host machine record](verification-parametric-wing-host.json) records Mac
+Rhino 8.37, embedded Python 3.9.10/PyTorch 2.8.0 and CPU. Root ran
+`scripts/verify_stationary_study.cs` on an owned archive copy at 0.025 m,
+1200 settling steps + 81 samples and unchanged 0.05 tolerance. Both candidates
+completed with usable windows. All ten lifecycle phases passed: explicit start,
+automatic polling, selection/capture identity, re-selection without advancement,
+geometry invalidation, cooperative pause/cancel, saved-Run-true idle reopening
+and document disposal/restoration. Original IDs/wires and user documents were
+preserved. Public cleanup/refresh counts and a separate registry/thread audit
+reported zero jobs, sessions and workers afterward.
 
-The existing grid/domain screen fails and the matched physical reference remains
-open. Finer sampling and a solid CAD loft are not engineering qualification.
-This review does not close #40 or claim CUDA/MPS/Windows host verification.
+That lifecycle run used installed component source `9583f3a`. Subsequent lambda
+layout changes preserve all 23 syntax fingerprints and all 29 linked compiled
+method IL hashes; see [the exact comparison](verification-stationary-study-lambda-coverage.json).
+This preserves the scoped behavioral relevance of the earlier lifecycle run;
+it is not a new installed-assembly or final-archive acceptance run.
 
-## Contract and acceptance before host execution
+Live scatter tests reproduced missing-value Expression errors, Cull Pattern's
+keep-true behavior and variable-arity arithmetic producing phantom points.
+The correction uses Null Item + NOR for a shared keep mask, paired Cull Pattern
+nodes and fixed-arity Multiply/Add. Mixed-null, all-pending and valid-pair tests
+passed, including actual ConstructPoint counts/coordinates and no points for
+pending coefficients. Those stock arithmetic components are internally marked
+obsolete in the tested Rhino installation; other-version host compatibility is
+not established. Patches preserve original functional IDs and unrelated wires.
 
-Geometry uses ordinary Grasshopper components and the existing Airfoil reader.
-The new reusable stationary-study adapter accepts a closed mesh, rather than
-generating a wing. Its CPU-only uniform BGK service reuses the reviewed momentum
-exchange collector. Unsupported devices/configurations must reject explicitly.
-See [the service contract](stationary-study.md) and
-[measurement contract](measurement-contract-v1.md).
+The idle preview graph uses NOT Run / Cull Pattern: Run off displays editable
+geometry; Run on withholds the unrotated upstream preview. Its archive patch
+preserved 143 original IDs and all original wires while adding two objects.
+Final viewport acceptance remains pending. Example 35 annotation/connection
+checks passed. The current [G6 evidence](verification-wing-gh-compatibility.json)
+checks 54 public nodes, 32 definitions and 242 observed unique edges against
+current archive hashes; this does not substitute for viewport inspection.
 
-The command path is GH input collection → bounded submission → background mesh
-classification → sequential independent candidate workers → immutable selected
-frame and load records → existing surface/field views. Only explicit Run starts
-work. Physical edits invalidate the previous job and require rearming. A selected
-case or view edit must not advance physics. Saved Run=true must reopen idle.
-Pause, cancellation, missing inputs, document lock/unload/close and disposal must
-release owned workers and frames without blocking the GH solution thread.
+## Remaining acceptance and qualification
 
-The field, rotated mesh and loads must share candidate/generation identities.
-Rhino model coordinates are normalized to world metres at submission and restored
-consistently for display, retaining physical spacing and solver provenance.
-Integrated force is projected onto declared wind axes: drag along +X and lift
-along +Z for the example. Torque is about the declared pivot. Surface colours
-are pressure sampled at a stated outward offset, with invalid samples visible;
-they are not wall traction or an alternative force integration.
+The final explicit-mesh fine run (root run identifier `235231`) and its pressure
+surface, legend, selected-case view and video remain pending. Earlier progress
+paths in the host machine record are historical, not a final-run pass. Root
+must record final source/archive/package identities and inspect both canvas and
+viewport before closing these UI gates. Package/release acceptance is separate.
 
-The shipped wing uses a finer flow grid. The independent, frozen-source
-[fine-run protocol](wing-fine-report-protocol.md) compares equal physical windows;
-its results do not automatically qualify different loft tessellation. Finer
-display tessellation alone does not refine flow. Existing failed grid/domain
-sensitivity and missing physical-reference qualification remain open in #40.
-
-Host acceptance must verify: solid loft and closed positive-volume mesh; explicit
-start and automatic completion polling; selected pressure/geometry/load identity;
-angle and speed ordering; null rejected plot points; geometry-edit invalidation;
-pause/resume/cancel; save/reopen idle; model-unit conversion; owned cleanup and
-preservation of original Rhino/GH documents. Inspect both canvas and viewport.
-
-## Prepared host lifecycle harness (not yet executed)
-
-`scripts/verify_stationary_study.cs` runs an owned archive copy at 0.025 m,
-1200 settling + 81 samples and unchanged 0.05 tolerance. It checks automatic
-poll completion; accepted identity/capture selection or rejected output
-withholding; geometry-edit invalidation; cooperative pause/cancel; saved-true
-rearm; unchanged source bytes/IDs/wires; and public cleanup/refresh counts.
-A lifecycle pass can contain zero accepted candidates and cannot establish
-pressure-view acceptance. Root must run the fine protocol and visual checks
-separately. The script uses public ports, timers and public diagnostics; it
-does not inspect private job or solver fields. No host run is claimed here.
-
-## Pending-value scatter correction
-
-Host testing found that Expression arithmetic errors on missing coefficient
-slots, Cull Pattern keeps true rows, and modern variable-arity arithmetic can
-return its second operand when the first list is empty (phantom plot points).
-The graph therefore uses Null Item + NOR for one shared keep mask, Cull Pattern
-on both coordinates, and fixed-arity real Multiply/Add. Those arithmetic nodes
-are registered in the tested Rhino 8 installation but internally marked
-obsolete; compatibility with other Rhino versions is not claimed. The transient
-`verify_wing_scatter_nulls.cs` checks mixed missing pairs, pending lists and
-valid pairs, including actual ConstructPoint count and coordinates. Root has
-observed passing arithmetic cases; the final ConstructPoint assertion still
-needs host execution. Existing archive patching preserves original object IDs
-and unrelated wires, with a backup and explicit plot-input rewire audit.
-
-## Automatic idle geometry preview
-
-The generator and separate `patch_wing_idle_preview.cs` add a stock NOT Run /
-Cull Pattern preview gate. The original mesh parameter is hidden but its Study
-and geometry wires remain unchanged. Run off previews the editable geometry;
-Run on withholds that unrotated preview so selected pressure is unobstructed.
-The closed-archive patch backs up original bytes and audits all original IDs
-and component wires, adding two objects. Host execution/visual acceptance is
-owned by root; no run is claimed by the author.
-
-## Live lifecycle and presentation checks
-
-Codex root ran the owned-document harness on Mac Rhino 8.37 with embedded
-Python 3.9.10/PyTorch 2.8.0 CPU. Both 0.025 m cases completed with usable windows
-at 1200 settling + 81 samples, unchanged 0.05 tolerance. All ten lifecycle phases
-passed, including selection identity, geometry invalidation, pause/cancel and
-saved-Run-true idle reopening. A separate MCP Python registry/thread audit found
-zero jobs, sessions and Hawa workers after cleanup; public cleanup/refresh counts
-were also zero. This is coarse lifecycle evidence, not grid qualification.
-
-Live null-plot tests found and repaired pending-value arithmetic errors and
-variable-arity arithmetic generating phantom points. The fixed-arity graph now
-passes mixed-null, all-pending and valid-pair checks, including actual point
-counts/coordinates. Archive patches preserve original functional IDs and all
-unrelated geometry/study wires. Example 35 alone was annotated with a passing
-connection check; the full read-only archive audit reports 54 public nodes and
-32 definitions with none missing.
-
-[Machine record](verification-parametric-wing-host.json) retains scope and raw
-paths. The full 499,041-cell Rhino run and final viewport checks are still pending.
+The frozen [headless fine-run protocol](wing-fine-report-protocol.md) uses a
+different indexed wing geometry; its results do not qualify this CAD loft.
+Existing grid/domain sensitivity failures and the missing matched physical
+reference remain open in #40. Neither finer sampling nor a solid loft establishes
+engineering accuracy. No Windows host or CUDA/MPS simulation pass is claimed;
+the stationary-study service rejects accelerator requests.
