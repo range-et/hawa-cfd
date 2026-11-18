@@ -61,8 +61,8 @@ step 3200 and force divided by 0.075 N against CL/CD for every case.
 | +9° | 0.55921745488 | 1.41226514548 | 0.04194130912 | 0.10591988591 |
 
 The final batch remained unpublished for over 180 seconds with solution depth
-zero, PostProcess state, no pending solutions, valid inputs, empty outputs and no
-reported error. One unchanged-input repoll recovered all three completed cases
+zero, PostProcess state, no pending Hawa refresh requests, valid inputs, empty
+outputs and no reported error. One unchanged-input repoll recovered all three completed cases
 at generation 3, without a new submission or Run toggle. Raw before/after records
 remain in `results/native-flow-video/angle-batches/`. This is **manual recovery**,
 not an automatic completion pass. The trigger remains unknown and is tracked in
