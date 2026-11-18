@@ -83,7 +83,9 @@ native helper and lifecycle acceptance, not general far-origin CFD qualification
 See the [host review](review-parametric-wing-example.md) and
 [machine evidence](verification-parametric-wing-host.json).
 
-G6, CPU smoke and package records retain their exact source scopes. The final
-package-only refresh and exact-head CI/Greptile approval remain root-owned;
+G6, CPU smoke and package records retain their exact source scopes. Final CPU smoke passes 5/5 on clean `f5c4205` ([record](verification-wing-final-cpu-smoke.json)).
+The installed exact-weld package passes integrity, video/binary identity and
+extracted-renderer checks ([readback](verification-wing-final-package.json));
+root owns its documentation-only repack and exact-head CI/Greptile approval;
 video and the scoped installed-host checks are complete. Earlier test doubles
 or linked-test IL equality are not substituted for these native observations.
