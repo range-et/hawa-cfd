@@ -53,6 +53,22 @@ static class StationaryStudyContracts
             foreach(var timer in UITimer.Active.ToArray())timer.Pulse();
             c.RemovedFromDocument(doc);assert(HawaPollScheduler.PendingCount==0,"Removal retained poll");Reset();
         });
+        test("stationary study queued startup retains the job and polls through preparation",()=>{
+            Reset();using var bridge=new GhBridge{Respond=Reply};state="queued";
+            corrupt=status=>{status["progress"]=null;status["steps"]=0;status["error"]=null;};
+            var input=Inputs();var c=Start(bridge,input);
+            foreach(var phase in new[]{"queued","preparing"}){
+                state=phase;var output=Solve(c,input);
+                assert(c.Errors.Count==0&&c.Message==phase,"Valid startup state was treated as a failure");
+                assert(HawaPollScheduler.PendingCount==1&&bridge.Ops("evaluate_submit").Count()==1,"Startup lost its poll or resubmitted the job");
+                assert(!bridge.Ops("evaluate_control").Any(r=>r["action"]!.GetValue<string>()=="close"),"Startup closed the queued worker");
+                assert(!output.Outputs.ContainsKey(0)&&!output.Outputs.ContainsKey(2)&&output.List(4).Count==4&&output.List(4).All(v=>v==null),"Pending startup invented field, loads or coefficients");
+            }
+            state="running";corrupt=null;Solve(c,input);
+            assert(c.Errors.Count==0&&c.Message=="running"&&bridge.Ops("evaluate_submit").Count()==1&&HawaPollScheduler.PendingCount==1,"Prepared worker did not continue under its original ownership");
+            input[12]=false;Solve(c,input);
+            assert(bridge.Ops("evaluate_control").Count(r=>r["action"]!.GetValue<string>()=="close")==1&&HawaPollScheduler.PendingCount==0,"Explicit stop did not release the original startup job exactly once");Reset();
+        });
         test("stationary study selected field mesh loads and nullable coefficient slots share identity",()=>{
             Reset();using var bridge=new GhBridge{Respond=Reply};state="completed";corrupt=null;var input=Inputs();var c=Start(bridge,input);var output=Solve(c,input);
             assert(output.List(4).Select(v=>v?.ToString()).SequenceEqual(new[]{"0.1",null,"2.1","3.1"})&&output.List(6).Select(v=>v?.ToString()).SequenceEqual(new[]{"0.3",null,"2.3","3.3"}),"Rejected coefficient slots compressed or CM absent");

@@ -138,7 +138,7 @@ public sealed class StationaryStudyComponent : HawaComponent
         var status = EmbeddedRuntime.Call(new JsonObject { ["op"] = "evaluate_poll", ["job"] = job, ["selected_candidate"] = selected });
         if (status["job"]?.GetValue<string>() != job) throw new InvalidOperationException("Study job identity mismatch");
         string state = status["state"]!.GetValue<string>();
-        if (!new[] { "preparing", "running", "pausing", "paused", "cancelling", "cancelled", "failed", "completed" }.Contains(state))
+        if (!new[] { "queued", "preparing", "running", "pausing", "paused", "cancelling", "cancelled", "failed", "completed" }.Contains(state))
             throw new InvalidOperationException("Unknown stationary study state");
         if (state == "failed") throw new InvalidOperationException(status["error"]?.GetValue<string>() ?? "Stationary study failed");
         if (state == "cancelled") { InputsMissing(); Message = "cancelled; set Run off/on"; return; }
