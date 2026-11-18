@@ -451,6 +451,45 @@
     },
     "current_display_probes": [
       {
+        "raw_report": "results/wing-final-host/20261117-235231/selected-0-video-evidence.json",
+        "selected_index": 0,
+        "identity": {
+          "case_id": "5c594acc-65d2-44f1-aaea-e809839bd862",
+          "candidate_id": "study-000",
+          "revision": 0,
+          "generation": 1,
+          "case_hash": "9b70e8c1d9f8afa30bd27734ef99ef7ad5be8cd34bdd7cd7a830430af971160c",
+          "geometry_hash": "1cfc700e5edec5b07d336db40f0466dbbff049460cb60b9ade601d77ebfc4db0"
+        },
+        "capture": {
+          "steps": 3200,
+          "session": "4960a501-01d0-43d5-9c14-10c4eb6cb238",
+          "physical_time": 0.5542562584220407,
+          "phase": "after-collision-before-obstacle-reflection-and-stream"
+        },
+        "pressure_map": {
+          "kind": "ColorMap",
+          "palette": "diverging",
+          "min": 0,
+          "max": 4,
+          "units": "Pa"
+        },
+        "surface": {
+          "vertices": 5288,
+          "faces": 10572,
+          "valid_samples": 5288,
+          "total_samples": 5288,
+          "min_valid_pa": 2.7189455216754883,
+          "max_valid_pa": 3.869348076404643,
+          "mean_valid_pa": 2.9541755388382245,
+          "p05_valid_pa": 2.772981324820628,
+          "p95_valid_pa": 3.599417519183091,
+          "below_colour_min": 0,
+          "above_colour_max": 0,
+          "message": "offset sample"
+        }
+      },
+      {
         "raw_report": "results/wing-final-host/20261117-235231/selected-1-video-evidence.json",
         "selected_index": 1,
         "identity": {
@@ -499,14 +538,71 @@
       "results/wing-final-host/20261117-235231/selected-0-pressure-range-probe.json": "257689ffe9cb55ca91a4f16c873c6792cf84eb25cf58b1fa72281ca8ac40a011",
       "results/wing-final-host/20261117-235231/selected-1-pressure-range-probe.json": "faf4dd60c11921156de597b6aed0131861284e65b345da9c4144641af6073ab9",
       "results/wing-final-host/20261117-235231/owned-final.gh": "49a8955f34d865a32badc9a1ea3c81a4f8e77cdd63e34c9dbb6ea9fe91f15d9f",
-      "results/wing-final-host/20261117-235231/selected-1-video-evidence.json": "74bca6a34ea7815d55199e35c06147951f816da15deee3bc740e2c068e0ad717"
+      "results/wing-final-host/20261117-235231/selected-1-video-evidence.json": "74bca6a34ea7815d55199e35c06147951f816da15deee3bc740e2c068e0ad717",
+      "results/wing-final-host/20261117-235231/selected-0-video-evidence.json": "37ff23cf4f1ac8b053cc38a2abb59767867d4039fb54af13c0a9c4508793226c",
+      "results/wing-final-host/20261117-235231/selection-roundtrip-video-audit.json": "05f5f6bea376fee260f45bb2c7572a1bd580db8dfee70cdfed1da0ff92eda082",
+      "results/wing-pressure-defaults/20261118-012213-439d2de0d14b425ea36b020a6091360b/audit.json": "847d2094ba00e9dbb487be4e3104018d54bd4274b7d35798ab2262948dbf625e"
     },
     "pending": [
       "Fresh installation of queued/precision fixes, installed precision audit and coarse lifecycle verification",
-      "Final framed captures/video acceptance and inclusion in rebuilt package",
-      "Final source archive pressure-range patch and graph audit"
+      "Final edited video acceptance and inclusion in rebuilt package"
     ],
-    "limits": "Finite accepted windows and valid offset pressure samples do not establish grid/domain independence or aerodynamic accuracy. #40 remains open. No accelerator simulation or Windows host evidence."
+    "limits": "Finite accepted windows and valid offset pressure samples do not establish grid/domain independence or aerodynamic accuracy. #40 remains open. No accelerator simulation or Windows host evidence.",
+    "selection_roundtrip": {
+      "selection_sequence": [
+        0,
+        1,
+        0
+      ],
+      "original_selected_identity_equals_returned": true,
+      "original_field_equals_returned": true,
+      "coefficient_arrays_unchanged": true,
+      "pressure_map_shared": true,
+      "map": {
+        "kind": "ColorMap",
+        "palette": "diverging",
+        "min": 0,
+        "max": 4,
+        "units": "Pa"
+      },
+      "cases": [
+        "study-000: completed; ",
+        "study-001: completed; "
+      ]
+    },
+    "source_archive_display_patch": {
+      "source_before_sha256": "49a8955f34d865a32badc9a1ea3c81a4f8e77cdd63e34c9dbb6ea9fe91f15d9f",
+      "source_after_sha256": "bb293360a6406a93d7fc545996dd9b0e3be5a7445a6b3981e1525da9b35d5580",
+      "preserved_objects": 138,
+      "preserved_wires": 144,
+      "intentional_parameter_changes": [
+        {
+          "id": "29ba3a83-8a38-4bc3-b5e8-bc9230325117",
+          "name": "Pressure colour lower (Pa)",
+          "before": -2,
+          "after": 0
+        },
+        {
+          "id": "ae1c7055-4c4c-4298-86f7-a268542d6b59",
+          "name": "Pressure colour upper (Pa)",
+          "before": 2,
+          "after": 4
+        }
+      ],
+      "all_other_nonattribute_serialization_unchanged": true,
+      "staged_roundtrip_checked": true,
+      "active_document_unchanged": true
+    },
+    "capture_material": {
+      "directory": "results/wing-video-captures",
+      "accepted_orbit_folders": [
+        "case-0-orbit-v2",
+        "case-1-orbit-v2"
+      ],
+      "frames_per_orbit": 72,
+      "scatter_capture": "rhino-cl-cd-plots.png",
+      "scope": "Capture inputs for offline video assembly; final edited video acceptance pending. Initial case1 orbit had clipped legend and is excluded."
+    }
   },
   "limits": [
     "No Windows host acceptance",

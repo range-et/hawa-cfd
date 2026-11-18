@@ -100,9 +100,14 @@ surface-pressure samples are valid for each case. Ranges are respectively
 
 The prior display range -2…2 Pa clipped every valid sample. A view-only change
 to the shared 0…4 Pa range preserves gauge zero and covers both actual ranges;
-identity, solver Run state and original archive remained unchanged. Final
-source-archive defaults and graph audit are still being completed separately.
-This is pressure sampling evidence, not final video/framing acceptance.
+identity, solver Run state and original archive remained unchanged. The source archive now carries these view defaults: its patch preserves 138
+objects and 144 wires, changes only the two pressure sliders and passes staged
+reopening. A fresh archive graph audit passes.
+Both corrected-range probes retain 5288 valid samples with zero saturation.
+Selection 0→1→0 preserves the exact original field/identity and coefficient
+arrays. Two 72-frame orbit sequences and native scatter captures are available
+for editing; the initial legend-clipped orbit is excluded. This is retained
+view/capture evidence, not final edited-video acceptance.
 
 Wall time was 5050.168001 seconds, including 1678 seconds of low-power sleep
 recorded by macOS. Concurrent work and an inconclusive UI-poll experiment prevent
@@ -119,8 +124,7 @@ The machine record retains full assembly hashes, identities and raw-file hashes.
 ## Remaining acceptance and qualification
 
 New-assembly installation, an installed precision audit and coarse lifecycle
-checks remain pending. Final framed video, presentation archive audit and rebuilt
-package acceptance are separate pending gates. The original host-run files and
+checks remain pending. Final edited video and rebuilt package acceptance are separate pending gates. The original host-run files and
 previous failed presentation attempts remain historical evidence.
 
 The frozen [headless fine-run protocol](wing-fine-report-protocol.md) uses a
