@@ -42,3 +42,13 @@ captures are in `results/`; source HTML and machine-readable video provenance
 make the content comparisons reproducible. The buildlog retains #40, #122,
 #61, #39, #83 and atmospheric qualification gaps; no issue is closed by this change.
 Rhino was not operated or restarted during publication.
+
+## Review corrections
+
+Greptile identified an outdated PorousMedium statement copied from an earlier
+checkpoint. The homepage and new log now distinguish the repair on main (#11,
+closed; see features history and native guide) from older packages lacking it.
+The new stylesheet also removes explicit font-family overrides and inherits the
+existing site typography, retaining tabular numerals. No new font tokens or
+upstream design-system changes are needed. Local build/content/link checks and
+the table's rendered typography were rechecked after these corrections.
