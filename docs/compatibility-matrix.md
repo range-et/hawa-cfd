@@ -17,7 +17,8 @@ backend-guard evidence, not accelerator simulation passes. The independent oracl
 expects four accepted workflow rows and 29 rejected rows. The fresh Mac Python 3.9
 CPU/MPS run passed **100,125 rows**, failed none, and blocked **2,490 CUDA rows**.
 All 33 study rows passed; source hashes remained unchanged. The final run
-`results/compatibility-wing-queued` (queued-startup repair `0fdc363`) passes the independent evidence and current
+`results/compatibility-wing-review` (mesh-precision repair `c4e8c9e`, after
+queued-startup repair `0fdc363`) passes the independent evidence and current
 archive checks, including 54 public nodes, 32 definitions and 242 unique edges. This is a local
 contract pass, not a release or physical-accuracy pass. See
 [the machine evidence](verification-wing-gh-compatibility.json) and
