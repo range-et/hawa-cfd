@@ -1,0 +1,208 @@
+{
+  "artifact": "35-wing-pressure-study.mp4",
+  "sha256": "33edb183a7dcb8750b6b5d844ac96d036a0575e9a6936333e5822f1a519299e3",
+  "duration_seconds": 28,
+  "width": 1920,
+  "height": 1080,
+  "frames_per_second": 24,
+  "audio": false,
+  "capture_date_utc": "2026-11-18",
+  "final_run": "20261117-235231",
+  "device": "cpu",
+  "threads": 1,
+  "dx_m": 0.01,
+  "grid_shape": [
+    81,
+    101,
+    61
+  ],
+  "cells": 499041,
+  "settling_advances": 3000,
+  "sample_count": 201,
+  "stationarity_tolerance": 0.05,
+  "captured_installed_runtime": {
+    "rhino_pid": 93979,
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "foreground_torch_threads": 1,
+    "fresh_background_thread_torch_threads": 1,
+    "embedded_python": "3.9.10",
+    "torch": "2.8.0",
+    "device": "cpu",
+    "installed_assemblies": [
+      {
+        "file": "Hawa.Grasshopper.gha",
+        "sha256": "1df564e82a9aaeacaadd88b018d2e938d226fcd6aa763d9fd90be9d5db3d78f1"
+      },
+      {
+        "file": "Hawa.Rhino.rhp",
+        "sha256": "01a08ee9e16e26f1030793c2027e4267753e668670b7ecbfda29e7a1c22d3f14"
+      },
+      {
+        "file": "Hawa.Shared.dll",
+        "sha256": "217b0e837a07efda85b0ab692fdcfb96690d0d99b38eda1fde55d11525f27c76"
+      }
+    ],
+    "source": "300dd62 with presentation-only archive/generator edits",
+    "normal_restart": true
+  },
+  "captured_archive_sha256": "49a8955f34d865a32badc9a1ea3c81a4f8e77cdd63e34c9dbb6ea9fe91f15d9f",
+  "source_archive_after_view_default_fix_sha256": "bb293360a6406a93d7fc545996dd9b0e3be5a7445a6b3981e1525da9b35d5580",
+  "cases": [
+    {
+      "angle_deg": -3,
+      "speed_m_s": 1,
+      "CL": 0.002896908470910844,
+      "CD": 1.3452878861284967,
+      "lift_n": 0.00021726813531831328,
+      "drag_n": 0.10089659145963725,
+      "identity": {
+        "case_id": "5c594acc-65d2-44f1-aaea-e809839bd862",
+        "candidate_id": "study-000",
+        "revision": 0,
+        "generation": 1,
+        "case_hash": "9b70e8c1d9f8afa30bd27734ef99ef7ad5be8cd34bdd7cd7a830430af971160c",
+        "geometry_hash": "1cfc700e5edec5b07d336db40f0466dbbff049460cb60b9ade601d77ebfc4db0"
+      },
+      "session": "4960a501-01d0-43d5-9c14-10c4eb6cb238",
+      "capture": {
+        "steps": 3200,
+        "session": "4960a501-01d0-43d5-9c14-10c4eb6cb238",
+        "physical_time": 0.5542562584220407,
+        "phase": "after-collision-before-obstacle-reflection-and-stream"
+      },
+      "measurement_window": {
+        "start_s": 0.5196152422706631,
+        "end_s": 0.5542562584220407,
+        "minimum_samples": 201,
+        "stationarity_absolute_coefficient_tolerance": 0.05
+      },
+      "stationarity": {
+        "passed": true,
+        "absolute_coefficient_change": 0.002871833508885469,
+        "tolerance": 0.05
+      },
+      "pressure_samples": {
+        "vertices": 5288,
+        "faces": 10572,
+        "valid_samples": 5288,
+        "total_samples": 5288,
+        "min_valid_pa": 2.7189455216754883,
+        "max_valid_pa": 3.869348076404643,
+        "mean_valid_pa": 2.9541755388382245,
+        "p05_valid_pa": 2.772981324820628,
+        "p95_valid_pa": 3.599417519183091,
+        "below_colour_min": 0,
+        "above_colour_max": 0,
+        "message": "offset sample"
+      },
+      "selected_evidence_sha256": "37ff23cf4f1ac8b053cc38a2abb59767867d4039fb54af13c0a9c4508793226c",
+      "orbit_capture_sha256": "3f1b37787c8d5f20e04ab7ae6dfdf53bb96a937eceff725a281e8bec3b80530c"
+    },
+    {
+      "angle_deg": 3,
+      "speed_m_s": 1,
+      "CL": 0.291155128765001,
+      "CD": 1.3570599610499743,
+      "lift_n": 0.021836634657375075,
+      "drag_n": 0.10177949707874806,
+      "identity": {
+        "case_id": "5c594acc-65d2-44f1-aaea-e809839bd862",
+        "candidate_id": "study-001",
+        "revision": 0,
+        "generation": 1,
+        "case_hash": "9e3033cf2bb9259b116f95615ff8f534cfcfa3ac55631d99329fc2cb1debdf7c",
+        "geometry_hash": "52c2674fdc15acabb135a5ed1f41bfe8b126bee3b95d145da89640d1d381434d"
+      },
+      "session": "1e0937a3-f3c5-436c-b53c-a58c2d590b7c",
+      "capture": {
+        "steps": 3200,
+        "session": "1e0937a3-f3c5-436c-b53c-a58c2d590b7c",
+        "physical_time": 0.5542562584220407,
+        "phase": "after-collision-before-obstacle-reflection-and-stream"
+      },
+      "measurement_window": {
+        "start_s": 0.5196152422706631,
+        "end_s": 0.5542562584220407,
+        "minimum_samples": 201,
+        "stationarity_absolute_coefficient_tolerance": 0.05
+      },
+      "stationarity": {
+        "passed": true,
+        "absolute_coefficient_change": 0.006025860606968192,
+        "tolerance": 0.05
+      },
+      "pressure_samples": {
+        "vertices": 5288,
+        "faces": 10572,
+        "valid_samples": 5288,
+        "total_samples": 5288,
+        "min_valid_pa": 2.6610638027578046,
+        "max_valid_pa": 3.844629386682881,
+        "mean_valid_pa": 2.976113772077422,
+        "p05_valid_pa": 2.763621443419144,
+        "p95_valid_pa": 3.621010370358905,
+        "below_colour_min": 0,
+        "above_colour_max": 0,
+        "message": "offset sample"
+      },
+      "selected_evidence_sha256": "74bca6a34ea7815d55199e35c06147951f816da15deee3bc740e2c068e0ad717",
+      "orbit_capture_sha256": "9ecf2b563e1176bb603f0cbffc2447b60e092d26f5b88ccde1e200d7535f19c8"
+    }
+  ],
+  "pressure_legend": {
+    "min_pa": 0,
+    "max_pa": 4,
+    "fixed_across_cases": true,
+    "reason": "Original -2..2 Pa range clipped every valid sample. Shared 0..4 Pa includes gauge zero without clipping."
+  },
+  "camera_footage": {
+    "actual_frames_per_case": 72,
+    "playback_frames_per_second": 12,
+    "interpolated_frames": false,
+    "same_crop_all_144_frames": [
+      407,
+      364,
+      1151,
+      867
+    ],
+    "margin_pixels": 60,
+    "crop_provenance_sha256": "895930864cbce9afe13bde56e4b1d762bc1875dac7ce0d5e12f6b7b4c26301da",
+    "framing_only": "Background margins cropped; complete wing and all legend labels retained; originals unchanged."
+  },
+  "selection_roundtrip": {
+    "selection_sequence": [
+      0,
+      1,
+      0
+    ],
+    "original_selected_identity_equals_returned": true,
+    "original_field_equals_returned": true,
+    "coefficient_arrays_unchanged": true,
+    "pressure_map_shared": true,
+    "map": {
+      "kind": "ColorMap",
+      "palette": "diverging",
+      "min": 0,
+      "max": 4,
+      "units": "Pa"
+    },
+    "cases": [
+      "study-000: completed; ",
+      "study-001: completed; "
+    ]
+  },
+  "visual_qa": {
+    "reviewer": "Codex examples_review agent",
+    "date_utc": "2026-11-18",
+    "checks": [
+      "Beginning/middle/end of both real camera orbits retain complete wing and 0..4 Pa labels",
+      "All six shot titles, opening, midpoints and ending inspected in extracted encoded frames",
+      "Three actual Rhino plots retain exactly two accepted points each",
+      "Measured overlays match selected public GH case/load identities",
+      "Closing card identifies unresolved grid/domain and physical-reference qualification"
+    ],
+    "extracted_encoded_qa_frames": 20
+  },
+  "limits": "Camera orbit around retained instantaneous sampled-pressure fields, not evolving flow. Whole-body loads and coefficients are window means, not per-face pressure forces. Two sampled angles are not a continuous polar. Experimental CPU demonstration; not aerodynamic qualification. Captured installed build predates later lifecycle checks; consult the host review for final assembly validation."
+}

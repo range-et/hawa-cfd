@@ -116,3 +116,6 @@ scoped annotation, connection, save/reopen and live verification checks.
 [Measurement contract](../../docs/measurement-contract-v1.md) ·
 [Verification matrix](VERIFICATION.md) ·
 [Numerical diagnosis](../../docs/review-worker-and-wing-diagnosis.md)
+
+[Watch the actual Rhino pressure-study video](videos/35-wing-pressure-study.mp4)
+(28 seconds; [measured values and provenance](videos/README.md)).
