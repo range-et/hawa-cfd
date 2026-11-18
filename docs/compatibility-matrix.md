@@ -16,7 +16,9 @@ must reject before allocation even when hardware is unavailable: these rows are
 backend-guard evidence, not accelerator simulation passes. The independent oracle
 expects four accepted workflow rows and 29 rejected rows. The fresh Mac Python 3.9
 CPU/MPS run passed **100,125 rows**, failed none, and blocked **2,490 CUDA rows**.
-All 33 study rows passed; source hashes remained unchanged. This is a local
+All 33 study rows passed; source hashes remained unchanged. The final run
+`results/compatibility-wing-release` passes the independent evidence and current
+archive checks, including 54 public nodes, 32 definitions and 242 unique edges. This is a local
 contract pass, not a release or physical-accuracy pass. See
 [the machine evidence](verification-wing-gh-compatibility.json) and
 [the bridge contract](stationary-study.md). Live host evidence is recorded separately.
@@ -51,7 +53,7 @@ with four upstream MRT warnings; 33 state contracts pass. Full test-ID and sourc
 hash checks pass. See [the transfer review](neutral-transfer-review.md).
 
 The measured integrated archive inventory covers **54 public nodes, 32 definitions
-and 238 observed unique edges**. An additional round-trip checks the original port
+and 242 observed unique edges**. An additional round-trip checks the original port
 GUIDs/wires and migration to list inputs. The table at the end uses this inventory.
 The earlier evidence below remains historical. Numerical atmospheric qualification
 still fails; these discrete compatibility rows cannot certify turbulence statistics.
