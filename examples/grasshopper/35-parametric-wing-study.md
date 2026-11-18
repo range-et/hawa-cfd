@@ -94,6 +94,27 @@ Solver progress and captured field time are different quantities. Reopening
 the definition stays idle. Set Run off and explicitly re-arm after edits or a
 reopen; never interpret old selected-case outputs as a new wing's result.
 
+## Explore the surrounding flow
+
+The retained field also supports speed slices and isosurfaces. A sweep of XZ
+slices across Y shows different spanwise sections of the **same captured time**;
+it is not a movie of the flow evolving. Keep a common speed colour range when
+comparing slices. A 0.8 m/s speed isosurface marks a level of speed magnitude,
+not a streamline, vortex boundary or solid surface. In the recorded +3° case
+it reaches the tunnel outlet at X = 0.6 m, so its downstream extent is truncated
+by the computational domain.
+
+To sample more angles, run bounded batches while keeping speed, geometry,
+references and measurement settings fixed. At this grid, the unchanged
+1.5-million retained-cell limit permits at most three fine-grid cases per study.
+Each entry is a separate CPU solve; seven angles require multiple studies,
+not seven entries in one component. For a three-angle batch, expand **Selected
+case index** from its shipped 0–1 range to **0–2**. This selection range changes
+only the view. The shipped archive keeps its two defaults. Plot the returned accepted measurements as individual points;
+more points alone do not establish a converged polar or stall prediction.
+A baked `.3dm` containing coloured display meshes is a visual snapshot only;
+it does not contain a resumable solver checkpoint.
+
 ## Scope and interpretation
 
 This is an experimental stationary uniform-grid CPU workflow with synthetic
@@ -117,5 +138,7 @@ scoped annotation, connection, save/reopen and live verification checks.
 [Verification matrix](VERIFICATION.md) ·
 [Numerical diagnosis](../../docs/review-worker-and-wing-diagnosis.md)
 
-[Watch the actual Rhino pressure-study video](videos/35-wing-pressure-study.mp4)
-(28 seconds; [measured values and provenance](videos/README.md)).
+[Watch the expanded Rhino flow study](videos/35-wing-flow-study.mp4)
+(57 seconds: speed slices, isosurface and seven measured angle points;
+[values, publication-recovery caveat and provenance](videos/README.md)).
+The [earlier two-case pressure video](videos/35-wing-pressure-study.mp4) is retained.

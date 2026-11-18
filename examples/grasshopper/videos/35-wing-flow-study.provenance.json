@@ -1,0 +1,501 @@
+{
+  "schema": "hawa-native-flow-video-1",
+  "video": {
+    "path": "examples/grasshopper/videos/35-wing-flow-study.mp4",
+    "sha256": "56f9a9593857a4ee17ebc0da8c5955969ff70a0b96e1222efd13a309e4a529db",
+    "bytes": 2852279,
+    "duration_seconds": 57,
+    "width": 1920,
+    "height": 1080,
+    "fps": 24,
+    "codec": "H.264",
+    "audio": false
+  },
+  "physics": {
+    "device": "CPU",
+    "grid_shape": [
+      81,
+      101,
+      61
+    ],
+    "cells": 499041,
+    "dx_m": 0.01,
+    "inlet_speed_m_s": 1,
+    "kinematic_viscosity_m2_s": 0.01,
+    "fluid": "synthetic",
+    "density_kg_m3": 1,
+    "settling_advances": 3000,
+    "samples_per_angle": 201,
+    "stationarity_absolute_tolerance": 0.05,
+    "sampling_window_s": [
+      0.5196152422706631,
+      0.5542562584220407
+    ]
+  },
+  "cases": [
+    {
+      "angle_deg": -9,
+      "state": "completed",
+      "CL": -0.2518248331520424,
+      "CD": 1.373018355100046,
+      "CM": 0.015474640883547138,
+      "lift_n": -0.01888686248640318,
+      "drag_n": 0.10297637663250345,
+      "run_id": "flow-video-batch-0",
+      "run_label": "B",
+      "retained_identity": {
+        "identity": {
+          "case_id": "5c594acc-65d2-44f1-aaea-e809839bd862",
+          "candidate_id": "study-000",
+          "revision": 0,
+          "generation": 2,
+          "case_hash": "48d10a8b2c4979a62901a91d1b1e4ece852620643eeee72a77f85a15c9f490f6",
+          "geometry_hash": "75765214ab9868911df75e8566111bb117c3e5fe73c9337edda053fdc09a9105"
+        },
+        "session": "60b2d7e4-489f-4dae-b8a6-e407e6b1341d",
+        "phase": "after-collision-before-obstacle-reflection-and-stream",
+        "capture": {
+          "steps": 3200,
+          "session": "60b2d7e4-489f-4dae-b8a6-e407e6b1341d",
+          "physical_time": 0.5542562584220407,
+          "phase": "after-collision-before-obstacle-reflection-and-stream"
+        }
+      }
+    },
+    {
+      "angle_deg": -6,
+      "state": "completed",
+      "CL": -0.1290794450845292,
+      "CD": 1.3504815716121394,
+      "CM": 0.010551087817742907,
+      "lift_n": -0.009680958381339689,
+      "drag_n": 0.10128611787091045,
+      "run_id": "flow-video-batch-0",
+      "run_label": "B",
+      "retained_identity": {
+        "identity": {
+          "case_id": "5c594acc-65d2-44f1-aaea-e809839bd862",
+          "candidate_id": "study-001",
+          "revision": 0,
+          "generation": 2,
+          "case_hash": "d6b4df0e15d31018357d7f57e937a6bf91f38a28657e09b84f06cefa3af9199e",
+          "geometry_hash": "d44eece4180db647ec09ed3134ee49440ff5a0a1789e7b513512b2247fb7560b"
+        },
+        "session": "3d87aa19-d965-42ed-aac4-b1e78e68665f",
+        "phase": "after-collision-before-obstacle-reflection-and-stream",
+        "capture": {
+          "steps": 3200,
+          "session": "3d87aa19-d965-42ed-aac4-b1e78e68665f",
+          "physical_time": 0.5542562584220407,
+          "phase": "after-collision-before-obstacle-reflection-and-stream"
+        }
+      }
+    },
+    {
+      "angle_deg": -3,
+      "state": "completed",
+      "CL": 0.002896908470910844,
+      "CD": 1.3452878861284967,
+      "CM": 0.006516150557279277,
+      "lift_n": 0.00021726813531831328,
+      "drag_n": 0.10089659145963725,
+      "run_id": "flow-video-batch-0",
+      "run_label": "B",
+      "retained_identity": {
+        "identity": {
+          "case_id": "5c594acc-65d2-44f1-aaea-e809839bd862",
+          "candidate_id": "study-002",
+          "revision": 0,
+          "generation": 2,
+          "case_hash": "9b70e8c1d9f8afa30bd27734ef99ef7ad5be8cd34bdd7cd7a830430af971160c",
+          "geometry_hash": "1cfc700e5edec5b07d336db40f0466dbbff049460cb60b9ade601d77ebfc4db0"
+        },
+        "session": "7fd53848-3f09-411e-83df-51042849c2af",
+        "phase": "after-collision-before-obstacle-reflection-and-stream",
+        "capture": {
+          "steps": 3200,
+          "session": "7fd53848-3f09-411e-83df-51042849c2af",
+          "physical_time": 0.5542562584220407,
+          "phase": "after-collision-before-obstacle-reflection-and-stream"
+        }
+      }
+    },
+    {
+      "angle_deg": 0,
+      "state": "completed",
+      "CL": 0.1509200053823924,
+      "CD": 1.3508785233074547,
+      "CM": -0.0033553765121501185,
+      "lift_n": 0.01131900040367943,
+      "drag_n": 0.10131588924805911,
+      "run_id": "flow-video-batch-1",
+      "run_label": "C",
+      "retained_identity": {
+        "identity": {
+          "case_id": "5c594acc-65d2-44f1-aaea-e809839bd862",
+          "candidate_id": "study-000",
+          "revision": 0,
+          "generation": 3,
+          "case_hash": "959318199b3ad8c7edd075df671e33fbb0eeccc4809ab760fca5a2914a4730f5",
+          "geometry_hash": "8d404ed8db06395d170e8eda92ae3656640309904f2532aa76d816f9bbf75871"
+        },
+        "session": "9c4c5d52-c9f7-4a51-8761-f9519b139ebd",
+        "phase": "after-collision-before-obstacle-reflection-and-stream",
+        "capture": {
+          "steps": 3200,
+          "session": "9c4c5d52-c9f7-4a51-8761-f9519b139ebd",
+          "physical_time": 0.5542562584220407,
+          "phase": "after-collision-before-obstacle-reflection-and-stream"
+        }
+      }
+    },
+    {
+      "angle_deg": 3,
+      "state": "completed",
+      "CL": 0.291155128765001,
+      "CD": 1.3570599610499743,
+      "CM": -0.011849228461460222,
+      "lift_n": 0.021836634657375075,
+      "drag_n": 0.10177949707874806,
+      "run_id": "flow-video-plus3",
+      "run_label": "A",
+      "retained_identity": {
+        "identity": {
+          "case_id": "5c594acc-65d2-44f1-aaea-e809839bd862",
+          "candidate_id": "study-000",
+          "revision": 0,
+          "generation": 1,
+          "case_hash": "9e3033cf2bb9259b116f95615ff8f534cfcfa3ac55631d99329fc2cb1debdf7c",
+          "geometry_hash": "52c2674fdc15acabb135a5ed1f41bfe8b126bee3b95d145da89640d1d381434d"
+        },
+        "session": "12165618-f268-4a88-ba7e-88669af6efc8",
+        "phase": "after-collision-before-obstacle-reflection-and-stream",
+        "capture": {
+          "steps": 3200,
+          "session": "12165618-f268-4a88-ba7e-88669af6efc8",
+          "physical_time": 0.5542562584220407,
+          "phase": "after-collision-before-obstacle-reflection-and-stream"
+        }
+      }
+    },
+    {
+      "angle_deg": 6,
+      "state": "completed",
+      "CL": 0.41376398125691194,
+      "CD": 1.3749827851472873,
+      "CM": -0.016000337740702315,
+      "lift_n": 0.031032298594268395,
+      "drag_n": 0.10312370888604655,
+      "run_id": "flow-video-batch-1",
+      "run_label": "C",
+      "retained_identity": {
+        "identity": {
+          "case_id": "5c594acc-65d2-44f1-aaea-e809839bd862",
+          "candidate_id": "study-001",
+          "revision": 0,
+          "generation": 3,
+          "case_hash": "c518ae724e267b4b74014341cad7a1ec82c53a1acfbe70308c81058ea519ce07",
+          "geometry_hash": "60032a439cb0f10f1790572469c98a1d0de6f78059db65672a32287c196233d8"
+        },
+        "session": "ec9d6221-bcd1-415a-ade5-27a8e54f0d66",
+        "phase": "after-collision-before-obstacle-reflection-and-stream",
+        "capture": {
+          "steps": 3200,
+          "session": "ec9d6221-bcd1-415a-ade5-27a8e54f0d66",
+          "physical_time": 0.5542562584220407,
+          "phase": "after-collision-before-obstacle-reflection-and-stream"
+        }
+      }
+    },
+    {
+      "angle_deg": 9,
+      "state": "completed",
+      "CL": 0.5592174548810196,
+      "CD": 1.4122651454788213,
+      "CM": -0.0254971727187779,
+      "lift_n": 0.04194130911607647,
+      "drag_n": 0.1059198859109116,
+      "run_id": "flow-video-batch-1",
+      "run_label": "C",
+      "retained_identity": {
+        "identity": {
+          "case_id": "5c594acc-65d2-44f1-aaea-e809839bd862",
+          "candidate_id": "study-002",
+          "revision": 0,
+          "generation": 3,
+          "case_hash": "3a5fd9507f4df4a6e4898759bea9bdf6a930438f8704cea624d2d679e7a32389",
+          "geometry_hash": "7eb32b6a77280cc1ce9eb74cf7852934fcacac7e06a6125991f62cf5dde60892"
+        },
+        "session": "23e617cb-87da-49c1-976f-1860e75b097a",
+        "phase": "after-collision-before-obstacle-reflection-and-stream",
+        "capture": {
+          "steps": 3200,
+          "session": "23e617cb-87da-49c1-976f-1860e75b097a",
+          "physical_time": 0.5542562584220407,
+          "phase": "after-collision-before-obstacle-reflection-and-stream"
+        }
+      }
+    }
+  ],
+  "visualization": {
+    "field_angle_deg": 3,
+    "field_session": "12165618-f268-4a88-ba7e-88669af6efc8",
+    "slice_planes": 25,
+    "slice_y_m": [
+      -0.36,
+      0.36
+    ],
+    "slice_step_m": 0.03,
+    "slice_resolution": [
+      100,
+      100
+    ],
+    "speed_range_m_s": [
+      0,
+      1.4
+    ],
+    "isosurface_speed_m_s": 0.8,
+    "isosurface_stride": 1,
+    "isosurface_faces": 88194,
+    "isosurface_vertices": 221034,
+    "isosurface_transparency_percent": 72,
+    "orbit_actual_frames": 72,
+    "pressure_range_pa": [
+      0,
+      4
+    ],
+    "pressure_samples": 5288,
+    "legend_policy": "Fixed native scales; complete legends preserved. No interpolated CFD frames.",
+    "native_charts": "Seven measured points; no connecting or fitted curve; +3 highlighted. CL/CD dimensionless, force means N.",
+    "font": "Helvetica"
+  },
+  "timeline": [
+    {
+      "start": 0.0,
+      "duration": 6.0,
+      "title": "Where does the flow slow around the wing?",
+      "actual_captures": 1,
+      "kind": "slice",
+      "source_run": "native-flow-video-12165618-f268-4a88-ba7e-88669af6efc8"
+    },
+    {
+      "start": 6.0,
+      "duration": 12.0,
+      "title": "Move the slice across the span",
+      "actual_captures": 25,
+      "kind": "slice_sweep",
+      "source_run": "native-flow-video-12165618-f268-4a88-ba7e-88669af6efc8"
+    },
+    {
+      "start": 18.0,
+      "duration": 12.0,
+      "title": "A speed threshold reveals the 3D low-speed region",
+      "actual_captures": 72,
+      "kind": "isosurface",
+      "source_run": "native-flow-video-12165618-f268-4a88-ba7e-88669af6efc8"
+    },
+    {
+      "start": 30.0,
+      "duration": 6.0,
+      "title": "Read the section and the 3D threshold together",
+      "actual_captures": 1,
+      "kind": "combined",
+      "source_run": "native-flow-video-12165618-f268-4a88-ba7e-88669af6efc8"
+    },
+    {
+      "start": 36.0,
+      "duration": 6.0,
+      "title": "Surface pressure and total loads",
+      "actual_captures": 1,
+      "kind": "pressure",
+      "source_run": "native-flow-video-12165618-f268-4a88-ba7e-88669af6efc8"
+    },
+    {
+      "start": 42.0,
+      "duration": 9.0,
+      "title": "Seven independently measured angles",
+      "actual_captures": 1,
+      "kind": "plots",
+      "source_runs": [
+        "flow-video-batch-0",
+        "flow-video-batch-1",
+        "flow-video-plus3"
+      ]
+    },
+    {
+      "start": 51.0,
+      "duration": 6.0,
+      "title": "Read the measured values and their status",
+      "actual_captures": 1,
+      "kind": "table",
+      "source_runs": [
+        "flow-video-batch-0",
+        "flow-video-batch-1",
+        "flow-video-plus3"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "path": "results/wing-flow-video-tools/seven-angle-measurements.json",
+      "sha256": "b75d42e6a978c7fceded69fabe0c692d606d9dab7912872b9a34144546234047"
+    },
+    {
+      "path": "results/wing-flow-video-tools/native-coefficient-chart-audit-v2.json",
+      "sha256": "a8ba3cf13053a87d624bea59df0ce70cf52f4f58d79afebe542b140257f82478"
+    },
+    {
+      "path": "results/wing-flow-video-tools/seven-angle-native-charts-v2.3dm",
+      "sha256": "91990fff2cf516f8827361cfcec751273d54dde3467b17b558900db0c60feb12"
+    },
+    {
+      "path": "results/native-flow-video/flow-captures-v3/capture.json",
+      "sha256": "5b5c6c95da8913f3faf8e29c231297850c87366289f5605c9700b1cb2439c548"
+    },
+    {
+      "path": "results/native-flow-video/selected-0-video-evidence.json",
+      "sha256": "5dd844231d5b9ecb0e180ae4e3dcfa12289d475a650bdb4622fc4af5bf89b529"
+    },
+    {
+      "path": "results/native-flow-video/pressure-final-v2.json",
+      "sha256": "251fa82d204b638718e0ade92a744e88b3dd93c9526420b1c9aa01294d50f57b"
+    },
+    {
+      "path": "results/native-flow-video/combined-capture-v2/identity.json",
+      "sha256": "251fa82d204b638718e0ade92a744e88b3dd93c9526420b1c9aa01294d50f57b"
+    },
+    {
+      "path": "results/wing-flow-video-tools/manifest-final57.json",
+      "sha256": "9efde49f76848b98d10240e56a9cfa93fc7bb03eb5ccc3356eb6ffc9b6fbb4f4"
+    },
+    {
+      "path": "results/wing-flow-video-tools/assemble.py",
+      "sha256": "9ec3f57e0b638af5707d562f5eb4541bc34a6daa0f3c1ba4ece42304feeda050"
+    }
+  ],
+  "crops": {
+    "flow_families": {
+      "slice": {
+        "bounds": [
+          449,
+          94,
+          1385,
+          968
+        ],
+        "content_union": [
+          509,
+          154,
+          1325,
+          908
+        ],
+        "margin_pixels": 60,
+        "same_crop_every_frame": true
+      },
+      "iso": {
+        "bounds": [
+          569,
+          361,
+          1350,
+          882
+        ],
+        "content_union": [
+          629,
+          421,
+          1290,
+          822
+        ],
+        "margin_pixels": 60,
+        "same_crop_every_frame": true
+      }
+    },
+    "flow_audit": {
+      "path": "results/wing-flow-video-tools/flow-crops-v3/crop-provenance.json",
+      "sha256": "b6d911cb12f38de16eef24d86485c8b2c5f0ceb1bb59a1351e155ff83d55295f"
+    },
+    "stills": [
+      {
+        "source": "results/native-flow-video/pressure-final-v2.png",
+        "source_sha256": "91788e0a4fc06c7e216f8acd7e403836cf801f77cd4b4a609fd83e778e6406b8",
+        "crop_bounds": [
+          540,
+          288,
+          1160,
+          984
+        ],
+        "output": "results/wing-flow-video-tools/pressure-v2-cropped.png",
+        "output_sha256": "49b77aa94d024e8d243c352d624500bab35298532d732e6b5a7368e0ab278ec7"
+      },
+      {
+        "source": "results/native-flow-video/combined-capture-v2/combined.png",
+        "source_sha256": "3e0fb5b2e02476444f7249bf2f55ccb07bfff57ee0463e2acb826d4d0e5bb5f2",
+        "crop_bounds": [
+          568,
+          226,
+          1385,
+          879
+        ],
+        "output": "results/wing-flow-video-tools/combined-v2-cropped.png",
+        "output_sha256": "4e1267a9cfbf9bc515ec262d4bea65ed350a47ef7b1609efb31e874552b55c60"
+      }
+    ],
+    "charts": [
+      {
+        "source": "results/wing-flow-video-tools/native-charts-v2.png",
+        "source_sha256": "ffcdb060c28678942dcd9b2f7f95c16aecb2cc6dce929b33df83885cf9107960",
+        "crop_bounds": [
+          513,
+          279,
+          1878,
+          872
+        ],
+        "output": "results/wing-flow-video-tools/native-charts-v2-cropped.png",
+        "output_sha256": "0f188a2f0af2b406d2a3d110d701f9e18027291e92ab96f87b83e8101c53d1ed",
+        "composition": "Native alpha onto white; no chart data changed"
+      },
+      {
+        "source": "results/wing-flow-video-tools/native-table-v2.png",
+        "source_sha256": "be54f14b45d5f0631432075f7d5cf9924127c44d16e1f952ae2db631735474b2",
+        "crop_bounds": [
+          520,
+          353,
+          1880,
+          724
+        ],
+        "output": "results/wing-flow-video-tools/native-table-v2-cropped.png",
+        "output_sha256": "3cea9d98b18d3507b6febdacdb9878e62e468b0f571bf7af0fef043e8e785370",
+        "composition": "Native alpha onto white; no chart data changed"
+      }
+    ],
+    "composition": "Alpha-cropped native Rhino chart cards composited onto white; scene images fitted with all pixels and legends intact."
+  },
+  "qa": {
+    "reviewer": "Codex examples_review agent",
+    "checks": [
+      "Decoded beginning/middle/end of every shot, 23 extracted frames and contact sheet inspected",
+      "Native chart labels, markers, all seven rows and units legible at 1080p",
+      "No clipping of scene or legends; fixed-family crops encompass all actual source frames",
+      "Encoded ffprobe confirms 57 seconds, 1920x1080, 24fps"
+    ],
+    "contact_sheet": {
+      "path": "results/wing-flow-video-tools/final57-v1/qa-contact-sheet.png",
+      "sha256": "5c0507bd42a26d0412021e101515fd31ece5f4be3424c5a5abcaa256d52a6d29"
+    },
+    "full_local_provenance": {
+      "path": "results/wing-flow-video-tools/final57-v1/provenance.json",
+      "sha256": "065ea27d1a8c7d4c00d58796e7968832c62e92e6f0ac762284f749487a163046"
+    },
+    "root_review": "Root independently approved first42-second scene sequence and decoded final chart/table frames at46.5s and54.0s; examples_review inspected final23-frame contact sheet including ending."
+  },
+  "lifecycle_caveat": {
+    "issue": "https://github.com/range-et/hawa-cfd/issues/122",
+    "detail": "Final batch publication stalled over 180 seconds. One unchanged-input repoll recovered generation 3 completed cases without resubmission or Run toggle. This was manual recovery, not an automatic lifecycle pass; media change does not repair it."
+  },
+  "limits": [
+    "Experimental CPU synthetic-fluid demonstration, not an aircraft engineering polar or aerodynamic validation.",
+    "Stationarity acceptance is not grid/domain convergence or reference validation.",
+    "Spatial slice sweep and camera orbit show one retained field, not time-evolving CFD.",
+    "Equal-speed surface is domain-truncated; not a vortex criterion or physical end of the slowed region.",
+    "Pressure colours are sampled instantaneous values; total forces and coefficients are window means.",
+    "No old comparison field or measurements reused; earlier pressure-only video preserved."
+  ]
+}
