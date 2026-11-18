@@ -101,8 +101,412 @@
     "preview_component": "2862555d-ea79-4fcf-8a60-a2c19737d2ae"
   },
   "fine_host": {
-    "state": "running",
-    "raw_report": "results/wing-fine-host/20261117-225648/progress.json"
+    "state": "completed; both averaging windows accepted",
+    "raw_directory": "results/wing-final-host/20261117-235231",
+    "document": "4ebba1b7-05ee-4eb8-b125-fe88b4d775a6",
+    "device": "cpu",
+    "grid_shape": [
+      81,
+      101,
+      61
+    ],
+    "grid_cells": 499041,
+    "dx_m": 0.01,
+    "settling_steps": 3000,
+    "sample_steps": 201,
+    "stationarity_tolerance": 0.05,
+    "elapsed_wall_seconds": 5050.168001,
+    "sleep": {
+      "source": "pmset -g log",
+      "entered_local": "2026-11-17T18:58:01-05:00",
+      "reason": "Low Power Sleep",
+      "charge_percent": 1,
+      "wake_local": "2026-11-17T19:25:59-05:00",
+      "wake_reason": "AC attach",
+      "duration_seconds": 1678
+    },
+    "performance_limits": "Wall time includes 1678 seconds of low-power sleep and concurrent work; not an isolated throughput benchmark. UI polling experiment lacks precise paired endpoints and establishes no performance defect.",
+    "environment": {
+      "rhino_pid": 93979,
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "foreground_torch_threads": 1,
+      "fresh_background_thread_torch_threads": 1,
+      "embedded_python": "3.9.10",
+      "torch": "2.8.0",
+      "device": "cpu",
+      "installed_assemblies": [
+        {
+          "file": "Hawa.Grasshopper.gha",
+          "sha256": "1df564e82a9aaeacaadd88b018d2e938d226fcd6aa763d9fd90be9d5db3d78f1"
+        },
+        {
+          "file": "Hawa.Rhino.rhp",
+          "sha256": "01a08ee9e16e26f1030793c2027e4267753e668670b7ecbfda29e7a1c22d3f14"
+        },
+        {
+          "file": "Hawa.Shared.dll",
+          "sha256": "217b0e837a07efda85b0ab692fdcfb96690d0d99b38eda1fde55d11525f27c76"
+        }
+      ],
+      "source": "300dd62 with presentation-only archive/generator edits",
+      "normal_restart": true
+    },
+    "cases": [
+      {
+        "selected_index": 0,
+        "identity": {
+          "case_id": "5c594acc-65d2-44f1-aaea-e809839bd862",
+          "candidate_id": "study-000",
+          "revision": 0,
+          "generation": 1,
+          "case_hash": "9b70e8c1d9f8afa30bd27734ef99ef7ad5be8cd34bdd7cd7a830430af971160c",
+          "geometry_hash": "1cfc700e5edec5b07d336db40f0466dbbff049460cb60b9ade601d77ebfc4db0"
+        },
+        "session": "4960a501-01d0-43d5-9c14-10c4eb6cb238",
+        "capture": {
+          "steps": 3200,
+          "session": "4960a501-01d0-43d5-9c14-10c4eb6cb238",
+          "physical_time": 0.5542562584220407,
+          "phase": "after-collision-before-obstacle-reflection-and-stream"
+        },
+        "field_id": "0c02d13d-e9df-487f-acba-94ba09bb2ffc",
+        "angle_deg": -3,
+        "speed_m_s": 1,
+        "summary": {
+          "schema": "hawa-measurement-1",
+          "identity": {
+            "case_id": "5c594acc-65d2-44f1-aaea-e809839bd862",
+            "candidate_id": "study-000",
+            "case_hash": "9b70e8c1d9f8afa30bd27734ef99ef7ad5be8cd34bdd7cd7a830430af971160c",
+            "geometry_hash": "1cfc700e5edec5b07d336db40f0466dbbff049460cb60b9ade601d77ebfc4db0",
+            "revision": 0,
+            "generation": 1
+          },
+          "references": {
+            "density_kg_m3": 1.0,
+            "speed_m_s": 1.0,
+            "area_m2": 0.15,
+            "chord_m": 0.25333333333333335,
+            "pressure_pa": 0.0,
+            "drag_axis_world": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "lift_axis_world": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          "window": {
+            "start_s": 0.5196152422706631,
+            "end_s": 0.5542562584220407,
+            "minimum_samples": 201,
+            "stationarity_absolute_coefficient_tolerance": 0.05
+          },
+          "bodies": [
+            {
+              "body_id": "body",
+              "count": 201,
+              "duration_s": 0.0346410161513776,
+              "mean": {
+                "q_pa": 0.5,
+                "D": 0.10089659145963725,
+                "Y": 1.5925461577736527e-07,
+                "L": 0.00021726813531831328,
+                "CD": 1.3452878861284967,
+                "CY": 2.123394877031537e-06,
+                "CL": 0.002896908470910844,
+                "Cm": 0.006516150557279277,
+                "load_cell_n": 0.10089659145963725
+              },
+              "force_mean_world_n": [
+                0.10089659145963725,
+                1.5925461577736527e-07,
+                0.00021726813531831328
+              ],
+              "force_std_world_n": [
+                0.00011933472244157605,
+                8.066413346591265e-07,
+                0.00023346386983351237
+              ],
+              "torque_mean_world_nm": [
+                3.159762813025707e-08,
+                0.00012380686058830625,
+                5.311040750361723e-09
+              ],
+              "torque_std_world_nm": [
+                9.93592879859793e-07,
+                1.6134180192250933e-05,
+                2.0259373688676786e-07
+              ],
+              "coefficient_std": {
+                "CD": 0.0015911296325543504,
+                "CY": 1.0755217795455019e-05,
+                "CL": 0.0031128515977801646,
+                "Cm": 0.0008491673785395227
+              },
+              "stationarity": {
+                "passed": true,
+                "absolute_coefficient_change": 0.002871833508885469,
+                "tolerance": 0.05
+              },
+              "usable": true,
+              "quality": "accepted"
+            }
+          ],
+          "usable": true,
+          "statistic": "equal-weight population standard deviation; not confidence bounds"
+        },
+        "surface_pressure_probe": {
+          "vertices": 5288,
+          "faces": 10572,
+          "valid_samples": 5288,
+          "total_samples": 5288,
+          "min_valid_pa": 2.7189455216754883,
+          "max_valid_pa": 3.869348076404643,
+          "mean_valid_pa": 2.9541755388382245,
+          "p05_valid_pa": 2.772981324820628,
+          "p95_valid_pa": 3.599417519183091,
+          "below_colour_min": 0,
+          "above_colour_max": 5288,
+          "message": "offset sample"
+        },
+        "probe_display_range": {
+          "kind": "ColorMap",
+          "palette": "diverging",
+          "min": -2,
+          "max": 2,
+          "units": "Pa"
+        }
+      },
+      {
+        "selected_index": 1,
+        "identity": {
+          "case_id": "5c594acc-65d2-44f1-aaea-e809839bd862",
+          "candidate_id": "study-001",
+          "revision": 0,
+          "generation": 1,
+          "case_hash": "9e3033cf2bb9259b116f95615ff8f534cfcfa3ac55631d99329fc2cb1debdf7c",
+          "geometry_hash": "52c2674fdc15acabb135a5ed1f41bfe8b126bee3b95d145da89640d1d381434d"
+        },
+        "session": "1e0937a3-f3c5-436c-b53c-a58c2d590b7c",
+        "capture": {
+          "steps": 3200,
+          "session": "1e0937a3-f3c5-436c-b53c-a58c2d590b7c",
+          "physical_time": 0.5542562584220407,
+          "phase": "after-collision-before-obstacle-reflection-and-stream"
+        },
+        "field_id": "78721cdd-61fd-4e18-b8d6-da604651f241",
+        "angle_deg": 3,
+        "speed_m_s": 1,
+        "summary": {
+          "schema": "hawa-measurement-1",
+          "identity": {
+            "case_id": "5c594acc-65d2-44f1-aaea-e809839bd862",
+            "candidate_id": "study-001",
+            "case_hash": "9e3033cf2bb9259b116f95615ff8f534cfcfa3ac55631d99329fc2cb1debdf7c",
+            "geometry_hash": "52c2674fdc15acabb135a5ed1f41bfe8b126bee3b95d145da89640d1d381434d",
+            "revision": 0,
+            "generation": 1
+          },
+          "references": {
+            "density_kg_m3": 1.0,
+            "speed_m_s": 1.0,
+            "area_m2": 0.15,
+            "chord_m": 0.25333333333333335,
+            "pressure_pa": 0.0,
+            "drag_axis_world": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "lift_axis_world": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          "window": {
+            "start_s": 0.5196152422706631,
+            "end_s": 0.5542562584220407,
+            "minimum_samples": 201,
+            "stationarity_absolute_coefficient_tolerance": 0.05
+          },
+          "bodies": [
+            {
+              "body_id": "body",
+              "count": 201,
+              "duration_s": 0.0346410161513776,
+              "mean": {
+                "q_pa": 0.5,
+                "D": 0.10177949707874806,
+                "Y": -3.786451780973979e-08,
+                "L": 0.021836634657375075,
+                "CD": 1.3570599610499743,
+                "CY": -5.048602374631972e-07,
+                "CL": 0.291155128765001,
+                "Cm": -0.011849228461460222,
+                "load_cell_n": 0.10177949707874806
+              },
+              "force_mean_world_n": [
+                0.10177949707874806,
+                -3.786451780973979e-08,
+                0.021836634657375075
+              ],
+              "force_std_world_n": [
+                0.00010137672641573628,
+                9.665792339237755e-07,
+                0.0002771088656118368
+              ],
+              "torque_mean_world_nm": [
+                8.15490758047926e-08,
+                -0.00022513534076774421,
+                -1.164814254098334e-08
+              ],
+              "torque_std_world_nm": [
+                9.053030789436182e-07,
+                1.8587810849336385e-05,
+                1.742122663893581e-07
+              ],
+              "coefficient_std": {
+                "CD": 0.0013516896855431536,
+                "CY": 1.2887723118983672e-05,
+                "CL": 0.0036947848748244893,
+                "Cm": 0.0009783058341755993
+              },
+              "stationarity": {
+                "passed": true,
+                "absolute_coefficient_change": 0.006025860606968192,
+                "tolerance": 0.05
+              },
+              "usable": true,
+              "quality": "accepted"
+            }
+          ],
+          "usable": true,
+          "statistic": "equal-weight population standard deviation; not confidence bounds"
+        },
+        "surface_pressure_probe": {
+          "vertices": 5288,
+          "faces": 10572,
+          "valid_samples": 5288,
+          "total_samples": 5288,
+          "min_valid_pa": 2.6610638027578046,
+          "max_valid_pa": 3.844629386682881,
+          "mean_valid_pa": 2.976113772077422,
+          "p05_valid_pa": 2.763621443419144,
+          "p95_valid_pa": 3.621010370358905,
+          "below_colour_min": 0,
+          "above_colour_max": 5288,
+          "message": "offset sample"
+        },
+        "probe_display_range": {
+          "kind": "ColorMap",
+          "palette": "diverging",
+          "min": -2,
+          "max": 2,
+          "units": "Pa"
+        }
+      }
+    ],
+    "precision_audit": {
+      "document": "4ebba1b7-05ee-4eb8-b125-fe88b4d775a6",
+      "read_only": true,
+      "source_mesh_crc_before": 3226656946,
+      "source_mesh_crc_after": 3226656946,
+      "original": {
+        "use_double_precision": true,
+        "vertices": 5288,
+        "source_faces": 5409,
+        "submission_triangles": 10572,
+        "max_abs_coordinate_difference": 0,
+        "differing_vertices": 0
+      },
+      "normalized": {
+        "use_double_precision": true,
+        "vertices": 5288,
+        "source_faces": 5409,
+        "submission_triangles": 10572,
+        "max_abs_coordinate_difference": 0,
+        "differing_vertices": 0
+      },
+      "triangulation": "Submission uses A-B-C and A-C-D indices; no vertex coordinates changed",
+      "installed_run": "20261117-235231"
+    },
+    "source_change_scope": "Fine run used installed source 300dd62 before queued-state and Point3dAt repairs. Read-only original/normalized mesh audit proves both coordinate access routes exactly equal for these 5288 vertices; CRC unchanged. Queued handling affects startup, and this run reached completed. This supports carrying this specific fine result forward; it is not a fresh run or lifecycle/precision audit on the new assembly.",
+    "pressure_display_adjustment": {
+      "minimum_pa": 0,
+      "maximum_pa": 4,
+      "original_minimum_pa": -2,
+      "original_maximum_pa": 2,
+      "reason": "Both accepted case ranges are positive2.66106..3.86935Pa; original range clipped every valid sample. Shared0..4 includesgaugezero withoutclipping.",
+      "low_control": "29ba3a83-8a38-4bc3-b5e8-bc9230325117",
+      "high_control": "ae1c7055-4c4c-4298-86f7-a268542d6b59",
+      "selected_identity_unchanged": true,
+      "run_unchanged": true,
+      "source_archive_unchanged": true
+    },
+    "current_display_probes": [
+      {
+        "raw_report": "results/wing-final-host/20261117-235231/selected-1-video-evidence.json",
+        "selected_index": 1,
+        "identity": {
+          "case_id": "5c594acc-65d2-44f1-aaea-e809839bd862",
+          "candidate_id": "study-001",
+          "revision": 0,
+          "generation": 1,
+          "case_hash": "9e3033cf2bb9259b116f95615ff8f534cfcfa3ac55631d99329fc2cb1debdf7c",
+          "geometry_hash": "52c2674fdc15acabb135a5ed1f41bfe8b126bee3b95d145da89640d1d381434d"
+        },
+        "capture": {
+          "steps": 3200,
+          "session": "1e0937a3-f3c5-436c-b53c-a58c2d590b7c",
+          "physical_time": 0.5542562584220407,
+          "phase": "after-collision-before-obstacle-reflection-and-stream"
+        },
+        "pressure_map": {
+          "kind": "ColorMap",
+          "palette": "diverging",
+          "min": 0,
+          "max": 4,
+          "units": "Pa"
+        },
+        "surface": {
+          "vertices": 5288,
+          "faces": 10572,
+          "valid_samples": 5288,
+          "total_samples": 5288,
+          "min_valid_pa": 2.6610638027578046,
+          "max_valid_pa": 3.844629386682881,
+          "mean_valid_pa": 2.976113772077422,
+          "p05_valid_pa": 2.763621443419144,
+          "p95_valid_pa": 3.621010370358905,
+          "below_colour_min": 0,
+          "above_colour_max": 0,
+          "message": "offset sample"
+        }
+      }
+    ],
+    "raw_sha256": {
+      "results/wing-final-host/20261117-235231/progress.json": "0d7a41daf39a75a309fbeef9222f3b5f1eef00457b3ec1cba7cbee9c22eb3381",
+      "results/wing-final-host/20261117-235231/environment.json": "6c52120f18e8f8f64beabf663633302a3d8364385917f7a424f3cc2692a50bfb",
+      "results/wing-final-host/20261117-235231/mesh-precision-audit.json": "8c00b8d25de09ea6b535e1694ff6c96d688a05bff386464b511744796233d908",
+      "results/wing-final-host/20261117-235231/host-delay-diagnostic.json": "95a5c03188877638e2f030421daae7f146b1c51bb2296744df01edd9546660df",
+      "results/wing-final-host/20261117-235231/pressure-display-range.json": "fb9d16aa7f639d0b4ce4aaa2259bcce34c18e67190d17a16b3a065bb731b130b",
+      "results/wing-final-host/20261117-235231/selected-0-pressure-range-probe.json": "257689ffe9cb55ca91a4f16c873c6792cf84eb25cf58b1fa72281ca8ac40a011",
+      "results/wing-final-host/20261117-235231/selected-1-pressure-range-probe.json": "faf4dd60c11921156de597b6aed0131861284e65b345da9c4144641af6073ab9",
+      "results/wing-final-host/20261117-235231/owned-final.gh": "49a8955f34d865a32badc9a1ea3c81a4f8e77cdd63e34c9dbb6ea9fe91f15d9f",
+      "results/wing-final-host/20261117-235231/selected-1-video-evidence.json": "74bca6a34ea7815d55199e35c06147951f816da15deee3bc740e2c068e0ad717"
+    },
+    "pending": [
+      "Fresh installation of queued/precision fixes, installed precision audit and coarse lifecycle verification",
+      "Final framed captures/video acceptance and inclusion in rebuilt package",
+      "Final source archive pressure-range patch and graph audit"
+    ],
+    "limits": "Finite accepted windows and valid offset pressure samples do not establish grid/domain independence or aerodynamic accuracy. #40 remains open. No accelerator simulation or Windows host evidence."
   },
   "limits": [
     "No Windows host acceptance",

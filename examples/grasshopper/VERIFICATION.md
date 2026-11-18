@@ -224,3 +224,14 @@ slots; idle preview gating; and no errors or phantom scatter points while pendin
 Use `test_stationary_study.py`, StateContracts, `verify_stationary_study.cs`,
 `verify_wing_scatter_nulls.cs` and the [live example review](../../docs/review-parametric-wing-example.md).
 Fine-grid completion and pressure rendering do not establish aerodynamic accuracy.
+
+The final owned fine run `235231` completed both CPU cases at 499041 cells,
+3000 settling + 201 samples and unchanged 0.05 stationarity tolerance. Both
+selected meshes produced 5288/5288 valid pressure samples; the shared display
+range changes from -2…2 to 0…4 Pa to avoid clipping. See the
+[host machine evidence](../../docs/verification-parametric-wing-host.json).
+This run used the earlier installed `300dd62` assembly. A read-only audit found
+zero coordinate differences between float enumeration and Point3dAt for this
+specific original/normalized mesh. Fresh installed queued/precision-fix lifecycle
+checks, final video/framing and package acceptance remain pending. The existing
+numerical qualification failures remain open in #40.

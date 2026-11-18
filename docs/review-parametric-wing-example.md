@@ -3,7 +3,8 @@
 November 17, 2026. Geometry/example author: Codex `examples_review` agent.
 Live geometry/lifecycle operator: Codex root via Rhino MCP. Evidence reconciliation:
 Codex `wing_wrapup` agent. Root owns final fine-host, viewport, package and merge
-acceptance. The current fine run is pending; no pressure/video pass is claimed.
+acceptance. The fine run and pressure sampling completed; final video and new-assembly
+acceptance remain pending.
 
 ## Product and measurement boundary
 
@@ -85,13 +86,42 @@ checks passed. The current [G6 evidence](verification-wing-gh-compatibility.json
 checks 54 public nodes, 32 definitions and 242 observed unique edges against
 current archive hashes; this does not substitute for viewport inspection.
 
+## Completed fine run and pressure samples
+
+The owned `235231` run completed both cases on CPU at 499041 cells (0.01 m),
+3000 settling steps + 201 samples, unchanged 0.05 stationarity tolerance.
+At -3/+3 degrees, CL was 0.002896908470910844 / 0.291155128765001 and CD was
+1.3452878861284967 / 1.3570599610499743. Both retained fields are source step
+3200 at 0.5542562584220407 s. Candidate, summary and field identities agree.
+Each selected rotated mesh has 5288 vertices and 10572 triangles; all 5288
+surface-pressure samples are valid for each case. Ranges are respectively
+2.7189455216754883–3.869348076404643 Pa and
+2.6610638027578046–3.844629386682881 Pa.
+
+The prior display range -2…2 Pa clipped every valid sample. A view-only change
+to the shared 0…4 Pa range preserves gauge zero and covers both actual ranges;
+identity, solver Run state and original archive remained unchanged. Final
+source-archive defaults and graph audit are still being completed separately.
+This is pressure sampling evidence, not final video/framing acceptance.
+
+Wall time was 5050.168001 seconds, including 1678 seconds of low-power sleep
+recorded by macOS. Concurrent work and an inconclusive UI-poll experiment prevent
+an isolated performance claim. No source performance defect is established.
+
+The installed Grasshopper binary was `1df564e82a9aaeacaadd88b018d2e938d226fcd6aa763d9fd90be9d5db3d78f1`
+from source `300dd62`. It predates queued-startup and mesh-precision repairs.
+A read-only audit compared float enumeration and Point3dAt for all 5288 original
+and normalized vertices: maximum difference zero, no differing vertices and
+unchanged source CRC. This supports carrying these specific completed fine
+results forward; it does not claim a new-binary run or general precision safety.
+The machine record retains full assembly hashes, identities and raw-file hashes.
+
 ## Remaining acceptance and qualification
 
-The final explicit-mesh fine run (root run identifier `235231`) and its pressure
-surface, legend, selected-case view and video remain pending. Earlier progress
-paths in the host machine record are historical, not a final-run pass. Root
-must record final source/archive/package identities and inspect both canvas and
-viewport before closing these UI gates. Package/release acceptance is separate.
+New-assembly installation, an installed precision audit and coarse lifecycle
+checks remain pending. Final framed video, presentation archive audit and rebuilt
+package acceptance are separate pending gates. The original host-run files and
+previous failed presentation attempts remain historical evidence.
 
 The frozen [headless fine-run protocol](wing-fine-report-protocol.md) uses a
 different indexed wing geometry; its results do not qualify this CAD loft.
