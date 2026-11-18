@@ -117,7 +117,10 @@ CFD: scientific SVG geometry, embedded rasters, candidate anchors, label text,
 metadata and tables were checked against their original bytes. Historical run
 records remain unchanged. The focused suite passes 22 tests on Python 3.9 and
 3.12; the renderer measures 139/139 statements and 46/46 branches. All nine
-figures were rasterized and inspected in both themes. Browser interaction
-verification remains blocked because CUA exposes no browser in this session;
-static figure checks do not claim checkbox or layout acceptance.
+figures were rasterized and inspected in both themes. Codex root subsequently verified the fine report in the CUA in-app browser:
+dark default, light/dark checkbox changes including SVG chrome, an actual gold
+marker navigating to candidate 1, expanded source identity/step 3200, return
+to overview, candidate 0 selection, and readable/unclipped probe/pressure axes
+and Pa units. Coarse HTML interactions were not run; those retain static
+figure evidence only. Browser screenshots were observed inline, not saved.
 See [presentation proof and artifact hashes](verification-wing-report-themes.json).

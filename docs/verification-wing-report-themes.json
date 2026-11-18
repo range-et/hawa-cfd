@@ -51,8 +51,23 @@
     },
     "figures_inspected": 18,
     "visual_method": "rsvg-convert at 1200 px: all 3 reports, overview and both candidate figures, dark and light; tokens resolved forstaticrendering. Unicode minus signs, labels, legends and pressure scales inspected.",
-    "browser": "BLOCKED: CUA IAB unavailable and browser inventory empty; live HTML toggle/click acceptance not claimed."
+    "browser": {
+      "state": "passed for final fine report; coarse interaction not run",
+      "operator": "Codex root via CUA IAB",
+      "url": "http://127.0.0.1:8770/report.html",
+      "checks": [
+        "Dark default overview visually readable",
+        "Light theme checkbox changed value0 to1; SVG chrome and text changed",
+        "Actual gold +3-degree marker navigated to #candidate-1",
+        "Expanded identity details showed candidate/session/source step3200",
+        "Back to all cases returned to #overview",
+        "Returned to dark theme and selected candidate0",
+        "Pressure/probe plots, Pa units and axes readable and unclipped"
+      ],
+      "screenshots": "Observed inline tool captures; no screenshot files saved",
+      "limits": "Fine report only; coarse reports have static figure review, not browser interaction evidence."
+    }
   },
   "historical_evidence": "Original run records and numerical acceptance criteria unchanged. Previous report bytes remain available at parent commit d8a055d and earlier hashes above.",
-  "limits": "Static SVG inspection is not browser layout or interaction validation. Scientific coolwarm raster/scale, non-text paths/transforms, anchors, metadata and candidate tables preserved; only presentation colors and text glyph representation changed."
+  "limits": "Scientific coolwarm raster/scale, non-text paths/transforms, anchors, metadata and candidate tables are preserved; presentation colors and text glyph representation changed. Actual fine-report browser theme/navigation checks passed separately; coarse HTML browser interactions remain unverified."
 }
