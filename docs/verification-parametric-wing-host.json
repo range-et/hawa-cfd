@@ -6,17 +6,17 @@
   "embedded_python": "3.9.10",
   "torch": "2.8.0",
   "device": "cpu",
-  "installed_component_source": "9583f3a",
+  "installed_component_source": "717e997",
   "lifecycle": {
     "state": "passed",
     "device": "cpu",
-    "source_sha256": "b37f1820a9c00f11f1136612df9623e7dcf528a5a084f91fd90aed5115fa564b",
-    "assembly_sha256": "2e8f4e86caaca35029591507c0da0be6d57e9d65dd86daa6a7ca948963d50da3",
+    "source_sha256": "bb293360a6406a93d7fc545996dd9b0e3be5a7445a6b3981e1525da9b35d5580",
+    "assembly_sha256": "eba06c834781dabb96ff12b494ba14f38bd47119af10bfb037a673652e7b2469",
     "dx_m": 0.025,
     "settling_steps": 1200,
     "sample_steps": 81,
     "tolerance": 0.05,
-    "preserved_document": "f0e9e825-34e5-4552-9d48-64297cc678c4",
+    "preserved_document": "9abe9d53-c84c-433a-a530-3a2af2400cc8",
     "phase": 10,
     "checks": [
       "Owned coarse study explicitly started; original IDs and wires preserved",
@@ -544,8 +544,7 @@
       "results/wing-pressure-defaults/20261118-012213-439d2de0d14b425ea36b020a6091360b/audit.json": "847d2094ba00e9dbb487be4e3104018d54bd4274b7d35798ab2262948dbf625e"
     },
     "pending": [
-      "Fresh installation of queued/precision fixes, installed precision audit and coarse lifecycle verification",
-      "Final edited video acceptance and inclusion in rebuilt package"
+      "Final package-only artifact refresh and exact-head hosted CI/Greptile merge approval"
     ],
     "limits": "Finite accepted windows and valid offset pressure samples do not establish grid/domain independence or aerodynamic accuracy. #40 remains open. No accelerator simulation or Windows host evidence.",
     "selection_roundtrip": {
@@ -602,12 +601,192 @@
       "frames_per_orbit": 72,
       "scatter_capture": "rhino-cl-cd-plots.png",
       "scope": "Capture inputs for offline video assembly; final edited video acceptance pending. Initial case1 orbit had clipped legend and is excluded."
-    }
+    },
+    "default_mesh_reuse_basis": "Actual installed 717e997 production serializer returns geometry JSON exactly equal to legacy output for this 5288-vertex metre-scaled default mesh, source CRC3226656946 unchanged. Fine results remain a recorded 300dd62 run; general far-origin CFD equivalence is not claimed."
   },
   "limits": [
     "No Windows host acceptance",
     "CPU-only study: MPS/CUDA requests reject",
     "Grid/domain and physical-reference qualification remain open in #40",
     "Full older-gallery numerical rerun not claimed; all supported archives audited"
-  ]
+  ],
+  "initial_lifecycle": {
+    "state": "passed",
+    "device": "cpu",
+    "source_sha256": "b37f1820a9c00f11f1136612df9623e7dcf528a5a084f91fd90aed5115fa564b",
+    "assembly_sha256": "2e8f4e86caaca35029591507c0da0be6d57e9d65dd86daa6a7ca948963d50da3",
+    "dx_m": 0.025,
+    "settling_steps": 1200,
+    "sample_steps": 81,
+    "tolerance": 0.05,
+    "preserved_document": "f0e9e825-34e5-4552-9d48-64297cc678c4",
+    "phase": 10,
+    "checks": [
+      "Owned coarse study explicitly started; original IDs and wires preserved",
+      "Study completed through automatic polling without manual solution updates",
+      "Selection switched without restarting; accepted identities or rejected withholding checked",
+      "Retained capture unchanged on re-selection; geometry edit invalidated selected data",
+      "Long lifecycle-only job rearmed with pause requested",
+      "Cooperative pause acknowledged without publishing a selected result",
+      "Pause remained stable; Cancel cleared public selected outputs",
+      "Cancelled job drained; owned saved-Run-true archive created without solving",
+      "Saved Run=true reopened idle and requires explicit off/on",
+      "Saved-true guard remained idle; owned document disposed and previous canvas restored"
+    ],
+    "cases": [
+      "study-000: completed; ",
+      "study-001: completed; "
+    ],
+    "accepted_candidates": 2,
+    "paused_report": "paused: 0/2 candidates. CPU experimental whole-body loads; no aerodynamic qualification. Field is a retained instantaneous capture; loads are window means.",
+    "pending_cleanup": 0,
+    "pending_refreshes": 0,
+    "limits": "CPU coarse lifecycle only. Rejected candidates may leave no pressure display; fine 3000+201 at .05 and visual pressure acceptance are separate. Public cleanup counters do not enumerate private backend workers. No convergence/aerodynamic or CUDA qualification."
+  },
+  "initial_lifecycle_installed_component_source": "9583f3a",
+  "final_installed_environment": {
+    "pid": 4894,
+    "python": "3.9.10 (v3.9.10:f2f3f53782, Jan 13 2022, 16:55:45) \n[Clang 13.0.0 (clang-1300.0.29.30)]",
+    "torch": "2.8.0",
+    "foreground_threads": 12,
+    "OMP_NUM_THREADS": null,
+    "MKL_NUM_THREADS": null,
+    "hawa_path": "/Users/r2d2/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)/Libraries/Hawa/python/hawa/__init__.py",
+    "stationary_study_path": "/Users/r2d2/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)/Libraries/Hawa/python/hawa/stationary_study.py",
+    "stationary_study_sha256": "0ef1817c5060ea94ff2f788327d297295bd1757421ed5f001ca6cda7356f1d3a",
+    "fresh_background_threads": 12
+  },
+  "native_precision_audit": {
+    "rhino": "8.37.26307.15002",
+    "assembly_path": "/Users/r2d2/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)/Libraries/Hawa/Hawa.Grasshopper.gha",
+    "assembly_sha256": "eba06c834781dabb96ff12b494ba14f38bd47119af10bfb037a673652e7b2469",
+    "required_source_fix": "Exact-double SerializeMesh repair after c4e8c9e",
+    "scope": "Actual production SerializeMesh invoked via developer-only reflection on native Rhino mesh; no solver, no full Submission or far-origin CFD qualification",
+    "native_combine_identical_vertices": 1,
+    "native_combine_identical_valid": false,
+    "vertices_m": [
+      [
+        1000000,
+        1000000,
+        1000000
+      ],
+      [
+        1000000.00025,
+        1000000,
+        1000000
+      ],
+      [
+        1000000,
+        1000000.00025,
+        1000000
+      ],
+      [
+        1000000,
+        1000000,
+        1000000.00025
+      ]
+    ],
+    "source_vertices": 5,
+    "serialized_vertices": 4,
+    "state": "passed"
+  },
+  "default_mesh_payload_equivalence": {
+    "document": "4ebba1b7-05ee-4eb8-b125-fe88b4d775a6",
+    "vertices": 5288,
+    "source_crc_before": 3226656946,
+    "source_crc_after": 3226656946,
+    "expected_old_source_crc": 3226656946,
+    "payload_equal": true,
+    "scale": 1,
+    "scope": "Serialization equality for metre-scaled default mesh only; no solver execution"
+  },
+  "final_idle_display": {
+    "plots": [
+      {
+        "name": "CL versus angle / scatter only",
+        "count": 0
+      },
+      {
+        "name": "CD versus angle / scatter only",
+        "count": 0
+      },
+      {
+        "name": "CL versus CD / scatter only",
+        "count": 0
+      }
+    ],
+    "idle_meshes": 1,
+    "valid_mesh": true,
+    "errors": [],
+    "run": false
+  },
+  "final_cleanup": {
+    "jobs": 0,
+    "sessions": 0,
+    "frames": 0,
+    "workers": []
+  },
+  "document_restoration": {
+    "state": "passed",
+    "models": [
+      {
+        "path": "/Users/r2d2/Desktop/hawa-working-integration/results/host-preservation/before-export-normal-quit.3dm",
+        "serial": 268435458,
+        "objects": 0,
+        "units": "Millimeters"
+      },
+      {
+        "path": "/Users/r2d2/Desktop/hawa-working-integration/results/host-preservation/before-drain-repair.3dm",
+        "serial": 268435459,
+        "objects": 0,
+        "units": "Millimeters"
+      }
+    ],
+    "graphs": [
+      {
+        "path": "/Users/r2d2/Desktop/hawa-issue-35-complete/results/host-preservation/quit-23060563-125b-4e67-a176-ce7d29bda788.gh",
+        "id": "23060563-125b-4e67-a176-ce7d29bda788",
+        "objects": 0,
+        "enabled": true
+      },
+      {
+        "path": "/Users/r2d2/Desktop/hawa-issue-35-complete/results/host-preservation/quit-6b279053-981c-4735-965a-ce8ee8bdbd86.gh",
+        "id": "6b279053-981c-4735-965a-ce8ee8bdbd86",
+        "objects": 0,
+        "enabled": true
+      }
+    ],
+    "source_hashes": {
+      "/Users/r2d2/Desktop/hawa-working-integration/results/host-preservation/before-export-normal-quit.3dm": "99b53b80f2b41b8f512055ab25cb9f0bb28babd64114b10bbcf88ddf4ccb1969",
+      "/Users/r2d2/Desktop/hawa-working-integration/results/host-preservation/before-drain-repair.3dm": "9d934550a70f45e01bcd8f3c3dddffbcecc7fcf82a4021f531ea4c277880ae2d",
+      "/Users/r2d2/Desktop/hawa-issue-35-complete/results/host-preservation/quit-23060563-125b-4e67-a176-ce7d29bda788.gh": "16d4ad516d2bb6b4ea6c78a0273f5754bb190753bf53c8c9233e5eb99734d313",
+      "/Users/r2d2/Desktop/hawa-issue-35-complete/results/host-preservation/quit-6b279053-981c-4735-965a-ce8ee8bdbd86.gh": "4257bb6957ca22ffe9070c9645b9ee49bfdb1db90454bb227aa1ba8a0fbb0be9"
+    },
+    "preserved_source_files_unchanged": true,
+    "retained_empty_verification_document": 268435457,
+    "host_note": "Opening preserved Rhino documents unloaded the empty GH test canvas; original empty GH documents were then restored from their saved copies"
+  },
+  "final_installed_raw_sha256": {
+    "results/stationary-study-host/20261118-013516-4e484a62a8a44948b324963540279fb0/rhino.json": "23fa8052a80c4fe2da77074640324c7b93b3bab8ce37915bf2933e28e7646c48",
+    "results/stationary-study-host/20261118-013516-4e484a62a8a44948b324963540279fb0/environment.json": "20cbcae49ab7d641ed734b5037a27f15d1fa32a0dbf5a0e0edafc52899e06d53",
+    "results/stationary-study-host/20261118-013516-4e484a62a8a44948b324963540279fb0/final-cleanup.json": "658894d3ef5deb901774c1ad7da4e0f8f82f8e42c7510c3be2191a827065b47f",
+    "results/precision-audit/native-mesh-precision-fixed.json": "3ee98062a7589f2dd748053a83fe5a51959009ef5839d2be62c324643a5873d7",
+    "results/precision-audit/default-wing-serialization-equivalence.json": "f2751ec4a6379aecdcdbf4da215247c80338689651dd8660e3c3a32abcc90047",
+    "results/precision-audit/idle-display-final.json": "cf3cd59002f0b2adc50cf577ccd0ec344e175967cdda6a4c398084a339855cae",
+    "results/host-preservation/restored-final/restoration.json": "0ffa2f381406a788360e7ebe418366f2dc1edd1573b64b358764b373877d60a8"
+  },
+  "video": {
+    "artifact": "examples/grasshopper/videos/35-wing-pressure-study.mp4",
+    "metadata": "examples/grasshopper/videos/35-wing-pressure-study.json",
+    "sha256": "33edb183a7dcb8750b6b5d844ac96d036a0575e9a6936333e5822f1a519299e3",
+    "duration_seconds": 28,
+    "width": 1920,
+    "height": 1080,
+    "frames_per_second": 24,
+    "audio": false,
+    "verification": "Agent inspected 20 encoded frames; root independently inspected 20-frame contact sheet and an actual middle native-pressure frame. Both selected cases and three native scatter plots shown; initial clipped-legend orbit excluded.",
+    "captured_installed_source": "300dd62",
+    "captured_gha_sha256": "1df564e82a9aaeacaadd88b018d2e938d226fcd6aa763d9fd90be9d5db3d78f1",
+    "scope": "Video of actual retained fine run, not a new 717e997 fine solve or aerodynamic validation."
+  }
 }

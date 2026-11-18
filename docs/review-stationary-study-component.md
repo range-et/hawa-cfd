@@ -50,7 +50,8 @@ disposed on geometry conversion failures.
   Point3dAt reading alone did not fix native welding. `717e997` instead maps
   exact source coordinate triples and remaps triangle indices without native
   welding. Its modeled regression fails before and passes after the repair;
-  actual repaired-helper native acceptance is a separate pending gate.
+  actual repaired-helper native acceptance subsequently passed on the installed
+  `717e997` assembly; see the final host evidence below.
 - Fresh whole-suite coverage: **244/244 component lines and 24 explicit
   functions** covered; the new serializer helper measures **26/26 lines**.
   The Python suite passes 2757 tests with 176 skips. Strict headless and
@@ -68,13 +69,21 @@ disposed on geometry conversion failures.
 
 G1/G2 pass within these measured bounds. G3 adds no solver-method or threshold
 change; experimental loads remain unqualified. The completed fine run on source
-`300dd62`, pressure sampling and selection roundtrip are recorded separately in
-the [host review](review-parametric-wing-example.md). They are not a fine run on
-`717e997`. The earlier installed `efa79a...` assembly passed ten coarse lifecycle
-phases but failed the native seam-precision audit above; it is not the repaired
-helper's native acceptance. Root owns installing the exact-weld assembly and
-repeating the native precision/lifecycle checks.
+`300dd62`, pressure sampling and selection roundtrip retain that provenance;
+they are not a fine solve on `717e997`.
 
-G6, CPU smoke and package records retain their exact source scopes. Final
-installed-host, package and release acceptance remain root-owned. Test doubles
-and prior linked-test IL equality never establish new native Rhino behavior.
+Root installed `717e997` through normal Rhino restart and verified the actual
+production serializer on a native far-origin mesh: four distinct vertices,
+while the native CombineIdentical control still collapses to one. The complete
+default-wing geometry JSON equals legacy output exactly; original CRC is
+unchanged. The new assembly also passed all ten coarse lifecycle phases with
+two accepted candidates, idle preview/empty plots, and final zero jobs, sessions,
+frames and workers. Original empty documents were restored. This is bounded
+native helper and lifecycle acceptance, not general far-origin CFD qualification.
+See the [host review](review-parametric-wing-example.md) and
+[machine evidence](verification-parametric-wing-host.json).
+
+G6, CPU smoke and package records retain their exact source scopes. The final
+package-only refresh and exact-head CI/Greptile approval remain root-owned;
+video and the scoped installed-host checks are complete. Earlier test doubles
+or linked-test IL equality are not substituted for these native observations.

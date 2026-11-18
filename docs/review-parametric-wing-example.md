@@ -3,8 +3,8 @@
 November 17, 2026. Geometry/example author: Codex `examples_review` agent.
 Live geometry/lifecycle operator: Codex root via Rhino MCP. Evidence reconciliation:
 Codex `wing_wrapup` agent. Root owns final fine-host, viewport, package and merge
-acceptance. The fine run and pressure sampling completed; final video and new-assembly
-acceptance remain pending.
+acceptance. The fine run, pressure sampling, video and scoped new-assembly host checks
+completed. Final package and exact-head merge approval remain separate.
 
 ## Product and measurement boundary
 
@@ -105,9 +105,11 @@ objects and 144 wires, changes only the two pressure sliders and passes staged
 reopening. A fresh archive graph audit passes.
 Both corrected-range probes retain 5288 valid samples with zero saturation.
 Selection 0→1→0 preserves the exact original field/identity and coefficient
-arrays. Two 72-frame orbit sequences and native scatter captures are available
-for editing; the initial legend-clipped orbit is excluded. This is retained
-view/capture evidence, not final edited-video acceptance.
+arrays. Two 72-frame orbit sequences and three native scatter plots appear in
+the [28-second 1080p video](../examples/grasshopper/videos/35-wing-pressure-study.mp4).
+The agent and root each inspected 20 encoded frames/contact-sheet views; root
+also inspected an actual middle pressure frame. The initial legend-clipped
+orbit is excluded. The video retains its original installed-source provenance.
 
 Wall time was 5050.168001 seconds, including 1678 seconds of low-power sleep
 recorded by macOS. Concurrent work and an inconclusive UI-poll experiment prevent
@@ -121,11 +123,37 @@ unchanged source CRC. This supports carrying these specific completed fine
 results forward; it does not claim a new-binary run or general precision safety.
 The machine record retains full assembly hashes, identities and raw-file hashes.
 
-## Remaining acceptance and qualification
+## Final installed-host acceptance
 
-New-assembly installation, an installed precision audit and coarse lifecycle
-checks remain pending. Final edited video and rebuilt package acceptance are separate pending gates. The original host-run files and
-previous failed presentation attempts remain historical evidence.
+Root normally restarted Rhino and installed source `717e997`; the loaded
+Grasshopper assembly SHA256 is
+`eba06c834781dabb96ff12b494ba14f38bd47119af10bfb037a673652e7b2469`.
+An actual production SerializeMesh call through developer-only reflection on a
+native far-origin seam mesh returned four distinct vertices; the known native
+CombineIdentical control still collapsed to one. This validates the repaired
+serializer on that fixture, not full far-origin Submission or CFD accuracy.
+
+On the default metre-scaled wing, new production geometry JSON equals legacy
+output exactly for all 5288 vertices; source CRC3226656946 is unchanged. This
+supports reuse of the earlier fine result for this mesh without relabelling it
+as a new-binary solve. Idle opening shows one valid geometry preview and zero
+points in each of three plots, with no errors.
+
+The newly installed assembly passed all ten coarse lifecycle phases with two
+accepted candidates at 0.025 m, 1200+81 steps and unchanged 0.05 tolerance. Its
+embedded Python 3.9.10/PyTorch 2.8 environment had 12 foreground/background threads
+and no OMP/MKL overrides; it is separate from the single-threaded fine run.
+Final jobs, sessions, frames and workers are all zero. Both original empty
+Rhino models and both original empty GH documents were restored with recorded
+units/IDs and source hashes preserved. One empty MCP verification document was
+explicitly retained; no user geometry was replaced.
+
+## Remaining package and scientific scope
+
+The final package-only artifact refresh and exact-head CI/Greptile approval
+remain integration steps. Host and video checks above are complete within their
+stated scopes; previous failed presentation/native-welding attempts remain
+historical evidence.
 
 The frozen [headless fine-run protocol](wing-fine-report-protocol.md) uses a
 different indexed wing geometry; its results do not qualify this CAD loft.

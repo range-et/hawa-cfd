@@ -232,6 +232,10 @@ range changes from -2…2 to 0…4 Pa to avoid clipping. See the
 [host machine evidence](../../docs/verification-parametric-wing-host.json).
 This run used the earlier installed `300dd62` assembly. A read-only audit found
 zero coordinate differences between float enumeration and Point3dAt for this
-specific original/normalized mesh. Fresh installed queued/precision-fix lifecycle
-checks, final video/framing and package acceptance remain pending. The existing
+specific original/normalized mesh. The final installed 717e997 production serializer passes the native far-origin
+fixture and returns geometry JSON exactly equal to the legacy default wing.
+All ten fresh coarse lifecycle phases, idle preview/empty plots and zero-resource
+cleanup pass; original empty documents are restored. The final 28-second video
+is verified, with its earlier fine-run provenance preserved. Final package/merge
+approval remains separate. The existing
 numerical qualification failures remain open in #40.
