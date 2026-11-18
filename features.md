@@ -15,6 +15,19 @@ git history at commit cc407cc. See the release review for distribution
 claims and the [coverage matrix](examples/grasshopper/VERIFICATION.md) for required
 example checks.
 
+## Expanded wing-flow presentation (November 18, 2026)
+
+Seven fresh Mac CPU angle cases (−9° through +9° at 3° spacing) passed the
+unchanged stationarity screen in three bounded native studies. Surrounding-flow
+captures show spatial speed slices and a domain-truncated speed isosurface;
+native comparison charts use the actual batch means. The final batch required
+an unchanged-input repoll to publish completed outputs: automatic publication
+remains an open defect in [#122](https://github.com/range-et/hawa-cfd/issues/122).
+The shipped two-angle GH archive is unchanged; numerical qualification in #40
+remains open. The 57-second video passed decoded-frame review by the media
+agent and independent final review by the parent agent.
+[Evidence and limits](docs/review-wing-flow-video.md).
+
 ## Implemented capabilities
 
 | Capability | Current scope and important limits | Guide and evidence |
