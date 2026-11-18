@@ -80,6 +80,11 @@ def main():
     for folder in ("plugin", "src", "scripts", "requirements", "tests", "tools", ".config", "docs", "examples", "vendor/lettuce", "vendor/monad_system"):
         shutil.copytree(ROOT / folder, source_root / folder, dirs_exist_ok=True,
                         ignore=shutil.ignore_patterns("bin", "obj", "__pycache__", "*.pyc", ".pytest_cache", "09-parametric-hull-galapagos.gh"))
+    # Offline report generation reads shared font tokens from this CSS. Do not
+    # ship the entire website merely to supply that source dependency.
+    font_tokens = Path("site/assets/monad/monad.css")
+    (source_root / font_tokens).parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(ROOT / font_tokens, source_root / font_tokens)
     for name in ("pyproject.toml", "uv.lock", "LICENSE", "THIRD_PARTY_NOTICES.md", "README.md", "AGENTS.md", "features.md"):
         shutil.copy2(ROOT / name, source_root / name)
     archive = args.archive

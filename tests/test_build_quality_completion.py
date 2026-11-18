@@ -26,6 +26,7 @@ def package_tree(tmp_path, monkeypatch):
         "src/hawa/__pycache__/stale.pyc": "ignored cache",
         "vendor/lettuce/lettuce/__init__.py": "lettuce source",
         "vendor/monad_system/LICENSE": "vendored notice",
+        "site/assets/monad/monad.css": "shared font token fixture",
         "docs/plugin.md": "plugin guide",
         "docs/native-v0.5.md": "[capture](captures/test.png) [example](../examples/01.gh)",
         "docs/release-notes-v0.4.0.md": "release notes",

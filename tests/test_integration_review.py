@@ -59,7 +59,7 @@ def test_source_bundle_contains_verification_inputs(tmp_path, monkeypatch):
     root = tmp_path/'repo'
     folders = ['src/hawa', 'vendor/lettuce/lettuce', 'vendor/monad_system', 'scripts', 'requirements',
                'tests', 'tools', '.config', 'docs/agents', 'docs/function-tests',
-               'examples/grasshopper', 'examples/native-prototype']
+               'examples/grasshopper', 'examples/native-prototype', 'site/assets/monad']
     for folder in folders: (root/folder).mkdir(parents=True)
     for name in ['Hawa.Rhino.rhp', 'Hawa.Shared.dll']:
         p=root/'plugin/Hawa.Rhino/bin/Release/net7.0'/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b'test assembly')
@@ -71,6 +71,10 @@ def test_source_bundle_contains_verification_inputs(tmp_path, monkeypatch):
     for name in ('LICENSE','AUTHORS.rst','PORTING.md','upstream.json'):files.append('vendor/lettuce/'+name)
     for name in ('LICENSE','colors.json','upstream.json'):files.append('vendor/monad_system/'+name)
     for name in files:(root/name).write_text('fixture '+name)
+    original_root = build_plugin.ROOT
+    for name in ('site/assets/monad/monad.css', 'vendor/monad_system/colors.json', 'scripts/wing_sweep_report.py'):
+        (root/name).write_bytes((original_root/name).read_bytes())
+    (root/'site/do-not-package.html').write_text('unrelated website')
     monkeypatch.setattr(build_plugin,'ROOT',root)
     output=tmp_path/'bundle';archive=tmp_path/'bundle.zip'
     monkeypatch.setattr(sys,'argv',['build_plugin','--package-only','--output',str(output),'--archive',str(archive)])
@@ -82,6 +86,17 @@ def test_source_bundle_contains_verification_inputs(tmp_path, monkeypatch):
         for name in ('colors.json','upstream.json','LICENSE'):
             assert bundle.read('Hawa/source/vendor/monad_system/'+name)==(root/'vendor/monad_system'/name).read_bytes()
         assert not any(Path(n).name.startswith('09-') for n in bundle.namelist())
+        assert bundle.read('Hawa/source/site/assets/monad/monad.css') == (root/'site/assets/monad/monad.css').read_bytes()
+        assert not any(n.endswith('do-not-package.html') for n in bundle.namelist())
+        extracted = tmp_path/'extracted'
+        bundle.extractall(extracted)
+    import runpy
+    report_module = runpy.run_path(str(extracted/'Hawa/source/scripts/wing_sweep_report.py'))
+    css = report_module['theme_css']()
+    assert 'Helvetica' in css and 'JetBrains Mono' in css
+    assert '#0F1113' in css and '#F2F4F7' in css
+    assert '@import' not in css and 'https://' not in css
+
 
 
 def test_boundary_memory_increases_with_exposed_faces_before_allocation(monkeypatch):
