@@ -67,6 +67,36 @@ public sealed class StationaryStudyComponent : HawaComponent
         return Numbers(new[] { point.X * scale, point.Y * scale, point.Z * scale });
     }
 
+    // Rhino's CombineIdentical can compare the float vertex view even when the
+    // mesh stores doubles. Index exact source coordinates without mutating it.
+    private static JsonObject SerializeMesh(Mesh mesh, double scale)
+    {
+        var indices = new Dictionary<(double, double, double), int>();
+        var remap = new int[mesh.Vertices.Count];
+        var vertices = new JsonArray();
+        for (int i = 0; i < mesh.Vertices.Count; i++)
+        {
+            var point = mesh.Vertices.Point3dAt(i);
+            if (!point.IsValid) throw new ArgumentException("Mesh coordinates must be finite");
+            var key = (point.X, point.Y, point.Z);
+            if (!indices.TryGetValue(key, out int index))
+            {
+                index = vertices.Count;
+                indices.Add(key, index);
+                vertices.Add(Point(point, scale));
+            }
+            remap[i] = index;
+        }
+        var triangles = new JsonArray();
+        foreach (var face in mesh.Faces)
+        {
+            triangles.Add(new JsonArray(remap[face.A], remap[face.B], remap[face.C]));
+            if (face.IsQuad) triangles.Add(new JsonArray(remap[face.A], remap[face.C], remap[face.D]));
+        }
+        if (triangles.Count < 4 || triangles.Count > 52000) throw new ArgumentException("Mesh requires 4..52000 triangles");
+        return new JsonObject { ["vertices_m"] = vertices, ["triangles"] = triangles };
+    }
+
     private JsonObject Submission(IGH_DataAccess da, out double scale, out JsonArray points)
     {
         var spec = ReadObject(da, 0); spec.Remove("kind"); spec.Remove("label");
@@ -81,17 +111,7 @@ public sealed class StationaryStudyComponent : HawaComponent
         Mesh mesh = null!; da.GetData(1, ref mesh);
         if (mesh == null || !mesh.IsValid || !mesh.IsClosed || mesh.Vertices.Count < 4 || mesh.Vertices.Count > 26000 || mesh.Faces.Count > 52000)
             throw new ArgumentException("Use one valid closed mesh with at most 26000 vertices and 52000 triangles");
-        using var normalized = mesh.DuplicateMesh();
-        normalized.Vertices.CombineIdentical(true, true);
-        var vertices = new JsonArray();
-        for (int i = 0; i < normalized.Vertices.Count; i++) vertices.Add(Point(normalized.Vertices.Point3dAt(i), scale));
-        var triangles = new JsonArray();
-        foreach (var face in normalized.Faces)
-        {
-            triangles.Add(new JsonArray(face.A, face.B, face.C));
-            if (face.IsQuad) triangles.Add(new JsonArray(face.A, face.C, face.D));
-        }
-        if (triangles.Count < 4 || triangles.Count > 52000) throw new ArgumentException("Mesh requires 4..52000 triangles");
+        var geometry = SerializeMesh(mesh, scale);
         var angles = new List<double>(); var speeds = new List<double>(); var probes = new List<Point3d>();
         da.GetDataList(2, angles); da.GetDataList(3, speeds); da.GetDataList(7, probes);
         if (angles.Count == 0 || speeds.Count == 0 || (long)angles.Count * speeds.Count > 64 ||
@@ -112,7 +132,7 @@ public sealed class StationaryStudyComponent : HawaComponent
         var probeNodes = new JsonArray();
         for (int i = 0; i < probes.Count; i++) probeNodes.Add(new JsonObject { ["probe_id"] = "p" + i, ["position_world_m"] = Point(probes[i], scale) });
         return new JsonObject { ["op"] = "evaluate_submit", ["kind"] = "stationary_study", ["device"] = "cpu", ["case"] = spec,
-            ["geometry"] = new JsonObject { ["vertices_m"] = vertices, ["triangles"] = triangles }, ["operating_points"] = points.DeepClone(),
+            ["geometry"] = geometry, ["operating_points"] = points.DeepClone(),
             ["references"] = new JsonObject { ["area_m2"] = area, ["chord_m"] = chord, ["pressure_pa"] = 0d },
             ["pivot_world_m"] = Point(pivot, scale), ["probes"] = probeNodes, ["settling_steps"] = settling,
             ["sample_steps"] = samples, ["stationarity_tolerance"] = tolerance, ["case_id"] = InstanceGuid.ToString() };

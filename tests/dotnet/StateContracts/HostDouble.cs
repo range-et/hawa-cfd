@@ -151,7 +151,7 @@ namespace Rhino.Geometry {
             public Mesh? Owner;
             public bool CombineIdentical(bool ignoreNormals,bool ignoreAdditional) {
                 var unique=new List<Point3d>();var map=new int[Count];
-                for(int i=0;i<Count;i++){int j=unique.IndexOf(base[i]);if(j<0){j=unique.Count;unique.Add(base[i]);}map[i]=j;}
+                for(int i=0;i<Count;i++){int j=unique.IndexOf(this[i]);if(j<0){j=unique.Count;unique.Add(this[i]);}map[i]=j;}
                 bool changed=unique.Count!=Count;
                 for(int i=0;i<Owner!.Faces.Count;i++){var f=Owner.Faces[i];Owner.Faces[i]=f.IsQuad?new(map[f.A],map[f.B],map[f.C],map[f.D]):new(map[f.A],map[f.B],map[f.C]);}
                 Clear();AddRange(unique);return changed;

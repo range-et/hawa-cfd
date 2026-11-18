@@ -58,6 +58,7 @@ static class StationaryStudyContracts
             var input=Inputs();var mesh=(Mesh)input[1]!;
             var expected=new[]{new Point3d(1e9,1e9,1e9),new Point3d(1e9+.25,1e9,1e9),new Point3d(1e9,1e9+.25,1e9),new Point3d(1e9,1e9,1e9+.25)};
             for(int i=0;i<expected.Length;i++)mesh.Vertices[i]=expected[i];
+            mesh.Vertices.Add(expected[0]);mesh.Faces[0]=new MeshFace(4,2,1);
             mesh.Vertices.FloatIndex=true;
             assert(mesh.Vertices[0]==mesh.Vertices[1],"Fixture does not expose float precision loss");
             var c=Start(bridge,input);var sent=bridge.Ops("evaluate_submit").Single()["geometry"]!["vertices_m"]!.AsArray();
@@ -67,7 +68,22 @@ static class StationaryStudyContracts
                 for(int axis=0;axis<3;axis++)assert(sent[i]![axis]!.GetValue<double>()==coords[axis],"Translated mesh lost double precision before SI conversion");
                 assert(mesh.Vertices.Point3dAt(i)==p,"Submission mutated the original mesh");
             }
+            assert(request!["geometry"]!["triangles"]!.ToJsonString()=="[[0,2,1],[0,1,3],[0,3,2],[1,2,3]]"&&mesh.Vertices.Count==5&&mesh.Faces[0].A==4,"Exact seam remap changed winding or original topology");
             c.RemovedFromDocument(doc);Reset();
+        });
+        test("stationary mesh serializer triangulates quads and rejects invalid coordinates and face counts",()=>{
+            var method=typeof(StationaryStudyComponent).GetMethod("SerializeMesh",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Static)!;
+            JsonObject Serialize(Mesh mesh)=>(JsonObject)method.Invoke(null,new object[]{mesh,.001})!;
+            using var cube=new Mesh();
+            foreach(var p in new[]{new Point3d(0,0,0),new Point3d(1,0,0),new Point3d(1,1,0),new Point3d(0,1,0),new Point3d(0,0,1),new Point3d(1,0,1),new Point3d(1,1,1),new Point3d(0,1,1)})cube.Vertices.Add(p);
+            foreach(var f in new[]{new[]{0,3,2,1},new[]{4,5,6,7},new[]{0,1,5,4},new[]{1,2,6,5},new[]{2,3,7,6},new[]{3,0,4,7}})cube.Faces.AddFace(f[0],f[1],f[2],f[3]);
+            var result=Serialize(cube);
+            assert(result["vertices_m"]!.AsArray().Count==8&&result["triangles"]!.ToJsonString()=="[[0,3,2],[0,2,1],[4,5,6],[4,6,7],[0,1,5],[0,5,4],[1,2,6],[1,6,5],[2,3,7],[2,7,6],[3,0,4],[3,4,7]]"&&cube.Faces.Count==6,"Quad triangulation changed winding, order or source");
+            foreach(bool badCoordinate in new[]{true,false}){
+                using var mesh=Tetra();if(badCoordinate)mesh.Vertices[0]=new Point3d(double.NaN,0,0);else mesh.Faces.RemoveAt(0);
+                bool rejected=false;try{Serialize(mesh);}catch(System.Reflection.TargetInvocationException e){rejected=e.InnerException is ArgumentException;}
+                assert(rejected,"Invalid mesh serializer input was accepted");
+            }
         });
         test("stationary study queued startup retains the job and polls through preparation",()=>{
             Reset();using var bridge=new GhBridge{Respond=Reply};state="queued";
