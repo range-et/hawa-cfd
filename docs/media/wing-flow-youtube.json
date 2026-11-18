@@ -1,0 +1,22 @@
+{
+  "youtube_id": "xTUaspfebHw",
+  "youtube_url": "https://youtu.be/xTUaspfebHw",
+  "title": "Hawa: Parametric Wing CFD in Rhino & Grasshopper | Flow Slices, Isosurfaces, CL/CD",
+  "visibility": "public",
+  "published_date": "2026-11-18",
+  "source_video": "examples/grasshopper/videos/35-wing-flow-study.mp4",
+  "sha256": "56f9a9593857a4ee17ebc0da8c5955969ff70a0b96e1222efd13a309e4a529db",
+  "duration_seconds": 57,
+  "youtube_initial_checks": "Copyright and Community Guidelines: no issues found",
+  "buildlog": "https://range-et.github.io/hawa-cfd/build-log/2026-11.html",
+  "still_frames": [
+    {
+      "path": "site/assets/november-2026/wing-flow.png",
+      "source_time_seconds": 32
+    },
+    {
+      "path": "site/assets/november-2026/wing-coefficients.png",
+      "source_time_seconds": 46.5
+    }
+  ]
+}
