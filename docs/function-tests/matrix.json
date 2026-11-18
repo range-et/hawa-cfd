@@ -67,7 +67,7 @@
     "scripts/benchmark_refinement.py": "3ebe57a02b12dcb36034e48144ae1afc3ce592de7595d358020246d389eda777",
     "scripts/benchmark_rotating_sphere.py": "ecac956d50709ae015a0c22c1168c80f4ac1f89210a62cd46f2059ec73d6cf6d",
     "scripts/bootstrap_reference.py": "c2940355ce9ab74d5ee0525fca67f711f8e3441f5afbaa11006ba603ecf824b7",
-    "scripts/build_plugin.py": "effd6b153787fbcf30219c4fa530d22a73ccb71350200251dffc2f1453572473",
+    "scripts/build_plugin.py": "3c5c1eeaaa9d95444a031f9c4c34aa40907ed1a43ec0fd6bc1982116a04bf9bc",
     "scripts/build_site.py": "63f48383600c98026aeb21d4318b4d38b561c7fae74eeb0818bd22c429c8f52a",
     "scripts/check_compatibility_evidence.py": "ef2c7669e5d8c9f49b3e1659d48103a03f621771a9cae254157f7f5c1975f790",
     "scripts/compare_engines.py": "f16f5a79c9991db76ad49cd20e7d46f8fa001bd8087cfbbac7b0b57603f5d4d9",
@@ -191,7 +191,7 @@
     "tests/test_boundary_data.py": "c02370f353f88eb4751db6e9bfb347be306168e7ea19966b1bd1cc9917e639a4",
     "tests/test_boundary_reflection.py": "55b789ac5c2415abed9ca31f550ef4893be997aa1655a700db89b1997a3a8934",
     "tests/test_boundary_series.py": "5bf4cc43a974f32f74d3e702ab02aab911d20de37d8e085541310c1492d0fb41",
-    "tests/test_build_quality_completion.py": "61a8b1dcf934c2ff4a795a924251b9bef594b8e4ba2baaba7faaf1ba0b19ed5e",
+    "tests/test_build_quality_completion.py": "a7f65218eeb3ce84df8ceec57339579556acda3ff5eddbb15f0928db2ce533c2",
     "tests/test_cli.py": "54302618c780b8cc6fd81604d2f83880188f3bc91dc3f08ff176a1f572135e43",
     "tests/test_compatibility_matrix.py": "e8940d5b271b56a54e78580fd54fa4fba8eb793fcbc2a67bc94e0313f2fcd7b4",
     "tests/test_csv_export.py": "bd7ae21aa9524b2ee5deb8e018f8f7b939e0642a348923c8d5fe939c2d2d3f82",
@@ -210,7 +210,7 @@
     "tests/test_function_coverage.py": "ec85147830b41c0aa675cabfdc10fa2b7f485643bb130738512d13620adfb8e3",
     "tests/test_general_boundaries.py": "807142676376da912ada3ff19804461ec164dfac38a98328d0267732f3c852a2",
     "tests/test_host_acceptance.py": "38292ef35b00dcf9ead1999bb6d7721ad38efe1e67b608ebb7c58acb35b6d906",
-    "tests/test_integration_review.py": "1c2ade9b7f0de48c226715ced29dc28c8058ed54cda46db99d1444e0aca6bf05",
+    "tests/test_integration_review.py": "ac8d9f25297f89d1ae3861e6332d745f65999c84e00592c34d7275dd63b3ebe3",
     "tests/test_jobs.py": "97507bc83f05b7a4c07888c95608ed89d5c00dce5356b3f1c7e2d616e947cfda",
     "tests/test_kbc_parity_diagnostic.py": "59636620da3c8f2cae794a0b856ef6f0de4ec4a0a82a78f27fd9b1b827827b17",
     "tests/test_kbc_precision.py": "79b606b90aa23fe5142882f3e56cf9fc85a3d74636bc845bd4c1a3554ba839f6",
@@ -68707,13 +68707,13 @@
       "signature": "main() -> unannotated",
       "kind": "FunctionDef",
       "line": 14,
-      "end_line": 101,
+      "end_line": 106,
       "first_line": 14,
       "code_name": "main",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "8bc32123942ac4d60d58a61da3d36ca83d8eccd1e77af9c26efe47ca90d8dc15",
+      "fingerprint": "316b263931fa32b869d5caacbafc6c45cd57d522b4e1312f65739b3a51f55abc",
       "id": "scripts/build_plugin.py::main",
       "branches": {
         "hit": 46,
@@ -68729,8 +68729,8 @@
         "tests/test_tooling_entrypoints.py::test_cli_help_exits_successfully_without_creating_outputs[build_plugin]"
       ],
       "lines": {
-        "hit": 81,
-        "total": 81
+        "hit": 84,
+        "total": 84
       },
       "status": "covered"
     },
