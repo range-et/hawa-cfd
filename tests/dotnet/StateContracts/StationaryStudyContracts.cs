@@ -53,6 +53,22 @@ static class StationaryStudyContracts
             foreach(var timer in UITimer.Active.ToArray())timer.Pulse();
             c.RemovedFromDocument(doc);assert(HawaPollScheduler.PendingCount==0,"Removal retained poll");Reset();
         });
+        test("stationary study preserves double precision for translated mesh submission",()=>{
+            Reset();using var bridge=new GhBridge{Respond=Reply};state="running";corrupt=null;
+            var input=Inputs();var mesh=(Mesh)input[1]!;
+            var expected=new[]{new Point3d(1e9,1e9,1e9),new Point3d(1e9+.25,1e9,1e9),new Point3d(1e9,1e9+.25,1e9),new Point3d(1e9,1e9,1e9+.25)};
+            for(int i=0;i<expected.Length;i++)mesh.Vertices[i]=expected[i];
+            mesh.Vertices.FloatIndex=true;
+            assert(mesh.Vertices[0]==mesh.Vertices[1],"Fixture does not expose float precision loss");
+            var c=Start(bridge,input);var sent=bridge.Ops("evaluate_submit").Single()["geometry"]!["vertices_m"]!.AsArray();
+            assert(c.Errors.Count==0&&sent.Count==4,"Translated mesh was rejected or collapsed");
+            for(int i=0;i<expected.Length;i++){
+                var p=expected[i];var coords=new[]{p.X*.001,p.Y*.001,p.Z*.001};
+                for(int axis=0;axis<3;axis++)assert(sent[i]![axis]!.GetValue<double>()==coords[axis],"Translated mesh lost double precision before SI conversion");
+                assert(mesh.Vertices.Point3dAt(i)==p,"Submission mutated the original mesh");
+            }
+            c.RemovedFromDocument(doc);Reset();
+        });
         test("stationary study queued startup retains the job and polls through preparation",()=>{
             Reset();using var bridge=new GhBridge{Respond=Reply};state="queued";
             corrupt=status=>{status["progress"]=null;status["steps"]=0;status["error"]=null;};

@@ -83,7 +83,8 @@ public sealed class StationaryStudyComponent : HawaComponent
             throw new ArgumentException("Use one valid closed mesh with at most 26000 vertices and 52000 triangles");
         using var normalized = mesh.DuplicateMesh();
         normalized.Vertices.CombineIdentical(true, true);
-        var vertices = new JsonArray(); foreach (var vertex in normalized.Vertices) vertices.Add(Point((Point3d)vertex, scale));
+        var vertices = new JsonArray();
+        for (int i = 0; i < normalized.Vertices.Count; i++) vertices.Add(Point(normalized.Vertices.Point3dAt(i), scale));
         var triangles = new JsonArray();
         foreach (var face in normalized.Faces)
         {

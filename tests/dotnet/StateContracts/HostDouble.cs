@@ -156,6 +156,7 @@ namespace Rhino.Geometry {
                 for(int i=0;i<Owner!.Faces.Count;i++){var f=Owner.Faces[i];Owner.Faces[i]=f.IsQuad?new(map[f.A],map[f.B],map[f.C],map[f.D]):new(map[f.A],map[f.B],map[f.C]);}
                 Clear();AddRange(unique);return changed;
             }
+            public new IEnumerator<Point3d> GetEnumerator() { for(int i=0;i<Count;i++) yield return this[i]; }
             public bool FloatIndex; public new Point3d this[int i] { get { var p=base[i];return FloatIndex?new((float)p.X,(float)p.Y,(float)p.Z):p; } set=>base[i]=value; } public Point3d Point3dAt(int i)=>base[i]; public void SetVertex(int i,double x,double y,double z)=>this[i]=new(x,y,z); public new int Add(Point3d point) { base.Add(point); return Count-1; } }
         public sealed class FaceList : List<MeshFace> {
             public int? ReportedCount;
@@ -181,7 +182,7 @@ namespace Rhino.Geometry {
         public Mesh(){Created.Add(this);Normals=new(this);Vertices.Owner=this;}
         public void Transform(Transform t) { for(int i=0;i<Vertices.Count;i++) {var p=Vertices[i];Vertices[i]=new(p.X*t.Factor,p.Y*t.Factor,p.Z*t.Factor);} Bounds.Transform(t); }
         public override GeometryBase Duplicate()=>DuplicateMesh();
-        public Mesh DuplicateMesh(){var m=new Mesh(){IsValid=IsValid,IsClosed=IsClosed,Bounds=Bounds,Hits=Hits,Closest=Closest,NakedEdges=NakedEdges,NakedProvider=NakedProvider,Nearest=Nearest};m.Vertices.AddRange(Vertices);m.Faces.AddRange(Faces);m.VertexColors.AddRange(VertexColors);m.TextureCoordinates.AddRange(TextureCoordinates);m.SurfaceParameters.AddRange(SurfaceParameters);return m;}
+        public Mesh DuplicateMesh(){var m=new Mesh(){IsValid=IsValid,IsClosed=IsClosed,Bounds=Bounds,Hits=Hits,Closest=Closest,NakedEdges=NakedEdges,NakedProvider=NakedProvider,Nearest=Nearest};m.Vertices.AddRange(Vertices);m.Vertices.FloatIndex=Vertices.FloatIndex;m.Faces.AddRange(Faces);m.VertexColors.AddRange(VertexColors);m.TextureCoordinates.AddRange(TextureCoordinates);m.SurfaceParameters.AddRange(SurfaceParameters);return m;}
         public Func<Point3d,Point3d> Nearest=p=>p;
         public Point3d ClosestPoint(Point3d p)=>Nearest(p);
         public Point3d[][]? NakedEdges; public Func<Point3d[][]?>? NakedProvider; public Point3d[][]? GetNakedEdges()=>NakedProvider==null?NakedEdges:NakedProvider();
