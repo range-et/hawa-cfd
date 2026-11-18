@@ -32,9 +32,11 @@
     "regression": "Extract produced ZIP and execute real packaged renderer.theme_css; assert shared palettes/fonts, no network imports and unrelated website exclusion",
     "python39_tests": 9,
     "python312_tests": 9,
-    "rebuild": "Pending; do not relabel this old archive as repaired"
+    "rebuild": "Completed: repaired exact-weld installed development candidate passed integrity, binary/video and extracted renderer readback. See docs/verification-wing-final-package.json; final documentation-only repack is separate."
   },
   "installation": "Not installed. Current Rhino fine run uses the earlier installed assembly; no fresh native/GH host pass.",
   "video": "Final wing video not yet included",
-  "limits": "Development candidate inspection only. Successful ZIP CRC checks do not establish complete source dependencies, installed host acceptance or release approval."
+  "limits": "Development candidate inspection only. Successful ZIP CRC checks do not establish complete source dependencies, installed host acceptance or release approval.",
+  "historical_status": "This record preserves the earlier incomplete archive and its failure; it is superseded by the repaired candidate readback.",
+  "repaired_candidate_evidence": "docs/verification-wing-final-package.json"
 }

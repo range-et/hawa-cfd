@@ -81,7 +81,8 @@ not established. Patches preserve original functional IDs and unrelated wires.
 The idle preview graph uses NOT Run / Cull Pattern: Run off displays editable
 geometry; Run on withholds the unrotated upstream preview. Its archive patch
 preserved 143 original IDs and all original wires while adding two objects.
-Final viewport acceptance remains pending. Example 35 annotation/connection
+Final viewport/encoded-frame acceptance passed in the two-case video review
+recorded below. Example 35 annotation/connection
 checks passed. The current [G6 evidence](verification-wing-gh-compatibility.json)
 checks 54 public nodes, 32 definitions and 242 observed unique edges against
 current archive hashes; this does not substitute for viewport inspection.
