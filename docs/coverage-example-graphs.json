@@ -7867,7 +7867,7 @@
     {
       "file": "examples/grasshopper/35-parametric-wing-study.gh",
       "archive_errors": 0,
-      "sha256": "36b0578b12084110e1605800c69254264c21b4eeb6392d64d18c423654f68730",
+      "sha256": "49a8955f34d865a32badc9a1ea3c81a4f8e77cdd63e34c9dbb6ea9fe91f15d9f",
       "nodes": [
         "AirfoilComponent",
         "BoundariesComponent",

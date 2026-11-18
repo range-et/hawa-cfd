@@ -68,8 +68,8 @@ void Scatter(IGH_Param xs,IGH_Param ys,string title,string xLabel,string yLabel,
  var py=Expression(yScale.ToString(System.Globalization.CultureInfo.InvariantCulture),title+" / display Y scale",x+520,y+110);
  var mx=Stock("3e6383e9-af39-427b-801a-19ca916160fa",title+" / scale X",x+750,y);Connect(cleanX,0,mx,0);Connect(px,0,mx,1);
  var my=Stock("3e6383e9-af39-427b-801a-19ca916160fa",title+" / scale Y",x+750,y+110);Connect(cleanY,0,my,0);Connect(py,0,my,1);
- var ax=Stock("cae37d1c-8146-4e0b-9cf1-14cb3e337b94",title+" / offset X",x+950,y);Connect(mx,0,ax,0);((Param_Number)ax.Params.Input[1]).SetPersistentData(originX);
- var ay=Stock("cae37d1c-8146-4e0b-9cf1-14cb3e337b94",title+" / offset Y",x+950,y+110);Connect(my,0,ay,0);((Param_Number)ay.Params.Input[1]).SetPersistentData(-1.5);
+ var ax=Stock("cae37d1c-8146-4e0b-9cf1-14cb3e337b94",title+" / offset X",x+950,y);Connect(mx,0,ax,0);Number(ax,1,originX);
+ var ay=Stock("cae37d1c-8146-4e0b-9cf1-14cb3e337b94",title+" / offset Y",x+950,y+110);Connect(my,0,ay,0);Number(ay,1,-1.5);
  var points=Stock("3581f42a-9592-4549-bd6b-1c0fc39d067b",title+" / scatter only",x+1180,y);Connect(ax,0,points,0);Connect(ay,0,points,1);points.Hidden=false;
  var axes=Add(new Param_Curve(),x+800,y+150);axes.NickName=title+" / axes";
  double lowX=xLabel=="Angle (deg)"?-.3:0,highX=.6;
