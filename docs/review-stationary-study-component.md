@@ -68,9 +68,12 @@ loads remain unqualified. G4 has scoped ten-phase coarse lifecycle and scatter
 host passes on installed source `9583f3a`; final explicit-mesh fine pressure and
 viewport acceptance remain pending. See the [reconciled host review](review-parametric-wing-example.md).
 G6's current CPU/MPS finite matrix and 54-node/32-example archive inventory pass;
-2490 unavailable CUDA rows remain blocked, not passed. The earlier queued-fix CPU smoke passed
-5/5 under its pinned policy ([evidence](verification-wing-queued-cpu-smoke.json)).
-`dist/Hawa-wing-queued.zip` builds successfully without installation; the running
+2490 unavailable CUDA rows remain blocked, not passed. Fresh review-fix CPU smoke on clean `4fa1a1c` passed
+5/5 under its pinned policy ([evidence](verification-wing-review-cpu-smoke.json)).
+The review-fix development ZIP builds and passes ZIP integrity, but its source
+bundle omitted a report font-token dependency. Repair `0be83e8` passes extracted
+package tests; a rebuilt candidate is still required ([package audit](verification-wing-review-package.json)).
+No new assembly has been installed; the running
 Rhino assembly predates the queued-state and precision fixes. A fresh installed
 precision audit and coarse lifecycle run remain pending; final fine-host/video
 acceptance is also separate. G5 final package/release

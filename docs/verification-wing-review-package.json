@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "reviewer": "Codex wing_wrapup agent",
+  "archive": "dist/Hawa-wing-review.zip",
+  "source_revision": "4fa1a1c5173fa0567912d4bfae92bc8f26e76a3f",
+  "sha256": "6e9ac0d7a2041f1f4749d441df9ef99e69c2cf09eee4cd40bea320dbc976277c",
+  "zip_integrity": "passed",
+  "entry_count": 1285,
+  "binary_sha256": {
+    "Hawa/Hawa.Grasshopper.gha": "efa79a829c9b8d9aaf45de7d46f95b15563557695965a7e59d76f3eb70040c62",
+    "Hawa/Hawa.Rhino.rhp": "0fd1646e824e523c31bfbbbd270f38ebf3e516c079cc449e8943fce2d5df15c6",
+    "Hawa/Hawa.Shared.dll": "b98c034e1c21400a9570d7789b276cee2f83d9e415893773970c7f3d90e8d82d"
+  },
+  "checked_content_sha256": {
+    "Hawa/examples/35-parametric-wing-study.gh": "49a8955f34d865a32badc9a1ea3c81a4f8e77cdd63e34c9dbb6ea9fe91f15d9f",
+    "Hawa/examples/native-prototype/34-save-import-resume.3dm": "7851bec0232a847fd9331face205495a3227ed1b0af0ad52e057f1fab6db9f77",
+    "Hawa/examples/native-prototype/34-block-at-60.npz": "4939a11b7e191924240130fa83333da076d3be0e5cdbfd6c5cdb05a21148255f",
+    "Hawa/source/plugin/Hawa.Grasshopper/StationaryStudyComponent.cs": "bbca9ae6f897a227a966f72e14d9340181fc50088981efe69ac04c9abd499903",
+    "Hawa/source/src/hawa/stationary_study.py": "0ef1817c5060ea94ff2f788327d297295bd1757421ed5f001ca6cda7356f1d3a",
+    "Hawa/source/scripts/wing_sweep_report.py": "510c478c55b6d342e686af091866dfc72faac5f47834915ea27e06cb87cc8078",
+    "Hawa/LICENSE": "fb981668c18a279e285fc4d83fba1e836cc84dd4daa73c9697d3cfd2d8aca6e0",
+    "Hawa/THIRD_PARTY_NOTICES.md": "e5b5f6a2d129eeb7e3dce8c9132230939886cd63d3de0bdd044ba8fc134f720c",
+    "Hawa/licenses/lettuce/LICENSE": "b10a76659f1a0374f49cabc5095947f9c82be9dd712f0a5d4988eeff40d9b098",
+    "Hawa/source/vendor/monad_system/LICENSE": "be3698a237e79f66f51aef191546f4498e4abe9b17a34134795d9591e7a0fcec"
+  },
+  "legacy09_definitions_present": false,
+  "corresponding_source": "Present, but incomplete for offline report regeneration in this archive",
+  "package_acceptance": "NOT PASSED: source/site/assets/monad/monad.css omitted",
+  "repair": {
+    "commit": "0be83e8",
+    "scope": "Include only the missing shared font-token CSS in corresponding source; do not package the whole website",
+    "regression": "Extract produced ZIP and execute real packaged renderer.theme_css; assert shared palettes/fonts, no network imports and unrelated website exclusion",
+    "python39_tests": 9,
+    "python312_tests": 9,
+    "rebuild": "Pending; do not relabel this old archive as repaired"
+  },
+  "installation": "Not installed. Current Rhino fine run uses the earlier installed assembly; no fresh native/GH host pass.",
+  "video": "Final wing video not yet included",
+  "limits": "Development candidate inspection only. Successful ZIP CRC checks do not establish complete source dependencies, installed host acceptance or release approval."
+}
