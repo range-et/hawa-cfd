@@ -23,6 +23,11 @@ archive checks, including 54 public nodes, 32 definitions and 242 unique edges. 
 contract pass, not a release or physical-accuracy pass. See
 [the machine evidence](verification-wing-gh-compatibility.json) and
 [the bridge contract](stationary-study.md). Live host evidence is recorded separately.
+The later example-35 pressure-range change is presentation only: a fresh Rhino
+archive audit and `verify_examples` pass for its new bytes with the same
+54/32/242 counts. The existing numerical run still passes
+`verify_evidence(current_sources=True)`; no original source pins or row hashes
+were edited to reuse it. The machine record distinguishes these evidence dates.
 
 ## Numerical export completion (#35)
 

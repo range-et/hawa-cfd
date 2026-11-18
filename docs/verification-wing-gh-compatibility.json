@@ -283,5 +283,22 @@
     "coverage": "Strict headless function gate against origin/main passed separately; host-only historical gaps remain unmeasured."
   },
   "behavioral_source_revision": "c4e8c9e",
-  "report_presentation_revision": "0406d11"
+  "report_presentation_revision": "0406d11",
+  "fresh_archive_audit": {
+    "reviewed_at_utc": "2026-11-18T01:24:45.409162+00:00",
+    "operator": "Codex root via Rhino MCP scripts/audit_example_graphs.cs; authoritative validation by wing_wrapup agent",
+    "report": "docs/coverage-example-graphs.json",
+    "report_sha256": "62355ac51b19c2c97f816daccb59a9ca58f0d78e9f36d87b66404b780f2eeedb",
+    "counts": {
+      "public_nodes": 54,
+      "examples": 32,
+      "unique_edges": 242
+    },
+    "example35_sha256": "bb293360a6406a93d7fc545996dd9b0e3be5a7445a6b3981e1525da9b35d5580",
+    "change": "Only pressure-view defaults -2..2 Pa to0..4 Pa;138 objects and144 wires preserved; staged archive roundtrip passed",
+    "patch_audit": "results/wing-pressure-defaults/20261118-012213-439d2de0d14b425ea36b020a6091360b/audit.json",
+    "patch_audit_sha256": "847d2094ba00e9dbb487be4e3104018d54bd4274b7d35798ab2262948dbf625e",
+    "numerical_evidence": "Existing results/compatibility-wing-review reused only after verify_evidence(current_sources=True) passed with current environment and original source pins. Raw summary/row hashes were not modified.",
+    "archive_evidence": "Fresh verify_examples passed against changed archive bytes; this current archive audit is distinct from the earlier numerical run."
+  }
 }
