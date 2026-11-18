@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "reviewer": "Codex wing_wrapup agent",
+  "scope": "Presentation-only Monad themes; no solver rerun or reconstructed numerical values.",
+  "shared_colors": "vendor/monad_system/colors.json",
+  "shared_fonts": "site/assets/monad/monad.css --font-sans/--font-mono; local fallback only; no @import",
+  "default_theme": "dark",
+  "light_theme_control": "Native checkbox with CSS :has selector; no JavaScript or network resources",
+  "artifacts": [
+    {
+      "file": "examples/headless-wing/report.html",
+      "before_sha256": "fe37d4c65f0723158d74f1cda45615f770d59fa35d3686bf9866698af76af871",
+      "after_sha256": "305319e7c51eebce8f4bf95c37601f8247d0dd0e89b840d4ade5277ec9cd878b",
+      "scientific_svg_geometry_and_embedded_rasters_unchanged": true,
+      "metadata_and_candidate_table_unchanged": true,
+      "figures": 3,
+      "scientific_svg_content_sha256": "3b0e42c2e4e8d1fb0dc550d67947663813e57793991a40dff3b7fb1025c5defa",
+      "text_labels_preserved": 196
+    },
+    {
+      "file": "examples/headless-wing/report-coarse-1000.html",
+      "before_sha256": "4b57e292ad7b66f744a7d64c3374c1a49162e0fbd28e31fdedc430f4d12435f5",
+      "after_sha256": "25d38ce55e53aee55dc526acfa0eee70403df5f432acb906957dd8a8af3f97f2",
+      "scientific_svg_geometry_and_embedded_rasters_unchanged": true,
+      "metadata_and_candidate_table_unchanged": true,
+      "figures": 3,
+      "scientific_svg_content_sha256": "4149b86cf092b8df815322adb8fed7903b8963d4a9ff224b9f086c2b88ba769f",
+      "text_labels_preserved": 175
+    },
+    {
+      "file": "examples/headless-wing/report-coarse.html",
+      "before_sha256": "54927650919f0a5563fa69893a858959eb3bfd3fe83881fecaca21fe29222e4c",
+      "after_sha256": "a7eba5d5140c6cc0b74d11a8356c418ae3c8ace2b9a38f6e7cef0ef40299416c",
+      "scientific_svg_geometry_and_embedded_rasters_unchanged": true,
+      "metadata_and_candidate_table_unchanged": true,
+      "figures": 3,
+      "scientific_svg_content_sha256": "b43c5f1c93ff73056d4aa862d53cd62d5cfc9d5c68d2747b85cd96a8a64312f3",
+      "text_labels_preserved": 181
+    }
+  ],
+  "validation": {
+    "python39_tests": 22,
+    "python312_tests": 22,
+    "renderer_statements": {
+      "hit": 139,
+      "total": 139
+    },
+    "renderer_branches": {
+      "hit": 46,
+      "total": 46
+    },
+    "figures_inspected": 18,
+    "visual_method": "rsvg-convert at 1200 px: all 3 reports, overview and both candidate figures, dark and light; tokens resolved forstaticrendering. Unicode minus signs, labels, legends and pressure scales inspected.",
+    "browser": "BLOCKED: CUA IAB unavailable and browser inventory empty; live HTML toggle/click acceptance not claimed."
+  },
+  "historical_evidence": "Original run records and numerical acceptance criteria unchanged. Previous report bytes remain available at parent commit d8a055d and earlier hashes above.",
+  "limits": "Static SVG inspection is not browser layout or interaction validation. Scientific coolwarm raster/scale, non-text paths/transforms, anchors, metadata and candidate tables preserved; only presentation colors and text glyph representation changed."
+}

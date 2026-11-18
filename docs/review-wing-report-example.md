@@ -103,3 +103,21 @@ All three final fine SVG panels were rendered at 1200 px and inspected, with
 unclipped axes, visible probe legends and finer masked pressure cells. Both
 fresh reports contain all six actual SVG candidate anchors. Root owns any live
 GH/Rhino adapter acceptance and final combined gates separately.
+
+## Monad presentation correction (Greptile review)
+
+The report now embeds the shared Monad dark/light colors and Helvetica/monospace
+font stacks without importing network fonts. Dark is the default; a native
+Light theme checkbox changes HTML and SVG presentation through CSS. Markers
+are described as highlighted points, not by the old orange palette. The
+scientific coolwarm pressure raster and normalization are unchanged.
+
+All three saved reports were migrated as viewing artifacts, without rerunning
+CFD: scientific SVG geometry, embedded rasters, candidate anchors, label text,
+metadata and tables were checked against their original bytes. Historical run
+records remain unchanged. The focused suite passes 22 tests on Python 3.9 and
+3.12; the renderer measures 139/139 statements and 46/46 branches. All nine
+figures were rasterized and inspected in both themes. Browser interaction
+verification remains blocked because CUA exposes no browser in this session;
+static figure checks do not claim checkbox or layout acceptance.
+See [presentation proof and artifact hashes](verification-wing-report-themes.json).

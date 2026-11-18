@@ -7,9 +7,11 @@ import argparse
 from html import escape
 from io import StringIO
 import json
+import re
 from pathlib import Path
 
 import numpy as np
+from matplotlib import rc_context
 from matplotlib.backends.backend_svg import FigureCanvasSVG
 from matplotlib.figure import Figure
 from matplotlib.offsetbox import AnnotationBbox, DrawingArea
@@ -21,12 +23,53 @@ from scripts.run_wing_sweep import prepare_entries, run_prepared
 from scripts.wing_solver_recipe import demo_sweep
 
 
+def theme_css():
+    """Embed shared Monad tokens and local font fallbacks; never import a network font."""
+    root = Path(__file__).resolve().parents[1]
+    palette = json.loads((root / 'vendor/monad_system/colors.json').read_text())
+    shared = (root / 'site/assets/monad/monad.css').read_text()
+    fonts = '\n'.join(re.findall(r'--font-(?:sans|mono):[^;]+;', shared)[:2])
+    rules = []
+    for selector, mode in (('body', 'Default_Colors'), ('body:has(#light-theme:checked)', 'Light_Mode')):
+        tokens = palette[mode]['General_UI_Colors']
+        declarations = ';'.join('--wing-' + key.lower().replace('_', '-') + ':' + item['hex']
+                                for key, item in tokens.items())
+        rules.append(selector + '{' + declarations + '}')
+    signals = palette['Default_Colors']
+    colors = [signals['Information_Indicators'][key]['hex'] for key in ('Information_1', 'Information_2', 'Information_3')]
+    colors.append(signals['Warnings_and_Alerts']['Warning_1']['hex'])
+    return '\n'.join(rules) + ':root{' + fonts + ';' + ';'.join('--wing-signal-' + str(i) + ':' + color for i, color in enumerate(colors)) + '}'+ '''
+body{font:16px var(--font-sans);color:var(--wing-primary-text);background:var(--wing-background);max-width:1200px;margin:32px auto;padding:0 20px;color-scheme:dark}
+body:has(#light-theme:checked){color-scheme:light}
+section{background:var(--wing-layer-01);padding:20px;margin:24px 0;border:1px solid var(--wing-border);scroll-margin-top:20px}
+svg{width:100%;height:auto}svg text{font-family:var(--font-sans)!important}
+table{border-collapse:collapse;width:100%}td,th{text-align:left;padding:8px;border-bottom:1px solid var(--wing-border)}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;font:12px var(--font-mono)}a{color:var(--wing-signal-0)}
+a:focus-visible,input:focus-visible{outline:2px solid var(--wing-signal-3);outline-offset:4px}
+.limit{background:var(--wing-layer-02);border-left:4px solid var(--wing-signal-3);padding:16px}h1{margin-bottom:8px}
+.theme-control{display:block;padding:12px 0}#light-theme{accent-color:var(--wing-signal-0)}
+'''
+
+
+def themed_svg(text):
+    """Theme presentation strokes/fills only; keep scientific raster and geometry intact."""
+    colors = {'#ffffff': '--wing-layer-01', '#000000': '--wing-primary-text',
+              '#b0b0b0': '--wing-border', '#cccccc': '--wing-border',
+              '#327c93': '--wing-signal-0', '#cb5a35': '--wing-signal-3',
+              '#1f77b4': '--wing-signal-0', '#ff7f0e': '--wing-signal-3', '#2ca02c': '--wing-signal-2'}
+    for old, variable in colors.items():
+        text = text.replace('fill: ' + old, 'fill: var(' + variable + ')').replace('stroke: ' + old, 'stroke: var(' + variable + ')')
+    # Matplotlib inherits black when text has no explicit fill declaration.
+    return text.replace('<svg ', '<svg style="fill:var(--wing-primary-text)" ', 1)
+
+
 def svg(figure):
     """Render a standalone vector figure without a GUI or external resources."""
     stream = StringIO()
-    FigureCanvasSVG(figure).print_svg(stream, metadata={'Date': None})
+    with rc_context({'svg.fonttype': 'none'}):
+        FigureCanvasSVG(figure).print_svg(stream, metadata={'Date': None})
     text = stream.getvalue()
-    return '\n'.join(line.rstrip() for line in text[text.index('<svg'):].splitlines())
+    return themed_svg('\n'.join(line.rstrip() for line in text[text.index('<svg'):].splitlines()))
 
 
 def polar_figure(records):
@@ -136,18 +179,15 @@ def report_html(report, prepared):
         sections.append(section + '<p><a href="#overview">Back to all cases</a></p></section>')
     return '''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Hawa — experimental wing sweep</title><style>
-body{font:16px system-ui,sans-serif;color:#20323b;background:#f6f7f7;max-width:1200px;margin:32px auto;padding:0 20px}
-section{background:white;padding:20px;margin:24px 0;border:1px solid #ced7db;scroll-margin-top:20px}
-svg{width:100%;height:auto}table{border-collapse:collapse;width:100%}td,th{text-align:left;padding:8px;border-bottom:1px solid #ced7db}
-pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px}a{color:#135e78}.limit{background:#fff1d9;padding:16px}h1{margin-bottom:8px}
-</style><main id="overview"><h1>Experimental wing sweep</h1>
+''' + theme_css() + '''
+</style><body><label class="theme-control"><input id="light-theme" type="checkbox"> Light theme</label><main id="overview"><h1>Experimental wing sweep</h1>
 <p class="limit">CPU workflow demonstration. Grid/domain sensitivity FAILS; no aerodynamic accuracy or physical qualification.
 Synthetic viscosity; full-way staircase walls. These 3D wing coefficients are not section polars.</p>
-<p>Click an orange point or a case ID for its actual mesh, raw histories, retained field and source identity.
+<p>Click a highlighted point or a case ID for its actual mesh, raw histories, retained field and source identity.
 Rejected, failed and cancelled cases remain listed and break coefficient curves. Raw histories include settling and may include rejected quality.</p>
 ''' + svg(polar_figure(records)) + '<table><thead><tr><th>Case</th><th>Angle (deg)</th><th>Speed (m/s)</th><th>State</th><th>Reason</th></tr></thead><tbody>' + ''.join(table) + '</tbody></table>' + ''.join(sections) + '''
 <p>Saved viewing artifact only: this HTML cannot resume a solver and is not numerical CSV interchange.
-Stationary pre-reflection measurements cannot be labelled as the existing moving-body step-end CSV contract.</p></main></html>'''
+Stationary pre-reflection measurements cannot be labelled as the existing moving-body step-end CSV contract.</p></main></body></html>'''
 
 
 def main(argv=None):

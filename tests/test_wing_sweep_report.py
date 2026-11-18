@@ -135,3 +135,36 @@ def test_module_entrypoint_help(monkeypatch, capsys):
         runpy.run_module('scripts.wing_sweep_report', run_name='__main__')
     assert stopped.value.code == 0
     assert '--output' in capsys.readouterr().out
+
+
+def test_offline_shared_themes_preserve_scientific_svg(control):
+    import json
+    import re
+    from pathlib import Path
+    css = renderer.theme_css()
+    root = Path(renderer.__file__).resolve().parents[1]
+    colors = json.loads((root / 'vendor/monad_system/colors.json').read_text())
+    for mode in ('Default_Colors', 'Light_Mode'):
+        for token in colors[mode]['General_UI_Colors'].values():
+            assert token['hex'] in css
+    assert 'Helvetica' in css and 'JetBrains Mono' in css
+    assert '@import' not in css and 'https://' not in css
+    report, entries = control
+    html = renderer.report_html(report, entries)
+    assert '<input id="light-theme" type="checkbox">' in html
+    assert 'body:has(#light-theme:checked)' in html and 'color-scheme:dark' in html
+    assert 'Click a highlighted point' in html
+    for raw in re.findall(r'<svg\b.*?</svg>', html, re.S):
+        tree = ET.fromstring(raw)
+        assert list(tree.iter('{http://www.w3.org/2000/svg}text'))
+        assert 'var(--wing-primary-text)' in raw and 'var(--wing-layer-01)' in raw
+        for element in tree.iter():
+            for key, value in element.attrib.items():
+                if key.endswith('href'):
+                    assert value.startswith(('#', 'data:')), 'Saved viewing must not fetch resources'
+    raw = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M 1 2 L 3 4" style="fill: #ffffff; stroke: #327c93"/><image href="data:image/png;base64,abc"/><a href="#candidate-1"/></svg>'
+    themed = ET.fromstring(renderer.themed_svg(raw))
+    assert themed[0].attrib['d'] == 'M 1 2 L 3 4'
+    assert themed[1].attrib['href'] == 'data:image/png;base64,abc'
+    assert themed[2].attrib['href'] == '#candidate-1'
+    assert themed[0].attrib['style'] == 'fill: var(--wing-layer-01); stroke: var(--wing-signal-0)'

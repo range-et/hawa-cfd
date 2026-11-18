@@ -81,3 +81,8 @@ The saved developer report alone does not establish GH/Rhino host acceptance.
 [Fixed fine-grid protocol](../../docs/wing-fine-report-protocol.md) ·
 [Fine-run evidence](../../docs/verification-wing-fine-report.json) ·
 [Review](../../docs/review-wing-report-example.md)
+
+The offline report defaults to the shared Monad dark theme. Select **Light theme**
+for a light background; no fonts or scripts are fetched. Theme changes affect
+presentation only, including chart chrome; scientific pressure colors/scales and
+retained measurements are unchanged. [Presentation preservation evidence](../../docs/verification-wing-report-themes.json).
