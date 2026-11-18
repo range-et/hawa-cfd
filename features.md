@@ -15,6 +15,16 @@ git history at commit cc407cc. See the release review for distribution
 claims and the [coverage matrix](examples/grasshopper/VERIFICATION.md) for required
 example checks.
 
+## November development buildlog and video publication (November 18, 2026)
+
+The [dated buildlog](site/build-log/2026-11.html) gathers merged native data,
+CSV, wing-study and reliability work with source-specific evidence and open
+qualification limits. The homepage and journal index point to it; earlier logs
+remain available. The existing 57-second native wing video is
+[published on YouTube](https://youtu.be/xTUaspfebHw). This is a documentation/media
+publication, not a new plugin release or fresh solver qualification.
+[Publication review](docs/review-november-buildlog.md).
+
 ## Expanded wing-flow presentation (November 18, 2026)
 
 Seven fresh Mac CPU angle cases (−9° through +9° at 3° spacing) passed the
