@@ -17,17 +17,18 @@ backend-guard evidence, not accelerator simulation passes. The independent oracl
 expects four accepted workflow rows and 29 rejected rows. The fresh Mac Python 3.9
 CPU/MPS run passed **100,125 rows**, failed none, and blocked **2,490 CUDA rows**.
 All 33 study rows passed; source hashes remained unchanged. The final run
-`results/compatibility-wing-review` (mesh-precision repair `c4e8c9e`, after
-queued-startup repair `0fdc363`) passes the independent evidence and current
+`results/compatibility-wing-exact-weld` (exact-double seam repair `717e997`,
+after queued-startup repair `0fdc363`) passes the independent evidence and current
 archive checks, including 54 public nodes, 32 definitions and 242 unique edges. This is a local
 contract pass, not a release or physical-accuracy pass. See
 [the machine evidence](verification-wing-gh-compatibility.json) and
 [the bridge contract](stationary-study.md). Live host evidence is recorded separately.
 The later example-35 pressure-range change is presentation only: a fresh Rhino
 archive audit and `verify_examples` pass for its new bytes with the same
-54/32/242 counts. The existing numerical run still passes
-`verify_evidence(current_sources=True)`; no original source pins or row hashes
-were edited to reuse it. The machine record distinguishes these evidence dates.
+54/32/242 counts. The subsequent exact-weld numerical run passes
+`verify_evidence(current_sources=True)` with the same current archive audit;
+no original source pins or row hashes were edited. The machine record
+distinguishes the archive audit from the fresh numerical run.
 
 ## Numerical export completion (#35)
 
