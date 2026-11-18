@@ -34,20 +34,24 @@ disposed on geometry conversion failures.
 
 ## Checks actually run
 
-- Linked .NET 10 StateContracts: **152 passed**, including six new scenario
+- Linked .NET 10 StateContracts: **153 passed** after queued-startup repair `0fdc363`, including six original scenario
   groups covering port defaults, saved-true idle, request units/crossproduct,
   mm display and probe mapping, nullable index alignment, selection without
   restart, edits/rearm, pause/cancel, document transitions, missing/invalid
   inputs, stale/malformed provenance, summary usability, mesh cleanup,
-  source-mesh preservation, item multiplicity and failed-close retry.
+  source-mesh preservation, item multiplicity and failed-close retry. The added
+  regression holds the worker queued, verifies retained ownership and polling,
+  then transitions to running without releasing the job.
 - Fresh Coverlet instrumented run after lambda layout correction: **227/227
   executable lines, 23/23 explicit functions and 10/10 lambdas** covered under
   the unchanged function gate. The earlier 207-line report could not attribute
-  shared lines to individual lambdas. All 23 syntax fingerprints and 29 linked
-  compiled method IL hashes remain identical; see [the measured proof](verification-stationary-study-lambda-coverage.json).
-  The strict headless gate and committed matrix pass separately. These checks
-  do not establish exhaustive branches or event-order coverage; additional
-  queued-callback race work is not included in this 152-test evidence.
+  shared lines to individual lambdas. For that formatting-only change, all 23 syntax fingerprints and 29 linked
+  compiled method IL hashes were identical; see [the measured proof](verification-stationary-study-lambda-coverage.json).
+  The fresh queued-fix measurement retains 227/227 lines and all 23 functions
+  covered; 2756 Python tests and 153 StateContracts pass. The strict headless
+  gate and committed matrix pass. These checks do not establish exhaustive
+  branches or event ordering. The earlier token/IL comparison does not cover
+  the subsequent behavioral queued-state repair.
 - Actual .NET 7 Grasshopper project build passes (103 existing platform/nullability
   warnings, zero errors); no assembly was installed or loaded by this lane.
 - Whitespace check passes. Backend contract was checked against its actual
@@ -59,7 +63,11 @@ loads remain unqualified. G4 has scoped ten-phase coarse lifecycle and scatter
 host passes on installed source `9583f3a`; final explicit-mesh fine pressure and
 viewport acceptance remain pending. See the [reconciled host review](review-parametric-wing-example.md).
 G6's current CPU/MPS finite matrix and 54-node/32-example archive inventory pass;
-2490 unavailable CUDA rows remain blocked, not passed. G5 final package/release
-acceptance remains root-owned. Linked-test IL equality preserves the bounded
-relevance of earlier host behavior but is not an installed-binary comparison.
+2490 unavailable CUDA rows remain blocked, not passed. Fresh CPU smoke passes
+5/5 under its pinned policy ([evidence](verification-wing-queued-cpu-smoke.json)).
+`dist/Hawa-wing-queued.zip` builds successfully without installation; the running
+Rhino assembly predates the queued-state fix, whose fresh installed-host checks
+remain pending. G5 final package/release
+acceptance remains root-owned. Earlier linked-test IL equality was limited to
+the formatting change and is not an installed-binary comparison.
 Test doubles never establish live Rhino acceptance.

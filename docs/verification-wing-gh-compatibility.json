@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "reviewed_at_utc": "2026-11-18T00:35:27.903756+00:00",
+  "reviewed_at_utc": "2026-11-18T00:47:03.686180+00:00",
   "reviewer": "Codex wing_wrapup agent: independent source/digest/inventory review",
-  "reviewed_source_revision": "213e04f420be4525e590bf75d9bbd7c1d83c2ac3",
-  "study_directory": "results/compatibility-wing-release",
+  "reviewed_source_revision": "17704103f1de15145f6dbbe36d68925e2e2b402e",
+  "study_directory": "results/compatibility-wing-queued",
   "inventory": "hawa-compatibility-v1",
   "environment": {
     "python": "3.9.25 (main, Oct 31 2025, 23:01:59) \n[Clang 21.1.4 ]",
@@ -77,7 +77,7 @@
     "examples": 32,
     "unique_edges": 242
   },
-  "wall_seconds": 1970.533935625,
+  "wall_seconds": 296.819410667,
   "local_pass": true,
   "release_pass": false,
   "sources_changed_during_run": false,
@@ -107,7 +107,7 @@
     "plugin/Hawa.Grasshopper/SearchComponent.cs": "55938691ad9b86ac2a7e89742c40bd9f27eae7a449d5b378509af5d0b1900314",
     "plugin/Hawa.Grasshopper/SetupComponents.cs": "4534cd9f4801c07d5d6d39354ed84a807a0850b5e7a127cffc13edae13b3a38d",
     "plugin/Hawa.Grasshopper/SolveComponents.cs": "9b228a7ba28f0b157513e598c19dae5661980d8851cee2c535bc31080edda169",
-    "plugin/Hawa.Grasshopper/StationaryStudyComponent.cs": "6851d41f5d9f1d02cd30ac1a0be0f574f061ed67b50229ca66768454811e8346",
+    "plugin/Hawa.Grasshopper/StationaryStudyComponent.cs": "b8e09ac7ad0f9a32c56a79ca314d062d42b4c992160eff65fcb61821fc058308",
     "plugin/Hawa.Grasshopper/VisualizationComponents.cs": "a6b6741189dc476f491bdd773a413c6d5417a37f6d1d27101bdb1e91320b2d9b",
     "plugin/Hawa.Rhino/AssemblyInfo.cs": "f8354aa59b1f40f6823afc6e8d266b1e93e34f5e75dc0207b079d152a56b59ab",
     "plugin/Hawa.Rhino/HawaCommand.cs": "d829fc3b9d01b14316a783ed3795bb3c0d8b1c5b701426a1ebf7002a537d2ca9",
@@ -268,7 +268,7 @@
     "vendor/lettuce/lettuce/util/utility.py": "f85ad4b78842ad3fd65fe9f61d9c7e0c3e9f19014599db6f80d53cd77df84a57"
   },
   "artifacts": {
-    "summary.json": "35872cb436be27ba434bff7a8f50c36ded79cf2521085a3f0da8e34e95548af1",
+    "summary.json": "8dfbc1cedcea6bea6de5bb39a968b493c92b7d6703010b79c42af84ac8cd32c3",
     "rows.jsonl": "4b253cd131174dd9c9b159ddcb79a7568a93d324a116519c1be7ed29bd5cdbd9"
   },
   "limits": [
@@ -281,5 +281,6 @@
     "matrix": "tests.matrix.contract.verify_evidence with current_sources=True: passed, including environment and independent expected-row oracle",
     "examples": "tests.matrix.contract.verify_examples: passed; current archive digests and node/edge inventory match the run summary",
     "coverage": "Strict headless function gate against origin/main passed separately; host-only historical gaps remain unmeasured."
-  }
+  },
+  "behavioral_source_revision": "0fdc363"
 }
