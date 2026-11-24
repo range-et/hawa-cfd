@@ -100,10 +100,12 @@ def capture(manifest, spec, path, checkpoint=lambda n: None, start_time=0., end_
         from .boundary_series import capture as capture_v2
         return capture_v2(manifest,spec,path,checkpoint,start_time,end_time)
     if start_time!=0 or end_time is not None:raise ValueError('Time-window selection requires BoundarySeries v2 neutral external mode')
+    from .admission import check_capture_budget, validate_new_output_file
     from .recording import read_manifest
     from .fields import read_frame
-    from .plugin import sample_arrays, check_case
-    check_case(spec)
+    from .plugin import sample_arrays
+    validate_new_output_file(path)
+    check_capture_budget(spec, 64)
     root, source, _ = read_manifest(manifest)
     if not source.get('complete'): raise ValueError('Parent recording must be complete')
     entries = source['frames']

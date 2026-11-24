@@ -42,9 +42,9 @@ def check_case(spec):
         n=example_size(spec['example'],spec.get('size'))
         dimension=3 if CASES[spec['example']][0]=='tgv3d' else 2
         estimated=n**dimension*(27 if dimension==3 else 9)*4*10/1024**2
-        if estimated>float(spec.get('memory_limit_mb',1024)):
-            raise ValueError('Example allocation exceeds the case memory budget')
-        return {"valid": True, "case_hash": case_key(spec), "example": spec["example"],"estimated_peak_mb":estimated}
+        from .admission import check_example_budget
+        limit_mb=check_example_budget(estimated,spec)
+        return {"valid": True, "case_hash": case_key(spec), "example": spec["example"],"estimated_peak_mb":estimated,"memory_limit_mb":limit_mb}
     shape = spec["shape"]
     if len(shape) != 3 or any(type(n) is not int or n < 4 for n in shape):
         raise ValueError("A 3D domain requires three integer resolutions >= 4")
@@ -125,9 +125,8 @@ def check_case(spec):
                                     for i in (0, 1)) for a, n in enumerate(shape))
         boundary_preparation = (math.prod(shape) - interior) * 32 * 1024
         estimated += boundary_preparation
-    limit = int(spec.get("memory_limit_mb", 1024)) * 1024 ** 2
-    if estimated > limit:
-        raise ValueError("Estimated peak allocation {:.0f} MiB exceeds the case budget".format(estimated / 1024 ** 2))
+    from .admission import check_case_budget
+    budget = check_case_budget(estimated, spec, neutral)
     boundary_report = None
     if neutral and spec['neutral_precursor'].get('mode')=='external':
         from .neutral_external import compile_links
@@ -139,7 +138,7 @@ def check_case(spec):
         raise ValueError('Explicit boundary method requires a boundary set')
     return {"valid": True, "case_hash": case_key(spec), "shape": shape, "tau": tau,
             "reynolds": speed * dx * max(shape) / viscosity,
-            "estimated_peak_mb": estimated / 1024 ** 2,
+            **budget,
             "estimated_boundary_preparation_mb": boundary_preparation / 1024 ** 2,
             "time_step_seconds": mach / math.sqrt(3) * dx / speed, "boundary_plan": boundary_report,
             "numerical_scaling": scaling,

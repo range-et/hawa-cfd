@@ -5,13 +5,14 @@ import numpy as np
 
 
 def record(session, steps, interval, directory, checkpoint):
+    from .admission import validate_new_output_dir
     if type(steps) is not int or not 1<=steps<=100000:raise ValueError('Recording steps must be 1..100000')
     if type(interval) is not int or interval<1:raise ValueError('Frame interval must be positive')
     if steps < session.flow.i:raise ValueError('Recording target precedes the current simulation time')
     frame_count=1+steps//interval-session.flow.i//interval+int(steps%interval!=0 and steps>session.flow.i)
     if frame_count>1000:raise ValueError('Recording exceeds 1000 frame budget')
     case={**session.spec,'physical_dx':float(session.flow.units.convert_length_to_pu(1))}
-    root=Path(directory).resolve()
+    root=validate_new_output_dir(directory)
     # A new directory prevents accidental overwrite of a previous run.
     root.mkdir(parents=True,exist_ok=False)
     frames=[];saved_bytes=0
