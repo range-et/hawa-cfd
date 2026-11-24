@@ -17,11 +17,15 @@ connect True to **W** on Hawa Geometry in Grasshopper. Connect the original
 closed Brep to the optional **S** input; **M** accepts existing closed meshes. Both paths now share
 D3Q19 link/surface intersection code. The existing stationary Bouzidi treatment
 uses these fractional distances. Old native settings keep voxel walls by default.
-Keep bodies two cells from the domain faces and resolve narrow gaps. Moving
-surfaces and local refinement retain their existing separate restrictions.
+Keep bodies two cells from the domain faces. Stationary curved-wall links where
+`q < 0.5` and the site behind the fluid node is solid (for example, diagonal
+links in concave corners or one-cell gaps, #78) fall back to standard halfway
+bounce-back on those links rather than refusing valid geometry; the solver
+records the fallback count on `simulation.wall_fallback_links`. Moving surfaces
+and local refinement retain their existing separate restrictions.
 
 Rhino's mesh intersection accelerator replaces a triangle scan for every wall
-link. Missing/nonpositive intersections and unresolved narrow gaps fail visibly.
+link. Missing or nonpositive intersections still fail visibly.
 Meshing and link preparation remain background work; native mesher calls cannot
 be interrupted internally, but cancellation prevents publication afterwards.
 

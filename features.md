@@ -15,6 +15,18 @@ git history at commit cc407cc. See the release review for distribution
 claims and the [coverage matrix](examples/grasshopper/VERIFICATION.md) for required
 example checks.
 
+## Concave curved-wall fallback (#78, November 23, 2026)
+
+Stationary curved-wall links with `q < 0.5` whose second site behind the fluid
+node is solid (concave corners, one-cell gaps, midpoint rounding) now use
+standard halfway bounce-back on that link instead of refusing the whole case.
+Other links keep the unchanged Bouzidi interpolation; the fallback count is
+recorded on `simulation.wall_fallback_links`. Headless regressions cover an
+L-shape at dx 0.1/0.05/0.025, the `q = 0.49999999999999983` overlapping-box case,
+solid-isolated rest equilibrium and CPU/MPS agreement; 156 linked C# contracts
+and CPU/MPS device smoke (5/5 each) pass. Those fallback links are first order;
+no accuracy qualification or live Rhino check is claimed.
+
 ## November development buildlog and video publication (November 18, 2026)
 
 The [dated buildlog](site/build-log/2026-11.html) gathers merged native data,

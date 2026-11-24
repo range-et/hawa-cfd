@@ -224,9 +224,9 @@ public static class WallLinks
                     q = Math.Min(q, Fraction(mesh, point, segment));
                 if (!double.IsFinite(q) || q <= 0)
                     throw new ArgumentException("Cannot resolve a wall intersection. Refine the mesh/grid or shift the domain origin slightly.");
-                int behind = ((x - e[0]) * n[1] + y - e[1]) * n[2] + z - e[2];
-                if (q < .5 && occupied.Contains(behind))
-                    throw new ArgumentException("Unresolved narrow gap at curved wall. Reduce cell size.");
+                // Concave corners and one-cell gaps where q < 0.5 and the site behind
+                // the fluid node is solid are emitted with their geometric fraction and
+                // handled via halfway bounce-back fallback in walls.py (#78).
                 links.Add(new JsonArray(dir, index, q));
             }
         }
