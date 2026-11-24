@@ -110,8 +110,9 @@ def check_refinement(request):
     if coarse_spec.get('collision')!='bgk' or fine_spec.get('collision')!='bgk':raise ValueError('Select BGK in both refinement cases')
     if coarse_spec.get('wall_links') or fine_spec.get('wall_links'):raise ValueError('Refinement currently uses voxel walls; disable curved walls')
     if coarse_spec.get('moving_bodies') or fine_spec.get('moving_bodies'):raise ValueError('Moving bodies cannot be combined with refinement')
+    from .admission import check_refinement_budget
     coarse_check=check_case(coarse_spec);fine_check=check_case(fine_spec)
-    if coarse_check['estimated_peak_mb']+fine_check['estimated_peak_mb']>coarse_spec.get('memory_limit_mb',1024):raise ValueError('Combined coarse/fine memory exceeds budget')
+    check_refinement_budget(coarse_check['estimated_peak_mb'],fine_check['estimated_peak_mb'],coarse_spec.get('memory_limit_mb',1024))
     lower=fine_spec.get('refinement_lower');upper=fine_spec.get('refinement_upper')
     _validate_patch_bounds(coarse_spec['shape'], fine_spec['shape'], lower, upper)
     if not np.isclose(fine_spec['dx']*2,coarse_spec['dx']):raise ValueError('Fine cell size must be half the coarse size')
