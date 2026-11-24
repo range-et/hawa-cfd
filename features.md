@@ -15,6 +15,36 @@ git history at commit cc407cc. See the release review for distribution
 claims and the [coverage matrix](examples/grasshopper/VERIFICATION.md) for required
 example checks.
 
+## OpenFOAM v2606 cross-solver verification — Slice 1 controls (November 23, 2026)
+
+Added a headless physical-case handoff schema (`hawa-openfoam-case-1`,
+[JSON Schema](docs/schemas/openfoam-case-bundle.schema.json)), atomic OpenFOAM
+v2606 case generator, `checkMesh`/probe parsers (`src/hawa/openfoam.py`), and a
+shared-probe control comparison runner (`scripts/compare_openfoam_controls.py`).
+Measured locally on macOS arm64 against externally installed OpenFOAM v2606
+(`darwin64ClangDPInt32Opt`, `simpleFoam`) with Hawa on CPU:
+
+- **Control 07 (laminar 2D Poiseuille channel, $\text{Re}=20$, `WindFlow` + `hawa-nee-v1`):**
+  all three grids (`ny = 10, 20, 40`) passed `checkMesh`, converged in OpenFOAM,
+  settled in Hawa, and converged monotonically toward the analytic velocity profile
+  and pressure gradient (`u_L2`: `2.348% -> 0.694% -> 0.283%`; `dp_Linf`:
+  `7.446% -> 2.128% -> 0.964%`). Resolved grids `ny = 20, 40` pass `< 2%` velocity
+  and `< 5%` pressure-drop gates (`ny = 40` `dp/dx = -0.12356` Hawa vs `-0.12238`
+  OpenFOAM vs `-0.12250` Pa/m analytic).
+- **Control 06 (lid-driven 2D cavity, $\text{Re}=10$, `Cavity2D`, diagnostic):**
+  `u_L2` drops `5.532% -> 3.959% -> 2.511%` across `n=32 Ma=0.05`, `n=64 Ma=0.05`,
+  and `n=64 Ma=0.015`, diagnosing BGK $\tau$ growth at fixed Mach (`0.777 -> 1.054`)
+  and `Cavity2D`'s $1/n$ bounce-back/lid wall offset (`y_max = 1 - 1/n`).
+
+This is bounded CPU cross-solver verification (not experimental validation or a
+plugin release). MPS/CUDA runs, curved/complex geometries (Slices 2–4: Sphere 14,
+Cylinder 16, Canopy 22 / Hull 10), and independent numerical review remain open in
+[#126](https://github.com/range-et/hawa-cfd/issues/126) and
+[#127](https://github.com/range-et/hawa-cfd/issues/127).
+[Scope](docs/openfoam-verification-scope.md),
+[review](docs/review-openfoam-controls.md),
+[evidence JSON](docs/verification-openfoam-controls.json).
+
 ## November development buildlog and video publication (November 18, 2026)
 
 The [dated buildlog](site/build-log/2026-11.html) gathers merged native data,
@@ -62,6 +92,7 @@ agent and independent final review by the parent agent.
 | Device smoke gate | Five short existing cases (compatibility engine, KBC collision, neutral precursor, moving sphere, curved-wall channel) compared with a CPU FP64 reference under a committed bitwise/bounded policy, with a per-run manifest. The CPU mode runs in CI. CUDA (RTX 5070 Ti) and MPS (M3 Max) each passed 5/5 on merged main `71625aa`, so #57 is complete; other devices are not qualified. | [Gate guide](docs/device-smoke.md), [#57](https://github.com/range-et/hawa-cfd/issues/57) |
 | Compatibility and example coverage gate | G6 enumerates 102,615 finite contract rows, rejects incomplete/stale evidence and audits public nodes against GH workflows. Fresh Mac CPU/MPS integration passes 100,125 rows with zero failures and 2,490 CUDA rows blocked. PR #119's Windows CUDA evidence remains historical for its source; the new CPU-only stationary study guards accelerator requests. Arbitrary graphs and continuous inputs are not exhaustively enumerated. | [G6 guide](docs/compatibility-matrix.md), [current Mac report](docs/verification-wing-gh-compatibility.json), [historical Windows report](docs/verification-pr119-windows-cuda-2026-11-17.json) |
 | Boundary assignment annotations (display only) | Ephemeral viewport labels for accepted faces: IDs/types, inlet and prescribed-velocity arrows, inward normal ticks for pressure (solid) and open/outlet (dotted) faces labelled "open/pressure reference" or "open, extrapolated", wall/slip labels and periodic pair lines. Native: with a case and Domain wireframe on; hidden while a result is outdated. GH: Case and Boundary Set, only while selected. No picking, editing, baked geometry or physics change. Arrows show direction only. Labels sit off the face centre and draw without depth testing; GH annotations draw in Rhino's foreground after GH preview meshes. Live-checked on macOS (#38, #108): native on cbcd81c, GH on 9d6f4c5; the native outlet tick is faint at domain-fit zoom and some labels nearly touch. | [History](#november-13-2026--boundary-assignment-annotations-38-partial), [coverage](examples/grasshopper/VERIFICATION.md) |
+| OpenFOAM physical-case handoff & control verification (headless) | Versioned SI bundle (`hawa-openfoam-case-1`), atomic OpenFOAM v2606 dictionary generator, `checkMesh`/probe parsers, and shared-probe velocity/$\Delta p$/gradient comparator (`src/hawa/openfoam.py`). Built and CPU-verified for Cartesian laminar controls (Channel 07 passes resolved `< 2%` velocity / `< 5%` $\Delta p$ gates across `ny = 20, 40`; Cavity 06 recorded as diagnostic). Unsupported physics fail closed. No public GH node or bundled OpenFOAM runtime; MPS/CUDA and Slices 2–4 (Sphere 14, Cylinder 16, complex body) remain open in [#126](https://github.com/range-et/hawa-cfd/issues/126) and [#127](https://github.com/range-et/hawa-cfd/issues/127). | [Scope](docs/openfoam-verification-scope.md), [review](docs/review-openfoam-controls.md), [evidence](docs/verification-openfoam-controls.json) |
 
 ## Headless testing expansion (November 9, 2026)
 
