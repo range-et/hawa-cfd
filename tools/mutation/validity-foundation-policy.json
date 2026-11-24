@@ -1,7 +1,7 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 2571,
-  "inventory_sha256": "c867b7a9557f457bc1641a92a4e842149d51ea8628f740099440384a903282f7",
+  "mutants": 2579,
+  "inventory_sha256": "bb702e1fd58c5c69161484091b3449d0b4912d269f27699b1d15d846f4519352",
   "scope": "Lines changed since the base by the validity-foundation PR and the item 5 field-views and item 6 traces PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared MPS device lock (#99: plugin.DeviceLock with suspend and restore, Session construction, per-chunk stepping and pause, and the locked refined set-up, stepping and frames), the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, display_solid, the half-cell isosurface (fields.march, grid_lines, isosurface and FieldCollection.isosurface, with the T-junction seam split in fields.close_seams) and the plane partition (FieldCollection.plane, FieldCollection.lattice and the single-frame plane dispatch) and the streamline traces (fields.trace with its per-point colour sampling, trace_seed, trace_result, FieldCollection.trace, the display mask of FieldCollection.sample; the recording pathlines were removed by owner decision, and the plugin recording dispatch line is included); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host; #98 additionally covers the checkpoint validate_provenance call with public save/load controls. The opt-in cpu_only pytest plugin declares CUDA/MPS unavailable for controls and forked mutants, including default/auto selection. Refreshed for combined #30/#35: fixed-refinement metadata admission before Job creation and CSV export routing; CPU controls add translated/topology admission, the 200-coarse/400-fine default, and CSV/NPZ publication regressions. Export/job dependency hashes are pinned; the separate numerical-export study covers exports.py/job export mutations. Refreshed for native save/import in #35: the public native-data save dispatch branch in plugin.py is included; native_data.py and its original CPU control suite are pinned dependencies. The separate native-data study covers serialization/restoration and jobs.py native-data ownership; this study does not claim whole-module native-data mutation coverage.",
   "control_test_files": [
     "tests/test_fields.py",
@@ -17,7 +17,7 @@
     "tests/test_native_data.py"
   ],
   "sources": {
-    "src/hawa/plugin.py": "a54abd1eb7e147432882a6c390528e8976304c4432804b173068f2df1dc0f289",
+    "src/hawa/plugin.py": "cdfe7db1285a74c6f3f1f915bb65e5d83b614737b14244885cd9e63ded8e2b36",
     "src/hawa/fields.py": "edb5618ac963f791f01131e30f3c75bafad23b5a5fa0d475b405803c9e40c2f2",
     "src/hawa/field_collection.py": "8e375ad5b5d9e98bb861a8c01cc4c7351fd9928a0f8d5d5571c3258fbf969a68",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
@@ -36,7 +36,7 @@
     "tests/test_csv_export.py": "bd7ae21aa9524b2ee5deb8e018f8f7b939e0642a348923c8d5fe939c2d2d3f82",
     "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
     "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
-    "src/hawa/jobs.py": "66458c68fdd02c99deada669d57afcf12c118128bebe9180d5ef6ac06ff960d2",
+    "src/hawa/jobs.py": "3bd673a9e7e73d5b6e4a14074e665d2be1496c2733acc94fecde733a58b4f7ea",
     "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090",
     "tests/test_native_data.py": "78438be3e74991f5c8079df767e7dd5d2fc6516a767ada1c99092e01bd5b7436"
   },
@@ -1125,6 +1125,46 @@
       "status": "survived",
       "diff_sha256": "75cca42f37e9fe63c466d6cdecda83b5e5f1882f159220fd50012737f71adfca",
       "reason": "Not observable in the CPU suite: the join timeout matters only when a worker fails to reach a chunk boundary, which a test could show only by blocking a worker for 30 s or more per run; the timeout value predates #99 and only moved into the try block."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_1": {
+      "status": "survived",
+      "diff_sha256": "93086e926d4ba4e5838435bfbb4476a1abba89715547dcf51c80295b0a026b77",
+      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_2": {
+      "status": "survived",
+      "diff_sha256": "1488f7e00cdea03e8ff594fb5c16d26239d04ab7dff650049a50ae23a42f863e",
+      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "fc20a66fd865936bc4654e8fc983c582e143f76eaa4ed58d8501e3d86bc63c3b",
+      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "2894ca964449979539cd75cfc24cc4b88165738229fe31b235c58348d497b4c7",
+      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_5": {
+      "status": "survived",
+      "diff_sha256": "c527a445107e6d994aa9fad1b9b6cff6816f79b1d834d7aacba15c6b9bb32af1",
+      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_6": {
+      "status": "survived",
+      "diff_sha256": "c1b624c3ce5b14e499f42bcf801e3fbce41ce92788370d6791e808547bc02463",
+      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_7": {
+      "status": "survived",
+      "diff_sha256": "f04f58c1b37634430dbbbd2c66294e1a768f026b36b4d3ed98a3ec5dd2a7bdde",
+      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_8": {
+      "status": "survived",
+      "diff_sha256": "eabd82a87043e4d79ce643b58c7703d52457d65d15961b4aaf84c9287e4aab95",
+      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
     },
     "hawa.refinement.x_run_refined__mutmut_117": {
       "status": "survived",

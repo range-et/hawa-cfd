@@ -4,6 +4,7 @@ No Rhino imports: geometry is passed as lattice solid indices and domain metadat
 The JSON interface never launches an external Python or CFD process.
 """
 
+import gc
 import hashlib
 import json
 import math
@@ -474,6 +475,17 @@ class Session:
             if worker.is_alive():
                 raise RuntimeError("Solver has not yet reached a cancellation boundary")
 
+    def release(self):
+        """Break cyclic solver references and return cached MPS driver memory (#76)."""
+        device_type = self.backend.device.type if self.backend is not None else None
+        self.flow = self.solver = self.initial_f = self.initial_wall_velocity = None
+        self.mean_u = self.mean_p = self.mean_rho = None
+        gc.collect()
+        if device_type == "mps" and torch.backends.mps.is_available():
+            with MPS_LOCK:
+                torch.mps.synchronize()
+                torch.mps.empty_cache()
+
     def status(self):
         # UI polling reads Python scalars. GPU reductions happen in the worker.
         return {"session": self.id, "state": self.state, "steps": self.flow.i,
@@ -655,6 +667,7 @@ def dispatch(request):
         session.pause()
         with REGISTRY_LOCK:
             del SESSIONS[session.id]
+        session.release()
         return {"closed": True}
     if op == "body_loads":
         with session.lock:

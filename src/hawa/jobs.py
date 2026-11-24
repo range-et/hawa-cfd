@@ -162,13 +162,17 @@ class Job:
                 self.state = 'failed'
         finally:
             self.drop_device()
+            owned = None
             with self.condition:
                 if self.state != 'completed' or self.disposed:
                     if self.session is not None:
                         with REGISTRY_LOCK:
                             SESSIONS.pop(self.session.id, None)
+                        owned = self.session
                     self.session = None
                     self.result = None
+            if owned is not None and hasattr(owned, 'release'):
+                owned.release()
 
     def snapshot(self):
         with self.condition:

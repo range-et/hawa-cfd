@@ -1,8 +1,8 @@
 {
   "sources": {
     "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090",
-    "src/hawa/plugin.py": "a54abd1eb7e147432882a6c390528e8976304c4432804b173068f2df1dc0f289",
-    "src/hawa/jobs.py": "66458c68fdd02c99deada669d57afcf12c118128bebe9180d5ef6ac06ff960d2",
+    "src/hawa/plugin.py": "cdfe7db1285a74c6f3f1f915bb65e5d83b614737b14244885cd9e63ded8e2b36",
+    "src/hawa/jobs.py": "3bd673a9e7e73d5b6e4a14074e665d2be1496c2733acc94fecde733a58b4f7ea",
     "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/test_native_data.py": "78438be3e74991f5c8079df767e7dd5d2fc6516a767ada1c99092e01bd5b7436",

@@ -464,12 +464,82 @@
       "status": "survived",
       "diff_sha256": "d672f4a30ba1c3af7ade5f769fc634e8b3ffcc99efc89a3b155a150276a43977",
       "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_121": {
+      "status": "survived",
+      "diff_sha256": "13efc165aaf1fb7e47a2b79e1ff6bc715c3124347ccd9326a3331923ce0e067e",
+      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
+    },
+    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_122": {
+      "status": "survived",
+      "diff_sha256": "86df9f16ec6079976795e56ff2e0c6ba48c830fedc979b61d23178d8ab738629",
+      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
+    },
+    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_124": {
+      "status": "survived",
+      "diff_sha256": "b137a6e7a65894a79cbce3142c03cbdd27501f4f46744da5206d4d2bf82c668e",
+      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
+    },
+    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_125": {
+      "status": "survived",
+      "diff_sha256": "b270d4187b3ac47bfe5eb7b178b0d75d18e25a8b90861e8e728e90891c7a02aa",
+      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
+    },
+    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_129": {
+      "status": "survived",
+      "diff_sha256": "50d2b0f79a7689f1bc2206d03a9ec349970ab64b6a52fa19ddb89156422a4de2",
+      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
+    },
+    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_130": {
+      "status": "survived",
+      "diff_sha256": "21742ab345fd667f1eb44c9fc79ce0e63acf313784d9d708f46cbdb2f404a594",
+      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_1": {
+      "status": "survived",
+      "diff_sha256": "93086e926d4ba4e5838435bfbb4476a1abba89715547dcf51c80295b0a026b77",
+      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_2": {
+      "status": "survived",
+      "diff_sha256": "1488f7e00cdea03e8ff594fb5c16d26239d04ab7dff650049a50ae23a42f863e",
+      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "fc20a66fd865936bc4654e8fc983c582e143f76eaa4ed58d8501e3d86bc63c3b",
+      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "2894ca964449979539cd75cfc24cc4b88165738229fe31b235c58348d497b4c7",
+      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_5": {
+      "status": "survived",
+      "diff_sha256": "c527a445107e6d994aa9fad1b9b6cff6816f79b1d834d7aacba15c6b9bb32af1",
+      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_6": {
+      "status": "survived",
+      "diff_sha256": "c1b624c3ce5b14e499f42bcf801e3fbce41ce92788370d6791e808547bc02463",
+      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_7": {
+      "status": "survived",
+      "diff_sha256": "f04f58c1b37634430dbbbd2c66294e1a768f026b36b4d3ed98a3ec5dd2a7bdde",
+      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_8": {
+      "status": "survived",
+      "diff_sha256": "eabd82a87043e4d79ce643b58c7703d52457d65d15961b4aaf84c9287e4aab95",
+      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
     }
   },
   "sources": {
     "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
-    "src/hawa/plugin.py": "a54abd1eb7e147432882a6c390528e8976304c4432804b173068f2df1dc0f289",
-    "src/hawa/jobs.py": "66458c68fdd02c99deada669d57afcf12c118128bebe9180d5ef6ac06ff960d2",
+    "src/hawa/plugin.py": "cdfe7db1285a74c6f3f1f915bb65e5d83b614737b14244885cd9e63ded8e2b36",
+    "src/hawa/jobs.py": "3bd673a9e7e73d5b6e4a14074e665d2be1496c2733acc94fecde733a58b4f7ea",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/test_csv_export.py": "bd7ae21aa9524b2ee5deb8e018f8f7b939e0642a348923c8d5fe939c2d2d3f82",
     "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
@@ -492,6 +562,6 @@
   ],
   "base_revision": "0e76b95",
   "tool": "mutmut==3.7.0",
-  "mutants": 1382,
-  "inventory_sha256": "21fe909dd3acccae2d6aefe9276aca7899ac514296b00b75c01d32dfc18a3986"
+  "mutants": 1400,
+  "inventory_sha256": "30f6d0f7152c28555e1541421884a651a1a5dbb6ea427ababcdc1a6d13bc12ee"
 }
