@@ -142,6 +142,13 @@ static class QualityContracts
             HawaPollScheduler.Request(c,()=>true,100000);var timer=UITimer.Active.Single();HawaPollScheduler.Cancel(c);
             assert(HawaPollScheduler.PendingCount==0&&timer.Disposed&&UITimer.Active.Count==0,"Cancellation leaked timer");Clear();
         });
+        test("polling isolates post-solution identity errors on skipped HawaComponent refreshes (#122)", () => {
+            Clear();var doc=new GH_Document();global::Grasshopper.Instances.DocumentServer.Add(doc);var c=new StationaryStudyComponent{Document=doc};
+            int calls=0;
+            HawaPollScheduler.Request(c,()=>++calls==1?true:throw new InvalidOperationException("post-solve identity failed"),-1);
+            var timer=UITimer.Active.Single();timer.Pulse();
+            assert(HawaPollScheduler.PendingCount==0&&timer.Disposed&&c.Errors.Single().Contains("post-solve identity failed"),"Post-solution identity fault was not isolated");Clear();
+        });
     }
 }
 

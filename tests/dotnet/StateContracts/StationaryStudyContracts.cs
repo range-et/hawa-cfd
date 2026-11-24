@@ -53,6 +53,32 @@ static class StationaryStudyContracts
             foreach(var timer in UITimer.Active.ToArray())timer.Pulse();
             c.RemovedFromDocument(doc);assert(HawaPollScheduler.PendingCount==0,"Removal retained poll");Reset();
         });
+        test("stationary study retries automatically when a scheduled solution skips solving (#122)",()=>{
+            Reset();using var bridge=new GhBridge{Respond=Reply};state="running";corrupt=null;
+            var input=Inputs();var c=Start(bridge,input);
+            assert(c.Message=="running"&&HawaPollScheduler.PendingCount==1,"Study did not register initial poll");
+            // Simulate a host-aborted/skipped NewSolution where ExpireSolution ran but SolveInstance did not.
+            doc.DuringSolution=null;
+            Thread.Sleep(110);
+            var timer=UITimer.Active.Single();
+            timer.Pulse();
+            assert(doc.Solutions==1&&HawaPollScheduler.PendingCount==1&&!timer.Disposed&&bridge.Ops("evaluate_submit").Count()==1,"Skipped solution dropped pending poll or resubmitted study");
+            // Next tick runs the component solve and publishes completed outputs without duplicating submission.
+            state="completed";
+            bool published=false;
+            doc.DuringSolution=()=>{var out2=Solve(c,input);published=out2.Outputs.ContainsKey(0)&&out2.Outputs.ContainsKey(8);};
+            Thread.Sleep(110);
+            timer.Pulse();
+            assert(doc.Solutions==2&&c.Message=="completed"&&published&&HawaPollScheduler.PendingCount==0&&timer.Disposed&&bridge.Ops("evaluate_submit").Count()==1,"Retry did not publish completed outputs or leaked poll");
+            // Verify cancel/close after a skipped solution drains cleanly and cannot revive stale work.
+            c.RemovedFromDocument(doc);Reset();
+            state="running";input=Inputs();c=Start(bridge,input);
+            doc.DuringSolution=null;Thread.Sleep(110);UITimer.Active.Single().Pulse();
+            assert(HawaPollScheduler.PendingCount==1,"Second skipped solution lost retry poll");
+            c.DocumentContextChanged(doc,GH_DocumentContext.Close);
+            assert(HawaPollScheduler.PendingCount==0&&UITimer.Active.Count==0,"Document close after skipped solution retained poll");
+            Reset();
+        });
         test("stationary study preserves double precision for translated mesh submission",()=>{
             Reset();using var bridge=new GhBridge{Respond=Reply};state="running";corrupt=null;
             var input=Inputs();var mesh=(Mesh)input[1]!;

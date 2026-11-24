@@ -107,6 +107,7 @@ public abstract class HawaComponent : GH_Component
     private bool ComposesFrames => this is PlaneFieldComponent || this is IsosurfaceComponent || this is FlowDisplayComponent || this is SurfaceFieldComponent;
     protected override void SolveInstance(IGH_DataAccess da)
     {
+        HawaPollScheduler.NoteSolved(this);
         // A status that outlives its job is stale: replace it when the inputs or the run go away (#74).
         if (Params.Input.Any(p =>
             !p.Optional && !p.VolatileData.AllData(true).Any(v =>
