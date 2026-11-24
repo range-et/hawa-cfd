@@ -75,6 +75,15 @@ or direct access to private embedded-runtime fields.
 - Original Hawa code is GPL-3.0-only. Preserve bundled upstream license notices.
 - Report what was actually run, including device, steps and skipped checks.
   A rendered field is not a convergence or engineering-accuracy result.
+- **Worktree and auxiliary directory placement:** Never create git worktrees,
+  sandboxes, or scratch directories directly on Desktop (or as sibling
+  directories next to `hawa-cfd`). Place all new git worktrees under
+  `~/Documents/HAWA/worktrees/<name>` and any non-repo Hawa scratch or archive
+  folders under `~/Documents/HAWA/`.
+- **Post-merge worktree cleanup:** Once coding is finished and a branch/PR is
+  merged into `main`, verify no unmerged commits or needed local artifacts
+  remain, then immediately remove that worktree (`git worktree remove <path>`
+  and `git worktree prune`) and delete the merged local branch.
 
 ## Product boundary
 
