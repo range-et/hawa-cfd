@@ -173,8 +173,20 @@ def exercise_native_data(row, directory, device):
             np.testing.assert_array_equal(getattr(restored, name).cpu().numpy(), getattr(session, name).cpu().numpy())
         return True
     finally:
-        for job in owned:
-            dispatch_job(dict(op='evaluate_control', job=job.id, action='close'))
-        session.pause()
-        SESSIONS.pop(session.id, None)
+        # Observe real async cleanup workers; admission acknowledgement is not teardown.
+        import threading
+        from unittest.mock import patch
+        workers = []
+        real_thread = threading.Thread
+        def tracked(*args, **kwargs):
+            worker = real_thread(*args, **kwargs)
+            workers.append(worker)
+            return worker
+        with patch('hawa.jobs.threading.Thread', tracked):
+            for job in owned:
+                dispatch_job(dict(op='evaluate_control', job=job.id, action='close'))
+        for worker in workers:
+            worker.join(30)
+            assert not worker.is_alive(), 'native-data cleanup did not complete'
+        dispatch(dict(op='close', session=session.id))
         assert set(SESSIONS) == before_sessions and set(JOBS) == before_jobs

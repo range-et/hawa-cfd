@@ -480,3 +480,44 @@ def test_duplicate_close_and_status_do_not_wait_for_memory_cleanup(monkeypatch):
         for worker in workers: worker.join(5)
     assert not any(worker.is_alive() for worker in workers)
     assert session.id not in plugin.SESSIONS
+
+
+@pytest.mark.parametrize('failure', [None, 'sync', 'empty'])
+def test_release_clears_tensor_roots_and_retries_device_cache_failure(monkeypatch, failure):
+    import torch
+    from hawa import plugin
+    session = plugin.Session(dict(example='tgv3d-bgk', size=8), 'cpu')
+    session.advance(5)
+    session.initial_wall_velocity = torch.ones(3)
+    plugin.SESSIONS[session.id] = session
+    calls = []
+    failed = False
+    original_gc = plugin.gc.collect
+    class FakeDevice:
+        type = 'mps'
+    def collect():
+        calls.append('gc')
+        return original_gc()
+    def cache_call(name):
+        nonlocal failed
+        calls.append(name)
+        if failure == name and not failed:
+            failed = True
+            raise RuntimeError('device cleanup failed at '+name)
+    monkeypatch.setattr(session.backend, 'device', FakeDevice())
+    monkeypatch.setattr(torch.backends.mps, 'is_available', lambda: True)
+    monkeypatch.setattr(plugin.gc, 'collect', collect)
+    monkeypatch.setattr(torch.mps, 'synchronize', lambda: cache_call('sync'))
+    monkeypatch.setattr(torch.mps, 'empty_cache', lambda: cache_call('empty'))
+    if failure is not None:
+        with pytest.raises(RuntimeError, match='device cleanup failed at '+failure):
+            plugin.dispatch(dict(op='close', session=session.id))
+        assert plugin.SESSIONS[session.id] is session
+        assert not session.close_pending and session.release_requested
+        assert calls == (['gc', 'sync'] if failure == 'sync' else ['gc', 'sync', 'empty'])
+        calls.clear()
+    assert plugin.dispatch(dict(op='close', session=session.id)) == {'closed': True}
+    assert session.id not in plugin.SESSIONS and calls == ['gc', 'sync', 'empty']
+    for name in ('flow', 'solver', 'initial_f', 'initial_wall_velocity', 'mean_u', 'mean_p', 'mean_rho'):
+        assert getattr(session, name) is None
+    assert session.status()['steps'] == 5

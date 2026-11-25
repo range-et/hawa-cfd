@@ -2,7 +2,7 @@
 import pytest
 import torch
 
-from hawa.plugin import Session, SESSIONS, dispatch
+from hawa.plugin import dispatch
 
 
 def _small_case(shape=(12, 10, 8)):
@@ -16,26 +16,6 @@ def _small_case(shape=(12, 10, 8)):
         "collision": "regularized",
         "boundaries": ["inlet", "outlet", "periodic", "periodic", "wall", "slip"],
     }
-
-
-def test_session_close_breaks_references_and_flushes_mps_cache_on_cpu_host(monkeypatch):
-    """Covers Session.release() including the MPS cache flush branch on non-MPS CI hosts."""
-    s = Session(_small_case(), "cpu")
-    SESSIONS[s.id] = s
-    calls = []
-
-    class _FakeDev:
-        type = "mps"
-
-    monkeypatch.setattr(s.backend, "device", _FakeDev())
-    monkeypatch.setattr(torch.backends.mps, "is_available", lambda: True)
-    monkeypatch.setattr(torch.mps, "synchronize", lambda: calls.append("sync"), raising=False)
-    monkeypatch.setattr(torch.mps, "empty_cache", lambda: calls.append("empty"), raising=False)
-
-    assert dispatch({"op": "close", "session": s.id}) == {"closed": True}
-    assert s.id not in SESSIONS
-    assert s.flow is None and s.solver is None and s.initial_f is None
-    assert calls == ["sync", "empty"]
 
 
 @pytest.mark.skipif(not torch.backends.mps.is_available(), reason="MPS unavailable")
