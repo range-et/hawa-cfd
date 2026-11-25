@@ -396,3 +396,83 @@ def test_async_close_reply_survives_immediate_cleanup(monkeypatch):
     assert reply["session"] == session.id and reply["steps"] == 0
     assert reply["state"] == "paused"
     assert session.flow is None and session.id not in plugin.SESSIONS
+
+
+def test_overlapping_close_requests_share_one_cleanup_and_survive_release_failure(monkeypatch):
+    from hawa import plugin
+    session = plugin.Session(dict(example='tgv3d-bgk', size=8), 'cpu')
+    plugin.SESSIONS[session.id] = session
+    pending = []
+    class QueuedThread:
+        def __init__(self, target, **kwargs): self.target = target
+        def start(self): pending.append(self.target)
+    monkeypatch.setattr(plugin.threading, 'Thread', QueuedThread)
+    first = plugin.dispatch(dict(op='close_async', session=session.id))
+    assert plugin.dispatch(dict(op='close_async', session=session.id)) == first
+    assert plugin.dispatch(dict(op='pause_async', session=session.id)) == first
+    assert len(pending) == 1
+    original_gc = plugin.gc.collect
+    def fail_release(): raise RuntimeError('cache cleanup failed')
+    monkeypatch.setattr(plugin.gc, 'collect', fail_release)
+    pending.pop()()
+    assert plugin.SESSIONS[session.id] is session
+    assert session.flow is None and not session.close_pending
+    status = session.status()
+    assert status['state'] == 'failed' and status['error'] == 'cache cleanup failed'
+    assert status['steps'] == first['steps'] and status['case_hash'] == first['case_hash']
+    monkeypatch.setattr(plugin.gc, 'collect', original_gc)
+    plugin.dispatch(dict(op='close_async', session=session.id))
+    assert len(pending) == 1
+    pending.pop()()
+    assert session.id not in plugin.SESSIONS
+    assert plugin.dispatch(dict(op='close', session=session.id)) == {'closed': True}
+
+
+def test_failed_cleanup_thread_start_allows_retry(monkeypatch):
+    from hawa import plugin
+    session = plugin.Session(dict(example='tgv3d-bgk', size=8), 'cpu')
+    plugin.SESSIONS[session.id] = session
+    class FailingThread:
+        def __init__(self, target, **kwargs): pass
+        def start(self): raise RuntimeError('thread creation failed')
+    monkeypatch.setattr(plugin.threading, 'Thread', FailingThread)
+    with pytest.raises(RuntimeError, match='thread creation failed'):
+        plugin.dispatch(dict(op='close_async', session=session.id))
+    assert not session.close_pending and plugin.SESSIONS[session.id] is session
+    plugin.dispatch(dict(op='close', session=session.id))
+
+
+def test_duplicate_close_and_status_do_not_wait_for_memory_cleanup(monkeypatch):
+    import threading
+    from hawa import plugin
+    session = plugin.Session(dict(example='tgv3d-bgk', size=8), 'cpu')
+    plugin.SESSIONS[session.id] = session
+    entered, resume, replied = threading.Event(), threading.Event(), threading.Event()
+    workers, replies = [], []
+    real_thread = threading.Thread
+    def thread_factory(*args, **kwargs):
+        worker = real_thread(*args, **kwargs)
+        workers.append(worker)
+        return worker
+    def collect():
+        entered.set()
+        assert resume.wait(5), 'test did not release cleanup'
+    monkeypatch.setattr(plugin.threading, 'Thread', thread_factory)
+    monkeypatch.setattr(plugin.gc, 'collect', collect)
+    plugin.dispatch(dict(op='close_async', session=session.id))
+    def duplicate():
+        replies.append(plugin.dispatch(dict(op='close_async', session=session.id)))
+        replied.set()
+    caller = real_thread(target=duplicate)
+    try:
+        assert entered.wait(5)
+        caller.start()
+        assert replied.wait(2), 'duplicate close waited for memory cleanup'
+        assert replies[0]['steps'] == 0 and session.status()['steps'] == 0
+        assert len(workers) == 1 and session.flow is None
+    finally:
+        resume.set()
+        if caller.ident is not None: caller.join(5)
+        for worker in workers: worker.join(5)
+    assert not any(worker.is_alive() for worker in workers)
+    assert session.id not in plugin.SESSIONS

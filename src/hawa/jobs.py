@@ -166,13 +166,23 @@ class Job:
             with self.condition:
                 if self.state != 'completed' or self.disposed:
                     if self.session is not None:
-                        with REGISTRY_LOCK:
-                            SESSIONS.pop(self.session.id, None)
                         owned = self.session
                     self.session = None
                     self.result = None
-            if owned is not None and hasattr(owned, 'release'):
-                owned.release()
+            if owned is not None:
+                try:
+                    if hasattr(owned, 'release'):
+                        owned.release()
+                    with REGISTRY_LOCK:
+                        SESSIONS.pop(owned.id, None)
+                except Exception as exc:
+                    # Keep failed cleanup addressable for an explicit retry.
+                    with REGISTRY_LOCK:
+                        SESSIONS[owned.id] = owned
+                    with self.condition:
+                        self.session = owned
+                        self.error = str(exc)
+                        self.state = 'failed'
 
     def snapshot(self):
         with self.condition:
@@ -185,7 +195,7 @@ class Job:
             if action == 'close':
                 self.disposed = True
                 self.cancelled = True
-                if self.session is not None and self.state == 'completed':
+                if self.session is not None and self.state in ('completed', 'cancelled', 'failed'):
                     # A completed creation job can own a running Solve session.
                     # Keep registry ownership until its worker stops, then release
                     # tensors. Async close never joins on the caller/UI thread.

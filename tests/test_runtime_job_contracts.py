@@ -338,3 +338,27 @@ def test_completed_create_job_releases_owned_session(monkeypatch, fails):
     assert session.flow is session.solver is session.initial_f is None
 
 
+
+
+def test_failed_worker_release_retains_retryable_session(monkeypatch):
+    job = jobs.Job(dict(kind='create', case=dict(example='tgv3d-bgk', size=8), device='cpu'))
+    def cancel(steps, state='running'):
+        if job.session is not None:
+            raise jobs.Cancelled('cancel after preparation')
+    monkeypatch.setattr(job, 'checkpoint', cancel)
+    original_release = plugin.Session.release
+    def fail_release(session):
+        original_release(session)
+        raise RuntimeError('release failed after clearing tensors')
+    monkeypatch.setattr(plugin.Session, 'release', fail_release)
+    job.work()
+    session = job.session
+    assert job.state == 'failed' and job.error == 'release failed after clearing tensors'
+    assert jobs.SESSIONS[session.id] is session and session.flow is None
+    monkeypatch.setattr(plugin.Session, 'release', original_release)
+    class ImmediateThread:
+        def __init__(self, target, **kwargs): self.target = target
+        def start(self): self.target()
+    monkeypatch.setattr(plugin.threading, 'Thread', ImmediateThread)
+    job.control('close')
+    assert job.session is None and session.id not in jobs.SESSIONS
