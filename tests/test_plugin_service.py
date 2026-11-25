@@ -521,3 +521,84 @@ def test_release_clears_tensor_roots_and_retries_device_cache_failure(monkeypatc
     for name in ('flow', 'solver', 'initial_f', 'initial_wall_velocity', 'mean_u', 'mean_p', 'mean_rho'):
         assert getattr(session, name) is None
     assert session.status()['steps'] == 5
+    assert session.status()['resolution'] == [8, 8, 8]
+
+
+@pytest.mark.parametrize('device,available', [('cpu', True), ('mps', False)])
+def test_release_flush_requires_both_mps_session_and_available_backend(monkeypatch, device, available):
+    import torch
+    from hawa import plugin
+    session = plugin.Session(dict(example='tgv3d-bgk', size=8), 'cpu')
+    monkeypatch.setattr(session.backend, 'device', torch.device(device))
+    monkeypatch.setattr(torch.backends.mps, 'is_available', lambda: available)
+    def forbidden():
+        pytest.fail('MPS cache operation without an available MPS session')
+    monkeypatch.setattr(torch.mps, 'synchronize', forbidden)
+    monkeypatch.setattr(torch.mps, 'empty_cache', forbidden)
+    session.release()
+    assert session.flow is None
+    assert session.status()['resolution'] == [8, 8, 8]
+
+
+def test_start_checks_boundary_time_before_worker_creation_at_tolerance(monkeypatch):
+    from hawa import plugin
+    session = plugin.Session(dict(example='tgv3d-bgk', size=8), 'cpu')
+    session.spec['boundary_field'] = {'end_time': 10. - 1e-10}
+    monkeypatch.setattr(session.flow.units, 'convert_time_to_pu', lambda target: float(target))
+    queued = []
+    class QueuedThread:
+        def __init__(self, target, **kwargs): self.target = target
+        def start(self): queued.append(self.target)
+        def is_alive(self): return False
+    monkeypatch.setattr(plugin.threading, 'Thread', QueuedThread)
+    with pytest.raises(ValueError, match='Target exceeds boundary time coverage'):
+        session.start(11)
+    assert queued == [] and session.state == 'ready' and session.target == 0
+    session.start(10)
+    assert len(queued) == 1 and session.state == 'running' and session.target == 10
+    session.release()
+
+
+
+def test_async_pause_and_reset_preserve_transition_and_worker_contract(monkeypatch):
+    from hawa import plugin
+    session = plugin.Session(dict(example='tgv3d-bgk', size=8), 'cpu')
+    session.advance(2)
+    plugin.SESSIONS[session.id] = session
+    queued = []
+    class QueuedThread:
+        def __init__(self, target, **kwargs):
+            assert kwargs.get('daemon') is True
+            self.target = target
+        def start(self): queued.append(self.target)
+    class ActiveWorker:
+        def is_alive(self): return True
+    monkeypatch.setattr(plugin.threading, 'Thread', QueuedThread)
+    session.thread = ActiveWorker()
+    paused = plugin.dispatch(dict(op='pause_async', session=session.id))
+    assert paused['state'] == 'pausing' and session.stop.is_set() and queued == []
+    session.thread = None
+    resetting = plugin.dispatch(dict(op='reset_async', session=session.id))
+    assert resetting['state'] == 'resetting' and len(queued) == 1
+    with pytest.raises(ValueError, match='Wait for reset'):
+        session.start(5)
+    queued.pop()()
+    assert session.state == 'ready' and session.flow.i == 0 and session.error is None
+    plugin.dispatch(dict(op='close', session=session.id))
+
+
+def test_overlapping_synchronous_closes_remove_registry_idempotently(monkeypatch):
+    from hawa import plugin
+    session = plugin.Session(dict(example='tgv3d-bgk', size=8), 'cpu')
+    plugin.SESSIONS[session.id] = session
+    original_pause = session.pause
+    nested = []
+    def pause():
+        if not nested:
+            nested.append(True)
+            assert plugin.dispatch(dict(op='close', session=session.id)) == {'closed': True}
+        original_pause()
+    monkeypatch.setattr(session, 'pause', pause)
+    assert plugin.dispatch(dict(op='close', session=session.id)) == {'closed': True}
+    assert nested == [True] and session.id not in plugin.SESSIONS
+    assert session.status()['resolution'] == [8, 8, 8]
