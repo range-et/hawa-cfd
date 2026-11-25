@@ -1,0 +1,196 @@
+{
+  "bundle": {
+    "boundaries": [
+      {
+        "condition": {
+          "profile": "parabolic",
+          "profile_axis": 1,
+          "type": "velocity",
+          "velocity": [
+            0.5,
+            0.0,
+            0.0
+          ]
+        },
+        "face": "x-",
+        "id": "inlet"
+      },
+      {
+        "condition": {
+          "pressure_pa": 0.0,
+          "profile": "uniform",
+          "type": "pressure"
+        },
+        "face": "x+",
+        "id": "outlet"
+      },
+      {
+        "condition": {
+          "profile": "uniform",
+          "type": "wall",
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "face": "y-",
+        "id": "bottom"
+      },
+      {
+        "condition": {
+          "profile": "uniform",
+          "type": "wall",
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "face": "y+",
+        "id": "top"
+      },
+      {
+        "condition": {
+          "profile": "uniform",
+          "type": "periodic"
+        },
+        "face": "z-",
+        "id": "back"
+      },
+      {
+        "condition": {
+          "profile": "uniform",
+          "type": "periodic"
+        },
+        "face": "z+",
+        "id": "front"
+      }
+    ],
+    "case_id": "channel_poiseuille_ny10",
+    "density_kg_m3": 1.225,
+    "description": "Laminar 2D Poiseuille channel (Re=20, ny=10)",
+    "dimensions": 2,
+    "domain_origin_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "domain_size_m": [
+      4.0,
+      1.0,
+      0.30000000000000004
+    ],
+    "initial_velocity_m_s": [
+      0.3333333333333333,
+      0.0,
+      0.0
+    ],
+    "kinematic_viscosity_m2_s": 0.025,
+    "mesh": {
+      "cells": [
+        40,
+        10,
+        1
+      ],
+      "delta_t": 1.0,
+      "max_iterations": 2000,
+      "residual_tolerance": 1e-07,
+      "solver": "simpleFoam"
+    },
+    "pressure_pairs": [
+      {
+        "a_probe_id": "p_x1_mid",
+        "b_probe_id": "p_x3_mid",
+        "id": "dp_x1_x3"
+      },
+      {
+        "a_probe_id": "p_x1_mid",
+        "b_probe_id": "p_x2_mid",
+        "id": "dp_x1_x2"
+      },
+      {
+        "a_probe_id": "p_x2_mid",
+        "b_probe_id": "p_x3_mid",
+        "id": "dp_x2_x3"
+      }
+    ],
+    "pressure_reference_pa": 0.0,
+    "probes": [
+      {
+        "id": "p_x1_mid",
+        "location_m": [
+          1.0,
+          0.5,
+          0.15000000000000002
+        ]
+      },
+      {
+        "id": "p_x2_mid",
+        "location_m": [
+          2.0,
+          0.5,
+          0.15000000000000002
+        ]
+      },
+      {
+        "id": "p_x3_mid",
+        "location_m": [
+          3.0,
+          0.5,
+          0.15000000000000002
+        ]
+      },
+      {
+        "id": "p_x2_y20",
+        "location_m": [
+          2.0,
+          0.2,
+          0.15000000000000002
+        ]
+      },
+      {
+        "id": "p_x2_y35",
+        "location_m": [
+          2.0,
+          0.35,
+          0.15000000000000002
+        ]
+      },
+      {
+        "id": "p_x2_y65",
+        "location_m": [
+          2.0,
+          0.65,
+          0.15000000000000002
+        ]
+      },
+      {
+        "id": "p_x2_y80",
+        "location_m": [
+          2.0,
+          0.8,
+          0.15000000000000002
+        ]
+      }
+    ],
+    "provenance": {
+      "adapter_version": "0.1.0",
+      "control_case": "07-channel"
+    },
+    "reference_length_m": 1.0,
+    "reference_speed_m_s": 0.5,
+    "schema": "hawa-openfoam-case-1"
+  },
+  "files": {
+    "0/U": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       volVectorField;\n    object      U;\n}\ndimensions      [0 1 -1 0 0 0 0];\ninternalField   uniform (0.333333333333 0 0);\nboundaryField\n{\n    xMin\n    {\n        type            fixedValue;\n        value           nonuniform List<vector>\n        10\n        (\n            (0.095 0 0)\n            (0.255 0 0)\n            (0.375 0 0)\n            (0.455 0 0)\n            (0.495 0 0)\n            (0.495 0 0)\n            (0.455 0 0)\n            (0.375 0 0)\n            (0.255 0 0)\n            (0.095 0 0)\n        );\n    }\n    xMax\n    {\n        type            zeroGradient;\n    }\n    yMin\n    {\n        type            noSlip;\n    }\n    yMax\n    {\n        type            noSlip;\n    }\n    zMin\n    {\n        type            empty;\n    }\n    zMax\n    {\n        type            empty;\n    }\n}\n",
+    "0/p": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       volScalarField;\n    object      p;\n}\ndimensions      [0 2 -2 0 0 0 0];\ninternalField   uniform 0;\nboundaryField\n{\n    xMin\n    {\n        type            zeroGradient;\n    }\n    xMax\n    {\n        type            fixedValue;\n        value           uniform 0;\n    }\n    yMin\n    {\n        type            zeroGradient;\n    }\n    yMax\n    {\n        type            zeroGradient;\n    }\n    zMin\n    {\n        type            empty;\n    }\n    zMax\n    {\n        type            empty;\n    }\n}\n",
+    "constant/transportProperties": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       dictionary;\n    object      transportProperties;\n}\ntransportModel  Newtonian;\nnu              0.025;\n",
+    "constant/turbulenceProperties": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       dictionary;\n    object      turbulenceProperties;\n}\nsimulationType  laminar;\n",
+    "system/blockMeshDict": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       dictionary;\n    object      blockMeshDict;\n}\nscale 1;\nvertices\n(\n    (0 0 0)\n    (4 0 0)\n    (4 1 0)\n    (0 1 0)\n    (0 0 0.3)\n    (4 0 0.3)\n    (4 1 0.3)\n    (0 1 0.3)\n);\nblocks\n(\n    hex (0 1 2 3 4 5 6 7) (40 10 1) simpleGrading (1 1 1)\n);\nedges ();\nboundary\n(\n    xMin\n    {\n        type patch;\n        faces ((0 4 7 3));\n    }\n    xMax\n    {\n        type patch;\n        faces ((1 2 6 5));\n    }\n    yMin\n    {\n        type wall;\n        faces ((0 1 5 4));\n    }\n    yMax\n    {\n        type wall;\n        faces ((3 7 6 2));\n    }\n    zMin\n    {\n        type empty;\n        faces ((0 3 2 1));\n    }\n    zMax\n    {\n        type empty;\n        faces ((4 5 6 7));\n    }\n);\n",
+    "system/controlDict": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       dictionary;\n    object      controlDict;\n}\napplication     simpleFoam;\nstartFrom       startTime;\nstartTime       0;\nstopAt          endTime;\nendTime         2000;\ndeltaT          1;\nwriteControl    timeStep;\nwriteInterval   2000;\npurgeWrite      0;\nwriteFormat     ascii;\nwritePrecision  10;\nwriteCompression off;\ntimeFormat      general;\ntimePrecision   6;\nrunTimeModifiable true;\n",
+    "system/fvSchemes": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       dictionary;\n    object      fvSchemes;\n}\nddtSchemes\n{\n    default         steadyState;\n}\ngradSchemes\n{\n    default         Gauss linear;\n}\ndivSchemes\n{\n    default         none;\n    div(phi,U)      bounded Gauss linearUpwind grad(U);\n    div((nuEff*dev2(T(grad(U))))) Gauss linear;\n}\nlaplacianSchemes\n{\n    default         Gauss linear corrected;\n}\ninterpolationSchemes\n{\n    default         linear;\n}\nsnGradSchemes\n{\n    default         corrected;\n}\n",
+    "system/fvSolution": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       dictionary;\n    object      fvSolution;\n}\nsolvers\n{\n    p\n    {\n        solver          GAMG;\n        smoother        GaussSeidel;\n        tolerance       1e-11;\n        relTol          0.01;\n    }\n    pFinal\n    {\n        $p;\n        relTol          0;\n    }\n    U\n    {\n        solver          smoothSolver;\n        smoother        symGaussSeidel;\n        tolerance       1e-11;\n        relTol          0.01;\n    }\n}\nSIMPLE\n{\n    nNonOrthogonalCorrectors 0;\n    consistent      yes;\n    residualControl\n    {\n        p               1e-07;\n        U               1e-07;\n    }\n}\nPISO\n{\n    nCorrectors     2;\n    nNonOrthogonalCorrectors 0;\n}\nrelaxationFactors\n{\n    equations\n    {\n        U               0.9;\n    }\n}\n",
+    "system/probes": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       dictionary;\n    object      probes;\n}\ntype            probes;\nlibs            (sampling);\nfields          (p U);\ninterpolationScheme cellPoint;\nprobeLocations\n(\n    (1 0.5 0.15)\n    (2 0.5 0.15)\n    (3 0.5 0.15)\n    (2 0.2 0.15)\n    (2 0.35 0.15)\n    (2 0.65 0.15)\n    (2 0.8 0.15)\n);\n"
+  }
+}

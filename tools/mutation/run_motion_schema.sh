@@ -16,6 +16,7 @@ reviewed=("${mutate[@]}" "${tests[@]}" docs/schemas/moving-body.schema.json docs
   docs/schemas/measurement-request.schema.json docs/schemas/measurement-sample.schema.json
   docs/schemas/measurement-probe.schema.json docs/schemas/sweep-candidate.schema.json
   docs/schemas/sweep-callback.schema.json docs/schemas/sweep-poll.schema.json
+  src/hawa/openfoam.py docs/schemas/openfoam-case-bundle.schema.json
   tools/mutation/cpu_only.py)
 # test_motion imports scripts/benchmark_motion.py; the snapshot test reads docs/schemas.
 copy=(scripts/benchmark_motion.py docs/schemas tools/mutation/cpu_only.py)

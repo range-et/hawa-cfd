@@ -1,0 +1,190 @@
+{
+  "bundle": {
+    "boundaries": [
+      {
+        "condition": {
+          "type": "wall",
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "face": "x-",
+        "id": "left"
+      },
+      {
+        "condition": {
+          "type": "wall",
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "face": "x+",
+        "id": "right"
+      },
+      {
+        "condition": {
+          "type": "wall",
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "face": "y-",
+        "id": "bottom"
+      },
+      {
+        "condition": {
+          "type": "wall",
+          "velocity": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        "face": "y+",
+        "id": "lid"
+      },
+      {
+        "condition": {
+          "type": "periodic"
+        },
+        "face": "z-",
+        "id": "back"
+      },
+      {
+        "condition": {
+          "type": "periodic"
+        },
+        "face": "z+",
+        "id": "front"
+      }
+    ],
+    "case_id": "cavity_re10_n32",
+    "density_kg_m3": 1.0,
+    "description": "Lid-driven 2D cavity (Re=10, n=32, Example 06 control)",
+    "dimensions": 2,
+    "domain_origin_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "domain_size_m": [
+      1.0,
+      1.0,
+      0.1
+    ],
+    "initial_velocity_m_s": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "kinematic_viscosity_m2_s": 0.1,
+    "mesh": {
+      "cells": [
+        32,
+        32,
+        1
+      ],
+      "delta_t": 1.0,
+      "max_iterations": 2000,
+      "p_ref_cell": 0,
+      "p_ref_value": 0.0,
+      "residual_tolerance": 1e-07,
+      "solver": "simpleFoam"
+    },
+    "pressure_pairs": [
+      {
+        "a_probe_id": "c_75_75",
+        "b_probe_id": "c_25_75",
+        "id": "dp_upper_lr"
+      },
+      {
+        "a_probe_id": "c_75_50",
+        "b_probe_id": "c_25_50",
+        "id": "dp_mid_lr"
+      }
+    ],
+    "pressure_reference_pa": 0.0,
+    "probes": [
+      {
+        "id": "c_50_25",
+        "location_m": [
+          0.5,
+          0.25,
+          0.05
+        ]
+      },
+      {
+        "id": "c_50_50",
+        "location_m": [
+          0.5,
+          0.5,
+          0.05
+        ]
+      },
+      {
+        "id": "c_50_75",
+        "location_m": [
+          0.5,
+          0.75,
+          0.05
+        ]
+      },
+      {
+        "id": "c_25_50",
+        "location_m": [
+          0.25,
+          0.5,
+          0.05
+        ]
+      },
+      {
+        "id": "c_75_50",
+        "location_m": [
+          0.75,
+          0.5,
+          0.05
+        ]
+      },
+      {
+        "id": "c_25_75",
+        "location_m": [
+          0.25,
+          0.75,
+          0.05
+        ]
+      },
+      {
+        "id": "c_75_75",
+        "location_m": [
+          0.75,
+          0.75,
+          0.05
+        ]
+      }
+    ],
+    "provenance": {
+      "adapter_version": "0.1.0",
+      "control_case": "06-cavity"
+    },
+    "reference_length_m": 1.0,
+    "reference_speed_m_s": 1.0,
+    "schema": "hawa-openfoam-case-1"
+  },
+  "files": {
+    "0/U": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       volVectorField;\n    object      U;\n}\ndimensions      [0 1 -1 0 0 0 0];\ninternalField   uniform (0 0 0);\nboundaryField\n{\n    xMin\n    {\n        type            noSlip;\n    }\n    xMax\n    {\n        type            noSlip;\n    }\n    yMin\n    {\n        type            noSlip;\n    }\n    yMax\n    {\n        type            fixedValue;\n        value           uniform (1 0 0);\n    }\n    zMin\n    {\n        type            empty;\n    }\n    zMax\n    {\n        type            empty;\n    }\n}\n",
+    "0/p": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       volScalarField;\n    object      p;\n}\ndimensions      [0 2 -2 0 0 0 0];\ninternalField   uniform 0;\nboundaryField\n{\n    xMin\n    {\n        type            zeroGradient;\n    }\n    xMax\n    {\n        type            zeroGradient;\n    }\n    yMin\n    {\n        type            zeroGradient;\n    }\n    yMax\n    {\n        type            zeroGradient;\n    }\n    zMin\n    {\n        type            empty;\n    }\n    zMax\n    {\n        type            empty;\n    }\n}\n",
+    "constant/transportProperties": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       dictionary;\n    object      transportProperties;\n}\ntransportModel  Newtonian;\nnu              0.1;\n",
+    "constant/turbulenceProperties": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       dictionary;\n    object      turbulenceProperties;\n}\nsimulationType  laminar;\n",
+    "system/blockMeshDict": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       dictionary;\n    object      blockMeshDict;\n}\nscale 1;\nvertices\n(\n    (0 0 0)\n    (1 0 0)\n    (1 1 0)\n    (0 1 0)\n    (0 0 0.1)\n    (1 0 0.1)\n    (1 1 0.1)\n    (0 1 0.1)\n);\nblocks\n(\n    hex (0 1 2 3 4 5 6 7) (32 32 1) simpleGrading (1 1 1)\n);\nedges ();\nboundary\n(\n    xMin\n    {\n        type wall;\n        faces ((0 4 7 3));\n    }\n    xMax\n    {\n        type wall;\n        faces ((1 2 6 5));\n    }\n    yMin\n    {\n        type wall;\n        faces ((0 1 5 4));\n    }\n    yMax\n    {\n        type wall;\n        faces ((3 7 6 2));\n    }\n    zMin\n    {\n        type empty;\n        faces ((0 3 2 1));\n    }\n    zMax\n    {\n        type empty;\n        faces ((4 5 6 7));\n    }\n);\n",
+    "system/controlDict": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       dictionary;\n    object      controlDict;\n}\napplication     simpleFoam;\nstartFrom       startTime;\nstartTime       0;\nstopAt          endTime;\nendTime         2000;\ndeltaT          1;\nwriteControl    timeStep;\nwriteInterval   2000;\npurgeWrite      0;\nwriteFormat     ascii;\nwritePrecision  10;\nwriteCompression off;\ntimeFormat      general;\ntimePrecision   6;\nrunTimeModifiable true;\n",
+    "system/fvSchemes": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       dictionary;\n    object      fvSchemes;\n}\nddtSchemes\n{\n    default         steadyState;\n}\ngradSchemes\n{\n    default         Gauss linear;\n}\ndivSchemes\n{\n    default         none;\n    div(phi,U)      bounded Gauss linearUpwind grad(U);\n    div((nuEff*dev2(T(grad(U))))) Gauss linear;\n}\nlaplacianSchemes\n{\n    default         Gauss linear corrected;\n}\ninterpolationSchemes\n{\n    default         linear;\n}\nsnGradSchemes\n{\n    default         corrected;\n}\n",
+    "system/fvSolution": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       dictionary;\n    object      fvSolution;\n}\nsolvers\n{\n    p\n    {\n        solver          GAMG;\n        smoother        GaussSeidel;\n        tolerance       1e-11;\n        relTol          0.01;\n    }\n    pFinal\n    {\n        $p;\n        relTol          0;\n    }\n    U\n    {\n        solver          smoothSolver;\n        smoother        symGaussSeidel;\n        tolerance       1e-11;\n        relTol          0.01;\n    }\n}\nSIMPLE\n{\n    nNonOrthogonalCorrectors 0;\n    consistent      yes;\n    pRefCell        0;\n    pRefValue       0;\n    residualControl\n    {\n        p               1e-07;\n        U               1e-07;\n    }\n}\nPISO\n{\n    nCorrectors     2;\n    nNonOrthogonalCorrectors 0;\n    pRefCell        0;\n    pRefValue       0;\n}\nrelaxationFactors\n{\n    equations\n    {\n        U               0.9;\n    }\n}\n",
+    "system/probes": "FoamFile\n{\n    version     2.0;\n    format      ascii;\n    class       dictionary;\n    object      probes;\n}\ntype            probes;\nlibs            (sampling);\nfields          (p U);\ninterpolationScheme cellPoint;\nprobeLocations\n(\n    (0.5 0.25 0.05)\n    (0.5 0.5 0.05)\n    (0.5 0.75 0.05)\n    (0.25 0.5 0.05)\n    (0.75 0.5 0.05)\n    (0.25 0.75 0.05)\n    (0.75 0.75 0.05)\n);\n"
+  }
+}

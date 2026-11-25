@@ -133,6 +133,7 @@ existing moving-body schema and #35 exporters are unchanged.
 | [Sweep candidate](schemas/sweep-candidate.schema.json) | `hawa.sweeps.Candidate` |
 | [Callback identity](schemas/sweep-callback.schema.json) | `hawa.sweeps.CallbackIdentity` |
 | [Sweep poll/result](schemas/sweep-poll.schema.json) | `hawa.sweeps.Poll` |
+| [OpenFOAM case bundle](schemas/openfoam-case-bundle.schema.json) | `hawa.openfoam.OpenFoamCaseBundle` |
 
 The snapshot test resolves module-qualified class identities, so the new
 measurement `Body` cannot accidentally count the existing motion `Body` snapshot
