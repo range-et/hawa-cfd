@@ -930,3 +930,11 @@ Save data. Mac Rhino import/export/resume and exact same-machine CPU replay
 passed. This is workflow evidence, not numerical qualification or a new release.
 [Example](examples/native-prototype/34-save-import-resume.md) ·
 [Review](docs/review-workflow-examples.md).
+
+### November 24, 2026 — MPS teardown review repair (#76 partial)
+
+Completed-job close now uses asynchronous session cleanup, and async control
+captures its reply before released tensors become inaccessible. Deterministic
+regressions cover cleanup ownership, failed-pause retry and immediate completion.
+Live Rhino paused-memory acceptance remains open; this is not a release claim.
+[Review and measured scope](docs/review-mps-cleanup-followup.md).
