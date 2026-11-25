@@ -25,7 +25,11 @@ recorded on `simulation.wall_fallback_links`. Headless regressions cover an
 L-shape at dx 0.1/0.05/0.025, the `q = 0.49999999999999983` overlapping-box case,
 solid-isolated rest equilibrium and CPU/MPS agreement; 156 linked C# contracts
 and CPU/MPS device smoke (5/5 each) pass. Those fallback links are first order;
-no accuracy qualification or live Rhino check is claimed.
+no accuracy qualification or live Rhino check is claimed. A November 24 test-only
+follow-up retains the mean-speed assertion and adds full fluid velocity/pressure
+comparisons under the existing CPU/accelerator field policy; both pass for the
+40-step L-shape fixture. The failed pure-relative diagnostic and exact limits
+remain in the [follow-up review](docs/review-concave-wall-fields.md).
 
 ## November development buildlog and video publication (November 18, 2026)
 

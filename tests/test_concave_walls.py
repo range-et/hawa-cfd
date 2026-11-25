@@ -1,6 +1,7 @@
 """Regressions for concave-corner and midpoint curved-wall fallback (#78)."""
 import lettuce as lt
 import numpy as np
+import pytest
 import torch
 
 from hawa.plugin import Session
@@ -83,11 +84,16 @@ def test_midpoint_rounding_overlapping_boxes_and_live_flow_stability():
     assert np.isfinite(f_mid["velocity"]).all()
     assert np.isfinite(f_mid["pressure"]).all()
 
-    # Non-rest flow over the concave L-shape with q = 0.29 stays finite and matches across CPU/MPS
+
+
+@pytest.mark.skipif(not torch.backends.mps.is_available(), reason="MPS device unavailable")
+def test_concave_full_fluid_velocity_pressure_cpu_mps():
+    # Existing CPU/accelerator field criterion: scripts/compare_examples.py,
+    # including the SI conversion scales from scripts/example_worker.py.
     case, expected = _l_shape_case(fraction=0.29)
-    devices = ["cpu"] + (["mps"] if torch.backends.mps.is_available() else [])
+    fluid_fields = []
     speeds = []
-    for dev in devices:
+    for dev in ("cpu", "mps"):
         s = Session(case, dev)
         assert s.solver.wall_fallback_links == expected
         s.advance(40)
@@ -95,5 +101,17 @@ def test_midpoint_rounding_overlapping_boxes_and_live_flow_stability():
         assert np.isfinite(fields["velocity"]).all()
         assert np.isfinite(fields["pressure"]).all()
         assert abs(s.relative_mass_change) < 0.05
+        fluid = ~s.flow.solid.cpu().numpy()
+        fluid_fields.append((fields["velocity"][:, fluid], fields["pressure"][fluid], fluid))
         speeds.append(float(np.linalg.norm(fields["velocity"], axis=0).mean()))
+        if dev == "cpu":
+            velocity_scale = float(s.flow.units.convert_velocity_to_pu(1.0))
+            pressure_scale = float(s.flow.units.convert_density_lu_to_pressure_pu(2.0)
+                                   - s.flow.units.convert_density_lu_to_pressure_pu(1.0))
+    # Retain the original mean-speed assertion as a separate, weaker check.
     np.testing.assert_allclose(speeds, speeds[0], rtol=5e-4)
+    np.testing.assert_array_equal(fluid_fields[1][2], fluid_fields[0][2])
+    np.testing.assert_allclose(fluid_fields[1][0], fluid_fields[0][0],
+                               rtol=1e-3, atol=1e-5 * abs(velocity_scale), equal_nan=False)
+    np.testing.assert_allclose(fluid_fields[1][1], fluid_fields[0][1],
+                               rtol=1e-3, atol=1e-5 * abs(pressure_scale), equal_nan=False)
