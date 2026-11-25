@@ -21,6 +21,17 @@ share one worker. Status uses saved scalars after tensors are cleared. Memory
 cleanup has a separate lock that status/async submission never acquire; a
 blocked-cleanup test proves duplicate close/status return independently.
 
+A later Greptile P1 exposed a lock inversion: a query-wrapped close already owned
+`MPS_LOCK` and waited for `release_lock`, while async cleanup held `release_lock`
+and waited for `MPS_LOCK`. Cleanup now acquires the shared reentrant device lock
+before the per-session release lock. Neither lock is acquired by status or async
+submission. The scheduler/CLI agent's real query/public-close_async regression
+failed pre-fix in 2.14 seconds with both workers joined, then passed on Python
+3.9 and 3.12. The bounded release-lock probe prevents the regression test from
+stranding threads; it is CPU/fake-device evidence, not live Rhino scheduling.
+The post-fix broad CPU controls passed 94 tests (14 device deselections), and the
+M3 Max teardown test passed again in 0.49 seconds on this source.
+
 The asynchronous control path previously read status after starting cleanup;
 an immediate close could clear `flow` first. It now captures the reply before
 starting the worker. A synchronous thread double forces that adverse ordering.
@@ -30,15 +41,18 @@ Focused Python 3.9 job/session/stationary controls before the final CPU-selector
 rename: 91 passed, 16 device deselections. Final mutation controls include both
 CPU fake-cache cases. The full CPU diagnostic before the final assertion additions had
 2766 passes, 177 skips and four expected stale-policy failures; that diagnostic
-is not a passing full gate. Ruff passed. Final Python 3.9 CPU measured suite: **2777 passed, 177 skipped**; strict
+is not a passing full gate. Ruff passed. Final Python 3.9 CPU measured suite: **2778 passed, 177 skipped**; strict
 headless coverage: **1203 covered functions, zero failures**, against trusted
-base `0b81daee`. The 299 unmeasured host functions remain visible. The .NET
-StateContracts run completed through the same gate. CPU mutation/gate processes
+base `0b81daee`. The 299 unmeasured host functions remain visible. All 155 .NET
+StateContracts passed through the same post-lock-order gate. CPU mutation/gate processes
 overlapped; these are correctness checks, not performance measurements. Fresh CPU mutation studies currently pass:
 native-data 1056 mutants (946 killed, 110 reviewed survivors), status-truth 286
 (275 killed, 11 reviewed), numerical-export 1626 (1509 killed, 117 reviewed).
 Validity-foundation passes 2709 mutants (2476 killed, 233 reviewed); reviewed survivors are exact documented
-diffs, not a blanket score threshold.
+diffs, not a blanket score threshold. The status-truth runner now pins plugin.py
+and was genuinely rerun after the lock-order change. Policies bind selected
+execution dependencies, not the whole import graph; unchanged optimization
+imports retain historical bounded provenance limits.
 
 A fresh M3 Max teardown check on the final production source used a 64×48×32
 case and ten MPS steps: current memory returned within 1 MiB of baseline and
