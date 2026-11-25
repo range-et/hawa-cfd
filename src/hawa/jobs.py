@@ -255,6 +255,8 @@ def dispatch_job(request):
         if request.get('kind') == 'refine':
             from .refinement import check_refinement
             check_refinement(request)
+        from .admission import preflight_job
+        preflight_job(request)
         payload = {k:v for k,v in request.items() if k != 'op'}
         if request.get('kind') == 'stationary_study':
             from .stationary_study import StationaryStudyJob, validate_submission
