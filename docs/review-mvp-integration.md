@@ -2,8 +2,8 @@
 
 Date: November 24, 2026. Integrator/operator: Codex primary agent (self-review).
 Implementation and scoped reviews: Codex openfoam_walls, scheduler_cli and
-lifecycle_admission agents, as identified in the linked records. This is a local
-integration branch, not a merge into main or a release.
+lifecycle_admission agents, as identified in the linked records. This is the
+combined integration branch, not a merge into main or a release.
 
 An earlier bounded source review of cleanup/admission at `bd415bd` by openfoam_walls
 found no new actionable regression in job ownership/retries, close reply ordering,
