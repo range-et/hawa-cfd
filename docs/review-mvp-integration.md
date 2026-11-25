@@ -32,6 +32,30 @@ mutation runner conflict retained #133's superset of fixtures and CPU selection.
 
 ## Combined checks completed
 
+### November 25 final-PR review follow-up
+
+PR #135's review identified two defects despite the previous green checks.
+The lifecycle/admission agent reproduced cleanup clearing tensors while a CPU
+field capture held its session lock. Cleanup now takes locks in device, session,
+release order; the deterministic capture test and the earlier close-lock test
+pass on Python 3.9 and 3.12. The regression joins its workers on the failing path.
+Source audit found no current capture path taking the device lock while holding
+the separate CPU/CUDA session lock. Actual CUDA execution remains unverified.
+
+The OpenFOAM agent reproduced a Z-dependent parabolic inlet becoming six identical
+vectors in a 2D empty extrusion. Validation now rejects that combination before
+handoff or publication, with guidance to use a resolved 3D mesh. Tests retain
+in-plane X/Y profiles in 2D and analytically varying Z profiles in 3D; 87 focused
+tests pass on each Python version. This is validation repair, not a change to
+the numerical algorithms or tolerances used by the earlier comparisons.
+
+Fresh mutation policies and combined measured coverage are pending for these
+changes. The November 24 counts below are historical until the new gate finishes.
+The maintainer requested merge after review fixes and green checks on November 25;
+the previously disclosed live-host and qualification gaps remain open.
+
+### November 24 evidence
+
 - C# StateContracts: 159 pass after final OpenFOAM/wall/scheduler/annotation
   integration. The subsequent cleanup/admission changes affect Python only.
 - CPU diagnostic at `1aa2d94`: 2,733 pass, 251 deselected, one tooling failure
@@ -89,7 +113,7 @@ Rhino paused-RSS measurement.
 | --- | --- | --- |
 | G0 research | PASS (bounded integration) | Component records retain sources, criteria and exclusions; no new dependency or physics claim. |
 | G1 architecture | PASS (headless scope) | Scoped source reviews and deterministic ownership/scheduling tests; actual host behavior remains under G4/G6. |
-| G2 reliability | PASS (headless scope) | Reproducing close-lock regression, fresh mutation policies, complete measured suite and current matrix pass. Live host behavior remains under G4/G6. |
+| G2 reliability | BLOCKED (refresh pending) | November 25 review fixes pass focused tests; fresh mutation/full-suite evidence is pending. Live host behavior remains under G4/G6. |
 | G3 numerical physics | PASS (smoke scope only) | CPU/MPS five-case policy above; component numerical evidence retains its own exact source scope. Long-window qualification and PorousMedium parity remain open. |
 | G4 UI/UX | BLOCKED | Revised 08/22/25 markers, Stationary Study publication, example 33 refusals and embedded cleanup/paused RSS await live acceptance. |
 | G5 release/integration | BLOCKED | Repaired development build/package checks pass; installed acceptance and release remain pending. |

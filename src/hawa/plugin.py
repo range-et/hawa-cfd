@@ -467,7 +467,9 @@ class Session:
         """Break cyclic solver references and return cached MPS driver memory (#76)."""
         # Queries may already own the reentrant device lock. Keep one order
         # for every cleanup caller so asynchronous close cannot invert it.
-        with MPS_LOCK, self.release_lock:
+        # CPU/CUDA captures use a separate session lock; finish their snapshot
+        # before clearing tensors. On MPS this reacquires the same device lock.
+        with MPS_LOCK, self.lock, self.release_lock:
             if self.flow is not None:
                 self.released_status = self.status()
             device_type = self.backend.device.type if self.backend is not None else None

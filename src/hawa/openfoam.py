@@ -143,6 +143,8 @@ class OpenFoamCaseBundle(OpenFoamPayload):
             if ("periodic" in pair) and pair != ("periodic", "periodic"):
                 raise ValueError("Periodic boundaries must occur in opposite-face pairs")
         if self.dimensions == 2:
+            if any(c["profile"] == "parabolic" and c.get("profile_axis") == 2 for c in ordered):
+                raise ValueError("2D OpenFOAM extrusion cannot represent a Z-dependent parabolic profile; use dimensions=3 with a resolved Z mesh")
             if self.mesh.cells[2] != 1:
                 raise ValueError("2D OpenFOAM extrusion requires exactly 1 cell along z")
             if ordered[4]["type"] != "periodic" or ordered[5]["type"] != "periodic":

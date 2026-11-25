@@ -35,6 +35,52 @@ def test_parabolic_face_samples_all_velocity_components():
     assert text.endswith(');')
 
 
+def test_2d_z_parabolic_profile_rejected_before_handoff_or_publication(tmp_path):
+    spec, bundle, _ = openfoam.channel_poiseuille_case(6)
+    bundle['boundaries'][0]['condition']['profile_axis'] = 2
+    spec['boundary_set']['patches'][0]['condition']['profile_axis'] = 2
+    message = 'Z-dependent parabolic profile; use dimensions=3'
+    with pytest.raises(ValueError, match=message):
+        openfoam.validate_bundle(bundle)
+    destination = tmp_path / 'invalid-2d'
+    with pytest.raises(ValueError, match=message):
+        openfoam.write_openfoam_case(bundle, destination)
+    assert not destination.exists()
+    with pytest.raises(ValueError, match=message):
+        openfoam.bundle_from_hawa_spec(spec=spec, case_id='z-profile', description='Z profile',
+                                      probes=bundle['probes'], pressure_pairs=bundle['pressure_pairs'],
+                                      mesh=bundle['mesh'], dimensions=2)
+
+
+@pytest.mark.parametrize('axis', [0, 1, 2])
+def test_parabolic_profiles_remain_resolved_in_supported_dimensions(axis):
+    _, bundle, _ = openfoam.channel_poiseuille_case(6)
+    if axis == 0:
+        # Rotate the inlet/outlet to Y so X is an in-plane tangential axis.
+        for patch in bundle['boundaries']:
+            patch['face'] = patch['face'].translate(str.maketrans('xy', 'yx'))
+            if 'velocity' in patch['condition']:
+                velocity = patch['condition']['velocity']
+                velocity[0], velocity[1] = velocity[1], velocity[0]
+    elif axis == 2:
+        bundle['dimensions'] = 3
+        bundle['mesh']['cells'][2] = 4
+    inlet = bundle['boundaries'][0]
+    inlet['condition']['profile_axis'] = axis
+    openfoam.validate_bundle(bundle)
+    text = openfoam._render_parabolic_u_field(
+        bundle['domain_origin_m'], bundle['domain_size_m'], bundle['mesh']['cells'],
+        inlet['face'], inlet['condition']['velocity'], axis)
+    vectors = np.asarray([[float(x) for x in v.split()] for v in re.findall(r'\(([^()]+)\)', text)
+                          if len(v.split()) == 3])
+    centers = openfoam._blockmesh_patch_face_centers(
+        bundle['domain_origin_m'], bundle['domain_size_m'], bundle['mesh']['cells'], inlet['face'])
+    fraction = np.asarray(centers)[:, axis] / bundle['domain_size_m'][axis]
+    expected = (4 * fraction * (1 - fraction))[:, None] * inlet['condition']['velocity']
+    np.testing.assert_allclose(vectors, expected, rtol=1e-10, atol=1e-12)
+    assert np.ptp(np.linalg.norm(vectors, axis=1)) > 0
+
+
 def test_channel_physical_recipe_and_analytic_pressure_gradient():
     spec, bundle, analytic = openfoam.channel_poiseuille_case(8, lx=8, ly=2, u_max=2, nu=.1, rho=3, mach=.02)
     assert spec['shape'] == [33, 9, 4]

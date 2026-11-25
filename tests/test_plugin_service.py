@@ -666,3 +666,76 @@ def test_query_close_and_async_cleanup_use_consistent_device_lock_order(monkeypa
     assert query.state == 'completed', query.error
     assert query.result == {'closed': True}
     assert session.flow is None and device_lock.owner is None
+
+
+@pytest.mark.parametrize("shared", [False, True], ids=["separate-session-lock", "shared-device-lock"])
+def test_async_release_waits_for_complete_cpu_capture(monkeypatch, shared):
+    import threading
+    from hawa import fields, plugin
+
+    session = plugin.Session(dict(example='tgv3d-bgk', size=8), 'cpu')
+    session.advance(5)
+    plugin.SESSIONS[session.id] = session
+    flow = session.flow
+    captured, finish_capture, cleanup_checkpoint = (threading.Event() for _ in range(3))
+    frames, failures, cleanup_workers = [], [], []
+    original_fields, collect = session.fields, plugin.gc.collect
+    real_thread = threading.Thread
+
+    class CaptureLock:
+        def __init__(self): self.lock = plugin.DeviceLock() if shared else threading.RLock()
+        def __enter__(self):
+            if threading.current_thread() is not capture_worker:
+                # Signal before blocking: cleanup must wait for the entire frame.
+                cleanup_checkpoint.set()
+            assert self.lock.acquire(timeout=5), 'capture lock did not drain'
+        def __exit__(self, *args): self.lock.release()
+
+    def blocked_fields(*args, **kwargs):
+        arrays = original_fields(*args, **kwargs)
+        captured.set()
+        assert finish_capture.wait(5), 'capture was not resumed'
+        return arrays
+
+    def capture():
+        try: frames.append(fields.capture(session))
+        except Exception as exc: failures.append(exc)
+
+    def collecting():
+        # Pre-fix cleanup bypasses the capture lock and reaches collection early.
+        cleanup_checkpoint.set()
+        return collect()
+
+    def thread_factory(*args, **kwargs):
+        worker = real_thread(*args, **kwargs)
+        cleanup_workers.append(worker)
+        return worker
+
+    capture_worker = real_thread(target=capture, daemon=True)
+    capture_lock = CaptureLock()
+    monkeypatch.setattr(session, 'lock', capture_lock)
+    if shared: monkeypatch.setattr(plugin, 'MPS_LOCK', capture_lock)
+    monkeypatch.setattr(session, 'fields', blocked_fields)
+    monkeypatch.setattr(plugin.gc, 'collect', collecting)
+    monkeypatch.setattr(plugin.threading, 'Thread', thread_factory)
+    intact = False
+    try:
+        capture_worker.start()
+        assert captured.wait(5)
+        reply = plugin.dispatch(dict(op='close_async', session=session.id))
+        assert reply['session'] == session.id and reply['steps'] == 5
+        assert cleanup_checkpoint.wait(5)
+        intact = session.flow is flow and session.solver is not None
+        # Polling stays independent of a close waiting for capture ownership.
+        assert plugin.dispatch(dict(op='status', session=session.id))['steps'] == 5
+    finally:
+        finish_capture.set()
+        capture_worker.join(7)
+        for worker in cleanup_workers: worker.join(7)
+        plugin.SESSIONS.pop(session.id, None)
+        for frame in frames: fields.FRAMES.pop(frame['frame'], None)
+    assert not capture_worker.is_alive() and not any(t.is_alive() for t in cleanup_workers)
+    assert intact, 'cleanup cleared tensors while the capture lock was held'
+    assert not failures and len(frames) == 1
+    assert frames[0]['iteration'] == 5 and frames[0]['time'] == flow.units.convert_time_to_pu(5)
+    assert session.flow is session.solver is None
