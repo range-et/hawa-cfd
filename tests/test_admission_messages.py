@@ -333,3 +333,31 @@ def test_capture_estimate_matches_full_case_without_geometry_materialization():
     estimate = estimate_case_budget(attached)
     assert estimate['estimated_peak_with_series_mb'] == estimate['estimated_peak_mb']
     assert check_capture_budget(attached, 64)['estimated_peak_mb'] == estimate['estimated_peak_mb']
+
+
+@pytest.mark.parametrize('extra, expected_bytes, reserve', [
+    ({}, 218880, 64),
+    ({'moving_bodies': [{'id': 'worker-validates-body'}]}, 525312, 64),
+    ({'neutral_precursor': {'mode': 'precursor'}}, 525312, 64),
+    ({'boundary_field': {'schema': 'hawa-boundary-series-1'}}, 67327744, 64),
+    ({'boundary_field': {'schema': 'hawa-boundary-series-2'}}, 537089792, 64),
+])
+def test_estimator_uses_fixed_population_and_attachment_budgets(extra, expected_bytes, reserve):
+    from hawa.admission import estimate_case_budget
+    spec = dict(_basic_spec(), **extra)
+    report = estimate_case_budget(spec)
+    assert report['estimated_peak_mb'] == expected_bytes / 1024 ** 2
+    assert report['series_reserve_mb'] == reserve
+    assert report['estimated_boundary_preparation_mb'] == 0
+    assert report['estimated_peak_with_series_mb'] == report['estimated_peak_mb'] + (0 if extra.get('boundary_field') else reserve)
+
+
+def test_external_estimate_counts_exterior_union_and_accepts_exact_cell_cap():
+    from hawa.admission import estimate_case_budget
+    report = estimate_case_budget(_neutral_external_spec())
+    # 528 distinct nodes lie on the four open/velocity faces; edges count once.
+    assert report['estimated_boundary_preparation_mb'] == 16.5
+    assert report['estimated_peak_mb'] == 20453376 / 1024 ** 2
+    assert report['estimated_peak_with_series_mb'] == report['estimated_peak_mb'] + 512
+    limit = estimate_case_budget(_basic_spec(shape=(100, 100, 200), memory_limit_mb=4096))
+    assert limit['estimated_peak_mb'] == 1520000000 / 1024 ** 2
