@@ -361,3 +361,71 @@ def test_external_estimate_counts_exterior_union_and_accepts_exact_cell_cap():
     assert report['estimated_peak_with_series_mb'] == report['estimated_peak_mb'] + 512
     limit = estimate_case_budget(_basic_spec(shape=(100, 100, 200), memory_limit_mb=4096))
     assert limit['estimated_peak_mb'] == 1520000000 / 1024 ** 2
+
+
+def test_exact_budget_limits_and_attached_capture_reserve():
+    from hawa.admission import check_case_budget, check_example_budget, check_refinement_budget, estimate_case_budget
+    assert check_example_budget(1024, {}) == 1024
+    with pytest.raises(ValueError): check_example_budget(1024.01, {})
+    assert check_case_budget(1024**3, {}, False)['memory_limit_mb'] == 1024
+    with pytest.raises(ValueError): check_case_budget(1024**3 + 1, {}, False)
+    check_refinement_budget(32, 64, 96)
+    with pytest.raises(ValueError): check_refinement_budget(32, 64.01, 96)
+    # This shape has exactly 95 MiB base storage; adding one capture costs 64 MiB.
+    base = _basic_spec((64, 64, 32), memory_limit_mb=159)
+    assert check_capture_budget(base, 64)['estimated_peak_mb'] == 95
+    attached = dict(base, boundary_field={'schema': 'hawa-boundary-series-1'})
+    assert check_capture_budget(attached, 64)['estimated_peak_mb'] == 159
+    assert estimate_case_budget(_basic_spec((4, 4, 4)))['estimated_peak_mb'] == 48640 / 1024**2
+
+
+def test_external_budget_counts_each_asymmetric_face_once():
+    from hawa.admission import estimate_case_budget
+    spec = _neutral_external_spec((12, 10, 8))
+    spec['boundary_set']['patches'][1]['condition'] = {'type': 'wall', 'velocity': [0., 0., 0.]}
+    spec['boundary_set']['patches'][3]['condition'] = {'type': 'slip'}
+    # One x face and one y face, with their shared eight-node edge counted once.
+    assert estimate_case_budget(spec)['estimated_boundary_preparation_mb'] == (80 + 96 - 8) / 32
+
+
+def test_preflight_routes_only_boundary_capture_and_uses_default_reserve(tmp_path, monkeypatch):
+    import hawa.admission as admission
+    calls = []
+    monkeypatch.setattr(admission, 'check_capture_budget', lambda spec, reserve: calls.append((spec, reserve)))
+    preflight_job({'kind': 'query'})
+    preflight_job({'kind': 'query', 'request': {'op': 'boundary', 'action': 'info'}})
+    preflight_job({'kind': 'query', 'request': {'op': 'field', 'action': 'capture'}})
+    spec = _basic_spec()
+    preflight_job({'kind': 'query', 'request': {'op': 'boundary', 'action': 'capture',
+                  'case': spec, 'path': str(tmp_path / 'new.npz')}})
+    assert calls == [(spec, 64)]
+
+
+def test_output_paths_validate_nested_ancestor_and_report_actual_path(tmp_path, monkeypatch):
+    nested = tmp_path / 'new' / 'nested' / 'output'
+    assert validate_new_output_dir(nested) == nested
+    existing = tmp_path / 'exists'; existing.write_text('preserve')
+    for validate in (validate_new_output_dir, validate_new_output_file):
+        with pytest.raises(ValueError) as exc: validate(existing)
+        assert str(existing) in str(exc.value)
+    with pytest.raises(ValueError, match='Output folder does not exist') as exc:
+        validate_new_output_file(existing / 'child.npz')
+    assert str(existing) in str(exc.value)
+    missing = tmp_path / 'absent' / 'child.npz'
+    with pytest.raises(ValueError) as exc: validate_new_output_file(missing)
+    assert str(missing.parent) in str(exc.value)
+    monkeypatch.setattr(os, 'access', lambda *args: False)
+    for validate in (validate_new_output_dir, validate_new_output_file):
+        with pytest.raises(ValueError) as exc: validate(tmp_path / 'new-output')
+        assert str(tmp_path) in str(exc.value)
+
+
+def test_example_admission_report_preserves_public_fields():
+    from hawa.plugin import case_key
+    spec = {'example': 'tgv3d-bgk', 'size': 8}
+    report = check_case(spec)
+    assert report['valid'] is True
+    assert report['case_hash'] == case_key(spec)
+    assert report['example'] == 'tgv3d-bgk'
+    assert report['estimated_peak_mb'] > 0
+    assert report['memory_limit_mb'] == 1024
