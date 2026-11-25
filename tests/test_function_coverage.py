@@ -229,3 +229,11 @@ def test_failed_suite_never_creates_success_matrix(tmp_path):
     output=tmp_path/'failed'
     with pytest.raises(ValueError,match='failure'):fc.run(root,output)
     assert not (output/'matrix.json').exists()
+
+
+def test_cli_help_prints_strict_requirement_and_exits_zero(capsys):
+    with pytest.raises(SystemExit) as exc:
+        fc.main(['--help'])
+    assert exc.value.code == 0
+    out = ' '.join(capsys.readouterr().out.split())
+    assert '--strict' in out and '100% first-party executable functions and lines' in out
