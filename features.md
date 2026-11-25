@@ -15,6 +15,15 @@ git history at commit cc407cc. See the release review for distribution
 claims and the [coverage matrix](examples/grasshopper/VERIFICATION.md) for required
 example checks.
 
+## Combined MVP headless verification (November 24, 2026)
+
+The local integration of PRs #128–#134 passes 2,985 Python tests (87 skipped),
+159 C# state contracts and strict headless function coverage after repairing a
+review-discovered synchronous/asynchronous close lock inversion. The committed
+matrix is freshly measured. Live Rhino acceptance, broader qualification and
+release remain open; this is not merged into main or installed.
+[Combined evidence and limits](docs/review-mvp-integration.md).
+
 ## Retained poll timer repair (November 24, 2026)
 
 PR #130 now retains the UI timer throughout a drain, including when one due

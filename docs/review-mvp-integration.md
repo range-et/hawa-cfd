@@ -5,7 +5,7 @@ Implementation and scoped reviews: Codex openfoam_walls, scheduler_cli and
 lifecycle_admission agents, as identified in the linked records. This is a local
 integration branch, not a merge into main or a release.
 
-Final bounded source review of cleanup/admission at `bd415bd` by openfoam_walls
+An earlier bounded source review of cleanup/admission at `bd415bd` by openfoam_walls
 found no new actionable regression in job ownership/retries, close reply ordering,
 worker validation, budget arithmetic or validated output-path use. That review
 ran no tests and does not establish exhaustive concurrency or host acceptance.
@@ -20,13 +20,13 @@ claim that every open GitHub issue or the full product roadmap is complete.
 - [Concave wall fields](review-concave-wall-fields.md): PR #129 `b558e9a`.
 - [Scheduler retry](review-poll-retry.md): PR #130 `844564b`.
 - Coverage CLI percent escape: PR #131 `fcac445`.
-- [Session cleanup](review-mps-cleanup-followup.md): PR #132; final evidence pending.
-- [Admission and paths](review-admission-followup.md): PR #133 stacked on #132;
-  final evidence pending.
+- [Session cleanup](review-mps-cleanup-followup.md): PR #132 `efab9ec`.
+- [Admission and paths](review-admission-followup.md): PR #133 `f411d69`, stacked
+  on #132.
 - [Boundary markers](review-boundary-tick-legibility.md): draft #134 `8030a33`.
 
-Generated function matrices chosen during local merges are provisional until a
-fresh combined measurement replaces them. No conflicting feature history was
+The generated function matrices are refreshed from the final combined measurement.
+No conflicting feature history was
 discarded. Production files merged without manual conflict resolution; the
 mutation runner conflict retained #133's superset of fixtures and CPU selection.
 
@@ -54,9 +54,22 @@ mutation runner conflict retained #133's superset of fixtures and CPU selection.
   This passing run does not establish merge readiness. A public-path two-thread
   regression reproduces the inversion before repair and passes on Python 3.9/3.12
   after enforcing device-lock-before-release-lock order. It unwinds and joins its
-  workers on the failing path. The repair is integrated at `ca5ed03`; refreshed
-  evidence is pending. Retain the original run under
+  workers on the failing path. The repair is integrated at `ca5ed03`. Retain the
+  original run under
   `results/function-coverage-combined-final-20261124/` as pre-repair evidence.
+- Final repaired gate at `5a1e182`: 2,985 Python tests pass, 87 skip, 215 warnings;
+  159 C# StateContracts pass; 1,240 functions covered and zero strict headless
+  failures. The 299 unmeasured host functions remain explicit debt. Output:
+  `results/function-coverage-combined-lockorder-20261124/`. The final component
+  merge at `aa248cd` changes only records: source, tests, tools, scripts, plugin
+  and vendor files are byte-identical to the measured version. The rendered
+  committed matrix passes its baseline check against `origin/main` (`0b81dae`).
+  Separate CPU coverage runs overlapped; no other standalone MPS measurement ran
+  concurrently. This is not performance evidence.
+- All four cleanup/admission mutation policies pass fresh post-repair studies.
+  The status runner now pins its changed `plugin.py` dependency. Policies pin
+  selected files, not the complete transitive import graph; their review records
+  retain that provenance limit and the explicitly unresolved assertion debt.
 
 The diagnostic and smoke runs use macOS/Apple M3 Max, Python 3.9 and pinned
 PyTorch 2.8.0. C# checks/build use the private .NET 10 toolchain; the plugin target
@@ -65,7 +78,7 @@ repair does not change the numerical modules exercised by device smoke; it needs
 separate lifecycle evidence. The repaired source passes the standalone MPS
 teardown test (64 x 48 x 32, ten steps): current allocation within 1 MiB of
 baseline, driver allocation below the existing 25%-of-peak limit. This is not a
-Rhino paused-RSS measurement. Final full-suite evidence is pending.
+Rhino paused-RSS measurement.
 
 ## Gate disposition and remaining work
 
@@ -73,10 +86,10 @@ Rhino paused-RSS measurement. Final full-suite evidence is pending.
 | --- | --- | --- |
 | G0 research | PASS (bounded integration) | Component records retain sources, criteria and exclusions; no new dependency or physics claim. |
 | G1 architecture | PASS (headless scope) | Scoped source reviews and deterministic ownership/scheduling tests; actual host behavior remains under G4/G6. |
-| G2 reliability | BLOCKED | Close lock inversion repaired with a reproducing regression; fresh mutation/full-suite evidence pending. |
+| G2 reliability | PASS (headless scope) | Reproducing close-lock regression, fresh mutation policies, complete measured suite and current matrix pass. Live host behavior remains under G4/G6. |
 | G3 numerical physics | PASS (smoke scope only) | CPU/MPS five-case policy above; component numerical evidence retains its own exact source scope. Long-window qualification and PorousMedium parity remain open. |
 | G4 UI/UX | BLOCKED | Revised 08/22/25 markers, Stationary Study publication, example 33 refusals and embedded cleanup/paused RSS await live acceptance. |
-| G5 release/integration | BLOCKED | Local package builds, but final evidence and installed acceptance are incomplete. No release. |
+| G5 release/integration | BLOCKED | Repaired candidate packaging and installed acceptance remain pending. No release. |
 | G6 compatibility/examples | BLOCKED | Full gallery, Windows/CUDA and measured host coverage not completed. Existing compatibility/example matrices retain their stated limits. |
 
 Rhino's normal Exit did not complete in the owned test session. No process was
