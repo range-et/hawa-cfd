@@ -170,9 +170,9 @@ class Job:
                     self.cleanup_pending = True
                     clean = True
             if clean:
-                self.cleanup()
+                self.release_owned_session()
 
-    def cleanup(self):
+    def release_owned_session(self):
         """Release off the caller thread, retaining the public job ID on failure."""
         owned = self.session
         try:
@@ -189,8 +189,6 @@ class Job:
         except Exception as exc:
             owned.error = str(exc)
             owned.state = 'failed'
-            with REGISTRY_LOCK:
-                SESSIONS[owned.id] = owned
             with self.condition:
                 self.error = str(exc)
                 self.state = 'failed'
@@ -221,10 +219,10 @@ class Job:
                         with self.session.lifecycle:
                             self.session.release_requested = True
                     self.session.stop.set()
-                if self.state in ('completed', 'cancelled', 'failed') and not self.cleanup_pending:
+                if self.request.get('kind') != 'stationary_study' and self.state in ('completed', 'cancelled', 'failed') and not self.cleanup_pending:
                     self.cleanup_pending = True
                     try:
-                        threading.Thread(target=self.cleanup, name='Hawa job cleanup', daemon=True).start()
+                        threading.Thread(target=self.release_owned_session, name='Hawa job cleanup', daemon=True).start()
                     except Exception:
                         self.cleanup_pending = False
                         raise
@@ -277,7 +275,7 @@ def dispatch_job(request):
     if request['op'] == 'evaluate_control':
         action = request['action']
         job.control(action)
-        if action == 'close' and not isinstance(job, Job):
+        if action == 'close' and job.request.get('kind') == 'stationary_study':
             with LOCK:
                 JOBS.pop(job.id, None)
     elif request['op'] != 'evaluate_poll':

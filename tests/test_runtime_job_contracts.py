@@ -358,7 +358,7 @@ def test_failed_worker_release_retains_retryable_session(monkeypatch):
     assert job.state == 'failed' and job.error == 'release failed after clearing tensors'
     assert job.session.status()['state'] == 'failed'
     assert job.session.status()['error'] == job.error
-    assert jobs.SESSIONS[session.id] is session and session.flow is None
+    assert session.id not in jobs.SESSIONS and session.flow is None
     monkeypatch.setattr(plugin.Session, 'release', original_release)
     class ImmediateThread:
         def __init__(self, target, **kwargs): self.target = target
@@ -404,7 +404,7 @@ def test_close_during_preparation_retains_public_job_retry_after_release_failure
     assert not job.thread.is_alive()
     failed = jobs.dispatch_job(dict(op='evaluate_poll', job=job.id))
     assert failed['state'] == 'failed' and failed['error'] == 'injected finalizer cleanup failure'
-    assert jobs.SESSIONS[sid] is job.session and job.session.status()['state'] == 'failed'
+    assert sid not in jobs.SESSIONS and job.session.status()['state'] == 'failed'
     monkeypatch.setattr(plugin.Session, 'release', original_release)
     class ImmediateThread:
         def __init__(self, target, **kwargs): self.target = target
@@ -435,3 +435,26 @@ def test_job_cleanup_thread_start_failure_retains_retry_owner(monkeypatch):
     monkeypatch.setattr(jobs.threading, 'Thread', ImmediateThread)
     jobs.dispatch_job(dict(op='evaluate_control', job=job.id, action='close'))
     assert job.id not in jobs.JOBS and sid not in jobs.SESSIONS
+
+
+def test_failed_job_cleanup_does_not_resurrect_independently_closed_session(monkeypatch):
+    job = jobs.Job(dict(kind='create', case=dict(example='tgv3d-bgk', size=8), device='cpu'))
+    jobs.JOBS[job.id] = job
+    job.work()
+    session = job.session
+    original_release = plugin.Session.release
+    def fail_after_external_close(owned):
+        # Deterministically place another successful owner close before failure handling.
+        monkeypatch.setattr(plugin.Session, 'release', original_release)
+        plugin.dispatch(dict(op='close', session=owned.id))
+        raise RuntimeError('job cleanup failed after independent close')
+    monkeypatch.setattr(plugin.Session, 'release', fail_after_external_close)
+    class ImmediateThread:
+        def __init__(self, target, **kwargs): self.target = target
+        def start(self): self.target()
+    monkeypatch.setattr(jobs.threading, 'Thread', ImmediateThread)
+    jobs.dispatch_job(dict(op='evaluate_control', job=job.id, action='close'))
+    assert session.id not in jobs.SESSIONS
+    assert jobs.JOBS[job.id] is job and job.session is session and job.state == 'failed'
+    jobs.dispatch_job(dict(op='evaluate_control', job=job.id, action='close'))
+    assert session.id not in jobs.SESSIONS and job.id not in jobs.JOBS
