@@ -21,7 +21,8 @@ The shared annotation renderer uses four separated, white-haloed strokes for
 open/outlet ticks, preserving their inward-normal endpoints and distinction from
 pressure ticks and velocity arrows. Fresh installed-host checks reproduced the
 faint/invisible tick on examples 22/08 with computed fields. The revised renderer
-passes 155 C# contracts and builds; revised live acceptance remains pending, so
+passes 2,846 Python tests and 155 C# contracts, the strict headless coverage gate
+and a development build; revised live acceptance remains pending, so
 [#108](https://github.com/range-et/hawa-cfd/issues/108) stays open. No solver or
 release claim. [Review and current evidence](docs/review-boundary-tick-legibility.md).
 

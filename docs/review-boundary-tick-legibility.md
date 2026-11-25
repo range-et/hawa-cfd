@@ -1,6 +1,8 @@
 # Boundary tick legibility follow-up (#108)
 
-Date: November 24, 2026. Reviewer/operator: Codex primary agent.
+Date: November 24, 2026. Author/operator: Codex primary agent.
+Additional read-only source/contract review: Codex scheduler_cli agent; no
+source blocker found, projected tick length remains a live acceptance concern.
 Scope: shared native/GH display only; no solver, units, boundary assignment,
 archive identity or public node changes.
 
@@ -39,19 +41,32 @@ legibility. Existing foreground, label, stale-result and visibility checks remai
   `5eef4a56a175a04c2f110eb3ff9492b9f2c8213397a103b9564c1cbfef420bae`.
 - Local artifacts: `results/mvp-acceptance-20261124/` (owned copies, native state,
   GH monitor, before screenshots). Source templates were not modified.
-- Revised code: 155 C# StateContracts pass; development package builds with
-  existing platform/nullability warnings and no errors.
+- Revised code at `a16d4b0`: 155 C# StateContracts pass. Full Python 3.9 measured
+  suite: 2,846 passed, 87 skipped, 215 warnings; strict headless coverage:
+  1,201 covered functions, zero failures, 299 host functions still unmeasured.
+  Available-device tests ran while another coverage suite/mutation workers were
+  active; this is not exclusive-device performance evidence. CUDA is unavailable.
+- Development package builds with existing platform/nullability warnings and no
+  errors. ZIP integrity passes and legacy example 09 is absent. Revised shared
+  assembly SHA-256:
+  `ffced5de47d052ff050a0b93df30574d9d7a6d30441a3c54c4353253dc4dde9c`.
+  This assembly has not yet been installed or visually accepted.
+- Reproduction: `tools/function_coverage.py run --base-ref origin/main --strict
+  --coverage-scope headless --output results/function-coverage-annotation-20261124`
+  using `.venv/bin/python`, .NET 10.0.404 and one CPU thread; followed by matrix
+  render/check. Development build uses `scripts/build_plugin.py` with unique
+  `dist/Hawa-annotation-review` staging and archive paths. Local Markdown links pass.
 
 ## Gate disposition
 
-G0/G1: bounded display decision; accepted assignment and physical geometry unchanged.
-G2: focused contracts pass; full measured gate pending.
-G3: no solver change; numerical interpretation unchanged. Short CPU runs are not
-convergence or physical validation; the example 08 quality warning stays visible.
-G4: revised live 08/22/25 captures pending normal Rhino restart/install. The
-normal Exit request did not complete; no process was killed and no loaded
-assembly was replaced. Windows remains unverified.
-G5: development build only, not a released package.
-G6: no new node, format or supported physics combination; full gallery not run.
+| Gate | Decision | Evidence and limits |
+| --- | --- | --- |
+| G0 research | PASS (bounded display) | Preserve broken inward-normal marker semantics; no new API/dependency. |
+| G1 architecture | PASS | Accepted assignments, physical endpoints, archive identities and foreground ownership unchanged; source review by primary and scheduler_cli agents. |
+| G2 reliability | PASS (headless) | Full measured suite, contracts, matrix and build above. |
+| G3 numerical physics | NOT APPLICABLE (solver verification) | Display-only stroke change; units/labels/normal direction unchanged. CPU30 is not convergence; example08 quality warning retained. |
+| G4 UI/UX | BLOCKED | Revised live08/22/25 captures await normal Rhino restart/install. Normal Exit did not complete; no process killed or loaded assembly replaced. Windows unverified. |
+| G5 release | NOT APPLICABLE | Development package only; no release or installed-candidate claim. |
+| G6 compatibility/examples | BLOCKED (host acceptance) | No new node/format/physics combination. Revised examples and full gallery not run. |
 
 Issue #108 remains open until revised-build live acceptance completes.
