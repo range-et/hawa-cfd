@@ -72,7 +72,7 @@
     "scripts/check_compatibility_evidence.py": "ef2c7669e5d8c9f49b3e1659d48103a03f621771a9cae254157f7f5c1975f790",
     "scripts/compare_engines.py": "f16f5a79c9991db76ad49cd20e7d46f8fa001bd8087cfbbac7b0b57603f5d4d9",
     "scripts/compare_examples.py": "8016670dea6795459d561991db2d2186dd6600873f32fc79c2fda636f9942c2a",
-    "scripts/compare_openfoam_controls.py": "f622fbb23c55ecaf52acfbaa62b038e0ec70648ba3d97925d43e8bdf6e256739",
+    "scripts/compare_openfoam_controls.py": "0c644b234d19670f987af0c5a30347822924e1efc3a656e2ecd68a013c2ccdf6",
     "scripts/create_native_icons.py": "dbde98471f9723874522330e43479a2251d18a1110ccc74df9f8ca337d46f461",
     "scripts/device_smoke.py": "1af89d076fe7b662be5f4035df91981b2e446a413c2d7e957b71aa40c79bd445",
     "scripts/diagnose_kbc_parity.py": "e346178ea3e12e770b76e915f132e2c6d549b80f9e92d4704f54350b2acd4e6b",
@@ -145,7 +145,7 @@
     "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090",
     "src/hawa/neutral.py": "a409f22e162a9bb726cc4f947d4aaabf4223042c6f640ac11b330e03741039bd",
     "src/hawa/neutral_external.py": "62c99b509d1a46daab83fa4980ece0bf5fd0715b4ee02c2138693065ea16f14c",
-    "src/hawa/openfoam.py": "784d2928725f714f71251b84dd8bd020cb465ae834480649f52b278542e80895",
+    "src/hawa/openfoam.py": "dcc48ffa252ca17afda505b729be34f80b6fc84554fed6f1ee91783c03f3ce91",
     "src/hawa/optimization.py": "a7a7f910da56c1de3ad80867f36d8f37480ba7948fb144d1b8bf2de022dac3d9",
     "src/hawa/plugin.py": "a54abd1eb7e147432882a6c390528e8976304c4432804b173068f2df1dc0f289",
     "src/hawa/quality.py": "db49c0e52c705177f012da3715eb5b617b7b881a12dce877355133ef85743db3",
@@ -230,7 +230,8 @@
     "tests/test_neutral_external.py": "5f8085a365602667e8e01e81dfb9cec9e3ba9a58436c6913ba2e533fed1b29ed",
     "tests/test_neutral_nesting_verification.py": "2f3ba5e20d4fb5dbd0a78fa610acedd170c339ba93b96cc06884ac7448446a54",
     "tests/test_numerical_tool_quality_completion.py": "44e304621e256dc2cfd7a6681e84095b9e88bb80b751da777d4e264ab2a252a1",
-    "tests/test_openfoam.py": "1b73bac30a33eaac9abfcbfaec21660b3c00e007537fa37b894a9a9ef0b549d1",
+    "tests/test_openfoam.py": "9a9132153149b9f8c86bab551905714c2a708b610059dd1b99c9e8207206f625",
+    "tests/test_openfoam_contracts.py": "62b0a3f44cd9a02d659a9763f6d9cddf661986e8ac5607e799935c66315ebb75",
     "tests/test_optimization.py": "c6b79f44a0b477584316355d6953f6de9ac967c5e456ba78a65202e1157a5a23",
     "tests/test_orchestration_quality_completion.py": "57d67e7e900474c64ebfe376f3886cd59fe7a060341d35b6a03baed82ac4c0a6",
     "tests/test_outflow.py": "6be72f0ab31ce4eacb61eea778126d63a2cc13790ee1c8c8f8a8add0c3355e70",
@@ -1905,6 +1906,82 @@
       "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
       "tests/test_openfoam.py::test_sample_regular_grid_and_compare_probe_results",
       "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+      "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky]",
+      "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky-v1]",
+      "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[shifted-regularized-sgs-v1]",
+      "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[unknown]",
+      "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[velocity-2]",
+      "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[pressure_pa-1]",
+      "tests/test_openfoam.py::test_reference_cell_upper_bound",
+      "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+      "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+      "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+      "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]",
+      "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]",
+      "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]",
+      "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-velocity_m_s]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-pressure_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-delta_p_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-gradient_pa_m]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-velocity_m_s]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-pressure_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-delta_p_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-gradient_pa_m]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-velocity_m_s]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-pressure_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-delta_p_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-gradient_pa_m]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-velocity_m_s]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-pressure_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-delta_p_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-gradient_pa_m]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-velocity_m_s]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-pressure_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-delta_p_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-gradient_pa_m]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-velocity_m_s]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-pressure_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-delta_p_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-gradient_pa_m]",
+      "tests/test_openfoam.py::test_compare_rejects_bad_vector_analytic_tolerance_and_overflow",
+      "tests/test_openfoam.py::test_generated_shifted_uneven_grids_preserve_affine_fields[2]",
+      "tests/test_openfoam.py::test_generated_shifted_uneven_grids_preserve_affine_fields[3]",
+      "tests/test_openfoam.py::test_git_provenance_hashes_changed_untracked_deleted_and_symlink_contents",
+      "tests/test_openfoam.py::test_git_provenance_rejects_unknown_source_and_hashes_symlink_targets",
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[x--expected0]",
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[x+-expected1]",
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[y--expected2]",
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[y+-expected3]",
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[z--expected4]",
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[z+-expected5]",
+      "tests/test_openfoam_contracts.py::test_parabolic_face_samples_all_velocity_components",
+      "tests/test_openfoam_contracts.py::test_channel_physical_recipe_and_analytic_pressure_gradient",
+      "tests/test_openfoam_contracts.py::test_cavity_physical_recipe_and_moving_lid",
+      "tests/test_openfoam_contracts.py::test_pressure_pair_distance_sign_and_observable_drift",
+      "tests/test_openfoam_contracts.py::test_generated_dictionaries_match_solver_verified_control_artifacts[channel_poiseuille_ny10]",
+      "tests/test_openfoam_contracts.py::test_generated_dictionaries_match_solver_verified_control_artifacts[cavity_re10_n32]",
+      "tests/test_openfoam_contracts.py::test_comparison_metrics_use_declared_velocity_and_pressure_scales",
+      "tests/test_openfoam_contracts.py::test_omitted_render_defaults_match_explicit_physical_defaults",
+      "tests/test_openfoam_contracts.py::test_three_dimensional_cyclic_slip_pressure_units_and_transient_time",
+      "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[v2506]",
+      "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[v2312]",
+      "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[13]",
+      "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[]",
+      "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[v2606-custom]",
+      "tests/test_openfoam_contracts.py::test_control_suite_rejects_empty_required_inventory[channels0-cavities0]",
+      "tests/test_openfoam_contracts.py::test_control_suite_rejects_empty_required_inventory[channels1-cavities1]",
+      "tests/test_openfoam_contracts.py::test_control_suite_rejects_empty_required_inventory[channels2-cavities2]",
+      "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[None]",
+      "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[convergence]",
+      "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[settling]",
+      "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[comparison]",
+      "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[sensitivity]",
+      "tests/test_openfoam_contracts.py::test_cli_default_paths_device_and_failure_exit",
+      "tests/test_openfoam_contracts.py::test_comparison_rejects_overflowed_scales_and_derived_metrics",
+      "tests/test_openfoam_contracts.py::test_gradient_disagreement_cannot_pass_pressure_gate",
+      "tests/test_openfoam_contracts.py::test_cli_failed_rerun_replaces_old_completed_report_before_work",
+      "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
       "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
       "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cuda:0]",
       "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -4803,12 +4880,88 @@
       "tests/test_numerical_tool_quality_completion.py::test_neutral_adjustment_computes_variance_and_stops_on_rejection[2]",
       "tests/test_numerical_tool_quality_completion.py::test_neutral_adjustment_computes_variance_and_stops_on_rejection[None]",
       "tests/test_openfoam.py::test_bundle_from_hawa_spec_rejects_unsupported_features",
+      "tests/test_openfoam.py::test_compare_rejects_bad_vector_analytic_tolerance_and_overflow",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-delta_p_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-gradient_pa_m]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-pressure_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-velocity_m_s]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-delta_p_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-gradient_pa_m]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-pressure_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-velocity_m_s]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-delta_p_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-gradient_pa_m]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-pressure_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-velocity_m_s]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-delta_p_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-gradient_pa_m]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-pressure_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-velocity_m_s]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-delta_p_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-gradient_pa_m]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-pressure_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-velocity_m_s]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-delta_p_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-gradient_pa_m]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-pressure_pa]",
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-velocity_m_s]",
       "tests/test_openfoam.py::test_control_case_builders_and_schema_validation",
       "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
+      "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[pressure_pa-1]",
+      "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[velocity-2]",
+      "tests/test_openfoam.py::test_generated_shifted_uneven_grids_preserve_affine_fields[2]",
+      "tests/test_openfoam.py::test_generated_shifted_uneven_grids_preserve_affine_fields[3]",
+      "tests/test_openfoam.py::test_git_provenance_hashes_changed_untracked_deleted_and_symlink_contents",
+      "tests/test_openfoam.py::test_git_provenance_rejects_unknown_source_and_hashes_symlink_targets",
+      "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[shifted-regularized-sgs-v1]",
+      "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky-v1]",
+      "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky]",
+      "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[unknown]",
       "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
       "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback",
+      "tests/test_openfoam.py::test_reference_cell_upper_bound",
+      "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+      "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]",
+      "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]",
+      "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]",
+      "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+      "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+      "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]",
       "tests/test_openfoam.py::test_sample_regular_grid_and_compare_probe_results",
       "tests/test_openfoam.py::test_schema_rejections_cover_all_contract_invariants",
+      "tests/test_openfoam_contracts.py::test_cavity_physical_recipe_and_moving_lid",
+      "tests/test_openfoam_contracts.py::test_channel_physical_recipe_and_analytic_pressure_gradient",
+      "tests/test_openfoam_contracts.py::test_cli_default_paths_device_and_failure_exit",
+      "tests/test_openfoam_contracts.py::test_cli_failed_rerun_replaces_old_completed_report_before_work",
+      "tests/test_openfoam_contracts.py::test_comparison_metrics_use_declared_velocity_and_pressure_scales",
+      "tests/test_openfoam_contracts.py::test_comparison_rejects_overflowed_scales_and_derived_metrics",
+      "tests/test_openfoam_contracts.py::test_control_suite_rejects_empty_required_inventory[channels0-cavities0]",
+      "tests/test_openfoam_contracts.py::test_control_suite_rejects_empty_required_inventory[channels1-cavities1]",
+      "tests/test_openfoam_contracts.py::test_control_suite_rejects_empty_required_inventory[channels2-cavities2]",
+      "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[13]",
+      "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[]",
+      "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[v2312]",
+      "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[v2506]",
+      "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[v2606-custom]",
+      "tests/test_openfoam_contracts.py::test_generated_dictionaries_match_solver_verified_control_artifacts[cavity_re10_n32]",
+      "tests/test_openfoam_contracts.py::test_generated_dictionaries_match_solver_verified_control_artifacts[channel_poiseuille_ny10]",
+      "tests/test_openfoam_contracts.py::test_gradient_disagreement_cannot_pass_pressure_gate",
+      "tests/test_openfoam_contracts.py::test_omitted_render_defaults_match_explicit_physical_defaults",
+      "tests/test_openfoam_contracts.py::test_parabolic_face_samples_all_velocity_components",
+      "tests/test_openfoam_contracts.py::test_pressure_pair_distance_sign_and_observable_drift",
+      "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
+      "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[None]",
+      "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[comparison]",
+      "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[convergence]",
+      "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[sensitivity]",
+      "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[settling]",
+      "tests/test_openfoam_contracts.py::test_three_dimensional_cyclic_slip_pressure_units_and_transient_time",
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[x+-expected1]",
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[x--expected0]",
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[y+-expected3]",
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[y--expected2]",
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[z+-expected5]",
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[z--expected4]",
       "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
       "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
       "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -28639,6 +28792,1070 @@
         ]
       ],
       "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky-v1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[shifted-regularized-sgs-v1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[unknown]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[velocity-2]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[pressure_pa-1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_reference_cell_upper_bound": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-velocity_m_s]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-pressure_pa]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-delta_p_pa]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-gradient_pa_m]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-velocity_m_s]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-pressure_pa]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-delta_p_pa]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-gradient_pa_m]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-velocity_m_s]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-pressure_pa]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-delta_p_pa]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-gradient_pa_m]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-velocity_m_s]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-pressure_pa]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-delta_p_pa]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-gradient_pa_m]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-velocity_m_s]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-pressure_pa]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-delta_p_pa]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-gradient_pa_m]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-velocity_m_s]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-pressure_pa]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-delta_p_pa]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-gradient_pa_m]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_compare_rejects_bad_vector_analytic_tolerance_and_overflow": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_generated_shifted_uneven_grids_preserve_affine_fields[2]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_generated_shifted_uneven_grids_preserve_affine_fields[3]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_git_provenance_hashes_changed_untracked_deleted_and_symlink_contents": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam.py::test_git_provenance_rejects_unknown_source_and_hashes_symlink_targets": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[x--expected0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[x+-expected1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[y--expected2]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[y+-expected3]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[z--expected4]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[z+-expected5]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_parabolic_face_samples_all_velocity_components": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_channel_physical_recipe_and_analytic_pressure_gradient": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_cavity_physical_recipe_and_moving_lid": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_pressure_pair_distance_sign_and_observable_drift": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_generated_dictionaries_match_solver_verified_control_artifacts[channel_poiseuille_ny10]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_generated_dictionaries_match_solver_verified_control_artifacts[cavity_re10_n32]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_comparison_metrics_use_declared_velocity_and_pressure_scales": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_omitted_render_defaults_match_explicit_physical_defaults": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_three_dimensional_cyclic_slip_pressure_units_and_transient_time": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[v2506]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[v2312]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[13]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[v2606-custom]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_control_suite_rejects_empty_required_inventory[channels0-cavities0]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_control_suite_rejects_empty_required_inventory[channels1-cavities1]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_control_suite_rejects_empty_required_inventory[channels2-cavities2]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[None]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[convergence]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[settling]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[comparison]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[sensitivity]": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_cli_default_paths_device_and_failure_exit": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_comparison_rejects_overflowed_scales_and_derived_metrics": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_gradient_disagreement_cannot_pass_pressure_gate": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_cli_failed_rerun_replaces_old_completed_report_before_work": [
+        [
+          "setup",
+          "passed"
+        ],
+        [
+          "call",
+          "passed"
+        ],
+        [
+          "teardown",
+          "passed"
+        ]
+      ],
+      "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity": [
         [
           "setup",
           "passed"
@@ -69390,25 +70607,27 @@
       "name": "git_provenance",
       "signature": "git_provenance(root) -> unannotated",
       "kind": "FunctionDef",
-      "line": 27,
-      "end_line": 39,
-      "first_line": 27,
+      "line": 28,
+      "end_line": 58,
+      "first_line": 28,
       "code_name": "git_provenance",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "Capture current commit and dirty-worktree status for report provenance.",
-      "fingerprint": "d7e4dac9b551313eb9da23141baa12210eb0c9e4efa647882b05775f41c5a2bb",
+      "fingerprint": "1e8c81947750bd5d3549c97fb08f5c169be958090b169398debf6001e8684bee",
       "id": "scripts/compare_openfoam_controls.py::git_provenance",
       "branches": {
-        "hit": 0,
-        "total": 0
+        "hit": 6,
+        "total": 6
       },
       "tests": [
+        "tests/test_openfoam.py::test_git_provenance_hashes_changed_untracked_deleted_and_symlink_contents",
+        "tests/test_openfoam.py::test_git_provenance_rejects_unknown_source_and_hashes_symlink_targets",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script"
       ],
       "lines": {
-        "hit": 3,
-        "total": 3
+        "hit": 14,
+        "total": 14
       },
       "status": "covered"
     },
@@ -69418,25 +70637,33 @@
       "name": "run_control_suite",
       "signature": "run_control_suite(output_dir, device='cpu', channel_grids=(10, 20, 40), cavity_configs=((32, 0.05), (64, 0.05), (64, 0.015)), launcher=None, runner=None, channel_max_steps=28000, cavity_target_time_s=3.5) -> unannotated",
       "kind": "FunctionDef",
-      "line": 42,
-      "end_line": 149,
-      "first_line": 42,
+      "line": 62,
+      "end_line": 171,
+      "first_line": 62,
       "code_name": "run_control_suite",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "Execute Channel (07) and Cavity (06) grid-sensitivity comparisons against OpenFOAM.",
-      "fingerprint": "315ce0dba5a465626366810cb47f948603a62f06ba5fa32e15762b4939deea11",
+      "fingerprint": "077d8cc6aa5ad9129e61360d208e39afe66ef787b8a925be24a52732f9370416",
       "id": "scripts/compare_openfoam_controls.py::run_control_suite",
       "branches": {
-        "hit": 7,
-        "total": 8
+        "hit": 10,
+        "total": 10
       },
       "tests": [
-        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script"
+        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_control_suite_rejects_empty_required_inventory[channels0-cavities0]",
+        "tests/test_openfoam_contracts.py::test_control_suite_rejects_empty_required_inventory[channels1-cavities1]",
+        "tests/test_openfoam_contracts.py::test_control_suite_rejects_empty_required_inventory[channels2-cavities2]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[None]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[comparison]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[convergence]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[sensitivity]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[settling]"
       ],
       "lines": {
-        "hit": 31,
-        "total": 31
+        "hit": 33,
+        "total": 33
       },
       "status": "covered"
     },
@@ -69446,25 +70673,27 @@
       "name": "main",
       "signature": "main(argv=None) -> unannotated",
       "kind": "FunctionDef",
-      "line": 152,
-      "end_line": 163,
-      "first_line": 152,
+      "line": 174,
+      "end_line": 193,
+      "first_line": 174,
       "code_name": "main",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "4472e80dfc3b4bbff21278346d6896c6092bae7eb28f67adeb9bf8400d9278f3",
+      "fingerprint": "c33b1a825a6fc74f540d74630fdb8a8cf3832069167b33732e5175ee62f8a3f4",
       "id": "scripts/compare_openfoam_controls.py::main",
       "branches": {
         "hit": 0,
         "total": 0
       },
       "tests": [
-        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script"
+        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_cli_default_paths_device_and_failure_exit",
+        "tests/test_openfoam_contracts.py::test_cli_failed_rerun_replaces_old_completed_report_before_work"
       ],
       "lines": {
-        "hit": 11,
-        "total": 11
+        "hit": 18,
+        "total": 18
       },
       "status": "covered"
     },
@@ -76838,6 +78067,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -78097,6 +79327,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -78796,6 +80027,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -79105,6 +80337,7 @@
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
         "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_plugin_service.py::test_background_lifecycle_and_resume[cpu]",
         "tests/test_plugin_service.py::test_background_lifecycle_and_resume[mps]",
@@ -79515,6 +80748,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -80099,6 +81333,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -80371,6 +81606,7 @@
         "tests/test_general_boundaries.py::test_sgs_zero_and_device",
         "tests/test_general_boundaries.py::test_slip_edges_and_shear_projection",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_runtime_numerical_edges.py::test_nee_pressure_exceeding_density_budget_is_rejected",
         "tests/test_runtime_rejection_edges.py::test_boundary_plan_rejects_unsupported_compositions[change0-explicit boundary_method]",
         "tests/test_runtime_rejection_edges.py::test_boundary_plan_rejects_unsupported_compositions[change1-stationary uniform]",
@@ -80429,6 +81665,7 @@
         "tests/test_general_boundaries.py::test_sgs_zero_and_device",
         "tests/test_general_boundaries.py::test_slip_edges_and_shear_projection",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_runtime_numerical_edges.py::test_mapped_nee_rejects_reversed_fluid_inflow",
         "tests/test_runtime_numerical_edges.py::test_nee_pressure_backflow_is_reserved_for_neutral",
         "tests/test_runtime_numerical_edges.py::test_nee_pressure_exceeding_density_budget_is_rejected",
@@ -80488,6 +81725,7 @@
         "tests/test_general_boundaries.py::test_sgs_zero_and_device",
         "tests/test_general_boundaries.py::test_slip_edges_and_shear_projection",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_runtime_numerical_edges.py::test_nee_pressure_exceeding_density_budget_is_rejected",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[poiseuille]"
@@ -80567,6 +81805,7 @@
         "tests/test_general_boundaries.py::test_sgs_zero_and_device",
         "tests/test_general_boundaries.py::test_slip_edges_and_shear_projection",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[poiseuille]"
       ],
@@ -80679,12 +81918,65 @@
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
         "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_openfoam.py::test_bundle_from_hawa_spec_rejects_unsupported_features",
+        "tests/test_openfoam.py::test_compare_rejects_bad_vector_analytic_tolerance_and_overflow",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-velocity_m_s]",
         "tests/test_openfoam.py::test_control_case_builders_and_schema_validation",
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
+        "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[pressure_pa-1]",
+        "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[velocity-2]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[shifted-regularized-sgs-v1]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky-v1]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[unknown]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
         "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback",
+        "tests/test_openfoam.py::test_reference_cell_upper_bound",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]",
         "tests/test_openfoam.py::test_sample_regular_grid_and_compare_probe_results",
         "tests/test_openfoam.py::test_schema_rejections_cover_all_contract_invariants",
+        "tests/test_openfoam_contracts.py::test_cavity_physical_recipe_and_moving_lid",
+        "tests/test_openfoam_contracts.py::test_channel_physical_recipe_and_analytic_pressure_gradient",
+        "tests/test_openfoam_contracts.py::test_comparison_metrics_use_declared_velocity_and_pressure_scales",
+        "tests/test_openfoam_contracts.py::test_comparison_rejects_overflowed_scales_and_derived_metrics",
+        "tests/test_openfoam_contracts.py::test_gradient_disagreement_cannot_pass_pressure_gate",
+        "tests/test_openfoam_contracts.py::test_omitted_render_defaults_match_explicit_physical_defaults",
+        "tests/test_openfoam_contracts.py::test_pressure_pair_distance_sign_and_observable_drift",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[None]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[comparison]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[convergence]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[sensitivity]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[settling]",
+        "tests/test_openfoam_contracts.py::test_three_dimensional_cyclic_slip_pressure_units_and_transient_time",
         "tests/test_python_core_contracts.py::test_boundary_series_default_callbacks_roundtrip_and_wall_history",
         "tests/test_python_core_contracts.py::test_external_reset_discards_runtime_report_without_aliasing_plan",
         "tests/test_runtime_admission.py::test_boundary_condition_metadata_is_deeply_detached",
@@ -95839,12 +97131,65 @@
         "tests/test_motion.py::test_two_body_load_ids_and_domain_exit[cpu]",
         "tests/test_motion.py::test_two_body_load_ids_and_domain_exit[mps]",
         "tests/test_openfoam.py::test_bundle_from_hawa_spec_rejects_unsupported_features",
+        "tests/test_openfoam.py::test_compare_rejects_bad_vector_analytic_tolerance_and_overflow",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-velocity_m_s]",
         "tests/test_openfoam.py::test_control_case_builders_and_schema_validation",
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
+        "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[pressure_pa-1]",
+        "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[velocity-2]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[shifted-regularized-sgs-v1]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky-v1]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[unknown]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
         "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback",
+        "tests/test_openfoam.py::test_reference_cell_upper_bound",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]",
         "tests/test_openfoam.py::test_sample_regular_grid_and_compare_probe_results",
         "tests/test_openfoam.py::test_schema_rejections_cover_all_contract_invariants",
+        "tests/test_openfoam_contracts.py::test_cavity_physical_recipe_and_moving_lid",
+        "tests/test_openfoam_contracts.py::test_channel_physical_recipe_and_analytic_pressure_gradient",
+        "tests/test_openfoam_contracts.py::test_comparison_metrics_use_declared_velocity_and_pressure_scales",
+        "tests/test_openfoam_contracts.py::test_comparison_rejects_overflowed_scales_and_derived_metrics",
+        "tests/test_openfoam_contracts.py::test_gradient_disagreement_cannot_pass_pressure_gate",
+        "tests/test_openfoam_contracts.py::test_omitted_render_defaults_match_explicit_physical_defaults",
+        "tests/test_openfoam_contracts.py::test_pressure_pair_distance_sign_and_observable_drift",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[None]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[comparison]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[convergence]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[sensitivity]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[settling]",
+        "tests/test_openfoam_contracts.py::test_three_dimensional_cyclic_slip_pressure_units_and_transient_time",
         "tests/test_real_sweep_pipeline.py::test_blended_wing_recipe_runs_real_short_cases_without_claiming_settling",
         "tests/test_real_sweep_pipeline.py::test_invalid_final_case_hash_rejects_before_creating_session",
         "tests/test_real_sweep_pipeline.py::test_pressure_and_loads_share_actual_collision_phase_and_world_probe_mapping",
@@ -100765,30 +102110,83 @@
       "signature": "@model_validator(mode='after') validate_physical_contract(self) -> unannotated",
       "kind": "FunctionDef",
       "line": 124,
-      "end_line": 172,
+      "end_line": 180,
       "first_line": 123,
       "code_name": "validate_physical_contract",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "",
-      "fingerprint": "f621c0a942ee338eb8d500b656f8e2d504cfd91081d4066d91e1626c4c8d68cd",
+      "fingerprint": "a16a91c869c7a3b5dfd94d0a12fdc95135ad1da5dde36171fa44bf0168203be4",
       "id": "src/hawa/openfoam.py::OpenFoamCaseBundle.validate_physical_contract",
       "branches": {
-        "hit": 36,
-        "total": 36
+        "hit": 42,
+        "total": 42
       },
       "tests": [
         "tests/test_openfoam.py::test_bundle_from_hawa_spec_rejects_unsupported_features",
+        "tests/test_openfoam.py::test_compare_rejects_bad_vector_analytic_tolerance_and_overflow",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-velocity_m_s]",
         "tests/test_openfoam.py::test_control_case_builders_and_schema_validation",
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
+        "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[pressure_pa-1]",
+        "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[velocity-2]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[shifted-regularized-sgs-v1]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky-v1]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[unknown]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
         "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback",
+        "tests/test_openfoam.py::test_reference_cell_upper_bound",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]",
         "tests/test_openfoam.py::test_sample_regular_grid_and_compare_probe_results",
-        "tests/test_openfoam.py::test_schema_rejections_cover_all_contract_invariants"
+        "tests/test_openfoam.py::test_schema_rejections_cover_all_contract_invariants",
+        "tests/test_openfoam_contracts.py::test_cavity_physical_recipe_and_moving_lid",
+        "tests/test_openfoam_contracts.py::test_channel_physical_recipe_and_analytic_pressure_gradient",
+        "tests/test_openfoam_contracts.py::test_comparison_metrics_use_declared_velocity_and_pressure_scales",
+        "tests/test_openfoam_contracts.py::test_comparison_rejects_overflowed_scales_and_derived_metrics",
+        "tests/test_openfoam_contracts.py::test_gradient_disagreement_cannot_pass_pressure_gate",
+        "tests/test_openfoam_contracts.py::test_omitted_render_defaults_match_explicit_physical_defaults",
+        "tests/test_openfoam_contracts.py::test_pressure_pair_distance_sign_and_observable_drift",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[None]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[comparison]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[convergence]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[sensitivity]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[settling]",
+        "tests/test_openfoam_contracts.py::test_three_dimensional_cyclic_slip_pressure_units_and_transient_time"
       ],
       "lines": {
-        "hit": 46,
-        "total": 46
+        "hit": 52,
+        "total": 52
       },
       "status": "covered"
     },
@@ -100798,9 +102196,9 @@
       "name": "validate_bundle",
       "signature": "validate_bundle(data) -> unannotated",
       "kind": "FunctionDef",
-      "line": 175,
-      "end_line": 177,
-      "first_line": 175,
+      "line": 183,
+      "end_line": 185,
+      "first_line": 183,
       "code_name": "validate_bundle",
       "declaration": false,
       "visibility": "public/conventional",
@@ -100813,12 +102211,65 @@
       },
       "tests": [
         "tests/test_openfoam.py::test_bundle_from_hawa_spec_rejects_unsupported_features",
+        "tests/test_openfoam.py::test_compare_rejects_bad_vector_analytic_tolerance_and_overflow",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-velocity_m_s]",
         "tests/test_openfoam.py::test_control_case_builders_and_schema_validation",
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
+        "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[pressure_pa-1]",
+        "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[velocity-2]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[shifted-regularized-sgs-v1]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky-v1]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[unknown]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
         "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback",
+        "tests/test_openfoam.py::test_reference_cell_upper_bound",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]",
         "tests/test_openfoam.py::test_sample_regular_grid_and_compare_probe_results",
-        "tests/test_openfoam.py::test_schema_rejections_cover_all_contract_invariants"
+        "tests/test_openfoam.py::test_schema_rejections_cover_all_contract_invariants",
+        "tests/test_openfoam_contracts.py::test_cavity_physical_recipe_and_moving_lid",
+        "tests/test_openfoam_contracts.py::test_channel_physical_recipe_and_analytic_pressure_gradient",
+        "tests/test_openfoam_contracts.py::test_comparison_metrics_use_declared_velocity_and_pressure_scales",
+        "tests/test_openfoam_contracts.py::test_comparison_rejects_overflowed_scales_and_derived_metrics",
+        "tests/test_openfoam_contracts.py::test_gradient_disagreement_cannot_pass_pressure_gate",
+        "tests/test_openfoam_contracts.py::test_omitted_render_defaults_match_explicit_physical_defaults",
+        "tests/test_openfoam_contracts.py::test_pressure_pair_distance_sign_and_observable_drift",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[None]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[comparison]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[convergence]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[sensitivity]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[settling]",
+        "tests/test_openfoam_contracts.py::test_three_dimensional_cyclic_slip_pressure_units_and_transient_time"
       ],
       "lines": {
         "hit": 1,
@@ -100832,31 +102283,82 @@
       "name": "bundle_from_hawa_spec",
       "signature": "bundle_from_hawa_spec(case_id, description, spec, probes, pressure_pairs, mesh, dimensions=2, domain_origin_m=(0.0, 0.0, 0.0), provenance=None) -> unannotated",
       "kind": "FunctionDef",
-      "line": 180,
-      "end_line": 236,
-      "first_line": 180,
+      "line": 188,
+      "end_line": 246,
+      "first_line": 188,
       "code_name": "bundle_from_hawa_spec",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "Build a validated OpenFOAM physical-case bundle directly from a Hawa WindFlow spec.",
-      "fingerprint": "c86a72bc730ffa3e68bd0081a3dad1296996a9c04d6066625ae1115122b4042d",
+      "fingerprint": "bd84dfbd3fc29580ec0016dfdb04fa7d152aecad83eed257b522ccabb780baa3",
       "id": "src/hawa/openfoam.py::bundle_from_hawa_spec",
       "branches": {
-        "hit": 24,
-        "total": 24
+        "hit": 26,
+        "total": 26
       },
       "tests": [
         "tests/test_openfoam.py::test_bundle_from_hawa_spec_rejects_unsupported_features",
+        "tests/test_openfoam.py::test_compare_rejects_bad_vector_analytic_tolerance_and_overflow",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-velocity_m_s]",
         "tests/test_openfoam.py::test_control_case_builders_and_schema_validation",
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
+        "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[pressure_pa-1]",
+        "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[velocity-2]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[shifted-regularized-sgs-v1]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky-v1]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[unknown]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
         "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]",
         "tests/test_openfoam.py::test_sample_regular_grid_and_compare_probe_results",
-        "tests/test_openfoam.py::test_schema_rejections_cover_all_contract_invariants"
+        "tests/test_openfoam.py::test_schema_rejections_cover_all_contract_invariants",
+        "tests/test_openfoam_contracts.py::test_channel_physical_recipe_and_analytic_pressure_gradient",
+        "tests/test_openfoam_contracts.py::test_comparison_metrics_use_declared_velocity_and_pressure_scales",
+        "tests/test_openfoam_contracts.py::test_comparison_rejects_overflowed_scales_and_derived_metrics",
+        "tests/test_openfoam_contracts.py::test_gradient_disagreement_cannot_pass_pressure_gate",
+        "tests/test_openfoam_contracts.py::test_omitted_render_defaults_match_explicit_physical_defaults",
+        "tests/test_openfoam_contracts.py::test_pressure_pair_distance_sign_and_observable_drift",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[None]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[comparison]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[convergence]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[sensitivity]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[settling]",
+        "tests/test_openfoam_contracts.py::test_three_dimensional_cyclic_slip_pressure_units_and_transient_time"
       ],
       "lines": {
-        "hit": 34,
-        "total": 34
+        "hit": 36,
+        "total": 36
       },
       "status": "covered"
     },
@@ -100866,9 +102368,9 @@
       "name": "channel_poiseuille_case",
       "signature": "channel_poiseuille_case(ny_cells=20, lx=4.0, ly=1.0, u_max=0.5, nu=0.025, rho=1.225, mach=0.05) -> unannotated",
       "kind": "FunctionDef",
-      "line": 239,
-      "end_line": 331,
-      "first_line": 239,
+      "line": 249,
+      "end_line": 341,
+      "first_line": 249,
       "code_name": "channel_poiseuille_case",
       "declaration": false,
       "visibility": "public/conventional",
@@ -100881,12 +102383,63 @@
       },
       "tests": [
         "tests/test_openfoam.py::test_bundle_from_hawa_spec_rejects_unsupported_features",
+        "tests/test_openfoam.py::test_compare_rejects_bad_vector_analytic_tolerance_and_overflow",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-velocity_m_s]",
         "tests/test_openfoam.py::test_control_case_builders_and_schema_validation",
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
+        "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[pressure_pa-1]",
+        "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[velocity-2]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[shifted-regularized-sgs-v1]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky-v1]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[unknown]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
         "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]",
         "tests/test_openfoam.py::test_sample_regular_grid_and_compare_probe_results",
-        "tests/test_openfoam.py::test_schema_rejections_cover_all_contract_invariants"
+        "tests/test_openfoam.py::test_schema_rejections_cover_all_contract_invariants",
+        "tests/test_openfoam_contracts.py::test_channel_physical_recipe_and_analytic_pressure_gradient",
+        "tests/test_openfoam_contracts.py::test_comparison_metrics_use_declared_velocity_and_pressure_scales",
+        "tests/test_openfoam_contracts.py::test_comparison_rejects_overflowed_scales_and_derived_metrics",
+        "tests/test_openfoam_contracts.py::test_gradient_disagreement_cannot_pass_pressure_gate",
+        "tests/test_openfoam_contracts.py::test_omitted_render_defaults_match_explicit_physical_defaults",
+        "tests/test_openfoam_contracts.py::test_pressure_pair_distance_sign_and_observable_drift",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[None]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[comparison]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[convergence]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[sensitivity]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[settling]",
+        "tests/test_openfoam_contracts.py::test_three_dimensional_cyclic_slip_pressure_units_and_transient_time"
       ],
       "lines": {
         "hit": 32,
@@ -100900,9 +102453,9 @@
       "name": "cavity_control_case",
       "signature": "cavity_control_case(n=64, reynolds=10.0, mach=0.05) -> unannotated",
       "kind": "FunctionDef",
-      "line": 334,
-      "end_line": 391,
-      "first_line": 334,
+      "line": 344,
+      "end_line": 401,
+      "first_line": 344,
       "code_name": "cavity_control_case",
       "declaration": false,
       "visibility": "public/conventional",
@@ -100917,7 +102470,15 @@
         "tests/test_openfoam.py::test_control_case_builders_and_schema_validation",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
         "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback",
-        "tests/test_openfoam.py::test_schema_rejections_cover_all_contract_invariants"
+        "tests/test_openfoam.py::test_reference_cell_upper_bound",
+        "tests/test_openfoam.py::test_schema_rejections_cover_all_contract_invariants",
+        "tests/test_openfoam_contracts.py::test_cavity_physical_recipe_and_moving_lid",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[None]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[comparison]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[convergence]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[sensitivity]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[settling]"
       ],
       "lines": {
         "hit": 12,
@@ -100931,9 +102492,9 @@
       "name": "_blockmesh_patch_face_centers",
       "signature": "_blockmesh_patch_face_centers(origin, size, cells, face) -> unannotated",
       "kind": "FunctionDef",
-      "line": 394,
-      "end_line": 418,
-      "first_line": 394,
+      "line": 404,
+      "end_line": 428,
+      "first_line": 404,
       "code_name": "_blockmesh_patch_face_centers",
       "declaration": false,
       "visibility": "private",
@@ -100947,7 +102508,23 @@
       "tests": [
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
-        "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback"
+        "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]",
+        "tests/test_openfoam_contracts.py::test_generated_dictionaries_match_solver_verified_control_artifacts[channel_poiseuille_ny10]",
+        "tests/test_openfoam_contracts.py::test_omitted_render_defaults_match_explicit_physical_defaults",
+        "tests/test_openfoam_contracts.py::test_parabolic_face_samples_all_velocity_components",
+        "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[x+-expected1]",
+        "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[x--expected0]",
+        "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[y+-expected3]",
+        "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[y--expected2]",
+        "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[z+-expected5]",
+        "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[z--expected4]"
       ],
       "lines": {
         "hit": 22,
@@ -100961,9 +102538,9 @@
       "name": "_render_parabolic_u_field",
       "signature": "_render_parabolic_u_field(origin, size, cells, face, velocity, profile_axis) -> unannotated",
       "kind": "FunctionDef",
-      "line": 421,
-      "end_line": 433,
-      "first_line": 421,
+      "line": 431,
+      "end_line": 443,
+      "first_line": 431,
       "code_name": "_render_parabolic_u_field",
       "declaration": false,
       "visibility": "private",
@@ -100977,7 +102554,17 @@
       "tests": [
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
-        "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback"
+        "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]",
+        "tests/test_openfoam_contracts.py::test_generated_dictionaries_match_solver_verified_control_artifacts[channel_poiseuille_ny10]",
+        "tests/test_openfoam_contracts.py::test_omitted_render_defaults_match_explicit_physical_defaults",
+        "tests/test_openfoam_contracts.py::test_parabolic_face_samples_all_velocity_components"
       ],
       "lines": {
         "hit": 11,
@@ -100991,9 +102578,9 @@
       "name": "_foam_patch_type",
       "signature": "_foam_patch_type(face, cond, dimensions) -> unannotated",
       "kind": "FunctionDef",
-      "line": 436,
-      "end_line": 444,
-      "first_line": 436,
+      "line": 446,
+      "end_line": 454,
+      "first_line": 446,
       "code_name": "_foam_patch_type",
       "declaration": false,
       "visibility": "private",
@@ -101007,7 +102594,18 @@
       "tests": [
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
-        "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback"
+        "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]",
+        "tests/test_openfoam_contracts.py::test_generated_dictionaries_match_solver_verified_control_artifacts[cavity_re10_n32]",
+        "tests/test_openfoam_contracts.py::test_generated_dictionaries_match_solver_verified_control_artifacts[channel_poiseuille_ny10]",
+        "tests/test_openfoam_contracts.py::test_omitted_render_defaults_match_explicit_physical_defaults",
+        "tests/test_openfoam_contracts.py::test_three_dimensional_cyclic_slip_pressure_units_and_transient_time"
       ],
       "lines": {
         "hit": 8,
@@ -101021,9 +102619,9 @@
       "name": "_render_openfoam_files",
       "signature": "_render_openfoam_files(bundle) -> unannotated",
       "kind": "FunctionDef",
-      "line": 447,
-      "end_line": 622,
-      "first_line": 447,
+      "line": 457,
+      "end_line": 632,
+      "first_line": 457,
       "code_name": "_render_openfoam_files",
       "declaration": false,
       "visibility": "private",
@@ -101037,7 +102635,18 @@
       "tests": [
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
-        "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback"
+        "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]",
+        "tests/test_openfoam_contracts.py::test_generated_dictionaries_match_solver_verified_control_artifacts[cavity_re10_n32]",
+        "tests/test_openfoam_contracts.py::test_generated_dictionaries_match_solver_verified_control_artifacts[channel_poiseuille_ny10]",
+        "tests/test_openfoam_contracts.py::test_omitted_render_defaults_match_explicit_physical_defaults",
+        "tests/test_openfoam_contracts.py::test_three_dimensional_cyclic_slip_pressure_units_and_transient_time"
       ],
       "lines": {
         "hit": 60,
@@ -101051,9 +102660,9 @@
       "name": "write_openfoam_case",
       "signature": "write_openfoam_case(bundle, destination, overwrite=False) -> unannotated",
       "kind": "FunctionDef",
-      "line": 625,
-      "end_line": 674,
-      "first_line": 625,
+      "line": 635,
+      "end_line": 684,
+      "first_line": 635,
       "code_name": "write_openfoam_case",
       "declaration": false,
       "visibility": "public/conventional",
@@ -101066,8 +102675,17 @@
       },
       "tests": [
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
+        "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[pressure_pa-1]",
+        "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[velocity-2]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
-        "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback"
+        "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]"
       ],
       "lines": {
         "hit": 38,
@@ -101081,9 +102699,9 @@
       "name": "_default_runner",
       "signature": "_default_runner(cmd, timeout_s=300) -> unannotated",
       "kind": "FunctionDef",
-      "line": 677,
-      "end_line": 679,
-      "first_line": 677,
+      "line": 687,
+      "end_line": 689,
+      "first_line": 687,
       "code_name": "_default_runner",
       "declaration": false,
       "visibility": "private",
@@ -101109,26 +102727,38 @@
       "name": "detect_openfoam",
       "signature": "detect_openfoam(launcher=None, runner=None) -> unannotated",
       "kind": "FunctionDef",
-      "line": 682,
-      "end_line": 714,
-      "first_line": 682,
+      "line": 692,
+      "end_line": 727,
+      "first_line": 692,
       "code_name": "detect_openfoam",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "Discover local OpenFOAM launcher and verify required v2606 tools.",
-      "fingerprint": "a1fc22416454f76b05fdb619725d44fb93142dc3a90ee6ceb1666a6119ec4f4a",
+      "fingerprint": "1981fcc1a0efb952c45d3182d3ce1a19db6a804ccf6622a91cb0f6200ac6d978",
       "id": "src/hawa/openfoam.py::detect_openfoam",
       "branches": {
-        "hit": 11,
-        "total": 12
+        "hit": 13,
+        "total": 14
       },
       "tests": [
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
-        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script"
+        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]",
+        "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[13]",
+        "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[]",
+        "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[v2312]",
+        "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[v2506]",
+        "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[v2606-custom]"
       ],
       "lines": {
-        "hit": 21,
-        "total": 21
+        "hit": 23,
+        "total": 23
       },
       "status": "covered"
     },
@@ -101138,9 +102768,9 @@
       "name": "parse_check_mesh",
       "signature": "parse_check_mesh(text, expected_origin, expected_size, tol=1e-06) -> unannotated",
       "kind": "FunctionDef",
-      "line": 717,
-      "end_line": 738,
-      "first_line": 717,
+      "line": 730,
+      "end_line": 751,
+      "first_line": 730,
       "code_name": "parse_check_mesh",
       "declaration": false,
       "visibility": "public/conventional",
@@ -101153,7 +102783,11 @@
       },
       "tests": [
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
-        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script"
+        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]"
       ],
       "lines": {
         "hit": 17,
@@ -101167,9 +102801,9 @@
       "name": "parse_probes_scalar",
       "signature": "parse_probes_scalar(text, expected_count) -> unannotated",
       "kind": "FunctionDef",
-      "line": 741,
-      "end_line": 753,
-      "first_line": 741,
+      "line": 754,
+      "end_line": 766,
+      "first_line": 754,
       "code_name": "parse_probes_scalar",
       "declaration": false,
       "visibility": "public/conventional",
@@ -101182,7 +102816,9 @@
       },
       "tests": [
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
-        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script"
+        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]"
       ],
       "lines": {
         "hit": 11,
@@ -101196,9 +102832,9 @@
       "name": "parse_probes_vector",
       "signature": "parse_probes_vector(text, expected_count) -> unannotated",
       "kind": "FunctionDef",
-      "line": 756,
-      "end_line": 777,
-      "first_line": 756,
+      "line": 769,
+      "end_line": 790,
+      "first_line": 769,
       "code_name": "parse_probes_vector",
       "declaration": false,
       "visibility": "public/conventional",
@@ -101211,7 +102847,9 @@
       },
       "tests": [
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
-        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script"
+        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]"
       ],
       "lines": {
         "hit": 20,
@@ -101225,9 +102863,9 @@
       "name": "_pressure_pairs_from_probes",
       "signature": "_pressure_pairs_from_probes(bundle, probe_map) -> unannotated",
       "kind": "FunctionDef",
-      "line": 780,
-      "end_line": 792,
-      "first_line": 780,
+      "line": 793,
+      "end_line": 805,
+      "first_line": 793,
       "code_name": "_pressure_pairs_from_probes",
       "declaration": false,
       "visibility": "private",
@@ -101240,7 +102878,10 @@
       },
       "tests": [
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
-        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script"
+        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam_contracts.py::test_pressure_pair_distance_sign_and_observable_drift",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity"
       ],
       "lines": {
         "hit": 8,
@@ -101254,26 +102895,33 @@
       "name": "run_openfoam_case",
       "signature": "run_openfoam_case(case_dir, bundle, launcher=None, runner=None, timeout_s=300) -> unannotated",
       "kind": "FunctionDef",
-      "line": 795,
-      "end_line": 849,
-      "first_line": 795,
+      "line": 808,
+      "end_line": 878,
+      "first_line": 808,
       "code_name": "run_openfoam_case",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "Run blockMesh, checkMesh, solver, and postProcess probes on a prepared OpenFOAM case.",
-      "fingerprint": "5c4df1e65696bc341189506bd24b54828de2658f68e5944ecba4cc59eeb1ae7b",
+      "fingerprint": "a8213fb8729dde63759d220b615fab3d76d9f562b2af1dc63cf97425bb6063e1",
       "id": "src/hawa/openfoam.py::run_openfoam_case",
       "branches": {
-        "hit": 10,
-        "total": 10
+        "hit": 18,
+        "total": 18
       },
       "tests": [
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
-        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script"
+        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]"
       ],
       "lines": {
-        "hit": 31,
-        "total": 31
+        "hit": 45,
+        "total": 45
       },
       "status": "covered"
     },
@@ -101283,9 +102931,9 @@
       "name": "sample_regular_grid",
       "signature": "sample_regular_grid(velocity, pressure, axes, probe_locations, solid=None) -> unannotated",
       "kind": "FunctionDef",
-      "line": 852,
-      "end_line": 899,
-      "first_line": 852,
+      "line": 881,
+      "end_line": 928,
+      "first_line": 881,
       "code_name": "sample_regular_grid",
       "declaration": false,
       "visibility": "public/conventional",
@@ -101297,8 +102945,11 @@
         "total": 22
       },
       "tests": [
+        "tests/test_openfoam.py::test_generated_shifted_uneven_grids_preserve_affine_fields[2]",
+        "tests/test_openfoam.py::test_generated_shifted_uneven_grids_preserve_affine_fields[3]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
-        "tests/test_openfoam.py::test_sample_regular_grid_and_compare_probe_results"
+        "tests/test_openfoam.py::test_sample_regular_grid_and_compare_probe_results",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity"
       ],
       "lines": {
         "hit": 45,
@@ -101312,9 +102963,9 @@
       "name": "_sample_hawa_bundle",
       "signature": "_sample_hawa_bundle(bundle, velocity, pressure, axes, solid=None) -> unannotated",
       "kind": "FunctionDef",
-      "line": 902,
-      "end_line": 912,
-      "first_line": 902,
+      "line": 931,
+      "end_line": 941,
+      "first_line": 931,
       "code_name": "_sample_hawa_bundle",
       "declaration": false,
       "visibility": "private",
@@ -101326,7 +102977,8 @@
         "total": 2
       },
       "tests": [
-        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script"
+        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity"
       ],
       "lines": {
         "hit": 6,
@@ -101340,9 +102992,9 @@
       "name": "_max_observable_drift",
       "signature": "_max_observable_drift(prev_probes, cur_probes, prev_pairs, cur_pairs, u_scale, p_scale) -> unannotated",
       "kind": "FunctionDef",
-      "line": 915,
-      "end_line": 926,
-      "first_line": 915,
+      "line": 944,
+      "end_line": 955,
+      "first_line": 944,
       "code_name": "_max_observable_drift",
       "declaration": false,
       "visibility": "private",
@@ -101354,7 +103006,9 @@
         "total": 4
       },
       "tests": [
-        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script"
+        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_pressure_pair_distance_sign_and_observable_drift",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity"
       ],
       "lines": {
         "hit": 9,
@@ -101368,9 +103022,9 @@
       "name": "run_hawa_channel",
       "signature": "run_hawa_channel(spec, bundle, device='cpu', max_steps=16000, check_interval=1000, settle_tol=0.001) -> unannotated",
       "kind": "FunctionDef",
-      "line": 929,
-      "end_line": 967,
-      "first_line": 929,
+      "line": 958,
+      "end_line": 996,
+      "first_line": 958,
       "code_name": "run_hawa_channel",
       "declaration": false,
       "visibility": "public/conventional",
@@ -101382,7 +103036,8 @@
         "total": 6
       },
       "tests": [
-        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script"
+        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity"
       ],
       "lines": {
         "hit": 23,
@@ -101396,9 +103051,9 @@
       "name": "run_hawa_cavity",
       "signature": "run_hawa_cavity(hawa_config, bundle, device='cpu', dtype='float64', target_time_s=3.5) -> unannotated",
       "kind": "FunctionDef",
-      "line": 970,
-      "end_line": 1010,
-      "first_line": 970,
+      "line": 999,
+      "end_line": 1039,
+      "first_line": 999,
       "code_name": "run_hawa_cavity",
       "declaration": false,
       "visibility": "public/conventional",
@@ -101410,7 +103065,8 @@
         "total": 4
       },
       "tests": [
-        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script"
+        "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity"
       ],
       "lines": {
         "hit": 23,
@@ -101424,26 +103080,54 @@
       "name": "compare_probe_results",
       "signature": "compare_probe_results(bundle, hawa_result, openfoam_result, analytic=None, velocity_tol=None, pressure_tol=None) -> unannotated",
       "kind": "FunctionDef",
-      "line": 1013,
-      "end_line": 1102,
-      "first_line": 1013,
+      "line": 1042,
+      "end_line": 1160,
+      "first_line": 1042,
       "code_name": "compare_probe_results",
       "declaration": false,
       "visibility": "public/conventional",
       "summary": "Compare Hawa and OpenFOAM at every declared probe and pressure pair.",
-      "fingerprint": "35a9dd58ee583ea2f8dff4cc3616c7a81023305e69c2af1af7e6085c13aaaa76",
+      "fingerprint": "52d0ac5bb71fd277031ad37062cabd914c5259d99c2adba2ee8b7a7564ee63cb",
       "id": "src/hawa/openfoam.py::compare_probe_results",
       "branches": {
-        "hit": 24,
-        "total": 24
+        "hit": 44,
+        "total": 44
       },
       "tests": [
+        "tests/test_openfoam.py::test_compare_rejects_bad_vector_analytic_tolerance_and_overflow",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-velocity_m_s]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
-        "tests/test_openfoam.py::test_sample_regular_grid_and_compare_probe_results"
+        "tests/test_openfoam.py::test_sample_regular_grid_and_compare_probe_results",
+        "tests/test_openfoam_contracts.py::test_comparison_metrics_use_declared_velocity_and_pressure_scales",
+        "tests/test_openfoam_contracts.py::test_comparison_rejects_overflowed_scales_and_derived_metrics",
+        "tests/test_openfoam_contracts.py::test_gradient_disagreement_cannot_pass_pressure_gate"
       ],
       "lines": {
-        "hit": 56,
-        "total": 56
+        "hit": 81,
+        "total": 81
       },
       "status": "covered"
     },
@@ -101939,6 +103623,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -102705,6 +104390,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -103471,6 +105157,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -106949,6 +108636,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -107391,6 +109079,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -107909,6 +109598,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -108422,6 +110112,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -109016,6 +110707,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -109551,6 +111243,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -110086,6 +111779,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -110684,6 +112378,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -111215,6 +112910,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -111746,6 +113442,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -112276,6 +113973,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -112773,6 +114471,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_force_units_scale_with_density_but_fitness_does_not[cpu]",
         "tests/test_optimization.py::test_force_units_scale_with_density_but_fitness_does_not[mps]",
@@ -113412,6 +115111,7 @@
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
         "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_plugin_quality_edges.py::test_dispatch_slice_and_load_errors",
         "tests/test_plugin_quality_edges.py::test_streamlines_terminate_at_missing_or_stationary_samples",
         "tests/test_plugin_quality_edges.py::test_two_dimensional_slice_and_moving_load_metadata",
@@ -113624,6 +115324,7 @@
         "tests/test_neutral_nesting_verification.py::test_real_cpu_reference_smoke_and_replay",
         "tests/test_neutral_nesting_verification.py::test_real_fine_reference_replay_with_nonzero_warmup_and_auto_cpu",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_plugin_quality_edges.py::test_dispatch_slice_and_load_errors",
         "tests/test_plugin_quality_edges.py::test_streamlines_terminate_at_missing_or_stationary_samples",
         "tests/test_plugin_quality_edges.py::test_two_dimensional_slice_and_moving_load_metadata",
@@ -114737,6 +116438,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",
@@ -117589,6 +119291,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_plugin_quality_edges.py::test_filtered_wall_checkpoint_rejects_invalid_or_missing_history",
         "tests/test_python_core_contracts.py::test_external_reset_discards_runtime_report_without_aliasing_plan",
         "tests/test_quality_tools.py::test_curved_wall_benchmark_reports_small_channel_error",
@@ -117748,6 +119451,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_plugin_quality_edges.py::test_filtered_wall_checkpoint_rejects_invalid_or_missing_history",
         "tests/test_python_core_contracts.py::test_external_reset_discards_runtime_report_without_aliasing_plan",
         "tests/test_quality_tools.py::test_curved_wall_benchmark_reports_small_channel_error",
@@ -117894,6 +119598,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_python_core_contracts.py::test_external_reset_discards_runtime_report_without_aliasing_plan",
         "tests/test_quality_tools.py::test_curved_wall_benchmark_reports_small_channel_error",
         "tests/test_runtime_invariants.py::test_step_coordinator_orders_callbacks_and_accounts_each_stage",
@@ -117953,6 +119658,7 @@
         "tests/test_general_boundaries.py::test_rotation_and_order",
         "tests/test_general_boundaries.py::test_sgs_zero_and_device",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_runtime_invariants.py::test_step_coordinator_orders_callbacks_and_accounts_each_stage",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[couette]",
         "tests/test_tooling_execution.py::test_general_boundary_run_keeps_declared_error_criteria[poiseuille]"
@@ -118096,6 +119802,7 @@
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[none]",
         "tests/test_numerical_tool_quality_completion.py::test_curved_parity_records_cpu_fixture_comparison_and_failed_rows[nonfinite]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
         "tests/test_plugin_quality_edges.py::test_filtered_wall_checkpoint_rejects_invalid_or_missing_history",
         "tests/test_python_core_contracts.py::test_external_reset_discards_runtime_report_without_aliasing_plan",
         "tests/test_quality_tools.py::test_curved_wall_benchmark_reports_small_channel_error",
@@ -123331,12 +125038,88 @@
         "tests/test_numerical_tool_quality_completion.py::test_neutral_adjustment_computes_variance_and_stops_on_rejection[2]",
         "tests/test_numerical_tool_quality_completion.py::test_neutral_adjustment_computes_variance_and_stops_on_rejection[None]",
         "tests/test_openfoam.py::test_bundle_from_hawa_spec_rejects_unsupported_features",
+        "tests/test_openfoam.py::test_compare_rejects_bad_vector_analytic_tolerance_and_overflow",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa--inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[hawa-nan-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam--inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-inf-probes-velocity_m_s]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-delta_p_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-pressure_pairs-gradient_pa_m]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-pressure_pa]",
+        "tests/test_openfoam.py::test_compare_rejects_nonfinite_measurements[openfoam-nan-probes-velocity_m_s]",
         "tests/test_openfoam.py::test_control_case_builders_and_schema_validation",
         "tests/test_openfoam.py::test_detect_openfoam_parsers_and_mocked_runner",
+        "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[pressure_pa-1]",
+        "tests/test_openfoam.py::test_explicit_null_boundary_values_are_rejected_before_publication[velocity-2]",
+        "tests/test_openfoam.py::test_generated_shifted_uneven_grids_preserve_affine_fields[2]",
+        "tests/test_openfoam.py::test_generated_shifted_uneven_grids_preserve_affine_fields[3]",
+        "tests/test_openfoam.py::test_git_provenance_hashes_changed_untracked_deleted_and_symlink_contents",
+        "tests/test_openfoam.py::test_git_provenance_rejects_unknown_source_and_hashes_symlink_targets",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[shifted-regularized-sgs-v1]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky-v1]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[smagorinsky]",
+        "tests/test_openfoam.py::test_handoff_rejects_nonlaminar_models[unknown]",
         "tests/test_openfoam.py::test_hawa_control_runners_and_cli_script",
         "tests/test_openfoam.py::test_parabolic_centers_and_atomic_write_publish_and_rollback",
+        "tests/test_openfoam.py::test_reference_cell_upper_bound",
+        "tests/test_openfoam.py::test_run_defaults_numeric_time_selection_and_reuse_rejection",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[.hawa-run-started]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[1000]",
+        "tests/test_openfoam.py::test_run_rejects_prior_failed_run_or_fields[constant/polyMesh]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs0-sample times do not match]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs1-matching probe files]",
+        "tests/test_openfoam.py::test_run_rejects_unmatched_or_invalid_probe_times[outputs2-Non-finite]",
         "tests/test_openfoam.py::test_sample_regular_grid_and_compare_probe_results",
         "tests/test_openfoam.py::test_schema_rejections_cover_all_contract_invariants",
+        "tests/test_openfoam_contracts.py::test_cavity_physical_recipe_and_moving_lid",
+        "tests/test_openfoam_contracts.py::test_channel_physical_recipe_and_analytic_pressure_gradient",
+        "tests/test_openfoam_contracts.py::test_cli_default_paths_device_and_failure_exit",
+        "tests/test_openfoam_contracts.py::test_cli_failed_rerun_replaces_old_completed_report_before_work",
+        "tests/test_openfoam_contracts.py::test_comparison_metrics_use_declared_velocity_and_pressure_scales",
+        "tests/test_openfoam_contracts.py::test_comparison_rejects_overflowed_scales_and_derived_metrics",
+        "tests/test_openfoam_contracts.py::test_control_suite_rejects_empty_required_inventory[channels0-cavities0]",
+        "tests/test_openfoam_contracts.py::test_control_suite_rejects_empty_required_inventory[channels1-cavities1]",
+        "tests/test_openfoam_contracts.py::test_control_suite_rejects_empty_required_inventory[channels2-cavities2]",
+        "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[13]",
+        "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[]",
+        "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[v2312]",
+        "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[v2506]",
+        "tests/test_openfoam_contracts.py::test_discovery_rejects_unqualified_openfoam_versions[v2606-custom]",
+        "tests/test_openfoam_contracts.py::test_generated_dictionaries_match_solver_verified_control_artifacts[cavity_re10_n32]",
+        "tests/test_openfoam_contracts.py::test_generated_dictionaries_match_solver_verified_control_artifacts[channel_poiseuille_ny10]",
+        "tests/test_openfoam_contracts.py::test_gradient_disagreement_cannot_pass_pressure_gate",
+        "tests/test_openfoam_contracts.py::test_omitted_render_defaults_match_explicit_physical_defaults",
+        "tests/test_openfoam_contracts.py::test_parabolic_face_samples_all_velocity_components",
+        "tests/test_openfoam_contracts.py::test_pressure_pair_distance_sign_and_observable_drift",
+        "tests/test_openfoam_contracts.py::test_real_control_runners_preserve_units_steps_and_probe_identity",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[None]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[comparison]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[convergence]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[sensitivity]",
+        "tests/test_openfoam_contracts.py::test_suite_requires_every_channel_gate_and_preserves_run_metadata[settling]",
+        "tests/test_openfoam_contracts.py::test_three_dimensional_cyclic_slip_pressure_units_and_transient_time",
+        "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[x+-expected1]",
+        "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[x--expected0]",
+        "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[y+-expected3]",
+        "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[y--expected2]",
+        "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[z+-expected5]",
+        "tests/test_openfoam_contracts.py::test_translated_patch_centers_preserve_foam_order[z--expected4]",
         "tests/test_optimization.py::test_completed_evaluation_repeatability_and_device_parity",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[cpu]",
         "tests/test_optimization.py::test_equilibrium_closed_body_has_zero_momentum_force[mps]",

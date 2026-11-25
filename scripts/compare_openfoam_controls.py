@@ -6,6 +6,7 @@ from pathlib import Path
 import platform
 import subprocess
 import sys
+import uuid
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT / "src") not in sys.path:
@@ -27,16 +28,35 @@ from hawa.openfoam import (  # noqa: E402
 def git_provenance(root):
     """Capture current commit and dirty-worktree status for report provenance."""
     commit = subprocess.run(
-        ["git", "rev-parse", "HEAD"], cwd=str(root), text=True, capture_output=True
+        ["git", "rev-parse", "HEAD"], cwd=str(root), text=True, capture_output=True, check=True
     ).stdout.strip()
     status = subprocess.run(
-        ["git", "status", "--porcelain"], cwd=str(root), text=True, capture_output=True
+        ["git", "status", "--porcelain", "-z", "--untracked-files=all"],
+        cwd=str(root), capture_output=True, check=True
     ).stdout
+    # Hash all tracked and nonignored untracked contents, including staged edits,
+    # deletions and symlink targets. Status text alone cannot identify edited code.
+    paths = subprocess.run(
+        ["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
+        cwd=str(root), capture_output=True, check=True
+    ).stdout.split(b"\0")
+    digest = hashlib.sha256(status)
+    for name in sorted(set(paths) - {b""}):
+        path = Path(root) / name.decode("utf-8", errors="surrogateescape")
+        digest.update(name + b"\0")
+        if path.is_symlink():
+            import os
+            digest.update(b"symlink\0" + os.fsencode(os.readlink(path)))
+        elif path.is_file():
+            digest.update(b"file\0" + hashlib.sha256(path.read_bytes()).digest())
+        else:
+            digest.update(b"missing\0")
     return {
-        "commit": commit or "unknown",
-        "dirty": bool(status.strip()),
-        "dirty_digest": hashlib.sha256(status.encode("utf-8")).hexdigest()[:16],
+        "commit": commit,
+        "dirty": bool(status),
+        "dirty_digest": digest.hexdigest(),
     }
+
 
 
 def run_control_suite(output_dir, device="cpu", channel_grids=(10, 20, 40),
@@ -44,6 +64,8 @@ def run_control_suite(output_dir, device="cpu", channel_grids=(10, 20, 40),
                       launcher=None, runner=None, channel_max_steps=28000,
                       cavity_target_time_s=3.5):
     """Execute Channel (07) and Cavity (06) grid-sensitivity comparisons against OpenFOAM."""
+    if not channel_grids or not cavity_configs:
+        raise ValueError("Channel and cavity control inventories must both be nonempty")
     of_info = detect_openfoam(launcher=launcher, runner=runner)
     if not of_info["available"]:
         return {
@@ -155,9 +177,17 @@ def main(argv=None):
     parser.add_argument("--report", default=str(ROOT / "docs" / "verification-openfoam-controls.json"))
     parser.add_argument("--device", default="cpu")
     args = parser.parse_args(argv)
-    report = run_control_suite(args.output_dir, device=args.device)
     report_path = Path(args.report)
     report_path.parent.mkdir(parents=True, exist_ok=True)
+    run_id = uuid.uuid4().hex
+    report_path.write_text(json.dumps({"status": "RUNNING", "run_id": run_id}) + "\n", encoding="utf-8")
+    try:
+        report = run_control_suite(args.output_dir, device=args.device)
+    except Exception as exc:
+        report_path.write_text(json.dumps({"status": "FAILED", "run_id": run_id, "reason": str(exc)})
+                               + "\n", encoding="utf-8")
+        raise
+    report["run_id"] = run_id
     report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"status": report["status"], "report": str(report_path)}, indent=2))
     return 0 if report["status"] == "COMPLETED" else 1

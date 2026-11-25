@@ -124,6 +124,11 @@ class OpenFoamCaseBundle(OpenFoamPayload):
     def validate_physical_contract(self):
         patch_dicts = []
         for patch in self.boundaries:
+            cond = patch.condition
+            if ("velocity" in cond.model_fields_set and cond.velocity is None
+                    or "pressure_pa" in cond.model_fields_set and cond.pressure_pa is None):
+                raise ValueError("Boundary velocity and pressure_pa must not be explicitly null")
+        for patch in self.boundaries:
             cond = {"type": patch.condition.type, "profile": patch.condition.profile}
             if patch.condition.velocity is not None:
                 cond["velocity"] = list(patch.condition.velocity)
@@ -148,6 +153,9 @@ class OpenFoamCaseBundle(OpenFoamPayload):
             raise ValueError("Velocity inlets require a pressure reference patch")
         if not has_pressure and self.mesh.p_ref_cell is None:
             raise ValueError("Closed-domain cases without a pressure patch require mesh.p_ref_cell")
+
+        if self.mesh.p_ref_cell is not None and self.mesh.p_ref_cell >= math.prod(self.mesh.cells):
+            raise ValueError("mesh.p_ref_cell must be inside the generated cell count")
 
         origin = np.asarray(self.domain_origin_m, dtype=float)
         upper = origin + np.asarray(self.domain_size_m, dtype=float)
@@ -185,6 +193,8 @@ def bundle_from_hawa_spec(case_id, description, spec, probes, pressure_pairs, me
     for key in _UNSUPPORTED_SPEC_KEYS:
         if spec.get(key):
             raise ValueError("Unsupported Hawa feature for OpenFOAM handoff: " + key)
+    if spec.get("collision", "regularized") not in ("bgk", "trt", "regularized"):
+        raise ValueError("OpenFOAM handoff supports laminar collision models only (bgk, trt, regularized)")
     bset = spec.get("boundary_set")
     if not isinstance(bset, dict) or bset.get("schema") != 1:
         raise ValueError("Hawa spec must provide a schema 1 boundary_set")
@@ -704,6 +714,9 @@ def detect_openfoam(launcher=None, runner=None):
             name, path = line[5:].split("=", 1)
             tools[name] = path.strip()
     missing = [t for t in _REQUIRED_TOOLS if not tools.get(t)]
+    if version != "v2606":
+        return {"available": False, "launcher": exe, "version": version,
+                "reason": "Unsupported OpenFOAM version; this adapter requires v2606"}
     return {
         "available": bool(version and not missing),
         "launcher": exe,
@@ -801,7 +814,17 @@ def run_openfoam_case(case_dir, bundle, launcher=None, runner=None, timeout_s=30
     exe = info["launcher"]
     exec_fn = runner or _default_runner
     cdir = Path(case_dir)
-    solver = bundle["mesh"]["solver"]
+    # A failed or completed run is never reused: -latestTime could select old fields.
+    if ((cdir / "postProcessing").exists() or (cdir / "constant" / "polyMesh").exists()
+            or any(p.is_dir() and re.fullmatch(r"[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?", p.name)
+                   and float(p.name) != 0.0 for p in cdir.iterdir())):
+        raise ValueError("OpenFOAM case contains previous run output; publish a fresh case directory")
+    try:
+        with (cdir / ".hawa-run-started").open("x", encoding="utf-8") as marker:
+            marker.write("One invocation only; publish a fresh case before retrying.\n")
+    except FileExistsError as exc:
+        raise ValueError("OpenFOAM case was already run; publish a fresh case directory") from exc
+    solver = bundle["mesh"].get("solver", "simpleFoam")
     steps = [
         ("blockMesh", "blockMesh"),
         ("checkMesh", "checkMesh"),
@@ -818,14 +841,20 @@ def run_openfoam_case(case_dir, bundle, launcher=None, runner=None, timeout_s=30
             raise RuntimeError(f"OpenFOAM step {label} failed with exit code {rc}")
 
     check_summary = parse_check_mesh(logs["checkMesh"], bundle["domain_origin_m"], bundle["domain_size_m"])
-    p_files = sorted((cdir / "postProcessing" / "probes").glob("*/p"))
-    u_files = sorted((cdir / "postProcessing" / "probes").glob("*/U"))
-    if not p_files or not u_files:
+    probe_dirs = list((cdir / "postProcessing" / "probes").glob("*"))
+    if not probe_dirs:
         raise RuntimeError("OpenFOAM postProcess did not write probe files for p and U")
-
+    times = [float(path.name) for path in probe_dirs]
+    if not all(math.isfinite(t) for t in times):
+        raise ValueError("Non-finite OpenFOAM probe directory time")
+    latest = probe_dirs[int(np.argmax(times))]
+    if not (latest / "p").is_file() or not (latest / "U").is_file():
+        raise RuntimeError("OpenFOAM postProcess did not write matching probe files for p and U")
     count = len(bundle["probes"])
-    t_p, p_kin_vals = parse_probes_scalar(p_files[-1].read_text(encoding="utf-8"), count)
-    t_u, u_vals = parse_probes_vector(u_files[-1].read_text(encoding="utf-8"), count)
+    t_p, p_kin_vals = parse_probes_scalar((latest / "p").read_text(encoding="utf-8"), count)
+    t_u, u_vals = parse_probes_vector((latest / "U").read_text(encoding="utf-8"), count)
+    if t_p != t_u:
+        raise ValueError("OpenFOAM pressure and velocity sample times do not match")
     rho = float(bundle["density_kg_m3"])
     probes_out = {}
     for probe, p_kin, u_vec in zip(bundle["probes"], p_kin_vals, u_vals):
@@ -1014,8 +1043,13 @@ def compare_probe_results(bundle, hawa_result, openfoam_result, analytic=None,
                           velocity_tol=None, pressure_tol=None):
     """Compare Hawa and OpenFOAM at every declared probe and pressure pair."""
     validate_bundle(bundle)
+    for tolerance in (velocity_tol, pressure_tol):
+        if tolerance is not None and (not math.isfinite(tolerance) or tolerance < 0):
+            raise ValueError("Comparison tolerances must be finite and nonnegative")
     u_ref = float(bundle["reference_speed_m_s"])
     q_ref = 0.5 * float(bundle["density_kg_m3"]) * u_ref * u_ref
+    if not math.isfinite(q_ref) or q_ref <= 0:
+        raise ValueError("Comparison pressure scale must be finite and positive")
     probe_rows = []
     u_errs = []
     for probe in bundle["probes"]:
@@ -1024,7 +1058,14 @@ def compare_probe_results(bundle, hawa_result, openfoam_result, analytic=None,
             raise ValueError("Missing required probe in solver results: " + pid)
         uh = np.asarray(hawa_result["probes"][pid]["velocity_m_s"], dtype=float)
         uo = np.asarray(openfoam_result["probes"][pid]["velocity_m_s"], dtype=float)
+        if uh.shape != (3,) or uo.shape != (3,) or not np.isfinite([uh, uo]).all():
+            raise ValueError("Probe velocities must be finite three-component vectors: " + pid)
+        if not all(math.isfinite(float(result["probes"][pid]["pressure_pa"]))
+                   for result in (hawa_result, openfoam_result)):
+            raise ValueError("Probe pressures must be finite: " + pid)
         diff = float(np.linalg.norm(uh - uo))
+        if not math.isfinite(diff):
+            raise ValueError("Non-finite velocity comparison: " + pid)
         norm_err = diff / u_ref
         u_errs.append(norm_err)
         row = {
@@ -1039,6 +1080,8 @@ def compare_probe_results(bundle, hawa_result, openfoam_result, analytic=None,
         }
         if analytic is not None and pid in analytic.get("probes", {}):
             ua = np.asarray(analytic["probes"][pid]["velocity_m_s"], dtype=float)
+            if ua.shape != (3,) or not np.isfinite(ua).all():
+                raise ValueError("Analytic velocities must be finite three-component vectors")
             row["analytic_velocity_m_s"] = ua.tolist()
             row["hawa_vs_analytic_norm_u"] = float(np.linalg.norm(uh - ua)) / u_ref
             row["openfoam_vs_analytic_norm_u"] = float(np.linalg.norm(uo - ua)) / u_ref
@@ -1052,9 +1095,16 @@ def compare_probe_results(bundle, hawa_result, openfoam_result, analytic=None,
             raise ValueError("Missing required pressure pair in solver results: " + pair_id)
         hp = hawa_result["pressure_pairs"][pair_id]
         op = openfoam_result["pressure_pairs"][pair_id]
+        if not all(math.isfinite(float(result[key])) for result in (hp, op)
+                   for key in ("delta_p_pa", "gradient_pa_m")):
+            raise ValueError("Pressure pair measurements must be finite: " + pair_id)
         abs_dp = abs(float(hp["delta_p_pa"]) - float(op["delta_p_pa"]))
         scale_p = max(abs(float(op["delta_p_pa"])), q_ref)
         norm_dp = abs_dp / scale_p
+        locations = {p["id"]: np.asarray(p["location_m"], dtype=float) for p in bundle["probes"]}
+        distance = float(np.linalg.norm(locations[pair["b_probe_id"]] - locations[pair["a_probe_id"]]))
+        gradient_error = abs(float(hp["gradient_pa_m"]) - float(op["gradient_pa_m"]))
+        norm_gradient = gradient_error * distance / scale_p
         dp_errs.append(norm_dp)
         row = {
             "id": pair_id,
@@ -1064,10 +1114,13 @@ def compare_probe_results(bundle, hawa_result, openfoam_result, analytic=None,
             "norm_delta_p_err": norm_dp,
             "hawa_gradient_pa_m": float(hp["gradient_pa_m"]),
             "openfoam_gradient_pa_m": float(op["gradient_pa_m"]),
-            "abs_gradient_err_pa_m": abs(float(hp["gradient_pa_m"]) - float(op["gradient_pa_m"])),
+            "abs_gradient_err_pa_m": gradient_error,
+            "norm_gradient_err": norm_gradient,
         }
         if analytic is not None and pair_id in analytic.get("pressure_pairs", {}):
             ap = analytic["pressure_pairs"][pair_id]
+            if not all(math.isfinite(float(ap[key])) for key in ("delta_p_pa", "gradient_pa_m")):
+                raise ValueError("Analytic pressure pair measurements must be finite")
             a_dp = float(ap["delta_p_pa"])
             a_scale = max(abs(a_dp), q_ref)
             row["analytic_delta_p_pa"] = a_dp
@@ -1089,8 +1142,10 @@ def compare_probe_results(bundle, hawa_result, openfoam_result, analytic=None,
         for row in pair_rows:
             if row["norm_delta_p_err"] > pressure_tol:
                 failures.append(f"pair {row['id']} norm_delta_p_err {row['norm_delta_p_err']:.4g} > {pressure_tol}")
+            if row["norm_gradient_err"] > pressure_tol:
+                failures.append(f"pair {row['id']} norm_gradient_err {row['norm_gradient_err']:.4g} > {pressure_tol}")
 
-    return {
+    result = {
         "case_id": bundle["case_id"],
         "velocity_l2_norm": u_l2,
         "velocity_linf_norm": u_linf,
@@ -1100,3 +1155,6 @@ def compare_probe_results(bundle, hawa_result, openfoam_result, analytic=None,
         "probes": probe_rows,
         "pressure_pairs": pair_rows,
     }
+    # Finite inputs can still overflow in derived error/gradient arithmetic.
+    json.dumps(result, allow_nan=False)
+    return result

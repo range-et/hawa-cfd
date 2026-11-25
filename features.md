@@ -45,6 +45,17 @@ Cylinder 16, Canopy 22 / Hull 10), and independent numerical review remain open 
 [review](docs/review-openfoam-controls.md),
 [evidence JSON](docs/verification-openfoam-controls.json).
 
+The November 24 [PR review follow-up](docs/review-openfoam-pr128-followup.md)
+hardens laminar capability rejection, accepted defaults, single-use run output,
+matched sample times, finite measurements, pressure-gradient gating and source/run
+provenance. Generated interpolation and physical/dictionary contract tests expand
+assertion evidence. The earlier numerical report remains historical; new mutation
+results and 486 unresolved assertion gaps are recorded separately in that review.
+Fresh CPU Channel 07 ny20/40 comparisons pass the unchanged velocity/pressure
+limits plus explicit gradient acceptance ([evidence](docs/verification-openfoam-review-controls.json)).
+This is bounded verification, not complete-testing or release qualification.
+
+
 ## November development buildlog and video publication (November 18, 2026)
 
 The [dated buildlog](site/build-log/2026-11.html) gathers merged native data,

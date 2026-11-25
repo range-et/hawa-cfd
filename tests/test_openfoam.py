@@ -326,9 +326,11 @@ def test_detect_openfoam_parsers_and_mocked_runner(tmp_path, monkeypatch):
 
     with pytest.raises(RuntimeError, match="simpleFoam failed"):
         openfoam.run_openfoam_case(cdir, ch, launcher="/fake/of", runner=make_runner(fail_step="simpleFoam"))
+    openfoam.write_openfoam_case(ch, tmp_path / "run_case", overwrite=True)
     with pytest.raises(RuntimeError, match="did not write probe files"):
         openfoam.run_openfoam_case(cdir, ch, launcher="/fake/of", runner=make_runner(write_probes=False))
 
+    openfoam.write_openfoam_case(ch, tmp_path / "run_case", overwrite=True)
     res = openfoam.run_openfoam_case(cdir, ch, launcher="/fake/of", runner=make_runner())
     assert res["converged"] is True
     assert res["probes"]["p_x1_mid"]["pressure_pa"] == pytest.approx(0.7 * 1.225)
@@ -445,6 +447,8 @@ def test_hawa_control_runners_and_cli_script(tmp_path, monkeypatch):
         openfoam.run_hawa_cavity(cav_cfg, cav_bundle, device="cpu", target_time_s=0.02)
     monkeypatch.undo()
 
+    # Provenance itself is exercised against a real temporary repository below.
+    monkeypatch.setattr(cli, "git_provenance", lambda root: {"commit": "test", "dirty": False})
     # CLI blocked when OpenFOAM absent
     monkeypatch.setattr(openfoam.shutil, "which", lambda name: None)
     rep_blocked = tmp_path / "blocked.json"
@@ -514,3 +518,194 @@ def test_hawa_control_runners_and_cli_script(tmp_path, monkeypatch):
     with pytest.raises(SystemExit) as exc:
         runpy.run_path(str(ROOT / "scripts" / "compare_openfoam_controls.py"), run_name="__main__")
     assert exc.value.code == 1
+
+
+@pytest.mark.parametrize('collision', ['smagorinsky', 'smagorinsky-v1', 'shifted-regularized-sgs-v1', 'unknown'])
+def test_handoff_rejects_nonlaminar_models(collision):
+    spec, bundle, _ = openfoam.channel_poiseuille_case(10)
+    spec['collision'] = collision
+    with pytest.raises(ValueError, match='laminar collision'):
+        openfoam.bundle_from_hawa_spec('x', 'test', spec, bundle['probes'], [], bundle['mesh'])
+
+
+@pytest.mark.parametrize('field,index', [('velocity', 2), ('pressure_pa', 1)])
+def test_explicit_null_boundary_values_are_rejected_before_publication(tmp_path, field, index):
+    _, bundle, _ = openfoam.channel_poiseuille_case(10)
+    bundle['boundaries'][index]['condition'][field] = None
+    with pytest.raises(ValueError, match='explicitly null'):
+        openfoam.write_openfoam_case(bundle, tmp_path / 'case')
+    assert not (tmp_path / 'case').exists()
+
+
+def test_reference_cell_upper_bound():
+    _, bundle = openfoam.cavity_control_case(16)
+    bundle['mesh']['p_ref_cell'] = 255
+    openfoam.validate_bundle(bundle)
+    bundle['mesh']['p_ref_cell'] = 256
+    with pytest.raises(ValueError, match='inside the generated cell count'):
+        openfoam.validate_bundle(bundle)
+
+
+def _probe_runner(cdir, bundle, outputs):
+    def run(command, timeout):
+        script = command[-1]
+        if 'TOOL:blockMesh' in script:
+            return 0, 'VERSION=v2606\nOPTIONS=test\n' + '\n'.join(
+                'TOOL:' + name + '=/bin/' + name for name in openfoam._REQUIRED_TOOLS), ''
+        if 'checkMesh' in script:
+            return 0, 'cells: 400\nOverall domain bounding box (0 0 0) (4 1 0.3)\nMesh OK.\n', ''
+        if 'postProcess' in script:
+            for directory, field, sample_time, value in outputs:
+                dest = cdir / 'postProcessing' / 'probes' / directory
+                dest.mkdir(parents=True, exist_ok=True)
+                values = ' '.join(str(value) if field == 'p' else f'({value} 0 0)' for _ in bundle['probes'])
+                (dest / field).write_text(f'{sample_time} {values}\n')
+        return 0, 'SIMPLE solution converged', ''
+    return run
+
+
+def test_run_defaults_numeric_time_selection_and_reuse_rejection(tmp_path):
+    _, bundle, _ = openfoam.channel_poiseuille_case(10)
+    del bundle['mesh']['solver']
+    cdir = Path(openfoam.write_openfoam_case(bundle, tmp_path / 'case')['openfoam_dir'])
+    outputs = [('900', 'p', 900, 9), ('900', 'U', 900, 9),
+               ('1000', 'p', 1000, 1), ('1000', 'U', 1000, 1)]
+    runner = _probe_runner(cdir, bundle, outputs)
+    result = openfoam.run_openfoam_case(cdir, bundle, launcher='/fake', runner=runner)
+    assert result['solver'] == 'simpleFoam'
+    assert result['sample_time'] == result['pressure_sample_time'] == 1000
+    assert result['probes']['p_x1_mid']['velocity_m_s'] == [1, 0, 0]
+    assert result['probes']['p_x1_mid']['pressure_pa'] == pytest.approx(1.225)
+    with pytest.raises(ValueError, match='previous run output'):
+        openfoam.run_openfoam_case(cdir, bundle, launcher='/fake', runner=runner)
+    assert (cdir / 'postProcessing' / 'probes' / '900' / 'p').exists()
+
+
+@pytest.mark.parametrize('outputs,message', [
+    ([('0', 'p', 10, 1), ('0', 'U', 11, 1)], 'sample times do not match'),
+    ([('0', 'p', 10, 1), ('1', 'U', 10, 1)], 'matching probe files'),
+    ([('nan', 'p', 10, 1), ('nan', 'U', 10, 1)], 'Non-finite'),
+])
+def test_run_rejects_unmatched_or_invalid_probe_times(tmp_path, outputs, message):
+    _, bundle, _ = openfoam.channel_poiseuille_case(10)
+    cdir = Path(openfoam.write_openfoam_case(bundle, tmp_path / 'case')['openfoam_dir'])
+    with pytest.raises((ValueError, RuntimeError), match=message):
+        openfoam.run_openfoam_case(cdir, bundle, launcher='/fake', runner=_probe_runner(cdir, bundle, outputs))
+
+
+@pytest.mark.parametrize('artifact', ['.hawa-run-started', '1000', 'constant/polyMesh'])
+def test_run_rejects_prior_failed_run_or_fields(tmp_path, artifact):
+    _, bundle, _ = openfoam.channel_poiseuille_case(10)
+    cdir = Path(openfoam.write_openfoam_case(bundle, tmp_path / 'case')['openfoam_dir'])
+    dest = cdir / artifact
+    if artifact.startswith('.'):
+        dest.write_text('prior attempt')
+    else:
+        dest.mkdir()
+    with pytest.raises(ValueError, match='fresh case directory'):
+        openfoam.run_openfoam_case(cdir, bundle, launcher='/fake', runner=_probe_runner(cdir, bundle, []))
+
+
+@pytest.mark.parametrize('kind,key', [('probes', 'velocity_m_s'), ('probes', 'pressure_pa'),
+                                     ('pressure_pairs', 'delta_p_pa'), ('pressure_pairs', 'gradient_pa_m')])
+@pytest.mark.parametrize('value', [float('nan'), float('inf'), -float('inf')])
+@pytest.mark.parametrize('side', ['hawa', 'openfoam'])
+def test_compare_rejects_nonfinite_measurements(kind, key, value, side):
+    _, bundle, analytic = openfoam.channel_poiseuille_case(10)
+    good = {'probes': analytic['probes'], 'pressure_pairs': analytic['pressure_pairs']}
+    bad = copy.deepcopy(good)
+    row = next(iter(bad[kind].values()))
+    row[key] = [value, 0, 0] if key == 'velocity_m_s' else value
+    args = (bad, good) if side == 'hawa' else (good, bad)
+    with pytest.raises(ValueError, match='finite'):
+        openfoam.compare_probe_results(bundle, *args, velocity_tol=.01, pressure_tol=.01)
+
+
+def test_compare_rejects_bad_vector_analytic_tolerance_and_overflow():
+    _, bundle, analytic = openfoam.channel_poiseuille_case(10)
+    good = {'probes': analytic['probes'], 'pressure_pairs': analytic['pressure_pairs']}
+    bad = copy.deepcopy(good)
+    bad['probes']['p_x1_mid']['velocity_m_s'] = [1, 2]
+    with pytest.raises(ValueError, match='three-component'):
+        openfoam.compare_probe_results(bundle, bad, good)
+    for tolerance in [float('nan'), float('inf'), -.1]:
+        with pytest.raises(ValueError, match='tolerances'):
+            openfoam.compare_probe_results(bundle, good, good, velocity_tol=tolerance)
+    for kind, key in [('probes', 'velocity_m_s'), ('pressure_pairs', 'gradient_pa_m')]:
+        bad_analytic = copy.deepcopy(analytic)
+        row = next(iter(bad_analytic[kind].values()))
+        row[key] = [float('nan'), 0, 0] if key == 'velocity_m_s' else float('nan')
+        with pytest.raises(ValueError, match='Analytic'):
+            openfoam.compare_probe_results(bundle, good, good, analytic=bad_analytic)
+    bad['probes']['p_x1_mid']['velocity_m_s'] = [1e300, 0, 0]
+    with pytest.raises(ValueError, match='Non-finite velocity comparison'):
+        openfoam.compare_probe_results(bundle, bad, good)
+
+
+@pytest.mark.parametrize('ndim', [2, 3])
+def test_generated_shifted_uneven_grids_preserve_affine_fields(ndim):
+    # Deterministic generated property: multilinear interpolation is exact for
+    # every affine field, independent of coordinate origin and nonuniform spacing.
+    rng = np.random.default_rng(128)
+    for _ in range(40):
+        axes = [rng.uniform(-20, 20) + np.cumsum(rng.uniform(.1, 2, int(rng.integers(3, 8))))
+                for _ in range(ndim)]
+        grid = np.asarray(np.meshgrid(*axes, indexing='ij'))
+        coeff = rng.uniform(-4, 4, (ndim + 1, ndim))
+        offset = rng.uniform(-3, 3, ndim + 1)
+        fields = np.einsum('ij,j...->i...', coeff, grid) + offset.reshape((-1,) + (1,) * ndim)
+        probes = np.array([[rng.uniform(axis[0], axis[-1]) for axis in axes] for _ in range(5)])
+        expected = probes @ coeff.T + offset
+        samples = openfoam.sample_regular_grid(fields[:ndim], fields[-1], axes, probes)
+        for sample, want in zip(samples, expected):
+            np.testing.assert_allclose(sample[0][:ndim], want[:ndim], rtol=1e-12, atol=1e-12)
+            assert sample[1] == pytest.approx(want[-1], rel=1e-12, abs=1e-12)
+
+
+def test_git_provenance_hashes_changed_untracked_deleted_and_symlink_contents(tmp_path):
+    import subprocess
+    import compare_openfoam_controls as cli
+    subprocess.run(['git', 'init', '-q', str(tmp_path)], check=True)
+    tracked = tmp_path / 'source.py'
+    tracked.write_text('first')
+    subprocess.run(['git', 'add', '.'], cwd=tmp_path, check=True)
+    subprocess.run(['git', '-c', 'user.name=Test', '-c', 'user.email=test@example.com',
+                    'commit', '-qm', 'baseline'], cwd=tmp_path, check=True)
+    clean = cli.git_provenance(tmp_path)
+    assert not clean['dirty']
+    assert clean['commit'] == subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=tmp_path, text=True).strip()
+    assert len(clean['dirty_digest']) == 64
+    assert cli.git_provenance(tmp_path) == clean
+    tracked.write_text('second')
+    second = cli.git_provenance(tmp_path)
+    tracked.write_text('third')
+    third = cli.git_provenance(tmp_path)
+    assert second['dirty'] and third['dirty']
+    assert len({clean['dirty_digest'], second['dirty_digest'], third['dirty_digest']}) == 3
+    untracked = tmp_path / 'new.py'
+    untracked.write_text('new')
+    added = cli.git_provenance(tmp_path)
+    untracked.write_text('changed')
+    assert cli.git_provenance(tmp_path)['dirty_digest'] != added['dirty_digest']
+    (tmp_path / 'link').symlink_to('source.py')
+    linked = cli.git_provenance(tmp_path)
+    tracked.unlink()
+    assert cli.git_provenance(tmp_path)['dirty_digest'] != linked['dirty_digest']
+
+
+def test_git_provenance_rejects_unknown_source_and_hashes_symlink_targets(tmp_path):
+    import subprocess
+    import compare_openfoam_controls as cli
+    with pytest.raises(subprocess.CalledProcessError):
+        cli.git_provenance(tmp_path)
+    subprocess.run(['git', 'init', '-q', str(tmp_path)], check=True)
+    (tmp_path / 'source.py').write_text('source')
+    subprocess.run(['git', 'add', '.'], cwd=tmp_path, check=True)
+    subprocess.run(['git', '-c', 'user.name=Test', '-c', 'user.email=test@example.com',
+                    'commit', '-qm', 'baseline'], cwd=tmp_path, check=True)
+    link = tmp_path / 'lien-é'
+    link.symlink_to('source.py')
+    first = cli.git_provenance(tmp_path)
+    link.unlink()
+    link.symlink_to('missing.py')
+    assert cli.git_provenance(tmp_path)['dirty_digest'] != first['dirty_digest']
