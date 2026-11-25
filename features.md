@@ -15,6 +15,16 @@ git history at commit cc407cc. See the release review for distribution
 claims and the [coverage matrix](examples/grasshopper/VERIFICATION.md) for required
 example checks.
 
+## Boundary tick contrast follow-up (November 24, 2026)
+
+The shared annotation renderer uses four separated, white-haloed strokes for
+open/outlet ticks, preserving their inward-normal endpoints and distinction from
+pressure ticks and velocity arrows. Fresh installed-host checks reproduced the
+faint/invisible tick on examples 22/08 with computed fields. The revised renderer
+passes 155 C# contracts and builds; revised live acceptance remains pending, so
+[#108](https://github.com/range-et/hawa-cfd/issues/108) stays open. No solver or
+release claim. [Review and current evidence](docs/review-boundary-tick-legibility.md).
+
 ## November development buildlog and video publication (November 18, 2026)
 
 The [dated buildlog](site/build-log/2026-11.html) gathers merged native data,
