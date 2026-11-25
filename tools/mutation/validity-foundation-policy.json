@@ -1,9 +1,10 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 2709,
-  "inventory_sha256": "0e6a683ae64de64565c4165f7e3892e5e42ea75b1f076a87c50c284c489b68cb",
-  "scope": "Lines changed since the base by the validity-foundation PR and the item 5 field-views and item 6 traces PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared MPS device lock (#99: plugin.DeviceLock with suspend and restore, Session construction, per-chunk stepping and pause, and the locked refined set-up, stepping and frames), the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, display_solid, the half-cell isosurface (fields.march, grid_lines, isosurface and FieldCollection.isosurface, with the T-junction seam split in fields.close_seams) and the plane partition (FieldCollection.plane, FieldCollection.lattice and the single-frame plane dispatch) and the streamline traces (fields.trace with its per-point colour sampling, trace_seed, trace_result, FieldCollection.trace, the display mask of FieldCollection.sample; the recording pathlines were removed by owner decision, and the plugin recording dispatch line is included); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host; #98 additionally covers the checkpoint validate_provenance call with public save/load controls. The opt-in cpu_only pytest plugin declares CUDA/MPS unavailable for controls and forked mutants, including default/auto selection. Refreshed for combined #30/#35: fixed-refinement metadata admission before Job creation and CSV export routing; CPU controls add translated/topology admission, the 200-coarse/400-fine default, and CSV/NPZ publication regressions. Export/job dependency hashes are pinned; the separate numerical-export study covers exports.py/job export mutations. Refreshed for native save/import in #35: the public native-data save dispatch branch in plugin.py is included; native_data.py and its original CPU control suite are pinned dependencies. The separate native-data study covers serialization/restoration and jobs.py native-data ownership; this study does not claim whole-module native-data mutation coverage.",
+  "mutants": 2747,
+  "inventory_sha256": "f3e0343d2efa0a17a137a75fad1cc89c9cd5ef81d2e5f37bda9137e925bdbf1a",
+  "scope": "Lines changed since the base by the validity-foundation PR and the item 5 field-views and item 6 traces PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared MPS device lock (#99: plugin.DeviceLock with suspend and restore, Session construction, per-chunk stepping and pause, and the locked refined set-up, stepping and frames), the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, display_solid, the half-cell isosurface (fields.march, grid_lines, isosurface and FieldCollection.isosurface, with the T-junction seam split in fields.close_seams) and the plane partition (FieldCollection.plane, FieldCollection.lattice and the single-frame plane dispatch) and the streamline traces (fields.trace with its per-point colour sampling, trace_seed, trace_result, FieldCollection.trace, the display mask of FieldCollection.sample; the recording pathlines were removed by owner decision, and the plugin recording dispatch line is included); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host; #98 additionally covers the checkpoint validate_provenance call with public save/load controls. The opt-in cpu_only pytest plugin declares CUDA/MPS unavailable for controls and forked mutants, including default/auto selection. Refreshed for combined #30/#35: fixed-refinement metadata admission before Job creation and CSV export routing; CPU controls add translated/topology admission, the 200-coarse/400-fine default, and CSV/NPZ publication regressions. Export/job dependency hashes are pinned; the separate numerical-export study covers exports.py/job export mutations. Refreshed for native save/import in #35: the public native-data save dispatch branch in plugin.py is included; native_data.py and its original CPU control suite are pinned dependencies. The separate native-data study covers serialization/restoration and jobs.py native-data ownership; this study does not claim whole-module native-data mutation coverage. Includes inherited lifecycle and admission controls; one-MiB fallback refinement budget assertion debt remains explicitly reviewed under #75.",
   "control_test_files": [
+    "tests/test_admission_messages.py",
     "tests/test_fields.py",
     "tests/test_field_collection.py",
     "tests/test_plugin_service.py",
@@ -17,557 +18,565 @@
     "tests/test_native_data.py"
   ],
   "sources": {
-    "src/hawa/plugin.py": "0a101c19c4e3254bd1f8395ccc292655e70c32b5fd867f3c0c96bcaa06983e44",
+    "src/hawa/plugin.py": "fb0328c57e4d36503317412ed2f22c0a9d6e32c4d244bacb94f1b6e697d46ca8",
     "src/hawa/fields.py": "edb5618ac963f791f01131e30f3c75bafad23b5a5fa0d475b405803c9e40c2f2",
     "src/hawa/field_collection.py": "8e375ad5b5d9e98bb861a8c01cc4c7351fd9928a0f8d5d5571c3258fbf969a68",
-    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
-    "tests/test_fields.py": "46c6181d697003a9214f043cbc6945b330063433e03b0d9d287b1897b9582867",
-    "tests/test_field_collection.py": "162f2a6220afb599f491932ba5f9f7dc11cbc45a20cba29edf1eefe4a8077644",
-    "tests/test_plugin_service.py": "7cd4a512acacc7699b7cab1327bee907295c4913472e81643faca0263b50084e",
-    "tests/test_recording.py": "f693484e74c0c1fab13bdd432d6a2954d5adad9da7ca829b594de20abab5e428",
-    "src/hawa/refinement.py": "22f714685f16b4444df8264f467fb34985bbf4d42dcc0ac580a895103ce055cc",
-    "tests/test_refinement.py": "74f4bd8e6b87d1e0be835c0bc4e4139fe08a061d8e278c621d52996fff5fe931",
-    "tests/test_quality_provenance.py": "b637d06ceb7815f11d057bc41362b743104ac838b635dc7661224068c4abd0d9",
-    "tests/test_mutation_cpu.py": "2887ba45d15f4a049be00fe1f337762921915460d67ec714f2d18ca23c77213d",
-    "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c",
-    "tools/mutation/lib.sh": "e76c1f689ed0cc3adc344479a32e859b8466c1b33e1d7709d8927104dc6c3871",
-    "src/hawa/quality.py": "db49c0e52c705177f012da3715eb5b617b7b881a12dce877355133ef85743db3",
-    "tests/test_refinement_preflight.py": "f97cb47e472c58ed676e0defcaa222da84c523af8bdf5ec22b686078ad90f65c",
-    "tests/test_csv_export.py": "bd7ae21aa9524b2ee5deb8e018f8f7b939e0642a348923c8d5fe939c2d2d3f82",
-    "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
-    "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
-    "src/hawa/jobs.py": "08982643574676c0274f6a294f5d1a709f0aa40aa77fd9017063c2c1b4eae427",
-    "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090",
-    "tests/test_native_data.py": "226a6df47b95536518e421eaa104938e150ae63828303dee006b8bce7bb178ac",
+    "src/hawa/refinement.py": "3d86dd8abdfb1fbaabe340e5a77b606e854367fe246494d5c28ec4e283e51844",
+    "src/hawa/admission.py": "91cf7d545f1227a3f0876ca8ce7172422028bf884541c7f40ffc5595fd5eb2de",
+    "src/hawa/boundary_data.py": "f7ccd92f10b46f274b696439350ed98062838c91e93f26b9fa573acf51332741",
+    "src/hawa/boundary_series.py": "fa486523b91a88681d7446151e89e02208b87d5563029baa88bc73b556af4549",
     "src/hawa/stationary_study.py": "0ef1817c5060ea94ff2f788327d297295bd1757421ed5f001ca6cda7356f1d3a",
     "src/hawa/mesh_voxel.py": "63e5f827509f00dbe7f297e2ca6e6d71b4c3a67c8e555b3e4822998f34d71da6",
     "src/hawa/sweep_executor.py": "ced3a448bae487851e0312ee539701128f292737d9967a838b265b12c823ed38",
     "src/hawa/stationary_loads.py": "1042a1898b95996afc1730a3e3a77cb20c5cbb820703887bc21480cf9dd5b1e4",
     "src/hawa/measurements.py": "c467528fc84548c0cb294aa7fd32d3cdf6f5b327336921fad562573ecbba50af",
-    "src/hawa/sweeps.py": "45549b20a09a37159e47b86d4470d34f3b62a48b9450410e21a720d9e4785f74"
+    "src/hawa/sweeps.py": "45549b20a09a37159e47b86d4470d34f3b62a48b9450410e21a720d9e4785f74",
+    "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
+    "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090",
+    "src/hawa/jobs.py": "5b8f67183ab377eb2566c0b28acb393cd2a0aed4fbe2b69b67faf8bef2bb04d4",
+    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
+    "tests/test_admission_messages.py": "8a8999f385bb3a629ee6b8b014ad975ad878207f9552686163369b3192e3437e",
+    "tests/test_boundary_data.py": "c02370f353f88eb4751db6e9bfb347be306168e7ea19966b1bd1cc9917e639a4",
+    "tests/test_boundary_series.py": "5bf4cc43a974f32f74d3e702ab02aab911d20de37d8e085541310c1492d0fb41",
+    "tests/test_general_boundaries.py": "807142676376da912ada3ff19804461ec164dfac38a98328d0267732f3c852a2",
+    "tests/test_walls.py": "ccf7782a586b339b460e11d02dd0b0e61afc94a60b43d3d784d3679fd4077b78",
+    "tests/test_optimization.py": "c6b79f44a0b477584316355d6953f6de9ac967c5e456ba78a65202e1157a5a23",
+    "tests/test_fields.py": "46c6181d697003a9214f043cbc6945b330063433e03b0d9d287b1897b9582867",
+    "tests/test_field_collection.py": "162f2a6220afb599f491932ba5f9f7dc11cbc45a20cba29edf1eefe4a8077644",
+    "tests/test_plugin_service.py": "7cd4a512acacc7699b7cab1327bee907295c4913472e81643faca0263b50084e",
+    "tests/test_recording.py": "f693484e74c0c1fab13bdd432d6a2954d5adad9da7ca829b594de20abab5e428",
+    "tests/test_refinement.py": "74f4bd8e6b87d1e0be835c0bc4e4139fe08a061d8e278c621d52996fff5fe931",
+    "tests/test_quality_provenance.py": "b637d06ceb7815f11d057bc41362b743104ac838b635dc7661224068c4abd0d9",
+    "tests/test_mutation_cpu.py": "2887ba45d15f4a049be00fe1f337762921915460d67ec714f2d18ca23c77213d",
+    "tests/test_refinement_preflight.py": "f97cb47e472c58ed676e0defcaa222da84c523af8bdf5ec22b686078ad90f65c",
+    "tests/test_csv_export.py": "bd7ae21aa9524b2ee5deb8e018f8f7b939e0642a348923c8d5fe939c2d2d3f82",
+    "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
+    "tests/test_native_data.py": "226a6df47b95536518e421eaa104938e150ae63828303dee006b8bce7bb178ac",
+    "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c",
+    "tools/mutation/lib.sh": "e76c1f689ed0cc3adc344479a32e859b8466c1b33e1d7709d8927104dc6c3871"
   },
   "reviewed_survivors": {
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_100": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_100": {
       "status": "survived",
       "diff_sha256": "b4f108fae47b9a982cc4cccb1ac99fc3480af639c26d217040e47fd5e2926b3f",
       "reason": "Checkpoint cadence and argument only: cancellation is still observed in this loop (the first cell, or the next one), and callers ignore the count argument; covered by the cancellation test."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_104": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_104": {
       "status": "survived",
       "diff_sha256": "def86ee7e380c202d3f64833fe1209d506525e976dab3f8f8724edc6196904c0",
       "reason": "Equivalent: only the sample batch size changes (8192 to 8193, below the 10000 limit); every point is sampled once in order."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_115": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_115": {
       "status": "survived",
       "diff_sha256": "968b35a6cee15e8a6debd222172e1c33c927e7ee75d4350ce70996334365d62c",
       "reason": "Equivalent: sample() validity is a list of Python bools, so an inferred dtype gives the same boolean array."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_117": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_117": {
       "status": "survived",
       "diff_sha256": "03e9db0747cfd1b3072470019f4a2886de9a110cdb6e772a8adea651943ea3c7",
       "reason": "Equivalent: sample() validity is a list of Python bools, so an inferred dtype gives the same boolean array."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_131": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_131": {
       "status": "survived",
       "diff_sha256": "9de52cd48e0d0202e0fb2ec7bb0aff0ee245ac8101c1ceda50ebcfc0caed6462",
       "reason": "Not killed by the fixtures: this mutates the x-sorted window that only prefilters invalid nodes before the exact per-axis cell search. Widening it is equivalent; narrowing or mis-sorting it matters only for an invalid node within one half-cell reach of a refined grid edge that is not itself an invalid cell corner (misaligned domains). In every fixture such nodes are corners, which already make the cell non-full, so the drawn mesh is unchanged."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_132": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_132": {
       "status": "survived",
       "diff_sha256": "9f8ebef50eb9c20584337022ef3c578b4d75af95469491c962e094ca45948470",
       "reason": "Not killed by the fixtures: this mutates the x-sorted window that only prefilters invalid nodes before the exact per-axis cell search. Widening it is equivalent; narrowing or mis-sorting it matters only for an invalid node within one half-cell reach of a refined grid edge that is not itself an invalid cell corner (misaligned domains). In every fixture such nodes are corners, which already make the cell non-full, so the drawn mesh is unchanged."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_133": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_133": {
       "status": "survived",
       "diff_sha256": "dd10d025db7e75d750bae7907a87180febe08cf947bf3384a0885c82b3a02f0c",
       "reason": "Not killed by the fixtures: this mutates the x-sorted window that only prefilters invalid nodes before the exact per-axis cell search. Widening it is equivalent; narrowing or mis-sorting it matters only for an invalid node within one half-cell reach of a refined grid edge that is not itself an invalid cell corner (misaligned domains). In every fixture such nodes are corners, which already make the cell non-full, so the drawn mesh is unchanged."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_135": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_135": {
       "status": "survived",
       "diff_sha256": "830086094536b45903e225781893dc7c3e28aeb40fafcb3565c4972352535bbb",
       "reason": "Not killed by the fixtures: this mutates the x-sorted window that only prefilters invalid nodes before the exact per-axis cell search. Widening it is equivalent; narrowing or mis-sorting it matters only for an invalid node within one half-cell reach of a refined grid edge that is not itself an invalid cell corner (misaligned domains). In every fixture such nodes are corners, which already make the cell non-full, so the drawn mesh is unchanged."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_140": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_140": {
       "status": "survived",
       "diff_sha256": "4407f50cb17dcffba0a6dfcd1bb60eaf17f71d2733b275604cbc85432b2662f2",
       "reason": "Not killed by the fixtures: this mutates the x-sorted window that only prefilters invalid nodes before the exact per-axis cell search. Widening it is equivalent; narrowing or mis-sorting it matters only for an invalid node within one half-cell reach of a refined grid edge that is not itself an invalid cell corner (misaligned domains). In every fixture such nodes are corners, which already make the cell non-full, so the drawn mesh is unchanged."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_141": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_141": {
       "status": "survived",
       "diff_sha256": "9dbb5ab2ba614a4485bb04f1b1d60393fec580f7038d1c3e6a723e51636b7293",
       "reason": "Not killed by the fixtures: this mutates the x-sorted window that only prefilters invalid nodes before the exact per-axis cell search. Widening it is equivalent; narrowing or mis-sorting it matters only for an invalid node within one half-cell reach of a refined grid edge that is not itself an invalid cell corner (misaligned domains). In every fixture such nodes are corners, which already make the cell non-full, so the drawn mesh is unchanged."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_142": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_142": {
       "status": "survived",
       "diff_sha256": "4e7ff3a75112449d7dc3efd33a958cb9822bd428cd98a6d70236534d41442238",
       "reason": "Not killed by the fixtures: this mutates the x-sorted window that only prefilters invalid nodes before the exact per-axis cell search. Widening it is equivalent; narrowing or mis-sorting it matters only for an invalid node within one half-cell reach of a refined grid edge that is not itself an invalid cell corner (misaligned domains). In every fixture such nodes are corners, which already make the cell non-full, so the drawn mesh is unchanged."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_143": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_143": {
       "status": "survived",
       "diff_sha256": "d8d2e3779cab56eddfd52fcfde7266f16831de7ce4c6cd96d3eda5b24003f3b9",
       "reason": "Not killed by the fixtures: this mutates the x-sorted window that only prefilters invalid nodes before the exact per-axis cell search. Widening it is equivalent; narrowing or mis-sorting it matters only for an invalid node within one half-cell reach of a refined grid edge that is not itself an invalid cell corner (misaligned domains). In every fixture such nodes are corners, which already make the cell non-full, so the drawn mesh is unchanged."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_144": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_144": {
       "status": "survived",
       "diff_sha256": "91324823a37daa9b41a3d0271ee808ec71abfcf2d12dfa7e6042c79ba9d02860",
       "reason": "Not killed by the fixtures: this mutates the x-sorted window that only prefilters invalid nodes before the exact per-axis cell search. Widening it is equivalent; narrowing or mis-sorting it matters only for an invalid node within one half-cell reach of a refined grid edge that is not itself an invalid cell corner (misaligned domains). In every fixture such nodes are corners, which already make the cell non-full, so the drawn mesh is unchanged."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_147": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_147": {
       "status": "survived",
       "diff_sha256": "f126fb5c841f7c02aa72b4593479a4d4e560342dbe4a028d63e7d7996621bcb0",
       "reason": "Not killed by the fixtures: this mutates the x-sorted window that only prefilters invalid nodes before the exact per-axis cell search. Widening it is equivalent; narrowing or mis-sorting it matters only for an invalid node within one half-cell reach of a refined grid edge that is not itself an invalid cell corner (misaligned domains). In every fixture such nodes are corners, which already make the cell non-full, so the drawn mesh is unchanged."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_149": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_149": {
       "status": "survived",
       "diff_sha256": "f1276e00db013fafc376dddff00671c8ab5939351d19e7d50e377cbef06d702c",
       "reason": "Not killed by the fixtures: this mutates the x-sorted window that only prefilters invalid nodes before the exact per-axis cell search. Widening it is equivalent; narrowing or mis-sorting it matters only for an invalid node within one half-cell reach of a refined grid edge that is not itself an invalid cell corner (misaligned domains). In every fixture such nodes are corners, which already make the cell non-full, so the drawn mesh is unchanged."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_15": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_15": {
       "status": "survived",
       "diff_sha256": "5a08c0fbeff51b81af2b222a56c33bb9a3200b6e9c9b5c4e4baf1627d2b784a2",
       "reason": "Equivalent in output: a scalar maximum extends shorter axes past their union bound; the extra cells sample no domain, are all invalid and draw nothing. Only the sample count grows."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_157": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_157": {
       "status": "survived",
       "diff_sha256": "fd17d7fa12b980a8500f04da613113ea8473a303d628bc6357c2cb0148e1c962",
       "reason": "Equivalent in floating point: the searched value is offset by 1e-9 from the node half-cell bound, so it never equals a grid line and the left/right side of searchsorted selects the same cell."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_158": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_158": {
       "status": "survived",
       "diff_sha256": "63a87085f3d578aab933ce74969bcc227e689573f8bb7fa724882610a8cb0866",
       "reason": "Equivalent in output: the change can only mark more cells as reached (refined), never fewer, and refinement draws the same surface from the same sampling rule; only the sample count grows."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_162": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_162": {
       "status": "survived",
       "diff_sha256": "1deead081fc73a51963098c393431168f376298d14f9e562fb7fc19026e0ca7a",
       "reason": "Equivalent in floating point: the searched value is offset by 1e-9 from the node half-cell bound, so it never equals a grid line and the left/right side of searchsorted selects the same cell."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_17": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_17": {
       "status": "survived",
       "diff_sha256": "bff407200d9180810505c32672e5310f31ba02825d596d23668296d418c550fc",
       "reason": "Equivalent in output: a scalar maximum extends shorter axes past their union bound; the extra cells sample no domain, are all invalid and draw nothing. Only the sample count grows."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_172": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_172": {
       "status": "survived",
       "diff_sha256": "6317fa69bc0ac0550d204cb882cfa684e933eaa8abe9414b67278a49304117c5",
       "reason": "Equivalent in floating point: the searched value is offset by 1e-9 from the node half-cell bound, so it never equals a grid line and the left/right side of searchsorted selects the same cell."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_173": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_173": {
       "status": "survived",
       "diff_sha256": "b6a452714e8aeeee2c4bfb9c373dd59d11bf52c833074647012b1727eba579c5",
       "reason": "Equivalent in output: the change can only mark more cells as reached (refined), never fewer, and refinement draws the same surface from the same sampling rule; only the sample count grows."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_177": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_177": {
       "status": "survived",
       "diff_sha256": "c8248a3a26c60bb3cb49b46ee8c0d62d662e2fed3d1145d7a58146230b127130",
       "reason": "Equivalent in floating point: the searched value is offset by 1e-9 from the node half-cell bound, so it never equals a grid line and the left/right side of searchsorted selects the same cell."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_187": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_187": {
       "status": "survived",
       "diff_sha256": "e774a0a9af95a798a5b0afae64b4433ac3a9993dadc6f53793370dc01385d825",
       "reason": "Equivalent: extra offsets are discarded by the keep test (index <= last cell), so the same cells are marked."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_188": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_188": {
       "status": "survived",
       "diff_sha256": "81b4a565a22b38496dbb98d5770bb183cc8a062e1dec8ae50021af0b471889e3",
       "reason": "Equivalent: extra offsets are discarded by the keep test (index <= last cell), so the same cells are marked."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_189": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_189": {
       "status": "survived",
       "diff_sha256": "21babd96d9a7682472e424a7d600145480a52f7749f1e210dab3e027ad84f216",
       "reason": "Equivalent: extra offsets are discarded by the keep test (index <= last cell), so the same cells are marked."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_228": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_228": {
       "status": "survived",
       "diff_sha256": "60d5dea921aa51bee92ad086b59040f24ebff609a8336d4090faae05a65c6a40",
       "reason": "Equivalent in output: the change can only mark more cells as reached (refined), never fewer, and refinement draws the same surface from the same sampling rule; only the sample count grows."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_231": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_231": {
       "status": "survived",
       "diff_sha256": "e7a228e4073cbaa0143329c5210486b7cc0ee16e83c59ff54cfedfc91980fca5",
       "reason": "Equivalent in output: the min/max range test only skips cells that cannot cross the level; this change skips fewer cells, and march() still requires a strict crossing on every drawn cell."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_232": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_232": {
       "status": "survived",
       "diff_sha256": "e1d82c356a5a97a0e3ad47432b0918aa7bd73023dd22355937323c80c6be6229",
       "reason": "Equivalent in output: the prefilter only admits more cells; an admitted cell with no crossing emits no polygon, so only the work grows. (A None index takes the whole grid's valid values.)"
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_234": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_234": {
       "status": "survived",
       "diff_sha256": "7fe4405970a69c74858fee0b1ccbc3e2c686519bf834e1401a4a01e59d6102ee",
       "reason": "Equivalent in output: the prefilter only admits more cells; an admitted cell with no crossing emits no polygon, so only the work grows."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_235": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_235": {
       "status": "survived",
       "diff_sha256": "458cde3a0b4b041fc7d74d2028a5a65064b0d93e885f8220ce448939b7f811cc",
       "reason": "Equivalent in output: the prefilter only admits more cells; an admitted cell with no crossing emits no polygon, so only the work grows."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_236": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_236": {
       "status": "survived",
       "diff_sha256": "8319d726ea2ddb006e6d4b876c2b10f3f42f8059e56d07c4db0fdd3c6c575921",
       "reason": "Equivalent in output: the prefilter only admits more cells; an admitted cell with no crossing emits no polygon, so only the work grows."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_239": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_239": {
       "status": "survived",
       "diff_sha256": "34b1d4e0fc22489701de2de64d2a439f4d4fbd3620f92c8b57d8a23c9b3d02ff",
       "reason": "Equivalent in output: it only rejects a cell whose minimum sample equals the level; every sample is then at or above the level, so the crossings collapse onto the level nodes and no polygon has three distinct points."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_245": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_245": {
       "status": "survived",
       "diff_sha256": "142460f4f7785a28f63497abf1dc61e0961bdb4cc508836a1ec75b3784f1b326",
       "reason": "Equivalent in output: it only rejects a cell whose minimum sample equals the level; every sample is then at or above the level, so the crossings collapse onto the level nodes and no polygon has three distinct points."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_246": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_246": {
       "status": "survived",
       "diff_sha256": "cabce00d5b30ed8dbceb68e58e618c1f4cd5e3dfa614426faf9d060f3e9589f6",
       "reason": "Equivalent in output: the min/max range test only skips cells that cannot cross the level; this change skips fewer cells, and march() still requires a strict crossing on every drawn cell."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_307": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_307": {
       "status": "survived",
       "diff_sha256": "185239b111bc1b4d08f477e03d5634d8eefab721d00b99b92b060f326c5eb0a5",
       "reason": "Equivalent: frames have at least 3 nodes per axis, so the extent in finest cells is always at least 2."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_331": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_331": {
       "status": "survived",
       "diff_sha256": "9dbbb63db70511f4d8d29ab2582906bbbfff61edc87400ef7455f6b45f8a1da0",
       "reason": "Equivalent: a None step makes grid_lines use step 1 (the lattice-cell level). At stride 1 the extra lattice-cell level has the same grid lines as the coarse cell, so it classifies and refines exactly as the direct half-cell level."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_337": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_337": {
       "status": "survived",
       "diff_sha256": "56c480bf22ebba7855a17373a8afa5737507c24616b30109070818253ff1c3bb",
       "reason": "Equivalent: a None step makes grid_lines use step 1 (the lattice-cell level). At stride 1 the extra lattice-cell level has the same grid lines as the coarse cell, so it classifies and refines exactly as the direct half-cell level."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_338": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_338": {
       "status": "survived",
       "diff_sha256": "225d3be50800f1bfd943ebf9aa0a1568923f2834c7d964df7a879f3383768679",
       "reason": "Unresolved (test gap): dropping the neighbours' value range narrows the prefilter, so a refined cell whose only crossing comes from values a drawn neighbour imposes on its boundary could be skipped. Searches over the targeted, random and mirrored fixtures (strides 1 to 4) found no output change. Not equivalent."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_346": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_346": {
       "status": "survived",
       "diff_sha256": "9e6bde0bfdd0ace7c17aa46c1d3f11b570ac938c84bbe5486ec0041e04e2130c",
       "reason": "Equivalent: at stride 1 the extra lattice-cell refinement level has the same grid lines as the coarse cell, so it classifies and refines exactly as the direct half-cell level."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_348": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_348": {
       "status": "survived",
       "diff_sha256": "3bb688bb31e69c0b15e0e4e69c5ea6ee168738cad9ef6b0248204c4fdedfb408",
       "reason": "Equivalent: a 1.5 step inside a one-cell span yields only its two end lines, i.e. the same cell, which then refines to half cells as before."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_349": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_349": {
       "status": "survived",
       "diff_sha256": "40a15e773ebb7f04955422db35107f8ba8a0516c4fa6fbd911a3bb88b893e14b",
       "reason": "Face-budget boundary: differs only for a mesh of exactly 100001 faces; not practical as a fixture."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_45": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_45": {
       "status": "survived",
       "diff_sha256": "e5be1baac68333212bdf9b1bf55be32a32d049774e57c54dc4ed88deba29635a",
       "reason": "Not killed by the fixtures: this mutates the x-sorted window that only prefilters invalid nodes before the exact per-axis cell search. Widening it is equivalent; narrowing or mis-sorting it matters only for an invalid node within one half-cell reach of a refined grid edge that is not itself an invalid cell corner (misaligned domains). In every fixture such nodes are corners, which already make the cell non-full, so the drawn mesh is unchanged."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_46": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_46": {
       "status": "survived",
       "diff_sha256": "db09f7f86603e032ca99f263bc20d0d7d73fc4410a95424adb656aea1e37a7e6",
       "reason": "Not killed by the fixtures: this scales the half-cell reach by the rotation sum, which is 1 on every axis for axis-aligned frames. Widening it is equivalent; narrowing or mis-sorting it matters only for an invalid node within one half-cell reach of a refined grid edge that is not itself an invalid cell corner (misaligned domains). In every fixture such nodes are corners, which already make the cell non-full, so the drawn mesh is unchanged."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_47": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_47": {
       "status": "survived",
       "diff_sha256": "7de467f20da8138ddf346f4b97c68ee9563ca4d6845cf93387189930c7fcf68b",
       "reason": "Not killed by the fixtures: the reach shrinks, but every invalid node in them lies strictly inside one coarse cell or on a cell corner, so it still marks that cell; the reach size matters only for misaligned domains."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_57": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_57": {
       "status": "survived",
       "diff_sha256": "0dd4e69aa42e8664282104273f1122c6f511665207e60cd25f85b82fe2d24f56",
       "reason": "Equivalent for the fixtures: the rotation magnitude is symmetric for axis-aligned frames, so summing over either axis gives the same reach; it differs only for non-symmetric rotations between domains."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_63": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_63": {
       "status": "survived",
       "diff_sha256": "80fe533485560af4fc9b084e0233d5069541366abbdcbee94e9e7813183ca802",
       "reason": "Budget boundary: differs only at exactly 250000 samples; a fixture with that exact count is not practical."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_64": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_64": {
       "status": "survived",
       "diff_sha256": "067e0aa80a856e3fffe79d4cdfe7c7ab46cebf721f7f29069b27e1fd375cb4da",
       "reason": "Budget boundary: differs only at exactly 250001 samples; a fixture with that exact count is not practical."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_88": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_88": {
       "status": "survived",
       "diff_sha256": "20dd30141d2a6d6a08b4b058d5984e1e91a32a888f4b0bdc0620fdc28b79e4b8",
       "reason": "Equivalent: numpy treats -2 like -1 as the unknown dimension, giving the same (N, 3) array."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_99": {
+    "hawa.field_collection.xǁFieldCollectionǁisosurface__mutmut_99": {
       "status": "survived",
       "diff_sha256": "74bbf6fc42f1177de7ca2b058658f690a18daecc1c1f347aea8ddefdcc8fcaba",
       "reason": "Equivalent: only the sample batch size changes (8192 to 8193, below the 10000 limit); every point is sampled once in order."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1lattice__mutmut_101": {
+    "hawa.field_collection.xǁFieldCollectionǁlattice__mutmut_101": {
       "status": "survived",
       "diff_sha256": "4017ab06531f3203544a3f35f92c5f4b2b99aa5995271207e236df22ccfd0ed7",
       "reason": "Free-text label for users; no caller parses it and its wording is not a contract. Only the text changes."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1lattice__mutmut_103": {
+    "hawa.field_collection.xǁFieldCollectionǁlattice__mutmut_103": {
       "status": "survived",
       "diff_sha256": "44bb28ca7f3e190ba66fe816bc4a086de7d86342198b5d9b0e086e57330903ab",
       "reason": "Free-text label for users; no caller parses it and its wording is not a contract. Only the text changes."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1lattice__mutmut_104": {
+    "hawa.field_collection.xǁFieldCollectionǁlattice__mutmut_104": {
       "status": "survived",
       "diff_sha256": "78b78d079bd52106803affef38f1e0005082b4e72f31589c7e3de1ef57d6c7b8",
       "reason": "Free-text label for users; no caller parses it and its wording is not a contract. Only the text changes."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1lattice__mutmut_24": {
+    "hawa.field_collection.xǁFieldCollectionǁlattice__mutmut_24": {
       "status": "survived",
       "diff_sha256": "82c418a98d53c37fbf1ca763eb01779aecf9799cde453875703adee08994f2f4",
       "reason": "Equivalent: a zero scalar broadcasts exactly like the zero 3-vector origin in every use."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1lattice__mutmut_32": {
+    "hawa.field_collection.xǁFieldCollectionǁlattice__mutmut_32": {
       "status": "survived",
       "diff_sha256": "372e71ebf0ebd8d96900079b1b0191ff4ba5cdecbdfec9a332fe3d8e3f7e2e9c",
       "reason": "Equivalent: plane() and sample() do not read the view name; the field is already in the row values."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1lattice__mutmut_70": {
+    "hawa.field_collection.xǁFieldCollectionǁlattice__mutmut_70": {
       "status": "survived",
       "diff_sha256": "f7513cb3eaab928cb0d9f2a09c7442ddcc11346081fb4adf9b1dee1a9f263832",
       "reason": "Equivalent: the single row is compared with the owner index it reports itself, and the single-frame response does not return domain indices."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1lattice__mutmut_73": {
+    "hawa.field_collection.xǁFieldCollectionǁlattice__mutmut_73": {
       "status": "survived",
       "diff_sha256": "7e75a74a2527255508e6533692b18969e8128c4ae651a77c6ad38d9dab5db093",
       "reason": "Equivalent: a zero scalar broadcasts exactly like the zero 3-vector origin in every use."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1lattice__mutmut_97": {
+    "hawa.field_collection.xǁFieldCollectionǁlattice__mutmut_97": {
       "status": "survived",
       "diff_sha256": "8a2b46d047eb3ccdc6ad3b58baf54d7a58b838283a6721345c6b36fe888a2ee6",
       "reason": "Free-text label for users; no caller parses it and its wording is not a contract. Only the text changes."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1lattice__mutmut_99": {
+    "hawa.field_collection.xǁFieldCollectionǁlattice__mutmut_99": {
       "status": "survived",
       "diff_sha256": "566bf568d1c7b7114f07ffa98a87c8e4aefc2072baed5309d6296c0eb856511a",
       "reason": "Free-text label for users; no caller parses it and its wording is not a contract. Only the text changes."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_102": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_102": {
       "status": "survived",
       "diff_sha256": "a402e93be95b24bb91f728d5ce290e70e57e2636b596f57c589bd5fe167dea1f",
       "reason": "Equivalent in output: the near test only preselects invalid cells whose half-cell box may overlap the fragment. This change keeps a superset of the overlapping cells, or drops only cells that touch the fragment along a boundary of zero area (the 1e-10 slack); a non-overlapping box removes nothing from the fragment."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_110": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_110": {
       "status": "survived",
       "diff_sha256": "7ec0f28a419db4def52407e5a808c0101921a7fa6f9992836f05e4dffd10eb66",
       "reason": "Equivalent in output: the near test only preselects invalid cells whose half-cell box may overlap the fragment. This change keeps a superset of the overlapping cells, or drops only cells that touch the fragment along a boundary of zero area (the 1e-10 slack); a non-overlapping box removes nothing from the fragment."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_111": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_111": {
       "status": "survived",
       "diff_sha256": "3c6db71e844fb885c9aeba642a6c93f5d764c3bb9234bc0ddf471513e8946b92",
       "reason": "Equivalent in output: the near test only preselects invalid cells whose half-cell box may overlap the fragment. This change keeps a superset of the overlapping cells, or drops only cells that touch the fragment along a boundary of zero area (the 1e-10 slack); a non-overlapping box removes nothing from the fragment."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_112": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_112": {
       "status": "survived",
       "diff_sha256": "d06404ad47ef121cfd38f7a8ffd660726b0f9de3fe5c73ef68d9f13587db3829",
       "reason": "Equivalent in output: the near test only preselects invalid cells whose half-cell box may overlap the fragment. This change keeps a superset of the overlapping cells, or drops only cells that touch the fragment along a boundary of zero area (the 1e-10 slack); a non-overlapping box removes nothing from the fragment."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_113": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_113": {
       "status": "survived",
       "diff_sha256": "f897de4f9e3569041ec57744fc2a93e1d7fe40814b0b43665ea9290219d6de4e",
       "reason": "Equivalent in output: the near test only preselects invalid cells whose half-cell box may overlap the fragment. This change keeps a superset of the overlapping cells, or drops only cells that touch the fragment along a boundary of zero area (the 1e-10 slack); a non-overlapping box removes nothing from the fragment."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_115": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_115": {
       "status": "survived",
       "diff_sha256": "6828eab28c8008c126e23819806da6a2361df48dca48c700c211f6fbd317c82d",
       "reason": "Equivalent in output: the near test only preselects invalid cells whose half-cell box may overlap the fragment. This change keeps a superset of the overlapping cells, or drops only cells that touch the fragment along a boundary of zero area (the 1e-10 slack); a non-overlapping box removes nothing from the fragment."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_124": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_124": {
       "status": "survived",
       "diff_sha256": "4e3590e6ba3f92592433fa81c4a691b1bf1e3692437b0bbd7316b4eccf3d8ff6",
       "reason": "Equivalent in output: the near test only preselects invalid cells whose half-cell box may overlap the fragment. This change keeps a superset of the overlapping cells, or drops only cells that touch the fragment along a boundary of zero area (the 1e-10 slack); a non-overlapping box removes nothing from the fragment."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_125": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_125": {
       "status": "survived",
       "diff_sha256": "190afab91b533cef9f4856ecf60441d9e27a37445c23b8bbe645778a9cb90773",
       "reason": "Equivalent in output: the near test only preselects invalid cells whose half-cell box may overlap the fragment. This change keeps a superset of the overlapping cells, or drops only cells that touch the fragment along a boundary of zero area (the 1e-10 slack); a non-overlapping box removes nothing from the fragment."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_126": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_126": {
       "status": "survived",
       "diff_sha256": "17a71185e0a75a68c972a46885533d538be6b0cd96c1585db6f6a65fb3d1d5df",
       "reason": "Equivalent in output: the near test only preselects invalid cells whose half-cell box may overlap the fragment. This change keeps a superset of the overlapping cells, or drops only cells that touch the fragment along a boundary of zero area (the 1e-10 slack); a non-overlapping box removes nothing from the fragment."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_127": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_127": {
       "status": "survived",
       "diff_sha256": "48bd9c8d513eaf6e60ba106539e1c9a955efbb17fc4677e4eb3f927d68a31755",
       "reason": "Equivalent in output: the near test only preselects invalid cells whose half-cell box may overlap the fragment. This change keeps a superset of the overlapping cells, or drops only cells that touch the fragment along a boundary of zero area (the 1e-10 slack); a non-overlapping box removes nothing from the fragment."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_129": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_129": {
       "status": "survived",
       "diff_sha256": "a6ca53c74c618e6c9a373777404f565de2854bb81c781a768d40a662fc82f5b0",
       "reason": "Equivalent in output: the near test only preselects invalid cells whose half-cell box may overlap the fragment. This change keeps a superset of the overlapping cells, or drops only cells that touch the fragment along a boundary of zero area (the 1e-10 slack); a non-overlapping box removes nothing from the fragment."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_198": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_198": {
       "status": "survived",
       "diff_sha256": "db3bd9eac5931927752a8406256d31aa7e6b523036843c660c03268964501981",
       "reason": "Equivalent: the vertex keys are tuples of floats, so the inferred dtype is float64 as well."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_200": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_200": {
       "status": "survived",
       "diff_sha256": "65f360c2edd4722ff969f8db18638e6785f85da3c8b0fa854ca835ab86244a1f",
       "reason": "Equivalent: the vertex keys are tuples of floats, so the inferred dtype is float64 as well."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_203": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_203": {
       "status": "survived",
       "diff_sha256": "8407ca25a12473c4779773b601178ff0436702abf7525d5e6fcd26271c3e3c3a",
       "reason": "Equivalent: the vertex keys are tuples of floats, so the inferred dtype is float64 as well."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_210": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_210": {
       "status": "survived",
       "diff_sha256": "3a329614434f44af8660fea13fc42b646b23a088ae22582f5e40b67beea97986",
       "reason": "Equivalent: only the chunk size of the sample batching changes (8192 to 8193 points per call); every vertex is still sampled exactly once in order, so values and validity are identical."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_217": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_217": {
       "status": "survived",
       "diff_sha256": "d0a57a03b7e981be0f2d442210971752fb4ed1841812c114465d6ef388afc779",
       "reason": "Equivalent: sample() validity is already a boolean array."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_219": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_219": {
       "status": "survived",
       "diff_sha256": "d6b832ac542babc7e811765f7ac5e77605d0afcf3a4c06e8af80a4a1986ad7d1",
       "reason": "Equivalent: sample() validity is already a boolean array."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_237": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_237": {
       "status": "survived",
       "diff_sha256": "03a6155d9d417e21e6158788e47332b5b099abee90029d9127cb089c7c17b929",
       "reason": "Equivalent: the flags are only tested for truth, which 0.0/1.0 floats give the same way as booleans."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_239": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_239": {
       "status": "survived",
       "diff_sha256": "b0bb142811ad4130c9c2be9ca3ca9015467443c75964ffac4ec273ed2bf9fd67",
       "reason": "Equivalent: the flags are only tested for truth, which 0.0/1.0 floats give the same way as booleans."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_277": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_277": {
       "status": "survived",
       "diff_sha256": "ad946cc4cc3bbb09568400ac9086511af1a43482f24d3ee115d0f0e1e798cc63",
       "reason": "Equivalent: rejected-face centroids lie inside their owning domain, so the lower clip never applies."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_278": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_278": {
       "status": "survived",
       "diff_sha256": "e88a47a520fc644be057ba31ca5765f76115f830cb44cba9f451c99e62b69538",
       "reason": "Equivalent: rejected-face centroids lie inside their owning domain, so the upper clip never applies."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_282": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_282": {
       "status": "survived",
       "diff_sha256": "b0f5dee85722bdb05361e9b6dd9de58484cfaef79ca429cfb67e9cc52e40165a",
       "reason": "Not killed by the fixtures: the rejected-face centroids in the curved-wall test round to interior node layers, so a clip that excludes the first or last layer changes nothing there. A curved frame with solid layers on the domain faces distinguishes it (solid 2.0 vs 1.0 grid units at 7x7 points, checked by hand); the effect is only which class a curved-wall face at the outermost layer is listed in."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_283": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_283": {
       "status": "survived",
       "diff_sha256": "73681486a880a636aa1c60c68b3494d14e2644cbb9e95680fc2221f6dbda92e7",
       "reason": "Equivalent: rejected-face centroids lie inside their owning domain, so the upper clip never applies."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_286": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_286": {
       "status": "survived",
       "diff_sha256": "3f35a0f066f29afd2414ec2741170f0ff9d942e57a19cb6e80229470fae34fd6",
       "reason": "Not killed by the fixtures: the rejected-face centroids in the curved-wall test round to interior node layers, so a clip that excludes the first or last layer changes nothing there. A curved frame with solid layers on the domain faces distinguishes it (solid 2.0 vs 1.0 grid units at 7x7 points, checked by hand); the effect is only which class a curved-wall face at the outermost layer is listed in."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_3": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_3": {
       "status": "survived",
       "diff_sha256": "11970098afa0c2f08e4ba913d4d27b42e141a44110417253478ab264f6f23ec0",
       "reason": "Equivalent for the float grids the views send: the inferred dtype is float64."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_309": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_309": {
       "status": "survived",
       "diff_sha256": "73afe20ce15eb5d50a243c4ef4779054834293e348e7a452082628d02565c7e0",
       "reason": "Equivalent: NumPy treats any negative reshape length as the single inferred dimension."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_326": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_326": {
       "status": "survived",
       "diff_sha256": "f863b8762c32bb248f32a6cc7d38905c27be25498b8d4fc930eb6cd1724f68b8",
       "reason": "Equivalent: cross(b-a, c-b) equals cross(b-a, c-a) because cross(b-a, b-a) is zero."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_337": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_337": {
       "status": "survived",
       "diff_sha256": "46dbffecdeb3ea9d4647ca848f7c86bf88be0b476c7ac1449e8a8f9546e394ba",
       "reason": "Free-text label for users; no caller parses it and its wording is not a contract. Only the text changes."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_346": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_346": {
       "status": "survived",
       "diff_sha256": "7ed2344531183bb0e512e4e86c0e7da220fdfadb856a4c192a6836f28cbe083d",
       "reason": "Free-text label for users; no caller parses it and its wording is not a contract. Only the text changes."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_355": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_355": {
       "status": "survived",
       "diff_sha256": "0adbc3520c9287e826bb01ffc5e1ba527aa5a1c6636a5726d57a1c549728dc5c",
       "reason": "Free-text label for users; no caller parses it and its wording is not a contract. Only the text changes."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_36": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_36": {
       "status": "survived",
       "diff_sha256": "07183b6ad64b6653ebb97df16c6301b5788b267b7ae33c9e61779053d331ec8a",
       "reason": "Equivalent in the fixtures: no two clipped vertices differ by between 1e-10 and 1e-9, as the uniqueness assertion at 1e-9 confirms."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_365": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_365": {
       "status": "survived",
       "diff_sha256": "ff67e2167acba1a1f281734e711f48ded1142df7370e57919e418fbe3a35e4b1",
       "reason": "Free-text label for users; no caller parses it and its wording is not a contract. Only the text changes."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_366": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_366": {
       "status": "survived",
       "diff_sha256": "05f9b02c9b11bf846557bc8cd32d0c88b9bc0af2f1f6be30c64cd848cd50d976",
       "reason": "Free-text label for users; no caller parses it and its wording is not a contract. Only the text changes."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_367": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_367": {
       "status": "survived",
       "diff_sha256": "775da3ba6aa77a554860dbec3b0f6d201bb07c61ca6b69b571f25f7b9876fc40",
       "reason": "Free-text label for users; no caller parses it and its wording is not a contract. Only the text changes."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_39": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_39": {
       "status": "survived",
       "diff_sha256": "29b189e9247c6cd7ecefaffaae6733e0404639ae0e8dcd6afc9788e7777befbe",
       "reason": "Equivalent: the extra k=0 face repeats its first vertex, has zero cross product and is skipped by the degeneracy test."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_5": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_5": {
       "status": "survived",
       "diff_sha256": "0d2e32560836aaa4acddc84bf378bf558fb6dcf8196206adede0ba5cf21808b1",
       "reason": "Equivalent for the float grids the views send: the inferred dtype is float64."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_55": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_55": {
       "status": "survived",
       "diff_sha256": "fd966ca56bf8e353453d3de4a481abd1dc66b9aba67b1540b62e9c6ded080ded",
       "reason": "Equivalent: < and <= differ only for a face of area exactly 5e-15 grid units."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_61": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_61": {
       "status": "survived",
       "diff_sha256": "41c2785c14dca98cbffd51117bf740e374f9a1cd29dc7f2387dcdad50ac441c2",
       "reason": "Vertex budget guard: reaching 100000 unique clipped-plane vertices needs a fixture of tens of thousands of clipped triangles (minutes per mutant run); the guard is a resource limit, not a geometry rule."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_62": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_62": {
       "status": "survived",
       "diff_sha256": "cfce7728c22d70d29c49330b63a913b8634a8b9456908739c23b1e9ec098ffa0",
       "reason": "Vertex budget guard: reaching 100000 unique clipped-plane vertices needs a fixture of tens of thousands of clipped triangles (minutes per mutant run); the guard is a resource limit, not a geometry rule."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_63": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_63": {
       "status": "survived",
       "diff_sha256": "1ff8272573ff3120874f601c53b8541a98a39eb3c251229516602e56e25e4347",
       "reason": "Vertex budget guard: reaching 100000 unique clipped-plane vertices needs a fixture of tens of thousands of clipped triangles (minutes per mutant run); the guard is a resource limit, not a geometry rule."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_64": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_64": {
       "status": "survived",
       "diff_sha256": "26ecb63de9c7b83cd075328cc6d08f1165c6f300cde0c5376ad0146d2418729e",
       "reason": "Vertex budget guard: reaching 100000 unique clipped-plane vertices needs a fixture of tens of thousands of clipped triangles (minutes per mutant run); the guard is a resource limit, not a geometry rule."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_65": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_65": {
       "status": "survived",
       "diff_sha256": "a7c8da3ad8bd15d08a9cd142215e961eb483e18c18061a2dc601e41f3d1b979f",
       "reason": "Vertex budget guard: reaching 100000 unique clipped-plane vertices needs a fixture of tens of thousands of clipped triangles (minutes per mutant run); the guard is a resource limit, not a geometry rule."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1plane__mutmut_66": {
+    "hawa.field_collection.xǁFieldCollectionǁplane__mutmut_66": {
       "status": "survived",
       "diff_sha256": "ae3ab7055969de554a82d102d61d99d25b37f687493eb0b5ebc52d69ab648c71",
       "reason": "Vertex budget guard: reaching 100000 unique clipped-plane vertices needs a fixture of tens of thousands of clipped triangles (minutes per mutant run); the guard is a resource limit, not a geometry rule."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1trace__mutmut_18": {
+    "hawa.field_collection.xǁFieldCollectionǁtrace__mutmut_18": {
       "status": "survived",
       "diff_sha256": "8324135cada2b65746726221101b14271d0837a151dcc91290a75409ec17938c",
       "reason": "Equivalent: it differs only for a sampled speed of exactly 1e-10."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1trace__mutmut_47": {
+    "hawa.field_collection.xǁFieldCollectionǁtrace__mutmut_47": {
       "status": "survived",
       "diff_sha256": "c1dc63ebc5f1d4686b20ef23913cf869a6622ac54912c35d71b8adbeafc69fe7",
       "reason": "Equivalent: without the float dtype an integer seed stays an integer array; its first point equals the float coordinates, and every later point is float after the first step."
     },
-    "hawa.field_collection.x\u01c1FieldCollection\u01c1trace__mutmut_49": {
+    "hawa.field_collection.xǁFieldCollectionǁtrace__mutmut_49": {
       "status": "survived",
       "diff_sha256": "609c9d7faab609b58c38fda3dabe8956a25f364c4866db8f4cfee04200405923",
       "reason": "Equivalent: without the float dtype an integer seed stays an integer array; its first point equals the float coordinates, and every later point is float after the first step."
@@ -1055,7 +1064,7 @@
     "hawa.fields.x_uniform_cells__mutmut_14": {
       "status": "survived",
       "diff_sha256": "ba0f9dddd7a8d2df26b4feac4a9bb97121e76acb584b03d8ac9a3604ee153402",
-      "reason": "Equivalent up to isclose's tolerance: (w0\u2248w1 and w1\u2248w2) and (w0\u2248w2 and w1\u2248w2) both mean all three widths are equal for the integer grid widths used here."
+      "reason": "Equivalent up to isclose's tolerance: (w0≈w1 and w1≈w2) and (w0≈w2 and w1≈w2) both mean all three widths are equal for the integer grid widths used here."
     },
     "hawa.fields.x_uniform_cells__mutmut_19": {
       "status": "survived",
@@ -1137,70 +1146,75 @@
       "diff_sha256": "2f04e06b05d58620bc2b18355916fa67a6f3b510344f5f298c503e3d6b9cf2f8",
       "reason": "Equivalent for numeric points: the coordinates are converted to float again by lattice_weights, and the row length check is unchanged, so validity and values are identical."
     },
-    "hawa.plugin.x\u01c1DeviceLock\u01c1__init____mutmut_2": {
+    "hawa.plugin.xǁDeviceLockǁ__init____mutmut_2": {
       "status": "survived",
       "diff_sha256": "05dfb7f0f909d26543dc351e0f2b786e46d69656e7d448fc892cb05277a111b0",
       "reason": "Equivalent: Condition(None) builds its own RLock; DeviceLock never re-enters the condition lock, so a plain Lock and an RLock behave the same here."
     },
-    "hawa.plugin.x\u01c1DeviceLock\u01c1__init____mutmut_4": {
+    "hawa.plugin.xǁDeviceLockǁ__init____mutmut_4": {
       "status": "survived",
       "diff_sha256": "341207f4e430d695000069db3bb7f6d54a9a34c82b51e6a09172fdb624c8a236",
       "reason": "Equivalent: depth is read only by its owner, and acquire sets it to 1 when a thread becomes the owner; the initial value is never read."
     },
-    "hawa.plugin.x\u01c1DeviceLock\u01c1__init____mutmut_5": {
+    "hawa.plugin.xǁDeviceLockǁ__init____mutmut_5": {
       "status": "survived",
       "diff_sha256": "8e489caf4a62d5ae465414b295415141708a9b923d23218569a20855eaa20466",
       "reason": "Equivalent: depth is read only by its owner, and acquire sets it to 1 when a thread becomes the owner; the initial value is never read."
     },
-    "hawa.plugin.x\u01c1DeviceLock\u01c1acquire__mutmut_15": {
+    "hawa.plugin.xǁDeviceLockǁacquire__mutmut_15": {
       "status": "survived",
       "diff_sha256": "7b645bf51ea608b367f881226e0a7b16b831c90f8808976f4b14705e29399624",
       "reason": "Equivalent: acquired is only tested for truth; it is overwritten by wait_for unless the wait raises, and None is false like False."
     },
-    "hawa.plugin.x\u01c1DeviceLock\u01c1acquire__mutmut_27": {
+    "hawa.plugin.xǁDeviceLockǁacquire__mutmut_27": {
       "status": "survived",
       "diff_sha256": "44a47f72246c0a96d2fb4882d20f6b10ef77222a29e54c4919ac67b9a5a10f0a",
       "reason": "Latency only: a stop request that arrives without a notify is noticed within 1.05 s instead of 0.05 s, and the waiter still leaves the queue; a test could tell them apart only with a wall-clock threshold."
     },
-    "hawa.plugin.x\u01c1Session\u01c1build__mutmut_10": {
+    "hawa.plugin.xǁSessionǁbuild__mutmut_10": {
       "status": "survived",
       "diff_sha256": "461b69dc885633750c3d296ca1fde75aeb944f2a4748ca7c2bde86e254276268",
       "reason": "Reviewed initialization equivalent: released_status is overwritten with a complete status dictionary before flow is cleared; its initial unused placeholder is never returned by status()."
     },
-    "hawa.plugin.x\u01c1Session\u01c1build__mutmut_5": {
+    "hawa.plugin.xǁSessionǁbuild__mutmut_5": {
       "status": "survived",
       "diff_sha256": "f9f7b566068808010536ffb9ca782a9aa723df58bb7eefeb9a4088ec76c4135f",
       "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
     },
-    "hawa.plugin.x\u01c1Session\u01c1build__mutmut_7": {
+    "hawa.plugin.xǁSessionǁbuild__mutmut_7": {
       "status": "survived",
       "diff_sha256": "c89d6c916cb4cd028400ae594b5b83cfd3e612f87810dc7aaa8ab127fc63a958",
       "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
     },
-    "hawa.plugin.x\u01c1Session\u01c1pause__mutmut_2": {
+    "hawa.plugin.xǁSessionǁpause__mutmut_2": {
       "status": "survived",
       "diff_sha256": "6714fb875048936f7e2254b36c01b15b8bac62f2b876c48448027312c70aa92d",
       "reason": "Not observable in the CPU suite: the join timeout matters only when a worker fails to reach a chunk boundary, which a test could show only by blocking a worker for 30 s or more per run; the timeout value predates #99 and only moved into the try block."
     },
-    "hawa.plugin.x\u01c1Session\u01c1pause__mutmut_3": {
+    "hawa.plugin.xǁSessionǁpause__mutmut_3": {
       "status": "survived",
       "diff_sha256": "75cca42f37e9fe63c466d6cdecda83b5e5f1882f159220fd50012737f71adfca",
       "reason": "Not observable in the CPU suite: the join timeout matters only when a worker fails to reach a chunk boundary, which a test could show only by blocking a worker for 30 s or more per run; the timeout value predates #99 and only moved into the try block."
     },
-    "hawa.plugin.x\u01c1Session\u01c1start__mutmut_21": {
+    "hawa.plugin.xǁSessionǁstart__mutmut_21": {
       "status": "survived",
       "diff_sha256": "4e2f8fb768a09d45c70bfbf0d9e6d943403d3e21568f283af1f097a06a65c1c5",
       "reason": "Reviewed diagnostic wording equivalent: capitalization or XX decoration changes only; the same ValueError category, close-intent/boundary-time rejection, and rejection before worker creation remain. Exact spelling is not the lifecycle contract."
     },
-    "hawa.plugin.x\u01c1Session\u01c1start__mutmut_4": {
+    "hawa.plugin.xǁSessionǁstart__mutmut_4": {
       "status": "survived",
       "diff_sha256": "685ed19b423af0593a67b1cadbc0f17e534718a7a0dc63368b129ead963edd9e",
       "reason": "Reviewed diagnostic wording equivalent: capitalization or XX decoration changes only; the same ValueError category, close-intent/boundary-time rejection, and rejection before worker creation remain. Exact spelling is not the lifecycle contract."
     },
-    "hawa.plugin.x\u01c1Session\u01c1start__mutmut_5": {
+    "hawa.plugin.xǁSessionǁstart__mutmut_5": {
       "status": "survived",
       "diff_sha256": "3a9af0fd241e9de890b5270232e3558f8f390f17b88db532bcc5e117113ad71e",
       "reason": "Reviewed diagnostic wording equivalent: capitalization or XX decoration changes only; the same ValueError category, close-intent/boundary-time rejection, and rejection before worker creation remain. Exact spelling is not the lifecycle contract."
+    },
+    "hawa.refinement.x_check_refinement__mutmut_17": {
+      "status": "survived",
+      "diff_sha256": "b8c1cb9f302792c62bfa5a1da5d897c4b13d63940697e4522c75951ac5d67cb1",
+      "reason": "Assertion debt tracked under #75: controls do not distinguish the combined refinement fallback budget changing from 1024 to 1025 MiB when memory_limit_mb is omitted. Explicit combined-budget boundaries and per-case defaults are asserted; this survivor is not claimed equivalent. Add a missing-key combined-budget boundary fixture in follow-up."
     },
     "hawa.refinement.x_run_refined__mutmut_117": {
       "status": "survived",
