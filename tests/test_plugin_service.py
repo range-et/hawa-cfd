@@ -524,8 +524,8 @@ def test_release_clears_tensor_roots_and_retries_device_cache_failure(monkeypatc
     assert session.status()['resolution'] == [8, 8, 8]
 
 
-@pytest.mark.parametrize('device,available', [('cpu', True), ('mps', False)])
-def test_release_flush_requires_both_mps_session_and_available_backend(monkeypatch, device, available):
+@pytest.mark.parametrize('device,available', [('cpu', True), ('mps', False)], ids=['host-backend', 'unavailable-backend'])
+def test_release_flush_requires_both_cache_session_and_available_backend(monkeypatch, device, available):
     import torch
     from hawa import plugin
     session = plugin.Session(dict(example='tgv3d-bgk', size=8), 'cpu')
