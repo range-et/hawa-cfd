@@ -112,7 +112,13 @@ def test_successful_job_routes_options_and_registers_own_session(isolated_jobs, 
     if kind == 'record': assert calls == [('record', 4, 2, 'recorded')] and job.result['manifest'] == 'fixture.json'
     if kind == 'motion_evaluate': assert calls == [('motion', 'motion_evaluate')] and job.steps == job.target == 6
     if kind == 'evaluate': assert calls == [('evaluate', 4, 2, 3.)] and job.result['fitness'] == 5.
-    session = job.session; job.control('close')
+    session = job.session
+    def close_async(payload):
+        assert payload == {"op": "close_async", "session": session.id}
+        session.stop.set()
+        jobs.SESSIONS.pop(session.id)
+    monkeypatch.setattr(plugin, 'dispatch', close_async)
+    job.control('close')
     assert session.stop.is_set() and 'owned' not in jobs.SESSIONS and job.session is None and job.result is None
     assert jobs.DEVICE_SLOT.acquire(blocking=False)
     jobs.DEVICE_SLOT.release()
@@ -292,3 +298,43 @@ def test_jobs_hold_the_shared_device_lock_outside_checkpoints(isolated_jobs, mon
     monkeypatch.setattr(jobs, 'SHARE_DEVICE_LOCK', False)
     job = jobs.Job(request()); job.take_device()
     assert not job.holds_device and lock.owner is None
+
+
+@pytest.mark.parametrize("fails", [False, True])
+def test_completed_create_job_releases_owned_session(monkeypatch, fails):
+    """Close hands a completed job to async cleanup, retaining ownership until done."""
+    from hawa import jobs, plugin
+
+    job = jobs.Job({"kind": "create", "case": dict(example="tgv3d-bgk", size=8), "device": "cpu"})
+    job.work()
+    session = job.session
+    pending = []
+
+    class QueuedThread:
+        def __init__(self, target, **kwargs):
+            self.target = target
+        def start(self):
+            pending.append(self.target)
+
+    monkeypatch.setattr(plugin.threading, "Thread", QueuedThread)
+    job.control("close")
+    assert session.stop.is_set() and job.session is None
+    assert plugin.SESSIONS[session.id] is session and session.flow is not None
+    assert len(pending) == 1
+    original_pause = session.pause
+    if fails:
+        def failed_pause():
+            raise RuntimeError("cleanup cancellation boundary unavailable")
+        monkeypatch.setattr(session, "pause", failed_pause)
+    pending.pop()()
+    if fails:
+        assert plugin.SESSIONS[session.id] is session
+        assert session.flow is not None and session.state == "failed"
+        assert session.error == "cleanup cancellation boundary unavailable"
+        monkeypatch.setattr(session, "pause", original_pause)
+        plugin.dispatch({"op": "close_async", "session": session.id})
+        pending.pop()()
+    assert session.id not in plugin.SESSIONS
+    assert session.flow is session.solver is session.initial_f is None
+
+

@@ -623,6 +623,7 @@ def dispatch(request):
     if op in ("pause_async", "close_async", "reset_async"):
         session.stop.set()
         session.state = "resetting" if op == "reset_async" else ("pausing" if session.thread is not None and session.thread.is_alive() else "paused")
+        reply = session.status()
         if op != "pause_async":
             def finish():
                 try:
@@ -631,7 +632,7 @@ def dispatch(request):
                     session.error = str(exc)
                     session.state = "failed"
             threading.Thread(target=finish, name="Hawa control", daemon=True).start()
-        return session.status()
+        return reply
     if op == "start":
         session.start(request["steps"])
         return session.status()

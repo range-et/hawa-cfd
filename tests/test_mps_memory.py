@@ -57,23 +57,3 @@ def test_mps_teardown_returns_current_and_driver_memory():
     assert after_drv < peak_drv * 0.25
 
 
-def test_disposed_create_job_releases_owned_session():
-    """Cancelling/disposing a create job calls pause + release on its owned session."""
-    import time
-    from hawa.jobs import JOBS, dispatch_job
-
-    submitted = dispatch_job({"op": "evaluate_submit", "kind": "create", "case": _small_case(), "device": "cpu"})
-    jid = submitted["job"]
-    deadline = time.time() + 10.0
-    while time.time() < deadline:
-        snap = dispatch_job({"op": "evaluate_poll", "job": jid})
-        if snap["state"] == "completed":
-            break
-        time.sleep(0.02)
-    assert snap["state"] == "completed"
-    # Verify job close removes registry entry and session is no longer registered
-    sid = snap["result"]["status"]["session"] if "status" in snap["result"] else snap["result"]["session"]
-    dispatch_job({"op": "evaluate_control", "job": jid, "action": "close"})
-    assert sid not in SESSIONS
-    assert jid not in JOBS
-

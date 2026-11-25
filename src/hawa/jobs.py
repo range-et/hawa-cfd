@@ -187,10 +187,10 @@ class Job:
                 self.cancelled = True
                 if self.session is not None and self.state == 'completed':
                     # A completed creation job can own a running Solve session.
-                    # Request cancellation before dropping its registry entry.
-                    self.session.stop.set()
-                    with REGISTRY_LOCK:
-                        SESSIONS.pop(self.session.id, None)
+                    # Keep registry ownership until its worker stops, then release
+                    # tensors. Async close never joins on the caller/UI thread.
+                    from .plugin import dispatch
+                    dispatch({"op": "close_async", "session": self.session.id})
                     self.session = None
                 self.result = None
                 self.condition.notify_all()

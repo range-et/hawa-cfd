@@ -377,3 +377,22 @@ def test_device_lock_waiter_with_a_stop_check_keeps_its_place():
     flag.append(True); stopper.join(2)
     assert order[-1] == 'cancelled stopped' and lock.queue == [] and lock.owner == threading.get_ident()
     lock.release()
+
+
+def test_async_close_reply_survives_immediate_cleanup(monkeypatch):
+    from hawa import plugin
+
+    session = plugin.Session(dict(example="tgv3d-bgk", size=8), "cpu")
+    plugin.SESSIONS[session.id] = session
+
+    class ImmediateThread:
+        def __init__(self, target, **kwargs):
+            self.target = target
+        def start(self):
+            self.target()
+
+    monkeypatch.setattr(plugin.threading, "Thread", ImmediateThread)
+    reply = plugin.dispatch({"op": "close_async", "session": session.id})
+    assert reply["session"] == session.id and reply["steps"] == 0
+    assert reply["state"] == "paused"
+    assert session.flow is None and session.id not in plugin.SESSIONS
