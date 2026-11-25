@@ -31,7 +31,7 @@ The local integration of PRs #128–#134 passes 2,985 Python tests (87 skipped),
 review-discovered synchronous/asynchronous close lock inversion. The committed
 matrix is freshly measured and the repaired development package passes build,
 source inclusion and archive checks. Live Rhino acceptance, broader qualification
-and release remain open; this is not merged into main or installed.
+and release remain open; no installed-build acceptance is claimed.
 [Combined evidence and limits](docs/review-mvp-integration.md).
 
 ## Retained poll timer repair (November 24, 2026)

@@ -8,11 +8,11 @@
     "tests/test_openfoam_contracts.py"
   ],
   "sources": {
-    "src/hawa/openfoam.py": "dcc48ffa252ca17afda505b729be34f80b6fc84554fed6f1ee91783c03f3ce91",
+    "src/hawa/openfoam.py": "e303b01e8b0ac8be6553c6ae780b658fbd230caa89391bd79412fc43d34562e3",
     "scripts/compare_openfoam_controls.py": "0c644b234d19670f987af0c5a30347822924e1efc3a656e2ecd68a013c2ccdf6",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/test_openfoam.py": "9a9132153149b9f8c86bab551905714c2a708b610059dd1b99c9e8207206f625",
-    "tests/test_openfoam_contracts.py": "62b0a3f44cd9a02d659a9763f6d9cddf661986e8ac5607e799935c66315ebb75",
+    "tests/test_openfoam_contracts.py": "75681c5e49e946f634542b283fe45cf02f77bfaa230618ba40507cf7692ee1b6",
     "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c",
     "tests/fixtures/openfoam/channel_poiseuille_ny10.json": "8b24a92e2d4b574c0457344652f5f24225b691b5a8a39005df8a835b1c65c82b",
     "tests/fixtures/openfoam/cavity_re10_n32.json": "086ea435971f9ac090922dd5fd0b185bb8a7485ec281bcd04f9708ac009aea2f"
@@ -788,11 +788,6 @@
       "diff_sha256": "ced8850a64471b5f8a0bf3275bfa97284b47cf45585c08cd7757f3e1ee85bc4c",
       "reason": "Unresolved: assertion/portability coverage for bundle_from_hawa_spec needs targeted follow-up under PR #128; this exact survivor is not counted as a kill or claimed equivalent. See docs/review-openfoam-pr128-followup.md."
     },
-    "hawa.openfoam.x_bundle_from_hawa_spec__mutmut_250": {
-      "status": "survived",
-      "diff_sha256": "77c18e3cd829c3204b1f7b95d912b8b365391a6163d9a7b943fe7f107f3d9354",
-      "reason": "Unresolved: assertion/portability coverage for bundle_from_hawa_spec needs targeted follow-up under PR #128; this exact survivor is not counted as a kill or claimed equivalent. See docs/review-openfoam-pr128-followup.md."
-    },
     "hawa.openfoam.x_bundle_from_hawa_spec__mutmut_26": {
       "status": "survived",
       "diff_sha256": "406a18f1d03424ac54012941bdc34d48c834f632128f1b2868772253a044828b",
@@ -1041,16 +1036,6 @@
     "hawa.openfoam.x_channel_poiseuille_case__mutmut_1": {
       "status": "survived",
       "diff_sha256": "5bbd0692bc2bd7bf826029bf07162c3022fb998342e5cff28a9839a815ad1f1f",
-      "reason": "Unresolved: assertion/portability coverage for channel_poiseuille_case needs targeted follow-up under PR #128; this exact survivor is not counted as a kill or claimed equivalent. See docs/review-openfoam-pr128-followup.md."
-    },
-    "hawa.openfoam.x_channel_poiseuille_case__mutmut_11": {
-      "status": "survived",
-      "diff_sha256": "5842350ab75937feed9197eabb6f1578051659afbae529fbc43d5c78a91a4bdd",
-      "reason": "Unresolved: assertion/portability coverage for channel_poiseuille_case needs targeted follow-up under PR #128; this exact survivor is not counted as a kill or claimed equivalent. See docs/review-openfoam-pr128-followup.md."
-    },
-    "hawa.openfoam.x_channel_poiseuille_case__mutmut_12": {
-      "status": "survived",
-      "diff_sha256": "d45b511a8eeff0942e6b472ccf6a81fa25e6b592d2bf027111653f70c43373a5",
       "reason": "Unresolved: assertion/portability coverage for channel_poiseuille_case needs targeted follow-up under PR #128; this exact survivor is not counted as a kill or claimed equivalent. See docs/review-openfoam-pr128-followup.md."
     },
     "hawa.openfoam.x_channel_poiseuille_case__mutmut_127": {

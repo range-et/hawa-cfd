@@ -146,3 +146,38 @@ are 0.02 normalized velocity and 0.05 normalized pressure difference/gradient.
 
 These bounded checks supersede no prior cavity result and do not qualify
 Slices 2–4, other devices, turbulent models or engineering accuracy.
+
+## November 25 — PR #135 two-dimensional profile repair
+
+Codex `openfoam_walls` reproduced review comment
+[4690560057](https://github.com/range-et/hawa-cfd/pull/135#discussion_r4690560057):
+a 2D channel bundle with `profile_axis=2` passed validation but its one-cell
+empty-Z extrusion emitted six identical `(0.5 0 0)` inlet vectors. This changes
+the supplied Z-dependent parabolic inlet into a uniform inlet.
+
+Frozen source `76a33f7` rejects Z-dependent parabolic profiles for `dimensions=2`
+with actionable guidance to use `dimensions=3` and a resolved Z mesh. Regressions
+exercise direct validation, Hawa handoff, refusal before case publication, and
+accepted X/Y-dependent 2D and Z-dependent 3D profiles against analytic face
+samples. No 3D capability or valid in-plane 2D profile was removed.
+
+Focused OpenFOAM tests: **87 passed** on Python 3.9 and **87 passed** on Python
+3.12; Ruff and diff checks pass. Fresh isolated mutation evidence at
+`results/pr135-openfoam-profile-20261125`: **3990 mutants, 3421 killed, 569
+survivors, zero error/timeout/no-test outcomes**, with **87 passing controls**.
+The exact policy passes; all retained survivors have unchanged status/diff hash
+and retain their prior reasons (**86 narrow equivalents, 483 unresolved gaps**).
+Three former unresolved mutants are now killed: the minimum channel grid bound
+(two mutants) and the omitted-provenance default. The Pydantic model validator
+remains outside mutmut's decorated-method scope; its new rejection has direct
+regression evidence, not a claimed mutation kill.
+
+The separately refreshed motion-schema dependency study at
+`results/pr135-motion-schema-20261125` passes **104/104 mutants killed**, **133
+passing controls**, zero survivors, and an exact matching policy. This refresh
+pins the changed OpenFOAM source; it does not mutate the OpenFOAM validator.
+
+No new numerical solver study, device qualification or live-host check was run
+for this validation-only repair. Earlier Channel 07 comparisons remain historical
+numerical evidence for unchanged supported cases. The root integration review
+owns the final combined full-suite/function gates and host acceptance.

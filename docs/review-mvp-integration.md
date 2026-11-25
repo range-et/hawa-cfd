@@ -2,8 +2,9 @@
 
 Date: November 24, 2026. Integrator/operator: Codex primary agent (self-review).
 Implementation and scoped reviews: Codex openfoam_walls, scheduler_cli and
-lifecycle_admission agents, as identified in the linked records. This is the
-combined integration branch, not a merge into main or a release.
+lifecycle_admission agents, as identified in the linked records. This covers the
+combined candidate in [PR #135](https://github.com/range-et/hawa-cfd/pull/135).
+It makes no installed-build or release claim.
 
 An earlier bounded source review of cleanup/admission at `bd415bd` by openfoam_walls
 found no new actionable regression in job ownership/retries, close reply ordering,
@@ -49,8 +50,16 @@ in-plane X/Y profiles in 2D and analytically varying Z profiles in 3D; 87 focuse
 tests pass on each Python version. This is validation repair, not a change to
 the numerical algorithms or tolerances used by the earlier comparisons.
 
-Fresh mutation policies and combined measured coverage are pending for these
-changes. The November 24 counts below are historical until the new gate finishes.
+Fresh mutation policies pass: native-data 1056/946/110, status-truth 287/276/11,
+numerical-export 2012/1875/137, validity 2747/2513/234 and OpenFOAM 3990/3421/569
+(total/killed/reviewed survivors); motion-schema kills all 104 mutants. All
+collected controls passed, with no errors or timeouts. Exact surviving diffs
+retain their reviewed reasons; OpenFOAM now has 86 equivalent and 483 explicitly
+unresolved survivors. Selected dependency provenance remains bounded as stated
+below. The current M3 Max teardown test also passes after the capture-lock repair.
+
+Combined measured coverage is pending. The November 24 counts below remain
+historical until the new gate finishes.
 The maintainer requested merge after review fixes and green checks on November 25;
 the previously disclosed live-host and qualification gaps remain open.
 

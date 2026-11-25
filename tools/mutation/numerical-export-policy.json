@@ -689,7 +689,7 @@
   "sources": {
     "src/hawa/admission.py": "91cf7d545f1227a3f0876ca8ce7172422028bf884541c7f40ffc5595fd5eb2de",
     "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
-    "src/hawa/plugin.py": "fb0328c57e4d36503317412ed2f22c0a9d6e32c4d244bacb94f1b6e697d46ca8",
+    "src/hawa/plugin.py": "a7c520369150ca44f2b1bab78de2150bc5f518deb7451a472f6d40174f9aa81c",
     "src/hawa/jobs.py": "5b8f67183ab377eb2566c0b28acb393cd2a0aed4fbe2b69b67faf8bef2bb04d4",
     "src/hawa/boundary_data.py": "f7ccd92f10b46f274b696439350ed98062838c91e93f26b9fa573acf51332741",
     "src/hawa/boundary_series.py": "fa486523b91a88681d7446151e89e02208b87d5563029baa88bc73b556af4549",
@@ -701,7 +701,7 @@
     "src/hawa/sweeps.py": "45549b20a09a37159e47b86d4470d34f3b62a48b9450410e21a720d9e4785f74",
     "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
-    "tests/test_plugin_service.py": "7cd4a512acacc7699b7cab1327bee907295c4913472e81643faca0263b50084e",
+    "tests/test_plugin_service.py": "a51ba4909e2cc0bc391b2a5e5a08f292b95cd6f7209092a052fcb6ddd67a5cc2",
     "tests/test_admission_messages.py": "8a8999f385bb3a629ee6b8b014ad975ad878207f9552686163369b3192e3437e",
     "tests/test_boundary_data.py": "c02370f353f88eb4751db6e9bfb347be306168e7ea19966b1bd1cc9917e639a4",
     "tests/test_boundary_series.py": "5bf4cc43a974f32f74d3e702ab02aab911d20de37d8e085541310c1492d0fb41",

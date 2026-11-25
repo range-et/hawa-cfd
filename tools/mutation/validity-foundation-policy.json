@@ -18,7 +18,7 @@
     "tests/test_native_data.py"
   ],
   "sources": {
-    "src/hawa/plugin.py": "fb0328c57e4d36503317412ed2f22c0a9d6e32c4d244bacb94f1b6e697d46ca8",
+    "src/hawa/plugin.py": "a7c520369150ca44f2b1bab78de2150bc5f518deb7451a472f6d40174f9aa81c",
     "src/hawa/fields.py": "edb5618ac963f791f01131e30f3c75bafad23b5a5fa0d475b405803c9e40c2f2",
     "src/hawa/field_collection.py": "8e375ad5b5d9e98bb861a8c01cc4c7351fd9928a0f8d5d5571c3258fbf969a68",
     "src/hawa/refinement.py": "3d86dd8abdfb1fbaabe340e5a77b606e854367fe246494d5c28ec4e283e51844",
@@ -43,7 +43,7 @@
     "tests/test_optimization.py": "c6b79f44a0b477584316355d6953f6de9ac967c5e456ba78a65202e1157a5a23",
     "tests/test_fields.py": "46c6181d697003a9214f043cbc6945b330063433e03b0d9d287b1897b9582867",
     "tests/test_field_collection.py": "162f2a6220afb599f491932ba5f9f7dc11cbc45a20cba29edf1eefe4a8077644",
-    "tests/test_plugin_service.py": "7cd4a512acacc7699b7cab1327bee907295c4913472e81643faca0263b50084e",
+    "tests/test_plugin_service.py": "a51ba4909e2cc0bc391b2a5e5a08f292b95cd6f7209092a052fcb6ddd67a5cc2",
     "tests/test_recording.py": "f693484e74c0c1fab13bdd432d6a2954d5adad9da7ca829b594de20abab5e428",
     "tests/test_refinement.py": "74f4bd8e6b87d1e0be835c0bc4e4139fe08a061d8e278c621d52996fff5fe931",
     "tests/test_quality_provenance.py": "b637d06ceb7815f11d057bc41362b743104ac838b635dc7661224068c4abd0d9",

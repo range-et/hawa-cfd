@@ -1,5 +1,45 @@
 # MPS teardown review follow-up (#76, PR #132)
 
+## November 25, 2026 — capture exclusion (PR #135)
+
+Reviewer: Codex lifecycle/admission agent; source/test freeze `76a33f7`.
+Greptile identified that CPU/CUDA sessions use a capture lock separate from the
+shared device lock. An active frame capture could therefore lose `flow` between
+array copying and metadata capture even while holding its session lock.
+
+A deterministic CPU regression reproduced the defect before the fix: cleanup
+cleared tensors while the capture held its lock (0.14 seconds, all workers joined).
+Release now acquires `MPS_LOCK`, then the session capture lock, then `release_lock`.
+The prior query-close/async-close order is preserved. The production lock-site
+audit found no current session-lock-to-global-lock acquisition path: job device
+admission precedes session operations, while capture/export/native-save checkpoints
+run outside their capture blocks. MPS sessions reuse the same reentrant device lock.
+
+The regression pauses the real field capture between arrays and metadata, starts
+public async close, checks that status remains accessible and tensors remain owned,
+then resumes the capture and verifies coherent step/time metadata and complete
+cleanup. Separate-session and shared-device lock topologies use CPU tensors; the
+shared topology uses the production `DeviceLock`. These are not CUDA or live Rhino
+checks. Both new variants plus the previous lock-order regression passed on Python
+3.9 and 3.12 (three tests each). Broader CPU controls passed 221 tests on 3.9 before
+the shared-lock variant was added, and 222 on 3.12 with it (14 device deselections).
+Ruff and whitespace checks passed.
+
+Fresh isolated mutation controls passed 317 export tests and 368 validity tests,
+with 14/24 device deselections and no skips. Fresh exact policies pass:
+numerical-export 2012 mutants (1875 killed, 137 reviewed survivors), and
+validity-foundation 2747 (2513 killed, 234 reviewed). All survivor diff hashes
+match their prior explicit reviews; no new survivor exemptions, mutation errors
+or timeouts. Runs used two/four CPU workers respectively and overlapped other
+CPU studies; these are correctness results, not performance measurements.
+Evidence directories: `results/pr135-capture-export-20261125` and
+`results/pr135-capture-validity-20261125`.
+The current measured suite/package and remaining host omissions belong to the
+[integration review](review-mvp-integration.md). The November 24 results below
+remain historical evidence for their recorded revisions.
+
+## November 24, 2026 — completed-job and async-close repairs
+
 Date: November 24, 2026. Reviewer: Codex lifecycle/admission agent (self-review).
 Scope: completed evaluation-job disposal, retry ownership and asynchronous control ordering.
 
