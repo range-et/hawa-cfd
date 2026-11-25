@@ -170,7 +170,7 @@ def capture(manifest,spec,path,checkpoint=lambda n:None,start_time=0.,end_time=N
     from .recording import read_manifest
     from .fields import read_frame
     from .admission import check_capture_budget, validate_new_output_file
-    validate_new_output_file(path);check_capture_budget(spec,512);faces=active_faces(spec);indices,solid=layout(spec,faces)
+    path = validate_new_output_file(path);check_capture_budget(spec,512);faces=active_faces(spec);indices,solid=layout(spec,faces)
     root,recording,_=read_manifest(manifest)
     if not recording.get('complete'):raise ValueError('Parent recording must be complete')
     if not np.isfinite(start_time) or start_time<0 or (end_time is not None and (not np.isfinite(end_time) or end_time<=start_time)):raise ValueError('Invalid capture time window')

@@ -104,7 +104,7 @@ def capture(manifest, spec, path, checkpoint=lambda n: None, start_time=0., end_
     from .recording import read_manifest
     from .fields import read_frame
     from .plugin import sample_arrays
-    validate_new_output_file(path)
+    path = validate_new_output_file(path)
     check_capture_budget(spec, 64)
     root, source, _ = read_manifest(manifest)
     if not source.get('complete'): raise ValueError('Parent recording must be complete')
