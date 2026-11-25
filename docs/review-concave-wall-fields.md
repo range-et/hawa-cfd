@@ -6,7 +6,11 @@ This follow-up changes tests and evidence only; it does not change wall physics.
 The earlier CPU/MPS test compared mean speed, which loses direction and local
 variation. The revised test retains that original `rtol=5e-4` scalar check and
 additionally compares every fluid velocity component and pressure, with identical
-fluid masks. CPU-only hosts now explicitly skip the named MPS comparison.
+fluid masks. CPU-only hosts explicitly skip only the named MPS comparison.
+The original q=0.29 CPU 40-step fallback-count, finite-field and mass-drift
+checks remain unconditional in the midpoint/stability test. A follow-up review
+identified that the initial split accidentally made those checks MPS-dependent;
+this final revision restores them. CPU-only focused run: **2 passed, 1 skipped**.
 
 The added field criterion is the existing CPU/accelerator criterion in
 `scripts/compare_examples.py`: `rtol=1e-3`, `atol=1e-5` times the field's physical
@@ -58,8 +62,8 @@ is claimed. No established tolerance was widened.
 - Python 3.12 full suite: **2839 passed, 97 skipped**. Extra skips are the
   production-Python entrypoints; CUDA is unavailable. Existing upstream,
   matplotlib and runpy warnings remain visible in the local logs.
-- Evidence directories: `results/function-concave-review-20261124` and
-  `results/concave-review-py312-20261124.log`. These full suites overlapped other
+- Evidence directories: `results/function-concave-review-cpu-retained-20261124` and
+  `results/concave-review-cpu-retained-py312-20261124.log`. These full suites overlapped other
   CPU mutation/coverage work and available-device tests; no timing/performance
   claim is made. The focused CPU/MPS comparison above ran in a separately
   coordinated short device window.

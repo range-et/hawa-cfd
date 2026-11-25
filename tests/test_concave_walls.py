@@ -84,6 +84,16 @@ def test_midpoint_rounding_overlapping_boxes_and_live_flow_stability():
     assert np.isfinite(f_mid["velocity"]).all()
     assert np.isfinite(f_mid["pressure"]).all()
 
+    # CPU stability remains unconditional on hosts without an MPS device.
+    case, expected = _l_shape_case(fraction=0.29)
+    session = Session(case, "cpu")
+    assert session.solver.wall_fallback_links == expected
+    session.advance(40)
+    fields = session.fields()
+    assert np.isfinite(fields["velocity"]).all()
+    assert np.isfinite(fields["pressure"]).all()
+    assert abs(session.relative_mass_change) < 0.05
+
 
 
 @pytest.mark.skipif(not torch.backends.mps.is_available(), reason="MPS device unavailable")
