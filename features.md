@@ -15,6 +15,17 @@ git history at commit cc407cc. See the release review for distribution
 claims and the [coverage matrix](examples/grasshopper/VERIFICATION.md) for required
 example checks.
 
+## Retained poll timer repair (November 24, 2026)
+
+PR #130 now retains the UI timer throughout a drain, including when one due
+component completes and cancels its poll while another component is skipped.
+The skipped component retries at its original delay; the timer is disposed once
+all requests finish. Deterministic clock-driven contracts reproduce the old
+timer-loss path and verify retry, deadline and cleanup behavior. This is
+headless scheduling evidence, not proof of the original Rhino trigger or a
+live multi-candidate completion. [#122](https://github.com/range-et/hawa-cfd/issues/122)
+remains open. [Review](docs/review-poll-retry.md).
+
 ## November development buildlog and video publication (November 18, 2026)
 
 The [dated buildlog](site/build-log/2026-11.html) gathers merged native data,

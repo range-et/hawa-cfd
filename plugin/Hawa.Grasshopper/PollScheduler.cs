@@ -10,6 +10,9 @@ public static class HawaPollScheduler
     private static readonly HashSet<GH_Component> solved = new(ReferenceEqualityComparer.Instance);
     private static UITimer? timer;
     private static bool draining;
+    // Injectable monotonic clock for deterministic deadline contracts. UI-thread only.
+    internal static Func<long> Clock = () =>
+        Environment.TickCount64;
     public static int PendingCount => pending.Count;
 
     // Called only from the host UI thread. The predicate captures a generation
@@ -21,7 +24,7 @@ public static class HawaPollScheduler
             return;
         if (draining)
             solved.Add(component);
-        long due = Environment.TickCount64 + delay;
+        long due = Clock() + delay;
         if (pending.TryGetValue(component, out var old) && old.Document == document)
             due = Math.Min(due, old.Due);
         pending[component] = new(document, current, due, delay);
@@ -54,7 +57,9 @@ public static class HawaPollScheduler
 
     private static void UnsubscribeIfEmpty()
     {
-        if (timer != null && pending.Count == 0)
+        // During Drain, due requests temporarily live outside pending. A
+        // completed sibling must not dispose the timer before retries return.
+        if (!draining && timer != null && pending.Count == 0)
         {
             timer.Stop();
             timer.Elapsed -= Drain;
@@ -95,7 +100,7 @@ public static class HawaPollScheduler
                     continue;
                 }
 
-                if (!GH_Document.EnableSolutions || !e.Document.Enabled || e.Document.SolutionDepth != 0 || Environment.TickCount64 < e.Due)
+                if (!GH_Document.EnableSolutions || !e.Document.Enabled || e.Document.SolutionDepth != 0 || Clock() < e.Due)
                     continue;
                 pending.Remove(c);
                 ready.Add((c, e));
@@ -146,7 +151,7 @@ public static class HawaPollScheduler
                         continue;
                     }
                     if (stillCurrent)
-                        pending[c] = new(e.Document, e.Current, Environment.TickCount64 + Math.Max(e.Delay, 0), e.Delay);
+                        pending[c] = new(e.Document, e.Current, Clock() + Math.Max(e.Delay, 0), e.Delay);
                 }
             }
         }
