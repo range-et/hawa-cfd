@@ -465,7 +465,9 @@ class Session:
 
     def release(self):
         """Break cyclic solver references and return cached MPS driver memory (#76)."""
-        with self.release_lock:
+        # Queries may already own the reentrant device lock. Keep one order
+        # for every cleanup caller so asynchronous close cannot invert it.
+        with MPS_LOCK, self.release_lock:
             if self.flow is not None:
                 self.released_status = self.status()
             device_type = self.backend.device.type if self.backend is not None else None
@@ -473,9 +475,8 @@ class Session:
             self.mean_u = self.mean_p = self.mean_rho = None
             gc.collect()
             if device_type == "mps" and torch.backends.mps.is_available():
-                with MPS_LOCK:
-                    torch.mps.synchronize()
-                    torch.mps.empty_cache()
+                torch.mps.synchronize()
+                torch.mps.empty_cache()
 
     def status(self):
         # UI polling reads Python scalars. GPU reductions happen in the worker.
