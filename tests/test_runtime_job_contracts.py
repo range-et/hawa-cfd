@@ -319,6 +319,7 @@ def test_completed_create_job_releases_owned_session(monkeypatch, fails):
 
     monkeypatch.setattr(plugin.threading, "Thread", QueuedThread)
     job.control("close")
+    job.control("close")  # a repeated request must share the pending cleanup
     assert session.stop.is_set() and job.session is session
     assert plugin.SESSIONS[session.id] is session and session.flow is not None
     assert len(pending) == 1
