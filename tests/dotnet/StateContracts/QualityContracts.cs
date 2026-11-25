@@ -142,6 +142,30 @@ static class QualityContracts
             HawaPollScheduler.Request(c,()=>true,100000);var timer=UITimer.Active.Single();HawaPollScheduler.Cancel(c);
             assert(HawaPollScheduler.PendingCount==0&&timer.Disposed&&UITimer.Active.Count==0,"Cancellation leaked timer");Clear();
         });
+        test("polling retains its timer when another due component completes (#122)", () => {
+            Clear();var doc=new GH_Document();global::Grasshopper.Instances.DocumentServer.Add(doc);
+            var completed=new StationaryStudyComponent{Document=doc};var skipped=new StationaryStudyComponent{Document=doc};
+            var savedClock=HawaPollScheduler.Clock;long now=0;HawaPollScheduler.Clock=()=>now;
+            try {
+                HawaPollScheduler.Request(completed,()=>true,100);HawaPollScheduler.Request(skipped,()=>true,100);
+                var timer=UITimer.Active.Single();
+                doc.DuringSolution=()=>HawaPollScheduler.Cancel(completed);
+                now=99;timer.Pulse();assert(doc.Solutions==0,"Poll ran before deadline");
+                now=100;timer.Pulse();
+                assert(doc.Solutions==1&&completed.Expirations==1&&skipped.Expirations==1&&HawaPollScheduler.PendingCount==1&&!timer.Disposed&&UITimer.Active.Contains(timer),"Completed component disposed the skipped component's retry timer");
+                doc.DuringSolution=()=>HawaPollScheduler.NoteSolved(skipped);
+                now=199;timer.Pulse();assert(doc.Solutions==1,"Retried before retained delay elapsed");
+                now=200;timer.Pulse();
+                assert(doc.Solutions==2&&skipped.Expirations==2&&HawaPollScheduler.PendingCount==0&&timer.Disposed&&UITimer.Active.Count==0,"Retained timer did not deliver and dispose the final retry");
+            } finally { HawaPollScheduler.Clock=savedClock;Clear(); }
+        });
+        test("polling isolates post-solution identity errors on skipped HawaComponent refreshes (#122)", () => {
+            Clear();var doc=new GH_Document();global::Grasshopper.Instances.DocumentServer.Add(doc);var c=new StationaryStudyComponent{Document=doc};
+            int calls=0;
+            HawaPollScheduler.Request(c,()=>++calls==1?true:throw new InvalidOperationException("post-solve identity failed"),-1);
+            var timer=UITimer.Active.Single();timer.Pulse();
+            assert(HawaPollScheduler.PendingCount==0&&timer.Disposed&&c.Errors.Single().Contains("post-solve identity failed"),"Post-solution identity fault was not isolated");Clear();
+        });
     }
 }
 
