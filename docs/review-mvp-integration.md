@@ -47,6 +47,13 @@ mutation runner conflict retained #133's superset of fixtures and CPU selection.
 - Development package from `4e546ac` builds with existing warnings and no errors.
   ZIP integrity passes; the legacy example 09 definition is absent. Hashes are
   in `results/integration-build-hashes.json`. This package has not been installed.
+- Pre-lock-order-repair measured gate at `4993264`: 2,984 Python tests pass,
+  87 skip, 159 C# contracts pass; 1,240 functions covered, zero strict headless
+  failures, 299 host functions unmeasured. Subsequent PR review identified a
+  synchronous/asynchronous close lock inversion that this suite did not detect.
+  This passing run does not establish merge readiness. Regression, repair and
+  refreshed evidence are pending; retain the original run under
+  `results/function-coverage-combined-final-20261124/` as pre-repair evidence.
 
 The diagnostic and smoke runs use macOS/Apple M3 Max, Python 3.9 and pinned
 PyTorch 2.8.0. C# checks/build use the private .NET 10 toolchain; the plugin target
@@ -59,7 +66,7 @@ change the smoke-tested production code; final full-suite evidence is pending.
 | --- | --- | --- |
 | G0 research | PASS (bounded integration) | Component records retain sources, criteria and exclusions; no new dependency or physics claim. |
 | G1 architecture | PASS (headless scope) | Scoped source reviews and deterministic ownership/scheduling tests; actual host behavior remains under G4/G6. |
-| G2 reliability | BLOCKED | Final combined full measured suite and current mutation provenance pending. |
+| G2 reliability | BLOCKED | Confirmed close lock inversion requires regression/repair and refreshed mutation/full-suite evidence. |
 | G3 numerical physics | PASS (smoke scope only) | CPU/MPS five-case policy above; component numerical evidence retains its own exact source scope. Long-window qualification and PorousMedium parity remain open. |
 | G4 UI/UX | BLOCKED | Revised 08/22/25 markers, Stationary Study publication, example 33 refusals and embedded cleanup/paused RSS await live acceptance. |
 | G5 release/integration | BLOCKED | Local package builds, but final evidence and installed acceptance are incomplete. No release. |
