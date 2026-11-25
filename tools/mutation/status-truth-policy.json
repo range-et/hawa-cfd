@@ -2,7 +2,7 @@
   "tool": "mutmut==3.7.0",
   "mutants": 286,
   "inventory_sha256": "e6e148fd8bc44a4beafb92db661e9d111d43951711ecef0750afdc85290e8906",
-  "scope": "Changed job lifecycle, CPU device locking and query/refinement/native-data save/import dispatch lines versus 6b0744a; deterministic CPU-only controls including paused restore, read cancellation and progress. Includes stationary-study submit/selected-poll routing with real CPU controls; not a whole-module mutation claim for the new study service.",
+  "scope": "Changed job lifecycle, CPU device locking and query/refinement/native-data save/import dispatch lines versus 6b0744a; deterministic CPU-only controls including paused restore, read cancellation and progress. Includes stationary-study submit/selected-poll routing with real CPU controls; not a whole-module mutation claim for the new study service. Pins plugin.py for the changed cleanup path; reviewed dependencies are bounded, not the whole import graph.",
   "control_test_files": [
     "tests/test_stationary_study.py",
     "tests/test_runtime_job_contracts.py",
@@ -14,6 +14,7 @@
   ],
   "sources": {
     "src/hawa/jobs.py": "08982643574676c0274f6a294f5d1a709f0aa40aa77fd9017063c2c1b4eae427",
+    "src/hawa/plugin.py": "0a101c19c4e3254bd1f8395ccc292655e70c32b5fd867f3c0c96bcaa06983e44",
     "src/hawa/stationary_study.py": "0ef1817c5060ea94ff2f788327d297295bd1757421ed5f001ca6cda7356f1d3a",
     "src/hawa/mesh_voxel.py": "63e5f827509f00dbe7f297e2ca6e6d71b4c3a67c8e555b3e4822998f34d71da6",
     "src/hawa/sweep_executor.py": "ced3a448bae487851e0312ee539701128f292737d9967a838b265b12c823ed38",

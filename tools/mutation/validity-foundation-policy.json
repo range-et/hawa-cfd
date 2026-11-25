@@ -17,13 +17,13 @@
     "tests/test_native_data.py"
   ],
   "sources": {
-    "src/hawa/plugin.py": "5ddb876a1e66aba2be7a77ecd1ff325dee2ac8ad5e6c998f4295d97cb6dc8960",
+    "src/hawa/plugin.py": "0a101c19c4e3254bd1f8395ccc292655e70c32b5fd867f3c0c96bcaa06983e44",
     "src/hawa/fields.py": "edb5618ac963f791f01131e30f3c75bafad23b5a5fa0d475b405803c9e40c2f2",
     "src/hawa/field_collection.py": "8e375ad5b5d9e98bb861a8c01cc4c7351fd9928a0f8d5d5571c3258fbf969a68",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/test_fields.py": "46c6181d697003a9214f043cbc6945b330063433e03b0d9d287b1897b9582867",
     "tests/test_field_collection.py": "162f2a6220afb599f491932ba5f9f7dc11cbc45a20cba29edf1eefe4a8077644",
-    "tests/test_plugin_service.py": "a6a4aa6cbc9ebb68c85a8eed4b4b68d12c38c088b07e14a16af9fbf2d638c07e",
+    "tests/test_plugin_service.py": "7cd4a512acacc7699b7cab1327bee907295c4913472e81643faca0263b50084e",
     "tests/test_recording.py": "f693484e74c0c1fab13bdd432d6a2954d5adad9da7ca829b594de20abab5e428",
     "src/hawa/refinement.py": "22f714685f16b4444df8264f467fb34985bbf4d42dcc0ac580a895103ce055cc",
     "tests/test_refinement.py": "74f4bd8e6b87d1e0be835c0bc4e4139fe08a061d8e278c621d52996fff5fe931",

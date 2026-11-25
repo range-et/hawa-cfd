@@ -7,7 +7,7 @@
     "src/hawa/stationary_loads.py": "1042a1898b95996afc1730a3e3a77cb20c5cbb820703887bc21480cf9dd5b1e4",
     "src/hawa/measurements.py": "c467528fc84548c0cb294aa7fd32d3cdf6f5b327336921fad562573ecbba50af",
     "src/hawa/sweeps.py": "45549b20a09a37159e47b86d4470d34f3b62a48b9450410e21a720d9e4785f74",
-    "src/hawa/plugin.py": "5ddb876a1e66aba2be7a77ecd1ff325dee2ac8ad5e6c998f4295d97cb6dc8960",
+    "src/hawa/plugin.py": "0a101c19c4e3254bd1f8395ccc292655e70c32b5fd867f3c0c96bcaa06983e44",
     "src/hawa/jobs.py": "08982643574676c0274f6a294f5d1a709f0aa40aa77fd9017063c2c1b4eae427",
     "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
