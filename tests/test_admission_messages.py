@@ -237,3 +237,56 @@ def test_flush_inlet_pressure_refusal_includes_actionable_t0_hint():
     assert "Imported pressure exceeds 2% density budget" in msg
     assert "Start time (T0)" in msg
     assert "startup transient" in msg
+
+
+def test_capture_preflight_never_compiles_grid_links(tmp_path, monkeypatch):
+    from hawa import neutral_external, boundaries
+    def forbidden(*args, **kwargs):
+        raise AssertionError('full-grid boundary compilation reached submit')
+    monkeypatch.setattr(neutral_external, 'compile_links', forbidden)
+    monkeypatch.setattr(boundaries, 'compile_plan', forbidden)
+    spec = _neutral_external_spec()
+    preflight_job(dict(kind='query', request=dict(op='boundary', action='capture',
+                  case=spec, path=str(tmp_path/'new.npz'))))
+    report = check_capture_budget(spec, 512)
+    assert report['boundary_plan'] is None
+    assert report['estimated_boundary_preparation_mb'] > 0
+    with pytest.raises(ValueError, match='512 MiB boundary series reserve'):
+        check_capture_budget(_neutral_external_spec(memory_limit_mb=256), 512)
+    # General NEE cases take the same allocation-free admission path.
+    from test_general_boundaries import case
+    general = case()
+    assert check_capture_budget(general, 64)['boundary_plan'] is None
+    # Full check remains the default outside capture admission.
+    with pytest.raises(AssertionError, match='full-grid'):
+        check_case(spec)
+
+
+def test_dangling_output_link_is_refused_before_capture(tmp_path):
+    target = tmp_path/'dangling.npz'
+    target.symlink_to(tmp_path/'absent.npz')
+    for capture, spec in ((capture_v1, _basic_spec()), (capture_v2, _neutral_external_spec())):
+        with pytest.raises(ValueError, match='Output file already exists'):
+            capture(tmp_path/'missing_manifest.json', spec, target)
+    assert target.is_symlink() and not target.exists()
+
+
+@pytest.mark.parametrize('version', [1, 2])
+def test_capture_uses_expanded_home_path(tmp_path, monkeypatch, version):
+    monkeypatch.setenv('HOME', str(tmp_path))
+    if version == 1:
+        from test_boundary_data import case
+        from hawa.plugin import Session
+        from hawa.recording import record
+        spec = case()
+        record(Session(spec, 'cpu'), 5, 5, str(tmp_path/'parent'), lambda n: None)
+        manifest = tmp_path/'parent/manifest.json'
+        capture = capture_v1
+    else:
+        from test_boundary_series import case, recording
+        spec = case()
+        manifest = recording(tmp_path/'parent', spec)
+        capture = capture_v2
+    result = capture(manifest, spec, '~/capture.npz')
+    assert (tmp_path/'capture.npz').is_file()
+    assert Path(result['case']['boundary_field']['path']) == tmp_path/'capture.npz'

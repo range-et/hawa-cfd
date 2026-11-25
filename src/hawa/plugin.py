@@ -31,7 +31,11 @@ def case_key(spec):
     return hashlib.sha256(canonical(spec).encode()).hexdigest()
 
 
-def check_case(spec):
+def check_case(spec, *, compile_boundaries=True):
+    """Check a case; skip grid/link construction for capture-budget admission.
+
+    Estimate-only callers still need the full worker-side boundary checks.
+    """
     origin_time=spec.get('time_origin_seconds',0.)
     if not isinstance(origin_time,(int,float)) or not math.isfinite(origin_time) or origin_time<0:
         raise ValueError('Case time origin must be finite nonnegative seconds')
@@ -128,12 +132,13 @@ def check_case(spec):
     from .admission import check_case_budget
     budget = check_case_budget(estimated, spec, neutral)
     boundary_report = None
-    if neutral and spec['neutral_precursor'].get('mode')=='external':
+    if compile_boundaries and neutral and spec['neutral_precursor'].get('mode')=='external':
         from .neutral_external import compile_links
         boundary_report=compile_links(spec)['report']
     if general and not neutral:
-        from .boundaries import compile_plan
-        boundary_report = compile_plan(spec)['report']
+        if compile_boundaries:
+            from .boundaries import compile_plan
+            boundary_report = compile_plan(spec)['report']
     elif spec.get('boundary_method') and not neutral:
         raise ValueError('Explicit boundary method requires a boundary set')
     return {"valid": True, "case_hash": case_key(spec), "shape": shape, "tau": tau,
