@@ -465,103 +465,162 @@
       "diff_sha256": "d672f4a30ba1c3af7ade5f769fc634e8b3ffcc99efc89a3b155a150276a43977",
       "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
     },
-    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_121": {
+    "hawa.jobs.xǁJobǁ__init____mutmut_1": {
       "status": "survived",
-      "diff_sha256": "13efc165aaf1fb7e47a2b79e1ff6bc715c3124347ccd9326a3331923ce0e067e",
-      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
+      "diff_sha256": "c57c64f4caf57de5ab3ae1a5277f428af1df68fed86cb29f77f99bfa2c4f2f0a",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
     },
-    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_122": {
+    "hawa.jobs.xǁJobǁcontrol__mutmut_29": {
       "status": "survived",
-      "diff_sha256": "86df9f16ec6079976795e56ff2e0c6ba48c830fedc979b61d23178d8ab738629",
-      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
+      "diff_sha256": "f3e4febe04e8407454f3e3a199117deed44b3b8b81a7e35e8e85aec97c01990a",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
     },
-    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_124": {
+    "hawa.jobs.xǁJobǁcontrol__mutmut_32": {
       "status": "survived",
-      "diff_sha256": "b137a6e7a65894a79cbce3142c03cbdd27501f4f46744da5206d4d2bf82c668e",
-      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
+      "diff_sha256": "008c000ef401ac909fc17a4187e9d396d3faa20f3f4073f07740d34e2b5f4ce0",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
     },
-    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_125": {
+    "hawa.jobs.xǁJobǁcontrol__mutmut_34": {
       "status": "survived",
-      "diff_sha256": "b270d4187b3ac47bfe5eb7b178b0d75d18e25a8b90861e8e728e90891c7a02aa",
-      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
+      "diff_sha256": "296ac91b7d7f5d89bb7f354d473bbc886db101e46715c3f0f6e27ff3dcb39e0f",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
     },
-    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_129": {
+    "hawa.jobs.xǁJobǁcontrol__mutmut_35": {
       "status": "survived",
-      "diff_sha256": "50d2b0f79a7689f1bc2206d03a9ec349970ab64b6a52fa19ddb89156422a4de2",
-      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
+      "diff_sha256": "036bee53e47f09162d40df121bddcba2e2494a70fe3ba17c06ccedae4c9754a2",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
     },
-    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_130": {
+    "hawa.jobs.xǁJobǁcontrol__mutmut_36": {
       "status": "survived",
-      "diff_sha256": "21742ab345fd667f1eb44c9fc79ce0e63acf313784d9d708f46cbdb2f404a594",
-      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
+      "diff_sha256": "29f38aa536a77648c85e05b7cfd99287724e619ac3fd9709d676b9b9ed21ad2b",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
     },
-    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_1": {
+    "hawa.jobs.xǁJobǁcontrol__mutmut_38": {
       "status": "survived",
-      "diff_sha256": "93086e926d4ba4e5838435bfbb4476a1abba89715547dcf51c80295b0a026b77",
-      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+      "diff_sha256": "1d5f0de059175c98ee34cdd7af977386339a0617d896f1ed772e038f57cfb244",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
     },
-    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_2": {
+    "hawa.jobs.xǁJobǁrelease_owned_session__mutmut_36": {
       "status": "survived",
-      "diff_sha256": "1488f7e00cdea03e8ff594fb5c16d26239d04ab7dff650049a50ae23a42f863e",
-      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+      "diff_sha256": "a11f25dedf3ffed65c1fa03970775979cecc51545a2c6ad77151c06fb4d21ec2",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
     },
-    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_3": {
+    "hawa.jobs.xǁJobǁrelease_owned_session__mutmut_39": {
       "status": "survived",
-      "diff_sha256": "fc20a66fd865936bc4654e8fc983c582e143f76eaa4ed58d8501e3d86bc63c3b",
-      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+      "diff_sha256": "f1b9df0f6412dfce8b31b0a4d27dd734bcb1fbd6c4d1c04fde06680cd9c8646d",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
     },
-    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_4": {
+    "hawa.jobs.xǁJobǁwork__mutmut_121": {
       "status": "survived",
-      "diff_sha256": "2894ca964449979539cd75cfc24cc4b88165738229fe31b235c58348d497b4c7",
-      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+      "diff_sha256": "e0219fbe70af8e36666462957df6e7acb00ca000b0a14cad4e672f72f8aea2a3",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
     },
-    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_5": {
+    "hawa.plugin.x_dispatch__mutmut_65": {
       "status": "survived",
-      "diff_sha256": "c527a445107e6d994aa9fad1b9b6cff6816f79b1d834d7aacba15c6b9bb32af1",
-      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+      "diff_sha256": "35a6163d88148875dc80c525e34b46837f6db32413e02bf8acd2942602172d89",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
     },
-    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_6": {
+    "hawa.plugin.x_dispatch__mutmut_68": {
       "status": "survived",
-      "diff_sha256": "c1b624c3ce5b14e499f42bcf801e3fbce41ce92788370d6791e808547bc02463",
-      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+      "diff_sha256": "97295de1673a1ac39d6956954d1daa8d3bcb45da88996760c2d6db0db1ead31f",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
     },
-    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_7": {
+    "hawa.plugin.x_dispatch__mutmut_71": {
       "status": "survived",
-      "diff_sha256": "f04f58c1b37634430dbbbd2c66294e1a768f026b36b4d3ed98a3ec5dd2a7bdde",
-      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+      "diff_sha256": "027d3489d663328ee3b3ed31ddf6ef25151ab897f23d28b9f894ad01f604846a",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
     },
-    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_8": {
+    "hawa.plugin.x_dispatch__mutmut_73": {
       "status": "survived",
-      "diff_sha256": "eabd82a87043e4d79ce643b58c7703d52457d65d15961b4aaf84c9287e4aab95",
-      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+      "diff_sha256": "856a91503cbab1616f310645a109323f0cc27f6e7ca8c9406233219598c1da2f",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.plugin.x_dispatch__mutmut_74": {
+      "status": "survived",
+      "diff_sha256": "cdbc9298b20966cea72a2cc82db7f9e35249c2c41be6f177eb65308b5fb17020",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.plugin.x_dispatch__mutmut_75": {
+      "status": "survived",
+      "diff_sha256": "1beecd71f1f0e6e7dd88e07ff6c8f5b2ebb566d9f22607ead292983f5ac25652",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.plugin.x_dispatch__mutmut_77": {
+      "status": "survived",
+      "diff_sha256": "ea88f3801e9c68fe73c0e552d478949f3aea87e79749c81c64c92772e59eb38e",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.plugin.x_dispatch__mutmut_83": {
+      "status": "survived",
+      "diff_sha256": "f72d006fe9fa8f287551c78d792eaa604ec22b14778a54db273fdd9c2fbff5e0",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.plugin.xǁSessionǁbuild__mutmut_1": {
+      "status": "survived",
+      "diff_sha256": "f9f7b566068808010536ffb9ca782a9aa723df58bb7eefeb9a4088ec76c4135f",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.plugin.xǁSessionǁbuild__mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "c89d6c916cb4cd028400ae594b5b83cfd3e612f87810dc7aaa8ab127fc63a958",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.plugin.xǁSessionǁbuild__mutmut_6": {
+      "status": "survived",
+      "diff_sha256": "461b69dc885633750c3d296ca1fde75aeb944f2a4748ca7c2bde86e254276268",
+      "reason": "Reviewed initialization equivalent: released_status is overwritten with a complete status dictionary before flow is cleared; its initial unused placeholder is never returned by status()."
+    },
+    "hawa.plugin.xǁSessionǁstart__mutmut_21": {
+      "status": "survived",
+      "diff_sha256": "4e2f8fb768a09d45c70bfbf0d9e6d943403d3e21568f283af1f097a06a65c1c5",
+      "reason": "Reviewed diagnostic wording equivalent: capitalization or XX decoration changes only; the same ValueError category, close-intent/boundary-time rejection, and rejection before worker creation remain. Exact spelling is not the lifecycle contract."
+    },
+    "hawa.plugin.xǁSessionǁstart__mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "685ed19b423af0593a67b1cadbc0f17e534718a7a0dc63368b129ead963edd9e",
+      "reason": "Reviewed diagnostic wording equivalent: capitalization or XX decoration changes only; the same ValueError category, close-intent/boundary-time rejection, and rejection before worker creation remain. Exact spelling is not the lifecycle contract."
+    },
+    "hawa.plugin.xǁSessionǁstart__mutmut_5": {
+      "status": "survived",
+      "diff_sha256": "3a9af0fd241e9de890b5270232e3558f8f390f17b88db532bcc5e117113ad71e",
+      "reason": "Reviewed diagnostic wording equivalent: capitalization or XX decoration changes only; the same ValueError category, close-intent/boundary-time rejection, and rejection before worker creation remain. Exact spelling is not the lifecycle contract."
     }
   },
   "sources": {
     "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
-    "src/hawa/plugin.py": "cdfe7db1285a74c6f3f1f915bb65e5d83b614737b14244885cd9e63ded8e2b36",
-    "src/hawa/jobs.py": "3bd673a9e7e73d5b6e4a14074e665d2be1496c2733acc94fecde733a58b4f7ea",
+    "src/hawa/plugin.py": "5ddb876a1e66aba2be7a77ecd1ff325dee2ac8ad5e6c998f4295d97cb6dc8960",
+    "src/hawa/jobs.py": "08982643574676c0274f6a294f5d1a709f0aa40aa77fd9017063c2c1b4eae427",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
     "tests/test_csv_export.py": "bd7ae21aa9524b2ee5deb8e018f8f7b939e0642a348923c8d5fe939c2d2d3f82",
     "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
     "tests/test_csv_tables.py": "3c5bbb6c9b67713dcdd605637142a0d5c239cf020c5c03799ef1f7a38d3b0098",
     "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090",
-    "tests/test_native_data.py": "78438be3e74991f5c8079df767e7dd5d2fc6516a767ada1c99092e01bd5b7436",
-    "tests/test_runtime_job_contracts.py": "5dc3a5bfdc13d8c3be84d3633c237cdcd8c98ea46d876b76d23c8df7f470582a",
-    "tests/test_native_data_status.py": "e526cd814ebadbf5ca64a94f5979cd76c2af9e3c55174da78453d912492cc1e1",
-    "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c"
+    "tests/test_native_data.py": "226a6df47b95536518e421eaa104938e150ae63828303dee006b8bce7bb178ac",
+    "tests/test_runtime_job_contracts.py": "7460144793b3927f8ab4fd4bff379191fbebc81631d0c0a6a43c847c6ea9559e",
+    "tests/test_native_data_status.py": "38089c6375e954c1088f3cdf890935984602845a6c0af3a260092d309436ef63",
+    "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c",
+    "src/hawa/stationary_study.py": "0ef1817c5060ea94ff2f788327d297295bd1757421ed5f001ca6cda7356f1d3a",
+    "src/hawa/mesh_voxel.py": "63e5f827509f00dbe7f297e2ca6e6d71b4c3a67c8e555b3e4822998f34d71da6",
+    "src/hawa/sweep_executor.py": "ced3a448bae487851e0312ee539701128f292737d9967a838b265b12c823ed38",
+    "src/hawa/stationary_loads.py": "1042a1898b95996afc1730a3e3a77cb20c5cbb820703887bc21480cf9dd5b1e4",
+    "src/hawa/measurements.py": "c467528fc84548c0cb294aa7fd32d3cdf6f5b327336921fad562573ecbba50af",
+    "src/hawa/sweeps.py": "45549b20a09a37159e47b86d4470d34f3b62a48b9450410e21a720d9e4785f74",
+    "tests/test_plugin_service.py": "a6a4aa6cbc9ebb68c85a8eed4b4b68d12c38c088b07e14a16af9fbf2d638c07e",
+    "tests/test_stationary_study.py": "3429d246b1f9accbcf6c0bfc48ac6a18298522d8d293a0d907989fbea6a261e1"
   },
   "scope": "Issue35 CSV field/probe/load capture and shared export/native-data job routing changed lines versus0e76b95; native_data.py has a dedicated whole-module policy; no solver numerical changes Includes stationary-study submit/selected-poll routing with real CPU controls; not a whole-module mutation claim for the new study service.",
   "control_test_files": [
+    "tests/test_plugin_service.py",
+    "tests/test_stationary_study.py",
     "tests/test_csv_export.py",
     "tests/test_csv_tables.py",
     "tests/test_export.py",
     "tests/test_native_data.py",
     "tests/test_runtime_job_contracts.py",
-    "tests/test_native_data_status.py",
-    "tests/test_stationary_study.py"
+    "tests/test_native_data_status.py"
   ],
   "base_revision": "0e76b95",
   "tool": "mutmut==3.7.0",
-  "mutants": 1400,
-  "inventory_sha256": "30f6d0f7152c28555e1541421884a651a1a5dbb6ea427ababcdc1a6d13bc12ee"
+  "mutants": 1626,
+  "inventory_sha256": "a8e84e898f8415bfa1bdfed20f52d32bba49ffc3015f4c7912e98a8245f6c892"
 }
