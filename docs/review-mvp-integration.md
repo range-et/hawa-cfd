@@ -5,6 +5,11 @@ Implementation and scoped reviews: Codex openfoam_walls, scheduler_cli and
 lifecycle_admission agents, as identified in the linked records. This is a local
 integration branch, not a merge into main or a release.
 
+Final bounded source review of cleanup/admission at `bd415bd` by openfoam_walls
+found no new actionable regression in job ownership/retries, close reply ordering,
+worker validation, budget arithmetic or validated output-path use. That review
+ran no tests and does not establish exhaustive concurrency or host acceptance.
+
 ## Scope and component evidence
 
 The branch combines PRs #128–#133 and draft #134. It preserves the existing public
