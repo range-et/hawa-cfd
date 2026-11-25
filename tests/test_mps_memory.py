@@ -35,5 +35,3 @@ def test_mps_teardown_returns_current_and_driver_memory():
     after_drv = torch.mps.driver_allocated_memory()
     assert after_cur <= before_cur + 1024 * 1024
     assert after_drv < peak_drv * 0.25
-
-
