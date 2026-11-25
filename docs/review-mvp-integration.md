@@ -60,8 +60,12 @@ mutation runner conflict retained #133's superset of fixtures and CPU selection.
 
 The diagnostic and smoke runs use macOS/Apple M3 Max, Python 3.9 and pinned
 PyTorch 2.8.0. C# checks/build use the private .NET 10 toolchain; the plugin target
-remains .NET 7. CUDA and Windows are unverified. Later test-only edits do not
-change the smoke-tested production code; final full-suite evidence is pending.
+remains .NET 7. CUDA and Windows are unverified. The later cleanup lock-order
+repair does not change the numerical modules exercised by device smoke; it needs
+separate lifecycle evidence. The repaired source passes the standalone MPS
+teardown test (64 x 48 x 32, ten steps): current allocation within 1 MiB of
+baseline, driver allocation below the existing 25%-of-peak limit. This is not a
+Rhino paused-RSS measurement. Final full-suite evidence is pending.
 
 ## Gate disposition and remaining work
 
