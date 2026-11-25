@@ -1,65 +1,93 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 190,
-  "inventory_sha256": "717b6c0f27fc2b1dd73640310b912f02717a89ab197a3c4f6b307162a85634f0",
+  "mutants": 287,
+  "inventory_sha256": "08142650bc6d6002b6b66189d0917ae7bb875ca52b74a51e9a27b77197ff9898",
   "scope": "Changed job lifecycle, CPU device locking and query/refinement/native-data save/import dispatch lines versus 6b0744a; deterministic CPU-only controls including paused restore, read cancellation and progress. Includes stationary-study submit/selected-poll routing with real CPU controls; not a whole-module mutation claim for the new study service.",
   "control_test_files": [
+    "tests/test_stationary_study.py",
     "tests/test_runtime_job_contracts.py",
     "tests/test_refinement_preflight.py",
     "tests/test_csv_export.py",
     "tests/test_export.py",
     "tests/test_native_data.py",
-    "tests/test_native_data_status.py",
-    "tests/test_stationary_study.py"
+    "tests/test_native_data_status.py"
   ],
   "sources": {
-    "src/hawa/jobs.py": "3bd673a9e7e73d5b6e4a14074e665d2be1496c2733acc94fecde733a58b4f7ea",
+    "src/hawa/jobs.py": "5b8f67183ab377eb2566c0b28acb393cd2a0aed4fbe2b69b67faf8bef2bb04d4",
+    "src/hawa/admission.py": "91cf7d545f1227a3f0876ca8ce7172422028bf884541c7f40ffc5595fd5eb2de",
+    "src/hawa/stationary_study.py": "0ef1817c5060ea94ff2f788327d297295bd1757421ed5f001ca6cda7356f1d3a",
+    "src/hawa/mesh_voxel.py": "63e5f827509f00dbe7f297e2ca6e6d71b4c3a67c8e555b3e4822998f34d71da6",
+    "src/hawa/sweep_executor.py": "ced3a448bae487851e0312ee539701128f292737d9967a838b265b12c823ed38",
+    "src/hawa/stationary_loads.py": "1042a1898b95996afc1730a3e3a77cb20c5cbb820703887bc21480cf9dd5b1e4",
+    "src/hawa/measurements.py": "c467528fc84548c0cb294aa7fd32d3cdf6f5b327336921fad562573ecbba50af",
+    "src/hawa/sweeps.py": "45549b20a09a37159e47b86d4470d34f3b62a48b9450410e21a720d9e4785f74",
+    "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
-    "tests/test_runtime_job_contracts.py": "5dc3a5bfdc13d8c3be84d3633c237cdcd8c98ea46d876b76d23c8df7f470582a",
+    "tests/test_stationary_study.py": "3429d246b1f9accbcf6c0bfc48ac6a18298522d8d293a0d907989fbea6a261e1",
+    "tests/test_runtime_job_contracts.py": "7460144793b3927f8ab4fd4bff379191fbebc81631d0c0a6a43c847c6ea9559e",
     "tests/test_refinement_preflight.py": "f97cb47e472c58ed676e0defcaa222da84c523af8bdf5ec22b686078ad90f65c",
     "tests/test_csv_export.py": "bd7ae21aa9524b2ee5deb8e018f8f7b939e0642a348923c8d5fe939c2d2d3f82",
     "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
+    "tests/test_native_data.py": "226a6df47b95536518e421eaa104938e150ae63828303dee006b8bce7bb178ac",
+    "tests/test_native_data_status.py": "38089c6375e954c1088f3cdf890935984602845a6c0af3a260092d309436ef63",
     "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c",
-    "tools/mutation/lib.sh": "e76c1f689ed0cc3adc344479a32e859b8466c1b33e1d7709d8927104dc6c3871",
-    "tests/test_native_data.py": "78438be3e74991f5c8079df767e7dd5d2fc6516a767ada1c99092e01bd5b7436",
-    "tests/test_native_data_status.py": "e526cd814ebadbf5ca64a94f5979cd76c2af9e3c55174da78453d912492cc1e1",
-    "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090"
+    "tools/mutation/lib.sh": "e76c1f689ed0cc3adc344479a32e859b8466c1b33e1d7709d8927104dc6c3871"
   },
   "reviewed_survivors": {
     "hawa.jobs.x\u01c1Job\u01c1__init____mutmut_1": {
       "status": "survived",
-      "diff_sha256": "6d5b02f51ab9076eb9a797a8b160d6020b22645b17ba129f71d8a2536e5ed8be",
-      "reason": "Equivalent: None and False are both false-valued initial ownership; the field is only truth-tested until acquisition writes True, and drop_device normalizes it to False."
+      "diff_sha256": "c57c64f4caf57de5ab3ae1a5277f428af1df68fed86cb29f77f99bfa2c4f2f0a",
+      "reason": "Equivalent internal false sentinel: this flag is consumed by truth tests, never exposed as a public boolean identity; None and False take the same lifecycle branch."
+    },
+    "hawa.jobs.x\u01c1Job\u01c1__init____mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "4de1d0d4a156e11bf3be457d68613e0cb24bc0aa68ef054c9ab787006099394c",
+      "reason": "Equivalent internal false sentinel: this flag is consumed by truth tests, never exposed as a public boolean identity; None and False take the same lifecycle branch."
+    },
+    "hawa.jobs.x\u01c1Job\u01c1control__mutmut_29": {
+      "status": "survived",
+      "diff_sha256": "f3e4febe04e8407454f3e3a199117deed44b3b8b81a7e35e8e85aec97c01990a",
+      "reason": "Equivalent lifecycle behavior: thread name is diagnostic only; daemon, target, ownership and completion remain unchanged."
+    },
+    "hawa.jobs.x\u01c1Job\u01c1control__mutmut_32": {
+      "status": "survived",
+      "diff_sha256": "008c000ef401ac909fc17a4187e9d396d3faa20f3f4073f07740d34e2b5f4ce0",
+      "reason": "Equivalent lifecycle behavior: thread name is diagnostic only; daemon, target, ownership and completion remain unchanged."
+    },
+    "hawa.jobs.x\u01c1Job\u01c1control__mutmut_34": {
+      "status": "survived",
+      "diff_sha256": "296ac91b7d7f5d89bb7f354d473bbc886db101e46715c3f0f6e27ff3dcb39e0f",
+      "reason": "Equivalent lifecycle behavior: thread name is diagnostic only; daemon, target, ownership and completion remain unchanged."
+    },
+    "hawa.jobs.x\u01c1Job\u01c1control__mutmut_35": {
+      "status": "survived",
+      "diff_sha256": "036bee53e47f09162d40df121bddcba2e2494a70fe3ba17c06ccedae4c9754a2",
+      "reason": "Equivalent lifecycle behavior: thread name is diagnostic only; daemon, target, ownership and completion remain unchanged."
+    },
+    "hawa.jobs.x\u01c1Job\u01c1control__mutmut_36": {
+      "status": "survived",
+      "diff_sha256": "29f38aa536a77648c85e05b7cfd99287724e619ac3fd9709d676b9b9ed21ad2b",
+      "reason": "Equivalent lifecycle behavior: thread name is diagnostic only; daemon, target, ownership and completion remain unchanged."
+    },
+    "hawa.jobs.x\u01c1Job\u01c1control__mutmut_38": {
+      "status": "survived",
+      "diff_sha256": "1d5f0de059175c98ee34cdd7af977386339a0617d896f1ed772e038f57cfb244",
+      "reason": "Equivalent internal false sentinel: this flag is consumed by truth tests, never exposed as a public boolean identity; None and False take the same lifecycle branch."
+    },
+    "hawa.jobs.x\u01c1Job\u01c1release_owned_session__mutmut_36": {
+      "status": "survived",
+      "diff_sha256": "a11f25dedf3ffed65c1fa03970775979cecc51545a2c6ad77151c06fb4d21ec2",
+      "reason": "Equivalent internal false sentinel: this flag is consumed by truth tests, never exposed as a public boolean identity; None and False take the same lifecycle branch."
+    },
+    "hawa.jobs.x\u01c1Job\u01c1release_owned_session__mutmut_39": {
+      "status": "survived",
+      "diff_sha256": "f1b9df0f6412dfce8b31b0a4d27dd734bcb1fbd6c4d1c04fde06680cd9c8646d",
+      "reason": "Equivalent internal false sentinel: this flag is consumed by truth tests, never exposed as a public boolean identity; None and False take the same lifecycle branch."
     },
     "hawa.jobs.x\u01c1Job\u01c1work__mutmut_127": {
       "status": "survived",
-      "diff_sha256": "13efc165aaf1fb7e47a2b79e1ff6bc715c3124347ccd9326a3331923ce0e067e",
-      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
-    },
-    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_128": {
-      "status": "survived",
-      "diff_sha256": "86df9f16ec6079976795e56ff2e0c6ba48c830fedc979b61d23178d8ab738629",
-      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
-    },
-    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_130": {
-      "status": "survived",
-      "diff_sha256": "b137a6e7a65894a79cbce3142c03cbdd27501f4f46744da5206d4d2bf82c668e",
-      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
-    },
-    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_131": {
-      "status": "survived",
-      "diff_sha256": "b270d4187b3ac47bfe5eb7b178b0d75d18e25a8b90861e8e728e90891c7a02aa",
-      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
-    },
-    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_135": {
-      "status": "survived",
-      "diff_sha256": "50d2b0f79a7689f1bc2206d03a9ec349970ab64b6a52fa19ddb89156422a4de2",
-      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
-    },
-    "hawa.jobs.x\u01c1Job\u01c1work__mutmut_136": {
-      "status": "survived",
-      "diff_sha256": "21742ab345fd667f1eb44c9fc79ce0e63acf313784d9d708f46cbdb2f404a594",
-      "reason": "Out of scope for this historical study (#76 job-teardown session.release() guard is tested directly in tests/test_mps_memory.py and tests/test_runtime_job_contracts.py)."
+      "diff_sha256": "e0219fbe70af8e36666462957df6e7acb00ca000b0a14cad4e672f72f8aea2a3",
+      "reason": "Equivalent internal false sentinel: this flag is consumed by truth tests, never exposed as a public boolean identity; None and False take the same lifecycle branch."
     }
   },
   "base_revision": "6b0744abb4ef132936dac310dff023852b0eade6"

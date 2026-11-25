@@ -1,9 +1,10 @@
 {
   "tool": "mutmut==3.7.0",
-  "mutants": 2579,
-  "inventory_sha256": "bb702e1fd58c5c69161484091b3449d0b4912d269f27699b1d15d846f4519352",
-  "scope": "Lines changed since the base by the validity-foundation PR and the item 5 field-views and item 6 traces PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared MPS device lock (#99: plugin.DeviceLock with suspend and restore, Session construction, per-chunk stepping and pause, and the locked refined set-up, stepping and frames), the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, display_solid, the half-cell isosurface (fields.march, grid_lines, isosurface and FieldCollection.isosurface, with the T-junction seam split in fields.close_seams) and the plane partition (FieldCollection.plane, FieldCollection.lattice and the single-frame plane dispatch) and the streamline traces (fields.trace with its per-point colour sampling, trace_seed, trace_result, FieldCollection.trace, the display mask of FieldCollection.sample; the recording pathlines were removed by owner decision, and the plugin recording dispatch line is included); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host; #98 additionally covers the checkpoint validate_provenance call with public save/load controls. The opt-in cpu_only pytest plugin declares CUDA/MPS unavailable for controls and forked mutants, including default/auto selection. Refreshed for combined #30/#35: fixed-refinement metadata admission before Job creation and CSV export routing; CPU controls add translated/topology admission, the 200-coarse/400-fine default, and CSV/NPZ publication regressions. Export/job dependency hashes are pinned; the separate numerical-export study covers exports.py/job export mutations. Refreshed for native save/import in #35: the public native-data save dispatch branch in plugin.py is included; native_data.py and its original CPU control suite are pinned dependencies. The separate native-data study covers serialization/restoration and jobs.py native-data ownership; this study does not claim whole-module native-data mutation coverage.",
+  "mutants": 2747,
+  "inventory_sha256": "f3e0343d2efa0a17a137a75fad1cc89c9cd5ef81d2e5f37bda9137e925bdbf1a",
+  "scope": "Lines changed since the base by the validity-foundation PR and the item 5 field-views and item 6 traces PR only (git diff against the base revision, mutmut3.py changed-lines scope): boundary-node export and validation in src/hawa/fields.py, src/hawa/plugin.py and the refined frames in src/hawa/refinement.py, the shared MPS device lock (#99: plugin.DeviceLock with suspend and restore, Session construction, per-chunk stepping and pause, and the locked refined set-up, stepping and frames), the shared halfway sampling rule (lattice_weights) used by sample_arrays and FieldCollection.sample, display_solid, the half-cell isosurface (fields.march, grid_lines, isosurface and FieldCollection.isosurface, with the T-junction seam split in fields.close_seams) and the plane partition (FieldCollection.plane, FieldCollection.lattice and the single-frame plane dispatch) and the streamline traces (fields.trace with its per-point colour sampling, trace_seed, trace_result, FieldCollection.trace, the display mask of FieldCollection.sample; the recording pathlines were removed by owner decision, and the plugin recording dispatch line is included); not whole-module or whole-codebase mutation coverage; CUDA and MPS parameterisations are deselected on this CPU host; #98 additionally covers the checkpoint validate_provenance call with public save/load controls. The opt-in cpu_only pytest plugin declares CUDA/MPS unavailable for controls and forked mutants, including default/auto selection. Refreshed for combined #30/#35: fixed-refinement metadata admission before Job creation and CSV export routing; CPU controls add translated/topology admission, the 200-coarse/400-fine default, and CSV/NPZ publication regressions. Export/job dependency hashes are pinned; the separate numerical-export study covers exports.py/job export mutations. Refreshed for native save/import in #35: the public native-data save dispatch branch in plugin.py is included; native_data.py and its original CPU control suite are pinned dependencies. The separate native-data study covers serialization/restoration and jobs.py native-data ownership; this study does not claim whole-module native-data mutation coverage. Includes inherited lifecycle and admission controls; one-MiB fallback refinement budget assertion debt remains explicitly reviewed under #75.",
   "control_test_files": [
+    "tests/test_admission_messages.py",
     "tests/test_fields.py",
     "tests/test_field_collection.py",
     "tests/test_plugin_service.py",
@@ -17,28 +18,42 @@
     "tests/test_native_data.py"
   ],
   "sources": {
-    "src/hawa/plugin.py": "cdfe7db1285a74c6f3f1f915bb65e5d83b614737b14244885cd9e63ded8e2b36",
+    "src/hawa/plugin.py": "c5a41ca323eee6fee62b5f9a5389e85acbb7e89142e1e07cfa247c4fa6ed1a17",
     "src/hawa/fields.py": "edb5618ac963f791f01131e30f3c75bafad23b5a5fa0d475b405803c9e40c2f2",
     "src/hawa/field_collection.py": "8e375ad5b5d9e98bb861a8c01cc4c7351fd9928a0f8d5d5571c3258fbf969a68",
+    "src/hawa/refinement.py": "3d86dd8abdfb1fbaabe340e5a77b606e854367fe246494d5c28ec4e283e51844",
+    "src/hawa/admission.py": "91cf7d545f1227a3f0876ca8ce7172422028bf884541c7f40ffc5595fd5eb2de",
+    "src/hawa/boundary_data.py": "f7ccd92f10b46f274b696439350ed98062838c91e93f26b9fa573acf51332741",
+    "src/hawa/boundary_series.py": "fa486523b91a88681d7446151e89e02208b87d5563029baa88bc73b556af4549",
+    "src/hawa/stationary_study.py": "0ef1817c5060ea94ff2f788327d297295bd1757421ed5f001ca6cda7356f1d3a",
+    "src/hawa/mesh_voxel.py": "63e5f827509f00dbe7f297e2ca6e6d71b4c3a67c8e555b3e4822998f34d71da6",
+    "src/hawa/sweep_executor.py": "ced3a448bae487851e0312ee539701128f292737d9967a838b265b12c823ed38",
+    "src/hawa/stationary_loads.py": "1042a1898b95996afc1730a3e3a77cb20c5cbb820703887bc21480cf9dd5b1e4",
+    "src/hawa/measurements.py": "c467528fc84548c0cb294aa7fd32d3cdf6f5b327336921fad562573ecbba50af",
+    "src/hawa/sweeps.py": "45549b20a09a37159e47b86d4470d34f3b62a48b9450410e21a720d9e4785f74",
+    "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
+    "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090",
+    "src/hawa/jobs.py": "5b8f67183ab377eb2566c0b28acb393cd2a0aed4fbe2b69b67faf8bef2bb04d4",
     "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
+    "tests/test_admission_messages.py": "8a8999f385bb3a629ee6b8b014ad975ad878207f9552686163369b3192e3437e",
+    "tests/test_boundary_data.py": "c02370f353f88eb4751db6e9bfb347be306168e7ea19966b1bd1cc9917e639a4",
+    "tests/test_boundary_series.py": "5bf4cc43a974f32f74d3e702ab02aab911d20de37d8e085541310c1492d0fb41",
+    "tests/test_general_boundaries.py": "807142676376da912ada3ff19804461ec164dfac38a98328d0267732f3c852a2",
+    "tests/test_walls.py": "ccf7782a586b339b460e11d02dd0b0e61afc94a60b43d3d784d3679fd4077b78",
+    "tests/test_optimization.py": "c6b79f44a0b477584316355d6953f6de9ac967c5e456ba78a65202e1157a5a23",
     "tests/test_fields.py": "46c6181d697003a9214f043cbc6945b330063433e03b0d9d287b1897b9582867",
     "tests/test_field_collection.py": "162f2a6220afb599f491932ba5f9f7dc11cbc45a20cba29edf1eefe4a8077644",
-    "tests/test_plugin_service.py": "c51ab5059300357059d715f6ba9d86c6ea2b66f4410bf505243b9b231eb55483",
+    "tests/test_plugin_service.py": "a6a4aa6cbc9ebb68c85a8eed4b4b68d12c38c088b07e14a16af9fbf2d638c07e",
     "tests/test_recording.py": "f693484e74c0c1fab13bdd432d6a2954d5adad9da7ca829b594de20abab5e428",
-    "src/hawa/refinement.py": "22f714685f16b4444df8264f467fb34985bbf4d42dcc0ac580a895103ce055cc",
     "tests/test_refinement.py": "74f4bd8e6b87d1e0be835c0bc4e4139fe08a061d8e278c621d52996fff5fe931",
     "tests/test_quality_provenance.py": "b637d06ceb7815f11d057bc41362b743104ac838b635dc7661224068c4abd0d9",
     "tests/test_mutation_cpu.py": "2887ba45d15f4a049be00fe1f337762921915460d67ec714f2d18ca23c77213d",
-    "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c",
-    "tools/mutation/lib.sh": "e76c1f689ed0cc3adc344479a32e859b8466c1b33e1d7709d8927104dc6c3871",
-    "src/hawa/quality.py": "db49c0e52c705177f012da3715eb5b617b7b881a12dce877355133ef85743db3",
     "tests/test_refinement_preflight.py": "f97cb47e472c58ed676e0defcaa222da84c523af8bdf5ec22b686078ad90f65c",
     "tests/test_csv_export.py": "bd7ae21aa9524b2ee5deb8e018f8f7b939e0642a348923c8d5fe939c2d2d3f82",
     "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
-    "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
-    "src/hawa/jobs.py": "3bd673a9e7e73d5b6e4a14074e665d2be1496c2733acc94fecde733a58b4f7ea",
-    "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090",
-    "tests/test_native_data.py": "78438be3e74991f5c8079df767e7dd5d2fc6516a767ada1c99092e01bd5b7436"
+    "tests/test_native_data.py": "226a6df47b95536518e421eaa104938e150ae63828303dee006b8bce7bb178ac",
+    "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c",
+    "tools/mutation/lib.sh": "e76c1f689ed0cc3adc344479a32e859b8466c1b33e1d7709d8927104dc6c3871"
   },
   "reviewed_survivors": {
     "hawa.field_collection.x\u01c1FieldCollection\u01c1isosurface__mutmut_100": {
@@ -1076,6 +1091,46 @@
       "diff_sha256": "4b44ff72ccf6f1bd49a54305b4580258afb4830a6c9601599bd38f37c7f0606e",
       "reason": "Equivalent for every solver Session builds: lettuce Simulation and the refinement and neutral wrappers all expose post_boundaries, so the getattr default is never used."
     },
+    "hawa.plugin.x_dispatch__mutmut_69": {
+      "status": "survived",
+      "diff_sha256": "35a6163d88148875dc80c525e34b46837f6db32413e02bf8acd2942602172d89",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.plugin.x_dispatch__mutmut_72": {
+      "status": "survived",
+      "diff_sha256": "97295de1673a1ac39d6956954d1daa8d3bcb45da88996760c2d6db0db1ead31f",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.plugin.x_dispatch__mutmut_75": {
+      "status": "survived",
+      "diff_sha256": "027d3489d663328ee3b3ed31ddf6ef25151ab897f23d28b9f894ad01f604846a",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.plugin.x_dispatch__mutmut_77": {
+      "status": "survived",
+      "diff_sha256": "856a91503cbab1616f310645a109323f0cc27f6e7ca8c9406233219598c1da2f",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.plugin.x_dispatch__mutmut_78": {
+      "status": "survived",
+      "diff_sha256": "cdbc9298b20966cea72a2cc82db7f9e35249c2c41be6f177eb65308b5fb17020",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.plugin.x_dispatch__mutmut_79": {
+      "status": "survived",
+      "diff_sha256": "1beecd71f1f0e6e7dd88e07ff6c8f5b2ebb566d9f22607ead292983f5ac25652",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.plugin.x_dispatch__mutmut_81": {
+      "status": "survived",
+      "diff_sha256": "ea88f3801e9c68fe73c0e552d478949f3aea87e79749c81c64c92772e59eb38e",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.plugin.x_dispatch__mutmut_87": {
+      "status": "survived",
+      "diff_sha256": "f72d006fe9fa8f287551c78d792eaa604ec22b14778a54db273fdd9c2fbff5e0",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
     "hawa.plugin.x_sample_arrays__mutmut_19": {
       "status": "survived",
       "diff_sha256": "7ed6d88c6fc979408bee6eea27a6064ce163350f23ae5de5dcdfb73e52cb1a7a",
@@ -1116,6 +1171,21 @@
       "diff_sha256": "44a47f72246c0a96d2fb4882d20f6b10ef77222a29e54c4919ac67b9a5a10f0a",
       "reason": "Latency only: a stop request that arrives without a notify is noticed within 1.05 s instead of 0.05 s, and the waiter still leaves the queue; a test could tell them apart only with a wall-clock threshold."
     },
+    "hawa.plugin.x\u01c1Session\u01c1build__mutmut_10": {
+      "status": "survived",
+      "diff_sha256": "461b69dc885633750c3d296ca1fde75aeb944f2a4748ca7c2bde86e254276268",
+      "reason": "Reviewed initialization equivalent: released_status is overwritten with a complete status dictionary before flow is cleared; its initial unused placeholder is never returned by status()."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1build__mutmut_5": {
+      "status": "survived",
+      "diff_sha256": "f9f7b566068808010536ffb9ca782a9aa723df58bb7eefeb9a4088ec76c4135f",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.plugin.x\u01c1Session\u01c1build__mutmut_7": {
+      "status": "survived",
+      "diff_sha256": "c89d6c916cb4cd028400ae594b5b83cfd3e612f87810dc7aaa8ab127fc63a958",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
     "hawa.plugin.x\u01c1Session\u01c1pause__mutmut_2": {
       "status": "survived",
       "diff_sha256": "6714fb875048936f7e2254b36c01b15b8bac62f2b876c48448027312c70aa92d",
@@ -1126,45 +1196,25 @@
       "diff_sha256": "75cca42f37e9fe63c466d6cdecda83b5e5f1882f159220fd50012737f71adfca",
       "reason": "Not observable in the CPU suite: the join timeout matters only when a worker fails to reach a chunk boundary, which a test could show only by blocking a worker for 30 s or more per run; the timeout value predates #99 and only moved into the try block."
     },
-    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_1": {
+    "hawa.plugin.x\u01c1Session\u01c1start__mutmut_21": {
       "status": "survived",
-      "diff_sha256": "93086e926d4ba4e5838435bfbb4476a1abba89715547dcf51c80295b0a026b77",
-      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+      "diff_sha256": "4e2f8fb768a09d45c70bfbf0d9e6d943403d3e21568f283af1f097a06a65c1c5",
+      "reason": "Reviewed diagnostic wording equivalent: capitalization or XX decoration changes only; the same ValueError category, close-intent/boundary-time rejection, and rejection before worker creation remain. Exact spelling is not the lifecycle contract."
     },
-    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_2": {
+    "hawa.plugin.x\u01c1Session\u01c1start__mutmut_4": {
       "status": "survived",
-      "diff_sha256": "1488f7e00cdea03e8ff594fb5c16d26239d04ab7dff650049a50ae23a42f863e",
-      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+      "diff_sha256": "685ed19b423af0593a67b1cadbc0f17e534718a7a0dc63368b129ead963edd9e",
+      "reason": "Reviewed diagnostic wording equivalent: capitalization or XX decoration changes only; the same ValueError category, close-intent/boundary-time rejection, and rejection before worker creation remain. Exact spelling is not the lifecycle contract."
     },
-    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_3": {
+    "hawa.plugin.x\u01c1Session\u01c1start__mutmut_5": {
       "status": "survived",
-      "diff_sha256": "fc20a66fd865936bc4654e8fc983c582e143f76eaa4ed58d8501e3d86bc63c3b",
-      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+      "diff_sha256": "3a9af0fd241e9de890b5270232e3558f8f390f17b88db532bcc5e117113ad71e",
+      "reason": "Reviewed diagnostic wording equivalent: capitalization or XX decoration changes only; the same ValueError category, close-intent/boundary-time rejection, and rejection before worker creation remain. Exact spelling is not the lifecycle contract."
     },
-    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_4": {
+    "hawa.refinement.x_check_refinement__mutmut_17": {
       "status": "survived",
-      "diff_sha256": "2894ca964449979539cd75cfc24cc4b88165738229fe31b235c58348d497b4c7",
-      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
-    },
-    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_5": {
-      "status": "survived",
-      "diff_sha256": "c527a445107e6d994aa9fad1b9b6cff6816f79b1d834d7aacba15c6b9bb32af1",
-      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
-    },
-    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_6": {
-      "status": "survived",
-      "diff_sha256": "c1b624c3ce5b14e499f42bcf801e3fbce41ce92788370d6791e808547bc02463",
-      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
-    },
-    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_7": {
-      "status": "survived",
-      "diff_sha256": "f04f58c1b37634430dbbbd2c66294e1a768f026b36b4d3ed98a3ec5dd2a7bdde",
-      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
-    },
-    "hawa.plugin.x\u01c1Session\u01c1release__mutmut_8": {
-      "status": "survived",
-      "diff_sha256": "eabd82a87043e4d79ce643b58c7703d52457d65d15961b4aaf84c9287e4aab95",
-      "reason": "Out of scope for this historical cpu_only study (#76 MPS teardown release is tested directly in tests/test_mps_memory.py)."
+      "diff_sha256": "b8c1cb9f302792c62bfa5a1da5d897c4b13d63940697e4522c75951ac5d67cb1",
+      "reason": "Assertion debt tracked under #75: controls do not distinguish the combined refinement fallback budget changing from 1024 to 1025 MiB when memory_limit_mb is omitted. Explicit combined-budget boundaries and per-case defaults are asserted; this survivor is not claimed equivalent. Add a missing-key combined-budget boundary fixture in follow-up."
     },
     "hawa.refinement.x_run_refined__mutmut_117": {
       "status": "survived",
