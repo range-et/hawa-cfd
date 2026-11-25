@@ -240,23 +240,25 @@ def test_flush_inlet_pressure_refusal_includes_actionable_t0_hint():
 
 
 def test_capture_preflight_never_compiles_grid_links(tmp_path, monkeypatch):
-    from hawa import neutral_external, boundaries
+    from hawa import neutral_external, boundaries, roughness, plugin
     def forbidden(*args, **kwargs):
         raise AssertionError('full-grid boundary compilation reached submit')
     monkeypatch.setattr(neutral_external, 'compile_links', forbidden)
     monkeypatch.setattr(boundaries, 'compile_plan', forbidden)
+    monkeypatch.setattr(roughness, 'grid', forbidden)
+    monkeypatch.setattr(plugin, 'case_key', forbidden)
     spec = _neutral_external_spec()
     preflight_job(dict(kind='query', request=dict(op='boundary', action='capture',
                   case=spec, path=str(tmp_path/'new.npz'))))
     report = check_capture_budget(spec, 512)
-    assert report['boundary_plan'] is None
+    assert 'boundary_plan' not in report
     assert report['estimated_boundary_preparation_mb'] > 0
     with pytest.raises(ValueError, match='512 MiB boundary series reserve'):
         check_capture_budget(_neutral_external_spec(memory_limit_mb=256), 512)
     # General NEE cases also skip compilation during admission.
     from test_general_boundaries import channel
     general = channel()
-    assert check_capture_budget(general, 64)['boundary_plan'] is None
+    assert 'boundary_plan' not in check_capture_budget(general, 64)
     # Full check remains the default outside capture admission.
     with pytest.raises(AssertionError, match='full-grid'):
         check_case(spec)
@@ -309,3 +311,25 @@ def test_capture_full_validation_precedes_parent_reads(tmp_path, monkeypatch, ve
     with pytest.raises(ValueError, match='unsupported worker boundary configuration'):
         capture(tmp_path/'absent.json', spec, tmp_path/'new.npz')
     assert calls == ['compile'] and not (tmp_path/'new.npz').exists()
+
+
+@pytest.mark.parametrize('shape', [[3, 4, 4], [4, 4], [4, 4, 4.0], [200, 200, 200]])
+def test_capture_estimate_rejects_invalid_or_oversized_shape(shape):
+    from hawa.admission import estimate_case_budget
+    with pytest.raises(ValueError, match='resolutions|million cells'):
+        estimate_case_budget(_basic_spec(shape=shape))
+
+
+def test_capture_estimate_matches_full_case_without_geometry_materialization():
+    from hawa.admission import estimate_case_budget
+    from test_boundary_series import case
+    for spec in (_basic_spec(), case()):
+        estimate = estimate_case_budget(spec)
+        complete = check_case(spec)
+        for key in ('estimated_peak_mb', 'estimated_peak_with_series_mb',
+                    'estimated_boundary_preparation_mb', 'memory_limit_mb'):
+            assert estimate[key] == complete[key]
+    attached = dict(_basic_spec(), boundary_field={'schema': 'hawa-boundary-series-1'})
+    estimate = estimate_case_budget(attached)
+    assert estimate['estimated_peak_with_series_mb'] == estimate['estimated_peak_mb']
+    assert check_capture_budget(attached, 64)['estimated_peak_mb'] == estimate['estimated_peak_mb']

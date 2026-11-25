@@ -1,5 +1,6 @@
 """Early admission checks, budget formatting, and output-path validation."""
 import os
+import math
 from pathlib import Path
 
 
@@ -65,9 +66,40 @@ def check_refinement_budget(coarse_mb, fine_mb, limit_mb):
             'increase dx, shrink the refinement region, or raise memory_limit_mb'.format(combined_mb, limit_mb))
 
 
+
+def estimate_case_budget(spec):
+    """Estimate physical-case memory from shape and six faces, without geometry.
+
+    Full case/roughness/solid validation and source hashing remain worker work.
+    """
+    shape = spec['shape']
+    if len(shape) != 3 or any(type(n) is not int or n < 4 for n in shape):
+        raise ValueError('A 3D domain requires three integer resolutions >= 4')
+    if math.prod(shape) > 2_000_000:
+        raise ValueError('This release limits dense grids to two million cells')
+    neutral = 'neutral_precursor' in spec
+    estimated = math.prod(shape) * 19 * 4 * (24 if spec.get("moving_bodies") or neutral else 10)
+    if spec.get("boundary_field"):
+        estimated += (512 if spec['boundary_field'].get('schema')=='hawa-boundary-series-2' else 64) * 1024**2
+    boundary_preparation = 0
+    if neutral and spec['neutral_precursor'].get('mode') == 'external':
+        from .boundary_contracts import conditions
+        faces = conditions(spec)
+        # Count the union of exterior planes without building cell/link arrays.
+        # Ignore solids conservatively. ExternalLinks currently builds per-node
+        # float64 19x19 projections plus link work arrays and host/device copies.
+        # Reserve 32 KiB per exterior node for those simultaneous temporaries;
+        # this is a conservative estimate, not an OS-enforced memory limit.
+        interior = math.prod(n - sum(faces[2*a+i]['type'] in ('open', 'velocity')
+                                    for i in (0, 1)) for a, n in enumerate(shape))
+        boundary_preparation = (math.prod(shape) - interior) * 32 * 1024
+        estimated += boundary_preparation
+    budget = check_case_budget(estimated, spec, neutral)
+    return dict(valid=True, **budget,
+                estimated_boundary_preparation_mb=boundary_preparation / 1024 ** 2)
+
 def check_capture_budget(spec, reserve_mb):
-    from .plugin import check_case
-    report = check_case(spec, compile_boundaries=False)
+    report = estimate_case_budget(spec)
     limit_mb = report['memory_limit_mb']
     total_mb = report['estimated_peak_mb'] + (0.0 if spec.get('boundary_field') else reserve_mb)
     if total_mb > limit_mb:
