@@ -4,6 +4,7 @@ No Rhino imports: geometry is passed as lattice solid indices and domain metadat
 The JSON interface never launches an external Python or CFD process.
 """
 
+import gc
 import hashlib
 import json
 import math
@@ -41,9 +42,9 @@ def check_case(spec):
         n=example_size(spec['example'],spec.get('size'))
         dimension=3 if CASES[spec['example']][0]=='tgv3d' else 2
         estimated=n**dimension*(27 if dimension==3 else 9)*4*10/1024**2
-        if estimated>float(spec.get('memory_limit_mb',1024)):
-            raise ValueError('Example allocation exceeds the case memory budget')
-        return {"valid": True, "case_hash": case_key(spec), "example": spec["example"],"estimated_peak_mb":estimated}
+        from .admission import check_example_budget
+        limit_mb=check_example_budget(estimated,spec)
+        return {"valid": True, "case_hash": case_key(spec), "example": spec["example"],"estimated_peak_mb":estimated,"memory_limit_mb":limit_mb}
     shape = spec["shape"]
     if len(shape) != 3 or any(type(n) is not int or n < 4 for n in shape):
         raise ValueError("A 3D domain requires three integer resolutions >= 4")
@@ -108,25 +109,8 @@ def check_case(spec):
             raise ValueError('Import boundary data for this child grid before solving')
         if not math.isfinite(ref.get('end_time', float('nan'))) or ref['end_time'] <= 0:
             raise ValueError('Boundary field requires positive finite time coverage')
-    estimated = math.prod(shape) * 19 * 4 * (24 if spec.get("moving_bodies") or neutral else 10)
-    if spec.get("boundary_field"):
-        estimated += (512 if spec['boundary_field'].get('schema')=='hawa-boundary-series-2' else 64) * 1024**2
-    boundary_preparation = 0
-    if neutral and spec['neutral_precursor'].get('mode') == 'external':
-        from .boundary_contracts import conditions
-        faces = conditions(spec)
-        # Count the union of exterior planes without building cell/link arrays.
-        # Ignore solids conservatively. ExternalLinks currently builds per-node
-        # float64 19x19 projections plus link work arrays and host/device copies.
-        # Reserve 32 KiB per exterior node for those simultaneous temporaries;
-        # this is a conservative estimate, not an OS-enforced memory limit.
-        interior = math.prod(n - sum(faces[2*a+i]['type'] in ('open', 'velocity')
-                                    for i in (0, 1)) for a, n in enumerate(shape))
-        boundary_preparation = (math.prod(shape) - interior) * 32 * 1024
-        estimated += boundary_preparation
-    limit = int(spec.get("memory_limit_mb", 1024)) * 1024 ** 2
-    if estimated > limit:
-        raise ValueError("Estimated peak allocation {:.0f} MiB exceeds the case budget".format(estimated / 1024 ** 2))
+    from .admission import estimate_case_budget
+    budget = estimate_case_budget(spec)
     boundary_report = None
     if neutral and spec['neutral_precursor'].get('mode')=='external':
         from .neutral_external import compile_links
@@ -138,8 +122,7 @@ def check_case(spec):
         raise ValueError('Explicit boundary method requires a boundary set')
     return {"valid": True, "case_hash": case_key(spec), "shape": shape, "tau": tau,
             "reynolds": speed * dx * max(shape) / viscosity,
-            "estimated_peak_mb": estimated / 1024 ** 2,
-            "estimated_boundary_preparation_mb": boundary_preparation / 1024 ** 2,
+            **budget,
             "time_step_seconds": mach / math.sqrt(3) * dx / speed, "boundary_plan": boundary_report,
             "numerical_scaling": scaling,
             "neutral_model": validate(spec) if neutral else None}
@@ -383,6 +366,10 @@ class Session:
         self.lifecycle = threading.RLock()
         self.stop = threading.Event()
         self.thread = None
+        self.close_pending = False
+        self.release_requested = False
+        self.release_lock = threading.Lock()
+        self.released_status = None
         self.state = "ready"
         self.error = None
         self.target = 0
@@ -430,9 +417,11 @@ class Session:
     def start(self, target):
         if type(target) is not int or target < 0:
             raise ValueError("Target steps must be a nonnegative integer")
-        if self.spec.get('boundary_field') and float(self.flow.units.convert_time_to_pu(target)) > self.spec['boundary_field']['end_time'] + 1e-10:
-            raise ValueError('Target exceeds boundary time coverage')
         with self.lifecycle:
+            if self.release_requested or self.flow is None:
+                raise ValueError('Session is closing or closed')
+            if self.spec.get('boundary_field') and float(self.flow.units.convert_time_to_pu(target)) > self.spec['boundary_field']['end_time'] + 1e-10:
+                raise ValueError('Target exceeds boundary time coverage')
             if self.state == 'resetting':
                 raise ValueError('Wait for reset to finish before resuming')
             self.target = target
@@ -474,12 +463,32 @@ class Session:
             if worker.is_alive():
                 raise RuntimeError("Solver has not yet reached a cancellation boundary")
 
+    def release(self):
+        """Break cyclic solver references and return cached MPS driver memory (#76)."""
+        # Queries may already own the reentrant device lock. Keep one order
+        # for every cleanup caller so asynchronous close cannot invert it.
+        # CPU/CUDA captures use a separate session lock; finish their snapshot
+        # before clearing tensors. On MPS this reacquires the same device lock.
+        with MPS_LOCK, self.lock, self.release_lock:
+            if self.flow is not None:
+                self.released_status = self.status()
+            device_type = self.backend.device.type if self.backend is not None else None
+            self.flow = self.solver = self.initial_f = self.initial_wall_velocity = None
+            self.mean_u = self.mean_p = self.mean_rho = None
+            gc.collect()
+            if device_type == "mps" and torch.backends.mps.is_available():
+                torch.mps.synchronize()
+                torch.mps.empty_cache()
+
     def status(self):
         # UI polling reads Python scalars. GPU reductions happen in the worker.
-        return {"session": self.id, "state": self.state, "steps": self.flow.i,
+        flow = self.flow
+        if flow is None:
+            return dict(self.released_status, state=self.state, error=self.error)
+        return {"session": self.id, "state": self.state, "steps": flow.i,
                 "target": self.target, "error": self.error, "backend": self.backend.info(),
-                "case_hash": self.key, "resolution": self.flow.resolution,
-                "physical_time": self.flow.units.convert_time_to_pu(self.flow.i),
+                "case_hash": self.key, "resolution": flow.resolution,
+                "physical_time": flow.units.convert_time_to_pu(flow.i),
                 "relative_mass_change": self.relative_mass_change,
                 "averaging_samples": self.samples, "updated": self.updated, "quality": self.quality}
 
@@ -605,21 +614,35 @@ def dispatch(request):
         with REGISTRY_LOCK:
             SESSIONS[session.id] = session
         return session.status()
-    if op == "close_async" and request["session"] not in SESSIONS:
-        return {"closed": True}
-    session = SESSIONS[request["session"]]
+    with REGISTRY_LOCK:
+        if op in ("close", "close_async") and request["session"] not in SESSIONS:
+            return {"closed": True}
+        session = SESSIONS[request["session"]]
     if op in ("pause_async", "close_async", "reset_async"):
-        session.stop.set()
-        session.state = "resetting" if op == "reset_async" else ("pausing" if session.thread is not None and session.thread.is_alive() else "paused")
-        if op != "pause_async":
-            def finish():
+        with session.lifecycle:
+            if session.close_pending:
+                return session.status()
+            session.stop.set()
+            session.state = "resetting" if op == "reset_async" else ("pausing" if session.thread is not None and session.thread.is_alive() else "paused")
+            reply = session.status()
+            if op == "close_async":
+                session.release_requested = True
+                session.close_pending = True
+            if op != "pause_async":
+                def finish():
+                    try:
+                        dispatch({"op": "close" if op == "close_async" else "reset", "session": session.id})
+                    except Exception as exc:
+                        with session.lifecycle:
+                            session.error = str(exc)
+                            session.state = "failed"
+                            session.close_pending = False
                 try:
-                    dispatch({"op": "close" if op == "close_async" else "reset", "session": session.id})
-                except Exception as exc:
-                    session.error = str(exc)
-                    session.state = "failed"
-            threading.Thread(target=finish, name="Hawa control", daemon=True).start()
-        return session.status()
+                    threading.Thread(target=finish, name="Hawa control", daemon=True).start()
+                except Exception:
+                    session.close_pending = False
+                    raise
+            return reply
     if op == "start":
         session.start(request["steps"])
         return session.status()
@@ -652,9 +675,18 @@ def dispatch(request):
             session.quality = assess(session)
         return session.status()
     if op == "close":
-        session.pause()
+        with session.lifecycle:
+            session.release_requested = True
+            session.close_pending = True
+        try:
+            session.pause()
+            session.release()
+        except Exception:
+            with session.lifecycle:
+                session.close_pending = False
+            raise
         with REGISTRY_LOCK:
-            del SESSIONS[session.id]
+            SESSIONS.pop(session.id, None)
         return {"closed": True}
     if op == "body_loads":
         with session.lock:

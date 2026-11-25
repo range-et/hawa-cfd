@@ -5,10 +5,14 @@ namespace Hawa.Grasshopper;
 /// <summary>Retained UI polling; independent GH solutions cannot erase requests.</summary>
 public static class HawaPollScheduler
 {
-    private sealed record Entry(GH_Document Document, Func<bool> Current, long Due);
+    private sealed record Entry(GH_Document Document, Func<bool> Current, long Due, int Delay);
     private static readonly Dictionary<GH_Component, Entry> pending = new(ReferenceEqualityComparer.Instance);
+    private static readonly HashSet<GH_Component> solved = new(ReferenceEqualityComparer.Instance);
     private static UITimer? timer;
     private static bool draining;
+    // Injectable monotonic clock for deterministic deadline contracts. UI-thread only.
+    internal static Func<long> Clock = () =>
+        Environment.TickCount64;
     public static int PendingCount => pending.Count;
 
     // Called only from the host UI thread. The predicate captures a generation
@@ -18,10 +22,12 @@ public static class HawaPollScheduler
         var document = component.OnPingDocument();
         if (document == null)
             return;
-        long due = Environment.TickCount64 + delay;
+        if (draining)
+            solved.Add(component);
+        long due = Clock() + delay;
         if (pending.TryGetValue(component, out var old) && old.Document == document)
             due = Math.Min(due, old.Due);
-        pending[component] = new(document, current, due);
+        pending[component] = new(document, current, due, delay);
         // Idle alone need not wake again after the due time. Own the UI timer
         // so this works even when the native Hawa panel has never been loaded.
         if (timer == null)
@@ -37,13 +43,23 @@ public static class HawaPollScheduler
 
     public static void Cancel(GH_Component component)
     {
+        if (draining)
+            solved.Add(component);
         pending.Remove(component);
         UnsubscribeIfEmpty();
     }
 
+    internal static void NoteSolved(GH_Component component)
+    {
+        if (draining)
+            solved.Add(component);
+    }
+
     private static void UnsubscribeIfEmpty()
     {
-        if (timer != null && pending.Count == 0)
+        // During Drain, due requests temporarily live outside pending. A
+        // completed sibling must not dispose the timer before retries return.
+        if (!draining && timer != null && pending.Count == 0)
         {
             timer.Stop();
             timer.Elapsed -= Drain;
@@ -59,7 +75,7 @@ public static class HawaPollScheduler
         draining = true;
         try
         {
-            var ready = new List<(GH_Component Component, GH_Document Document)>();
+            var ready = new List<(GH_Component Component, Entry Entry)>();
             foreach (var item in pending.ToArray())
             {
                 var c = item.Key;
@@ -84,18 +100,19 @@ public static class HawaPollScheduler
                     continue;
                 }
 
-                if (!GH_Document.EnableSolutions || !e.Document.Enabled || e.Document.SolutionDepth != 0 || Environment.TickCount64 < e.Due)
+                if (!GH_Document.EnableSolutions || !e.Document.Enabled || e.Document.SolutionDepth != 0 || Clock() < e.Due)
                     continue;
                 pending.Remove(c);
-                ready.Add((c, e.Document));
+                ready.Add((c, e));
             }
 
             foreach (var group in ready.GroupBy(x =>
-                x.Document
+                x.Entry.Document
             ))
             {
                 // Expire outside a solution, then solve once for the whole group.
                 // New requests registered by that solution stay in the registry.
+                solved.Clear();
                 try
                 {
                     foreach (var item in group)
@@ -109,11 +126,38 @@ public static class HawaPollScheduler
                         item.Component.Message = "refresh failed";
                         item.Component.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, ex.GetBaseException().Message);
                     }
+                    continue;
+                }
+
+                // If Grasshopper aborted or skipped solving a scheduled component
+                // without throwing (#122), retain its poll so the next tick retries
+                // rather than stalling with empty outputs and PendingCount == 0.
+                foreach (var item in group)
+                {
+                    var c = item.Component;
+                    var e = item.Entry;
+                    if (c is not HawaComponent || solved.Contains(c) || pending.ContainsKey(c))
+                        continue;
+                    bool stillCurrent;
+                    try
+                    {
+                        stillCurrent = c.OnPingDocument() == e.Document && global::Grasshopper.Instances.DocumentServer.Any(d =>
+                            ReferenceEquals(d, e.Document)
+                        ) && !c.Locked && e.Current();
+                    }
+                    catch (Exception ex)
+                    {
+                        c.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Refresh identity: " + ex.GetBaseException().Message);
+                        continue;
+                    }
+                    if (stillCurrent)
+                        pending[c] = new(e.Document, e.Current, Clock() + Math.Max(e.Delay, 0), e.Delay);
                 }
             }
         }
         finally
         {
+            solved.Clear();
             draining = false;
             UnsubscribeIfEmpty();
         }

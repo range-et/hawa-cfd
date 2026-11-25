@@ -384,7 +384,7 @@ def main(argv=None):
     parser.add_argument("--output", type=Path, required=True, help="Fresh directory for run; existing run for check/render")
     parser.add_argument("--baseline", type=Path, default=Path(BASELINE))
     parser.add_argument("--base-ref", help="Read the baseline from a trusted Git base rather than this checkout")
-    parser.add_argument("--strict", action="store_true", help="Require 100% first-party executable functions and lines; no historical debt allowance")
+    parser.add_argument("--strict", action="store_true", help="Require 100%% first-party executable functions and lines; no historical debt allowance")
     parser.add_argument("--coverage-scope", choices=("all", "headless"), default="all", help="Headless scopes C# to instrumented source files; unmeasured host code remains reported")
     args = parser.parse_args(argv)
     root, output = args.root.resolve(), args.output.resolve()

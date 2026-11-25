@@ -83,7 +83,37 @@ static class GeometryKernelContracts
             try{WallLinks.Build(new[]{mesh},new[]{5,5,5},new[]{62},new(0,0,0),new(1,0,0),new(0,1,0),new(0,0,1),cancel.Token);}catch(OperationCanceledException){cancelled=true;}
             assert(cancelled,"Cancelled geometry work continued");
             mesh.Hits=line=>new[]{line.From+.25*(line.To-line.From)};
-            Reject(()=>WallLinks.Build(new[]{mesh},new[]{9,9,9},new[]{2*81+4*9+4,4*81+4*9+4},new(0,0,0),new(1,0,0),new(0,1,0),new(0,0,1),CancellationToken.None));
+            var gapLinks=WallLinks.Build(new[]{mesh},new[]{9,9,9},new[]{2*81+4*9+4,4*81+4*9+4},new(0,0,0),new(1,0,0),new(0,1,0),new(0,0,1),CancellationToken.None);
+            assert(gapLinks.Count==36&&gapLinks.All(r=>r![2]!.GetValue<double>()==.25),"One-cell gap links should emit geometric fractions for bounce-back fallback (#78)");
+        });
+        test("concave L-shape and midpoint overlapping boxes resolve curved links across dx (#78)",()=>{
+            var lShape=new[]{Box(new(.33,.33,.33),new(.53,.73,.73)),Box(new(.33,.33,.33),new(.73,.53,.73))};
+            var lBoxes=new[]{new BoundingBox(new(.33,.33,.33),new(.53,.73,.73)),new BoundingBox(new(.33,.33,.33),new(.73,.53,.73))};
+            foreach(double dx in new[]{.1,.05,.025}){
+                int n=(int)Math.Round(1.0/dx)+1;
+                var solid=new List<int>();
+                for(int i=0;i<n;i++)for(int j=0;j<n;j++)for(int k=0;k<n;k++){
+                    var p=new Point3d(i*dx,j*dx,k*dx);
+                    if(MeshContainment.Contains(lShape[0],lBoxes[0],p,dx*1e-5)||MeshContainment.Contains(lShape[1],lBoxes[1],p,dx*1e-5))
+                        solid.Add((i*n+j)*n+k);
+                }
+                var links=WallLinks.Build(lShape,new[]{n,n,n},solid,new(0,0,0),new(dx,0,0),new(0,dx,0),new(0,0,dx),CancellationToken.None);
+                assert(links.Count>0,"Concave L-shape produced no curved wall links at dx="+dx);
+                assert(links.Any(r=>r![2]!.GetValue<double>()<.5),"Expected sub-half-cell concave links at dx="+dx);
+            }
+            // Two overlapping boxes with faces midway between nodes (rounding near 0.5).
+            var midA=Box(new(.25,.25,.25),new(.55-1e-15,.65,.65));
+            var midB=Box(new(.25,.25,.25),new(.65,.55-1e-15,.65));
+            var midBoxA=new BoundingBox(new(.25,.25,.25),new(.55-1e-15,.65,.65));
+            var midBoxB=new BoundingBox(new(.25,.25,.25),new(.65,.55-1e-15,.65));
+            var midSolid=new List<int>();
+            for(int i=0;i<10;i++)for(int j=0;j<10;j++)for(int k=0;k<10;k++){
+                var p=new Point3d(i*.1,j*.1,k*.1);
+                if(MeshContainment.Contains(midA,midBoxA,p,1e-6)||MeshContainment.Contains(midB,midBoxB,p,1e-6))
+                    midSolid.Add((i*10+j)*10+k);
+            }
+            var midLinks=WallLinks.Build(new[]{midA,midB},new[]{10,10,10},midSolid,new(0,0,0),new(.1,0,0),new(0,.1,0),new(0,0,.1),CancellationToken.None);
+            assert(midLinks.Count>0,"Midpoint overlapping boxes failed curved wall assembly");
         });
         test("wall assembly skips internal solid edges and rejects unresolved intersections",()=>{
             var mesh=new Mesh{Hits=line=>new[]{line.From+.5*(line.To-line.From)}};

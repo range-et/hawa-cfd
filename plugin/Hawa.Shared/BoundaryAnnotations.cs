@@ -150,7 +150,19 @@ public static class BoundaryAnnotations
             if (m.Arrow is Line arrow)
                 display.DrawArrow(arrow, m.Color);
             if (m.Tick is Line tick && m.Dotted)
-                display.DrawDottedLine(tick.From, tick.To, m.Color);
+            {
+                // Single-pixel dotted lines disappear over field colours at
+                // domain-fit framing. Keep a broken normal marker, with a
+                // contrasting halo and fixed pixel widths (not a flow arrow).
+                var step = (tick.To - tick.From) / 7;
+                for (int i = 0; i < 7; i += 2)
+                {
+                    var from = tick.From + step * i;
+                    var to = tick.From + step * (i + 1);
+                    display.DrawLine(from, to, Color.White, 5);
+                    display.DrawLine(from, to, m.Color, 3);
+                }
+            }
             else if (m.Tick is Line solid)
                 display.DrawLine(solid.From, solid.To, m.Color, 3);
             display.DrawDot(m.Anchor, m.Text, m.Color, Color.White);

@@ -61,7 +61,7 @@ def test_exact_roundtrip_paused_import_continuation_and_job_ownership(session, t
         session.advance(2); restored.advance(2)
         np.testing.assert_array_equal(restored.flow.f.numpy(), session.flow.f.numpy())
         restored_id = restored.id
-    finally: job.control('close')
+    finally: close_and_wait(job)
     assert restored_id not in SESSIONS and session.id in SESSIONS and job.session is None
 
 
@@ -233,3 +233,20 @@ def test_native_curved_case_admission_preserves_links(session):
     before = copy.deepcopy(spec)
     data.validate_case(spec)
     assert spec == before
+
+
+def close_and_wait(job):
+    """Join only the cleanup worker in tests; production close remains async."""
+    import threading
+    from unittest.mock import patch
+    workers = []
+    real_thread = threading.Thread
+    def tracked(*args, **kwargs):
+        worker = real_thread(*args, **kwargs)
+        workers.append(worker)
+        return worker
+    with patch('hawa.plugin.threading.Thread', tracked):
+        job.control('close')
+    for worker in workers:
+        worker.join(5)
+        assert not worker.is_alive(), 'session cleanup did not complete'

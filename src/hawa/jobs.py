@@ -19,6 +19,7 @@ class Job:
         self.cancelled = False
         self.paused = False
         self.disposed = False
+        self.cleanup_pending = False
         self.session = None
         self.result = None
         self.error = None
@@ -162,13 +163,43 @@ class Job:
                 self.state = 'failed'
         finally:
             self.drop_device()
+            clean = False
             with self.condition:
-                if self.state != 'completed' or self.disposed:
-                    if self.session is not None:
-                        with REGISTRY_LOCK:
-                            SESSIONS.pop(self.session.id, None)
-                    self.session = None
+                if (self.state != 'completed' or self.disposed) and not self.cleanup_pending:
                     self.result = None
+                    self.cleanup_pending = True
+                    clean = True
+            if clean:
+                self.release_owned_session()
+
+    def release_owned_session(self):
+        """Release off the caller thread, retaining the public job ID on failure."""
+        owned = self.session
+        try:
+            if owned is not None:
+                if hasattr(owned, 'lifecycle'):
+                    with owned.lifecycle:
+                        owned.release_requested = True
+                if hasattr(owned, 'pause'):
+                    owned.pause()
+                if hasattr(owned, 'release'):
+                    owned.release()
+                with REGISTRY_LOCK:
+                    SESSIONS.pop(owned.id, None)
+        except Exception as exc:
+            owned.error = str(exc)
+            owned.state = 'failed'
+            with self.condition:
+                self.error = str(exc)
+                self.state = 'failed'
+                self.cleanup_pending = False
+            return
+        with self.condition:
+            self.session = None
+            self.cleanup_pending = False
+            if self.disposed:
+                with LOCK:
+                    JOBS.pop(self.id, None)
 
     def snapshot(self):
         with self.condition:
@@ -181,15 +212,20 @@ class Job:
             if action == 'close':
                 self.disposed = True
                 self.cancelled = True
-                if self.session is not None and self.state == 'completed':
-                    # A completed creation job can own a running Solve session.
-                    # Request cancellation before dropping its registry entry.
-                    self.session.stop.set()
-                    with REGISTRY_LOCK:
-                        SESSIONS.pop(self.session.id, None)
-                    self.session = None
                 self.result = None
                 self.condition.notify_all()
+                if self.session is not None:
+                    if hasattr(self.session, 'lifecycle'):
+                        with self.session.lifecycle:
+                            self.session.release_requested = True
+                    self.session.stop.set()
+                if self.request.get('kind') != 'stationary_study' and self.state in ('completed', 'cancelled', 'failed') and not self.cleanup_pending:
+                    self.cleanup_pending = True
+                    try:
+                        threading.Thread(target=self.release_owned_session, name='Hawa job cleanup', daemon=True).start()
+                    except Exception:
+                        self.cleanup_pending = False
+                        raise
             elif self.state in ('completed', 'cancelled', 'failed'):
                 return
             elif action == 'pause':
@@ -219,6 +255,8 @@ def dispatch_job(request):
         if request.get('kind') == 'refine':
             from .refinement import check_refinement
             check_refinement(request)
+        from .admission import preflight_job
+        preflight_job(request)
         payload = {k:v for k,v in request.items() if k != 'op'}
         if request.get('kind') == 'stationary_study':
             from .stationary_study import StationaryStudyJob, validate_submission
@@ -239,7 +277,7 @@ def dispatch_job(request):
     if request['op'] == 'evaluate_control':
         action = request['action']
         job.control(action)
-        if action == 'close':
+        if action == 'close' and job.request.get('kind') == 'stationary_study':
             with LOCK:
                 JOBS.pop(job.id, None)
     elif request['op'] != 'evaluate_poll':

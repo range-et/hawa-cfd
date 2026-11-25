@@ -1,0 +1,1453 @@
+{
+  "date": "2026-11-24",
+  "scope": "Fresh final-source CPU Channel 07 checks only; not cavity, device qualification, engineering validation or performance evidence. Source hashes identify tested uncommitted source exactly.",
+  "criteria_definition": {
+    "velocity": "norm(Hawa U - OpenFOAM U) / reference_speed <= 0.02",
+    "pressure": "abs(Hawa delta_p - OpenFOAM delta_p) / max(abs(OpenFOAM delta_p), 0.5*rho*reference_speed**2) <= 0.05",
+    "gradient": "abs(Hawa gradient - OpenFOAM gradient) * pair_distance / max(abs(OpenFOAM delta_p), 0.5*rho*reference_speed**2) <= 0.05"
+  },
+  "runs": [
+    {
+      "provenance": {
+        "commit": "f34bdd31abac6663f64d61b3184b4c9a5509930a",
+        "dirty": true,
+        "dirty_digest": "2bb27c90f4e1eafe11abed14df8e4a1093680d7ff6fa044181cfe69a531c740c"
+      },
+      "source_sha256": {
+        "src/hawa/openfoam.py": "dcc48ffa252ca17afda505b729be34f80b6fc84554fed6f1ee91783c03f3ce91",
+        "scripts/compare_openfoam_controls.py": "0c644b234d19670f987af0c5a30347822924e1efc3a656e2ecd68a013c2ccdf6"
+      },
+      "platform": "macOS-27.2.1-arm64-arm-64bit",
+      "torch": "2.8.0",
+      "criteria": {
+        "velocity_tol": 0.02,
+        "pressure_and_gradient_tol": 0.05,
+        "settle_tol": 0.001
+      },
+      "bundle": {
+        "schema": "hawa-openfoam-case-1",
+        "case_id": "channel_poiseuille_ny20",
+        "description": "Laminar 2D Poiseuille channel (Re=20, ny=20)",
+        "dimensions": 2,
+        "domain_origin_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "domain_size_m": [
+          4.0,
+          1.0,
+          0.15000000000000002
+        ],
+        "density_kg_m3": 1.225,
+        "kinematic_viscosity_m2_s": 0.025,
+        "reference_speed_m_s": 0.5,
+        "reference_length_m": 1.0,
+        "initial_velocity_m_s": [
+          0.3333333333333333,
+          0.0,
+          0.0
+        ],
+        "pressure_reference_pa": 0.0,
+        "boundaries": [
+          {
+            "id": "inlet",
+            "face": "x-",
+            "condition": {
+              "type": "velocity",
+              "profile": "parabolic",
+              "velocity": [
+                0.5,
+                0.0,
+                0.0
+              ],
+              "profile_axis": 1
+            }
+          },
+          {
+            "id": "outlet",
+            "face": "x+",
+            "condition": {
+              "type": "pressure",
+              "profile": "uniform",
+              "pressure_pa": 0.0
+            }
+          },
+          {
+            "id": "bottom",
+            "face": "y-",
+            "condition": {
+              "type": "wall",
+              "profile": "uniform",
+              "velocity": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "id": "top",
+            "face": "y+",
+            "condition": {
+              "type": "wall",
+              "profile": "uniform",
+              "velocity": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "id": "back",
+            "face": "z-",
+            "condition": {
+              "type": "periodic",
+              "profile": "uniform"
+            }
+          },
+          {
+            "id": "front",
+            "face": "z+",
+            "condition": {
+              "type": "periodic",
+              "profile": "uniform"
+            }
+          }
+        ],
+        "probes": [
+          {
+            "id": "p_x1_mid",
+            "location_m": [
+              1.0,
+              0.5,
+              0.07500000000000001
+            ]
+          },
+          {
+            "id": "p_x2_mid",
+            "location_m": [
+              2.0,
+              0.5,
+              0.07500000000000001
+            ]
+          },
+          {
+            "id": "p_x3_mid",
+            "location_m": [
+              3.0,
+              0.5,
+              0.07500000000000001
+            ]
+          },
+          {
+            "id": "p_x2_y20",
+            "location_m": [
+              2.0,
+              0.2,
+              0.07500000000000001
+            ]
+          },
+          {
+            "id": "p_x2_y35",
+            "location_m": [
+              2.0,
+              0.35,
+              0.07500000000000001
+            ]
+          },
+          {
+            "id": "p_x2_y65",
+            "location_m": [
+              2.0,
+              0.65,
+              0.07500000000000001
+            ]
+          },
+          {
+            "id": "p_x2_y80",
+            "location_m": [
+              2.0,
+              0.8,
+              0.07500000000000001
+            ]
+          }
+        ],
+        "pressure_pairs": [
+          {
+            "id": "dp_x1_x3",
+            "a_probe_id": "p_x1_mid",
+            "b_probe_id": "p_x3_mid"
+          },
+          {
+            "id": "dp_x1_x2",
+            "a_probe_id": "p_x1_mid",
+            "b_probe_id": "p_x2_mid"
+          },
+          {
+            "id": "dp_x2_x3",
+            "a_probe_id": "p_x2_mid",
+            "b_probe_id": "p_x3_mid"
+          }
+        ],
+        "mesh": {
+          "cells": [
+            80,
+            20,
+            1
+          ],
+          "solver": "simpleFoam",
+          "max_iterations": 2000,
+          "residual_tolerance": 1e-07,
+          "delta_t": 1.0
+        },
+        "provenance": {
+          "adapter_version": "0.1.0",
+          "control_case": "07-channel"
+        }
+      },
+      "hawa": {
+        "device": "cpu",
+        "dtype": "torch.float32",
+        "steps": 12000,
+        "physical_time_s": 34.64101615137755,
+        "tau": 0.5866025403784438,
+        "settled": true,
+        "final_drift": 0.00019073486328124997,
+        "relative_mass_change": 0.0020392413298873295,
+        "probes": {
+          "p_x1_mid": {
+            "location_m": [
+              1.0,
+              0.5,
+              0.07500000000000001
+            ],
+            "velocity_m_s": [
+              0.5018762350082397,
+              6.754363539585029e-07,
+              0.0
+            ],
+            "pressure_pa": 0.3744828701019287
+          },
+          "p_x2_mid": {
+            "location_m": [
+              2.0,
+              0.5,
+              0.07500000000000001
+            ],
+            "velocity_m_s": [
+              0.5024281144142151,
+              2.929863057943294e-06,
+              0.0
+            ],
+            "pressure_pa": 0.2498304843902588
+          },
+          "p_x3_mid": {
+            "location_m": [
+              3.0,
+              0.5,
+              0.07500000000000001
+            ],
+            "velocity_m_s": [
+              0.5029488205909729,
+              4.834353148908122e-07,
+              0.0
+            ],
+            "pressure_pa": 0.1252073049545288
+          },
+          "p_x2_y20": {
+            "location_m": [
+              2.0,
+              0.2,
+              0.07500000000000001
+            ],
+            "velocity_m_s": [
+              0.32011836767196655,
+              -2.09275867746328e-06,
+              0.0
+            ],
+            "pressure_pa": 0.2498742938041687
+          },
+          "p_x2_y35": {
+            "location_m": [
+              2.0,
+              0.35,
+              0.07500000000000001
+            ],
+            "velocity_m_s": [
+              0.4568608403205871,
+              6.439258868340399e-07,
+              0.0
+            ],
+            "pressure_pa": 0.24984508752822876
+          },
+          "p_x2_y65": {
+            "location_m": [
+              2.0,
+              0.65,
+              0.07500000000000001
+            ],
+            "velocity_m_s": [
+              0.45686089992523193,
+              -1.0302816235707724e-06,
+              0.0
+            ],
+            "pressure_pa": 0.2498304843902588
+          },
+          "p_x2_y80": {
+            "location_m": [
+              2.0,
+              0.8,
+              0.07500000000000001
+            ],
+            "velocity_m_s": [
+              0.3201182782649994,
+              4.410893325257348e-06,
+              0.0
+            ],
+            "pressure_pa": 0.24981588125228882
+          }
+        },
+        "pressure_pairs": {
+          "dp_x1_x3": {
+            "delta_p_pa": 0.2492755651473999,
+            "gradient_pa_m": -0.12463778257369995,
+            "distance_m": 2.0
+          },
+          "dp_x1_x2": {
+            "delta_p_pa": 0.12465238571166992,
+            "gradient_pa_m": -0.12465238571166992,
+            "distance_m": 1.0
+          },
+          "dp_x2_x3": {
+            "delta_p_pa": 0.12462317943572998,
+            "gradient_pa_m": -0.12462317943572998,
+            "distance_m": 1.0
+          }
+        }
+      },
+      "openfoam": {
+        "solver": "simpleFoam",
+        "openfoam_version": "v2606",
+        "openfoam_options": "darwin64ClangDPInt32Opt",
+        "converged": true,
+        "sample_time": 143.0,
+        "pressure_sample_time": 143.0,
+        "check_mesh": {
+          "mesh_ok": true,
+          "cells": 1600,
+          "min_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "max_m": [
+            4.0,
+            1.0,
+            0.15
+          ]
+        },
+        "probes": {
+          "p_x1_mid": {
+            "location_m": [
+              1.0,
+              0.5,
+              0.07500000000000001
+            ],
+            "velocity_m_s": [
+              0.4981454498,
+              1.425000055e-14,
+              0.0
+            ],
+            "pressure_kinematic_m2_s2": 0.298876875,
+            "pressure_pa": 0.366124171875
+          },
+          "p_x2_mid": {
+            "location_m": [
+              2.0,
+              0.5,
+              0.07500000000000001
+            ],
+            "velocity_m_s": [
+              0.4981342965,
+              -1.647925e-14,
+              0.0
+            ],
+            "pressure_kinematic_m2_s2": 0.1992537351,
+            "pressure_pa": 0.24408582549750002
+          },
+          "p_x3_mid": {
+            "location_m": [
+              3.0,
+              0.5,
+              0.07500000000000001
+            ],
+            "velocity_m_s": [
+              0.498134328,
+              4.90895675e-14,
+              0.0
+            ],
+            "pressure_kinematic_m2_s2": 0.09962686582,
+            "pressure_pa": 0.1220429106295
+          },
+          "p_x2_y20": {
+            "location_m": [
+              2.0,
+              0.2,
+              0.07500000000000001
+            ],
+            "velocity_m_s": [
+              0.3188059874,
+              1.091021158e-08,
+              0.0
+            ],
+            "pressure_kinematic_m2_s2": 0.199253742,
+            "pressure_pa": 0.24408583395000003
+          },
+          "p_x2_y35": {
+            "location_m": [
+              2.0,
+              0.35,
+              0.07500000000000001
+            ],
+            "velocity_m_s": [
+              0.453302224,
+              8.924153913e-09,
+              0.0
+            ],
+            "pressure_kinematic_m2_s2": 0.1992537378,
+            "pressure_pa": 0.24408582880500002
+          },
+          "p_x2_y65": {
+            "location_m": [
+              2.0,
+              0.65,
+              0.07500000000000001
+            ],
+            "velocity_m_s": [
+              0.453302224,
+              -8.924178782e-09,
+              0.0
+            ],
+            "pressure_kinematic_m2_s2": 0.1992537378,
+            "pressure_pa": 0.24408582880500002
+          },
+          "p_x2_y80": {
+            "location_m": [
+              2.0,
+              0.8,
+              0.07500000000000001
+            ],
+            "velocity_m_s": [
+              0.3188059874,
+              -1.091021469e-08,
+              0.0
+            ],
+            "pressure_kinematic_m2_s2": 0.199253742,
+            "pressure_pa": 0.24408583395000003
+          }
+        },
+        "pressure_pairs": {
+          "dp_x1_x3": {
+            "delta_p_pa": 0.2440812612455,
+            "gradient_pa_m": -0.12204063062275,
+            "distance_m": 2.0
+          },
+          "dp_x1_x2": {
+            "delta_p_pa": 0.1220383463775,
+            "gradient_pa_m": -0.1220383463775,
+            "distance_m": 1.0
+          },
+          "dp_x2_x3": {
+            "delta_p_pa": 0.12204291486800002,
+            "gradient_pa_m": -0.12204291486800002,
+            "distance_m": 1.0
+          }
+        }
+      },
+      "comparison": {
+        "case_id": "channel_poiseuille_ny20",
+        "velocity_l2_norm": 0.006940867706470108,
+        "velocity_linf_norm": 0.009628985230488716,
+        "pressure_pair_linf_norm": 0.02128104335168689,
+        "passed": true,
+        "failures": [],
+        "probes": [
+          {
+            "id": "p_x1_mid",
+            "location_m": [
+              1.0,
+              0.5,
+              0.07500000000000001
+            ],
+            "hawa_velocity_m_s": [
+              0.5018762350082397,
+              6.754363539585029e-07,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4981454498,
+              1.425000055e-14,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0037307852693816267,
+            "norm_velocity_err": 0.0074615705387632535,
+            "hawa_pressure_pa": 0.3744828701019287,
+            "openfoam_pressure_pa": 0.366124171875,
+            "analytic_velocity_m_s": [
+              0.5,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0037524702596336023,
+            "openfoam_vs_analytic_norm_u": 0.003709100400000054
+          },
+          {
+            "id": "p_x2_mid",
+            "location_m": [
+              2.0,
+              0.5,
+              0.07500000000000001
+            ],
+            "hawa_velocity_m_s": [
+              0.5024281144142151,
+              2.929863057943294e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4981342965,
+              -1.647925e-14,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0042938189138029435,
+            "norm_velocity_err": 0.008587637827605887,
+            "hawa_pressure_pa": 0.2498304843902588,
+            "openfoam_pressure_pa": 0.24408582549750002,
+            "analytic_velocity_m_s": [
+              0.5,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.004856232363722567,
+            "openfoam_vs_analytic_norm_u": 0.0037314069999999644
+          },
+          {
+            "id": "p_x3_mid",
+            "location_m": [
+              3.0,
+              0.5,
+              0.07500000000000001
+            ],
+            "hawa_velocity_m_s": [
+              0.5029488205909729,
+              4.834353148908122e-07,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.498134328,
+              4.90895675e-14,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.004814492615244358,
+            "norm_velocity_err": 0.009628985230488716,
+            "hawa_pressure_pa": 0.1252073049545288,
+            "openfoam_pressure_pa": 0.1220429106295,
+            "analytic_velocity_m_s": [
+              0.5,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.005897641261201115,
+            "openfoam_vs_analytic_norm_u": 0.00373134399999997
+          },
+          {
+            "id": "p_x2_y20",
+            "location_m": [
+              2.0,
+              0.2,
+              0.07500000000000001
+            ],
+            "hawa_velocity_m_s": [
+              0.32011836767196655,
+              -2.09275867746328e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.3188059874,
+              1.091021158e-08,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0013123819579946314,
+            "norm_velocity_err": 0.0026247639159892627,
+            "hawa_pressure_pa": 0.2498742938041687,
+            "openfoam_pressure_pa": 0.24408583395000003,
+            "analytic_velocity_m_s": [
+              0.32000000000000006,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.00023677234133782446,
+            "openfoam_vs_analytic_norm_u": 0.002388025200099835
+          },
+          {
+            "id": "p_x2_y35",
+            "location_m": [
+              2.0,
+              0.35,
+              0.07500000000000001
+            ],
+            "hawa_velocity_m_s": [
+              0.4568608403205871,
+              6.439258868340399e-07,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.453302224,
+              8.924153913e-09,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0035586163772421803,
+            "norm_velocity_err": 0.007117232754484361,
+            "hawa_pressure_pa": 0.24984508752822876,
+            "openfoam_pressure_pa": 0.24408582880500002,
+            "analytic_velocity_m_s": [
+              0.45499999999999996,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.003721680863998636,
+            "openfoam_vs_analytic_norm_u": 0.003395552000046877
+          },
+          {
+            "id": "p_x2_y65",
+            "location_m": [
+              2.0,
+              0.65,
+              0.07500000000000001
+            ],
+            "hawa_velocity_m_s": [
+              0.45686089992523193,
+              -1.0302816235707724e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.453302224,
+              -8.924178782e-09,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.003558676071799253,
+            "norm_velocity_err": 0.007117352143598506,
+            "hawa_pressure_pa": 0.2498304843902588,
+            "openfoam_pressure_pa": 0.24408582880500002,
+            "analytic_velocity_m_s": [
+              0.45499999999999996,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0037218004208762127,
+            "openfoam_vs_analytic_norm_u": 0.0033955520000468775
+          },
+          {
+            "id": "p_x2_y80",
+            "location_m": [
+              2.0,
+              0.8,
+              0.07500000000000001
+            ],
+            "hawa_velocity_m_s": [
+              0.3201182782649994,
+              4.410893325257348e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.3188059874,
+              -1.091021469e-08,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.001312298314678266,
+            "norm_velocity_err": 0.002624596629356532,
+            "hawa_pressure_pa": 0.24981588125228882,
+            "openfoam_pressure_pa": 0.24408583395000003,
+            "analytic_velocity_m_s": [
+              0.31999999999999995,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0002367209661285134,
+            "openfoam_vs_analytic_norm_u": 0.002388025200099613
+          }
+        ],
+        "pressure_pairs": [
+          {
+            "id": "dp_x1_x3",
+            "hawa_delta_p_pa": 0.2492755651473999,
+            "openfoam_delta_p_pa": 0.2440812612455,
+            "abs_delta_p_err_pa": 0.005194303901899899,
+            "norm_delta_p_err": 0.02128104335168689,
+            "hawa_gradient_pa_m": -0.12463778257369995,
+            "openfoam_gradient_pa_m": -0.12204063062275,
+            "abs_gradient_err_pa_m": 0.0025971519509499497,
+            "norm_gradient_err": 0.02128104335168689,
+            "analytic_delta_p_pa": 0.24500000000000005,
+            "analytic_gradient_pa_m": -0.12250000000000003,
+            "hawa_vs_analytic_norm_dp": 0.017451286315917757,
+            "openfoam_vs_analytic_norm_dp": 0.0037499541000001954
+          },
+          {
+            "id": "dp_x1_x2",
+            "hawa_delta_p_pa": 0.12465238571166992,
+            "openfoam_delta_p_pa": 0.1220383463775,
+            "abs_delta_p_err_pa": 0.0026140393341699264,
+            "norm_delta_p_err": 0.01707127728437503,
+            "hawa_gradient_pa_m": -0.12465238571166992,
+            "openfoam_gradient_pa_m": -0.1220383463775,
+            "abs_gradient_err_pa_m": 0.0026140393341699264,
+            "norm_gradient_err": 0.01707127728437503,
+            "analytic_delta_p_pa": 0.12250000000000003,
+            "analytic_gradient_pa_m": -0.12250000000000003,
+            "hawa_vs_analytic_norm_dp": 0.014056396484374832,
+            "openfoam_vs_analytic_norm_dp": 0.003014880800000196
+          },
+          {
+            "id": "dp_x2_x3",
+            "hawa_delta_p_pa": 0.12462317943572998,
+            "openfoam_delta_p_pa": 0.12204291486800002,
+            "abs_delta_p_err_pa": 0.002580264567729959,
+            "norm_delta_p_err": 0.016850707381093608,
+            "hawa_gradient_pa_m": -0.12462317943572998,
+            "openfoam_gradient_pa_m": -0.12204291486800002,
+            "abs_gradient_err_pa_m": 0.002580264567729959,
+            "norm_gradient_err": 0.016850707381093608,
+            "analytic_delta_p_pa": 0.12250000000000001,
+            "analytic_gradient_pa_m": -0.12250000000000001,
+            "hawa_vs_analytic_norm_dp": 0.013865661621093673,
+            "openfoam_vs_analytic_norm_dp": 0.0029850457599999362
+          }
+        ]
+      },
+      "raw_evidence_path": "results/openfoam-pr128-comparison-ny20-20261124/comparison-result.json"
+    },
+    {
+      "provenance": {
+        "commit": "f34bdd31abac6663f64d61b3184b4c9a5509930a",
+        "dirty": true,
+        "dirty_digest": "3e6dbe3b1b2ed946a2487251a39d02c092d9893540ffb853ae33b07b3eb75836"
+      },
+      "source_sha256": {
+        "src/hawa/openfoam.py": "dcc48ffa252ca17afda505b729be34f80b6fc84554fed6f1ee91783c03f3ce91",
+        "scripts/compare_openfoam_controls.py": "0c644b234d19670f987af0c5a30347822924e1efc3a656e2ecd68a013c2ccdf6"
+      },
+      "platform": "macOS-27.2.1-arm64-arm-64bit",
+      "torch": "2.8.0",
+      "criteria": {
+        "velocity_tol": 0.02,
+        "pressure_and_gradient_tol": 0.05,
+        "settle_tol": 0.001
+      },
+      "bundle": {
+        "schema": "hawa-openfoam-case-1",
+        "case_id": "channel_poiseuille_ny40",
+        "description": "Laminar 2D Poiseuille channel (Re=20, ny=40)",
+        "dimensions": 2,
+        "domain_origin_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "domain_size_m": [
+          4.0,
+          1.0,
+          0.07500000000000001
+        ],
+        "density_kg_m3": 1.225,
+        "kinematic_viscosity_m2_s": 0.025,
+        "reference_speed_m_s": 0.5,
+        "reference_length_m": 1.0,
+        "initial_velocity_m_s": [
+          0.3333333333333333,
+          0.0,
+          0.0
+        ],
+        "pressure_reference_pa": 0.0,
+        "boundaries": [
+          {
+            "id": "inlet",
+            "face": "x-",
+            "condition": {
+              "type": "velocity",
+              "profile": "parabolic",
+              "velocity": [
+                0.5,
+                0.0,
+                0.0
+              ],
+              "profile_axis": 1
+            }
+          },
+          {
+            "id": "outlet",
+            "face": "x+",
+            "condition": {
+              "type": "pressure",
+              "profile": "uniform",
+              "pressure_pa": 0.0
+            }
+          },
+          {
+            "id": "bottom",
+            "face": "y-",
+            "condition": {
+              "type": "wall",
+              "profile": "uniform",
+              "velocity": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "id": "top",
+            "face": "y+",
+            "condition": {
+              "type": "wall",
+              "profile": "uniform",
+              "velocity": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "id": "back",
+            "face": "z-",
+            "condition": {
+              "type": "periodic",
+              "profile": "uniform"
+            }
+          },
+          {
+            "id": "front",
+            "face": "z+",
+            "condition": {
+              "type": "periodic",
+              "profile": "uniform"
+            }
+          }
+        ],
+        "probes": [
+          {
+            "id": "p_x1_mid",
+            "location_m": [
+              1.0,
+              0.5,
+              0.037500000000000006
+            ]
+          },
+          {
+            "id": "p_x2_mid",
+            "location_m": [
+              2.0,
+              0.5,
+              0.037500000000000006
+            ]
+          },
+          {
+            "id": "p_x3_mid",
+            "location_m": [
+              3.0,
+              0.5,
+              0.037500000000000006
+            ]
+          },
+          {
+            "id": "p_x2_y20",
+            "location_m": [
+              2.0,
+              0.2,
+              0.037500000000000006
+            ]
+          },
+          {
+            "id": "p_x2_y35",
+            "location_m": [
+              2.0,
+              0.35,
+              0.037500000000000006
+            ]
+          },
+          {
+            "id": "p_x2_y65",
+            "location_m": [
+              2.0,
+              0.65,
+              0.037500000000000006
+            ]
+          },
+          {
+            "id": "p_x2_y80",
+            "location_m": [
+              2.0,
+              0.8,
+              0.037500000000000006
+            ]
+          }
+        ],
+        "pressure_pairs": [
+          {
+            "id": "dp_x1_x3",
+            "a_probe_id": "p_x1_mid",
+            "b_probe_id": "p_x3_mid"
+          },
+          {
+            "id": "dp_x1_x2",
+            "a_probe_id": "p_x1_mid",
+            "b_probe_id": "p_x2_mid"
+          },
+          {
+            "id": "dp_x2_x3",
+            "a_probe_id": "p_x2_mid",
+            "b_probe_id": "p_x3_mid"
+          }
+        ],
+        "mesh": {
+          "cells": [
+            160,
+            40,
+            1
+          ],
+          "solver": "simpleFoam",
+          "max_iterations": 2000,
+          "residual_tolerance": 1e-07,
+          "delta_t": 1.0
+        },
+        "provenance": {
+          "adapter_version": "0.1.0",
+          "control_case": "07-channel"
+        }
+      },
+      "hawa": {
+        "device": "cpu",
+        "dtype": "torch.float32",
+        "steps": 22000,
+        "physical_time_s": 31.754264805429422,
+        "tau": 0.6732050807568877,
+        "settled": true,
+        "final_drift": 0.00038166435397401144,
+        "relative_mass_change": 0.0020189588625481357,
+        "probes": {
+          "p_x1_mid": {
+            "location_m": [
+              1.0,
+              0.5,
+              0.037500000000000006
+            ],
+            "velocity_m_s": [
+              0.5006252527236938,
+              2.5731657160577015e-07,
+              0.0
+            ],
+            "pressure_pa": 0.3709051311016083
+          },
+          "p_x2_mid": {
+            "location_m": [
+              2.0,
+              0.5,
+              0.037500000000000006
+            ],
+            "velocity_m_s": [
+              0.5011619329452515,
+              2.8977251531614456e-06,
+              0.0
+            ],
+            "pressure_pa": 0.24736255407333374
+          },
+          "p_x3_mid": {
+            "location_m": [
+              3.0,
+              0.5,
+              0.037500000000000006
+            ],
+            "velocity_m_s": [
+              0.5016779899597168,
+              3.1907102311379276e-06,
+              0.0
+            ],
+            "pressure_pa": 0.12377619743347168
+          },
+          "p_x2_y20": {
+            "location_m": [
+              2.0,
+              0.2,
+              0.037500000000000006
+            ],
+            "velocity_m_s": [
+              0.32053110003471375,
+              6.085223503760062e-06,
+              0.0
+            ],
+            "pressure_pa": 0.24734795093536377
+          },
+          "p_x2_y35": {
+            "location_m": [
+              2.0,
+              0.35,
+              0.037500000000000006
+            ],
+            "velocity_m_s": [
+              0.4560123383998871,
+              3.6382562029757537e-06,
+              0.0
+            ],
+            "pressure_pa": 0.24731874465942383
+          },
+          "p_x2_y65": {
+            "location_m": [
+              2.0,
+              0.65,
+              0.037500000000000006
+            ],
+            "velocity_m_s": [
+              0.45601218938827515,
+              1.4810590300839976e-06,
+              0.0
+            ],
+            "pressure_pa": 0.24740636348724365
+          },
+          "p_x2_y80": {
+            "location_m": [
+              2.0,
+              0.8,
+              0.037500000000000006
+            ],
+            "velocity_m_s": [
+              0.32053041458129883,
+              4.056814759678673e-06,
+              0.0
+            ],
+            "pressure_pa": 0.2473771572113037
+          }
+        },
+        "pressure_pairs": {
+          "dp_x1_x3": {
+            "delta_p_pa": 0.2471289336681366,
+            "gradient_pa_m": -0.1235644668340683,
+            "distance_m": 2.0
+          },
+          "dp_x1_x2": {
+            "delta_p_pa": 0.12354257702827454,
+            "gradient_pa_m": -0.12354257702827454,
+            "distance_m": 1.0
+          },
+          "dp_x2_x3": {
+            "delta_p_pa": 0.12358635663986206,
+            "gradient_pa_m": -0.12358635663986206,
+            "distance_m": 1.0
+          }
+        }
+      },
+      "openfoam": {
+        "solver": "simpleFoam",
+        "openfoam_version": "v2606",
+        "openfoam_options": "darwin64ClangDPInt32Opt",
+        "converged": true,
+        "sample_time": 268.0,
+        "pressure_sample_time": 268.0,
+        "check_mesh": {
+          "mesh_ok": true,
+          "cells": 6400,
+          "min_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "max_m": [
+            4.0,
+            1.0,
+            0.075
+          ]
+        },
+        "probes": {
+          "p_x1_mid": {
+            "location_m": [
+              1.0,
+              0.5,
+              0.037500000000000006
+            ],
+            "velocity_m_s": [
+              0.4995347017,
+              1.4915e-12,
+              0.0
+            ],
+            "pressure_kinematic_m2_s2": 0.2997181526,
+            "pressure_pa": 0.36715473693500006
+          },
+          "p_x2_mid": {
+            "location_m": [
+              2.0,
+              0.5,
+              0.037500000000000006
+            ],
+            "velocity_m_s": [
+              0.4995318296,
+              1.714676033e-11,
+              0.0
+            ],
+            "pressure_kinematic_m2_s2": 0.1998127345,
+            "pressure_pa": 0.2447705997625
+          },
+          "p_x3_mid": {
+            "location_m": [
+              3.0,
+              0.5,
+              0.037500000000000006
+            ],
+            "velocity_m_s": [
+              0.4995318351,
+              1.090125211e-10,
+              0.0
+            ],
+            "pressure_kinematic_m2_s2": 0.09990636709,
+            "pressure_pa": 0.12238529968525001
+          },
+          "p_x2_y20": {
+            "location_m": [
+              2.0,
+              0.2,
+              0.037500000000000006
+            ],
+            "velocity_m_s": [
+              0.3197003777,
+              1.815770558e-09,
+              0.0
+            ],
+            "pressure_kinematic_m2_s2": 0.1998127362,
+            "pressure_pa": 0.24477060184500002
+          },
+          "p_x2_y35": {
+            "location_m": [
+              2.0,
+              0.35,
+              0.037500000000000006
+            ],
+            "velocity_m_s": [
+              0.4545739672,
+              1.255366945e-09,
+              0.0
+            ],
+            "pressure_kinematic_m2_s2": 0.1998127352,
+            "pressure_pa": 0.24477060062000003
+          },
+          "p_x2_y65": {
+            "location_m": [
+              2.0,
+              0.65,
+              0.037500000000000006
+            ],
+            "velocity_m_s": [
+              0.4545739673,
+              -1.227951194e-09,
+              0.0
+            ],
+            "pressure_kinematic_m2_s2": 0.1998127352,
+            "pressure_pa": 0.24477060062000003
+          },
+          "p_x2_y80": {
+            "location_m": [
+              2.0,
+              0.8,
+              0.037500000000000006
+            ],
+            "velocity_m_s": [
+              0.3197003777,
+              -1.803675892e-09,
+              0.0
+            ],
+            "pressure_kinematic_m2_s2": 0.1998127362,
+            "pressure_pa": 0.24477060184500002
+          }
+        },
+        "pressure_pairs": {
+          "dp_x1_x3": {
+            "delta_p_pa": 0.24476943724975003,
+            "gradient_pa_m": -0.12238471862487502,
+            "distance_m": 2.0
+          },
+          "dp_x1_x2": {
+            "delta_p_pa": 0.12238413717250005,
+            "gradient_pa_m": -0.12238413717250005,
+            "distance_m": 1.0
+          },
+          "dp_x2_x3": {
+            "delta_p_pa": 0.12238530007725,
+            "gradient_pa_m": -0.12238530007725,
+            "distance_m": 1.0
+          }
+        }
+      },
+      "comparison": {
+        "case_id": "channel_poiseuille_ny40",
+        "velocity_l2_norm": 0.0028253001850102972,
+        "velocity_linf_norm": 0.0042923144627681755,
+        "pressure_pair_linf_norm": 0.009639669253228933,
+        "passed": true,
+        "failures": [],
+        "probes": [
+          {
+            "id": "p_x1_mid",
+            "location_m": [
+              1.0,
+              0.5,
+              0.037500000000000006
+            ],
+            "hawa_velocity_m_s": [
+              0.5006252527236938,
+              2.5731657160577015e-07,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4995347017,
+              1.4915e-12,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0010905510540505702,
+            "norm_velocity_err": 0.0021811021081011403,
+            "hawa_pressure_pa": 0.3709051311016083,
+            "openfoam_pressure_pa": 0.36715473693500006,
+            "analytic_velocity_m_s": [
+              0.5,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0012505055532837797,
+            "openfoam_vs_analytic_norm_u": 0.0009305966000000554
+          },
+          {
+            "id": "p_x2_mid",
+            "location_m": [
+              2.0,
+              0.5,
+              0.037500000000000006
+            ],
+            "hawa_velocity_m_s": [
+              0.5011619329452515,
+              2.8977251531614456e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4995318296,
+              1.714676033e-11,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.001630105920764593,
+            "norm_velocity_err": 0.003260211841529186,
+            "hawa_pressure_pa": 0.24736255407333374,
+            "openfoam_pressure_pa": 0.2447705997625,
+            "analytic_velocity_m_s": [
+              0.5,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0023238731170800242,
+            "openfoam_vs_analytic_norm_u": 0.0009363408000000468
+          },
+          {
+            "id": "p_x3_mid",
+            "location_m": [
+              3.0,
+              0.5,
+              0.037500000000000006
+            ],
+            "hawa_velocity_m_s": [
+              0.5016779899597168,
+              3.1907102311379276e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4995318351,
+              1.090125211e-10,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0021461572313840878,
+            "norm_velocity_err": 0.0042923144627681755,
+            "hawa_pressure_pa": 0.12377619743347168,
+            "openfoam_pressure_pa": 0.12238529968525001,
+            "analytic_velocity_m_s": [
+              0.5,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0033559859865870457,
+            "openfoam_vs_analytic_norm_u": 0.0009363298000000496
+          },
+          {
+            "id": "p_x2_y20",
+            "location_m": [
+              2.0,
+              0.2,
+              0.037500000000000006
+            ],
+            "hawa_velocity_m_s": [
+              0.32053110003471375,
+              6.085223503760062e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.3197003777,
+              1.815770558e-09,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0008307446089153592,
+            "norm_velocity_err": 0.0016614892178307185,
+            "hawa_pressure_pa": 0.24734795093536377,
+            "openfoam_pressure_pa": 0.24477060184500002,
+            "analytic_velocity_m_s": [
+              0.32000000000000006,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0010622697902472158,
+            "openfoam_vs_analytic_norm_u": 0.0005992446000111633
+          },
+          {
+            "id": "p_x2_y35",
+            "location_m": [
+              2.0,
+              0.35,
+              0.037500000000000006
+            ],
+            "hawa_velocity_m_s": [
+              0.4560123383998871,
+              3.6382562029757537e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4545739672,
+              1.255366945e-09,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.001438375798058261,
+            "norm_velocity_err": 0.002876751596116522,
+            "hawa_pressure_pa": 0.24731874465942383,
+            "openfoam_pressure_pa": 0.24477060062000003,
+            "analytic_velocity_m_s": [
+              0.45499999999999996,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0020246898753085354,
+            "openfoam_vs_analytic_norm_u": 0.0008520656000036508
+          },
+          {
+            "id": "p_x2_y65",
+            "location_m": [
+              2.0,
+              0.65,
+              0.037500000000000006
+            ],
+            "hawa_velocity_m_s": [
+              0.45601218938827515,
+              1.4810590300839976e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4545739673,
+              -1.227951194e-09,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0014382228521259283,
+            "norm_velocity_err": 0.0028764457042518565,
+            "hawa_pressure_pa": 0.24740636348724365,
+            "openfoam_pressure_pa": 0.24477060062000003,
+            "analytic_velocity_m_s": [
+              0.45499999999999996,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0020243809436691967,
+            "openfoam_vs_analytic_norm_u": 0.0008520654000034743
+          },
+          {
+            "id": "p_x2_y80",
+            "location_m": [
+              2.0,
+              0.8,
+              0.037500000000000006
+            ],
+            "hawa_velocity_m_s": [
+              0.32053041458129883,
+              4.056814759678673e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.3197003777,
+              -1.803675892e-09,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0008300468039212726,
+            "norm_velocity_err": 0.0016600936078425452,
+            "hawa_pressure_pa": 0.2473771572113037,
+            "openfoam_pressure_pa": 0.24477060184500002,
+            "analytic_velocity_m_s": [
+              0.31999999999999995,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0010608601902238717,
+            "openfoam_vs_analytic_norm_u": 0.0005992446000107953
+          }
+        ],
+        "pressure_pairs": [
+          {
+            "id": "dp_x1_x3",
+            "hawa_delta_p_pa": 0.2471289336681366,
+            "openfoam_delta_p_pa": 0.24476943724975003,
+            "abs_delta_p_err_pa": 0.002359496418386564,
+            "norm_delta_p_err": 0.009639669253228933,
+            "hawa_gradient_pa_m": -0.1235644668340683,
+            "openfoam_gradient_pa_m": -0.12238471862487502,
+            "abs_gradient_err_pa_m": 0.001179748209193282,
+            "norm_gradient_err": 0.009639669253228933,
+            "analytic_delta_p_pa": 0.24500000000000005,
+            "analytic_gradient_pa_m": -0.12250000000000003,
+            "hawa_vs_analytic_norm_dp": 0.008689525176067532,
+            "openfoam_vs_analytic_norm_dp": 0.0009410724500000752
+          },
+          {
+            "id": "dp_x1_x2",
+            "hawa_delta_p_pa": 0.12354257702827454,
+            "openfoam_delta_p_pa": 0.12238413717250005,
+            "abs_delta_p_err_pa": 0.0011584398557744902,
+            "norm_delta_p_err": 0.007565321507098711,
+            "hawa_gradient_pa_m": -0.12354257702827454,
+            "openfoam_gradient_pa_m": -0.12238413717250005,
+            "abs_gradient_err_pa_m": 0.0011584398557744902,
+            "norm_gradient_err": 0.007565321507098711,
+            "analytic_delta_p_pa": 0.12250000000000003,
+            "analytic_gradient_pa_m": -0.12250000000000003,
+            "hawa_vs_analytic_norm_dp": 0.006808666307098844,
+            "openfoam_vs_analytic_norm_dp": 0.0007566551999998665
+          },
+          {
+            "id": "dp_x2_x3",
+            "hawa_delta_p_pa": 0.12358635663986206,
+            "openfoam_delta_p_pa": 0.12238530007725,
+            "abs_delta_p_err_pa": 0.00120105656261206,
+            "norm_delta_p_err": 0.007843634694609372,
+            "hawa_gradient_pa_m": -0.12358635663986206,
+            "openfoam_gradient_pa_m": -0.12238530007725,
+            "abs_gradient_err_pa_m": 0.00120105656261206,
+            "norm_gradient_err": 0.007843634694609372,
+            "analytic_delta_p_pa": 0.12250000000000001,
+            "analytic_gradient_pa_m": -0.12250000000000001,
+            "hawa_vs_analytic_norm_dp": 0.0070945739746092985,
+            "openfoam_vs_analytic_norm_dp": 0.0007490607200000729
+          }
+        ]
+      },
+      "raw_evidence_path": "results/openfoam-pr128-comparison-ny40-20261124/comparison-result.json"
+    }
+  ]
+}

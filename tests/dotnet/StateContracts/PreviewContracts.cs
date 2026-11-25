@@ -23,6 +23,23 @@ static class PreviewContracts
     static List<(Point3d At, string Text, Color Color)> Dots(DisplayPipeline d) => d.Of("dot").Select(a => ((Point3d)a[0], (string)a[1], (Color)a[2])).ToList();
     static bool HasDot(DisplayPipeline d, Point3d at, string text, Color color) => Dots(d).Any(x => Near(x.At, at) && x.Text == text && x.Color == color);
 
+    // Four separated dashes cover the original inward tick, each with a white
+    // halo before its coloured centre. Endpoint/width checks retain unit scaling.
+    static bool Dashes(DisplayPipeline d, Point3d from, Point3d to, Color color)
+    {
+        var lines = d.Of("line").Where(a => (Color)a[2] == Color.White || (Color)a[2] == color).ToArray();
+        if (lines.Length != 8) return false;
+        var step = (to - from) / 7;
+        for (int i = 0; i < 4; i++)
+        {
+            var halo = lines[2 * i]; var ink = lines[2 * i + 1];
+            if ((Color)halo[2] != Color.White || (int)halo[3] != 5 || (Color)ink[2] != color || (int)ink[3] != 3) return false;
+            foreach (var line in new[] { halo, ink })
+                if (!Near((Point3d)line[0], from + step * (2 * i)) || !Near((Point3d)line[1], from + step * (2 * i + 1))) return false;
+        }
+        return true;
+    }
+
     public static void Run(Action<string, Action> test, Action<bool, string> assert)
     {
         test("native preview annotates the default block case with the domain box", () => {
@@ -37,7 +54,7 @@ static class PreviewContracts
             assert(dots.Select(x => x.Text).All(t => !t.Contains("outflow")), "A face label implies guaranteed outflow");
             var arrows = d.Of("arrow").ToList(); var dotted = d.Of("dotted").ToList();
             assert(arrows.Count == 1 && Segment(arrows[0][0], new(0, 3, 2), new(.8, 3, 2)), "Inlet arrow must point +X into the box");
-            assert(dotted.Count == 2 && Near((Point3d)dotted[0][0], new(4, 0, 2)) && Near((Point3d)dotted[0][1], new(4, 6, 2)) && Near((Point3d)dotted[1][0], new(8, 3, 2)) && Near((Point3d)dotted[1][1], new(7.6, 3, 2)) && !d.Of("line").Any(), "Periodic pair or outlet tick wrong");
+            assert(dotted.Count == 1 && Near((Point3d)dotted[0][0], new(4, 0, 2)) && Near((Point3d)dotted[0][1], new(4, 6, 2)) && Dashes(d, new(8, 3, 2), new(7.6, 3, 2), BoundaryAnnotations.Open), "Periodic pair or outlet tick wrong");
             assert(d.Calls.FindIndex(x => x.Op == "dot") > d.Calls.FindIndex(x => x.Op == "box") && !d.Of("mesh").Any() && !((string)d.Of("text").Single()[0]).Contains("OUTDATED"), "Annotation order or status changed");
             int push = d.Calls.FindIndex(x => x.Op == "depth"), pop = d.Calls.FindIndex(x => x.Op == "depth-pop");
             assert(push >= 0 && !(bool)d.Calls[push].Args[0] && push < d.Calls.FindIndex(x => x.Op == "dotted") && pop > d.Calls.FindLastIndex(x => x.Op == "dot") && push > d.Calls.FindLastIndex(x => x.Op == "box"), "Annotations must draw without depth testing and restore it after the foreground labels");
@@ -55,7 +72,7 @@ static class PreviewContracts
             assert(boxes.Count == 2 && (BoundingBox)boxes[0][0] == new BoundingBox(new(10000, -2000, 1000), new(14000, 0, 3000)) && (int)boxes[1][2] == 1, "Selected domain or found object box wrong");
             assert(HasDot(d, new(10000, -1000, 2500), "X- inlet · +X 1 m/s", BoundaryAnnotations.Velocity) && HasDot(d, new(12000, -2000, 2500), "Y- wall", BoundaryAnnotations.Wall) && HasDot(d, new(12000, 0, 2500), "Y+ wall", BoundaryAnnotations.Wall), "Edited faces not shown in document units");
             var dotted = d.Of("dotted").ToList();
-            assert(Segment(d.Of("arrow").Single()[0], new(10000, -1000, 2000), new(10400, -1000, 2000)) && dotted.Count == 1 && Near((Point3d)dotted[0][1], new(13800, -1000, 2000)), "Walled Y faces kept a periodic pair or arrow scale wrong");
+            assert(Segment(d.Of("arrow").Single()[0], new(10000, -1000, 2000), new(10400, -1000, 2000)) && dotted.Count == 0 && Dashes(d, new(14000, -1000, 2000), new(13800, -1000, 2000), BoundaryAnnotations.Open), "Walled Y faces kept a periodic pair or arrow scale wrong");
             CaseHub.Close(502);
         });
 
@@ -195,12 +212,12 @@ static class PreviewContracts
             var d = new DisplayPipeline(); Frame(comp, d);
             assert(d.Calls.Count == 0 && comp.ClippingBox == new BoundingBox(new(-1, 5, 0), new(5, 13, 4)), "Unselected Boundary Set drew or lost bounds");
             comp.Attributes.Selected = true; Frame(comp, d);
-            var arrows = d.Of("arrow").ToList(); var solid = d.Of("line").Single(); var dotted = d.Of("dotted").Single();
+            var arrows = d.Of("arrow").ToList(); var solid = d.Of("line").Single(a => (Color)a[2] == BoundaryAnnotations.Pressure);
             assert(HasDot(d, new(2, 5, 3), "x- velocity · 2 m/s parabolic", BoundaryAnnotations.Velocity) && HasDot(d, new(2, 13, 3), "x+ open/pressure reference · 0 Pa gauge", BoundaryAnnotations.Open)
                 && HasDot(d, new(5, 9, 3), "y- wall", BoundaryAnnotations.Wall) && HasDot(d, new(-1, 9, 3), "y+ wall · moving 1.5 m/s", BoundaryAnnotations.Wall)
                 && HasDot(d, new(0.5, 9, 0), "z- slip", BoundaryAnnotations.Slip) && HasDot(d, new(0.5, 9, 4), "z+ pressure reference · 5 Pa gauge", BoundaryAnnotations.Pressure), "Patch labels or anchors wrong");
             assert(arrows.Count == 2 && Segment(arrows[0][0], new(2, 5, 2), new(2, 5.8, 2)) && Segment(arrows[1][0], new(-1, 9, 2), new(-1, 9.8, 2)), "Velocity or moving-wall arrows wrong");
-            assert(Near((Point3d)solid[0], new(2, 9, 4)) && Near((Point3d)solid[1], new(2, 9, 3.6)) && (int)solid[3] == 3 && Near((Point3d)dotted[0], new(2, 13, 2)) && Near((Point3d)dotted[1], new(2, 12.6, 2)), "Pressure and open markers must be distinct inward normal ticks");
+            assert(Near((Point3d)solid[0], new(2, 9, 4)) && Near((Point3d)solid[1], new(2, 9, 3.6)) && (int)solid[3] == 3 && Dashes(d, new(2, 13, 2), new(2, 12.6, 2), BoundaryAnnotations.Open), "Pressure and open markers must be distinct inward normal ticks");
             Solve(comp, caseGoo, new List<object> { new GH_String("x-") });
             assert(comp.Errors.Contains("Use Boundary Patch objects"), "Non-patch input accepted");
             Solve(comp, caseGoo, patches, Vector3d.Unset);

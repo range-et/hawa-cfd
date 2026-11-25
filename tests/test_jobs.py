@@ -21,7 +21,7 @@ def test_job_controls_and_completed_identity(solver_device):
         done=wait(a,{'completed','failed'})
         assert done['state']=='completed' and done['result']['fitness']>0
         assert done['job']==a
-    finally:dispatch(dict(op='evaluate_control',job=a,action='close'))
+    finally:close_and_wait(a)
     assert a not in JOBS
 
 
@@ -36,7 +36,7 @@ def test_queued_pause_and_cancel_are_nonblocking(solver_device):
         assert wait(a,{'cancelled'})['result'] is None
     finally:
         DEVICE_SLOT.release()
-        dispatch(dict(op='evaluate_control',job=a,action='close'))
+        close_and_wait(a)
 
 
 def test_mean_independent_of_call_batch(solver_device):
@@ -76,7 +76,7 @@ def test_background_creation_cleanup(solver_device):
     assert done['state']=='completed'
     session=done['result']['status']['session']
     assert session in SESSIONS
-    dispatch(dict(op='evaluate_control',job=job,action='close'))
+    close_and_wait(job)
     assert session not in SESSIONS
 
 
@@ -88,7 +88,7 @@ def test_cancelled_candidate_never_publishes_or_leaks(solver_device):
     try:
         job=dispatch(dict(op='evaluate_submit',case=spec(),device=solver_device,steps=40,window=10,reference_volume=6))['job']
         worker=JOBS[job]
-        dispatch(dict(op='evaluate_control',job=job,action='close'))
+        close_and_wait(job)
     finally:DEVICE_SLOT.release()
     worker.thread.join(timeout=5)
     assert not worker.thread.is_alive()
@@ -102,7 +102,7 @@ def test_query_failure_preserves_diagnostic():
         value=wait(job,{'completed','failed'})
         assert value['state']=='failed' and value['error']
         assert value['result'] is None
-    finally:dispatch(dict(op='evaluate_control',job=job,action='close'))
+    finally:close_and_wait(job)
 
 
 def test_closing_creation_job_stops_running_solver(solver_device):
@@ -113,12 +113,29 @@ def test_closing_creation_job_stops_running_solver(solver_device):
     session=SESSIONS[done['result']['status']['session']]
     session.start(100000)
     worker=session.thread
-    dispatch(dict(op='evaluate_control',job=job,action='close'))
+    close_and_wait(job)
     worker.join(timeout=5)
     assert not worker.is_alive() and session.id not in SESSIONS
-    assert session.flow.i<100000
+    assert session.status()['steps']<100000 and session.flow is None
 
 
 def test_close_missing_job_is_idempotent():
     from hawa.jobs import dispatch_job
     assert dispatch_job({'op': 'evaluate_control', 'job': 'already-closed', 'action': 'close'}) == {'closed': True}
+
+
+def close_and_wait(job):
+    """Join only the cleanup worker in tests; production close remains async."""
+    import threading
+    from unittest.mock import patch
+    workers = []
+    real_thread = threading.Thread
+    def tracked(*args, **kwargs):
+        worker = real_thread(*args, **kwargs)
+        workers.append(worker)
+        return worker
+    with patch('hawa.plugin.threading.Thread', tracked):
+        dispatch(dict(op='evaluate_control', job=job, action='close'))
+    for worker in workers:
+        worker.join(5)
+        assert not worker.is_alive(), 'session cleanup did not complete'

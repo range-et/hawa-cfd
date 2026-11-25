@@ -1,0 +1,362 @@
+{
+  "$defs": {
+    "OpenFoamBoundaryCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "velocity",
+            "pressure",
+            "wall",
+            "slip",
+            "periodic"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "velocity": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Velocity"
+        },
+        "pressure_pa": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pressure Pa"
+        },
+        "profile": {
+          "default": "uniform",
+          "enum": [
+            "uniform",
+            "parabolic"
+          ],
+          "title": "Profile",
+          "type": "string"
+        },
+        "profile_axis": {
+          "anyOf": [
+            {
+              "enum": [
+                0,
+                1,
+                2
+              ],
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Profile Axis"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "OpenFoamBoundaryCondition",
+      "type": "object"
+    },
+    "OpenFoamMeshSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "cells": {
+          "items": {
+            "maximum": 2000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Cells",
+          "type": "array"
+        },
+        "solver": {
+          "default": "simpleFoam",
+          "enum": [
+            "simpleFoam",
+            "icoFoam"
+          ],
+          "title": "Solver",
+          "type": "string"
+        },
+        "max_iterations": {
+          "default": 1000,
+          "maximum": 20000,
+          "minimum": 1,
+          "title": "Max Iterations",
+          "type": "integer"
+        },
+        "residual_tolerance": {
+          "default": 1e-09,
+          "exclusiveMinimum": 0,
+          "title": "Residual Tolerance",
+          "type": "number"
+        },
+        "delta_t": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Delta T",
+          "type": "number"
+        },
+        "p_ref_cell": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "P Ref Cell"
+        },
+        "p_ref_value": {
+          "default": 0.0,
+          "title": "P Ref Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "cells"
+      ],
+      "title": "OpenFoamMeshSpec",
+      "type": "object"
+    },
+    "OpenFoamPatch": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "face": {
+          "enum": [
+            "x-",
+            "x+",
+            "y-",
+            "y+",
+            "z-",
+            "z+"
+          ],
+          "title": "Face",
+          "type": "string"
+        },
+        "condition": {
+          "$ref": "#/$defs/OpenFoamBoundaryCondition"
+        }
+      },
+      "required": [
+        "id",
+        "face",
+        "condition"
+      ],
+      "title": "OpenFoamPatch",
+      "type": "object"
+    },
+    "OpenFoamProbe": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "location_m": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Location M",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "location_m"
+      ],
+      "title": "OpenFoamProbe",
+      "type": "object"
+    },
+    "PressurePair": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "a_probe_id": {
+          "minLength": 1,
+          "title": "A Probe Id",
+          "type": "string"
+        },
+        "b_probe_id": {
+          "minLength": 1,
+          "title": "B Probe Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "a_probe_id",
+        "b_probe_id"
+      ],
+      "title": "PressurePair",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "hawa-openfoam-case-1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "case_id": {
+      "minLength": 1,
+      "title": "Case Id",
+      "type": "string"
+    },
+    "description": {
+      "minLength": 1,
+      "title": "Description",
+      "type": "string"
+    },
+    "dimensions": {
+      "enum": [
+        2,
+        3
+      ],
+      "title": "Dimensions",
+      "type": "integer"
+    },
+    "domain_origin_m": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "title": "Domain Origin M",
+      "type": "array"
+    },
+    "domain_size_m": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "title": "Domain Size M",
+      "type": "array"
+    },
+    "density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Density Kg M3",
+      "type": "number"
+    },
+    "kinematic_viscosity_m2_s": {
+      "exclusiveMinimum": 0,
+      "title": "Kinematic Viscosity M2 S",
+      "type": "number"
+    },
+    "reference_speed_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Speed M S",
+      "type": "number"
+    },
+    "reference_length_m": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Length M",
+      "type": "number"
+    },
+    "initial_velocity_m_s": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "title": "Initial Velocity M S",
+      "type": "array"
+    },
+    "pressure_reference_pa": {
+      "default": 0.0,
+      "title": "Pressure Reference Pa",
+      "type": "number"
+    },
+    "boundaries": {
+      "items": {
+        "$ref": "#/$defs/OpenFoamPatch"
+      },
+      "maxItems": 6,
+      "minItems": 6,
+      "title": "Boundaries",
+      "type": "array"
+    },
+    "probes": {
+      "items": {
+        "$ref": "#/$defs/OpenFoamProbe"
+      },
+      "minItems": 1,
+      "title": "Probes",
+      "type": "array"
+    },
+    "pressure_pairs": {
+      "items": {
+        "$ref": "#/$defs/PressurePair"
+      },
+      "title": "Pressure Pairs",
+      "type": "array"
+    },
+    "mesh": {
+      "$ref": "#/$defs/OpenFoamMeshSpec"
+    },
+    "provenance": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Provenance",
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema",
+    "case_id",
+    "description",
+    "dimensions",
+    "domain_origin_m",
+    "domain_size_m",
+    "density_kg_m3",
+    "kinematic_viscosity_m2_s",
+    "reference_speed_m_s",
+    "reference_length_m",
+    "initial_velocity_m_s",
+    "boundaries",
+    "probes",
+    "mesh"
+  ],
+  "title": "OpenFoamCaseBundle",
+  "type": "object"
+}

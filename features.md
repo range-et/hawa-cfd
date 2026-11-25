@@ -15,6 +15,106 @@ git history at commit cc407cc. See the release review for distribution
 claims and the [coverage matrix](examples/grasshopper/VERIFICATION.md) for required
 example checks.
 
+## Final MVP review repairs (November 25, 2026)
+
+PR #135's review exposed a field-capture/cleanup race and a 2D OpenFOAM handoff
+that flattened Z-dependent parabolic inlets. Cleanup now respects the session
+capture lock while preserving device-lock order; 2D handoff rejects the profile
+and directs the caller to a resolved 3D mesh. Focused regressions pass on Python
+3.9/3.12. Fresh complete verification passes 2,991 Python tests (87 skipped),
+159 C# state contracts and strict headless coverage, with refreshed mutation
+policies and matrix. The [combined review](docs/review-mvp-integration.md) retains
+the live-host, provenance and qualification limits.
+
+## Combined MVP headless verification (November 24, 2026)
+
+The local integration of PRs #128–#134 passes 2,985 Python tests (87 skipped),
+159 C# state contracts and strict headless function coverage after repairing a
+review-discovered synchronous/asynchronous close lock inversion. The committed
+matrix is freshly measured and the repaired development package passes build,
+source inclusion and archive checks. Live Rhino acceptance, broader qualification
+and release remain open; no installed-build acceptance is claimed.
+[Combined evidence and limits](docs/review-mvp-integration.md).
+
+## Retained poll timer repair (November 24, 2026)
+
+PR #130 now retains the UI timer throughout a drain, including when one due
+component completes and cancels its poll while another component is skipped.
+The skipped component retries at its original delay; the timer is disposed once
+all requests finish. Deterministic clock-driven contracts reproduce the old
+timer-loss path and verify retry, deadline and cleanup behavior. This is
+headless scheduling evidence, not proof of the original Rhino trigger or a
+live multi-candidate completion. [#122](https://github.com/range-et/hawa-cfd/issues/122)
+remains open. [Review](docs/review-poll-retry.md).
+
+## Concave curved-wall fallback (#78, November 23, 2026)
+
+Stationary curved-wall links with `q < 0.5` whose second site behind the fluid
+node is solid (concave corners, one-cell gaps, midpoint rounding) now use
+standard halfway bounce-back on that link instead of refusing the whole case.
+Other links keep the unchanged Bouzidi interpolation; the fallback count is
+recorded on `simulation.wall_fallback_links`. Headless regressions cover an
+L-shape at dx 0.1/0.05/0.025, the `q = 0.49999999999999983` overlapping-box case,
+solid-isolated rest equilibrium and CPU/MPS agreement; 156 linked C# contracts
+and CPU/MPS device smoke (5/5 each) pass. Those fallback links are first order;
+no accuracy qualification or live Rhino check is claimed. A November 24 test-only
+follow-up retains the mean-speed assertion and adds full fluid velocity/pressure
+comparisons under the existing CPU/accelerator field policy; both pass for the
+40-step L-shape fixture. The failed pure-relative diagnostic and exact limits
+remain in the [follow-up review](docs/review-concave-wall-fields.md).
+
+## Boundary tick contrast follow-up (November 24, 2026)
+
+The shared annotation renderer uses four separated, white-haloed strokes for
+open/outlet ticks, preserving their inward-normal endpoints and distinction from
+pressure ticks and velocity arrows. Fresh installed-host checks reproduced the
+faint/invisible tick on examples 22/08 with computed fields. The revised renderer
+passes 2,846 Python tests and 155 C# contracts, the strict headless coverage gate
+and a development build; revised live acceptance remains pending, so
+[#108](https://github.com/range-et/hawa-cfd/issues/108) stays open. No solver or
+release claim. [Review and current evidence](docs/review-boundary-tick-legibility.md).
+
+## OpenFOAM v2606 cross-solver verification — Slice 1 controls (November 23, 2026)
+
+Added a headless physical-case handoff schema (`hawa-openfoam-case-1`,
+[JSON Schema](docs/schemas/openfoam-case-bundle.schema.json)), atomic OpenFOAM
+v2606 case generator, `checkMesh`/probe parsers (`src/hawa/openfoam.py`), and a
+shared-probe control comparison runner (`scripts/compare_openfoam_controls.py`).
+Measured locally on macOS arm64 against externally installed OpenFOAM v2606
+(`darwin64ClangDPInt32Opt`, `simpleFoam`) with Hawa on CPU:
+
+- **Control 07 (laminar 2D Poiseuille channel, $\text{Re}=20$, `WindFlow` + `hawa-nee-v1`):**
+  all three grids (`ny = 10, 20, 40`) passed `checkMesh`, converged in OpenFOAM,
+  settled in Hawa, and converged monotonically toward the analytic velocity profile
+  and pressure gradient (`u_L2`: `2.348% -> 0.694% -> 0.283%`; `dp_Linf`:
+  `7.446% -> 2.128% -> 0.964%`). Resolved grids `ny = 20, 40` pass `< 2%` velocity
+  and `< 5%` pressure-drop gates (`ny = 40` `dp/dx = -0.12356` Hawa vs `-0.12238`
+  OpenFOAM vs `-0.12250` Pa/m analytic).
+- **Control 06 (lid-driven 2D cavity, $\text{Re}=10$, `Cavity2D`, diagnostic):**
+  `u_L2` drops `5.532% -> 3.959% -> 2.511%` across `n=32 Ma=0.05`, `n=64 Ma=0.05`,
+  and `n=64 Ma=0.015`, diagnosing BGK $\tau$ growth at fixed Mach (`0.777 -> 1.054`)
+  and `Cavity2D`'s $1/n$ bounce-back/lid wall offset (`y_max = 1 - 1/n`).
+
+This is bounded CPU cross-solver verification (not experimental validation or a
+plugin release). MPS/CUDA runs, curved/complex geometries (Slices 2–4: Sphere 14,
+Cylinder 16, Canopy 22 / Hull 10), and independent numerical review remain open in
+[#126](https://github.com/range-et/hawa-cfd/issues/126) and
+[#127](https://github.com/range-et/hawa-cfd/issues/127).
+[Scope](docs/openfoam-verification-scope.md),
+[review](docs/review-openfoam-controls.md),
+[evidence JSON](docs/verification-openfoam-controls.json).
+
+The November 24 [PR review follow-up](docs/review-openfoam-pr128-followup.md)
+hardens laminar capability rejection, accepted defaults, single-use run output,
+matched sample times, finite measurements, pressure-gradient gating and source/run
+provenance. Generated interpolation and physical/dictionary contract tests expand
+assertion evidence. The earlier numerical report remains historical; new mutation
+results and 486 unresolved assertion gaps are recorded separately in that review.
+Fresh CPU Channel 07 ny20/40 comparisons pass the unchanged velocity/pressure
+limits plus explicit gradient acceptance ([evidence](docs/verification-openfoam-review-controls.json)).
+This is bounded verification, not complete-testing or release qualification.
+
+
 ## November development buildlog and video publication (November 18, 2026)
 
 The [dated buildlog](site/build-log/2026-11.html) gathers merged native data,
@@ -62,6 +162,7 @@ agent and independent final review by the parent agent.
 | Device smoke gate | Five short existing cases (compatibility engine, KBC collision, neutral precursor, moving sphere, curved-wall channel) compared with a CPU FP64 reference under a committed bitwise/bounded policy, with a per-run manifest. The CPU mode runs in CI. CUDA (RTX 5070 Ti) and MPS (M3 Max) each passed 5/5 on merged main `71625aa`, so #57 is complete; other devices are not qualified. | [Gate guide](docs/device-smoke.md), [#57](https://github.com/range-et/hawa-cfd/issues/57) |
 | Compatibility and example coverage gate | G6 enumerates 102,615 finite contract rows, rejects incomplete/stale evidence and audits public nodes against GH workflows. Fresh Mac CPU/MPS integration passes 100,125 rows with zero failures and 2,490 CUDA rows blocked. PR #119's Windows CUDA evidence remains historical for its source; the new CPU-only stationary study guards accelerator requests. Arbitrary graphs and continuous inputs are not exhaustively enumerated. | [G6 guide](docs/compatibility-matrix.md), [current Mac report](docs/verification-wing-gh-compatibility.json), [historical Windows report](docs/verification-pr119-windows-cuda-2026-11-17.json) |
 | Boundary assignment annotations (display only) | Ephemeral viewport labels for accepted faces: IDs/types, inlet and prescribed-velocity arrows, inward normal ticks for pressure (solid) and open/outlet (dotted) faces labelled "open/pressure reference" or "open, extrapolated", wall/slip labels and periodic pair lines. Native: with a case and Domain wireframe on; hidden while a result is outdated. GH: Case and Boundary Set, only while selected. No picking, editing, baked geometry or physics change. Arrows show direction only. Labels sit off the face centre and draw without depth testing; GH annotations draw in Rhino's foreground after GH preview meshes. Live-checked on macOS (#38, #108): native on cbcd81c, GH on 9d6f4c5; the native outlet tick is faint at domain-fit zoom and some labels nearly touch. | [History](#november-13-2026--boundary-assignment-annotations-38-partial), [coverage](examples/grasshopper/VERIFICATION.md) |
+| OpenFOAM physical-case handoff & control verification (headless) | Versioned SI bundle (`hawa-openfoam-case-1`), atomic OpenFOAM v2606 dictionary generator, `checkMesh`/probe parsers, and shared-probe velocity/$\Delta p$/gradient comparator (`src/hawa/openfoam.py`). Built and CPU-verified for Cartesian laminar controls (Channel 07 passes resolved `< 2%` velocity / `< 5%` $\Delta p$ gates across `ny = 20, 40`; Cavity 06 recorded as diagnostic). Unsupported physics fail closed. No public GH node or bundled OpenFOAM runtime; MPS/CUDA and Slices 2–4 (Sphere 14, Cylinder 16, complex body) remain open in [#126](https://github.com/range-et/hawa-cfd/issues/126) and [#127](https://github.com/range-et/hawa-cfd/issues/127). | [Scope](docs/openfoam-verification-scope.md), [review](docs/review-openfoam-controls.md), [evidence](docs/verification-openfoam-controls.json) |
 
 ## Headless testing expansion (November 9, 2026)
 
@@ -850,3 +951,19 @@ Save data. Mac Rhino import/export/resume and exact same-machine CPU replay
 passed. This is workflow evidence, not numerical qualification or a new release.
 [Example](examples/native-prototype/34-save-import-resume.md) ·
 [Review](docs/review-workflow-examples.md).
+
+### November 24, 2026 — MPS teardown review repair (#76 partial)
+
+Completed-job close now uses asynchronous session cleanup, and async control
+captures its reply before released tensors become inaccessible. Deterministic
+regressions cover cleanup ownership, failed-pause retry and immediate completion.
+Live Rhino paused-memory acceptance remains open; this is not a release claim.
+[Review and measured scope](docs/review-mps-cleanup-followup.md).
+
+### November 24, 2026 — Capture admission review repair (#75 partial)
+
+Capture submission checks budget estimates without compiling full-grid boundary
+links. Both capture formats write to their validated expanded paths, and existing
+dangling links fail before parent data is sampled. CPU round-trip and refusal
+regressions pass; live example 33 acceptance remains open.
+[Review and measured scope](docs/review-admission-followup.md).

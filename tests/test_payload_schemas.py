@@ -30,6 +30,7 @@ SNAPSHOTS = {
     'sweep-candidate.schema.json': ('hawa.sweeps', 'Candidate'),
     'sweep-callback.schema.json': ('hawa.sweeps', 'CallbackIdentity'),
     'sweep-poll.schema.json': ('hawa.sweeps', 'Poll'),
+    'openfoam-case-bundle.schema.json': ('hawa.openfoam', 'OpenFoamCaseBundle'),
 }
 # Names whose use would reach a known 2.13 advisory or leave Python-mode BaseModel validation.
 FORBIDDEN_NAMES = {'Fraction', 'TypedDict', 'TypeAdapter', 'model_validate_json', 'validate_json',

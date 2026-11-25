@@ -3,7 +3,7 @@ import zipfile
 
 from hawa import jobs, native_data
 from hawa.plugin import SESSIONS
-from test_native_data import session, request
+from test_native_data import session, request, close_and_wait
 
 
 def test_native_import_forwards_default_device_without_selecting_accelerator(session, tmp_path, monkeypatch):
@@ -21,7 +21,7 @@ def test_native_import_forwards_default_device_without_selecting_accelerator(ses
         assert job.state == 'completed', job.error
         assert selected == ['auto']
     finally:
-        job.control('close')
+        close_and_wait(job)
 
 
 def test_native_import_cancel_during_archive_read_prevents_solver_allocation(session, tmp_path, monkeypatch):
@@ -63,4 +63,4 @@ def test_native_import_reports_restored_iteration_before_publication(session, tm
         assert observed[0]['steps'] == observed[0]['target'] == session.flow.i
         assert observed[0]['result'] is None and observed[0]['state'] == 'running'
     finally:
-        job.control('close')
+        close_and_wait(job)

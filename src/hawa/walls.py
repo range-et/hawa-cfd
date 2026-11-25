@@ -25,19 +25,23 @@ def install_interpolated_walls(simulation, links):
         behind[:,axis]%=n;ahead[:,axis]%=n
     solid=flow.solid.detach().cpu().numpy()
     if np.any(solid[tuple(coords.T)]) or not np.all(solid[tuple(ahead.T)]):raise ValueError('Wall links must point from fluid into solid')
-    # Narrow gaps cannot supply the second fluid site required by q < 0.5.
-    if np.any((distance<.5)&solid[tuple(behind.T)]):raise ValueError('Unresolved narrow gap at curved wall. Refine the grid.')
+    # Concave corners and one-cell gaps lack a fluid site behind the link for q < 0.5;
+    # fall back to standard halfway bounce-back on those links instead of refusing valid CAD (#78).
+    fallback_mask=(distance<.5)&solid[tuple(behind.T)]
+    simulation.wall_fallback_links=int(fallback_mask.sum())
     qi=torch.tensor(direction,device=ctx.device,dtype=torch.long)
     oi=torch.tensor(np.asarray(flow.stencil.opposite)[direction],device=ctx.device,dtype=torch.long)
     ix=torch.tensor(index,device=ctx.device,dtype=torch.long)
     bi=torch.tensor(np.ravel_multi_index(behind.T,shape),device=ctx.device,dtype=torch.long)
     q=ctx.convert_to_tensor(distance);ev=ctx.convert_to_tensor(e)
+    fallback=torch.tensor(fallback_mask,device=ctx.device,dtype=torch.bool)
     simulation.wall_history=deque(maxlen=20)
     pending = {}
     def capture():
         f=flow.f.view(flow.stencil.q,-1)
         incoming=f[qi,ix].clone();opposite=f[oi,ix].clone();back=f[qi,bi].clone()
-        reflected=torch.where(q<.5,2*q*incoming+(1-2*q)*back,incoming/(2*q)+(1-1/(2*q))*opposite)
+        interpolated=torch.where(q<.5,2*q*incoming+(1-2*q)*back,incoming/(2*q)+(1-1/(2*q))*opposite)
+        reflected=torch.where(fallback,incoming,interpolated)
         pending["reflected"] = reflected
         pending["incoming"] = incoming
     def reconstruct():

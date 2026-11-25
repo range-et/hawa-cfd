@@ -97,7 +97,8 @@ def validate_attachment(spec, arrays, meta):
     maximum=speed*spec.get('mach',.05)/spec['speed']
     if maximum>.1:raise ValueError('Imported velocity exceeds child lattice Mach 0.10 budget')
     pressure=max(float(np.abs(arrays['pressure']).max()),float(np.abs(arrays['initial_pressure']).max()))
-    if pressure/spec.get('density',1.225)*(spec.get('mach',.05)/spec['speed'])**2>.02:raise ValueError('Imported pressure exceeds 2% density budget')
+    if pressure/spec.get('density',1.225)*(spec.get('mach',.05)/spec['speed'])**2>.02:
+        raise ValueError('Imported pressure exceeds 2% density budget; move the child inlet downstream or increase Start time (T0) past the parent startup transient')
     return maximum
 
 
@@ -168,8 +169,11 @@ def sample_parent(arrays,parent,world,child_solid,checkpoint=lambda n:None,retur
 def capture(manifest,spec,path,checkpoint=lambda n:None,start_time=0.,end_time=None):
     from .recording import read_manifest
     from .fields import read_frame
+    from .admission import check_capture_budget, validate_new_output_file
     from .plugin import check_case
-    check_case(spec);faces=active_faces(spec);indices,solid=layout(spec,faces)
+    path = validate_new_output_file(path);check_capture_budget(spec,512)
+    check_case(spec)
+    faces=active_faces(spec);indices,solid=layout(spec,faces)
     root,recording,_=read_manifest(manifest)
     if not recording.get('complete'):raise ValueError('Parent recording must be complete')
     if not np.isfinite(start_time) or start_time<0 or (end_time is not None and (not np.isfinite(end_time) or end_time<=start_time)):raise ValueError('Invalid capture time window')

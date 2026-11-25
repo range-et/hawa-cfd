@@ -1,0 +1,1553 @@
+{
+  "status": "COMPLETED",
+  "adapter_version": "0.1.0",
+  "provenance": {
+    "commit": "0b81daee8b5c00838c1af95b54066b2b5da96079",
+    "dirty": true,
+    "dirty_digest": "a9105e6bbcaff80a"
+  },
+  "platform": "macOS-27.2.1-arm64-arm-64bit",
+  "openfoam": {
+    "available": true,
+    "launcher": "/opt/homebrew/bin/openfoam2606",
+    "version": "v2606",
+    "options": "darwin64ClangDPInt32Opt",
+    "tools": {
+      "blockMesh": "/Volumes/OpenFOAM-v2606/platforms/darwin64ClangDPInt32Opt/bin/blockMesh",
+      "checkMesh": "/Volumes/OpenFOAM-v2606/platforms/darwin64ClangDPInt32Opt/bin/checkMesh",
+      "simpleFoam": "/Volumes/OpenFOAM-v2606/platforms/darwin64ClangDPInt32Opt/bin/simpleFoam",
+      "icoFoam": "/Volumes/OpenFOAM-v2606/platforms/darwin64ClangDPInt32Opt/bin/icoFoam",
+      "postProcess": "/Volumes/OpenFOAM-v2606/platforms/darwin64ClangDPInt32Opt/bin/postProcess"
+    },
+    "missing_tools": []
+  },
+  "monotonic_channel_velocity_convergence": true,
+  "channel_cases": [
+    {
+      "ny_cells": 10,
+      "case_id": "channel_poiseuille_ny10",
+      "role": "coarse_sensitivity_baseline",
+      "openfoam": {
+        "solver": "simpleFoam",
+        "converged": true,
+        "sample_time": 148.0,
+        "check_mesh": {
+          "mesh_ok": true,
+          "cells": 400,
+          "min_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "max_m": [
+            4.0,
+            1.0,
+            0.3
+          ]
+        }
+      },
+      "hawa": {
+        "device": "cpu",
+        "dtype": "torch.float32",
+        "steps": 7000,
+        "physical_time_s": 40.41451884327381,
+        "tau": 0.5433012701892219,
+        "settled": true,
+        "final_drift": 0.00019073486328124997,
+        "relative_mass_change": 0.0021271630177863337
+      },
+      "comparison": {
+        "case_id": "channel_poiseuille_ny10",
+        "velocity_l2_norm": 0.023478086240065442,
+        "velocity_linf_norm": 0.031245703891270273,
+        "pressure_pair_linf_norm": 0.0744635786045174,
+        "passed": true,
+        "failures": [],
+        "probes": [
+          {
+            "id": "p_x1_mid",
+            "location_m": [
+              1.0,
+              0.5,
+              0.15000000000000002
+            ],
+            "hawa_velocity_m_s": [
+              0.5070306658744812,
+              -3.7948236695228843e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4926945847,
+              7.500003257e-15,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.01433608167673445,
+            "norm_velocity_err": 0.0286721633534689,
+            "hawa_pressure_pa": 0.3901958465576172,
+            "openfoam_pressure_pa": 0.3620764015575,
+            "analytic_velocity_m_s": [
+              0.5,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.014061333797230076,
+            "openfoam_vs_analytic_norm_u": 0.014610830600000013
+          },
+          {
+            "id": "p_x2_mid",
+            "location_m": [
+              2.0,
+              0.5,
+              0.15000000000000002
+            ],
+            "hawa_velocity_m_s": [
+              0.5077237486839294,
+              -5.150958486410673e-07,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4926467274,
+              5.118e-14,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.015077021292728405,
+            "norm_velocity_err": 0.03015404258545681,
+            "hawa_pressure_pa": 0.2605345845222473,
+            "openfoam_pressure_pa": 0.24139712432500002,
+            "analytic_velocity_m_s": [
+              0.5,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.015447497402210566,
+            "openfoam_vs_analytic_norm_u": 0.014706545200000032
+          },
+          {
+            "id": "p_x3_mid",
+            "location_m": [
+              3.0,
+              0.5,
+              0.15000000000000002
+            ],
+            "hawa_velocity_m_s": [
+              0.5082699060440063,
+              -2.2559277113032294e-07,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4926470541,
+              1.6368e-14,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.015622851945635136,
+            "norm_velocity_err": 0.031245703891270273,
+            "hawa_pressure_pa": 0.1308441162109375,
+            "openfoam_pressure_pa": 0.12069853123125002,
+            "analytic_velocity_m_s": [
+              0.5,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.016539812094166585,
+            "openfoam_vs_analytic_norm_u": 0.014705891800000037
+          },
+          {
+            "id": "p_x2_y20",
+            "location_m": [
+              2.0,
+              0.2,
+              0.15000000000000002
+            ],
+            "hawa_velocity_m_s": [
+              0.3180778920650482,
+              -3.863219262711937e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.3152942812,
+              1.204074541e-07,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0027836137155316937,
+            "norm_velocity_err": 0.005567227431063387,
+            "hawa_pressure_pa": 0.26051998138427734,
+            "openfoam_pressure_pa": 0.2413971819,
+            "analytic_velocity_m_s": [
+              0.32000000000000006,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.00384422363452904,
+            "openfoam_vs_analytic_norm_u": 0.009411437603080995
+          },
+          {
+            "id": "p_x2_y35",
+            "location_m": [
+              2.0,
+              0.35,
+              0.15000000000000002
+            ],
+            "hawa_velocity_m_s": [
+              0.45504970848560333,
+              -1.3682237636203354e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4433822143,
+              1.009726303e-07,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.011667494278105522,
+            "norm_velocity_err": 0.023334988556211043,
+            "hawa_pressure_pa": 0.2604980766773224,
+            "openfoam_pressure_pa": 0.24139714796750003,
+            "analytic_velocity_m_s": [
+              0.45499999999999996,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 9.945462437208289e-05,
+            "openfoam_vs_analytic_norm_u": 0.023235571400877453
+          },
+          {
+            "id": "p_x2_y65",
+            "location_m": [
+              2.0,
+              0.65,
+              0.15000000000000002
+            ],
+            "hawa_velocity_m_s": [
+              0.4550480842590332,
+              -4.8934091410046685e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4433822143,
+              -1.009725159e-07,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.011665870943419598,
+            "norm_velocity_err": 0.023331741886839195,
+            "hawa_pressure_pa": 0.2605783939361572,
+            "openfoam_pressure_pa": 0.24139714796750003,
+            "analytic_velocity_m_s": [
+              0.45499999999999996,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 9.666522476666132e-05,
+            "openfoam_vs_analytic_norm_u": 0.02323557140087745
+          },
+          {
+            "id": "p_x2_y80",
+            "location_m": [
+              2.0,
+              0.8,
+              0.15000000000000002
+            ],
+            "hawa_velocity_m_s": [
+              0.3180783689022064,
+              -2.253543698316207e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.3152942812,
+              -1.204073473e-07,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.002784088519398688,
+            "norm_velocity_err": 0.005568177038797376,
+            "hawa_pressure_pa": 0.2605783939361572,
+            "openfoam_pressure_pa": 0.2413971819,
+            "analytic_velocity_m_s": [
+              0.31999999999999995,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0038432648383718592,
+            "openfoam_vs_analytic_norm_u": 0.009411437603080768
+          }
+        ],
+        "pressure_pairs": [
+          {
+            "id": "dp_x1_x3",
+            "hawa_delta_p_pa": 0.2593517303466797,
+            "openfoam_delta_p_pa": 0.24137787032624997,
+            "abs_delta_p_err_pa": 0.01797386002042972,
+            "norm_delta_p_err": 0.0744635786045174,
+            "hawa_gradient_pa_m": -0.12967586517333984,
+            "openfoam_gradient_pa_m": -0.12068893516312498,
+            "abs_gradient_err_pa_m": 0.00898693001021486,
+            "analytic_delta_p_pa": 0.24500000000000005,
+            "analytic_gradient_pa_m": -0.12250000000000003,
+            "hawa_vs_analytic_norm_dp": 0.05857849121093728,
+            "openfoam_vs_analytic_norm_dp": 0.014784202750000345
+          },
+          {
+            "id": "dp_x1_x2",
+            "hawa_delta_p_pa": 0.12966126203536987,
+            "openfoam_delta_p_pa": 0.12067927723249997,
+            "abs_delta_p_err_pa": 0.008981984802869908,
+            "norm_delta_p_err": 0.0586578599371096,
+            "hawa_gradient_pa_m": -0.12966126203536987,
+            "openfoam_gradient_pa_m": -0.12067927723249997,
+            "abs_gradient_err_pa_m": 0.008981984802869908,
+            "analytic_delta_p_pa": 0.12250000000000003,
+            "analytic_gradient_pa_m": -0.12250000000000003,
+            "hawa_vs_analytic_norm_dp": 0.046767425537109206,
+            "openfoam_vs_analytic_norm_dp": 0.011890434400000394
+          },
+          {
+            "id": "dp_x2_x3",
+            "hawa_delta_p_pa": 0.12969046831130981,
+            "openfoam_delta_p_pa": 0.12069859309375,
+            "abs_delta_p_err_pa": 0.008991875217559814,
+            "norm_delta_p_err": 0.05872245040039062,
+            "hawa_gradient_pa_m": -0.12969046831130981,
+            "openfoam_gradient_pa_m": -0.12069859309375,
+            "abs_gradient_err_pa_m": 0.008991875217559814,
+            "analytic_delta_p_pa": 0.12250000000000001,
+            "analytic_gradient_pa_m": -0.12250000000000001,
+            "hawa_vs_analytic_norm_dp": 0.046958160400390546,
+            "openfoam_vs_analytic_norm_dp": 0.011764290000000071
+          }
+        ]
+      }
+    },
+    {
+      "ny_cells": 20,
+      "case_id": "channel_poiseuille_ny20",
+      "role": "resolved_gate",
+      "openfoam": {
+        "solver": "simpleFoam",
+        "converged": true,
+        "sample_time": 143.0,
+        "check_mesh": {
+          "mesh_ok": true,
+          "cells": 1600,
+          "min_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "max_m": [
+            4.0,
+            1.0,
+            0.15
+          ]
+        }
+      },
+      "hawa": {
+        "device": "cpu",
+        "dtype": "torch.float32",
+        "steps": 12000,
+        "physical_time_s": 34.64101615137755,
+        "tau": 0.5866025403784438,
+        "settled": true,
+        "final_drift": 0.00019073486328124997,
+        "relative_mass_change": 0.0020392413298873295
+      },
+      "comparison": {
+        "case_id": "channel_poiseuille_ny20",
+        "velocity_l2_norm": 0.006940867706470108,
+        "velocity_linf_norm": 0.009628985230488716,
+        "pressure_pair_linf_norm": 0.02128104335168689,
+        "passed": true,
+        "failures": [],
+        "probes": [
+          {
+            "id": "p_x1_mid",
+            "location_m": [
+              1.0,
+              0.5,
+              0.07500000000000001
+            ],
+            "hawa_velocity_m_s": [
+              0.5018762350082397,
+              6.754363539585029e-07,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4981454498,
+              1.425000055e-14,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0037307852693816267,
+            "norm_velocity_err": 0.0074615705387632535,
+            "hawa_pressure_pa": 0.3744828701019287,
+            "openfoam_pressure_pa": 0.366124171875,
+            "analytic_velocity_m_s": [
+              0.5,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0037524702596336023,
+            "openfoam_vs_analytic_norm_u": 0.003709100400000054
+          },
+          {
+            "id": "p_x2_mid",
+            "location_m": [
+              2.0,
+              0.5,
+              0.07500000000000001
+            ],
+            "hawa_velocity_m_s": [
+              0.5024281144142151,
+              2.929863057943294e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4981342965,
+              -1.647925e-14,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0042938189138029435,
+            "norm_velocity_err": 0.008587637827605887,
+            "hawa_pressure_pa": 0.2498304843902588,
+            "openfoam_pressure_pa": 0.24408582549750002,
+            "analytic_velocity_m_s": [
+              0.5,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.004856232363722567,
+            "openfoam_vs_analytic_norm_u": 0.0037314069999999644
+          },
+          {
+            "id": "p_x3_mid",
+            "location_m": [
+              3.0,
+              0.5,
+              0.07500000000000001
+            ],
+            "hawa_velocity_m_s": [
+              0.5029488205909729,
+              4.834353148908122e-07,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.498134328,
+              4.90895675e-14,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.004814492615244358,
+            "norm_velocity_err": 0.009628985230488716,
+            "hawa_pressure_pa": 0.1252073049545288,
+            "openfoam_pressure_pa": 0.1220429106295,
+            "analytic_velocity_m_s": [
+              0.5,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.005897641261201115,
+            "openfoam_vs_analytic_norm_u": 0.00373134399999997
+          },
+          {
+            "id": "p_x2_y20",
+            "location_m": [
+              2.0,
+              0.2,
+              0.07500000000000001
+            ],
+            "hawa_velocity_m_s": [
+              0.32011836767196655,
+              -2.09275867746328e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.3188059874,
+              1.091021158e-08,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0013123819579946314,
+            "norm_velocity_err": 0.0026247639159892627,
+            "hawa_pressure_pa": 0.2498742938041687,
+            "openfoam_pressure_pa": 0.24408583395000003,
+            "analytic_velocity_m_s": [
+              0.32000000000000006,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.00023677234133782446,
+            "openfoam_vs_analytic_norm_u": 0.002388025200099835
+          },
+          {
+            "id": "p_x2_y35",
+            "location_m": [
+              2.0,
+              0.35,
+              0.07500000000000001
+            ],
+            "hawa_velocity_m_s": [
+              0.4568608403205871,
+              6.439258868340399e-07,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.453302224,
+              8.924153913e-09,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0035586163772421803,
+            "norm_velocity_err": 0.007117232754484361,
+            "hawa_pressure_pa": 0.24984508752822876,
+            "openfoam_pressure_pa": 0.24408582880500002,
+            "analytic_velocity_m_s": [
+              0.45499999999999996,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.003721680863998636,
+            "openfoam_vs_analytic_norm_u": 0.003395552000046877
+          },
+          {
+            "id": "p_x2_y65",
+            "location_m": [
+              2.0,
+              0.65,
+              0.07500000000000001
+            ],
+            "hawa_velocity_m_s": [
+              0.45686089992523193,
+              -1.0302816235707724e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.453302224,
+              -8.924178782e-09,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.003558676071799253,
+            "norm_velocity_err": 0.007117352143598506,
+            "hawa_pressure_pa": 0.2498304843902588,
+            "openfoam_pressure_pa": 0.24408582880500002,
+            "analytic_velocity_m_s": [
+              0.45499999999999996,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0037218004208762127,
+            "openfoam_vs_analytic_norm_u": 0.0033955520000468775
+          },
+          {
+            "id": "p_x2_y80",
+            "location_m": [
+              2.0,
+              0.8,
+              0.07500000000000001
+            ],
+            "hawa_velocity_m_s": [
+              0.3201182782649994,
+              4.410893325257348e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.3188059874,
+              -1.091021469e-08,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.001312298314678266,
+            "norm_velocity_err": 0.002624596629356532,
+            "hawa_pressure_pa": 0.24981588125228882,
+            "openfoam_pressure_pa": 0.24408583395000003,
+            "analytic_velocity_m_s": [
+              0.31999999999999995,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0002367209661285134,
+            "openfoam_vs_analytic_norm_u": 0.002388025200099613
+          }
+        ],
+        "pressure_pairs": [
+          {
+            "id": "dp_x1_x3",
+            "hawa_delta_p_pa": 0.2492755651473999,
+            "openfoam_delta_p_pa": 0.2440812612455,
+            "abs_delta_p_err_pa": 0.005194303901899899,
+            "norm_delta_p_err": 0.02128104335168689,
+            "hawa_gradient_pa_m": -0.12463778257369995,
+            "openfoam_gradient_pa_m": -0.12204063062275,
+            "abs_gradient_err_pa_m": 0.0025971519509499497,
+            "analytic_delta_p_pa": 0.24500000000000005,
+            "analytic_gradient_pa_m": -0.12250000000000003,
+            "hawa_vs_analytic_norm_dp": 0.017451286315917757,
+            "openfoam_vs_analytic_norm_dp": 0.0037499541000001954
+          },
+          {
+            "id": "dp_x1_x2",
+            "hawa_delta_p_pa": 0.12465238571166992,
+            "openfoam_delta_p_pa": 0.1220383463775,
+            "abs_delta_p_err_pa": 0.0026140393341699264,
+            "norm_delta_p_err": 0.01707127728437503,
+            "hawa_gradient_pa_m": -0.12465238571166992,
+            "openfoam_gradient_pa_m": -0.1220383463775,
+            "abs_gradient_err_pa_m": 0.0026140393341699264,
+            "analytic_delta_p_pa": 0.12250000000000003,
+            "analytic_gradient_pa_m": -0.12250000000000003,
+            "hawa_vs_analytic_norm_dp": 0.014056396484374832,
+            "openfoam_vs_analytic_norm_dp": 0.003014880800000196
+          },
+          {
+            "id": "dp_x2_x3",
+            "hawa_delta_p_pa": 0.12462317943572998,
+            "openfoam_delta_p_pa": 0.12204291486800002,
+            "abs_delta_p_err_pa": 0.002580264567729959,
+            "norm_delta_p_err": 0.016850707381093608,
+            "hawa_gradient_pa_m": -0.12462317943572998,
+            "openfoam_gradient_pa_m": -0.12204291486800002,
+            "abs_gradient_err_pa_m": 0.002580264567729959,
+            "analytic_delta_p_pa": 0.12250000000000001,
+            "analytic_gradient_pa_m": -0.12250000000000001,
+            "hawa_vs_analytic_norm_dp": 0.013865661621093673,
+            "openfoam_vs_analytic_norm_dp": 0.0029850457599999362
+          }
+        ]
+      }
+    },
+    {
+      "ny_cells": 40,
+      "case_id": "channel_poiseuille_ny40",
+      "role": "resolved_gate",
+      "openfoam": {
+        "solver": "simpleFoam",
+        "converged": true,
+        "sample_time": 268.0,
+        "check_mesh": {
+          "mesh_ok": true,
+          "cells": 6400,
+          "min_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "max_m": [
+            4.0,
+            1.0,
+            0.075
+          ]
+        }
+      },
+      "hawa": {
+        "device": "cpu",
+        "dtype": "torch.float32",
+        "steps": 22000,
+        "physical_time_s": 31.754264805429422,
+        "tau": 0.6732050807568877,
+        "settled": true,
+        "final_drift": 0.00038166435397401144,
+        "relative_mass_change": 0.0020189588625481357
+      },
+      "comparison": {
+        "case_id": "channel_poiseuille_ny40",
+        "velocity_l2_norm": 0.0028253001850102972,
+        "velocity_linf_norm": 0.0042923144627681755,
+        "pressure_pair_linf_norm": 0.009639669253228933,
+        "passed": true,
+        "failures": [],
+        "probes": [
+          {
+            "id": "p_x1_mid",
+            "location_m": [
+              1.0,
+              0.5,
+              0.037500000000000006
+            ],
+            "hawa_velocity_m_s": [
+              0.5006252527236938,
+              2.5731657160577015e-07,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4995347017,
+              1.4915e-12,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0010905510540505702,
+            "norm_velocity_err": 0.0021811021081011403,
+            "hawa_pressure_pa": 0.3709051311016083,
+            "openfoam_pressure_pa": 0.36715473693500006,
+            "analytic_velocity_m_s": [
+              0.5,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0012505055532837797,
+            "openfoam_vs_analytic_norm_u": 0.0009305966000000554
+          },
+          {
+            "id": "p_x2_mid",
+            "location_m": [
+              2.0,
+              0.5,
+              0.037500000000000006
+            ],
+            "hawa_velocity_m_s": [
+              0.5011619329452515,
+              2.8977251531614456e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4995318296,
+              1.714676033e-11,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.001630105920764593,
+            "norm_velocity_err": 0.003260211841529186,
+            "hawa_pressure_pa": 0.24736255407333374,
+            "openfoam_pressure_pa": 0.2447705997625,
+            "analytic_velocity_m_s": [
+              0.5,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0023238731170800242,
+            "openfoam_vs_analytic_norm_u": 0.0009363408000000468
+          },
+          {
+            "id": "p_x3_mid",
+            "location_m": [
+              3.0,
+              0.5,
+              0.037500000000000006
+            ],
+            "hawa_velocity_m_s": [
+              0.5016779899597168,
+              3.1907102311379276e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4995318351,
+              1.090125211e-10,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0021461572313840878,
+            "norm_velocity_err": 0.0042923144627681755,
+            "hawa_pressure_pa": 0.12377619743347168,
+            "openfoam_pressure_pa": 0.12238529968525001,
+            "analytic_velocity_m_s": [
+              0.5,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0033559859865870457,
+            "openfoam_vs_analytic_norm_u": 0.0009363298000000496
+          },
+          {
+            "id": "p_x2_y20",
+            "location_m": [
+              2.0,
+              0.2,
+              0.037500000000000006
+            ],
+            "hawa_velocity_m_s": [
+              0.32053110003471375,
+              6.085223503760062e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.3197003777,
+              1.815770558e-09,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0008307446089153592,
+            "norm_velocity_err": 0.0016614892178307185,
+            "hawa_pressure_pa": 0.24734795093536377,
+            "openfoam_pressure_pa": 0.24477060184500002,
+            "analytic_velocity_m_s": [
+              0.32000000000000006,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0010622697902472158,
+            "openfoam_vs_analytic_norm_u": 0.0005992446000111633
+          },
+          {
+            "id": "p_x2_y35",
+            "location_m": [
+              2.0,
+              0.35,
+              0.037500000000000006
+            ],
+            "hawa_velocity_m_s": [
+              0.4560123383998871,
+              3.6382562029757537e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4545739672,
+              1.255366945e-09,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.001438375798058261,
+            "norm_velocity_err": 0.002876751596116522,
+            "hawa_pressure_pa": 0.24731874465942383,
+            "openfoam_pressure_pa": 0.24477060062000003,
+            "analytic_velocity_m_s": [
+              0.45499999999999996,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0020246898753085354,
+            "openfoam_vs_analytic_norm_u": 0.0008520656000036508
+          },
+          {
+            "id": "p_x2_y65",
+            "location_m": [
+              2.0,
+              0.65,
+              0.037500000000000006
+            ],
+            "hawa_velocity_m_s": [
+              0.45601218938827515,
+              1.4810590300839976e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.4545739673,
+              -1.227951194e-09,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0014382228521259283,
+            "norm_velocity_err": 0.0028764457042518565,
+            "hawa_pressure_pa": 0.24740636348724365,
+            "openfoam_pressure_pa": 0.24477060062000003,
+            "analytic_velocity_m_s": [
+              0.45499999999999996,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0020243809436691967,
+            "openfoam_vs_analytic_norm_u": 0.0008520654000034743
+          },
+          {
+            "id": "p_x2_y80",
+            "location_m": [
+              2.0,
+              0.8,
+              0.037500000000000006
+            ],
+            "hawa_velocity_m_s": [
+              0.32053041458129883,
+              4.056814759678673e-06,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              0.3197003777,
+              -1.803675892e-09,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.0008300468039212726,
+            "norm_velocity_err": 0.0016600936078425452,
+            "hawa_pressure_pa": 0.2473771572113037,
+            "openfoam_pressure_pa": 0.24477060184500002,
+            "analytic_velocity_m_s": [
+              0.31999999999999995,
+              0.0,
+              0.0
+            ],
+            "hawa_vs_analytic_norm_u": 0.0010608601902238717,
+            "openfoam_vs_analytic_norm_u": 0.0005992446000107953
+          }
+        ],
+        "pressure_pairs": [
+          {
+            "id": "dp_x1_x3",
+            "hawa_delta_p_pa": 0.2471289336681366,
+            "openfoam_delta_p_pa": 0.24476943724975003,
+            "abs_delta_p_err_pa": 0.002359496418386564,
+            "norm_delta_p_err": 0.009639669253228933,
+            "hawa_gradient_pa_m": -0.1235644668340683,
+            "openfoam_gradient_pa_m": -0.12238471862487502,
+            "abs_gradient_err_pa_m": 0.001179748209193282,
+            "analytic_delta_p_pa": 0.24500000000000005,
+            "analytic_gradient_pa_m": -0.12250000000000003,
+            "hawa_vs_analytic_norm_dp": 0.008689525176067532,
+            "openfoam_vs_analytic_norm_dp": 0.0009410724500000752
+          },
+          {
+            "id": "dp_x1_x2",
+            "hawa_delta_p_pa": 0.12354257702827454,
+            "openfoam_delta_p_pa": 0.12238413717250005,
+            "abs_delta_p_err_pa": 0.0011584398557744902,
+            "norm_delta_p_err": 0.007565321507098711,
+            "hawa_gradient_pa_m": -0.12354257702827454,
+            "openfoam_gradient_pa_m": -0.12238413717250005,
+            "abs_gradient_err_pa_m": 0.0011584398557744902,
+            "analytic_delta_p_pa": 0.12250000000000003,
+            "analytic_gradient_pa_m": -0.12250000000000003,
+            "hawa_vs_analytic_norm_dp": 0.006808666307098844,
+            "openfoam_vs_analytic_norm_dp": 0.0007566551999998665
+          },
+          {
+            "id": "dp_x2_x3",
+            "hawa_delta_p_pa": 0.12358635663986206,
+            "openfoam_delta_p_pa": 0.12238530007725,
+            "abs_delta_p_err_pa": 0.00120105656261206,
+            "norm_delta_p_err": 0.007843634694609372,
+            "hawa_gradient_pa_m": -0.12358635663986206,
+            "openfoam_gradient_pa_m": -0.12238530007725,
+            "abs_gradient_err_pa_m": 0.00120105656261206,
+            "analytic_delta_p_pa": 0.12250000000000001,
+            "analytic_gradient_pa_m": -0.12250000000000001,
+            "hawa_vs_analytic_norm_dp": 0.0070945739746092985,
+            "openfoam_vs_analytic_norm_dp": 0.0007490607200000729
+          }
+        ]
+      }
+    }
+  ],
+  "cavity_cases": [
+    {
+      "resolution": 32,
+      "mach_number": 0.05,
+      "case_id": "cavity_re10_n32_ma0p05",
+      "openfoam": {
+        "solver": "simpleFoam",
+        "converged": true,
+        "sample_time": 120.0,
+        "check_mesh": {
+          "mesh_ok": true,
+          "cells": 1024,
+          "min_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "max_m": [
+            1.0,
+            1.0,
+            0.1
+          ]
+        }
+      },
+      "hawa": {
+        "device": "cpu",
+        "dtype": "torch.float64",
+        "steps": 3880,
+        "physical_time_s": 3.5001860069621067,
+        "tau": 0.7771281292110204
+      },
+      "comparison": {
+        "case_id": "cavity_re10_n32",
+        "velocity_l2_norm": 0.055322187265533736,
+        "velocity_linf_norm": 0.09653277328945914,
+        "pressure_pair_linf_norm": 0.19801527018124085,
+        "passed": true,
+        "failures": [],
+        "probes": [
+          {
+            "id": "c_50_25",
+            "location_m": [
+              0.5,
+              0.25,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.10895206798738759,
+              -0.004074644380431943,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.1226712836,
+              0.0004330459295,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.014440780759903618,
+            "norm_velocity_err": 0.014440780759903618,
+            "hawa_pressure_pa": -0.02164732518332712,
+            "openfoam_pressure_pa": 0.03176260345
+          },
+          {
+            "id": "c_50_50",
+            "location_m": [
+              0.5,
+              0.5,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.17731518490531295,
+              -0.007965094275013457,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.2028740719,
+              0.006473513427,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.029355239681866433,
+            "norm_velocity_err": 0.029355239681866433,
+            "hawa_pressure_pa": -0.04046616032304939,
+            "openfoam_pressure_pa": 0.004524827072
+          },
+          {
+            "id": "c_50_75",
+            "location_m": [
+              0.5,
+              0.75,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              0.06567472609292471,
+              -0.0016413157049031584,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.0292111291,
+              0.01611398782,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.09653277328945914,
+            "norm_velocity_err": 0.09653277328945914,
+            "hawa_pressure_pa": -0.07838374908017974,
+            "openfoam_pressure_pa": -0.05856287469
+          },
+          {
+            "id": "c_25_50",
+            "location_m": [
+              0.25,
+              0.5,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.10777011600825599,
+              0.16371618167033833,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.1227183469,
+              0.1743872353,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.01836630045382045,
+            "norm_velocity_err": 0.01836630045382045,
+            "hawa_pressure_pa": -0.15837435585734913,
+            "openfoam_pressure_pa": -0.0959694119
+          },
+          {
+            "id": "c_75_50",
+            "location_m": [
+              0.75,
+              0.5,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.10084683376758431,
+              -0.1745705743879043,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.136057878,
+              -0.1795354005,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.035559346651203826,
+            "norm_velocity_err": 0.035559346651203826,
+            "hawa_pressure_pa": 0.09807759932591861,
+            "openfoam_pressure_pa": 0.1357187161
+          },
+          {
+            "id": "c_25_75",
+            "location_m": [
+              0.25,
+              0.75,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.02803877202641937,
+              0.21715229933959193,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.09161397934,
+              0.2616991219,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.07762877292082644,
+            "norm_velocity_err": 0.07762877292082644,
+            "hawa_pressure_pa": -0.42518118048322495,
+            "openfoam_pressure_pa": -0.352951989
+          },
+          {
+            "id": "c_75_75",
+            "location_m": [
+              0.75,
+              0.75,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.03990905197472686,
+              -0.24927639500597687,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.0969145967,
+              -0.2618191866,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.05836911640924687,
+            "norm_velocity_err": 0.05836911640924687,
+            "hawa_pressure_pa": 0.3959221554330482,
+            "openfoam_pressure_pa": 0.3324343799
+          }
+        ],
+        "pressure_pairs": [
+          {
+            "id": "dp_upper_lr",
+            "hawa_delta_p_pa": 0.8211033359162732,
+            "openfoam_delta_p_pa": 0.6853863689,
+            "abs_delta_p_err_pa": 0.13571696701627312,
+            "norm_delta_p_err": 0.19801527018124085,
+            "hawa_gradient_pa_m": -1.6422066718325463,
+            "openfoam_gradient_pa_m": -1.3707727378,
+            "abs_gradient_err_pa_m": 0.27143393403254623
+          },
+          {
+            "id": "dp_mid_lr",
+            "hawa_delta_p_pa": 0.25645195518326774,
+            "openfoam_delta_p_pa": 0.231688128,
+            "abs_delta_p_err_pa": 0.02476382718326775,
+            "norm_delta_p_err": 0.0495276543665355,
+            "hawa_gradient_pa_m": -0.5129039103665355,
+            "openfoam_gradient_pa_m": -0.463376256,
+            "abs_gradient_err_pa_m": 0.0495276543665355
+          }
+        ]
+      }
+    },
+    {
+      "resolution": 64,
+      "mach_number": 0.05,
+      "case_id": "cavity_re10_n64_ma0p05",
+      "openfoam": {
+        "solver": "simpleFoam",
+        "converged": true,
+        "sample_time": 403.0,
+        "check_mesh": {
+          "mesh_ok": true,
+          "cells": 4096,
+          "min_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "max_m": [
+            1.0,
+            1.0,
+            0.1
+          ]
+        }
+      },
+      "hawa": {
+        "device": "cpu",
+        "dtype": "torch.float64",
+        "steps": 7760,
+        "physical_time_s": 3.5001860069621067,
+        "tau": 1.0542562584220407
+      },
+      "comparison": {
+        "case_id": "cavity_re10_n64",
+        "velocity_l2_norm": 0.039590181402382005,
+        "velocity_linf_norm": 0.057978085551468696,
+        "pressure_pair_linf_norm": 0.03188039216706001,
+        "passed": true,
+        "failures": [],
+        "probes": [
+          {
+            "id": "c_50_25",
+            "location_m": [
+              0.5,
+              0.25,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.11020553897532265,
+              -0.0017261845617797455,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.1227129325,
+              0.0003585140367,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.012679939314824985,
+            "norm_velocity_err": 0.012679939314824985,
+            "hawa_pressure_pa": -0.02418159639248074,
+            "openfoam_pressure_pa": 0.03119935758
+          },
+          {
+            "id": "c_50_50",
+            "location_m": [
+              0.5,
+              0.5,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.1792657881307932,
+              -0.0006894040255450407,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.2045948799,
+              0.006383500947,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.02629807739367181,
+            "norm_velocity_err": 0.02629807739367181,
+            "hawa_pressure_pa": -0.04526762283649787,
+            "openfoam_pressure_pa": 0.003723388619
+          },
+          {
+            "id": "c_50_75",
+            "location_m": [
+              0.5,
+              0.75,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              0.022661854975154865,
+              0.005751310437314436,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.03121436401,
+              0.01598978147,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.05484043454626798,
+            "norm_velocity_err": 0.05484043454626798,
+            "hawa_pressure_pa": -0.09045100042830433,
+            "openfoam_pressure_pa": -0.06011743751
+          },
+          {
+            "id": "c_25_50",
+            "location_m": [
+              0.25,
+              0.5,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.10818505465495411,
+              0.16099431474931802,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.1230177627,
+              0.1759095612,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.021035061317575255,
+            "norm_velocity_err": 0.021035061317575255,
+            "hawa_pressure_pa": -0.15014846389886924,
+            "openfoam_pressure_pa": -0.09667149707
+          },
+          {
+            "id": "c_75_50",
+            "location_m": [
+              0.75,
+              0.5,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.11087009937620985,
+              -0.16924805164331322,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.1362597598,
+              -0.181109022,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.028023516450252597,
+            "norm_velocity_err": 0.028023516450252597,
+            "hawa_pressure_pa": 0.0842463519525438,
+            "openfoam_pressure_pa": 0.13490021
+          },
+          {
+            "id": "c_25_75",
+            "location_m": [
+              0.25,
+              0.75,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.051642284664121,
+              0.22764413095752611,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.09615190711,
+              0.2647972185,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.057978085551468696,
+            "norm_velocity_err": 0.057978085551468696,
+            "hawa_pressure_pa": -0.3972173143276691,
+            "openfoam_pressure_pa": -0.3579837807
+          },
+          {
+            "id": "c_75_75",
+            "location_m": [
+              0.75,
+              0.75,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.056462437016903,
+              -0.2429766914431278,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.101636479,
+              -0.2649286958,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.05022533787218107,
+            "norm_velocity_err": 0.05022533787218107,
+            "hawa_pressure_pa": 0.31795432147818653,
+            "openfoam_pressure_pa": 0.3350923173
+          }
+        ],
+        "pressure_pairs": [
+          {
+            "id": "dp_upper_lr",
+            "hawa_delta_p_pa": 0.7151716358058556,
+            "openfoam_delta_p_pa": 0.6930760979999999,
+            "abs_delta_p_err_pa": 0.022095537805855714,
+            "norm_delta_p_err": 0.03188039216706001,
+            "hawa_gradient_pa_m": -1.4303432716117113,
+            "openfoam_gradient_pa_m": -1.3861521959999998,
+            "abs_gradient_err_pa_m": 0.04419107561171143
+          },
+          {
+            "id": "dp_mid_lr",
+            "hawa_delta_p_pa": 0.23439481585141303,
+            "openfoam_delta_p_pa": 0.23157170707,
+            "abs_delta_p_err_pa": 0.0028231087814130362,
+            "norm_delta_p_err": 0.0056462175628260725,
+            "hawa_gradient_pa_m": -0.46878963170282606,
+            "openfoam_gradient_pa_m": -0.46314341414,
+            "abs_gradient_err_pa_m": 0.0056462175628260725
+          }
+        ]
+      }
+    },
+    {
+      "resolution": 64,
+      "mach_number": 0.015,
+      "case_id": "cavity_re10_n64_ma0p015",
+      "openfoam": {
+        "solver": "simpleFoam",
+        "converged": true,
+        "sample_time": 403.0,
+        "check_mesh": {
+          "mesh_ok": true,
+          "cells": 4096,
+          "min_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "max_m": [
+            1.0,
+            1.0,
+            0.1
+          ]
+        }
+      },
+      "hawa": {
+        "device": "cpu",
+        "dtype": "torch.float64",
+        "steps": 25865,
+        "physical_time_s": 3.499960479513204,
+        "tau": 0.6662768775266121
+      },
+      "comparison": {
+        "case_id": "cavity_re10_n64",
+        "velocity_l2_norm": 0.025108506763071293,
+        "velocity_linf_norm": 0.04621212273668479,
+        "pressure_pair_linf_norm": 0.10509102657275857,
+        "passed": true,
+        "failures": [],
+        "probes": [
+          {
+            "id": "c_50_25",
+            "location_m": [
+              0.5,
+              0.25,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.11768382913334995,
+              -0.001960503219899429,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.1227129325,
+              0.0003585140367,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.005538025072971123,
+            "norm_velocity_err": 0.005538025072971123,
+            "hawa_pressure_pa": -0.030074323147388785,
+            "openfoam_pressure_pa": 0.03119935758
+          },
+          {
+            "id": "c_50_50",
+            "location_m": [
+              0.5,
+              0.5,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.19490372273294124,
+              -0.00082933879408674,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.2045948799,
+              0.006383500947,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.012080711252539506,
+            "norm_velocity_err": 0.012080711252539506,
+            "hawa_pressure_pa": -0.05427366574976371,
+            "openfoam_pressure_pa": 0.003723388619
+          },
+          {
+            "id": "c_50_75",
+            "location_m": [
+              0.5,
+              0.75,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              0.014077406446056252,
+              0.00681286386187419,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.03121436401,
+              0.01598978147,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.04621212273668479,
+            "norm_velocity_err": 0.04621212273668479,
+            "hawa_pressure_pa": -0.10736865442704002,
+            "openfoam_pressure_pa": -0.06011743751
+          },
+          {
+            "id": "c_25_50",
+            "location_m": [
+              0.25,
+              0.5,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.11764533658481327,
+              0.17294399323607845,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.1230177627,
+              0.1759095612,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.006136575242900414,
+            "norm_velocity_err": 0.006136575242900414,
+            "hawa_pressure_pa": -0.16434886666644788,
+            "openfoam_pressure_pa": -0.09667149707
+          },
+          {
+            "id": "c_75_50",
+            "location_m": [
+              0.75,
+              0.5,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.1207722590622352,
+              -0.1820284579826162,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.1362597598,
+              -0.181109022,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.015514768500638173,
+            "norm_velocity_err": 0.015514768500638173,
+            "hawa_pressure_pa": 0.0828217180713785,
+            "openfoam_pressure_pa": 0.13490021
+          },
+          {
+            "id": "c_25_75",
+            "location_m": [
+              0.25,
+              0.75,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.06823310395928628,
+              0.24648305385544864,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.09615190711,
+              0.2647972185,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.033389642046539485,
+            "norm_velocity_err": 0.033389642046539485,
+            "hawa_pressure_pa": -0.43417258226430283,
+            "openfoam_pressure_pa": -0.3579837807
+          },
+          {
+            "id": "c_75_75",
+            "location_m": [
+              0.75,
+              0.75,
+              0.05
+            ],
+            "hawa_velocity_m_s": [
+              -0.07504503157192025,
+              -0.26418888532742796,
+              0.0
+            ],
+            "openfoam_velocity_m_s": [
+              -0.101636479,
+              -0.2649286958,
+              0.0
+            ],
+            "abs_velocity_err_m_s": 0.02660173670750947,
+            "norm_velocity_err": 0.02660173670750947,
+            "hawa_pressure_pa": 0.33173959436755895,
+            "openfoam_pressure_pa": 0.3350923173
+          }
+        ],
+        "pressure_pairs": [
+          {
+            "id": "dp_upper_lr",
+            "hawa_delta_p_pa": 0.7659121766318617,
+            "openfoam_delta_p_pa": 0.6930760979999999,
+            "abs_delta_p_err_pa": 0.07283607863186181,
+            "norm_delta_p_err": 0.10509102657275857,
+            "hawa_gradient_pa_m": -1.5318243532637235,
+            "openfoam_gradient_pa_m": -1.3861521959999998,
+            "abs_gradient_err_pa_m": 0.14567215726372362
+          },
+          {
+            "id": "dp_mid_lr",
+            "hawa_delta_p_pa": 0.24717058473782638,
+            "openfoam_delta_p_pa": 0.23157170707,
+            "abs_delta_p_err_pa": 0.015598877667826389,
+            "norm_delta_p_err": 0.031197755335652777,
+            "hawa_gradient_pa_m": -0.49434116947565276,
+            "openfoam_gradient_pa_m": -0.46314341414,
+            "abs_gradient_err_pa_m": 0.031197755335652777
+          }
+        ]
+      }
+    }
+  ]
+}

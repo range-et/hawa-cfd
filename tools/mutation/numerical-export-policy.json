@@ -1,5 +1,105 @@
 {
   "reviewed_survivors": {
+    "hawa.admission.x_check_capture_budget__mutmut_22": {
+      "status": "survived",
+      "diff_sha256": "69d809febabf7f330c578a164e9d4d84651c492b18ac1d9f787b24bafc67186a",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_check_capture_budget__mutmut_25": {
+      "status": "survived",
+      "diff_sha256": "a352ca9ef32a640b8b9e7d3a95d788388ff991fa04ae31cef9be62c935f8a200",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_check_case_budget__mutmut_25": {
+      "status": "survived",
+      "diff_sha256": "03917c070b693f88ee879134dd691008a2aab4c43b18defeb8ab844b04d1e548",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_check_case_budget__mutmut_28": {
+      "status": "survived",
+      "diff_sha256": "eee959c2dbed16bec4d49088462f410da1686503ef94f0c8eeef3c90bfc5daef",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_check_example_budget__mutmut_16": {
+      "status": "survived",
+      "diff_sha256": "c5ec71fbc77a5f1b567b3caafea2175ba5416d7477bf78d3de3693f72d338e61",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_check_example_budget__mutmut_19": {
+      "status": "survived",
+      "diff_sha256": "eaeb10c2eb5c6f7256046e343615f1944f0d186ed6a3f05aee6238d28b9922ef",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_check_refinement_budget__mutmut_12": {
+      "status": "survived",
+      "diff_sha256": "fce135e80a1786c6266e8e42442eff207156f0496a60f764365a072d099bf9b5",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_check_refinement_budget__mutmut_9": {
+      "status": "survived",
+      "diff_sha256": "c240d4f046a898fcb777204dc568b507bd429a33c68c4d2a2bb910a19f75909c",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_estimate_case_budget__mutmut_14": {
+      "status": "survived",
+      "diff_sha256": "2e447f35a6c1e141f09bbd97fb6bd6bae45d40a6618b2a67cfcedae391e6ba31",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_estimate_case_budget__mutmut_15": {
+      "status": "survived",
+      "diff_sha256": "dc770e45b37663b155d23e54764dca3a1c530ad2f42bcacc71866a021c0849bf",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_estimate_case_budget__mutmut_19": {
+      "status": "survived",
+      "diff_sha256": "2e43648f946b9543a01701c449e95596f546f71eb994fa42ddf98ff7faa17be1",
+      "reason": "Equivalent for validated shape domain: 2000001 = 3 * 666667 (prime), so it cannot be a product of three integer resolutions each >=4. Both caps admit the same shapes; exact 2000000 acceptance is asserted."
+    },
+    "hawa.admission.x_estimate_case_budget__mutmut_21": {
+      "status": "survived",
+      "diff_sha256": "f90b7450b5f466be90e7d300e25ff73d47d803e93c4af4807aa349e4c774307b",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_estimate_case_budget__mutmut_22": {
+      "status": "survived",
+      "diff_sha256": "d019f81e4219a4ad371a9ebdc5379e91b36eaa086ff31cac9a386d2f8a0fd9fe",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_validate_new_output_dir__mutmut_13": {
+      "status": "survived",
+      "diff_sha256": "3c9fd8d6692078b0925edda9fe4ab69211c43c4f0c51307f4e41b218d3649433",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_validate_new_output_dir__mutmut_32": {
+      "status": "survived",
+      "diff_sha256": "701e4a078f3715c28b9bb6bc6c17655da4778c5476ef963282e925efda31cb27",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_validate_new_output_dir__mutmut_6": {
+      "status": "survived",
+      "diff_sha256": "dd6123f547a5fad548640a9de0c607738f288442dabf40276a8c500be3a90081",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_validate_new_output_file__mutmut_14": {
+      "status": "survived",
+      "diff_sha256": "3cfa652d2a239674715c23d62f853643713f1515b67b5daf66e096562f8860a3",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_validate_new_output_file__mutmut_23": {
+      "status": "survived",
+      "diff_sha256": "f5a89a35b4df9cb95e30b2e3b726871f1360dd02f0d1a4241eb43d9dbffa2c59",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_validate_new_output_file__mutmut_35": {
+      "status": "survived",
+      "diff_sha256": "d24f168cd959edb362ba4baafed8aa93483626b48be47b3ce163ef67b55c73c5",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
+    "hawa.admission.x_validate_new_output_file__mutmut_6": {
+      "status": "survived",
+      "diff_sha256": "5bb05e0171d099ad71c9fd534d15443fb31217b5983698b67f33def06ff6eadd",
+      "reason": "Equivalent admission behavior: only error-message decoration or capitalization changes; budget/path identity, actionable setting names, exception type and refusal boundary are unchanged. Exact prose is not a protocol."
+    },
     "hawa.exports.x_capture__mutmut_27": {
       "status": "survived",
       "diff_sha256": "04c4127ed4e4da06d3fab94f50b1512fae047fb475d61bb308c9666f044c1c30",
@@ -464,34 +564,173 @@
       "status": "survived",
       "diff_sha256": "d672f4a30ba1c3af7ade5f769fc634e8b3ffcc99efc89a3b155a150276a43977",
       "reason": "Reviewed bounded diagnostic wording equivalent: only case or XX decoration changes; the same actionable error category, ValueError, failure timing, destination preservation and reservation cleanup remain. Exact diagnostic spelling is not the interchange contract; missing/None diagnostics are killed by focused tests."
+    },
+    "hawa.jobs.xǁJobǁ__init____mutmut_1": {
+      "status": "survived",
+      "diff_sha256": "c57c64f4caf57de5ab3ae1a5277f428af1df68fed86cb29f77f99bfa2c4f2f0a",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.jobs.xǁJobǁcontrol__mutmut_29": {
+      "status": "survived",
+      "diff_sha256": "f3e4febe04e8407454f3e3a199117deed44b3b8b81a7e35e8e85aec97c01990a",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.jobs.xǁJobǁcontrol__mutmut_32": {
+      "status": "survived",
+      "diff_sha256": "008c000ef401ac909fc17a4187e9d396d3faa20f3f4073f07740d34e2b5f4ce0",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.jobs.xǁJobǁcontrol__mutmut_34": {
+      "status": "survived",
+      "diff_sha256": "296ac91b7d7f5d89bb7f354d473bbc886db101e46715c3f0f6e27ff3dcb39e0f",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.jobs.xǁJobǁcontrol__mutmut_35": {
+      "status": "survived",
+      "diff_sha256": "036bee53e47f09162d40df121bddcba2e2494a70fe3ba17c06ccedae4c9754a2",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.jobs.xǁJobǁcontrol__mutmut_36": {
+      "status": "survived",
+      "diff_sha256": "29f38aa536a77648c85e05b7cfd99287724e619ac3fd9709d676b9b9ed21ad2b",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.jobs.xǁJobǁcontrol__mutmut_38": {
+      "status": "survived",
+      "diff_sha256": "1d5f0de059175c98ee34cdd7af977386339a0617d896f1ed772e038f57cfb244",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.jobs.xǁJobǁrelease_owned_session__mutmut_36": {
+      "status": "survived",
+      "diff_sha256": "a11f25dedf3ffed65c1fa03970775979cecc51545a2c6ad77151c06fb4d21ec2",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.jobs.xǁJobǁrelease_owned_session__mutmut_39": {
+      "status": "survived",
+      "diff_sha256": "f1b9df0f6412dfce8b31b0a4d27dd734bcb1fbd6c4d1c04fde06680cd9c8646d",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.jobs.xǁJobǁwork__mutmut_121": {
+      "status": "survived",
+      "diff_sha256": "e0219fbe70af8e36666462957df6e7acb00ca000b0a14cad4e672f72f8aea2a3",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.plugin.x_dispatch__mutmut_65": {
+      "status": "survived",
+      "diff_sha256": "35a6163d88148875dc80c525e34b46837f6db32413e02bf8acd2942602172d89",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.plugin.x_dispatch__mutmut_68": {
+      "status": "survived",
+      "diff_sha256": "97295de1673a1ac39d6956954d1daa8d3bcb45da88996760c2d6db0db1ead31f",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.plugin.x_dispatch__mutmut_71": {
+      "status": "survived",
+      "diff_sha256": "027d3489d663328ee3b3ed31ddf6ef25151ab897f23d28b9f894ad01f604846a",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.plugin.x_dispatch__mutmut_73": {
+      "status": "survived",
+      "diff_sha256": "856a91503cbab1616f310645a109323f0cc27f6e7ca8c9406233219598c1da2f",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.plugin.x_dispatch__mutmut_74": {
+      "status": "survived",
+      "diff_sha256": "cdbc9298b20966cea72a2cc82db7f9e35249c2c41be6f177eb65308b5fb17020",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.plugin.x_dispatch__mutmut_75": {
+      "status": "survived",
+      "diff_sha256": "1beecd71f1f0e6e7dd88e07ff6c8f5b2ebb566d9f22607ead292983f5ac25652",
+      "reason": "Reviewed diagnostic-only thread-name change: target, daemon ownership and start behavior remain unchanged; lifecycle identity and cleanup scheduling do not use the thread name."
+    },
+    "hawa.plugin.x_dispatch__mutmut_77": {
+      "status": "survived",
+      "diff_sha256": "ea88f3801e9c68fe73c0e552d478949f3aea87e79749c81c64c92772e59eb38e",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.plugin.x_dispatch__mutmut_83": {
+      "status": "survived",
+      "diff_sha256": "f72d006fe9fa8f287551c78d792eaa604ec22b14778a54db273fdd9c2fbff5e0",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.plugin.xǁSessionǁbuild__mutmut_1": {
+      "status": "survived",
+      "diff_sha256": "f9f7b566068808010536ffb9ca782a9aa723df58bb7eefeb9a4088ec76c4135f",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.plugin.xǁSessionǁbuild__mutmut_3": {
+      "status": "survived",
+      "diff_sha256": "c89d6c916cb4cd028400ae594b5b83cfd3e612f87810dc7aaa8ab127fc63a958",
+      "reason": "Reviewed private-flag equivalent: False and None are both falsey in the cleanup/close/release-intent branches; the flag is not serialized, compared by identity, or used numerically. Active True transitions and retry ownership remain unchanged."
+    },
+    "hawa.plugin.xǁSessionǁbuild__mutmut_6": {
+      "status": "survived",
+      "diff_sha256": "461b69dc885633750c3d296ca1fde75aeb944f2a4748ca7c2bde86e254276268",
+      "reason": "Reviewed initialization equivalent: released_status is overwritten with a complete status dictionary before flow is cleared; its initial unused placeholder is never returned by status()."
+    },
+    "hawa.plugin.xǁSessionǁstart__mutmut_21": {
+      "status": "survived",
+      "diff_sha256": "4e2f8fb768a09d45c70bfbf0d9e6d943403d3e21568f283af1f097a06a65c1c5",
+      "reason": "Reviewed diagnostic wording equivalent: capitalization or XX decoration changes only; the same ValueError category, close-intent/boundary-time rejection, and rejection before worker creation remain. Exact spelling is not the lifecycle contract."
+    },
+    "hawa.plugin.xǁSessionǁstart__mutmut_4": {
+      "status": "survived",
+      "diff_sha256": "685ed19b423af0593a67b1cadbc0f17e534718a7a0dc63368b129ead963edd9e",
+      "reason": "Reviewed diagnostic wording equivalent: capitalization or XX decoration changes only; the same ValueError category, close-intent/boundary-time rejection, and rejection before worker creation remain. Exact spelling is not the lifecycle contract."
+    },
+    "hawa.plugin.xǁSessionǁstart__mutmut_5": {
+      "status": "survived",
+      "diff_sha256": "3a9af0fd241e9de890b5270232e3558f8f390f17b88db532bcc5e117113ad71e",
+      "reason": "Reviewed diagnostic wording equivalent: capitalization or XX decoration changes only; the same ValueError category, close-intent/boundary-time rejection, and rejection before worker creation remain. Exact spelling is not the lifecycle contract."
     }
   },
   "sources": {
+    "src/hawa/admission.py": "91cf7d545f1227a3f0876ca8ce7172422028bf884541c7f40ffc5595fd5eb2de",
     "src/hawa/exports.py": "eefefd35ba573c6acb4aa416930105fd84072bafd5f83afacb7a32a507ea1c43",
-    "src/hawa/plugin.py": "a54abd1eb7e147432882a6c390528e8976304c4432804b173068f2df1dc0f289",
-    "src/hawa/jobs.py": "66458c68fdd02c99deada669d57afcf12c118128bebe9180d5ef6ac06ff960d2",
-    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
-    "tests/test_csv_export.py": "bd7ae21aa9524b2ee5deb8e018f8f7b939e0642a348923c8d5fe939c2d2d3f82",
-    "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
-    "tests/test_csv_tables.py": "3c5bbb6c9b67713dcdd605637142a0d5c239cf020c5c03799ef1f7a38d3b0098",
+    "src/hawa/plugin.py": "a7c520369150ca44f2b1bab78de2150bc5f518deb7451a472f6d40174f9aa81c",
+    "src/hawa/jobs.py": "5b8f67183ab377eb2566c0b28acb393cd2a0aed4fbe2b69b67faf8bef2bb04d4",
+    "src/hawa/boundary_data.py": "f7ccd92f10b46f274b696439350ed98062838c91e93f26b9fa573acf51332741",
+    "src/hawa/boundary_series.py": "fa486523b91a88681d7446151e89e02208b87d5563029baa88bc73b556af4549",
+    "src/hawa/stationary_study.py": "0ef1817c5060ea94ff2f788327d297295bd1757421ed5f001ca6cda7356f1d3a",
+    "src/hawa/mesh_voxel.py": "63e5f827509f00dbe7f297e2ca6e6d71b4c3a67c8e555b3e4822998f34d71da6",
+    "src/hawa/sweep_executor.py": "ced3a448bae487851e0312ee539701128f292737d9967a838b265b12c823ed38",
+    "src/hawa/stationary_loads.py": "1042a1898b95996afc1730a3e3a77cb20c5cbb820703887bc21480cf9dd5b1e4",
+    "src/hawa/measurements.py": "c467528fc84548c0cb294aa7fd32d3cdf6f5b327336921fad562573ecbba50af",
+    "src/hawa/sweeps.py": "45549b20a09a37159e47b86d4470d34f3b62a48b9450410e21a720d9e4785f74",
     "src/hawa/native_data.py": "384d69dfedcfe9e6654cf2752f43d10d69abcb6c3349cbc20150319c22eb3090",
-    "tests/test_native_data.py": "78438be3e74991f5c8079df767e7dd5d2fc6516a767ada1c99092e01bd5b7436",
-    "tests/test_runtime_job_contracts.py": "5dc3a5bfdc13d8c3be84d3633c237cdcd8c98ea46d876b76d23c8df7f470582a",
-    "tests/test_native_data_status.py": "e526cd814ebadbf5ca64a94f5979cd76c2af9e3c55174da78453d912492cc1e1",
+    "tests/conftest.py": "b65fe00a71921533958965682f13c6fa142ed2a75c002d909e4fb4084782bd56",
+    "tests/test_plugin_service.py": "a51ba4909e2cc0bc391b2a5e5a08f292b95cd6f7209092a052fcb6ddd67a5cc2",
+    "tests/test_admission_messages.py": "8a8999f385bb3a629ee6b8b014ad975ad878207f9552686163369b3192e3437e",
+    "tests/test_boundary_data.py": "c02370f353f88eb4751db6e9bfb347be306168e7ea19966b1bd1cc9917e639a4",
+    "tests/test_boundary_series.py": "5bf4cc43a974f32f74d3e702ab02aab911d20de37d8e085541310c1492d0fb41",
+    "tests/test_general_boundaries.py": "807142676376da912ada3ff19804461ec164dfac38a98328d0267732f3c852a2",
+    "tests/test_walls.py": "ccf7782a586b339b460e11d02dd0b0e61afc94a60b43d3d784d3679fd4077b78",
+    "tests/test_optimization.py": "c6b79f44a0b477584316355d6953f6de9ac967c5e456ba78a65202e1157a5a23",
+    "tests/test_stationary_study.py": "3429d246b1f9accbcf6c0bfc48ac6a18298522d8d293a0d907989fbea6a261e1",
+    "tests/test_csv_export.py": "bd7ae21aa9524b2ee5deb8e018f8f7b939e0642a348923c8d5fe939c2d2d3f82",
+    "tests/test_csv_tables.py": "3c5bbb6c9b67713dcdd605637142a0d5c239cf020c5c03799ef1f7a38d3b0098",
+    "tests/test_export.py": "fb64ac218c55f5ef82da63ef5d1c4e56d8e313adb082fd65a360d2e20b4780eb",
+    "tests/test_native_data.py": "226a6df47b95536518e421eaa104938e150ae63828303dee006b8bce7bb178ac",
+    "tests/test_runtime_job_contracts.py": "7460144793b3927f8ab4fd4bff379191fbebc81631d0c0a6a43c847c6ea9559e",
+    "tests/test_native_data_status.py": "38089c6375e954c1088f3cdf890935984602845a6c0af3a260092d309436ef63",
     "tools/mutation/cpu_only.py": "6ebb52379e55b028181788b77688457c9de855d490e301aec22540825106415c"
   },
-  "scope": "Issue35 CSV field/probe/load capture and shared export/native-data job routing changed lines versus0e76b95; native_data.py has a dedicated whole-module policy; no solver numerical changes Includes stationary-study submit/selected-poll routing with real CPU controls; not a whole-module mutation claim for the new study service.",
+  "scope": "Issue35 CSV field/probe/load capture and shared export/native-data job routing changed lines versus0e76b95; native_data.py has a dedicated whole-module policy; no solver numerical changes Includes stationary-study submit/selected-poll routing with real CPU controls; not a whole-module mutation claim for the new study service. Includes whole admission.py with cheap shape/face estimates, exact budget boundaries, output path/routing and full worker validation controls; admission and fixture dependencies pinned.",
   "control_test_files": [
+    "tests/test_plugin_service.py",
+    "tests/test_admission_messages.py",
+    "tests/test_stationary_study.py",
     "tests/test_csv_export.py",
     "tests/test_csv_tables.py",
     "tests/test_export.py",
     "tests/test_native_data.py",
     "tests/test_runtime_job_contracts.py",
-    "tests/test_native_data_status.py",
-    "tests/test_stationary_study.py"
+    "tests/test_native_data_status.py"
   ],
   "base_revision": "0e76b95",
   "tool": "mutmut==3.7.0",
-  "mutants": 1382,
-  "inventory_sha256": "21fe909dd3acccae2d6aefe9276aca7899ac514296b00b75c01d32dfc18a3986"
+  "mutants": 2012,
+  "inventory_sha256": "7331047cee3b729dc3e4caf9c10219c234642d68ec927429713e734fedf9858d"
 }
