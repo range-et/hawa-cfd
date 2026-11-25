@@ -602,3 +602,67 @@ def test_overlapping_synchronous_closes_remove_registry_idempotently(monkeypatch
     assert plugin.dispatch(dict(op='close', session=session.id)) == {'closed': True}
     assert nested == [True] and session.id not in plugin.SESSIONS
     assert session.status()['resolution'] == [8, 8, 8]
+
+
+def test_query_close_and_async_cleanup_use_consistent_device_lock_order(monkeypatch):
+    import threading
+    import torch
+    from hawa import jobs, plugin
+
+    session = plugin.Session(dict(example='tgv3d-bgk', size=8), 'cpu')
+    plugin.SESSIONS[session.id] = session
+    query_holds_device, cleanup_waits_device = threading.Event(), threading.Event()
+    workers = []
+    real_thread = threading.Thread
+
+    class ObservedDeviceLock(plugin.DeviceLock):
+        def acquire(self, *args, **kwargs):
+            if threading.current_thread() is not query.thread:
+                cleanup_waits_device.set()
+            return super().acquire(*args, **kwargs)
+
+    class BoundedReleaseLock:
+        # A broken lock order fails the query instead of stranding test threads.
+        def __init__(self): self.lock = threading.Lock()
+        def __enter__(self):
+            assert self.lock.acquire(timeout=2), 'cleanup/device lock inversion'
+        def __exit__(self, *args): self.lock.release()
+
+    def thread_factory(*args, **kwargs):
+        worker = real_thread(*args, **kwargs)
+        workers.append(worker)
+        return worker
+
+    device_lock = ObservedDeviceLock()
+    monkeypatch.setattr(plugin, 'MPS_LOCK', device_lock)
+    monkeypatch.setattr(jobs, 'MPS_LOCK', device_lock)
+    monkeypatch.setattr(jobs, 'SHARE_DEVICE_LOCK', True)
+    monkeypatch.setattr(session, 'release_lock', BoundedReleaseLock())
+    monkeypatch.setattr(session.backend, 'device', torch.device('mps'))
+    monkeypatch.setattr(torch.backends.mps, 'is_available', lambda: True)
+    monkeypatch.setattr(torch.mps, 'synchronize', lambda: None)
+    monkeypatch.setattr(torch.mps, 'empty_cache', lambda: None)
+    monkeypatch.setattr(plugin.threading, 'Thread', thread_factory)
+    query = jobs.Job(dict(kind='query', request=dict(op='close', session=session.id)))
+    take_device = query.take_device
+    def take_then_wait(*args, **kwargs):
+        take_device(*args, **kwargs)
+        query_holds_device.set()
+        assert cleanup_waits_device.wait(5), 'async cleanup did not attempt device lock'
+    monkeypatch.setattr(query, 'take_device', take_then_wait)
+    try:
+        query.thread.start()
+        assert query_holds_device.wait(5)
+        reply = plugin.dispatch(dict(op='close_async', session=session.id))
+        assert reply['session'] == session.id
+        assert cleanup_waits_device.wait(5)
+        query.thread.join(7)
+    finally:
+        cleanup_waits_device.set()
+        for worker in workers:
+            if worker.ident is not None: worker.join(7)
+        plugin.SESSIONS.pop(session.id, None)
+    assert not any(worker.is_alive() for worker in workers)
+    assert query.state == 'completed', query.error
+    assert query.result == {'closed': True}
+    assert session.flow is None and device_lock.owner is None
