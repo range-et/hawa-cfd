@@ -858,3 +858,11 @@ captures its reply before released tensors become inaccessible. Deterministic
 regressions cover cleanup ownership, failed-pause retry and immediate completion.
 Live Rhino paused-memory acceptance remains open; this is not a release claim.
 [Review and measured scope](docs/review-mps-cleanup-followup.md).
+
+### November 24, 2026 — Capture admission review repair (#75 partial)
+
+Capture submission checks budget estimates without compiling full-grid boundary
+links. Both capture formats write to their validated expanded paths, and existing
+dangling links fail before parent data is sampled. CPU round-trip and refusal
+regressions pass; live example 33 acceptance remains open.
+[Review and measured scope](docs/review-admission-followup.md).

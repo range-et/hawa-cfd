@@ -7,7 +7,7 @@ def validate_new_output_file(path):
     if not isinstance(path, (str, Path)) or not str(path).strip():
         raise ValueError('Choose an output file path in a writable folder before starting')
     target = Path(path).expanduser()
-    if target.exists():
+    if target.exists() or target.is_symlink():
         raise ValueError('Output file already exists ({}); choose a new file path or remove the existing file'.format(target))
     parent = target.resolve().parent
     if not parent.exists() or not parent.is_dir():
@@ -67,7 +67,7 @@ def check_refinement_budget(coarse_mb, fine_mb, limit_mb):
 
 def check_capture_budget(spec, reserve_mb):
     from .plugin import check_case
-    report = check_case(spec)
+    report = check_case(spec, compile_boundaries=False)
     limit_mb = report['memory_limit_mb']
     total_mb = report['estimated_peak_mb'] + (0.0 if spec.get('boundary_field') else reserve_mb)
     if total_mb > limit_mb:
