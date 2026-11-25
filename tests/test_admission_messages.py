@@ -253,9 +253,9 @@ def test_capture_preflight_never_compiles_grid_links(tmp_path, monkeypatch):
     assert report['estimated_boundary_preparation_mb'] > 0
     with pytest.raises(ValueError, match='512 MiB boundary series reserve'):
         check_capture_budget(_neutral_external_spec(memory_limit_mb=256), 512)
-    # General NEE cases take the same allocation-free admission path.
-    from test_general_boundaries import case
-    general = case()
+    # General NEE cases also skip compilation during admission.
+    from test_general_boundaries import channel
+    general = channel()
     assert check_capture_budget(general, 64)['boundary_plan'] is None
     # Full check remains the default outside capture admission.
     with pytest.raises(AssertionError, match='full-grid'):
@@ -290,3 +290,22 @@ def test_capture_uses_expanded_home_path(tmp_path, monkeypatch, version):
     result = capture(manifest, spec, '~/capture.npz')
     assert (tmp_path/'capture.npz').is_file()
     assert Path(result['case']['boundary_field']['path']) == tmp_path/'capture.npz'
+
+
+@pytest.mark.parametrize('version', [1, 2])
+def test_capture_full_validation_precedes_parent_reads(tmp_path, monkeypatch, version):
+    from hawa import boundaries, neutral_external, recording
+    from test_general_boundaries import channel
+    capture, spec, module, compiler = ((capture_v1, channel(), boundaries, 'compile_plan')
+        if version == 1 else (capture_v2, _neutral_external_spec(), neutral_external, 'compile_links'))
+    calls = []
+    def rejected(spec):
+        calls.append('compile')
+        raise ValueError('unsupported worker boundary configuration')
+    def forbidden(*args):
+        raise AssertionError('parent data read before full validation')
+    monkeypatch.setattr(module, compiler, rejected)
+    monkeypatch.setattr(recording, 'read_manifest', forbidden)
+    with pytest.raises(ValueError, match='unsupported worker boundary configuration'):
+        capture(tmp_path/'absent.json', spec, tmp_path/'new.npz')
+    assert calls == ['compile'] and not (tmp_path/'new.npz').exists()
