@@ -44,9 +44,12 @@ mutation runner conflict retained #133's superset of fixtures and CPU selection.
   CPU mutation studies ran concurrently in separate worktrees; Rhino was idle
   with the old installed build. These are not performance or convergence claims.
   Local evidence: `results/device-smoke-{cpu,mps}-combined-20261124/manifest.json`.
-- Development package from `4e546ac` builds with existing warnings and no errors.
-  ZIP integrity passes; the legacy example 09 definition is absent. Hashes are
-  in `results/integration-build-hashes.json`. This package has not been installed.
+- Repaired development package compiles at `649d829` with existing warnings and
+  no errors. ZIP integrity passes; the legacy example 09 definition is absent,
+  all three Hawa assemblies are present, and packaged `src/hawa/plugin.py`
+  matches the repaired checkout byte for byte. Candidate:
+  `dist/Hawa-mvp-lockorder-review.zip`; hashes:
+  `results/integration-lockorder-build-hashes.json`. This package is not installed.
 - Pre-lock-order-repair measured gate at `4993264`: 2,984 Python tests pass,
   87 skip, 159 C# contracts pass; 1,240 functions covered, zero strict headless
   failures, 299 host functions unmeasured. Subsequent PR review identified a
@@ -89,7 +92,7 @@ Rhino paused-RSS measurement.
 | G2 reliability | PASS (headless scope) | Reproducing close-lock regression, fresh mutation policies, complete measured suite and current matrix pass. Live host behavior remains under G4/G6. |
 | G3 numerical physics | PASS (smoke scope only) | CPU/MPS five-case policy above; component numerical evidence retains its own exact source scope. Long-window qualification and PorousMedium parity remain open. |
 | G4 UI/UX | BLOCKED | Revised 08/22/25 markers, Stationary Study publication, example 33 refusals and embedded cleanup/paused RSS await live acceptance. |
-| G5 release/integration | BLOCKED | Repaired candidate packaging and installed acceptance remain pending. No release. |
+| G5 release/integration | BLOCKED | Repaired development build/package checks pass; installed acceptance and release remain pending. |
 | G6 compatibility/examples | BLOCKED | Full gallery, Windows/CUDA and measured host coverage not completed. Existing compatibility/example matrices retain their stated limits. |
 
 Rhino's normal Exit did not complete in the owned test session. No process was
