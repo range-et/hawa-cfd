@@ -21,8 +21,10 @@ PR #135's review exposed a field-capture/cleanup race and a 2D OpenFOAM handoff
 that flattened Z-dependent parabolic inlets. Cleanup now respects the session
 capture lock while preserving device-lock order; 2D handoff rejects the profile
 and directs the caller to a resolved 3D mesh. Focused regressions pass on Python
-3.9/3.12. Fresh complete verification is tracked in the
-[combined review](docs/review-mvp-integration.md); live-host limits remain open.
+3.9/3.12. Fresh complete verification passes 2,991 Python tests (87 skipped),
+159 C# state contracts and strict headless coverage, with refreshed mutation
+policies and matrix. The [combined review](docs/review-mvp-integration.md) retains
+the live-host, provenance and qualification limits.
 
 ## Combined MVP headless verification (November 24, 2026)
 
