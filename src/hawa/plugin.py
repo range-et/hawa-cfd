@@ -385,6 +385,7 @@ class Session:
         self.stop = threading.Event()
         self.thread = None
         self.close_pending = False
+        self.release_requested = False
         self.release_lock = threading.Lock()
         self.released_status = None
         self.state = "ready"
@@ -434,9 +435,11 @@ class Session:
     def start(self, target):
         if type(target) is not int or target < 0:
             raise ValueError("Target steps must be a nonnegative integer")
-        if self.spec.get('boundary_field') and float(self.flow.units.convert_time_to_pu(target)) > self.spec['boundary_field']['end_time'] + 1e-10:
-            raise ValueError('Target exceeds boundary time coverage')
         with self.lifecycle:
+            if self.release_requested or self.flow is None:
+                raise ValueError('Session is closing or closed')
+            if self.spec.get('boundary_field') and float(self.flow.units.convert_time_to_pu(target)) > self.spec['boundary_field']['end_time'] + 1e-10:
+                raise ValueError('Target exceeds boundary time coverage')
             if self.state == 'resetting':
                 raise ValueError('Wait for reset to finish before resuming')
             self.target = target
@@ -638,6 +641,7 @@ def dispatch(request):
             session.state = "resetting" if op == "reset_async" else ("pausing" if session.thread is not None and session.thread.is_alive() else "paused")
             reply = session.status()
             if op == "close_async":
+                session.release_requested = True
                 session.close_pending = True
             if op != "pause_async":
                 def finish():
@@ -686,8 +690,16 @@ def dispatch(request):
             session.quality = assess(session)
         return session.status()
     if op == "close":
-        session.pause()
-        session.release()
+        with session.lifecycle:
+            session.release_requested = True
+            session.close_pending = True
+        try:
+            session.pause()
+            session.release()
+        except Exception:
+            with session.lifecycle:
+                session.close_pending = False
+            raise
         with REGISTRY_LOCK:
             SESSIONS.pop(session.id, None)
         return {"closed": True}

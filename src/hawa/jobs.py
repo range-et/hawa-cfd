@@ -19,6 +19,7 @@ class Job:
         self.cancelled = False
         self.paused = False
         self.disposed = False
+        self.cleanup_pending = False
         self.session = None
         self.result = None
         self.error = None
@@ -162,27 +163,45 @@ class Job:
                 self.state = 'failed'
         finally:
             self.drop_device()
-            owned = None
+            clean = False
             with self.condition:
-                if self.state != 'completed' or self.disposed:
-                    if self.session is not None:
-                        owned = self.session
-                    self.session = None
+                if (self.state != 'completed' or self.disposed) and not self.cleanup_pending:
                     self.result = None
+                    self.cleanup_pending = True
+                    clean = True
+            if clean:
+                self.cleanup()
+
+    def cleanup(self):
+        """Release off the caller thread, retaining the public job ID on failure."""
+        owned = self.session
+        try:
             if owned is not None:
-                try:
-                    if hasattr(owned, 'release'):
-                        owned.release()
-                    with REGISTRY_LOCK:
-                        SESSIONS.pop(owned.id, None)
-                except Exception as exc:
-                    # Keep failed cleanup addressable for an explicit retry.
-                    with REGISTRY_LOCK:
-                        SESSIONS[owned.id] = owned
-                    with self.condition:
-                        self.session = owned
-                        self.error = str(exc)
-                        self.state = 'failed'
+                if hasattr(owned, 'lifecycle'):
+                    with owned.lifecycle:
+                        owned.release_requested = True
+                if hasattr(owned, 'pause'):
+                    owned.pause()
+                if hasattr(owned, 'release'):
+                    owned.release()
+                with REGISTRY_LOCK:
+                    SESSIONS.pop(owned.id, None)
+        except Exception as exc:
+            owned.error = str(exc)
+            owned.state = 'failed'
+            with REGISTRY_LOCK:
+                SESSIONS[owned.id] = owned
+            with self.condition:
+                self.error = str(exc)
+                self.state = 'failed'
+                self.cleanup_pending = False
+            return
+        with self.condition:
+            self.session = None
+            self.cleanup_pending = False
+            if self.disposed:
+                with LOCK:
+                    JOBS.pop(self.id, None)
 
     def snapshot(self):
         with self.condition:
@@ -195,15 +214,20 @@ class Job:
             if action == 'close':
                 self.disposed = True
                 self.cancelled = True
-                if self.session is not None and self.state in ('completed', 'cancelled', 'failed'):
-                    # A completed creation job can own a running Solve session.
-                    # Keep registry ownership until its worker stops, then release
-                    # tensors. Async close never joins on the caller/UI thread.
-                    from .plugin import dispatch
-                    dispatch({"op": "close_async", "session": self.session.id})
-                    self.session = None
                 self.result = None
                 self.condition.notify_all()
+                if self.session is not None:
+                    if hasattr(self.session, 'lifecycle'):
+                        with self.session.lifecycle:
+                            self.session.release_requested = True
+                    self.session.stop.set()
+                if self.state in ('completed', 'cancelled', 'failed') and not self.cleanup_pending:
+                    self.cleanup_pending = True
+                    try:
+                        threading.Thread(target=self.cleanup, name='Hawa job cleanup', daemon=True).start()
+                    except Exception:
+                        self.cleanup_pending = False
+                        raise
             elif self.state in ('completed', 'cancelled', 'failed'):
                 return
             elif action == 'pause':
@@ -253,7 +277,7 @@ def dispatch_job(request):
     if request['op'] == 'evaluate_control':
         action = request['action']
         job.control(action)
-        if action == 'close':
+        if action == 'close' and not isinstance(job, Job):
             with LOCK:
                 JOBS.pop(job.id, None)
     elif request['op'] != 'evaluate_poll':

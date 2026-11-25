@@ -411,12 +411,16 @@ def test_overlapping_close_requests_share_one_cleanup_and_survive_release_failur
     assert plugin.dispatch(dict(op='close_async', session=session.id)) == first
     assert plugin.dispatch(dict(op='pause_async', session=session.id)) == first
     assert len(pending) == 1
+    with pytest.raises(ValueError, match='closing or closed'):
+        session.start(10)
     original_gc = plugin.gc.collect
     def fail_release(): raise RuntimeError('cache cleanup failed')
     monkeypatch.setattr(plugin.gc, 'collect', fail_release)
     pending.pop()()
     assert plugin.SESSIONS[session.id] is session
     assert session.flow is None and not session.close_pending
+    with pytest.raises(ValueError, match='closing or closed'):
+        session.start(10)
     status = session.status()
     assert status['state'] == 'failed' and status['error'] == 'cache cleanup failed'
     assert status['steps'] == first['steps'] and status['case_hash'] == first['case_hash']

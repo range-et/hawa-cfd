@@ -113,11 +113,10 @@ def test_successful_job_routes_options_and_registers_own_session(isolated_jobs, 
     if kind == 'motion_evaluate': assert calls == [('motion', 'motion_evaluate')] and job.steps == job.target == 6
     if kind == 'evaluate': assert calls == [('evaluate', 4, 2, 3.)] and job.result['fitness'] == 5.
     session = job.session
-    def close_async(payload):
-        assert payload == {"op": "close_async", "session": session.id}
-        session.stop.set()
-        jobs.SESSIONS.pop(session.id)
-    monkeypatch.setattr(plugin, 'dispatch', close_async)
+    class ImmediateThread:
+        def __init__(self, target, **kwargs): self.target = target
+        def start(self): self.target()
+    monkeypatch.setattr(jobs.threading, 'Thread', ImmediateThread)
     job.control('close')
     assert session.stop.is_set() and 'owned' not in jobs.SESSIONS and job.session is None and job.result is None
     assert jobs.DEVICE_SLOT.acquire(blocking=False)
@@ -191,6 +190,8 @@ def test_dispatch_enforces_capacity_unknown_operations_and_idempotent_close(isol
     with pytest.raises(ValueError, match='Close unused'): jobs.dispatch_job(dict(request(), op='evaluate_submit'))
     assert len(started) == 1
     jobs.dispatch_job(dict(op='evaluate_control', job=key, action='close'))
+    assert key in jobs.JOBS  # retain ownership until queued worker acknowledges cancel
+    started.pop(0)()
     assert key not in jobs.JOBS
     assert jobs.dispatch_job(dict(op='evaluate_control', job=key, action='close')) == {'closed': True}
 
@@ -318,7 +319,7 @@ def test_completed_create_job_releases_owned_session(monkeypatch, fails):
 
     monkeypatch.setattr(plugin.threading, "Thread", QueuedThread)
     job.control("close")
-    assert session.stop.is_set() and job.session is None
+    assert session.stop.is_set() and job.session is session
     assert plugin.SESSIONS[session.id] is session and session.flow is not None
     assert len(pending) == 1
     original_pause = session.pause
@@ -332,7 +333,7 @@ def test_completed_create_job_releases_owned_session(monkeypatch, fails):
         assert session.flow is not None and session.state == "failed"
         assert session.error == "cleanup cancellation boundary unavailable"
         monkeypatch.setattr(session, "pause", original_pause)
-        plugin.dispatch({"op": "close_async", "session": session.id})
+        job.control('close')
         pending.pop()()
     assert session.id not in plugin.SESSIONS
     assert session.flow is session.solver is session.initial_f is None
@@ -354,6 +355,8 @@ def test_failed_worker_release_retains_retryable_session(monkeypatch):
     job.work()
     session = job.session
     assert job.state == 'failed' and job.error == 'release failed after clearing tensors'
+    assert job.session.status()['state'] == 'failed'
+    assert job.session.status()['error'] == job.error
     assert jobs.SESSIONS[session.id] is session and session.flow is None
     monkeypatch.setattr(plugin.Session, 'release', original_release)
     class ImmediateThread:
@@ -362,3 +365,72 @@ def test_failed_worker_release_retains_retryable_session(monkeypatch):
     monkeypatch.setattr(plugin.threading, 'Thread', ImmediateThread)
     job.control('close')
     assert job.session is None and session.id not in jobs.SESSIONS
+
+
+def test_close_during_preparation_retains_public_job_retry_after_release_failure(monkeypatch):
+    job = jobs.Job(dict(kind='create', case=dict(example='tgv3d-bgk', size=8), device='cpu'))
+    jobs.JOBS[job.id] = job
+    prepared, resume = threading.Event(), threading.Event()
+    original_checkpoint = job.checkpoint
+    def checkpoint(steps, state='running'):
+        if job.session is not None:
+            prepared.set()
+            assert resume.wait(5)
+        original_checkpoint(steps, state)
+    monkeypatch.setattr(job, 'checkpoint', checkpoint)
+    original_release = plugin.Session.release
+    def fail_release(session):
+        original_release(session)
+        raise RuntimeError('injected finalizer cleanup failure')
+    monkeypatch.setattr(plugin.Session, 'release', fail_release)
+    job.thread.start()
+    registry_lock = jobs.LOCK
+    class NoRegistryRewrite:
+        def __enter__(self):
+            raise AssertionError('failed cleanup must retain, not reinsert, its public job')
+        def __exit__(self, *args): pass
+    try:
+        assert prepared.wait(5)
+        sid = job.session.id
+        jobs.dispatch_job(dict(op='evaluate_control', job=job.id, action='close'))
+        assert jobs.JOBS[job.id] is job
+        # A late failure must not reinsert a job after a successful retry removed it.
+        monkeypatch.setattr(jobs, 'LOCK', NoRegistryRewrite())
+    finally:
+        resume.set()
+        job.thread.join(5)
+        monkeypatch.setattr(jobs, 'LOCK', registry_lock)
+    assert not job.thread.is_alive()
+    failed = jobs.dispatch_job(dict(op='evaluate_poll', job=job.id))
+    assert failed['state'] == 'failed' and failed['error'] == 'injected finalizer cleanup failure'
+    assert jobs.SESSIONS[sid] is job.session and job.session.status()['state'] == 'failed'
+    monkeypatch.setattr(plugin.Session, 'release', original_release)
+    class ImmediateThread:
+        def __init__(self, target, **kwargs): self.target = target
+        def start(self): self.target()
+    monkeypatch.setattr(jobs.threading, 'Thread', ImmediateThread)
+    jobs.dispatch_job(dict(op='evaluate_control', job=job.id, action='close'))
+    assert job.id not in jobs.JOBS and sid not in jobs.SESSIONS
+    assert jobs.dispatch_job(dict(op='evaluate_control', job=job.id, action='close')) == {'closed': True}
+
+
+def test_job_cleanup_thread_start_failure_retains_retry_owner(monkeypatch):
+    job = jobs.Job(dict(kind='create', case=dict(example='tgv3d-bgk', size=8), device='cpu'))
+    jobs.JOBS[job.id] = job
+    job.work()
+    sid = job.session.id
+    class FailingThread:
+        def __init__(self, target, **kwargs): pass
+        def start(self): raise RuntimeError('cleanup thread failed')
+    monkeypatch.setattr(jobs.threading, 'Thread', FailingThread)
+    with pytest.raises(RuntimeError, match='cleanup thread failed'):
+        jobs.dispatch_job(dict(op='evaluate_control', job=job.id, action='close'))
+    assert not job.cleanup_pending and jobs.JOBS[job.id] is job
+    with pytest.raises(ValueError, match='closing or closed'):
+        job.session.start(10)
+    class ImmediateThread:
+        def __init__(self, target, **kwargs): self.target = target
+        def start(self): self.target()
+    monkeypatch.setattr(jobs.threading, 'Thread', ImmediateThread)
+    jobs.dispatch_job(dict(op='evaluate_control', job=job.id, action='close'))
+    assert job.id not in jobs.JOBS and sid not in jobs.SESSIONS
