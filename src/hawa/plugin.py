@@ -31,11 +31,7 @@ def case_key(spec):
     return hashlib.sha256(canonical(spec).encode()).hexdigest()
 
 
-def check_case(spec, *, compile_boundaries=True):
-    """Check a case; skip grid/link construction for capture-budget admission.
-
-    Estimate-only callers still need the full worker-side boundary checks.
-    """
+def check_case(spec):
     origin_time=spec.get('time_origin_seconds',0.)
     if not isinstance(origin_time,(int,float)) or not math.isfinite(origin_time) or origin_time<0:
         raise ValueError('Case time origin must be finite nonnegative seconds')
@@ -113,38 +109,20 @@ def check_case(spec, *, compile_boundaries=True):
             raise ValueError('Import boundary data for this child grid before solving')
         if not math.isfinite(ref.get('end_time', float('nan'))) or ref['end_time'] <= 0:
             raise ValueError('Boundary field requires positive finite time coverage')
-    estimated = math.prod(shape) * 19 * 4 * (24 if spec.get("moving_bodies") or neutral else 10)
-    if spec.get("boundary_field"):
-        estimated += (512 if spec['boundary_field'].get('schema')=='hawa-boundary-series-2' else 64) * 1024**2
-    boundary_preparation = 0
-    if neutral and spec['neutral_precursor'].get('mode') == 'external':
-        from .boundary_contracts import conditions
-        faces = conditions(spec)
-        # Count the union of exterior planes without building cell/link arrays.
-        # Ignore solids conservatively. ExternalLinks currently builds per-node
-        # float64 19x19 projections plus link work arrays and host/device copies.
-        # Reserve 32 KiB per exterior node for those simultaneous temporaries;
-        # this is a conservative estimate, not an OS-enforced memory limit.
-        interior = math.prod(n - sum(faces[2*a+i]['type'] in ('open', 'velocity')
-                                    for i in (0, 1)) for a, n in enumerate(shape))
-        boundary_preparation = (math.prod(shape) - interior) * 32 * 1024
-        estimated += boundary_preparation
-    from .admission import check_case_budget
-    budget = check_case_budget(estimated, spec, neutral)
+    from .admission import estimate_case_budget
+    budget = estimate_case_budget(spec)
     boundary_report = None
-    if compile_boundaries and neutral and spec['neutral_precursor'].get('mode')=='external':
+    if neutral and spec['neutral_precursor'].get('mode')=='external':
         from .neutral_external import compile_links
         boundary_report=compile_links(spec)['report']
     if general and not neutral:
-        if compile_boundaries:
-            from .boundaries import compile_plan
-            boundary_report = compile_plan(spec)['report']
+        from .boundaries import compile_plan
+        boundary_report = compile_plan(spec)['report']
     elif spec.get('boundary_method') and not neutral:
         raise ValueError('Explicit boundary method requires a boundary set')
     return {"valid": True, "case_hash": case_key(spec), "shape": shape, "tau": tau,
             "reynolds": speed * dx * max(shape) / viscosity,
             **budget,
-            "estimated_boundary_preparation_mb": boundary_preparation / 1024 ** 2,
             "time_step_seconds": mach / math.sqrt(3) * dx / speed, "boundary_plan": boundary_report,
             "numerical_scaling": scaling,
             "neutral_model": validate(spec) if neutral else None}
